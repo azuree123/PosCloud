@@ -1,0 +1,70 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        
+        <div id="userbox" class="userbox">
+            <a href="#" data-toggle="dropdown">
+                
+              
+                <div class="profile-info" data-lock-name="@User.Identity.Name" data-lock-email="@User.Identity.GetUserName()">
+                    <span class="name">@User.Identity.Name</span>
+                    <span class="role">admin</span>
+                </div>
+
+                <i class="fa custom-caret"></i>
+            </a>
+
+            <div class="dropdown-menu">
+                <ul class="list-unstyled" style=" margin-top: -36px;">
+                    <li>
+                        <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> My Profile</a>
+                    </li>
+                    <li>
+                        @*<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>*@
+                    </li>
+                    <li>
+                        
+                        <a role="menuitem" tabindex="-1" href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-power-off"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        
+    }
+}
+else
+{
+    <div id="userbox" class="userbox">
+        <a href="#" data-toggle="dropdown">
+            <figure class="profile-picture">
+                <img src="~/Content/images/!logged-user.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="~/Content/images/!logged-user.jpg" />
+            </figure>
+            @*<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
+                <span class="name">John Doe Junior</span>
+                <span class="role">administrator</span>
+            </div>*@
+
+            <i class="fa custom-caret"></i>
+        </a>
+
+        <div class="dropdown-menu">
+            <ul class="list-unstyled">
+                <li class="divider"></li>
+                <li>
+                    @*<a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> My Profile</a>*@
+                </li>
+                <li>
+                    @*<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>*@
+                </li>
+                <li>
+                    @*<a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="fa fa-power-off"></i> Logout</a>*@
+                </li>
+            </ul>
+        </div>
+    </div>
+}

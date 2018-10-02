@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin-dealinwheel.com</title>
+    <!-- Web Fonts  -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/png" href="http://admin.dealinwheel.com/favicon.png" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/datatables")
+    
+
+</head>
+<body>
+
+    <section class="body">
+
+        <!-- start: header -->
+        <header class="header">
+            <div class="logo-container">
+                <a href="@Url.Action("Index","Home")" class="logo">
+                    <img src="~/Content/images/logo.png" height="35" alt="Cosmic Admin"/>
+                    <h5 style="display: inline-block; display: inline-block; -webkit-background-clip: text !important; font-weight: bold; font-style: italic; background: -webkit-linear-gradient(#5fb1be 0%, #98dfe4 100%); -webkit-text-fill-color: transparent;">
+                        CosmicPoS
+                    </h5>
+                </a>
+                <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
+                    <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                </div>
+            </div>
+
+            <!-- start: search & user box -->
+        @{
+            if (Request.IsAuthenticated)
+            {
+                <div class="header-right">
+
+                    <form action="pages-search-results.html" class="search nav-form">
+                        <div class="input-group input-search">
+                            <input type="text" class="form-control" name="q" id="q" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+
+
+
+
+                    <span class="separator"></span>
+
+                    @Html.Partial("_LoginPartial")
+                </div>
+            }
+            else
+            {
+            }
+        }
+            <!-- end: search & user box -->
+        </header>
+        <!-- end: header -->
+
+        <div class="inner-wrapper">
+            <!-- start: sidebar -->
+            @{
+                if (Request.IsAuthenticated)
+                {
+                    <aside id="sidebar-left" class="sidebar-left">
+
+                        <div class="sidebar-header">
+                            <div class="sidebar-title">
+                                Navigation
+                            </div>
+                            <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
+                                <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                            </div>
+                        </div>
+
+                        <div class="nano">
+                            <div class="nano-content">
+                                <nav id="menu" class="nav-main" role="navigation">
+                                    <ul class="nav nav-main">
+                                        <li class="nav-active">
+                                            <a href="@Url.Action("Index","Home")">
+                                                <i class="fa fa-home" aria-hidden="true"></i>
+                                                <span>Dashboard</span>
+                                            </a>
+                                        </li>@{
+                                            if (Request.IsAuthenticated)
+                                            {
+
+
+                                                <li class="nav-parent">
+                                                    <a>
+                                                        <i class="fa fa-user-secret" aria-hidden="true"></i>
+                                                        <span>Users </span>
+                                                    </a>
+                                                    <ul class="nav nav-children">
+                                                        <li>
+                                                            <a href="~/user/create">
+                                                                Add New User
+                                                            </a>
+                                                        </li>
+                                                        
+                                                        <li>
+                                                            <a href="~/user">
+                                                                Edit a User
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="~/user">
+                                                                Users Listing
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="~/user">
+                                                                Change Password
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                Users Settings
+                                                            </a>
+                                                        </li>
+
+
+                                                    </ul>
+                                                </li>
+                                                <li class="nav-parent">
+                                                    <a>
+                                                        <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                                                        <span>Services</span>
+                                                    </a>
+                                                    <ul class="nav nav-children">
+                                                        <li>
+                                                            <a href="#">
+                                                                Add New Service
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                Edit a Service
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="@Url.Action("ServicesList","Products")">
+                                                                Service Listing
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </li>
+                                         
+                                          
+
+                                            }
+                                        }
+                                    </ul>
+
+                                </nav>
+
+
+
+
+                                <hr class="separator" />
+
+
+                            </div>
+
+                            <script>
+                                // Preserve Scroll Position
+                                if (typeof localStorage !== 'undefined') {
+                                    if (localStorage.getItem('sidebar-left-position') !== null) {
+                                        var initialPosition = localStorage.getItem('sidebar-left-position'),
+                                            sidebarLeft = document.querySelector('#sidebar-left .nano-content');
+
+                                        sidebarLeft.scrollTop = initialPosition;
+                                    }
+                                }
+                            </script>
+
+                        </div>
+
+                    </aside>
+
+                }
+            }
+            <!-- end: sidebar -->
+
+
+
+            <section role="main" class="content-body">
+
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - DEALINWHEEL ADMIN PANEL</p>
+                </footer>
+            </section>
+        </div>
+    </section>
+    
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @*@Scripts.Render("~/bundles/js")*@
+    @Scripts.Render("~/bundles/vendor")
+    @Scripts.Render("~/bundles/datatables")
+    @RenderSection("scripts", required: false)
+    @section scripts
+      {
+        <script>
+            //$(document).ready(function () {
+            //    $('.nano').nanoScroller({
+            //        preventPageScrolling: true,
+            //        sliderMaxHeight: 100,
+            //        alwaysVisible: true
+            //    });
+            //});
+
+        </script>
+     
+    }
+    
+
+   
+       
+   
+</body>
+</html>
