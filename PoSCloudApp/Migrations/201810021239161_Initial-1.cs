@@ -1,9 +1,9 @@
-namespace PoSCloud.Migrations
+namespace PoSCloudApp.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Update1 : DbMigration
+    public partial class Initial1 : DbMigration
     {
         public override void Up()
         {
@@ -25,8 +25,8 @@ namespace PoSCloud.Migrations
                         RoleId = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetRoles", t => t.RoleId)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
             
@@ -63,7 +63,7 @@ namespace PoSCloud.Migrations
                         ClaimValue = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId);
             
             CreateTable(
@@ -75,8 +75,21 @@ namespace PoSCloud.Migrations
                         UserId = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId);
+            
+            CreateTable(
+                "PosCloud.States",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 150),
+                        CreatedOn = c.DateTime(nullable: false),
+                        CreatedBy = c.String(),
+                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedBy = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
             
         }
         
@@ -92,6 +105,7 @@ namespace PoSCloud.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropTable("PosCloud.States");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");

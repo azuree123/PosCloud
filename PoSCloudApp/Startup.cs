@@ -1,5 +1,8 @@
-﻿using Microsoft.Owin;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Owin;
 using Owin;
+using PoSCloud.Core;
+using PoSCloud.Persistence;
 
 [assembly: OwinStartupAttribute(typeof(PoSCloudApp.Startup))]
 namespace PoSCloudApp
@@ -10,5 +13,6 @@ namespace PoSCloudApp
         {
             ConfigureAuth(app);
         }
+       
     }
 }
