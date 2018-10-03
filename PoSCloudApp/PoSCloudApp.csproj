@@ -295,6 +295,7 @@
     <Compile Include="Core\Models\DbModels\City.cs" />
     <Compile Include="Core\Models\DbModels\Customer.cs" />
     <Compile Include="Core\Models\DbModels\Employee.cs" />
+    <Compile Include="Core\Models\DbModels\ExpenseHead.cs" />
     <Compile Include="Core\Models\DbModels\Location.cs" />
     <Compile Include="Core\Models\DbModels\Product.cs" />
     <Compile Include="Core\Models\DbModels\ProductCategory.cs" />
