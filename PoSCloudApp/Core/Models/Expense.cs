@@ -8,6 +8,7 @@ namespace PoSCloudApp.Core.Models
 {
     public class Expense:AuditableEntity
     {
-        
+        public int Id { get; set; }
+        public int ExpenseHead { get; set; }
     }
 }
