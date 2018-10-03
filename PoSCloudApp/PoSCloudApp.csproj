@@ -328,6 +328,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Persistence\EntityConfigurations\CityEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\LocationEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\StateEntityConfiguration.cs" />
     <Compile Include="Persistence\PosDbContext.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
