@@ -300,6 +300,7 @@
     <Compile Include="Core\Models\DbModels\ProductCategory.cs" />
     <Compile Include="Core\Models\DbModels\State.cs" />
     <Compile Include="Core\Models\DbModels\Supplier.cs" />
+    <Compile Include="Core\Models\Expense.cs" />
     <Compile Include="Core\Repositories\ICityRepository.cs" />
     <Compile Include="Core\Repositories\IStateRepository.cs" />
     <Compile Include="Core\ViewModels\ExternalLoginConfirmationViewModel.cs" />
