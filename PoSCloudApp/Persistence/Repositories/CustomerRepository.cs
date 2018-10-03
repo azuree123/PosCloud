@@ -28,6 +28,11 @@ namespace PoSCloudApp.Persistence.Repositories
             return _context.Customers.Find(id);
         }
 
+        public void AddCustomer(Customer customer)
+        {
+            _context.Customers.Add(customer);
+        }
+
         public void UpdateCustomer(int id, Customer customer)
         {
             if (customer.Id != id)
