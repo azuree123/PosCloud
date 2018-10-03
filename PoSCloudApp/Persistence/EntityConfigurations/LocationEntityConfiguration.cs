@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Web;
 using PoSCloud.Persistence;
@@ -29,7 +31,7 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
 
             //******************************************************************************************* Auditable ***************
 
-            HasRequired(x => x.State).WithMany(x => x.Cities).HasForeignKey(x => x.StateId).WillCascadeOnDelete(true);
+            //HasRequired(x => x.State).WithMany(x => x.Cities).HasForeignKey(x => x.StateId).WillCascadeOnDelete(true);
         }
 
     }

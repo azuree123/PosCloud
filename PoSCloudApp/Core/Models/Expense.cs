@@ -10,5 +10,11 @@ namespace PoSCloudApp.Core.Models
     {
         public int Id { get; set; }
         public int ExpenseHead { get; set; }
+        public int EmployeeId { get; set; }
+        public double Amount { get; set; }
+        public string Description { get; set; }
+        public int PurchaseId { get; set; }
+
+
     }
 }
