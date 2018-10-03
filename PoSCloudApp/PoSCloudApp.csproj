@@ -346,6 +346,7 @@
     <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\DepartmentRepository.cs" />
     <Compile Include="Persistence\Repositories\DesignationRepository.cs" />
+    <Compile Include="Persistence\Repositories\EmployeeRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseHeadRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseRepository.cs" />
     <Compile Include="Persistence\Repositories\LocationRepository.cs" />
