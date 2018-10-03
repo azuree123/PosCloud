@@ -27,6 +27,11 @@ namespace PoSCloudApp.Persistence.Repositories
             return _context.States.Find(id);
         }
 
+        public void AddState(State state)
+        {
+             _context.States.Add(state);
+        }
+
         public void UpdateState(int id, State state)
         {
             if (state.Id != id)
