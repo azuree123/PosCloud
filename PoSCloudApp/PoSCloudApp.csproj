@@ -321,9 +321,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810031002338_Init-1.cs" />
-    <Compile Include="Migrations\201810031002338_Init-1.Designer.cs">
-      <DependentUpon>201810031002338_Init-1.cs</DependentUpon>
+    <Compile Include="Migrations\201810031225223_Init-1.cs" />
+    <Compile Include="Migrations\201810031225223_Init-1.Designer.cs">
+      <DependentUpon>201810031225223_Init-1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -333,6 +333,7 @@
     <Compile Include="Persistence\EntityConfigurations\StateEntityConfiguration.cs" />
     <Compile Include="Persistence\PosDbContext.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
+    <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2296,8 +2297,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810031002338_Init-1.resx">
-      <DependentUpon>201810031002338_Init-1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810031225223_Init-1.resx">
+      <DependentUpon>201810031225223_Init-1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

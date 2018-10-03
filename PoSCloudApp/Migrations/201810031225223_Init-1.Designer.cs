@@ -13,7 +13,7 @@ namespace PoSCloudApp.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201810031002338_Init-1"; }
+            get { return "201810031225223_Init-1"; }
         }
         
         string IMigrationMetadata.Source
