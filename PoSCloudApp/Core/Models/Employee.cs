@@ -13,6 +13,8 @@ namespace PoSCloudApp.Core.Models
         public string MobileNumber { get; set; }
         public double Salary { get; set; }
         public double Commission { get; set; }
+        public DateTime JoinDate { get; set; }
+        public bool Booking { get; set; }
         public string Department { get; set; }
         public string Designation { get; set; }
         public string Address { get; set; }

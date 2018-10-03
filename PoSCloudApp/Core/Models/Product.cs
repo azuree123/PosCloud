@@ -12,6 +12,8 @@ namespace PoSCloudApp.Core.Models
         public string ProductCode { get; set; }
         public int CategoryId { get; set; }
         public string Duration { get; set; }
+        public string Available { get; set; }
+        public int SupplierId { get; set; }
         public double Tax { get; set; }
         public double UnitPrice { get; set; }
         public string Stock { get; set; }
