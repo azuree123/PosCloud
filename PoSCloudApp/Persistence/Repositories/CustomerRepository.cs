@@ -5,10 +5,11 @@ using System.Linq;
 using System.Web;
 using PoSCloud.Persistence;
 using PoSCloudApp.Core.Models;
+using PoSCloudApp.Core.Repositories;
 
 namespace PoSCloudApp.Persistence.Repositories
 {
-    public class CustomerRepository
+    public class CustomerRepository :ICustomerRepository
     {
         private PosDbContext _context;
 
