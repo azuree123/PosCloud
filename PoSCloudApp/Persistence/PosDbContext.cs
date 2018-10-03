@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PoSCloud.Core.Models;
-using PoSCloudApp.Core.Models.DbModels;
+using PoSCloudApp.Core.Models;
 using PoSCloudApp.Persistence.EntityConfigurations;
 
 namespace PoSCloud.Persistence

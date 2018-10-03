@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using PoSCloud.Persistence;
-using PoSCloudApp.Core.Models.DbModels;
+using PoSCloudApp.Core.Models;
 using PoSCloudApp.Core.Repositories;
 
 namespace PoSCloudApp.Persistence.Repositories

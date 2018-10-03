@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace PoSCloudApp.Core.Models.DbModels
+namespace PoSCloudApp.Core.Models
 {
     public class City:AuditableEntity
     {

@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PoSCloudApp.Core.Models.DbModels
+namespace PoSCloudApp.Core.Models
 {
-    public class Customer:AuditableEntity
+    public class Supplier:AuditableEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public string Referral { get; set; }
-        public string Gender { get; set; }
         public string Address { get; set; }
+        public string Company { get; set; }
         public string State { get; set; }
         public string City { get; set; }
-        public DateTime Birthday { get; set; }
-        public string Note { get; set; }
+        public double Balance { get; set; }
+       
     }
 }

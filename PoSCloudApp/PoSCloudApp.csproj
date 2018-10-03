@@ -291,16 +291,20 @@
     <Compile Include="Core\Enums\EmployementType.cs" />
     <Compile Include="Core\IUnitOfWork.cs" />
     <Compile Include="Core\Models\ApplicationUser.cs" />
-    <Compile Include="Core\Models\DbModels\AuditableEntity.cs" />
-    <Compile Include="Core\Models\DbModels\City.cs" />
-    <Compile Include="Core\Models\DbModels\Customer.cs" />
-    <Compile Include="Core\Models\DbModels\Employee.cs" />
-    <Compile Include="Core\Models\DbModels\ExpenseHead.cs" />
-    <Compile Include="Core\Models\DbModels\Location.cs" />
-    <Compile Include="Core\Models\DbModels\Product.cs" />
-    <Compile Include="Core\Models\DbModels\ProductCategory.cs" />
-    <Compile Include="Core\Models\DbModels\State.cs" />
-    <Compile Include="Core\Models\DbModels\Supplier.cs" />
+    <Compile Include="Core\Models\AuditableEntity.cs" />
+    <Compile Include="Core\Models\City.cs" />
+    <Compile Include="Core\Models\Customer.cs" />
+    <Compile Include="Core\Models\Employee.cs" />
+    <Compile Include="Core\Models\ExpenseHead.cs" />
+    <Compile Include="Core\Models\Location.cs" />
+    <Compile Include="Core\Models\PurchaseOderDetails.cs" />
+    <Compile Include="Core\Models\Product.cs" />
+    <Compile Include="Core\Models\ProductCategory.cs" />
+    <Compile Include="Core\Models\PurchaseOrder.cs" />
+    <Compile Include="Core\Models\SaleOrder.cs" />
+    <Compile Include="Core\Models\SaleOrderDetails.cs" />
+    <Compile Include="Core\Models\State.cs" />
+    <Compile Include="Core\Models\Supplier.cs" />
     <Compile Include="Core\Models\Expense.cs" />
     <Compile Include="Core\Repositories\ICityRepository.cs" />
     <Compile Include="Core\Repositories\IStateRepository.cs" />
@@ -315,21 +319,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810021239161_Initial-1.cs" />
-    <Compile Include="Migrations\201810021239161_Initial-1.Designer.cs">
-      <DependentUpon>201810021239161_Initial-1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810021243203_update-1.cs" />
-    <Compile Include="Migrations\201810021243203_update-1.Designer.cs">
-      <DependentUpon>201810021243203_update-1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810030442084_Update-2.cs" />
-    <Compile Include="Migrations\201810030442084_Update-2.Designer.cs">
-      <DependentUpon>201810030442084_Update-2.cs</DependentUpon>
+    <Compile Include="Migrations\201810031002338_Init-1.cs" />
+    <Compile Include="Migrations\201810031002338_Init-1.Designer.cs">
+      <DependentUpon>201810031002338_Init-1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Persistence\EntityConfigurations\CityEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\LocationEntityConfiguration.cs" />
@@ -2299,14 +2294,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810021239161_Initial-1.resx">
-      <DependentUpon>201810021239161_Initial-1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810021243203_update-1.resx">
-      <DependentUpon>201810021243203_update-1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810030442084_Update-2.resx">
-      <DependentUpon>201810030442084_Update-2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810031002338_Init-1.resx">
+      <DependentUpon>201810031002338_Init-1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -11,10 +11,7 @@ namespace PoSCloud.Core.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
+       
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

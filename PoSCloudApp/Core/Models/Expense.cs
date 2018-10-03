@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using PoSCloudApp.Core.Models.DbModels;
+using PoSCloudApp.Core.Models;
 
 namespace PoSCloudApp.Core.Models
 {
