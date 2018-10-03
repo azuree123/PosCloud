@@ -5,10 +5,12 @@ using System.Web;
 
 namespace PoSCloudApp.Core.Models.DbModels
 {
-    public class State :AuditableEntity
+    public class LocationL:AuditableEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<City> Cities { get; set; }
+        public string Address { get; set; }
+        public string Contact { get; set; }
+
     }
 }

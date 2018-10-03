@@ -292,7 +292,13 @@
     <Compile Include="Core\IUnitOfWork.cs" />
     <Compile Include="Core\Models\ApplicationUser.cs" />
     <Compile Include="Core\Models\DbModels\AuditableEntity.cs" />
+    <Compile Include="Core\Models\DbModels\City.cs" />
+    <Compile Include="Core\Models\DbModels\Customer.cs" />
+    <Compile Include="Core\Models\DbModels\Employee.cs" />
+    <Compile Include="Core\Models\DbModels\Location.cs" />
     <Compile Include="Core\Models\DbModels\State.cs" />
+    <Compile Include="Core\Models\DbModels\Supplier.cs" />
+    <Compile Include="Core\Repositories\ICityRepository.cs" />
     <Compile Include="Core\Repositories\IStateRepository.cs" />
     <Compile Include="Core\ViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="Core\ViewModels\ExternalLoginListViewModel.cs" />
@@ -313,12 +319,18 @@
     <Compile Include="Migrations\201810021243203_update-1.Designer.cs">
       <DependentUpon>201810021243203_update-1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810030442084_Update-2.cs" />
+    <Compile Include="Migrations\201810030442084_Update-2.Designer.cs">
+      <DependentUpon>201810030442084_Update-2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Persistence\EntityConfigurations\CityEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\StateEntityConfiguration.cs" />
     <Compile Include="Persistence\PosDbContext.cs" />
+    <Compile Include="Persistence\Repositories\CityRepository.cs" />
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2287,6 +2299,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810021243203_update-1.resx">
       <DependentUpon>201810021243203_update-1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810030442084_Update-2.resx">
+      <DependentUpon>201810030442084_Update-2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -21,8 +21,8 @@ namespace PoSCloud.Persistence
         {
             this.SetCommandTimeOut(300);
         }
-        public Microsoft.EntityFrameworkCore.DbSet<State> States { get; set; }
-
+        public DbSet<State> States { get; set; }
+        public DbSet<City> Cities { get; set; }
 
         public void SetCommandTimeOut(int Timeout)
         {
@@ -38,7 +38,7 @@ namespace PoSCloud.Persistence
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new StateEntityConfiguration());
-
+            modelBuilder.Configurations.Add(new CityEntityConfiguration());
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);
 

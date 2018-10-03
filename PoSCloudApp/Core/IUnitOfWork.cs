@@ -9,7 +9,7 @@ namespace PoSCloud.Core
     public interface IUnitOfWork
     {
         IStateRepository StateRepository { get; }
-        
+        ICityRepository CityRepository { get; }
 
         void Complete();
     }

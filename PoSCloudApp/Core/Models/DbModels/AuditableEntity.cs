@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -14,5 +15,7 @@ namespace PoSCloudApp.Core.Models.DbModels
         public DateTime UpdatedOn { get; set; }
 
         public string UpdatedBy { get; set; }
+        [DefaultValue(false)]
+        public bool Synced { get; set; }
     }
 }

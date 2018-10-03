@@ -25,12 +25,13 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
 
                 //******************************************************************************************* Auditable ***************
 
-            Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
+                Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
                 Property(x => x.UpdatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-
+                
                 //******************************************************************************************* Auditable ***************
 
-        }
+            
+            }
 
     }
 }
