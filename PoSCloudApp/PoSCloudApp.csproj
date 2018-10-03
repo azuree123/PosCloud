@@ -294,6 +294,8 @@
     <Compile Include="Core\Models\AuditableEntity.cs" />
     <Compile Include="Core\Models\City.cs" />
     <Compile Include="Core\Models\Customer.cs" />
+    <Compile Include="Core\Models\Department.cs" />
+    <Compile Include="Core\Models\Designation.cs" />
     <Compile Include="Core\Models\Employee.cs" />
     <Compile Include="Core\Models\ExpenseHead.cs" />
     <Compile Include="Core\Models\Location.cs" />

@@ -15,8 +15,8 @@ namespace PoSCloudApp.Core.Models
         public double Commission { get; set; }
         public DateTime JoinDate { get; set; }
         public bool Booking { get; set; }
-        public string Department { get; set; }
-        public string Designation { get; set; }
+        public int DepartmentId { get; set; }
+        public int DesignationId { get; set; }
         public string Address { get; set; }
     }
 }
