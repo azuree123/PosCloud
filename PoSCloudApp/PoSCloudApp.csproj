@@ -299,12 +299,12 @@
     <Compile Include="Core\Models\Employee.cs" />
     <Compile Include="Core\Models\ExpenseHead.cs" />
     <Compile Include="Core\Models\Location.cs" />
-    <Compile Include="Core\Models\PurchaseOderDetails.cs" />
+    <Compile Include="Core\Models\PurchaseOderDetail.cs" />
     <Compile Include="Core\Models\Product.cs" />
     <Compile Include="Core\Models\ProductCategory.cs" />
     <Compile Include="Core\Models\PurchaseOrder.cs" />
     <Compile Include="Core\Models\SaleOrder.cs" />
-    <Compile Include="Core\Models\SaleOrderDetails.cs" />
+    <Compile Include="Core\Models\SaleOrderDetail.cs" />
     <Compile Include="Core\Models\State.cs" />
     <Compile Include="Core\Models\Supplier.cs" />
     <Compile Include="Core\Models\Expense.cs" />

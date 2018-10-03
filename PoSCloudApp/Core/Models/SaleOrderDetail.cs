@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PoSCloudApp.Core.Models
 {
-    public class SaleOrderDetails:AuditableEntity
+    public class SaleOrderDetail:AuditableEntity
     {
         public int Id { get; set; }
         public int SaleOrderId { get; set; }

@@ -23,6 +23,20 @@ namespace PoSCloud.Persistence
         }
         public DbSet<State> States { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<ExpenseHead> ExpenseHeads { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public DbSet<PurchaseOderDetail> PurchaseOderDetails { get; set; }
+        public DbSet<SaleOrder> SaleOrders { get; set; }
+        public DbSet<SaleOrderDetail> SaleOrderDetails { get; set; }
+        public DbSet<Designation> Designations { get; set; }
 
         public void SetCommandTimeOut(int Timeout)
         {
