@@ -5,11 +5,12 @@ using System.Web;
 using Microsoft.EntityFrameworkCore;
 using PoSCloud.Persistence;
 using PoSCloudApp.Core.Models;
+using PoSCloudApp.Core.Repositories;
 using EntityState = System.Data.Entity.EntityState;
 
 namespace PoSCloudApp.Persistence.Repositories
 {
-    public class ProductRepository
+    public class ProductRepository:IProductRepository
     {
         private PosDbContext _context;
 
@@ -22,7 +23,7 @@ namespace PoSCloudApp.Persistence.Repositories
         {
             return _context.Products.Where(a => a.CategoryId == productCategoryId).ToList();
         }
-        public Product GetProductsById(int id)
+        public Product GetProductById(int id)
         {
             return _context.Products.Find(id);
         }
@@ -38,7 +39,7 @@ namespace PoSCloudApp.Persistence.Repositories
             _context.Entry(product).State = EntityState.Modified;
         }
 
-        public void DeleteProducts(int id)
+        public void DeleteProduct(int id)
         {
             var product = new Product { Id = id };
             _context.Products.Attach(product);
