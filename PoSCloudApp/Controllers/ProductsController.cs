@@ -17,9 +17,8 @@ namespace PoSCloudApp.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: Products
-        public ActionResult ServicesList()
+        public ActionResult ProductsList()
         {
-            
             return View();
         }
     }
