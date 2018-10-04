@@ -23,6 +23,11 @@ namespace PoSCloudApp.Controllers
         // GET: Products
         public ActionResult ProductsList()
         {
+            return View(_unitOfWork.ProductRepository.GetAllProducts());
+        }
+
+        public ActionResult AddProduct()
+        {
             return View();
         }
     }

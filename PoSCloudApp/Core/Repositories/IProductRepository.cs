@@ -9,6 +9,7 @@ namespace PoSCloudApp.Core.Repositories
 {
    public interface IProductRepository
    {
+       IEnumerable<Product> GetAllProducts();
        IEnumerable<Product> GetProducts(int productCategoryId);
        Product GetProductById(int id);
        void AddProduct(Product product);
