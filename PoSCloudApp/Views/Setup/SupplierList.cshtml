@@ -38,23 +38,27 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
+                        <th>Email</th>
                         <th>Phone Number</th>
                         <th>Address</th>
                         <th>Balance</th>
-                        <th>Name</th>
-                        <th>Action</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var state in Model)
+                    @foreach (var supplier in Model)
                     {
-                        <tr>
-                            <td>@(i++)</td>
-                            <td>@state.Name</td>
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@supplier.Name</td>
+                        <td>@supplier.Email</td>
+                        <td>@supplier.PhoneNumber</td>
+                        <td>@supplier.Address</td>
+                        <td>@supplier.Balance</td>
 
-                            <td></td>
-                        </tr>
+                        <td></td>
+                    </tr>
                     }
                 </tbody>
             </table>
