@@ -12,6 +12,10 @@ namespace PoSCloudApp.Controllers
     public class ProductsController : Controller
     {
         private IUnitOfWork _unitOfWork;
+        public ProductsController()
+        {
+            
+        }
         public ProductsController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
