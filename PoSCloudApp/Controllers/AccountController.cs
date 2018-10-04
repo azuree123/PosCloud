@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using PoSCloud.Core.Models;
+using PoSCloudApp.Core.Models;
 using PoSCloudApp.Models;
 
 namespace PoSCloudApp.Controllers

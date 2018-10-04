@@ -287,6 +287,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Core\Enums\AttendanceStatus.cs" />
     <Compile Include="Core\Enums\EmployementType.cs" />
     <Compile Include="Core\IUnitOfWork.cs" />
@@ -299,7 +300,7 @@
     <Compile Include="Core\Models\Employee.cs" />
     <Compile Include="Core\Models\ExpenseHead.cs" />
     <Compile Include="Core\Models\Location.cs" />
-    <Compile Include="Core\Models\PurchaseOderDetail.cs" />
+    <Compile Include="Core\Models\PurchaseOrderDetail.cs" />
     <Compile Include="Core\Models\Product.cs" />
     <Compile Include="Core\Models\ProductCategory.cs" />
     <Compile Include="Core\Models\PurchaseOrder.cs" />
@@ -318,6 +319,7 @@
     <Compile Include="Core\Repositories\ILocationRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryRepository.cs" />
     <Compile Include="Core\Repositories\IProductRepository.cs" />
+    <Compile Include="Core\Repositories\IPurchaseOrderDetailRepository.cs" />
     <Compile Include="Core\Repositories\IPurchaseOrderRepository.cs" />
     <Compile Include="Core\Repositories\ISaleOrderDetailRepository.cs" />
     <Compile Include="Core\Repositories\ISaleOrderRepository.cs" />
@@ -355,6 +357,7 @@
     <Compile Include="Persistence\Repositories\LocationRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductRepository.cs" />
+    <Compile Include="Persistence\Repositories\PurchaseOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderRepository.cs" />
@@ -2307,6 +2310,7 @@
     <Folder Include="Services\" />
     <Folder Include="Views\Reports\" />
     <Folder Include="Views\Sales\" />
+    <Folder Include="Views\Setup\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

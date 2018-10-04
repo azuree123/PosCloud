@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace PoSCloud.Core.ViewModels
+namespace PoSCloudApp.Core.ViewModels
 {
     public class LoginViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PoSCloud.Core.ViewModels
+namespace PoSCloudApp.Core.ViewModels
 {
     public class SendCodeViewModel
     {

@@ -7,11 +7,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
-using PoSCloud.Core.Models;
+using PoSCloudApp.Core.Models;
 using PoSCloudApp.Core.Models;
 using PoSCloudApp.Persistence.EntityConfigurations;
+using PoSCloudApp.Persistence.Repositories;
 
-namespace PoSCloud.Persistence
+namespace PoSCloudApp.Persistence
 {
     public class PosDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -33,7 +34,7 @@ namespace PoSCloud.Persistence
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<ExpenseHead> ExpenseHeads { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
-        public DbSet<PurchaseOderDetail> PurchaseOderDetails { get; set; }
+        public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public DbSet<SaleOrder> SaleOrders { get; set; }
         public DbSet<SaleOrderDetail> SaleOrderDetails { get; set; }
         public DbSet<Designation> Designations { get; set; }

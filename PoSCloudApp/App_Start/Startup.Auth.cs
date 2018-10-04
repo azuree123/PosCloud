@@ -5,8 +5,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using PoSCloud.Core.Models;
-using PoSCloud.Persistence;
+using PoSCloudApp.Core.Models;
+using PoSCloudApp.Persistence;
 using PoSCloudApp.Models;
 
 namespace PoSCloudApp

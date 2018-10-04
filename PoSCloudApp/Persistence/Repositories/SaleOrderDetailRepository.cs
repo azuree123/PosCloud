@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using PoSCloud.Persistence;
+using PoSCloudApp.Persistence;
 using PoSCloudApp.Core.Models;
 using PoSCloudApp.Core.Repositories;
 

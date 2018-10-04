@@ -1,4 +1,4 @@
-namespace PoSCloud.Core.ViewModels
+namespace PoSCloudApp.Core.ViewModels
 {
     public class ExternalLoginListViewModel
     {

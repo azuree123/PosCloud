@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PoSCloud.Core.ViewModels
+namespace PoSCloudApp.Core.ViewModels
 {
     public class VerifyCodeViewModel
     {
