@@ -18,7 +18,10 @@ namespace PoSCloudApp.Persistence.Repositories
         {
             _context = context;
         }
-
+        public IEnumerable<Product> GetAllProducts()
+        {
+            return _context.Products.ToList();
+        }
         public IEnumerable<Product> GetProducts(int productCategoryId)
         {
             return _context.Products.Where(a => a.CategoryId == productCategoryId).ToList();
