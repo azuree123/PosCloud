@@ -21,7 +21,7 @@ namespace PoSCloudApp.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: Expense
-        public ActionResult ExpensesList()
+        public ActionResult ExpenseList()
         {
             return View(_unitOfWork.ExpenseRepository.GetExpenses());
         }
@@ -33,9 +33,11 @@ namespace PoSCloudApp.Controllers
         {
             return View();
         }
-        public ActionResult DeleteExpense()
+        public ActionResult DeleteExpense(int id)
         {
-            return View();
+            _unitOfWork.ExpenseRepository.DeleteExpense(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("ExpenseList", "Expense");
         }
 
         public ActionResult ExpenseHeadList()
@@ -46,13 +48,15 @@ namespace PoSCloudApp.Controllers
         {
             return View();
         }
-        public ActionResult Update()
+        public ActionResult UpdateExpenseHead()
         {
             return View();
         }
-        public ActionResult DeleteExpenseHead()
+        public ActionResult DeleteExpenseHead(int id)
         {
-            return View();
+            _unitOfWork.ExpenseHeadRepository.DeleteExpenseHead(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("ExpenseHeadList","Expense");
         }
     }
 }

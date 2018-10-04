@@ -34,9 +34,11 @@ namespace PoSCloudApp.Controllers
         {
             return View();
         }
-        public ActionResult DeleteSaleOrder()
+        public ActionResult DeleteSaleOrder(int id)
         {
-            return View();
+            _unitOfWork.SaleOrderRepository.DeleteSaleOrder(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("SaleOrderList","SaleOrders");
         }
 
         public ActionResult SaleOrderDetailList(int saleOrderId)
@@ -51,9 +53,11 @@ namespace PoSCloudApp.Controllers
         {
             return View();
         }
-        public ActionResult DeleteSaleOrderDetail()
+        public ActionResult DeleteSaleOrderDetail(int id)
         {
-            return View();
+            _unitOfWork.SaleOrderDetailRepository.DeleteSaleOrderDetail(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("SaleOrderDetailList","SaleOrders");
         }
     }
 }

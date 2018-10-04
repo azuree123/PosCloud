@@ -95,9 +95,11 @@ namespace PoSCloudApp.Controllers
             return View();
         }
 
-        public ActionResult DeleteProductCategory()
+        public ActionResult DeleteProductCategory(int id)
         {
-            return View();
+            _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("ProductCategoryList", "Products");
         }
     }
 }
