@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PoSCloud.Core;
-using PoSCloud.Persistence;
+using PoSCloudApp.Core;
+using PoSCloudApp.Persistence;
 
 namespace PoSCloudApp.Controllers
 {

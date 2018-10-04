@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Web;
-using PoSCloud.Persistence;
+using PoSCloudApp.Persistence;
 using PoSCloudApp.Core.Models;
 
 namespace PoSCloudApp.Persistence.EntityConfigurations

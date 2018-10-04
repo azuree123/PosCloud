@@ -5,14 +5,14 @@ namespace PoSCloudApp.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<PoSCloud.Persistence.PosDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<PoSCloudApp.Persistence.PosDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(PoSCloud.Persistence.PosDbContext context)
+        protected override void Seed(PoSCloudApp.Persistence.PosDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

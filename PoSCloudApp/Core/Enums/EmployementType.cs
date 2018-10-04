@@ -1,6 +1,6 @@
 ﻿
 
-namespace PoSCloud.Core.Enums
+namespace PoSCloudApp.Core.Enums
 {
     public enum EmployementType
     {

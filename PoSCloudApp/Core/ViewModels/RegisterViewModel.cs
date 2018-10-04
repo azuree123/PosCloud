@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using PoSCloud.Core.Models;
+using PoSCloudApp.Core.Models;
 
-namespace PoSCloud.Core.ViewModels
+namespace PoSCloudApp.Core.ViewModels
 {
     public class RegisterViewModel
     {

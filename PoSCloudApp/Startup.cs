@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Owin;
 using Owin;
-using PoSCloud.Core;
-using PoSCloud.Persistence;
+using PoSCloudApp.Core;
+using PoSCloudApp.Persistence;
 
 [assembly: OwinStartupAttribute(typeof(PoSCloudApp.Startup))]
 namespace PoSCloudApp
