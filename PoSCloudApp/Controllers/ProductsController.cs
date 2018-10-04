@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using PoSCloudApp.Core;
+using PoSCloudApp.Core.Dtos;
 using PoSCloudApp.Core.Models;
 using PoSCloudApp.Persistence;
 
@@ -33,15 +35,16 @@ namespace PoSCloudApp.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddProduct(Product product)
+        public ActionResult AddProduct(ProductCreateUpdateDto productDto)
         {
             ViewBag.edit = "AddProduct";
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return View(product);
+                return View(productDto);
             }
             else
             {
+                Product product = Mapper.Map<Product>(productDto);
                 _unitOfWork.ProductRepository.AddProduct(product);
                 _unitOfWork.Complete();
                 return RedirectToAction("ProductsList", "Products");
@@ -51,19 +54,20 @@ namespace PoSCloudApp.Controllers
         public ActionResult UpdateProduct(int id)
         {
             ViewBag.edit = "UpdateProduct";
-            Product product = _unitOfWork.ProductRepository.GetProductById(id);
-            return View("AddProduct", product);
+            ProductCreateUpdateDto productDto = Mapper.Map<ProductCreateUpdateDto>(_unitOfWork.ProductRepository.GetProductById(id));
+            return View("AddProduct", productDto);
         }
         [HttpPost]
-        public ActionResult UpdateProduct(int id,Product product)
+        public ActionResult UpdateProduct(int id,ProductCreateUpdateDto productDto)
         {
             ViewBag.edit = "UpdateProduct";
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return View("AddProduct", product);
+                return View("AddProduct", productDto);
             }
             else
             {
+                Product product = Mapper.Map<Product>(productDto);
                 _unitOfWork.ProductRepository.UpdateProduct(id,product);
                 _unitOfWork.Complete();
                 return RedirectToAction("ProductsList", "Products");

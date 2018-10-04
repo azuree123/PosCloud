@@ -1,5 +1,6 @@
 ﻿using PoSCloudApp.Core.Models;
 using AutoMapper;
+using PoSCloudApp.Core.Dtos;
 
 namespace PoSCloudApp
 {
@@ -7,12 +8,10 @@ namespace PoSCloudApp
     {
         public MappingProfile()
         {
-            //Mapper.CreateMap<City, CityDto>();
-            //Mapper.CreateMap<CityArea, CityAreaDto>();
-            //Mapper.CreateMap<ApplicationUser, UserDto>();
-            //Mapper.CreateMap<Auto, AutoDto>();
-            //Mapper.CreateMap<AutoAd, AutoAdDto>();
-            //Mapper.CreateMap<Notification, NotificationDto>();
+            CreateMap<ProductCreateUpdateDto,Product>();
+            CreateMap<Product,ProductCreateUpdateDto>();
+            
+
         }
     }
 }

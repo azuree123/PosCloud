@@ -3,7 +3,7 @@ namespace PoSCloudApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Init1 : DbMigration
+    public partial class init1 : DbMigration
     {
         public override void Up()
         {
@@ -16,7 +16,7 @@ namespace PoSCloudApp.Migrations
                         StateId = c.Int(nullable: false),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(nullable: false, maxLength: 150),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(maxLength: 150),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -32,7 +32,7 @@ namespace PoSCloudApp.Migrations
                         Name = c.String(nullable: false, maxLength: 150),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(nullable: false, maxLength: 150),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(maxLength: 150),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -55,7 +55,7 @@ namespace PoSCloudApp.Migrations
                         Note = c.String(),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -69,7 +69,7 @@ namespace PoSCloudApp.Migrations
                         Name = c.String(),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -83,7 +83,7 @@ namespace PoSCloudApp.Migrations
                         Name = c.String(),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -96,6 +96,7 @@ namespace PoSCloudApp.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Email = c.String(),
+                        Gender = c.String(),
                         MobileNumber = c.String(),
                         Salary = c.Double(nullable: false),
                         Commission = c.Double(nullable: false),
@@ -106,7 +107,7 @@ namespace PoSCloudApp.Migrations
                         Address = c.String(),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -121,7 +122,7 @@ namespace PoSCloudApp.Migrations
                         Details = c.String(),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -141,7 +142,7 @@ namespace PoSCloudApp.Migrations
                         Date = c.DateTime(nullable: false),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -157,7 +158,7 @@ namespace PoSCloudApp.Migrations
                         Contact = c.String(),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -173,7 +174,7 @@ namespace PoSCloudApp.Migrations
                         Type = c.String(),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -197,14 +198,17 @@ namespace PoSCloudApp.Migrations
                         Image = c.String(),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
+                        ProductCategory_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.ProductCategories", t => t.ProductCategory_Id)
+                .Index(t => t.ProductCategory_Id);
             
             CreateTable(
-                "dbo.PurchaseOderDetails",
+                "dbo.PurchaseOrderDetails",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -216,7 +220,7 @@ namespace PoSCloudApp.Migrations
                         UnitPrice = c.Double(nullable: false),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -271,7 +275,7 @@ namespace PoSCloudApp.Migrations
                         Discount = c.Double(nullable: false),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -295,7 +299,7 @@ namespace PoSCloudApp.Migrations
                         Type = c.String(),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -316,7 +320,7 @@ namespace PoSCloudApp.Migrations
                         Balance = c.Double(nullable: false),
                         CreatedOn = c.DateTime(nullable: false),
                         CreatedBy = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false),
+                        UpdatedOn = c.DateTime(),
                         UpdatedBy = c.String(),
                         Synced = c.Boolean(nullable: false),
                     })
@@ -375,6 +379,7 @@ namespace PoSCloudApp.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Products", "ProductCategory_Id", "dbo.ProductCategories");
             DropForeignKey("PosCloud.Cities", "StateId", "PosCloud.States");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
@@ -382,6 +387,7 @@ namespace PoSCloudApp.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Products", new[] { "ProductCategory_Id" });
             DropIndex("PosCloud.Cities", new[] { "StateId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
@@ -392,7 +398,7 @@ namespace PoSCloudApp.Migrations
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.PurchaseOrders");
-            DropTable("dbo.PurchaseOderDetails");
+            DropTable("dbo.PurchaseOrderDetails");
             DropTable("dbo.Products");
             DropTable("dbo.ProductCategories");
             DropTable("dbo.Locations");

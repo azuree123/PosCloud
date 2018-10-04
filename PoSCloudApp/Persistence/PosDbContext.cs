@@ -6,11 +6,15 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
+using Ninject.Activation;
 using PoSCloudApp.Core.Models;
 using PoSCloudApp.Core.Models;
 using PoSCloudApp.Persistence.EntityConfigurations;
 using PoSCloudApp.Persistence.Repositories;
+using PoSCloudApp.Services;
 
 namespace PoSCloudApp.Persistence
 {
@@ -71,14 +75,13 @@ namespace PoSCloudApp.Persistence
 
                 if (entry.State == EntityState.Added)
                 {
-                    //entity.CreatedBy = _userInfoService.UserId;
-                    entity.CreatedOn = DateTime.UtcNow;
-                    entity.CreatedBy = "Waqar";
+                    entity.CreatedOn = DateTime.Now;
+                    entity.CreatedBy = HttpContext.Current.User.Identity.Name;
 
                 }
 
-                entity.UpdatedBy = "Waqar";
-                entity.UpdatedOn = DateTime.UtcNow;
+                entity.UpdatedBy = HttpContext.Current.User.Identity.Name;
+                entity.UpdatedOn = DateTime.Now;
             }
 
             return base.SaveChanges();
