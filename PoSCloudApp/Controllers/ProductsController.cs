@@ -80,5 +80,24 @@ namespace PoSCloudApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("ProductsList", "Products");
         }
+
+        public ActionResult ProductCategoryList()
+        {
+            return View(_unitOfWork.ProductCategoryRepository.GetProductCategories());
+        }
+
+        public ActionResult ProductCategoryAdd()
+        {
+            return View();
+        }
+        public ActionResult ProductCategoryUpdate()
+        {
+            return View();
+        }
+
+        public ActionResult ProductCategoryDelete()
+        {
+            return View();
+        }
     }
 }

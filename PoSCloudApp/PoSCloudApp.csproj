@@ -316,6 +316,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\SaleOrdersController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Core\Dtos\ProductCreateDto.cs" />
     <Compile Include="Core\Enums\AttendanceStatus.cs" />
@@ -2349,11 +2350,14 @@
     <Content Include="Views\Setup\StateList.cshtml" />
     <Content Include="Views\Setup\SupplierList.cshtml" />
     <Content Include="Views\Products\AddProduct.cshtml" />
+    <Content Include="Views\Products\ProductCategoryList.cshtml" />
+    <Content Include="Views\SaleOrders\SaleOrderList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Core\Shared\" />
     <Folder Include="Images\Data\" />
+    <Folder Include="Views\Product\" />
     <Folder Include="Views\Reports\" />
     <Folder Include="Views\Sales\" />
   </ItemGroup>
