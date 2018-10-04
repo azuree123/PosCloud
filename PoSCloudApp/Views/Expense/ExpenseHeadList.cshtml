@@ -1,12 +1,12 @@
-﻿
-@model IEnumerable<PoSCloudApp.Core.Models.ProductCategory>
+﻿@model IEnumerable<PoSCloudApp.Core.Models.ExpenseHead>
 
 @{
-    ViewBag.Title = "ProductCategoryList";
+
+    ViewBag.Title = "ExpenseHeadList";
 }
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>ProductCategory List</h2>
+        <h2>ExpenseHead List</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -15,7 +15,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>ProductCategories Listing</span></li>
+                <li><span>ExpenseHead Listing</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -27,9 +27,6 @@
     <section class="panel">
         <header class="panel-heading">
             <div class="panel-actions">
-                <a href="@Url.Action("AddProductCategory","Products")" class="modalShow">
-                    <span  class="fa fa-2x fa-plus-circle"></span>
-                </a>
                 <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
             </div>
 
@@ -41,20 +38,20 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Images</th>
-                        <th>Type</th>
+                        <th>Details</th>                        
                         <th>Action</th>
+
+
                     </tr>
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var productCategory in Model)
+                    @foreach (var expenseHead in Model)
                     {
                     <tr>
                         <td>@(i++)</td>
-                        <td>@productCategory.Name</td>
-                        <td>@productCategory.Image</td>
-                        <td>@productCategory.Type</td>
+                        <td>@expenseHead.Name</td>
+                        <td>@expenseHead.Details</td>   
                         <td></td>
                     </tr>
                     }
@@ -76,3 +73,22 @@
 }
 
 
+
+
+</html>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ExpenseHeadList</title>
+</head>
+<body>
+    <div>
+    </div>
+</body>
+</html>

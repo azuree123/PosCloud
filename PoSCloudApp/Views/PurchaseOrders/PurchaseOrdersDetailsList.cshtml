@@ -1,12 +1,12 @@
-﻿
-@model IEnumerable<PoSCloudApp.Core.Models.ProductCategory>
+﻿@using PoSCloudApp.Core.Models
+@model IEnumerable<PoSCloudApp.Core.Models.PurchaseOrderDetail>
 
 @{
-    ViewBag.Title = "ProductCategoryList";
+    ViewBag.Title = "PurchaseOrdersDetailsList";
 }
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>ProductCategory List</h2>
+        <h2>PurchaseOrdersDetail List</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -15,7 +15,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>ProductCategories Listing</span></li>
+                <li><span>PurchaseOrdersDetail Listing</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -27,9 +27,6 @@
     <section class="panel">
         <header class="panel-heading">
             <div class="panel-actions">
-                <a href="@Url.Action("AddProductCategory","Products")" class="modalShow">
-                    <span  class="fa fa-2x fa-plus-circle"></span>
-                </a>
                 <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
             </div>
 
@@ -40,23 +37,30 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Images</th>
-                        <th>Type</th>
+                        <th>PurchaseOrder</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Retail Price</th>
+                        <th>Discount</th>
+                        <th>Unit Price</th>
                         <th>Action</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var productCategory in Model)
+                    @foreach (var purchaseOrderDetail in Model)
                     {
-                    <tr>
-                        <td>@(i++)</td>
-                        <td>@productCategory.Name</td>
-                        <td>@productCategory.Image</td>
-                        <td>@productCategory.Type</td>
-                        <td></td>
-                    </tr>
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@purchaseOrderDetail.PurchaseOrderId</td>
+                            <td>@purchaseOrderDetail.ProductId</td>
+                            <td>@purchaseOrderDetail.Quantity</td>
+                            <td>@purchaseOrderDetail.RetailPrice</td>
+                            <td>@purchaseOrderDetail.Discount</td>
+                            <td>@purchaseOrderDetail.UnitPrice</td>
+                            <td></td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -74,5 +78,10 @@
         $('#datatable-default').dataTable();
     </script>
 }
+
+
+
+
+</html>
 
 

@@ -26,15 +26,15 @@ namespace PoSCloudApp.Controllers
             return View(_unitOfWork.SaleOrderRepository.GetSaleOrders());
         }
 
-        public ActionResult SaleOrderAdd()
+        public ActionResult AddSaleOrder()
         {
             return View();
         }
-        public ActionResult SaleOrderUpdate()
+        public ActionResult UpdateSaleOrder()
         {
             return View();
         }
-        public ActionResult SaleOrderDelete()
+        public ActionResult DeleteSaleOrder()
         {
             return View();
         }
@@ -43,15 +43,15 @@ namespace PoSCloudApp.Controllers
         {
             return View(_unitOfWork.SaleOrderDetailRepository.GetSaleOrderDetails(saleOrderId));
         }
-        public ActionResult SaleOrderDetailAdd()
+        public ActionResult AddSaleOrderDetail()
         {
             return View();
         }
-        public ActionResult SaleOrderDetailUpdate()
+        public ActionResult UpdateSaleOrderDetail()
         {
             return View();
         }
-        public ActionResult SaleOrderDetailDelete()
+        public ActionResult DeleteSaleOrderDetail()
         {
             return View();
         }

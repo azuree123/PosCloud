@@ -1,12 +1,11 @@
-﻿
-@model IEnumerable<PoSCloudApp.Core.Models.ProductCategory>
+﻿@model IEnumerable<PoSCloudApp.Core.Models.PurchaseOrder>
 
 @{
-    ViewBag.Title = "ProductCategoryList";
+    ViewBag.Title = "PurchaseOrderList";
 }
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>ProductCategory List</h2>
+        <h2>PurchaseOrders List</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -15,7 +14,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>ProductCategories Listing</span></li>
+                <li><span>PurchaseOrder Listing</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -27,9 +26,6 @@
     <section class="panel">
         <header class="panel-heading">
             <div class="panel-actions">
-                <a href="@Url.Action("AddProductCategory","Products")" class="modalShow">
-                    <span  class="fa fa-2x fa-plus-circle"></span>
-                </a>
                 <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
             </div>
 
@@ -40,21 +36,28 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Images</th>
-                        <th>Type</th>
+                        <th>Supplier</th>
+                        <th>Order Date</th>
+                        <th>Supply Date</th>
+                        <th>Invoice</th>
+                        <th>Total Price</th>
+                        <th>Type</th>                       
                         <th>Action</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var productCategory in Model)
+                    @foreach (var purchaseOrder in Model)
                     {
                     <tr>
                         <td>@(i++)</td>
-                        <td>@productCategory.Name</td>
-                        <td>@productCategory.Image</td>
-                        <td>@productCategory.Type</td>
+                        <td>@purchaseOrder.SupplierId</td>
+                        <td>@purchaseOrder.OrderDate</td>
+                        <td>@purchaseOrder.SupplyDate</td>
+                        <td>@purchaseOrder.InvoiceId</td>
+                        <td>@purchaseOrder.TotalPrice</td>
+                        <td>@purchaseOrder.Type</td>
                         <td></td>
                     </tr>
                     }
@@ -75,4 +78,8 @@
     </script>
 }
 
+
+
+
+</html>
 

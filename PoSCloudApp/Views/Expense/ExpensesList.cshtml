@@ -1,12 +1,12 @@
-﻿
-@model IEnumerable<PoSCloudApp.Core.Models.ProductCategory>
+﻿@model IEnumerable<PoSCloudApp.Core.Models.Expense>
 
 @{
-    ViewBag.Title = "ProductCategoryList";
+
+                ViewBag.Title = "ExpenseList";
 }
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>ProductCategory List</h2>
+        <h2>Expenses List</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -15,7 +15,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>ProductCategories Listing</span></li>
+                <li><span>Expense Listing</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -27,9 +27,6 @@
     <section class="panel">
         <header class="panel-heading">
             <div class="panel-actions">
-                <a href="@Url.Action("AddProductCategory","Products")" class="modalShow">
-                    <span  class="fa fa-2x fa-plus-circle"></span>
-                </a>
                 <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
             </div>
 
@@ -40,21 +37,33 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Images</th>
-                        <th>Type</th>
+                        <th>Expense Head</th>
+                        <th>Employee</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Purchase Id</th>
+                        <th>Voucher Id</th>
+                        <th>Date</th>
                         <th>Action</th>
+                        
+
                     </tr>
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var productCategory in Model)
+                    @foreach (var expense in Model)
                     {
                     <tr>
                         <td>@(i++)</td>
-                        <td>@productCategory.Name</td>
-                        <td>@productCategory.Image</td>
-                        <td>@productCategory.Type</td>
+                        <td>@expense.ExpenseHead</td>
+                        <td>@expense.EmployeeId</td>
+                        <td>@expense.Amount</td>
+                        <td>@expense.Description</td>
+                        <td>@expense.PurchaseId</td>
+                        <td>@expense.VoucherId</td>
+                        <td>@expense.Date</td>
+                       
+
                         <td></td>
                     </tr>
                     }
@@ -76,3 +85,6 @@
 }
 
 
+
+
+</html>

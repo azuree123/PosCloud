@@ -86,16 +86,16 @@ namespace PoSCloudApp.Controllers
             return View(_unitOfWork.ProductCategoryRepository.GetProductCategories());
         }
 
-        public ActionResult ProductCategoryAdd()
+        public ActionResult AddProductCategory()
         {
             return View();
         }
-        public ActionResult ProductCategoryUpdate()
+        public ActionResult UpdateProductCategory()
         {
             return View();
         }
 
-        public ActionResult ProductCategoryDelete()
+        public ActionResult DeleteProductCategory()
         {
             return View();
         }
