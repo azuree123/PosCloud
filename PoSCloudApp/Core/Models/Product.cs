@@ -19,6 +19,7 @@ namespace PoSCloudApp.Core.Models
         public string Stock { get; set; }
         public string Barcode { get; set; }
         public string Image { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
 
     }
 }

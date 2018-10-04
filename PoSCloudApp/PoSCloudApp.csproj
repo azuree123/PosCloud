@@ -312,9 +312,12 @@
     <Compile Include="Core\Repositories\ICustomerRepository.cs" />
     <Compile Include="Core\Repositories\IDepartmentRepository.cs" />
     <Compile Include="Core\Repositories\IDesignationRepository.cs" />
+    <Compile Include="Core\Repositories\IEmployeeRepository.cs" />
     <Compile Include="Core\Repositories\IExpenseHeadRepository.cs" />
     <Compile Include="Core\Repositories\IExpenseRepository.cs" />
     <Compile Include="Core\Repositories\ILocationRepository.cs" />
+    <Compile Include="Core\Repositories\IProductCategoryRepository.cs" />
+    <Compile Include="Core\Repositories\IProductRepository.cs" />
     <Compile Include="Core\Repositories\IPurchaseOrderRepository.cs" />
     <Compile Include="Core\Repositories\ISaleOrderDetailRepository.cs" />
     <Compile Include="Core\Repositories\ISaleOrderRepository.cs" />
@@ -350,6 +353,8 @@
     <Compile Include="Persistence\Repositories\ExpenseHeadRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseRepository.cs" />
     <Compile Include="Persistence\Repositories\LocationRepository.cs" />
+    <Compile Include="Persistence\Repositories\ProductCategoryRepository.cs" />
+    <Compile Include="Persistence\Repositories\ProductRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderRepository.cs" />
