@@ -2305,6 +2305,14 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Products\ProductsList.cshtml" />
+    <Content Include="Views\Setup\DepartmentList.cshtml" />
+    <Content Include="Views\Setup\DesignationList.cshtml" />
+    <Content Include="Views\Setup\EmployeeList.cshtml" />
+    <Content Include="Views\Setup\CustomerList.cshtml" />
+    <Content Include="Views\Setup\SupplierList.cshtml" />
+    <Content Include="Views\Setup\StateList.cshtml" />
+    <Content Include="Views\Setup\CityList.cshtml" />
+    <Content Include="Views\Setup\LocationList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2314,7 +2322,6 @@
     <Folder Include="Services\" />
     <Folder Include="Views\Reports\" />
     <Folder Include="Views\Sales\" />
-    <Folder Include="Views\Setup\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
