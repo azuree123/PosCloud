@@ -35,6 +35,7 @@ namespace PoSCloudApp.Controllers
             expense.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads().Select(a => new SelectListItem {Text = a.Name,Value = a.Id.ToString()})
                 .AsEnumerable();
             ViewBag.edit = "AddExpense";
+           
             return View(expense);
         }
         [HttpPost]
