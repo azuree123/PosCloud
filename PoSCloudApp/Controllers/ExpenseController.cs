@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using PoSCloudApp.Core;
+using PoSCloudApp.Core.Models;
+using PoSCloudApp.Core.ViewModels;
 
 namespace PoSCloudApp.Controllers
 {
@@ -27,11 +30,64 @@ namespace PoSCloudApp.Controllers
         }
         public ActionResult AddExpense()
         {
-            return View();
+            ExpenseViewModel expense=new ExpenseViewModel();
+            expense.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees().Select(a => new SelectListItem{Value = a.Id.ToString(),Text = a.Name}).AsEnumerable();
+            expense.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads().Select(a => new SelectListItem {Text = a.Name,Value = a.Id.ToString()})
+                .AsEnumerable();
+            ViewBag.edit = "AddExpense";
+            return View(expense);
         }
-        public ActionResult UpdateExpense()
+        [HttpPost]
+        public ActionResult AddExpense(ExpenseViewModel expenseVm)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees().Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                expenseVm.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
+                    .AsEnumerable();
+                ViewBag.edit = "AddExpense";
+                return View(expenseVm);
+
+            }
+            else
+            {
+                Expense expense = Mapper.Map<Expense>(expenseVm);
+                _unitOfWork.ExpenseRepository.AddExpense(expense);
+                _unitOfWork.Complete();
+                return RedirectToAction("ExpenseList");
+            }
+           
+        }
+        public ActionResult UpdateExpense(int id)
+        {
+            ExpenseViewModel expense = Mapper.Map<ExpenseViewModel>(_unitOfWork.ExpenseRepository.GetExpenseById(id));
+            expense.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees().Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            expense.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
+                .AsEnumerable();
+            ViewBag.edit = "UpdateExpense";
+            return View("AddExpense",expense);
+        }
+        [HttpPost]
+        public ActionResult UpdateExpense(int id,ExpenseViewModel expenseVm)
+        {
+            if (!ModelState.IsValid)
+            {
+
+                expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees().Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                expenseVm.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
+                    .AsEnumerable();
+                ViewBag.edit = "UpdateExpense";
+                return View("AddExpense", expenseVm);
+
+            }
+            else
+            {
+                Expense expense = Mapper.Map<Expense>(expenseVm);
+                _unitOfWork.ExpenseRepository.UpdateExpense(id,expense);
+                _unitOfWork.Complete();
+                return RedirectToAction("ExpenseList");
+            }
+
         }
         public ActionResult DeleteExpense(int id)
         {

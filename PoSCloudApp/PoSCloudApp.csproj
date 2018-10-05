@@ -321,6 +321,8 @@
     <Compile Include="Controllers\SaleOrdersController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
+    <Compile Include="Core\ViewModels\ExpenseHeadViewModel.cs" />
+    <Compile Include="Core\ViewModels\ExpenseViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCategoryViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCreateViewModel.cs" />
     <Compile Include="Core\Enums\AttendanceStatus.cs" />
@@ -382,6 +384,10 @@
     <Compile Include="Migrations\201810040915157_Update2.cs" />
     <Compile Include="Migrations\201810040915157_Update2.Designer.cs">
       <DependentUpon>201810040915157_Update2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810050651539_Update-3.cs" />
+    <Compile Include="Migrations\201810050651539_Update-3.Designer.cs">
+      <DependentUpon>201810050651539_Update-3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2362,6 +2368,7 @@
     <Content Include="Views\Expense\ExpenseHeadList.cshtml" />
     <Content Include="Views\Products\AddProductCategory.cshtml" />
     <Content Include="Views\Setup\AddDepartment.cshtml" />
+    <Content Include="Views\Expense\AddExpense.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2394,6 +2401,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810040915157_Update2.resx">
       <DependentUpon>201810040915157_Update2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810050651539_Update-3.resx">
+      <DependentUpon>201810050651539_Update-3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
