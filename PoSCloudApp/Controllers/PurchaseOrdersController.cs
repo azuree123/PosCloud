@@ -21,40 +21,43 @@ namespace PoSCloudApp.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: PurchaseOrders
-        public ActionResult PurchaseOrdersList()
+        public ActionResult PurchaseOrderList()
         {
             return View(_unitOfWork.PurchaseOrderRepository.GetPurchaseOrders());
         }
-        public ActionResult PurchaseOrderAdd()
+        public ActionResult AddPurchaseOrder()
         {
 
             return View();
         }
-        public ActionResult PurchaseOrderUpdate()
+        public ActionResult UpdatePurchaseOrder()
         {
             return View();
         }
-        public ActionResult PurchaseOrderDelete()
+        public ActionResult DeletePurchaseOrder(int id)
         {
-            return View();
+            _unitOfWork.PurchaseOrderRepository.DeletePurchaseOrder(id);
+            return RedirectToAction("PurchaseOrderList", "PurchaseOrders");
         }
 
-        public ActionResult PurchaseOrdersDetailsList(int purchaseOrderId)
+        public ActionResult PurchaseOrderDetailList(int purchaseOrderId)
         {
             return View(_unitOfWork.PurchaseOrderDetailRepository.GetPurchaseOrderDetails(purchaseOrderId));
         }
-        public ActionResult PurchaseOrderDetailsAdd()
+        public ActionResult AddPurchaseOrderDetail()
         {
 
             return View();
         }
-        public ActionResult PurchaseOrderDetailsUpdate()
+        public ActionResult UpdatePurchaseOrderDetails()
         {
             return View();
         }
-        public ActionResult PurchaseOrderDetailsDelete()
+        public ActionResult DeletePurchaseOrderDetails(int id)
         {
-            return View();
+            _unitOfWork.PurchaseOrderDetailRepository.DeletePurchaseOrderDetail(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("PurchaseOrderDetailList","PurchaseOrders");
         }
 
     }

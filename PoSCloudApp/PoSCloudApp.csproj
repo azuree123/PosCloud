@@ -320,6 +320,9 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SaleOrdersController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
+    <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
+    <Compile Include="Core\ViewModels\ProductCategoryViewModel.cs" />
+    <Compile Include="Core\ViewModels\ProductCreateViewModel.cs" />
     <Compile Include="Core\Enums\AttendanceStatus.cs" />
     <Compile Include="Core\Enums\EmployementType.cs" />
     <Compile Include="Core\IUnitOfWork.cs" />
@@ -357,7 +360,6 @@
     <Compile Include="Core\Repositories\ISaleOrderRepository.cs" />
     <Compile Include="Core\Repositories\IStateRepository.cs" />
     <Compile Include="Core\Repositories\ISupplierRepository.cs" />
-    <Compile Include="Core\ViewModels\ExpenseViewModel.cs" />
     <Compile Include="Core\ViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="Core\ViewModels\ExternalLoginListViewModel.cs" />
     <Compile Include="Core\ViewModels\ForgotPasswordViewModel.cs" />
@@ -2358,6 +2360,8 @@
     <Content Include="Views\PurchaseOrders\PurchaseOrdersDetailsList.cshtml" />
     <Content Include="Views\Expense\ExpensesList.cshtml" />
     <Content Include="Views\Expense\ExpenseHeadList.cshtml" />
+    <Content Include="Views\Products\AddProductCategory.cshtml" />
+    <Content Include="Views\Setup\AddDepartment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using PoSCloudApp.Core;
+using PoSCloudApp.Core.Models;
+using PoSCloudApp.Core.ViewModels;
 
 namespace PoSCloudApp.Controllers
 {
@@ -26,143 +29,181 @@ namespace PoSCloudApp.Controllers
             
             return View(_unitOfWork.DepartmentRepository.GetDepartments());
         }
-        public ActionResult DepartmentAdd()
+        [HttpGet]
+        public ActionResult AddDepartment()
         {
-
+            ViewBag.edit = "AddDepartment";
             return View();
         }
-        public ActionResult DepartmentUpdate()
+        [HttpPost]
+        public ActionResult AddDepartment(DepartmentViewModel departmentVm)
         {
+            ViewBag.edit = "AddDepartment";
+            if (!ModelState.IsValid)
+            {
+                return View(departmentVm);
+            }
+            else
+            {
+                Department department = Mapper.Map<Department>(departmentVm);
+                _unitOfWork.DepartmentRepository.AddDepartment(department);
+                _unitOfWork.Complete();
+                return RedirectToAction("DepartmentList","Setup");
+            }
+            
+        }
+        [HttpGet]
+        public ActionResult UpdateDepartment(int id)
+        {
+            ViewBag.edit = "UpdateDepartment";
+            DepartmentViewModel departmentDto =
+                Mapper.Map<DepartmentViewModel>(_unitOfWork.DepartmentRepository.GetDepartmentById(id));
             return View();
         }
-        public ActionResult DepartmentDelete()
+        public ActionResult DeleteDepartment( int id)
         {
-            return View();
+            _unitOfWork.DepartmentRepository.DeleteDepartment(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("DepartmentList","Setup");
         }
 
         public ActionResult DesignationList()
         {
             return View(_unitOfWork.DesignationRepository.GetDesignations());
         }
-        public ActionResult DesignationAdd()
+        public ActionResult AddDesignation()
         {
 
             return View();
         }
-        public ActionResult DesignationUpdate()
+        public ActionResult UpdateDesignation()
         {
             return View();
         }
-        public ActionResult DesignationDelete()
+        public ActionResult DeleteDesignation(int id)
         {
-            return View();
+            _unitOfWork.DesignationRepository.DeleteDesignation(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("DesignationList","Setup");
         }
 
         public ActionResult EmployeeList()
         {
             return View(_unitOfWork.EmployeeRepository.GetEmployees());
         }
-        public ActionResult EmployeeAdd()
+        public ActionResult AddEmployee()
         {
 
             return View();
         }
-        public ActionResult EmployeeUpdate()
+        public ActionResult UpdateEmployee()
         {
             return View();
         }
-        public ActionResult EmployeeDelete()
+        public ActionResult DeleteEmployee(int id)
         {
-            return View();
+            _unitOfWork.EmployeeRepository.DeleteEmployee(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("EmployeeList","Setup");
         }
 
         public ActionResult CustomerList()
         {
             return View(_unitOfWork.CustomerRepository.GetCustomers());
         }
-        public ActionResult CustomerAdd()
+        public ActionResult AddCustomer()
         {
 
             return View();
         }
-        public ActionResult CustomerUpdate()
+        public ActionResult UpdateCustomer()
         {
             return View();
         }
-        public ActionResult CustomerDelete()
+        public ActionResult DeleteCustomer(int id)
         {
-            return View();
+            _unitOfWork.CustomerRepository.DeleteCustomer(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("CustomerList","Setup");
         }
 
         public ActionResult SupplierList()
         {
             return View(_unitOfWork.SupplierRepository.GetSuppliers());
         }
-        public ActionResult SupplierAdd()
+        public ActionResult AddSupplier()
         {
 
             return View();
         }
-        public ActionResult SupplierUpdate()
+        public ActionResult UpdateSupplier()
         {
             return View();
         }
-        public ActionResult SupplierDelete()
+        public ActionResult DeleteSupplier(int id)
         {
-            return View();
+            _unitOfWork.SupplierRepository.DeleteSupplier(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("SupplierList","Setup");
         }
 
         public ActionResult StateList()
         {
             return View(_unitOfWork.StateRepository.GetStates());
         }
-        public ActionResult StateAdd()
+        public ActionResult AddState()
         {
 
             return View();
         }
-        public ActionResult StateUpdate()
+        public ActionResult UpdateState()
         {
             return View();
         }
-        public ActionResult StateDelete()
+        public ActionResult DeleteState(int id)
         {
-            return View();
+            _unitOfWork.StateRepository.DeleteState(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("StateList","Setup");
         }
         public ActionResult CityList(int stateId)
         {
             return View(_unitOfWork.CityRepository.GetCities(stateId));
         }
-        public ActionResult CityAdd()
+        public ActionResult AddCity()
         {
 
             return View();
         }
-        public ActionResult CityUpdate()
+        public ActionResult UpdateCity()
         {
             return View();
         }
-        public ActionResult CityDelete()
+        public ActionResult DeleteCity(int id)
         {
-            return View();
+            _unitOfWork.CityRepository.DeleteCity(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("CityList","Setup");
         }
 
         public ActionResult LocationList()
         {
             return View(_unitOfWork.LocationRepository.GetLocations());
         }
-        public ActionResult LocationAdd()
+        public ActionResult AddLocation()
         {
 
             return View();
         }
-        public ActionResult LocationUpdate()
+        public ActionResult UpdateLocation()
         {
             return View();
         }
-        public ActionResult LocationDelete()
+        public ActionResult DeleteLocation(int id)
         {
-            return View();
+            _unitOfWork.LocationRepository.DeleteLocation(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("LocationList", "Setup");
         }
 
     }
