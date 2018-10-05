@@ -320,7 +320,6 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SaleOrdersController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
-    <Compile Include="Core\Dtos\ProductCreateDto.cs" />
     <Compile Include="Core\Enums\AttendanceStatus.cs" />
     <Compile Include="Core\Enums\EmployementType.cs" />
     <Compile Include="Core\IUnitOfWork.cs" />
@@ -358,6 +357,7 @@
     <Compile Include="Core\Repositories\ISaleOrderRepository.cs" />
     <Compile Include="Core\Repositories\IStateRepository.cs" />
     <Compile Include="Core\Repositories\ISupplierRepository.cs" />
+    <Compile Include="Core\ViewModels\ExpenseViewModel.cs" />
     <Compile Include="Core\ViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="Core\ViewModels\ExternalLoginListViewModel.cs" />
     <Compile Include="Core\ViewModels\ForgotPasswordViewModel.cs" />
@@ -2361,6 +2361,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Core\Dtos\" />
     <Folder Include="Core\Shared\" />
     <Folder Include="Images\Data\" />
     <Folder Include="Views\Product\" />

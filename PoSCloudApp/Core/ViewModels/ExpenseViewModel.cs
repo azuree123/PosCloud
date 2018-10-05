@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using PoSCloudApp.Core.Models;
 
-namespace PoSCloudApp.Core.Models
+namespace PoSCloudApp.Core.ViewModels
 {
-    public class Expense:AuditableEntity
+    public class ExpenseViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public int ExpenseHeadId { get; set; }
-        public virtual ExpenseHead ExpenseHead { get; set; }
         public int EmployeeId { get; set; }
-        public virtual Employee Employee { get; set; }
         public double Amount { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
-
-
+        public DateTime? CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
     }
 }
