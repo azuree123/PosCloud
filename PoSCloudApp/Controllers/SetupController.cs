@@ -26,6 +26,7 @@ namespace PoSCloudApp.Controllers
             
             return View(_unitOfWork.DepartmentRepository.GetDepartments());
         }
+        [HttpGet]
         public ActionResult AddDepartment()
         {
 
@@ -178,7 +179,7 @@ namespace PoSCloudApp.Controllers
         {
             _unitOfWork.LocationRepository.DeleteLocation(id);
             _unitOfWork.Complete();
-            return RedirectToAction("LocationList","Setup")
+            return RedirectToAction("LocationList", "Setup");
         }
 
     }

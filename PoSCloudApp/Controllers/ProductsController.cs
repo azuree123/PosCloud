@@ -88,11 +88,49 @@ namespace PoSCloudApp.Controllers
 
         public ActionResult AddProductCategory()
         {
+            ViewBag.edit = "AddProductCategory";
             return View();
         }
-        public ActionResult UpdateProductCategory()
+        [HttpPost]
+        public ActionResult AddProductCategory(ProductCategoryDto productCategory)
         {
-            return View();
+            ViewBag.edit = "AddProductCategory";
+            if (!ModelState.IsValid)
+            {
+                return View(productCategory);
+            }
+            else
+            {
+                ProductCategory category = Mapper.Map<ProductCategory>(productCategory);
+                _unitOfWork.ProductCategoryRepository.AddProductCategory(category);
+                _unitOfWork.Complete();
+                return RedirectToAction("ProductCategoryList");
+            }
+        }
+        public ActionResult UpdateProductCategory(int id)
+        {
+            ViewBag.edit = "UpdateProductCategory";
+            ProductCategoryDto product =
+                Mapper.Map<ProductCategoryDto>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id));
+            return View("AddProductCategory", product);
+        }
+        [HttpPost]
+        public ActionResult UpdateProductCategory(int id,ProductCategoryDto productCategoryDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.edit = "UpdateProductCategory";
+                ProductCategoryDto product =
+                    Mapper.Map<ProductCategoryDto>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id));
+                return View("AddProductCategory", product);
+            }
+            else
+            {
+                ProductCategory category = Mapper.Map<ProductCategory>(productCategoryDto);
+                _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id,category);
+                _unitOfWork.Complete();
+                return RedirectToAction("ProductCategoryList");
+            }
         }
 
         public ActionResult DeleteProductCategory(int id)

@@ -10,7 +10,9 @@ namespace PoSCloudApp
         {
             CreateMap<ProductCreateUpdateDto,Product>();
             CreateMap<Product,ProductCreateUpdateDto>();
-            
+            CreateMap<ProductCategoryDto, ProductCategory>();
+            CreateMap<ProductCategory, ProductCategoryDto>();
+
 
         }
     }
