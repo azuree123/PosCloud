@@ -11,6 +11,7 @@ namespace PoSCloudApp.Core.Repositories
     {
         IEnumerable<Expense> GetExpenses();
         Expense GetExpenseById(int id);
+        void AddExpense(Expense expense);
         void UpdateExpense(int id, Expense expense);
         void DeleteExpense(int id);
     }
