@@ -60,6 +60,22 @@ namespace PoSCloudApp.Controllers
                 Mapper.Map<DepartmentViewModel>(_unitOfWork.DepartmentRepository.GetDepartmentById(id));
             return View();
         }
+        [HttpPost]
+        public ActionResult UpdateDepartment(int id, DepartmentViewModel departmentVm)
+        {
+            ViewBag.edit = "UpdateDepartment";
+            if (!ModelState.IsValid)
+            {
+                return View("AddDepartment",departmentVm);
+            }
+            else
+            {
+                Department department = Mapper.Map<Department>(departmentVm);
+                _unitOfWork.DepartmentRepository.UpdateDepartment(id,department);
+                _unitOfWork.Complete();
+                return RedirectToAction("DepartmentList", "Setup");
+            }
+        }
         public ActionResult DeleteDepartment( int id)
         {
             _unitOfWork.DepartmentRepository.DeleteDepartment(id);

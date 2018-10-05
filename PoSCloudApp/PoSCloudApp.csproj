@@ -321,6 +321,7 @@
     <Compile Include="Controllers\SaleOrdersController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
+    <Compile Include="Core\ViewModels\ExpenseViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCategoryViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCreateViewModel.cs" />
     <Compile Include="Core\Enums\AttendanceStatus.cs" />

@@ -12,6 +12,8 @@ namespace PoSCloudApp
             CreateMap<Product, ProductCreateViewModel>();
             CreateMap<ProductCategoryViewModel, ProductCategory>();
             CreateMap<ProductCategory, ProductCategoryViewModel>();
+            CreateMap<DepartmentViewModel, Department>();
+            CreateMap<Department, DepartmentViewModel>();
 
 
         }
