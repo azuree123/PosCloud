@@ -29,9 +29,12 @@
     <section class="panel">
         <header class="panel-heading">
             <div class="panel-actions">
+                <a href="@Url.Action("AddDesignation","Setup")" class="modalShow">
+                    <span class="fa fa-2x fa-plus-circle"></span>
+                </a>
                 <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
-            </div>
 
+            </div>
             <h2 class="panel-title">Listing</h2>
         </header>
         <div class="panel-body">
@@ -50,7 +53,10 @@
                         <tr>
                             <td>@(i++)</td>
                             <td>@designation.Name</td>
-                            <td></td>
+                            <td class="center">
+                                @Html.ActionLink(" ", "UpdateDesignation", "Setup", new { id = @designation.Id }, new { @class = "btn btn-info btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
+                                @Html.ActionLink(" ", "DeleteDesignation", "setup", new { id = @designation.Id }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
+                            </td>
                         </tr>
                     }
                 </tbody>
