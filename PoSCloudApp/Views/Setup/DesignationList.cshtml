@@ -2,7 +2,9 @@
 @model IEnumerable<PoSCloudApp.Core.Models.Designation>
 
 @{
-    ViewBag.Title = "DesignationList";
+                /**/
+
+                ViewBag.Title = "DesignationList";
 }
 <section role="main" class="content-body">
     <header class="page-header">
@@ -61,10 +63,25 @@
 
 </section>
 
+<div id="ModalData"></div>
 @section scripts
 {
     <script>
         $('#datatable-default').dataTable();
+
+        $('a.modalShow').on('click', function () {
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
     </script>
 }
 

@@ -54,8 +54,8 @@ namespace PoSCloudApp.Controllers
         public ActionResult UpdateProduct(int id)
         {
             ViewBag.edit = "UpdateProduct";
-            ProductCreateViewModel productDto = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id));
-            return View("AddProduct", productDto);
+            ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id));
+            return View("AddProduct", productVm);
         }
         [HttpPost]
         public ActionResult UpdateProduct(int id, ProductCreateViewModel productVm)

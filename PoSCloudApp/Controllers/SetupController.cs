@@ -56,9 +56,9 @@ namespace PoSCloudApp.Controllers
         public ActionResult UpdateDepartment(int id)
         {
             ViewBag.edit = "UpdateDepartment";
-            DepartmentViewModel departmentDto =
+            DepartmentViewModel departmentVm =
                 Mapper.Map<DepartmentViewModel>(_unitOfWork.DepartmentRepository.GetDepartmentById(id));
-            return View();
+            return View("AddDepartment", departmentVm);
         }
         [HttpPost]
         public ActionResult UpdateDepartment(int id, DepartmentViewModel departmentVm)
@@ -87,14 +87,49 @@ namespace PoSCloudApp.Controllers
         {
             return View(_unitOfWork.DesignationRepository.GetDesignations());
         }
+        [HttpGet]
         public ActionResult AddDesignation()
         {
-
+            ViewBag.edit = "AddDesignation";
             return View();
         }
-        public ActionResult UpdateDesignation()
+        [HttpPost]
+        public ActionResult AddDesignation(DesignationViewModel designationVm)
         {
-            return View();
+            ViewBag.edit = "AddDesignation";
+            if (!ModelState.IsValid)
+            {
+                return View(designationVm);
+            }
+
+            Designation designation = Mapper.Map<Designation>(designationVm);
+            _unitOfWork.DesignationRepository.AddDesignation(designation);
+            _unitOfWork.Complete();
+            return RedirectToAction("DesignationList", "Setup");
+        }
+        [HttpGet]
+        public ActionResult UpdateDesignation(int id)
+        {
+            ViewBag.edit = "UpdateDesignation";
+            DesignationViewModel designationVm =
+                Mapper.Map<DesignationViewModel>(_unitOfWork.DesignationRepository.GetDesignationById(id));
+            return RedirectToAction("AddDesignation",designationVm);
+        }
+        [HttpPost]
+        public ActionResult UpdateDesignation(int id, DesignationViewModel designationVm)
+        {
+            ViewBag.edit = "UpdateDesignation";
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("AddDesignation", designationVm);
+            }
+            else
+            {
+                Designation designation = Mapper.Map<Designation>(designationVm);
+                _unitOfWork.DesignationRepository.UpdateDesignation(id,designation);
+                _unitOfWork.Complete();
+                return RedirectToAction("DesignationList","Setup")
+            }
         }
         public ActionResult DeleteDesignation(int id)
         {
