@@ -1,12 +1,13 @@
-﻿@model PoSCloudApp.Core.ViewModels.ProductCategoryViewModel
+﻿@model PoSCloudApp.Core.ViewModels.DepartmentViewModel
 
 @{
     Layout = null;
 }
+
 <div id="ordine" class="modal fade" role="dialog">
     @{ string s = ViewBag.edit;}
 
-    @using (Html.BeginForm(s, "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm(s, "Setup", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="modal-dialog modal-lg">
@@ -18,13 +19,13 @@
                     @if (s.Contains("Add"))
                     {
                         <h4 class="modal-title">
-                            Add Product Category
+                            Add Department
                         </h4>
                     }
                     else
                     {
                         <h4 class="modal-title">
-                            Edit Product Category
+                            Edit Department
                         </h4>
                     }
 
@@ -39,35 +40,22 @@
                             @Html.HiddenFor(a => a.CreatedBy)
                             @Html.HiddenFor(a => a.CreatedOn)
                             <div class="form-horizontal">
+                                <h4>DepartmentDto</h4>
+                                <hr />
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-         
-    
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })*
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control",@required=true } })
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
     
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+          
     
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })*
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control", @required = true } })
-                                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-    
-         
+           
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -79,7 +67,5 @@
         </div>
     }
 </div>
-
-
-    
-
+   
+ 

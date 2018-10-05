@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using PoSCloudApp.Core;
-using PoSCloudApp.Core.Dtos;
+using PoSCloudApp.Core.ViewModels;
 using PoSCloudApp.Core.Models;
 using PoSCloudApp.Persistence;
 
@@ -35,16 +35,16 @@ namespace PoSCloudApp.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddProduct(ProductCreateUpdateDto productDto)
+        public ActionResult AddProduct(ProductCreateViewModel productVm)
         {
             ViewBag.edit = "AddProduct";
             if (!ModelState.IsValid)
             {
-                return View(productDto);
+                return View(productVm);
             }
             else
             {
-                Product product = Mapper.Map<Product>(productDto);
+                Product product = Mapper.Map<Product>(productVm);
                 _unitOfWork.ProductRepository.AddProduct(product);
                 _unitOfWork.Complete();
                 return RedirectToAction("ProductsList", "Products");
@@ -54,20 +54,20 @@ namespace PoSCloudApp.Controllers
         public ActionResult UpdateProduct(int id)
         {
             ViewBag.edit = "UpdateProduct";
-            ProductCreateUpdateDto productDto = Mapper.Map<ProductCreateUpdateDto>(_unitOfWork.ProductRepository.GetProductById(id));
+            ProductCreateViewModel productDto = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id));
             return View("AddProduct", productDto);
         }
         [HttpPost]
-        public ActionResult UpdateProduct(int id,ProductCreateUpdateDto productDto)
+        public ActionResult UpdateProduct(int id, ProductCreateViewModel productVm)
         {
             ViewBag.edit = "UpdateProduct";
             if (!ModelState.IsValid)
             {
-                return View("AddProduct", productDto);
+                return View("AddProduct", productVm);
             }
             else
             {
-                Product product = Mapper.Map<Product>(productDto);
+                Product product = Mapper.Map<Product>(productVm);
                 _unitOfWork.ProductRepository.UpdateProduct(id,product);
                 _unitOfWork.Complete();
                 return RedirectToAction("ProductsList", "Products");
@@ -92,7 +92,7 @@ namespace PoSCloudApp.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddProductCategory(ProductCategoryDto productCategory)
+        public ActionResult AddProductCategory(ProductCategoryViewModel productCategory)
         {
             ViewBag.edit = "AddProductCategory";
             if (!ModelState.IsValid)
@@ -110,23 +110,23 @@ namespace PoSCloudApp.Controllers
         public ActionResult UpdateProductCategory(int id)
         {
             ViewBag.edit = "UpdateProductCategory";
-            ProductCategoryDto product =
-                Mapper.Map<ProductCategoryDto>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id));
+            ProductCategoryViewModel product =
+                Mapper.Map<ProductCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id));
             return View("AddProductCategory", product);
         }
         [HttpPost]
-        public ActionResult UpdateProductCategory(int id,ProductCategoryDto productCategoryDto)
+        public ActionResult UpdateProductCategory(int id, ProductCategoryViewModel productCategoryVm)
         {
             if (!ModelState.IsValid)
             {
                 ViewBag.edit = "UpdateProductCategory";
-                ProductCategoryDto product =
-                    Mapper.Map<ProductCategoryDto>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id));
+                ProductCategoryViewModel product =
+                    Mapper.Map<ProductCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id));
                 return View("AddProductCategory", product);
             }
             else
             {
-                ProductCategory category = Mapper.Map<ProductCategory>(productCategoryDto);
+                ProductCategory category = Mapper.Map<ProductCategory>(productCategoryVm);
                 _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id,category);
                 _unitOfWork.Complete();
                 return RedirectToAction("ProductCategoryList");

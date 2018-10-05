@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using PoSCloudApp.Core;
+using PoSCloudApp.Core.Models;
+using PoSCloudApp.Core.ViewModels;
 
 namespace PoSCloudApp.Controllers
 {
@@ -29,11 +32,32 @@ namespace PoSCloudApp.Controllers
         [HttpGet]
         public ActionResult AddDepartment()
         {
-
+            ViewBag.edit = "AddDepartment";
             return View();
         }
-        public ActionResult UpdateDepartment()
+        [HttpPost]
+        public ActionResult AddDepartment(DepartmentViewModel departmentVm)
         {
+            ViewBag.edit = "AddDepartment";
+            if (!ModelState.IsValid)
+            {
+                return View(departmentVm);
+            }
+            else
+            {
+                Department department = Mapper.Map<Department>(departmentVm);
+                _unitOfWork.DepartmentRepository.AddDepartment(department);
+                _unitOfWork.Complete();
+                return RedirectToAction("DepartmentList","Setup");
+            }
+            
+        }
+        [HttpGet]
+        public ActionResult UpdateDepartment(int id)
+        {
+            ViewBag.edit = "UpdateDepartment";
+            DepartmentViewModel departmentDto =
+                Mapper.Map<DepartmentViewModel>(_unitOfWork.DepartmentRepository.GetDepartmentById(id));
             return View();
         }
         public ActionResult DeleteDepartment( int id)

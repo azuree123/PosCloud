@@ -1,6 +1,6 @@
 ﻿using PoSCloudApp.Core.Models;
 using AutoMapper;
-using PoSCloudApp.Core.Dtos;
+using PoSCloudApp.Core.ViewModels;
 
 namespace PoSCloudApp
 {
@@ -8,10 +8,10 @@ namespace PoSCloudApp
     {
         public MappingProfile()
         {
-            CreateMap<ProductCreateUpdateDto,Product>();
-            CreateMap<Product,ProductCreateUpdateDto>();
-            CreateMap<ProductCategoryDto, ProductCategory>();
-            CreateMap<ProductCategory, ProductCategoryDto>();
+            CreateMap<ProductCreateViewModel,Product>();
+            CreateMap<Product, ProductCreateViewModel>();
+            CreateMap<ProductCategoryViewModel, ProductCategory>();
+            CreateMap<ProductCategory, ProductCategoryViewModel>();
 
 
         }
