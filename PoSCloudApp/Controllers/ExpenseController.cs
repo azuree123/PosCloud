@@ -35,6 +35,7 @@ namespace PoSCloudApp.Controllers
             expense.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads().Select(a => new SelectListItem {Text = a.Name,Value = a.Id.ToString()})
                 .AsEnumerable();
             ViewBag.edit = "AddExpense";
+           
             return View(expense);
         }
         [HttpPost]
@@ -102,11 +103,47 @@ namespace PoSCloudApp.Controllers
         }
         public ActionResult AddExpenseHead()
         {
+            ViewBag.edit = "AddExpenseHead";
             return View();
         }
-        public ActionResult UpdateExpenseHead()
+        [HttpPost]
+        public ActionResult AddExpenseHead(ExpenseHeadViewModel expenseHeadVm)
         {
-            return View();
+            ViewBag.edit = "AddExpenseHead";
+            if (!ModelState.IsValid)
+            {
+                return View(expenseHeadVm);
+            }
+            else
+            {
+                ExpenseHead expenseHead = Mapper.Map<ExpenseHead>(expenseHeadVm);
+                _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expenseHead);
+                _unitOfWork.Complete();
+                return RedirectToAction("ExpenseHeadList");
+            }
+        }
+        public ActionResult UpdateExpenseHead(int id)
+        {
+            ViewBag.edit = "UpdateExpenseHead";
+            ExpenseHeadViewModel expenseHeadVm =
+                Mapper.Map<ExpenseHeadViewModel>(_unitOfWork.ExpenseHeadRepository.GetExpenseHeadById(id));
+            return View("AddExpenseHead", expenseHeadVm);
+        }
+        [HttpPost]
+        public ActionResult UpdateExpenseHead(int id,ExpenseHeadViewModel expenseHeadVm)
+        {
+            ViewBag.edit = "UpdateExpenseHead";
+            if (!ModelState.IsValid)
+            {
+                return View("AddExpenseHead", expenseHeadVm);
+            }
+            else
+            {
+                ExpenseHead expenseHead = Mapper.Map<ExpenseHead>(expenseHeadVm);
+                _unitOfWork.ExpenseHeadRepository.UpdateExpenseHead(id,expenseHead);
+                _unitOfWork.Complete();
+                return RedirectToAction("ExpenseHeadList");
+            }
         }
         public ActionResult DeleteExpenseHead(int id)
         {
