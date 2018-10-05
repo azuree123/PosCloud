@@ -12,7 +12,6 @@ namespace PoSCloudApp.Core.Models
     {
         [Column(TypeName = "DateTime2")]
         public DateTime CreatedOn { get; set; }
-
         public string CreatedBy { get; set; }
         [Column(TypeName = "DateTime2")]
         public DateTime UpdatedOn { get; set; }

@@ -11,6 +11,7 @@ namespace PoSCloudApp.Core.Repositories
     {
         IEnumerable<Location> GetLocations();
         Location GetLocationById(int id);
+        void AddLocation(Location location);
         void UpdateLocation(int id, Location location);
         void DeleteLocation(int id);
     }

@@ -204,18 +204,50 @@ namespace PoSCloudApp.Controllers
         [HttpGet]
         public ActionResult AddCustomer()
         {
-            ViewBag.edit = "AddCustomer";
+            ViewBag.edit = "AddCustomer";          
             return View();
         }
         [HttpPost]
-        public ActionResult AddCustomer()
+        public ActionResult AddCustomer(CustomerModelView customerMv)
         {
-
-            return View();
+            ViewBag.edit = "AddCustomer";
+            if (!ModelState.IsValid)
+            {
+                return View(customerMv);
+            }
+            else
+            {
+                Customer customer = Mapper.Map<Customer>(customerMv);
+                _unitOfWork.CustomerRepository.AddCustomer(customer);
+                _unitOfWork.Complete();
+                return RedirectToAction("CustomerList","Setup");
+            }
+            
         }
-        public ActionResult UpdateCustomer()
+        [HttpGet]
+        public ActionResult UpdateCustomer(int id)
         {
-            return View();
+            ViewBag.edit = "UpdateCustomer";
+            CustomerModelView customerMv =
+                Mapper.Map<CustomerModelView>(_unitOfWork.CustomerRepository.GetCustomerById(id));
+            return View("AddCustomer",customerMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateCustomer(int id, CustomerModelView customerMv)
+        {
+            ViewBag.edit = "UpdateCustomer";
+            if (!ModelState.IsValid)
+            {
+                return View("AddCustomer",customerMv);
+            }
+            else
+            {
+                Customer customer = Mapper.Map<Customer>(customerMv);
+                _unitOfWork.CustomerRepository.UpdateCustomer(id,customer);
+                _unitOfWork.Complete();
+                return RedirectToAction("CustomerList", "Setup");
+            }
+            
         }
         public ActionResult DeleteCustomer(int id)
         {
@@ -228,9 +260,16 @@ namespace PoSCloudApp.Controllers
         {
             return View(_unitOfWork.SupplierRepository.GetSuppliers());
         }
+        [HttpGet]
         public ActionResult AddSupplier()
         {
-
+            ViewBag.edit = "AddSupplier";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddSupplier(SupplierModelView supplierMv)
+        {
+            ViewBag.edit = "AddSupplier";
             return View();
         }
         public ActionResult UpdateSupplier()

@@ -22,6 +22,10 @@ namespace PoSCloudApp
             CreateMap<Designation, DesignationViewModel>();
             CreateMap<EmployeeModelView, Employee>();
             CreateMap<Employee, EmployeeModelView>();
+            CreateMap<CustomerModelView, Customer>();
+            CreateMap<Customer, CustomerModelView>();
+            CreateMap<SupplierModelView, Supplier>();
+            CreateMap<Supplier, SupplierModelView>();
 
 
         }

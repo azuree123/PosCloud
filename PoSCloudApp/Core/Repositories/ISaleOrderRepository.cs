@@ -11,6 +11,7 @@ namespace PoSCloudApp.Core.Repositories
     {
         IEnumerable<SaleOrder> GetSaleOrders();
         SaleOrder GetSaleOrderById(int id);
+        void AddSaleOrder(SaleOrder saleOrder);
         void UpdateSaleOrder(int id, SaleOrder saleOrder);
         void DeleteSaleOrder(int id);
     }
