@@ -321,8 +321,6 @@
     <Compile Include="Controllers\SaleOrdersController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
-    <Compile Include="Core\ViewModels\ExpenseHeadViewModel.cs" />
-    <Compile Include="Core\ViewModels\ExpenseViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
     <Compile Include="Core\ViewModels\ExpenseHeadViewModel.cs" />
     <Compile Include="Core\ViewModels\ExpenseViewModel.cs" />
@@ -2371,6 +2369,7 @@
     <Content Include="Views\Products\AddProductCategory.cshtml" />
     <Content Include="Views\Setup\AddDepartment.cshtml" />
     <Content Include="Views\Expense\AddExpense.cshtml" />
+    <Content Include="Views\Setup\AddDesignation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

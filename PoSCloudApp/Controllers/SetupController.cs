@@ -128,7 +128,7 @@ namespace PoSCloudApp.Controllers
                 Designation designation = Mapper.Map<Designation>(designationVm);
                 _unitOfWork.DesignationRepository.UpdateDesignation(id,designation);
                 _unitOfWork.Complete();
-                return RedirectToAction("DesignationList","Setup")
+                return RedirectToAction("DesignationList", "Setup");
             }
         }
         public ActionResult DeleteDesignation(int id)
