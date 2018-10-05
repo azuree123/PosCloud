@@ -142,14 +142,53 @@ namespace PoSCloudApp.Controllers
         {
             return View(_unitOfWork.EmployeeRepository.GetEmployees());
         }
+
+        [HttpGet]
         public ActionResult AddEmployee()
         {
-
+            ViewBag.edit = "AddEmployee";
             return View();
         }
-        public ActionResult UpdateEmployee()
+        [HttpPost]
+        public ActionResult AddEmployee(EmployeeModelView employeeMv)
         {
-            return View();
+            ViewBag.edit = "AddEmployee";
+            if (!ModelState.IsValid)
+            {
+                return View(employeeMv);
+            }
+            else
+            {
+                Employee employee = Mapper.Map<Employee>(employeeMv);
+                _unitOfWork.EmployeeRepository.AddEmployee(employee);
+                _unitOfWork.Complete();
+                return RedirectToAction("EmployeeList","Setup");
+            }
+           
+        }
+        [HttpGet]
+        public ActionResult UpdateEmployee(int id)
+        {
+            ViewBag.edit = "UpdateEmployee";
+            EmployeeModelView employeeMv = Mapper.Map<EmployeeModelView>(_unitOfWork.EmployeeRepository.GetEmployeeById(id));
+            return View("AddEmployee",employeeMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateEmployee(int id, EmployeeModelView employeeMv)
+        {
+            ViewBag.edit = "UpdateEmployee";
+            if (!ModelState.IsValid)
+            {
+                return View("AddEmployee",employeeMv);
+            }
+            else
+            {
+                Employee employee = Mapper.Map<Employee>(employeeMv);
+                _unitOfWork.EmployeeRepository.UpdateEmployee(id,employee);
+                _unitOfWork.Complete();
+                return RedirectToAction("EmployeeList","Setup");
+            }
+            
         }
         public ActionResult DeleteEmployee(int id)
         {
@@ -162,6 +201,13 @@ namespace PoSCloudApp.Controllers
         {
             return View(_unitOfWork.CustomerRepository.GetCustomers());
         }
+        [HttpGet]
+        public ActionResult AddCustomer()
+        {
+            ViewBag.edit = "AddCustomer";
+            return View();
+        }
+        [HttpPost]
         public ActionResult AddCustomer()
         {
 
