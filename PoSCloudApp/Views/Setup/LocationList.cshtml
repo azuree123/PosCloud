@@ -27,7 +27,11 @@
     <section class="panel">
         <header class="panel-heading">
             <div class="panel-actions">
+                <a href="@Url.Action("AddLocation","Setup")" class="modalShow">
+                    <span class="fa fa-2x fa-plus-circle"></span>
+                </a>
                 <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
+
             </div>
 
             <h2 class="panel-title">Listing</h2>
@@ -40,7 +44,7 @@
                         <th>Name</th>
                         <th>Contact</th>
                         <th>Address</th>
-
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,7 +56,10 @@
                             <td>@location.Name</td>
                             <td>@location.Contact</td>
                             <td>@location.Address</td>
-                            <td></td>
+                            <td class="center">
+                                @Html.ActionLink(" ", "UpdateLocation", "Setup", new { id = @location.Id }, new { @class = "btn btn-info btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
+                                @Html.ActionLink(" ", "DeleteLocation", "Setup", new { id = @location.Id }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -64,12 +71,27 @@
 
 
 </section>
-
+<div id="ModalData"></div>
 @section scripts
 {
     <script>
         $('#datatable-default').dataTable();
+
+        $('a.modalShow').on('click', function () {
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
     </script>
 }
+
 
 

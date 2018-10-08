@@ -320,12 +320,14 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SaleOrdersController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
+    <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
     <Compile Include="Core\ViewModels\EmployeeModelView.cs" />
     <Compile Include="Core\ViewModels\ExpenseHeadViewModel.cs" />
     <Compile Include="Core\ViewModels\ExpenseViewModel.cs" />
+    <Compile Include="Core\ViewModels\LocationModelView.cs" />
     <Compile Include="Core\ViewModels\ProductCategoryViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCreateViewModel.cs" />
     <Compile Include="Core\Enums\AttendanceStatus.cs" />
@@ -372,6 +374,7 @@
     <Compile Include="Core\ViewModels\RegisterViewModel.cs" />
     <Compile Include="Core\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Core\ViewModels\SendCodeViewModel.cs" />
+    <Compile Include="Core\ViewModels\StateModelView.cs" />
     <Compile Include="Core\ViewModels\SupplierModelView.cs" />
     <Compile Include="Core\ViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -2381,6 +2384,10 @@
     <Content Include="Views\Expense\ExpenseList.cshtml" />
     <Content Include="Views\Setup\AddEmployee.cshtml" />
     <Content Include="Views\Setup\AddCustomer.cshtml" />
+    <Content Include="Views\Setup\AddSupplier.cshtml" />
+    <Content Include="Views\Setup\AddState.cshtml" />
+    <Content Include="Views\Setup\AddCity.cshtml" />
+    <Content Include="Views\Setup\AddLocation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
