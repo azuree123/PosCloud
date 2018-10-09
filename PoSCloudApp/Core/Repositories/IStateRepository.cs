@@ -10,6 +10,7 @@ namespace PoSCloudApp.Core.Repositories
     {
         IEnumerable<State> GetStates();
         State GetStateById(int id);
+        void AddState(State state);
         void UpdateState(int id, State state);
         void DeleteState(int id);
     }

@@ -10,6 +10,7 @@ using PoSCloudApp.Core.ViewModels;
 
 namespace PoSCloudApp.Controllers
 {
+    [Authorize]
     public class SetupController : Controller
     {
         private IUnitOfWork _unitOfWork;
@@ -142,14 +143,53 @@ namespace PoSCloudApp.Controllers
         {
             return View(_unitOfWork.EmployeeRepository.GetEmployees());
         }
+
+        [HttpGet]
         public ActionResult AddEmployee()
         {
-
+            ViewBag.edit = "AddEmployee";
             return View();
         }
-        public ActionResult UpdateEmployee()
+        [HttpPost]
+        public ActionResult AddEmployee(EmployeeModelView employeeMv)
         {
-            return View();
+            ViewBag.edit = "AddEmployee";
+            if (!ModelState.IsValid)
+            {
+                return View(employeeMv);
+            }
+            else
+            {
+                Employee employee = Mapper.Map<Employee>(employeeMv);
+                _unitOfWork.EmployeeRepository.AddEmployee(employee);
+                _unitOfWork.Complete();
+                return RedirectToAction("EmployeeList","Setup");
+            }
+           
+        }
+        [HttpGet]
+        public ActionResult UpdateEmployee(int id)
+        {
+            ViewBag.edit = "UpdateEmployee";
+            EmployeeModelView employeeMv = Mapper.Map<EmployeeModelView>(_unitOfWork.EmployeeRepository.GetEmployeeById(id));
+            return View("AddEmployee",employeeMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateEmployee(int id, EmployeeModelView employeeMv)
+        {
+            ViewBag.edit = "UpdateEmployee";
+            if (!ModelState.IsValid)
+            {
+                return View("AddEmployee",employeeMv);
+            }
+            else
+            {
+                Employee employee = Mapper.Map<Employee>(employeeMv);
+                _unitOfWork.EmployeeRepository.UpdateEmployee(id,employee);
+                _unitOfWork.Complete();
+                return RedirectToAction("EmployeeList","Setup");
+            }
+            
         }
         public ActionResult DeleteEmployee(int id)
         {
@@ -162,14 +202,53 @@ namespace PoSCloudApp.Controllers
         {
             return View(_unitOfWork.CustomerRepository.GetCustomers());
         }
+        [HttpGet]
         public ActionResult AddCustomer()
         {
-
+            ViewBag.edit = "AddCustomer";          
             return View();
         }
-        public ActionResult UpdateCustomer()
+        [HttpPost]
+        public ActionResult AddCustomer(CustomerModelView customerMv)
         {
-            return View();
+            ViewBag.edit = "AddCustomer";
+            if (!ModelState.IsValid)
+            {
+                return View(customerMv);
+            }
+            else
+            {
+                Customer customer = Mapper.Map<Customer>(customerMv);
+                _unitOfWork.CustomerRepository.AddCustomer(customer);
+                _unitOfWork.Complete();
+                return RedirectToAction("CustomerList","Setup");
+            }
+            
+        }
+        [HttpGet]
+        public ActionResult UpdateCustomer(int id)
+        {
+            ViewBag.edit = "UpdateCustomer";
+            CustomerModelView customerMv =
+                Mapper.Map<CustomerModelView>(_unitOfWork.CustomerRepository.GetCustomerById(id));
+            return View("AddCustomer",customerMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateCustomer(int id, CustomerModelView customerMv)
+        {
+            ViewBag.edit = "UpdateCustomer";
+            if (!ModelState.IsValid)
+            {
+                return View("AddCustomer",customerMv);
+            }
+            else
+            {
+                Customer customer = Mapper.Map<Customer>(customerMv);
+                _unitOfWork.CustomerRepository.UpdateCustomer(id,customer);
+                _unitOfWork.Complete();
+                return RedirectToAction("CustomerList", "Setup");
+            }
+            
         }
         public ActionResult DeleteCustomer(int id)
         {
@@ -182,14 +261,53 @@ namespace PoSCloudApp.Controllers
         {
             return View(_unitOfWork.SupplierRepository.GetSuppliers());
         }
+        [HttpGet]
         public ActionResult AddSupplier()
         {
-
+            ViewBag.edit = "AddSupplier";
             return View();
         }
-        public ActionResult UpdateSupplier()
+        [HttpPost]
+        public ActionResult AddSupplier(SupplierModelView supplierMv)
         {
-            return View();
+            ViewBag.edit = "AddSupplier";
+            if (!ModelState.IsValid)
+            {
+                return View(supplierMv);
+            }
+            else
+            {
+                Supplier supplier = Mapper.Map<Supplier>(supplierMv);
+                _unitOfWork.SupplierRepository.AddSupplier(supplier);
+                _unitOfWork.Complete();
+                return RedirectToAction("SupplierList","Setup");
+            }
+            
+        }
+        [HttpGet]
+        public ActionResult UpdateSupplier(int id)
+        {
+            ViewBag.edit = "UpdateSupplier";
+            SupplierModelView supplierVm =
+                Mapper.Map<SupplierModelView>(_unitOfWork.SupplierRepository.GetSupplierById(id));
+            return View("AddSupplier",supplierVm);
+        }
+        [HttpPost]
+        public ActionResult UpdateSupplier(int id, SupplierModelView supplierVm)
+        {
+            ViewBag.edit = "UpdateSupplier";
+            if (!ModelState.IsValid)
+            {
+                return View("AddSupplier", supplierVm);
+            }
+
+            {
+                Supplier supplier = Mapper.Map<Supplier>(supplierVm);
+                _unitOfWork.SupplierRepository.UpdateSupplier(id,supplier);
+                _unitOfWork.Complete();
+                return RedirectToAction("SupplierList", "Setup");
+            }
+           
         }
         public ActionResult DeleteSupplier(int id)
         {
@@ -202,14 +320,53 @@ namespace PoSCloudApp.Controllers
         {
             return View(_unitOfWork.StateRepository.GetStates());
         }
+        [HttpGet]
         public ActionResult AddState()
         {
-
+            ViewBag.edit = "AddState";
             return View();
         }
-        public ActionResult UpdateState()
+        [HttpPost]
+        public ActionResult AddState(StateModelView stateMv)
         {
-            return View();
+            ViewBag.edit = "AddState";
+            if (!ModelState.IsValid)
+            {
+                return View(stateMv);
+            }
+            else
+            {
+                State state = Mapper.Map<State>(stateMv);
+                _unitOfWork.StateRepository.AddState(state);
+                _unitOfWork.Complete();
+                return RedirectToAction("StateList","Setup");
+            }
+            
+        }
+        [HttpGet]
+        public ActionResult UpdateState(int id)
+        {
+            ViewBag.edit = "UpdateState";
+            StateModelView sateMv = Mapper.Map<StateModelView>(_unitOfWork.StateRepository.GetStateById(id));
+            return View("AddState",sateMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateState(int id, StateModelView stateMv)
+        {
+            ViewBag.edit = "UpdateSate";
+            if (!ModelState.IsValid)
+            {
+                return View("AddState", stateMv);
+            }
+            else
+            {
+                State state = Mapper.Map<State>(stateMv);
+                _unitOfWork.StateRepository.UpdateState(id,state);
+                _unitOfWork.Complete();
+                return RedirectToAction("StateList","Setup");
+
+            }
+            
         }
         public ActionResult DeleteState(int id)
         {
@@ -217,18 +374,57 @@ namespace PoSCloudApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("StateList","Setup");
         }
-        public ActionResult CityList(int stateId)
+        public ActionResult CityList(int stateId=0)
         {
             return View(_unitOfWork.CityRepository.GetCities(stateId));
         }
         public ActionResult AddCity()
         {
-
+            ViewBag.edit = "AddCity";
             return View();
         }
-        public ActionResult UpdateCity()
+
+        [HttpPost]
+        public ActionResult AddCity(CityModelView cityVm)
         {
-            return View();
+            ViewBag.edit = "AddCity";
+            if (!ModelState.IsValid)
+            {
+                return View( cityVm);
+            }
+            else
+            {
+                City city = Mapper.Map<City>(cityVm);
+                _unitOfWork.CityRepository.AddCity(city);
+                _unitOfWork.Complete();
+                return RedirectToAction("CityList","Setup");
+            }
+            
+        }
+       
+        [HttpGet]
+        public ActionResult UpdateCity(int id)
+        {
+            ViewBag.edit = "UpdateCity";
+            CityModelView cityMv = Mapper.Map<CityModelView>(_unitOfWork.CityRepository.GetCities(id));
+            
+            return View("AddCity",cityMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateCity(int id, CityModelView cityVm)
+        {
+            ViewBag.edit = "UpdateCity";
+            if (!ModelState.IsValid)
+            {
+                return View("AddCity", cityVm);
+            }
+            else
+            {
+                City city = Mapper.Map<City>(cityVm);
+                _unitOfWork.CityRepository.UpdateCity(id,city);
+                _unitOfWork.Complete();
+                return RedirectToAction("CityList", "Setup");
+            }          
         }
         public ActionResult DeleteCity(int id)
         {
@@ -241,14 +437,53 @@ namespace PoSCloudApp.Controllers
         {
             return View(_unitOfWork.LocationRepository.GetLocations());
         }
+        [HttpGet]
         public ActionResult AddLocation()
         {
-
+            ViewBag.edit = "AddLocation";
             return View();
         }
-        public ActionResult UpdateLocation()
+        [HttpPost]
+        public ActionResult AddLocation(LocationModelView locationMv)
         {
-            return View();
+            ViewBag.edit = "AddLocation";
+            if (!ModelState.IsValid)
+            {
+                return View(locationMv);
+            }
+            else
+            {
+                Location location = Mapper.Map<Location>(locationMv);
+                _unitOfWork.LocationRepository.AddLocation(location);
+                _unitOfWork.Complete();
+                return RedirectToAction("LocationList", "Setup");
+            }
+            
+        }
+        [HttpGet]
+        public ActionResult UpdateLocation(int id)
+        {
+            ViewBag.edit = "UpdateLocation";
+            LocationModelView locationMv =
+                Mapper.Map<LocationModelView>(_unitOfWork.LocationRepository.GetLocationById(id));
+            return View("AddLocation",locationMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateLocation(int id, LocationModelView locationMv)
+        {
+            ViewBag.edit = "UpdateLocation";
+            if (!ModelState.IsValid)
+            {
+                return View("AddLocation",locationMv);
+            }
+            else
+            {
+                Location location = Mapper.Map<Location>(locationMv);
+                _unitOfWork.LocationRepository.UpdateLocation(id,location);
+                _unitOfWork.Complete();
+                return RedirectToAction("LocationList","Setup");
+            }
+            
         }
         public ActionResult DeleteLocation(int id)
         {

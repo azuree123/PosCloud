@@ -11,6 +11,7 @@ namespace PoSCloudApp.Core.Repositories
     {
         IEnumerable<Customer> GetCustomers();
         Customer GetCustomerById(int id);
+        void AddCustomer(Customer customer);
         void UpdateCustomer(int id, Customer customer);
         void DeleteCustomer(int id);
     }

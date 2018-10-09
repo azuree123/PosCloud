@@ -80,7 +80,7 @@ namespace PoSCloudApp.Persistence
 
                 }
 
-                entity.UpdatedBy = HttpContext.Current.User.Identity.Name;
+                entity.UpdatedBy = HttpContext.Current.User.Identity.GetUserName();
                 entity.UpdatedOn = DateTime.Now;
             }
 
