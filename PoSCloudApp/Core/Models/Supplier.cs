@@ -17,6 +17,8 @@ namespace PoSCloudApp.Core.Models
         public string City { get; set; }
         public double Balance { get; set; }
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
-       
+        public virtual ICollection<Product> Products { get; set; }
+
+
     }
 }

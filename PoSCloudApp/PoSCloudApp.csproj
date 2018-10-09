@@ -412,7 +412,12 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Persistence\EntityConfigurations\CityEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\CustomerEntityConfigration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\DepartmentEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\DesignationEntityConfigration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\EmployeeEntityConfigration.cs" />
     <Compile Include="Persistence\EntityConfigurations\LocationEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ProductEntityConfigration.cs" />
     <Compile Include="Persistence\EntityConfigurations\StateEntityConfiguration.cs" />
     <Compile Include="Persistence\PosDbContext.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
