@@ -114,7 +114,7 @@ namespace PoSCloudApp.Controllers
             ViewBag.edit = "UpdateDesignation";
             DesignationViewModel designationVm =
                 Mapper.Map<DesignationViewModel>(_unitOfWork.DesignationRepository.GetDesignationById(id));
-            return RedirectToAction("AddDesignation",designationVm);
+            return View("AddDesignation",designationVm);
         }
         [HttpPost]
         public ActionResult UpdateDesignation(int id, DesignationViewModel designationVm)
