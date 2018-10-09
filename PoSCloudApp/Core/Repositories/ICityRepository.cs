@@ -14,5 +14,6 @@ namespace PoSCloudApp.Core.Repositories
         void AddCity(City city);
         void UpdateCity(int id, City city);
         void DeleteCity(int id);
+        IEnumerable<City> GetCities();
     }
 }

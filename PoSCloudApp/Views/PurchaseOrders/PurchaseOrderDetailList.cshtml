@@ -1,11 +1,12 @@
-﻿@model IEnumerable<PoSCloudApp.Core.Models.SaleOrder>
+﻿@using PoSCloudApp.Core.Models
+@model IEnumerable<PoSCloudApp.Core.Models.PurchaseOrderDetail>
 
 @{
-    ViewBag.Title = "SaleOrderList";
+    ViewBag.Title = "PurchaseOrdersDetailsList";
 }
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>Sale Orders List</h2>
+        <h2>PurchaseOrdersDetail List</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -14,7 +15,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>SaleOrder Listing</span></li>
+                <li><span>PurchaseOrdersDetail Listing</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -36,41 +37,29 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Code</th>
-                        <th>Customer</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Amount</th>
-                        <th>Tax</th>
+                        <th>PurchaseOrder</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Retail Price</th>
                         <th>Discount</th>
-                        <th>Status</th>
-                        <th>Canceled</th>
-                        <th>Type</th>
-                        <th>Cashier</th>
+                        <th>Unit Price</th>
                         <th>Action</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var saleOrder in Model)
+                    @foreach (var purchaseOrderDetail in Model)
                     {
                         <tr>
                             <td>@(i++)</td>
-                            <td>@saleOrder.Code</td>
-                            <td>@saleOrder.Customer.Name</td>
-                            <td>@saleOrder.Date</td>
-                            <td>@saleOrder.Time</td>
-                            <td>@saleOrder.Amount</td>
-                            <td>@saleOrder.Tax</td>
-                            <td>@saleOrder.Discount</td>
-                            <td>@saleOrder.Status</td>
-                            <td>@saleOrder.Canceled</td>
-                            <td>@saleOrder.Type</td>
-                            <td>@saleOrder.Employee.Name</td>
-                            <td>
-                                @Html.ActionLink(" ", "SaleOrderDetailList", "SaleOrders", new { id = @saleOrder.Id }, new { @class = "fa fa-info-circle modalShow" })
-                            </td>
+                            <td>@purchaseOrderDetail.PurchaseOrderId</td>
+                            <td>@purchaseOrderDetail.ProductId</td>
+                            <td>@purchaseOrderDetail.Quantity</td>
+                            <td>@purchaseOrderDetail.RetailPrice</td>
+                            <td>@purchaseOrderDetail.Discount</td>
+                            <td>@purchaseOrderDetail.UnitPrice</td>
+                            <td></td>
                         </tr>
                     }
                 </tbody>
@@ -103,8 +92,6 @@
         });
     </script>
 }
-
-
 
 
 

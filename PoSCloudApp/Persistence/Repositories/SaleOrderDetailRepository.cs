@@ -20,7 +20,7 @@ namespace PoSCloudApp.Persistence.Repositories
 
         public IEnumerable<SaleOrderDetail> GetSaleOrderDetails(int saleOrderId)
         {
-            return _context.SaleOrderDetails.Where(a => a.SaleOrderId == saleOrderId).ToList();
+            return _context.SaleOrderDetails.Where(a => a.SaleOrderId == saleOrderId).Include(a=>a.Product).ToList();
         }
 
         public SaleOrderDetail GetSaleOrderDetailById(int id)

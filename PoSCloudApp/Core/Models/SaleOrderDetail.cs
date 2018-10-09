@@ -13,5 +13,7 @@ namespace PoSCloudApp.Core.Models
         public int Quantity { get; set; }
         public double Price { get; set; }
         public double Discount { get; set; }
+        public virtual SaleOrder SaleOrder { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

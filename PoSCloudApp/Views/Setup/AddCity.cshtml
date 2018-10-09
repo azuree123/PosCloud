@@ -50,14 +50,14 @@
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.StateId, new { htmlAttributes = new { @class = "form-control" } })
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label col-md-6" })
+                                    <div class="col-md-6">
+                                        @Html.DropDownListFor(model => model.StateId, Model.StateDdl, "Select an Option", new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
                                     </div>
-                                </div>                  
+                                </div>
+                               
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
                                         <input type="submit" value="Create" class="btn btn-default" />

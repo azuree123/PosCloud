@@ -20,7 +20,7 @@ namespace PoSCloudApp.Persistence.Repositories
 
         public IEnumerable<SaleOrder> GetSaleOrders()
         {
-            return _context.SaleOrders.ToList();
+            return _context.SaleOrders.Include(a=>a.Employee).Include(a=>a.Customer).ToList();
         }
 
         public SaleOrder GetSaleOrderById(int id)

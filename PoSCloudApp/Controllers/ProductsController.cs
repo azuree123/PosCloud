@@ -31,8 +31,13 @@ namespace PoSCloudApp.Controllers
 
         public ActionResult AddProduct()
         {
+            ProductCreateViewModel product = new ProductCreateViewModel();
+            product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories()
+                .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
+            product.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
+                .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             ViewBag.edit = "AddProduct";
-            return View();
+            return View(product);
         }
         [HttpPost]
         public ActionResult AddProduct(ProductCreateViewModel productVm)
@@ -55,6 +60,10 @@ namespace PoSCloudApp.Controllers
         {
             ViewBag.edit = "UpdateProduct";
             ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id));
+            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddProduct", productVm);
         }
         [HttpPost]

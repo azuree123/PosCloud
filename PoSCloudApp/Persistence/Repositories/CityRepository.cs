@@ -17,10 +17,13 @@ namespace PoSCloudApp.Persistence.Repositories
         {
             _context = context;
         }
-
+        public IEnumerable<City> GetCities()
+        {
+            return _context.Cities.Include(a=>a.State).ToList();
+        }
         public IEnumerable<City> GetCities(int stateId)
         {
-            return _context.Cities.Where(a => a.StateId == stateId).ToList();
+            return _context.Cities.Where(a => a.StateId == stateId).Include(a => a.State).ToList();
         }
 
         public City GetCity(int id)

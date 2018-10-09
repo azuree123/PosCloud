@@ -1,12 +1,11 @@
-﻿@using PoSCloudApp.Core.Models
-@model IEnumerable<PoSCloudApp.Core.Models.PurchaseOrderDetail>
+﻿@model IEnumerable<PoSCloudApp.Core.Models.PurchaseOrder>
 
 @{
-    ViewBag.Title = "PurchaseOrdersDetailsList";
+    ViewBag.Title = "PurchaseOrderList";
 }
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>PurchaseOrdersDetail List</h2>
+        <h2>PurchaseOrders List</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -15,7 +14,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>PurchaseOrdersDetail Listing</span></li>
+                <li><span>PurchaseOrder Listing</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -37,28 +36,28 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>PurchaseOrder</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Retail Price</th>
-                        <th>Discount</th>
-                        <th>Unit Price</th>
+                        <th>Supplier</th>
+                        <th>Order Date</th>
+                        <th>Supply Date</th>
+                        <th>Invoice</th>
+                        <th>Total Price</th>
+                        <th>Type</th>
                         <th>Action</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var purchaseOrderDetail in Model)
+                    @foreach (var purchaseOrder in Model)
                     {
                         <tr>
                             <td>@(i++)</td>
-                            <td>@purchaseOrderDetail.PurchaseOrderId</td>
-                            <td>@purchaseOrderDetail.ProductId</td>
-                            <td>@purchaseOrderDetail.Quantity</td>
-                            <td>@purchaseOrderDetail.RetailPrice</td>
-                            <td>@purchaseOrderDetail.Discount</td>
-                            <td>@purchaseOrderDetail.UnitPrice</td>
+                            <td>@purchaseOrder.SupplierId</td>
+                            <td>@purchaseOrder.OrderDate</td>
+                            <td>@purchaseOrder.SupplyDate</td>
+                            <td>@purchaseOrder.InvoiceId</td>
+                            <td>@purchaseOrder.TotalPrice</td>
+                            <td>@purchaseOrder.Type</td>
                             <td></td>
                         </tr>
                     }
@@ -71,17 +70,26 @@
 
 
 </section>
-
+<div id="ModalData"></div>
 @section scripts
 {
     <script>
         $('#datatable-default').dataTable();
+
+        $('a.modalShow').on('click', function () {
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
     </script>
 }
-
-
-
-
-</html>
 
 

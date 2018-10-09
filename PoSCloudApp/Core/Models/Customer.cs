@@ -18,5 +18,6 @@ namespace PoSCloudApp.Core.Models
         public string City { get; set; }
         public DateTime Birthday { get; set; }
         public string Note { get; set; }
+        public virtual ICollection<SaleOrder> SaleOrders { get; set; }
     }
 }

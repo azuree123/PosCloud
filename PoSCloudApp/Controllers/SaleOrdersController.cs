@@ -26,38 +26,18 @@ namespace PoSCloudApp.Controllers
             return View(_unitOfWork.SaleOrderRepository.GetSaleOrders());
         }
 
-        public ActionResult AddSaleOrder()
-        {
-            return View();
-        }
-        public ActionResult UpdateSaleOrder()
-        {
-            return View();
-        }
-        public ActionResult DeleteSaleOrder(int id)
-        {
-            _unitOfWork.SaleOrderRepository.DeleteSaleOrder(id);
-            _unitOfWork.Complete();
-            return RedirectToAction("SaleOrderList","SaleOrders");
-        }
+        
+        //public ActionResult DeleteSaleOrder(int id)
+        //{
+        //    _unitOfWork.SaleOrderRepository.DeleteSaleOrder(id);
+        //    _unitOfWork.Complete();
+        //    return RedirectToAction("SaleOrderList","SaleOrders");
+        //}
 
         public ActionResult SaleOrderDetailList(int saleOrderId)
         {
             return View(_unitOfWork.SaleOrderDetailRepository.GetSaleOrderDetails(saleOrderId));
         }
-        public ActionResult AddSaleOrderDetail()
-        {
-            return View();
-        }
-        public ActionResult UpdateSaleOrderDetail()
-        {
-            return View();
-        }
-        public ActionResult DeleteSaleOrderDetail(int id)
-        {
-            _unitOfWork.SaleOrderDetailRepository.DeleteSaleOrderDetail(id);
-            _unitOfWork.Complete();
-            return RedirectToAction("SaleOrderDetailList","SaleOrders");
-        }
+      
     }
 }

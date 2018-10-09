@@ -147,8 +147,13 @@ namespace PoSCloudApp.Controllers
         [HttpGet]
         public ActionResult AddEmployee()
         {
+            EmployeeModelView employee = new EmployeeModelView();
+            employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments()
+                .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
+            employee.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations()
+                .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             ViewBag.edit = "AddEmployee";
-            return View();
+            return View(employee);
         }
         [HttpPost]
         public ActionResult AddEmployee(EmployeeModelView employeeMv)
@@ -172,6 +177,10 @@ namespace PoSCloudApp.Controllers
         {
             ViewBag.edit = "UpdateEmployee";
             EmployeeModelView employeeMv = Mapper.Map<EmployeeModelView>(_unitOfWork.EmployeeRepository.GetEmployeeById(id));
+            employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddEmployee",employeeMv);
         }
         [HttpPost]
@@ -376,12 +385,19 @@ namespace PoSCloudApp.Controllers
         }
         public ActionResult CityList(int stateId=0)
         {
-            return View(_unitOfWork.CityRepository.GetCities(stateId));
+            if (stateId == 0)
+            {
+                return View(_unitOfWork.CityRepository.GetCities().Select(a=>new CityListModelView{Id = a.Id,Name = a.Name,StateName = a.State.Name}));
+            }
+            return View(_unitOfWork.CityRepository.GetCities(stateId).Select(a => new CityListModelView { Id = a.Id, Name = a.Name, StateName = a.State.Name }));
         }
         public ActionResult AddCity()
         {
+            CityModelView city = new CityModelView();
+            city.StateDdl = _unitOfWork.StateRepository.GetStates()
+                .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             ViewBag.edit = "AddCity";
-            return View();
+            return View(city);
         }
 
         [HttpPost]
@@ -404,10 +420,11 @@ namespace PoSCloudApp.Controllers
        
         [HttpGet]
         public ActionResult UpdateCity(int id)
-        {
-            ViewBag.edit = "UpdateCity";
-            CityModelView cityMv = Mapper.Map<CityModelView>(_unitOfWork.CityRepository.GetCities(id));
-            
+        { 
+        ViewBag.edit = "UpdateCity";
+            CityModelView cityMv = Mapper.Map<CityModelView>(_unitOfWork.CityRepository.GetCity(id));
+            cityMv.StateDdl = _unitOfWork.StateRepository.GetStates()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddCity",cityMv);
         }
         [HttpPost]

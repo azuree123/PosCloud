@@ -400,6 +400,14 @@
     <Compile Include="Migrations\201810051040209_Update-4.Designer.cs">
       <DependentUpon>201810051040209_Update-4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810090948300_Update-5.cs" />
+    <Compile Include="Migrations\201810090948300_Update-5.Designer.cs">
+      <DependentUpon>201810090948300_Update-5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810091036281_Update-6.cs" />
+    <Compile Include="Migrations\201810091036281_Update-6.Designer.cs">
+      <DependentUpon>201810091036281_Update-6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -2373,8 +2381,6 @@
     <Content Include="Views\Products\AddProduct.cshtml" />
     <Content Include="Views\Products\ProductCategoryList.cshtml" />
     <Content Include="Views\SaleOrders\SaleOrderList.cshtml" />
-    <Content Include="Views\PurchaseOrders\PurchaseOrdersList.cshtml" />
-    <Content Include="Views\PurchaseOrders\PurchaseOrdersDetailsList.cshtml" />
     <Content Include="Views\Expense\ExpenseHeadList.cshtml" />
     <Content Include="Views\Products\AddProductCategory.cshtml" />
     <Content Include="Views\Setup\AddDepartment.cshtml" />
@@ -2388,6 +2394,9 @@
     <Content Include="Views\Setup\AddState.cshtml" />
     <Content Include="Views\Setup\AddCity.cshtml" />
     <Content Include="Views\Setup\AddLocation.cshtml" />
+    <Content Include="Views\SaleOrders\SaleOrderDetailList.cshtml" />
+    <Content Include="Views\PurchaseOrders\PurchaseOrderList.cshtml" />
+    <Content Include="Views\PurchaseOrders\PurchaseOrderDetailList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2426,6 +2435,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810051040209_Update-4.resx">
       <DependentUpon>201810051040209_Update-4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810090948300_Update-5.resx">
+      <DependentUpon>201810090948300_Update-5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810091036281_Update-6.resx">
+      <DependentUpon>201810091036281_Update-6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

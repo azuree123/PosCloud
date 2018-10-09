@@ -22,5 +22,6 @@ namespace PoSCloudApp.Core.Models
         public virtual Designation Designation { get; set; }
 
         public string Address { get; set; }
+        public virtual ICollection<SaleOrder> SaleOrders { get; set; }
     }
 }
