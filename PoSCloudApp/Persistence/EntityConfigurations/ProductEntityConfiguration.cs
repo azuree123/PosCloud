@@ -25,10 +25,10 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
             Property(x => x.Duration).HasColumnType("nvarchar").IsOptional();
             Property(x => x.Image).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
             Property(x => x.ProductCode).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-            Property(x => x.Stock).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
+            Property(x => x.Stock).HasColumnType("float").IsOptional();
             Property(x => x.Tax).HasColumnType("float").IsOptional();
             Property(x => x.UnitPrice).HasColumnType("float").IsOptional();
-            
+
 
             //******************************************************************************************* Auditable ***************
 
@@ -37,9 +37,12 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
 
             //******************************************************************************************* Auditable ***************
 
-            HasRequired(x => x.ProductCategory).WithMany(x => x.Products).HasForeignKey(x => x.CategoryId).WillCascadeOnDelete(true);
-            HasRequired(x => x.Supplier).WithMany(x => x.Products).HasForeignKey(x => x.SupplierId).WillCascadeOnDelete(false);
+            HasRequired(x => x.ProductCategory).WithMany(x => x.Products).HasForeignKey(x => x.CategoryId)
+                .WillCascadeOnDelete(true);
+            HasRequired(x => x.Supplier).WithMany(x => x.Products).HasForeignKey(x => x.SupplierId)
+                .WillCascadeOnDelete(false);
 
 
         }
     }
+}

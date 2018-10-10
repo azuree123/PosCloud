@@ -16,7 +16,7 @@ namespace PoSCloudApp.Core.Models
         public int SupplierId { get; set; }
         public double Tax { get; set; }
         public double UnitPrice { get; set; }
-        public string Stock { get; set; }
+        public double Stock { get; set; }
         public string Barcode { get; set; }
         public string Image { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
