@@ -22,6 +22,7 @@ namespace PoSCloudApp.Core.Models
         public virtual ProductCategory ProductCategory { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        public virtual ICollection<SaleOrderDetail> SaleOrderDetails { get; set; }
 
     }
 }

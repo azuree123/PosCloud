@@ -38,8 +38,7 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
 
             //******************************************************************************************* Auditable ***************
 
-            HasRequired(x => x.Department).WithMany(x => x.).HasForeignKey(x => x.DepartmentId).WillCascadeOnDelete(true);
-            HasRequired(x => x.Designation).WithMany(x => x.Employees).HasForeignKey(x => x.DesignationId).WillCascadeOnDelete(true);
+            HasRequired(x => x.Customer).WithMany(x => x.SaleOrders).HasForeignKey(x => x.CustomerId).WillCascadeOnDelete(false);
         }
 
     }

@@ -24,6 +24,8 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
             //******************************************************************************************* Auditable ***************
             Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
             Property(x => x.UpdatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
+
+            HasRequired(x=>x.Supplier).WithMany(x=>x.PurchaseOrders).HasForeignKey(x=>x.SupplierId).WillCascadeOnDelete(true);
         }
     }
 }

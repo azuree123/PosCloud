@@ -21,6 +21,9 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
 
             Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
             Property(x => x.UpdatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
+
+            HasRequired(x=>x.ExpenseHead).WithMany(a=>a.Expenses).HasForeignKey(a=>a.ExpenseHeadId).WillCascadeOnDelete(true);
+            HasRequired(x=>x.Employee).WithMany(x=>x.Expenses).HasForeignKey(x=>x.EmployeeId).WillCascadeOnDelete(false);
         }
     }
 }
