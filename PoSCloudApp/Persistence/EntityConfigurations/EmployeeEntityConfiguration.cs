@@ -25,7 +25,7 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
             Property(x => x.Booking).HasColumnType("bit").IsOptional();
             Property(x => x.Commission).HasColumnType("float").IsOptional();
             Property(x => x.Gender).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-            Property(x => x.JoinDate).HasColumnType("nvarchar").IsOptional();
+            Property(x => x.JoinDate).HasColumnType("datetime").IsOptional();
             Property(x => x.MobileNumber).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
             Property(x => x.Salary).HasColumnType("float").IsOptional();
            

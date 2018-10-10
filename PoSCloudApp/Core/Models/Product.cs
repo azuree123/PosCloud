@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -14,8 +15,11 @@ namespace PoSCloudApp.Core.Models
         public string Duration { get; set; }
         public string Available { get; set; }
         public int SupplierId { get; set; }
+        [DefaultValue(0)]
         public double Tax { get; set; }
+        [DefaultValue(0)]
         public double UnitPrice { get; set; }
+        [DefaultValue(0)]
         public double Stock { get; set; }
         public string Barcode { get; set; }
         public string Image { get; set; }

@@ -58,6 +58,20 @@ namespace PoSCloudApp.Persistence
         {
             modelBuilder.Configurations.Add(new StateEntityConfiguration());
             modelBuilder.Configurations.Add(new CityEntityConfiguration());
+            modelBuilder.Configurations.Add(new CustomerEntityConfiguration());
+            modelBuilder.Configurations.Add(new DepartmentEntityConfiguration());
+            modelBuilder.Configurations.Add(new DesignationEntityConfiguration());
+            modelBuilder.Configurations.Add(new EmployeeEntityConfiguration());
+            modelBuilder.Configurations.Add(new ExpenseEntityConfiguration());
+            modelBuilder.Configurations.Add(new ExpenseHeadEntityConfiguration());
+            modelBuilder.Configurations.Add(new LocationEntityConfiguration());
+            modelBuilder.Configurations.Add(new ProductCategoryEntityConfiguration());
+            modelBuilder.Configurations.Add(new ProductEntityConfiguration());
+            modelBuilder.Configurations.Add(new PurchaseOrderDetailEntityConfiguration());
+            modelBuilder.Configurations.Add(new PurchaseOrderEntityConfiguration());
+            modelBuilder.Configurations.Add(new SaleOrderDetailEntityConfiguration());
+            modelBuilder.Configurations.Add(new SaleOrderEntityConfiguration());
+            modelBuilder.Configurations.Add(new SupplierEntityConfiguration());
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);
 

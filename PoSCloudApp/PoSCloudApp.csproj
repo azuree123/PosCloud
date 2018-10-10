@@ -380,33 +380,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810040907019_init1.cs" />
-    <Compile Include="Migrations\201810040907019_init1.Designer.cs">
-      <DependentUpon>201810040907019_init1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810040911466_Update1.cs" />
-    <Compile Include="Migrations\201810040911466_Update1.Designer.cs">
-      <DependentUpon>201810040911466_Update1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810040915157_Update2.cs" />
-    <Compile Include="Migrations\201810040915157_Update2.Designer.cs">
-      <DependentUpon>201810040915157_Update2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810050651539_Update-3.cs" />
-    <Compile Include="Migrations\201810050651539_Update-3.Designer.cs">
-      <DependentUpon>201810050651539_Update-3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810051040209_Update-4.cs" />
-    <Compile Include="Migrations\201810051040209_Update-4.Designer.cs">
-      <DependentUpon>201810051040209_Update-4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810090948300_Update-5.cs" />
-    <Compile Include="Migrations\201810090948300_Update-5.Designer.cs">
-      <DependentUpon>201810090948300_Update-5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810091036281_Update-6.cs" />
-    <Compile Include="Migrations\201810091036281_Update-6.Designer.cs">
-      <DependentUpon>201810091036281_Update-6.cs</DependentUpon>
+    <Compile Include="Migrations\201810101242454_Update-1.cs" />
+    <Compile Include="Migrations\201810101242454_Update-1.Designer.cs">
+      <DependentUpon>201810101242454_Update-1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2434,26 +2410,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810040907019_init1.resx">
-      <DependentUpon>201810040907019_init1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810040911466_Update1.resx">
-      <DependentUpon>201810040911466_Update1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810040915157_Update2.resx">
-      <DependentUpon>201810040915157_Update2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810050651539_Update-3.resx">
-      <DependentUpon>201810050651539_Update-3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810051040209_Update-4.resx">
-      <DependentUpon>201810051040209_Update-4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810090948300_Update-5.resx">
-      <DependentUpon>201810090948300_Update-5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810091036281_Update-6.resx">
-      <DependentUpon>201810091036281_Update-6.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810101242454_Update-1.resx">
+      <DependentUpon>201810101242454_Update-1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

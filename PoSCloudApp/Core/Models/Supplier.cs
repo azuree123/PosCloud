@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -15,6 +16,7 @@ namespace PoSCloudApp.Core.Models
         public string Company { get; set; }
         public string State { get; set; }
         public string City { get; set; }
+        [DefaultValue(0)]
         public double Balance { get; set; }
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual ICollection<Product> Products { get; set; }

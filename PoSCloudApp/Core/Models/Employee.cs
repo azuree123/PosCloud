@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -12,7 +13,9 @@ namespace PoSCloudApp.Core.Models
         public string Email { get; set; }
         public string Gender { get; set; }
         public string MobileNumber { get; set; }
+        [DefaultValue(0)]
         public double Salary { get; set; }
+        [DefaultValue(0)]
         public double Commission { get; set; }
         public DateTime JoinDate { get; set; }
         public bool Booking { get; set; }

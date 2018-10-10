@@ -20,10 +20,10 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************
             Property(x => x.Code).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-            Property(x => x.Amount).HasColumnType("nvarchar").IsOptional();
+            Property(x => x.Amount).HasColumnType("float").IsOptional();
             Property(x => x.Date).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-            Property(x => x.Discount).HasColumnType("bit").IsOptional();
-            Property(x => x.Status).HasColumnType("float").IsOptional();
+            Property(x => x.Discount).HasColumnType("float").IsOptional();
+            Property(x => x.Status).HasColumnType("nvarchar").HasMaxLength(50).IsOptional();
             Property(x => x.Tax).HasColumnType("float").IsOptional();
             Property(x => x.Time).HasColumnType("nvarchar").IsOptional();
             Property(x => x.Type).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
