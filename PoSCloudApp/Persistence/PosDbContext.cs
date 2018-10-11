@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
-using Ninject.Activation;
-using PoSCloudApp.Core.Models;
 using PoSCloudApp.Core.Models;
 using PoSCloudApp.Persistence.EntityConfigurations;
-using PoSCloudApp.Persistence.Repositories;
-using PoSCloudApp.Services;
 
 namespace PoSCloudApp.Persistence
 {

@@ -1,8 +1,7 @@
-﻿
-@model IEnumerable<PoSCloudApp.Core.Models.ProductCategory>
+﻿@model IEnumerable<PoSCloudApp.Core.Models.ProductCategory>
 
 @{
-    ViewBag.Title = "ProductCategoryList";
+    ViewBag.Title = "ServiceCategoryList";
 }
 <section role="main" class="content-body">
     <header class="page-header">
@@ -15,7 +14,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>ProductCategories Listing</span></li>
+                <li><span>ServiceCategories</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -27,13 +26,12 @@
     <section class="panel">
         <header class="panel-heading">
             <div class="panel-actions">
-                <a href="@Url.Action("AddProductCategory","Products")" class="modalShow">
-                    <span  class="fa fa-2x fa-plus-circle"></span>
+                <a href="@Url.Action("AddServiceCategory","Services")" class="modalShow">
+                    <span class="fa fa-2x fa-plus-circle"></span>
                 </a>
                 <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
             </div>
 
-            <h2 class="panel-title">Listing</h2>
         </header>
         <div class="panel-body">
             <table class="table table-bordered table-striped mb-none" style="width:100%" id="datatable-default">
@@ -44,31 +42,27 @@
                         <th width="30%">Images</th>
                         <th width="25%">Type</th>
                         <th width="10%">Action</th>
-                    </tr>   
-                </thead>    
-                <tbody>     
+                    </tr>
+                </thead>
+                <tbody>
                     @{ int i = 1;}
                     @foreach (var productCategory in Model)
                     {
-                    <tr>
-                        <td>@(i++)</td>
-                        <td>@productCategory.Name</td>
-                        <td><img src="@productCategory.Image" width="50" height="50" /></td>
-                        <td>@productCategory.Type</td>
-                        <td>
-                            @Html.ActionLink(" ", "UpdateProductCategory", "Products", new { id = productCategory.Id }, new { @class = "btn btn-info btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
-                            @Html.ActionLink(" ", "DeleteProductCategory", "Products", new { id = productCategory.Id }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@productCategory.Name</td>
+                            <td><img src="@productCategory.Image" width="50" height="50" /></td>
+                            <td>@productCategory.Type</td>
+                            <td>
+                                @Html.ActionLink(" ", "UpdateServiceCategory", "Services", new { id = productCategory.Id }, new { @class = "btn btn-info btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
+                                @Html.ActionLink(" ", "DeleteServiceCategory", "Services", new { id = productCategory.Id }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
     </section>
-
-
-
-
 </section>
 <div id="ModalData"></div>
 @section scripts

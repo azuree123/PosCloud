@@ -20,4 +20,6 @@ namespace PoSCloudApp.Core.Models
         public string Note { get; set; }
         public virtual ICollection<SaleOrder> SaleOrders { get; set; }
     }
+
+    
 }

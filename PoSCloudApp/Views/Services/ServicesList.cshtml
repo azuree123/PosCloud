@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<PoSCloudApp.Core.Models.Product>
 @{
-    ViewBag.Title = "ProductsList";
+    ViewBag.Title = "ServicesList";
 }
 <section role="main" class="content-body">
     <header class="page-header">
@@ -25,14 +25,12 @@
     <section class="panel">
         <header class="panel-heading">
             <div class="panel-actions">
-                <a href="@Url.Action("AddProduct","Products")" class="modalShow">
-                    <span  class="fa fa-2x fa-plus-circle"></span>
+                <a href="@Url.Action("AddService","Services")" class="modalShow">
+                    <span class="fa fa-2x fa-plus-circle"></span>
                 </a>
                 <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
 
             </div>
-
-            <h2 class="panel-title">Listing</h2>
         </header>
         <div class="panel-body">
             <table class="table table-bordered table-striped mb-none" style="width:100%" id="datatable-default">
@@ -40,30 +38,30 @@
                     <tr>
                         <th width="10%">ID</th>
                         <th width="20%">Name</th>
-                        <th width="20%">Price</th>
                         <th width="20%">Image</th>
+                        <th width="20%">Price</th>
                         <th width="20%">Duration</th>
                         <th width="10%">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                @{ int i = 1;}
-                @foreach (var product in Model)
-                {
-                    <tr class="">
-                        <td>@(i++)</td>
-                        <td>
-                           @product.Name
-                        </td>
-                        <td>@product.UnitPrice</td>
-                        <td><img src="@product.Image" width="50" height="50"/></td>
-                        <td class="center">@product.Duration</td>
-                        <td class="center">
-                            @Html.ActionLink(" ", "UpdateProduct", "Products", new { id = @product.Id }, new { @class = "btn btn-info btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
-                            @Html.ActionLink(" ", "DeleteProduct", "Products", new { id = @product.Id }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
-                        </td>
-                    </tr>
-                }
+                    @{ int i = 1;}
+                    @foreach (var product in Model)
+                    {
+                        <tr class="">
+                            <td>@(i++)</td>
+                            <td>
+                                @product.Name
+                            </td>
+                            <td><img src="@product.Image" width="50" height="50"/></td>
+                            <td>@product.UnitPrice</td>
+                            <td class="center">@product.Duration</td>
+                            <td class="center">
+                                @Html.ActionLink(" ", "UpdateService", "Services", new { id = @product.Id }, new { @class = "btn btn-info btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
+                                @Html.ActionLink(" ", "DeleteService", "Services", new { id = @product.Id }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
+                            </td>
+                        </tr>
+                    }
 
 
                 </tbody>
@@ -96,4 +94,7 @@
         });
     </script>
 }
+
+
+
 

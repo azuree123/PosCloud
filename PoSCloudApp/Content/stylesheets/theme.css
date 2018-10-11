@@ -2830,6 +2830,7 @@ input {
 }
 
 label {
+    display: block;
 	font-weight: normal;
 }
 
@@ -2844,10 +2845,11 @@ textarea[data-toggle=autosize] {
 }
 
 select {
-	border: 1px solid #E5E7E9;
+	border: 1px solid #cccccc;
 	border-radius: 6px;
-	height: 46px;
-	padding: 12px;
+	height: 27px;
+	padding: 0px 0px 0px 0px;
+    width: 100%;
 	outline: none;
 }
 
@@ -9479,9 +9481,9 @@ html.dark .toggle > label {
 .modal-block.modal-block-full {
 	max-width: 98%;
 }
-
 .modal-block.modal-header-color .panel-heading h2 {
 	color: #FFF;
+    
 }
 
 .modal-block.modal-full-color {
@@ -16872,7 +16874,7 @@ html.dark .thumbnail {
   color: #111640;
   display: block;
   width: 100%;
-  /*height: 44px;*/
+  height: 26px;
   /*font-size: 17px;*/
   /*color: #555;*/
   background-color: #fff;

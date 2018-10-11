@@ -26,13 +26,13 @@ namespace PoSCloudApp.Controllers
         // GET: Products
         public ActionResult ProductsList()
         {
-            return View(_unitOfWork.ProductRepository.GetAllProducts());
+            return View(_unitOfWork.ProductRepository.GetAllProducts().Where(a=>a.ProductCategory.Type=="Product").ToList());
         }
 
         public ActionResult AddProduct()
         {
             ProductCreateViewModel product = new ProductCreateViewModel();
-            product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories()
+            product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a=>a.Type=="Product")
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             product.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
@@ -40,14 +40,36 @@ namespace PoSCloudApp.Controllers
             return View(product);
         }
         [HttpPost]
-        public ActionResult AddProduct(ProductCreateViewModel productVm)
+        public ActionResult AddProduct(ProductCreateViewModel productVm, HttpPostedFileBase file)
         {
             ViewBag.edit = "AddProduct";
             if (!ModelState.IsValid)
             {
                 return View(productVm);
             }
-            else
+            else 
+            if (file !=null && file.ContentLength > 0)
+            {
+                
+                try
+                {
+                    string path = Server.MapPath("~/Images/Data/Product" + file.FileName);
+                    if (System.IO.File.Exists(path))
+                    {
+                        ViewBag.Message = "Image Already Exists!";
+                    }
+                    else
+                    {
+                        file.SaveAs(path);
+                        productVm.Image = "/Images/Data/Product";
+                    }
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Message = "ERROR:" + e.Message.ToString();
+                }
+                
+            }
             {
                 Product product = Mapper.Map<Product>(productVm);
                 _unitOfWork.ProductRepository.AddProduct(product);
@@ -60,21 +82,41 @@ namespace PoSCloudApp.Controllers
         {
             ViewBag.edit = "UpdateProduct";
             ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id));
-            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories()
+            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Product")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddProduct", productVm);
         }
         [HttpPost]
-        public ActionResult UpdateProduct(int id, ProductCreateViewModel productVm)
+        public ActionResult UpdateProduct(int id, ProductCreateViewModel productVm,HttpPostedFileBase file)
         {
             ViewBag.edit = "UpdateProduct";
             if (!ModelState.IsValid)
             {
                 return View("AddProduct", productVm);
             }
-            else
+            else if (file != null && file.ContentLength > 0)
+            {
+                try
+                {
+                    string path = Server.MapPath("~/Images/Data/Product" + file.FileName);
+                    if (System.IO.File.Exists(path))
+                    {
+                        ViewBag.Message = "Image Already Exists";
+                    }
+                    else
+                    {
+                        file.SaveAs(path);
+                        productVm.Image = "/Images/Data/Product";
+                    }
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Message = "ERROR:" + e.Message.ToString();
+                }
+            }
+
             {
                 Product product = Mapper.Map<Product>(productVm);
                 _unitOfWork.ProductRepository.UpdateProduct(id,product);
@@ -101,7 +143,7 @@ namespace PoSCloudApp.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddProductCategory(ProductCategoryViewModel productCategory)
+        public ActionResult AddProductCategory(ProductCategoryViewModel productCategory, HttpPostedFileBase file)
         {
             ViewBag.edit = "AddProductCategory";
             if (!ModelState.IsValid)
@@ -109,7 +151,30 @@ namespace PoSCloudApp.Controllers
                 return View(productCategory);
             }
             else
+            if (file != null && file.ContentLength > 0)
             {
+
+                try
+                {
+                    string path = Server.MapPath("~/Images/Data/Product" + file.FileName);
+                    if (System.IO.File.Exists(path))
+                    {
+                        ViewBag.Message = "Image Already Exists!";
+                    }
+                    else
+                    {
+                        file.SaveAs(path);
+                        productCategory.Image = "/Images/Data/Product";
+                    }
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Message = "ERROR:" + e.Message.ToString();
+                }
+
+            }
+            {
+                productCategory.Type = "Product";
                 ProductCategory category = Mapper.Map<ProductCategory>(productCategory);
                 _unitOfWork.ProductCategoryRepository.AddProductCategory(category);
                 _unitOfWork.Complete();
@@ -124,7 +189,7 @@ namespace PoSCloudApp.Controllers
             return View("AddProductCategory", product);
         }
         [HttpPost]
-        public ActionResult UpdateProductCategory(int id, ProductCategoryViewModel productCategoryVm)
+        public ActionResult UpdateProductCategory(int id, ProductCategoryViewModel productCategoryVm, HttpPostedFileBase file)
         {
             if (!ModelState.IsValid)
             {
@@ -134,7 +199,30 @@ namespace PoSCloudApp.Controllers
                 return View("AddProductCategory", product);
             }
             else
+            if (file != null && file.ContentLength > 0)
             {
+
+                try
+                {
+                    string path = Server.MapPath("~/Images/Data/Product" + file.FileName);
+                    if (System.IO.File.Exists(path))
+                    {
+                        ViewBag.Message = "Image Already Exists!";
+                    }
+                    else
+                    {
+                        file.SaveAs(path);
+                        productCategoryVm.Image = "/Images/Data/Product";
+                    }
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Message = "ERROR:" + e.Message.ToString();
+                }
+
+            }
+            {
+                productCategoryVm.Type = "Product";
                 ProductCategory category = Mapper.Map<ProductCategory>(productCategoryVm);
                 _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id,category);
                 _unitOfWork.Complete();

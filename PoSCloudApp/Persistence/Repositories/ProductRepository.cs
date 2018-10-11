@@ -20,7 +20,7 @@ namespace PoSCloudApp.Persistence.Repositories
         }
         public IEnumerable<Product> GetAllProducts()
         {
-            return _context.Products.ToList();
+            return _context.Products.Include(a=>a.ProductCategory).ToList();
         }
         public IEnumerable<Product> GetProducts(int productCategoryId)
         {

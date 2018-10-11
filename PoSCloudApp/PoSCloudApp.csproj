@@ -319,7 +319,9 @@
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SaleOrdersController.cs" />
+    <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
+    <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
@@ -374,6 +376,8 @@
     <Compile Include="Core\ViewModels\RegisterViewModel.cs" />
     <Compile Include="Core\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Core\ViewModels\SendCodeViewModel.cs" />
+    <Compile Include="Core\ViewModels\ServiceCategoryViewModel.cs" />
+    <Compile Include="Core\ViewModels\ServiceCreateViewModel.cs" />
     <Compile Include="Core\ViewModels\StateModelView.cs" />
     <Compile Include="Core\ViewModels\SupplierModelView.cs" />
     <Compile Include="Core\ViewModels\VerifyCodeViewModel.cs" />
@@ -2386,12 +2390,17 @@
     <Content Include="Views\SaleOrders\SaleOrderDetailList.cshtml" />
     <Content Include="Views\PurchaseOrders\PurchaseOrderList.cshtml" />
     <Content Include="Views\PurchaseOrders\PurchaseOrderDetailList.cshtml" />
+    <Content Include="Views\Services\ServicesList.cshtml" />
+    <Content Include="Views\Services\AddService.cshtml" />
+    <Content Include="Views\Services\ServiceCategoryList.cshtml" />
+    <Content Include="Views\Services\AddServiceCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Core\Dtos\" />
     <Folder Include="Core\Shared\" />
-    <Folder Include="Images\Data\" />
+    <Folder Include="Images\Data\Product\" />
+    <Folder Include="Images\Data\Service\" />
     <Folder Include="Views\Product\" />
     <Folder Include="Views\Reports\" />
     <Folder Include="Views\Sales\" />

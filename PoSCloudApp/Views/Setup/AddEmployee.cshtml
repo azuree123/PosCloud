@@ -1,4 +1,5 @@
-﻿@model PoSCloudApp.Core.ViewModels.EmployeeModelView
+﻿@using PoSCloudApp.Core.Enums
+@model PoSCloudApp.Core.ViewModels.EmployeeModelView
 
 @{
     Layout = null;
@@ -58,9 +59,8 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                                    <div class="col-md-3">
+                                        @Html.DropDownListFor(a => a.Gender, new SelectList(Enum.GetValues(typeof(Gender))), "Select Gender", new { @class = "form-control" })
                                     </div>
                                 </div>
 
