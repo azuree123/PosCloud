@@ -18,6 +18,7 @@ namespace PoSCloudApp.Core.Models
         public double Salary { get; set; }
         [Range(0, double.MaxValue)]
         public double Commission { get; set; }
+        [DataType(DataType.Date)]
         public DateTime JoinDate { get; set; }
         public bool Booking { get; set; }
         public int DepartmentId { get; set; }

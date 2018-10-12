@@ -11,7 +11,31 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/datatables")
-
+    <style>
+        select {
+            padding: 0 !important;
+        }
+        .modalheader {
+            background-color: #111640;
+            text-align: center;
+            color:#ffffff;
+            
+        }
+        .modalFooter {
+            background-color: #e5e5e6;
+            color: black;
+        }
+        .btnPro {
+            background-color: #111640;
+            color: #ffffff;
+            font-size: small;
+        }
+        .btnPro1 {
+            background-color: #d2322d;
+            color: #ffffff;
+            font-size: small;
+        }
+    </style>
 
 </head>
 <body>
@@ -21,10 +45,10 @@
         <!-- start: header -->
         <header class="header">
             <div class="logo-container">
-                <a href="@Url.Action("Index","Home")" class="logo">
-                    <img src="~/Content/images/logo.png" height="35" alt="Cosmic Admin"/>
+                <a href="@Url.Action("Index","Home")" class="logo" style="margin-top: 0">
+                    <img src="~/Content/images/logo2.png" height="50" width="100" alt="Cosmic Admin"/>
                     <h5 style="display: inline-block; display: inline-block; -webkit-background-clip: text !important; font-weight: bold; font-style: italic; background: -webkit-linear-gradient(#5fb1be 0%, #98dfe4 100%); -webkit-text-fill-color: transparent;">
-                        CosmicPoS
+                        
                     </h5>
                 </a>
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
@@ -132,7 +156,7 @@
                                                 <li class="nav-parent">
                                                     <a>
                                                         <i class="fa fa-server" aria-hidden="true"></i>
-                                                        <span>Services</span>
+                                                        <span>Products/Services</span>
                                                     </a>
                                                     <ul class="nav nav-children">
                                                         <li>
@@ -143,6 +167,16 @@
                                                         <li>
                                                             <a href="@Url.Action("ProductsList","Products")">
                                                                 Products
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="@Url.Action("ServicesList","Services")">
+                                                                Services
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="@Url.Action("ServiceCategoryList","Services")">
+                                                                Services Categories
                                                             </a>
                                                         </li>
 
