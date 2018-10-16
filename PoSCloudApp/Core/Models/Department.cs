@@ -8,6 +8,7 @@ namespace PoSCloudApp.Core.Models
     public class Department:AuditableEntity
     {
         public int Id { get; set; }
+        public int storeId { get; set; }
         public string Name { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
 

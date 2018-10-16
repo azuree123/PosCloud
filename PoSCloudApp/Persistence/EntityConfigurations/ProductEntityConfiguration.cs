@@ -15,7 +15,7 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
         {
             ToTable("Products", PosDbContext.DEFAULT_SCHEMA);
             //******************************************************************************************* KEYS ********************
-            HasKey(x => x.Id);
+            HasKey(x => new { x.Id, x.StoreId });
             Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************
@@ -28,8 +28,7 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
             Property(x => x.Stock).HasColumnType("float").IsOptional();
             Property(x => x.Tax).HasColumnType("float").IsOptional();
             Property(x => x.UnitPrice).HasColumnType("float").IsOptional();
-
-
+            
             //******************************************************************************************* Auditable ***************
 
             Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
@@ -37,11 +36,9 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
 
             //******************************************************************************************* Auditable ***************
 
-            HasRequired(x => x.ProductCategory).WithMany(x => x.Products).HasForeignKey(x => x.CategoryId)
+            HasRequired(x => x.ProductCategory).WithMany(x => x.Products).HasForeignKey(x => new {x.CategoryId,x.StoreId})
                 .WillCascadeOnDelete(true);
-            HasRequired(x => x.Supplier).WithMany(x => x.Products).HasForeignKey(x => x.SupplierId)
-                .WillCascadeOnDelete(false);
-
+            
 
         }
     }

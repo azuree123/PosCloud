@@ -23,8 +23,7 @@ namespace PoSCloudApp.Persistence.EntityConfigurations
             Property(x => x.Email).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
             Property(x => x.PhoneNumber).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
             Property(x => x.Address).HasColumnType("nvarchar").IsOptional();
-            Property(x => x.Balance).HasColumnType("float").IsOptional();
-            Property(x => x.Company).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
+           
             Property(x => x.State).HasColumnType("nvarchar").HasMaxLength(50).IsOptional();
             Property(x => x.City).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
 

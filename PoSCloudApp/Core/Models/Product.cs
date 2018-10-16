@@ -9,6 +9,8 @@ namespace PoSCloudApp.Core.Models
     public class Product:AuditableEntity
     {
         public int Id { get; set; }
+        public int StoreId { get; set; }
+
         public string Name { get; set; }
         public string ProductCode { get; set; }
         public int CategoryId { get; set; }

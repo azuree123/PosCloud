@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,6 +23,7 @@ namespace PoSCloudApp.Core.ViewModels
         public double UnitPrice { get; set; }
         public string Stock { get; set; }
         public string Barcode { get; set; }
+        [Required(ErrorMessage = "Please Select File")]
         public string Image { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }

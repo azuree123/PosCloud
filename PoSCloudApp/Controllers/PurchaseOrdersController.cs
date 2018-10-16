@@ -25,6 +25,18 @@ namespace PoSCloudApp.Controllers
         {
             return View(_unitOfWork.PurchaseOrderRepository.GetPurchaseOrders());
         }
+        [HttpGet]
+        //public ActionResult AddPurchaseOrder()
+        //{
+        //    ViewBag.edit = "AddPurchaseOrder";
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public ActionResult AddPurchaseOrder()
+        //{
+
+        //}
        
 
         public ActionResult PurchaseOrderDetailList(int purchaseOrderId)
