@@ -318,8 +318,10 @@ namespace POSApp.Controllers
         public ActionResult UpdateSupplier(int id)
         {
             ViewBag.edit = "UpdateSupplier";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             SupplierModelView supplierVm =
-                Mapper.Map<SupplierModelView>(_unitOfWork.SupplierRepository.GetSupplierById(id));
+                Mapper.Map<SupplierModelView>(_unitOfWork.SupplierRepository.GetSupplierById(id,Convert.ToInt32(user.StoreId)));
             return View("AddSupplier",supplierVm);
         }
         [HttpPost]
@@ -333,15 +335,19 @@ namespace POSApp.Controllers
 
             {
                 Supplier supplier = Mapper.Map<Supplier>(supplierVm);
-                _unitOfWork.SupplierRepository.UpdateSupplier(id,supplier);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.SupplierRepository.UpdateSupplier(id,Convert.ToInt32(user.StoreId),supplier);
                 _unitOfWork.Complete();
                 return RedirectToAction("SupplierList", "Setup");
             }
            
         }
-        public ActionResult DeleteSupplier(int id)
+        public ActionResult DeleteSupplier(int id, int storeid)
         {
-            _unitOfWork.SupplierRepository.DeleteSupplier(id);
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.SupplierRepository.DeleteSupplier(id, Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("SupplierList","Setup");
         }
