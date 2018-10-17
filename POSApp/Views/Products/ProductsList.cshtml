@@ -1,0 +1,99 @@
+﻿@model IEnumerable<POSApp.Core.Models.Product>
+@{
+    ViewBag.Title = "ProductsList";
+}
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Products</h2>
+
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>Products</span></li>
+                <li><span>Products</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+
+    <!-- start: page -->
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="@Url.Action("AddProduct","Products")" class="modalShow">
+                    <span  class="fa fa-2x fa-plus-circle"></span>
+                </a>
+                <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
+
+            </div>
+
+            <h2 class="panel-title"></h2>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered table-striped mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                    <tr>
+                        <th width="10%">ID</th>
+                        <th width="20%">Name</th>
+                        <th width="20%">Price</th>
+                        <th width="20%">Image</th>
+                        <th width="20%">Duration</th>
+                        <th width="10%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @{ int i = 1;}
+                @foreach (var product in Model)
+                {
+                    <tr class="">
+                        <td>@(i++)</td>
+                        <td>
+                           @product.Name
+                        </td>
+                        <td>@product.UnitPrice</td>
+                        <td><img src="@product.Image" width="50" height="50"/></td>
+                        <td class="center">@product.Duration</td>
+                        <td class="center">
+                            @Html.ActionLink(" ", "UpdateProduct", "Products", new { id = @product.Id }, new { @class = "btn btn-info btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
+                            @Html.ActionLink(" ", "DeleteProduct", "Products", new { id = @product.Id }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
+                        </td>
+                    </tr>
+                }
+
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+
+
+</section>
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').dataTable();
+
+        $('a.modalShow').on('click', function () {
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+    </script>
+}
+

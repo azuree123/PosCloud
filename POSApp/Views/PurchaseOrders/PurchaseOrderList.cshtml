@@ -1,0 +1,95 @@
+﻿@model IEnumerable<POSApp.Core.Models.PurchaseOrder>
+
+@{
+    ViewBag.Title = "PurchaseOrderList";
+}
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>PurchaseOrders</h2>
+
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>PurchaseOrder</span></li>
+                
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+
+    <!-- start: page -->
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
+            </div>
+
+            <h2 class="panel-title"></h2>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered table-striped mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                    <tr>
+                        <th width="5%">ID</th>
+                        <th width="15%">Supplier</th>
+                        <th width="15%">Order Date</th>
+                        <th width="15%">Supply Date</th>
+                        <th width="5%">Invoice</th>
+                        <th width="15%">Total Price</th>
+                        <th width="10%">Type</th>
+                        <th width="30%">Action</th>
+                           
+                    </tr>  
+                </thead>
+                <tbody>
+                    @{ int i = 1;}
+                    @foreach (var purchaseOrder in Model)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@purchaseOrder.SupplierId</td>
+                            <td>@purchaseOrder.OrderDate</td>
+                            <td>@purchaseOrder.SupplyDate</td>
+                            <td>@purchaseOrder.InvoiceId</td>
+                            <td>@purchaseOrder.TotalPrice</td>
+                            <td>@purchaseOrder.Type</td>
+                            <td></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+
+
+</section>
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').dataTable();
+
+        $('a.modalShow').on('click', function () {
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+    </script>
+}
+
+

@@ -1,0 +1,110 @@
+﻿@model POSApp.Core.ViewModels.StoreViewModel
+
+@{
+    Layout = null;
+}
+
+<div id="ordine" class="modal fade" role="dialog">
+    @{ string s = ViewBag.edit;}
+
+    @using (Html.BeginForm(s, "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content ">
+                <div class="modal-header modalheader">
+                    <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+
+                    @if (s.Contains("Add"))
+                    {
+                        <h4 class="modal-title">
+                            Add Store
+                        </h4>
+                    }
+                    else
+                    {
+                        <h4 class="modal-title">
+                            Edit Store
+                        </h4>
+                    }
+
+
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-bd lobidrag">
+
+                        <div class="panel-body">
+
+                            @Html.HiddenFor(a => a.Id)
+                            @Html.HiddenFor(a => a.CreatedBy)
+                            @Html.HiddenFor(a => a.CreatedOn)
+                            <div class="">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control", @required = true } })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.Address, new {htmlAttributes = new {@class = "form-control"}})
+                                            @Html.ValidationMessageFor(model => model.Address, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                    
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Contact, htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.City, new {htmlAttributes = new {@class = "form-control"}})
+                                            @Html.ValidationMessageFor(model => model.City, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.State, new {htmlAttributes = new {@class = "form-control"}})
+                                            @Html.ValidationMessageFor(model => model.State, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                @Html.LabelFor(model => model.IsOperational, htmlAttributes: new {@class = "control-label "})
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="checkbox">
+                                                    @Html.EditorFor(model => model.IsOperational)
+                                                    @Html.ValidationMessageFor(model => model.IsOperational, "", new {@class = "text-danger"})
+                                                </div>
+                                            </div>
+                                       
+                                    </div>
+                                </div>
+                                
+
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-lg btnPro">Save</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
