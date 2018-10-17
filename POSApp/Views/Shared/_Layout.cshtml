@@ -51,7 +51,7 @@
         <!-- start: header -->
         <header class="header">
             <div class="logo-container">
-                <a href="@Url.Action("Index","Home")" class="logo" style="margin-top: 0">
+                <a href="@Url.Action("Index","Home")" class="logo">
                     <img src="~/Content/images/pos-logo.png"  alt="Cosmic Admin"/>
                     <h5 style="display: inline-block; display: inline-block; -webkit-background-clip: text !important; font-weight: bold; font-style: italic; background: -webkit-linear-gradient(#5fb1be 0%, #98dfe4 100%); -webkit-text-fill-color: transparent;">
                         
@@ -102,7 +102,7 @@
 
                         <div class="sidebar-header">
                             <div class="sidebar-title">
-                                Navigation
+                                <span class="fa fa-cloud"> POScloud</span>
                             </div>
                             <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
                                 <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -358,7 +358,7 @@
                 @RenderBody()
                 <hr />
                 <footer>
-                    <p>&copy; @DateTime.Now.Year - Cosmic PoS ADMIN PANEL</p>
+                    <p class="text-center">&copy; @DateTime.Now.Year - Cosmic PoS Admin Panel</p>
                 </footer>
             </section>
         </div>
