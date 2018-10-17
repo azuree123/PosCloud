@@ -19,9 +19,9 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.ProductCategories.ToList();
         }
-        public ProductCategory GetProductCategoryById(int id)
+        public ProductCategory GetProductCategoryById(int id, int storeid)
         {
-            return _context.ProductCategories.Find(id);
+            return _context.ProductCategories.Find(id,storeid);
         }
 
         public void AddProductCategory(ProductCategory productCategory)
@@ -29,15 +29,16 @@ namespace POSApp.Persistence.Repositories
             _context.ProductCategories.Add(productCategory);
         }
 
-        public void UpdateProductCategory(int id, ProductCategory productCategory)
+        public void UpdateProductCategory(int id,int storeid ,ProductCategory productCategory)
         {
+            productCategory.StoreId = storeid;
             _context.ProductCategories.Attach(productCategory);
             _context.Entry(productCategory).State = EntityState.Modified;
         }
 
-        public void DeleteProductCategory(int id)
+        public void DeleteProductCategory(int id,int storeid)
         {
-            var productCategory = new ProductCategory { Id = id };
+            var productCategory = new ProductCategory { Id = id, StoreId = storeid};
             _context.ProductCategories.Attach(productCategory);
             _context.Entry(productCategory).State = EntityState.Deleted;
         }

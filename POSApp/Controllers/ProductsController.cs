@@ -38,6 +38,7 @@ namespace POSApp.Controllers
             product.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             ViewBag.edit = "AddProduct";
+           
             return View(product);
         }
         [HttpPost]
@@ -46,6 +47,10 @@ namespace POSApp.Controllers
             ViewBag.edit = "AddProduct";
             if (!ModelState.IsValid)
             {
+                productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Product")
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 return View(productVm);
             }
             else 
@@ -54,7 +59,7 @@ namespace POSApp.Controllers
                 
                 try
                 {
-                    string path = Server.MapPath("~/Images/Data/Product" + file.FileName);
+                    string path = Server.MapPath("~/Images/Data/Product/" + file.FileName);
                     if (System.IO.File.Exists(path))
                     {
                         ViewBag.Message = "Image Already Exists!";
@@ -62,7 +67,7 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productVm.Image = "/Images/Data/Product";
+                        productVm.Image = "/Images/Data/Product/" + file.FileName;
                     }
                 }
                 catch (Exception e)
@@ -85,7 +90,9 @@ namespace POSApp.Controllers
         public ActionResult UpdateProduct(int id)
         {
             ViewBag.edit = "UpdateProduct";
-            ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id));
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id,Convert.ToInt32(user.StoreId)));
             productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Product")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
@@ -104,7 +111,7 @@ namespace POSApp.Controllers
             {
                 try
                 {
-                    string path = Server.MapPath("~/Images/Data/Product" + file.FileName);
+                    string path = Server.MapPath("~/Images/Data/Product/" + file.FileName);
                     if (System.IO.File.Exists(path))
                     {
                         ViewBag.Message = "Image Already Exists";
@@ -112,7 +119,7 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productVm.Image = "/Images/Data/Product";
+                        productVm.Image = "/Images/Data/Product/" + file.FileName;
                     }
                 }
                 catch (Exception e)
@@ -123,15 +130,19 @@ namespace POSApp.Controllers
 
             {
                 Product product = Mapper.Map<Product>(productVm);
-                _unitOfWork.ProductRepository.UpdateProduct(id,product);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ProductRepository.UpdateProduct(id,Convert.ToInt32(user.StoreId),product);
                 _unitOfWork.Complete();
                 return RedirectToAction("ProductsList", "Products");
             }
 
         }
-        public ActionResult DeleteProduct(int id)
+        public ActionResult DeleteProduct(int id, int storeid)
         {
-            _unitOfWork.ProductRepository.DeleteProduct(id);
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ProductRepository.DeleteProduct(id, Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("ProductsList", "Products");
         }
@@ -160,7 +171,7 @@ namespace POSApp.Controllers
 
                 try
                 {
-                    string path = Server.MapPath("~/Images/Data/Product" + file.FileName);
+                    string path = Server.MapPath("~/Images/Data/Product/" + file.FileName);
                     if (System.IO.File.Exists(path))
                     {
                         ViewBag.Message = "Image Already Exists!";
@@ -168,7 +179,7 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productCategory.Image = "/Images/Data/Product";
+                        productCategory.Image = "/Images/Data/Product/" + file.FileName;
                     }
                 }
                 catch (Exception e)
@@ -191,18 +202,23 @@ namespace POSApp.Controllers
         public ActionResult UpdateProductCategory(int id)
         {
             ViewBag.edit = "UpdateProductCategory";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ProductCategoryViewModel product =
-                Mapper.Map<ProductCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id));
+                Mapper.Map<ProductCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id,Convert.ToInt32(user.StoreId)));
             return View("AddProductCategory", product);
         }
         [HttpPost]
         public ActionResult UpdateProductCategory(int id, ProductCategoryViewModel productCategoryVm, HttpPostedFileBase file)
         {
+            
             if (!ModelState.IsValid)
             {
                 ViewBag.edit = "UpdateProductCategory";
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
                 ProductCategoryViewModel product =
-                    Mapper.Map<ProductCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id));
+                    Mapper.Map<ProductCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id,Convert.ToInt32(user.StoreId)));
                 return View("AddProductCategory", product);
             }
             else
@@ -211,7 +227,7 @@ namespace POSApp.Controllers
 
                 try
                 {
-                    string path = Server.MapPath("~/Images/Data/Product" + file.FileName);
+                    string path = Server.MapPath("~/Images/Data/Product/" + file.FileName);
                     if (System.IO.File.Exists(path))
                     {
                         ViewBag.Message = "Image Already Exists!";
@@ -219,7 +235,7 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productCategoryVm.Image = "/Images/Data/Product";
+                        productCategoryVm.Image = "/Images/Data/Product/" + file.FileName;
                     }
                 }
                 catch (Exception e)
@@ -230,16 +246,20 @@ namespace POSApp.Controllers
             }
             {
                 productCategoryVm.Type = "Product";
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
                 ProductCategory category = Mapper.Map<ProductCategory>(productCategoryVm);
-                _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id,category);
+                _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id,Convert.ToInt32(user.StoreId),category);
                 _unitOfWork.Complete();
                 return RedirectToAction("ProductCategoryList");
             }
         }
 
-        public ActionResult DeleteProductCategory(int id)
+        public ActionResult DeleteProductCategory(int id, int storeid)
         {
-            _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id);
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id,Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("ProductCategoryList", "Products");
         }

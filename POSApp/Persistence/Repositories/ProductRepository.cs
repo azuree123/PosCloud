@@ -23,9 +23,9 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Products.Where(a => a.CategoryId == productCategoryId).ToList();
         }
-        public Product GetProductById(int id)
+        public Product GetProductById(int id, int storeid)
         {
-            return _context.Products.Find(id);
+            return _context.Products.Find(id,storeid);
         }
 
         public void AddProduct(Product product)
@@ -33,15 +33,16 @@ namespace POSApp.Persistence.Repositories
             _context.Products.Add(product);
         }
 
-        public void UpdateProduct(int id, Product product)
+        public void UpdateProduct(int id, int storeid,Product product)
         {
+            product.StoreId = storeid;
             _context.Products.Attach(product);
             _context.Entry(product).State = EntityState.Modified;
         }
 
-        public void DeleteProduct(int id)
+        public void DeleteProduct(int id, int storeid)
         {
-            var product = new Product { Id = id };
+            var product = new Product { Id = id, StoreId = storeid};
             _context.Products.Attach(product);
             _context.Entry(product).State = EntityState.Deleted;
         }

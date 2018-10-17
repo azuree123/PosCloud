@@ -7,9 +7,9 @@ namespace POSApp.Core.Repositories
    {
        IEnumerable<Product> GetAllProducts();
        IEnumerable<Product> GetProducts(int productCategoryId);
-       Product GetProductById(int id);
+       Product GetProductById(int id, int storeid);
        void AddProduct(Product product);
-       void UpdateProduct(int id, Product product);
-       void DeleteProduct(int id);
+       void UpdateProduct(int id, int storeid,Product product);
+       void DeleteProduct(int id,int storeid);
    }
 }

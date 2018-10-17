@@ -86,7 +86,9 @@ namespace POSApp.Controllers
         public ActionResult UpdateService(int id)
         {
             ViewBag.edit = "UpdateService";
-            ServiceCreateViewModel serviceVm = Mapper.Map<ServiceCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id));
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ServiceCreateViewModel serviceVm = Mapper.Map<ServiceCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id,Convert.ToInt32(user.StoreId)));
             serviceVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Service")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             serviceVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
@@ -127,15 +129,19 @@ namespace POSApp.Controllers
                     }
                 }
                 Product service = Mapper.Map<Product>(serviceVm);
-                _unitOfWork.ProductRepository.UpdateProduct(id, service);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ProductRepository.UpdateProduct(id,Convert.ToInt32(user.StoreId) ,service);
                 _unitOfWork.Complete();
                 return RedirectToAction("ServicesList", "Services");
             }
 
         }
-        public ActionResult DeleteService(int id)
+        public ActionResult DeleteService(int id,int storeid)
         {
-            _unitOfWork.ProductRepository.DeleteProduct(id);
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ProductRepository.DeleteProduct(id, Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("ServicesList", "Services");
         }
@@ -193,8 +199,10 @@ namespace POSApp.Controllers
         public ActionResult UpdateServiceCategory(int id)
         {
             ViewBag.edit = "UpdateServiceCategory";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ServiceCategoryViewModel service =
-                Mapper.Map<ServiceCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id));
+                Mapper.Map<ServiceCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id,Convert.ToInt32(user.StoreId)));
             return View("AddServiceCategory", service);
         }
         [HttpPost]
@@ -203,8 +211,10 @@ namespace POSApp.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.edit = "UpdateServiceCategory";
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
                 ServiceCategoryViewModel service =
-                    Mapper.Map<ServiceCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id));
+                    Mapper.Map<ServiceCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id,Convert.ToInt32(user.StoreId)));
                 return View("AddServiceCategory", service);
             }
             else if (file != null && file.ContentLength>0)
@@ -232,15 +242,19 @@ namespace POSApp.Controllers
             {
                 serviceCategoryVm.Type = "Service";
                 ProductCategory category  = Mapper.Map<ProductCategory>(serviceCategoryVm);
-                _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id, category);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id, Convert.ToInt32(user.StoreId) ,category);
                 _unitOfWork.Complete();
                 return RedirectToAction("ServiceCategoryList");
             }
         }
 
-        public ActionResult DeleteServiceCategory(int id)
+        public ActionResult DeleteServiceCategory(int id, int storeid)
         {
-            _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id);
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id, Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("ServiceCategoryList", "Services");
         }

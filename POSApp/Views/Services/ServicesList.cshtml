@@ -57,8 +57,8 @@
                             <td>@product.UnitPrice</td>
                             <td class="center">@product.Duration</td>
                             <td class="center">
-                                @Html.ActionLink(" ", "UpdateService", "Services", new { id = @product.Id }, new { @class = "btn btn-info btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
-                                @Html.ActionLink(" ", "DeleteService", "Services", new { id = @product.Id }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "UpdateService", "Services", new { id = @product.Id, storeId =@product.StoreId }, new { @class = "btn btn-info btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
+                                @Html.ActionLink(" ", "DeleteService", "Services", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
                             </td>
                         </tr>
                     }
