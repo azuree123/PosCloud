@@ -20,9 +20,9 @@ namespace POSApp.Persistence.Repositories
             return _context.Expenses.ToList();
         }
 
-        public Expense GetExpenseById(int id)
+        public Expense GetExpenseById(int id, int storeid)
         {
-            return _context.Expenses.Find(id);
+            return _context.Expenses.Find(id,storeid);
         }
 
         public void AddExpense(Expense expense)
@@ -30,15 +30,16 @@ namespace POSApp.Persistence.Repositories
             _context.Expenses.Add(expense);
         }
 
-        public void UpdateExpense(int id, Expense expense)
+        public void UpdateExpense(int id, Expense expense,int storeid)
         {
+            expense.StoreId = storeid;
             _context.Expenses.Attach(expense);
             _context.Entry(expense).State = EntityState.Modified;
         }
 
-        public void DeleteExpense(int id)
+        public void DeleteExpense(int id, int storeid)
         {
-            var expense = new Expense { Id = id };
+            var expense = new Expense { Id = id, StoreId = storeid};
             _context.Expenses.Attach(expense);
             _context.Entry(expense).State = EntityState.Deleted;
         }

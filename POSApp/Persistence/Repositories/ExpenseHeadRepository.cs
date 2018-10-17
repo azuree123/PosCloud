@@ -20,9 +20,9 @@ namespace POSApp.Persistence.Repositories
             return _context.ExpenseHeads.ToList();
         }
 
-        public ExpenseHead GetExpenseHeadById(int id)
+        public ExpenseHead GetExpenseHeadById(int id, int storeid)
         {
-            return _context.ExpenseHeads.Find(id);
+            return _context.ExpenseHeads.Find(id,storeid);
         }
 
         public void AddExpenseHead(ExpenseHead expenseHeads)
@@ -30,15 +30,16 @@ namespace POSApp.Persistence.Repositories
             _context.ExpenseHeads.Add(expenseHeads);
         }
 
-        public void UpdateExpenseHead(int id, ExpenseHead expenseHeads)
+        public void UpdateExpenseHead(int id,int storeid, ExpenseHead expenseHeads)
         {
+            expenseHeads.StoreId = storeid;
             _context.ExpenseHeads.Attach(expenseHeads);
             _context.Entry(expenseHeads).State = EntityState.Modified;
         }
 
-        public void DeleteExpenseHead(int id)
+        public void DeleteExpenseHead(int id, int storeid)
         {
-            var expenseHeads = new ExpenseHead { Id = id };
+            var expenseHeads = new ExpenseHead { Id = id,StoreId = storeid};
             _context.ExpenseHeads.Attach(expenseHeads);
             _context.Entry(expenseHeads).State = EntityState.Deleted;
         }

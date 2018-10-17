@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
@@ -65,7 +66,9 @@ namespace POSApp.Controllers
         }
         public ActionResult UpdateExpense(int id)
         {
-            ExpenseViewModel expense = Mapper.Map<ExpenseViewModel>(_unitOfWork.ExpenseRepository.GetExpenseById(id));
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ExpenseViewModel expense = Mapper.Map<ExpenseViewModel>(_unitOfWork.ExpenseRepository.GetExpenseById(id, Convert.ToInt32(user.StoreId)));
             expense.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees().Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             expense.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
                 .AsEnumerable();
@@ -88,15 +91,19 @@ namespace POSApp.Controllers
             else
             {
                 Expense expense = Mapper.Map<Expense>(expenseVm);
-                _unitOfWork.ExpenseRepository.UpdateExpense(id,expense);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ExpenseRepository.UpdateExpense(id,expense, Convert.ToInt32(user.StoreId));
                 _unitOfWork.Complete();
                 return RedirectToAction("ExpenseList");
             }
 
         }
-        public ActionResult DeleteExpense(int id)
+        public ActionResult DeleteExpense(int id, int storeid)
         {
-            _unitOfWork.ExpenseRepository.DeleteExpense(id);
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ExpenseRepository.DeleteExpense(id, Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("ExpenseList", "Expense");
         }
@@ -132,8 +139,10 @@ namespace POSApp.Controllers
         public ActionResult UpdateExpenseHead(int id)
         {
             ViewBag.edit = "UpdateExpenseHead";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ExpenseHeadViewModel expenseHeadVm =
-                Mapper.Map<ExpenseHeadViewModel>(_unitOfWork.ExpenseHeadRepository.GetExpenseHeadById(id));
+                Mapper.Map<ExpenseHeadViewModel>(_unitOfWork.ExpenseHeadRepository.GetExpenseHeadById(id, Convert.ToInt32(user.StoreId)));
             return View("AddExpenseHead", expenseHeadVm);
         }
         [HttpPost]
@@ -147,14 +156,18 @@ namespace POSApp.Controllers
             else
             {
                 ExpenseHead expenseHead = Mapper.Map<ExpenseHead>(expenseHeadVm);
-                _unitOfWork.ExpenseHeadRepository.UpdateExpenseHead(id,expenseHead);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ExpenseHeadRepository.UpdateExpenseHead(id,Convert.ToInt32(user.StoreId),expenseHead);
                 _unitOfWork.Complete();
                 return RedirectToAction("ExpenseHeadList");
             }
         }
-        public ActionResult DeleteExpenseHead(int id)
+        public ActionResult DeleteExpenseHead(int id, int storeid)
         {
-            _unitOfWork.ExpenseHeadRepository.DeleteExpenseHead(id);
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ExpenseHeadRepository.DeleteExpenseHead(id, Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("ExpenseHeadList","Expense");
         }
