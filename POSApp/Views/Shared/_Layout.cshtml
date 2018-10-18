@@ -11,37 +11,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/datatables")
-    <style>
-        select {
-            padding: 0 !important;
-        }
-        .modalheader {
-            background-color: #111640;
-            text-align: center;
-            color:#ffffff;
-            
-        }
-        .modalFooter {
-            background-color: #e5e5e6;
-            color: black;
-        }
-        .btnPro {
-            background-color: #111640;
-            color: #ffffff;
-            font-size: small;
-        }
-        .btnPro1 {
-            background-color: #d2322d;
-            color: #ffffff;
-            font-size: small;
-        }
-        .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
-            margin-left: 0;
-        }
-        .radio, .checkbox {
-            margin-top: 0;
-        }
-    </style>
+    
 
 </head>
 <body>
@@ -102,7 +72,7 @@
 
                         <div class="sidebar-header">
                             <div class="sidebar-title">
-                                <span class="fa fa-cloud"> POScloud</span>
+                                <span class="fa fa-cloud" style =" margin-left: 15px"> POScloud</span>
                             </div>
                             <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
                                 <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -123,7 +93,7 @@
                                             {
 
 
-                                                <li class="nav-parent">
+                                                <li class="nav-parent disabled">
                                                     <a>
                                                         <i class="fa fa-user-secret" aria-hidden="true"></i>
                                                         <span>Users </span>
@@ -188,7 +158,7 @@
 
                                                     </ul>
                                                 </li>
-                                                <li class="nav-parent">
+                                                <li class="nav-parent disabled">
                                                     <a>
                                                         <i class="fa fa-exchange " aria-hidden="true"></i>
                                                         <span>Sales order</span>
@@ -199,7 +169,7 @@
                                                                 Sale Order
                                                             </a>
                                                         </li>
-                                                        <li>
+                                                        <li >
                                                             <a href="@Url.Action("SaleOrderDetailList","SaleOrders")">
                                                                 SaleOrder Details
                                                             </a>
@@ -218,7 +188,7 @@
                                                                 Purchase Order
                                                             </a>
                                                         </li>
-                                                        <li>
+                                                        <li class="disabled">
                                                             <a href="@Url.Action("PurchaseOrderDetailList","PurchaseOrders")">
                                                                 PurchaseOrder Details
                                                             </a>

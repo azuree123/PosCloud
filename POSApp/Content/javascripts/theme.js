@@ -822,7 +822,7 @@ window.theme = {};
 										'</div>',
 										'<div class="form-group mb-lg">',
 											'<div class="input-group input-group-icon">',
-												'<input id="pwd" name="pwd" type="password" class="form-control input-lg" placeholder="Password" />',
+												'<input id="pwd" name="pwd" type="password" class="form-control input-md" placeholder="Password" />',
 												'<span class="input-group-addon">',
 													'<span class="icon icon-lg">',
 														'<i class="fa fa-lock"></i>',

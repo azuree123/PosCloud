@@ -5,9 +5,9 @@
 
 <section class="body-sign">
     <div class="center-sign">
-        <a href="/" class="logo pull-left">
+        @*<a href="/" class="logo pull-left">
             <img src="~/Content/images/logo.png" height="54" alt="Porto Admin" />
-        </a>
+        </a>*@
 
         <div class="panel panel-sign">
             <div class="panel-title-sign mt-xl text-right">
@@ -49,11 +49,12 @@
                         @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "Enter your Mobile Number" })
                         @Html.TextAreaFor(m => m.Address, new { @class = "form-control", placeholder = "Enter Address" })
 
-                        <label class="checkbox-inline">@Html.CheckBoxFor(m => m.IsAdmin, new { @class = "checkbox" }) I am a Admin.</label>
-                        <div class="spacer-20"></div>
-                        <label class="checkbox-inline"><input type="checkbox">By signing up, I agree to the <a href="#">terms &amp; conditions</a> and <a href="#">privacy policy</a></label>
-                        <div class="spacer-10"></div>
-                        <div class="form-group">
+                        @*<label class="checkbox-inline">@Html.CheckBoxFor(m => m.IsAdmin, new { @class = "checkbox" }) I am a Admin.</label>*@
+                        
+                        <label><input type="checkbox"> By signing up, I agree to the <a href="#">terms &amp; conditions</a> and <a href="#">privacy policy</a></label>
+                        
+                        
+                        @*<div class="form-group">
                             <div class="g-recaptcha" data-sitekey="6LfamB4UAAAAAI9PypwbSZZMFdqZi35iWGahWpUr"></div>
                             <div>
                                 @if (TempData["recaptcha"] != null)
@@ -61,9 +62,9 @@
                                     <p>TempData["recaptcha"].ToString()</p>
                                 }
                             </div>
-                        </div>
+                        </div>*@
                         <div class="spacer-20"></div>
-                        <input type="submit" class="btn btn-primary btn-lg btn-block" value="Create account">
+                        <input type="submit" class="btn btn-success btn-lg btn-block" value="Create account">
 
 
                     </div>

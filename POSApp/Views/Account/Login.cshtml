@@ -22,30 +22,20 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group mb-lg">
-                        <label>Username</label>
-                        <div class="input-group input-group-icon">
-
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", @required = true })
-                            <span class="input-group-addon">
-                                <span class="icon icon-lg">
-                                    <i class="fa fa-user"></i>
-                                </span>
-                            </span>
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                        </div>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", @required = true, @placeholder = "Enter Email Address" })
+                                </div>
+                            </div>
                     </div>
 
                     <div class="form-group mb-lg">
-                        <div class="clearfix">
-                            <label class="pull-left">Password</label>
-                        </div>
-                        <div class="input-group input-group-icon">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", @required = true })
-                            <span class="input-group-addon">
-                                <span class="icon icon-lg">
-                                    <i class="fa fa-lock"></i>
-                                </span>
-                            </span>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", @required = true, @placeholder="Enter Password" })
+                            </div>
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -58,8 +48,8 @@
                             </div>
                         </div>
                         <div class="col-sm-4 text-right">
-                            <button type="submit" class="btn btn-primary hidden-xs">Sign In</button>
-                            <button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Sign In</button>
+                            <button type="submit" class="btn btn-danger hidden-xs">Sign In</button>
+                            <button type="submit" class="btn btn-danger btn-block btn-lg visible-xs mt-lg">Sign In</button>
                         </div>
                     </div>
 

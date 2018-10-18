@@ -2619,10 +2619,10 @@ input[type="search"] {
   .input-group-sm input[type="month"] {
     line-height: 30px;
   }
-  input[type="date"].input-lg,
-  input[type="time"].input-lg,
-  input[type="datetime-local"].input-lg,
-  input[type="month"].input-lg,
+  input[type="date"].input-md,
+  input[type="time"].input-md,
+  input[type="datetime-local"].input-md,
+  input[type="month"].input-md,
   .input-group-lg input[type="date"],
   .input-group-lg input[type="time"],
   .input-group-lg input[type="datetime-local"],
@@ -2701,7 +2701,7 @@ fieldset[disabled] .checkbox label {
   padding-bottom: 7px;
   margin-bottom: 0;
 }
-.form-control-static.input-lg,
+.form-control-static.input-md,
 .form-control-static.input-sm {
   padding-right: 0;
   padding-left: 0;
@@ -2743,19 +2743,19 @@ select[multiple].input-sm {
   font-size: 12px;
   line-height: 1.5;
 }
-.input-lg {
+.input-md {
   height: 46px;
   padding: 10px 16px;
   font-size: 18px;
   line-height: 1.3333333;
   border-radius: 6px;
 }
-select.input-lg {
+select.input-md {
   height: 46px;
   line-height: 46px;
 }
-textarea.input-lg,
-select[multiple].input-lg {
+textarea.input-md,
+select[multiple].input-md {
   height: auto;
 }
 .form-group-lg .form-control {
@@ -2798,7 +2798,7 @@ select[multiple].input-lg {
   text-align: center;
   pointer-events: none;
 }
-.input-lg + .form-control-feedback,
+.input-md + .form-control-feedback,
 .input-group-lg + .form-control-feedback,
 .form-group-lg .form-control + .form-control-feedback {
   width: 46px;
@@ -3914,7 +3914,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   font-size: 12px;
   border-radius: 3px;
 }
-.input-group-addon.input-lg {
+.input-group-addon.input-md {
   padding: 10px 16px;
   font-size: 18px;
   border-radius: 6px;

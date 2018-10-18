@@ -81,7 +81,7 @@ html.dark {
 
 select {
 	&.input-sm,
-	&.input-lg {
+	&.input-md {
 		line-height: 1;
 	}
 }
@@ -247,7 +247,7 @@ html.dark {
 // INPUT (OVERRIDE)
 // -----------------------------------------------------------------------------
 /* Form - Input Override */
-.input-lg {
+.input-md {
 	border-radius: 4px;
 }
 

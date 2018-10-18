@@ -324,7 +324,7 @@
 .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear {
   margin-top: 6px;
 }
-.select2-container--bootstrap.input-sm, .select2-container--bootstrap.input-lg {
+.select2-container--bootstrap.input-sm, .select2-container--bootstrap.input-md {
   border-radius: 0;
   font-size: 12px;
   height: auto;
@@ -360,7 +360,7 @@
 .select2-container--bootstrap.input-sm .select2-selection--multiple .select2-selection__clear, .input-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear, .form-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear {
   margin-top: 5px;
 }
-.select2-container--bootstrap.input-lg .select2-selection--single, .input-group-lg .select2-container--bootstrap .select2-selection--single, .form-group-lg .select2-container--bootstrap .select2-selection--single {
+.select2-container--bootstrap.input-md .select2-selection--single, .input-group-lg .select2-container--bootstrap .select2-selection--single, .form-group-lg .select2-container--bootstrap .select2-selection--single {
   border-radius: 6px;
   font-size: 18px;
   height: 46px;
@@ -368,40 +368,40 @@
   padding: 10px 31px 10px 16px;
   /* 1 */
 }
-.select2-container--bootstrap.input-lg .select2-selection--single .select2-selection__arrow, .input-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow, .form-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow {
+.select2-container--bootstrap.input-md .select2-selection--single .select2-selection__arrow, .input-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow, .form-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow {
   width: 5px;
 }
-.select2-container--bootstrap.input-lg .select2-selection--single .select2-selection__arrow b, .input-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b, .form-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b {
+.select2-container--bootstrap.input-md .select2-selection--single .select2-selection__arrow b, .input-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b, .form-group-lg .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b {
   border-width: 5px 5px 0 5px;
   margin-left: -5px;
   margin-left: -10px;
   margin-top: -2.5px;
 }
-.select2-container--bootstrap.input-lg .select2-selection--multiple, .input-group-lg .select2-container--bootstrap .select2-selection--multiple, .form-group-lg .select2-container--bootstrap .select2-selection--multiple {
+.select2-container--bootstrap.input-md .select2-selection--multiple, .input-group-lg .select2-container--bootstrap .select2-selection--multiple, .form-group-lg .select2-container--bootstrap .select2-selection--multiple {
   min-height: 46px;
 }
-.select2-container--bootstrap.input-lg .select2-selection--multiple .select2-selection__choice, .input-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice, .form-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {
+.select2-container--bootstrap.input-md .select2-selection--multiple .select2-selection__choice, .input-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice, .form-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {
   font-size: 18px;
   line-height: 1.3333333;
   border-radius: 4px;
   margin: 9px 0 0 8px;
   padding: 0 10px;
 }
-.select2-container--bootstrap.input-lg .select2-selection--multiple .select2-search--inline .select2-search__field, .input-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field, .form-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
+.select2-container--bootstrap.input-md .select2-selection--multiple .select2-search--inline .select2-search__field, .input-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field, .form-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
   padding: 0 16px;
   font-size: 18px;
   height: 44px;
   line-height: 1.3333333;
 }
-.select2-container--bootstrap.input-lg .select2-selection--multiple .select2-selection__clear, .input-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear, .form-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear {
+.select2-container--bootstrap.input-md .select2-selection--multiple .select2-selection__clear, .input-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear, .form-group-lg .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear {
   margin-top: 10px;
 }
-.select2-container--bootstrap.input-lg.select2-container--open .select2-selection--single {
+.select2-container--bootstrap.input-md.select2-container--open .select2-selection--single {
   /**
    * Make the dropdown arrow point up while the dropdown is visible.
    */
 }
-.select2-container--bootstrap.input-lg.select2-container--open .select2-selection--single .select2-selection__arrow b {
+.select2-container--bootstrap.input-md.select2-container--open .select2-selection--single .select2-selection__arrow b {
   border-color: transparent transparent #999 transparent;
   border-width: 0 5px 5px 5px;
 }

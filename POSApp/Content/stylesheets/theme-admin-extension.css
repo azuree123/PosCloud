@@ -1098,7 +1098,7 @@ html.dark .input-group-addon {
 	line-height: 1.334;
 }
 
-select.input-sm, select.input-lg {
+select.input-sm, select.input-md {
 	line-height: 1;
 }
 
@@ -1218,7 +1218,7 @@ html.dark .form-bordered .form-group {
 }
 
 /* Form - Input Override */
-.input-lg {
+.input-md {
 	border-radius: 4px;
 }
 
