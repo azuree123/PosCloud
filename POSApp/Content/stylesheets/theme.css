@@ -61,10 +61,10 @@ a:active {
 
 /* Layout Base - Content Body */
 .content-body {
-	display: table-cell;
-	padding: 0px;
-	position: relative;
-	vertical-align: top;
+    display: table-cell;
+   padding: 0px 30px; 
+    position: relative;
+    vertical-align: top;
 }
 
 .content-body > .row + .row {
