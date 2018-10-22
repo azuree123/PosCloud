@@ -12,7 +12,7 @@ namespace POSApp.Core.ViewModels
         public string Name { get; set; }
         [DefaultValue(0)]
         public double Rate { get; set; }
-        public int StoreId { get; set; }
+        public int? StoreId { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
     }

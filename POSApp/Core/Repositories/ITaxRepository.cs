@@ -9,12 +9,13 @@ namespace POSApp.Core.Repositories
 {
    public interface ITaxRepository
     {
-        Tax GetTax(int id);
+        Tax GetTaxById(int id,int storeId);
         IEnumerable<Tax> GetTaxes(int storeId);
         IEnumerable<Tax> GetTaxesFiltered(string query, int storeId);
         IEnumerable<Tax> GetTaxesFiltered(int query, int storeId);
         int IsExisting(string taxName, int storeId);
-        void Delete(int id, int storeId);
-        void Add(Tax optcategory);
+        void DeleteTax(int id, int storeId);
+        void AddTax(Tax optcategory);
+        void UpdateTax(int id, Tax tax, int storeId);
     }
 }

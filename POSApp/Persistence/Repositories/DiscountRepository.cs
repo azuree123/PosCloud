@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using POSApp.Core.Models;
@@ -15,16 +16,14 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
-        public Discount GetDiscount(int id)
+        public Discount GetDiscountById(int id, int storeId)
         {
-            return _context.Discounts.FirstOrDefault(x => x.Id == id);
+            return _context.Discounts.FirstOrDefault(x => x.Id == id && x.StoreId==storeId);
         }
         public IEnumerable<Discount> GetDiscounts(int storeId)
         {
             //return _context.Discount;
-            _context.Discounts.Load();
             return _context.Discounts
-                .Local.ToBindingList()
                 .Where(a => a.StoreId == storeId)
                 .ToList();
         }
@@ -33,13 +32,13 @@ namespace POSApp.Persistence.Repositories
         {
             //return _context.Discount;
             query = query.ToUpper();
-            return _context.Discounts.Local
+            return _context.Discounts
                     .Where(x => x.Name.ToUpper().Contains(query) && x.StoreId == storeId)
                 ;
         }
         public IEnumerable<Discount> GetDiscountsFiltered(int query, int storeId)
         {
-            return _context.Discounts.Local
+            return _context.Discounts
                     .Where(x => x.Id == query && x.StoreId == storeId)
                 ;
         }
@@ -57,15 +56,29 @@ namespace POSApp.Persistence.Repositories
             }
 
         }
-        public void Delete(int id, int storeId)
+        public void DeleteDiscount(int id, int storeId)
         {
-            var dept = _context.Discounts.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            _context.Discounts.Remove(dept);
+            var discounted = new Discount { Id = id, StoreId = storeId };
+            _context.Discounts.Attach(discounted);
+            _context.Entry(discounted).State = EntityState.Deleted;
         }
-        public void Add(Discount optcategory)
+        public void AddDiscount(Discount optcategory)
         {
             _context.Discounts.Add(optcategory);
 
+        }
+
+        public void UpdateDiscount(int id, Discount discount, int storeId)
+        {
+            if (discount.Id != id)
+            {
+                discount.Id = id;
+            }
+            else { }
+
+            discount.StoreId = storeId;
+            _context.Discounts.Attach(discount);
+            _context.Entry(discount).State = EntityState.Modified;
         }
     }
 }

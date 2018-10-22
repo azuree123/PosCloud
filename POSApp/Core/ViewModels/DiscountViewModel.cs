@@ -16,7 +16,7 @@ namespace POSApp.Core.ViewModels
         public bool IsPercentage { get; set; }
         [DefaultValue(false)]
         public bool IsTaxable { get; set; }
-        public int StoreId { get; set; }
+        public int? StoreId { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
     }

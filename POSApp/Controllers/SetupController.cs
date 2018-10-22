@@ -540,7 +540,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.CouponRepository.GetCoupons((int)user.StoreId));
+            return View(_unitOfWork.DiscountRepository.GetDiscounts((int)user.StoreId));
         }
         [HttpGet]
         public ActionResult AddDiscount()
@@ -548,12 +548,71 @@ namespace POSApp.Controllers
             ViewBag.edit = "AddDiscount";
             return View();
         }
+        [HttpPost]
+        public ActionResult AddDiscount(DiscountViewModel dicountMv)
+        {
+            
+            ViewBag.edit = "AddDiscount";
+            if (!ModelState.IsValid)
+            {
+                return View(dicountMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Discount discount = Mapper.Map<Discount>(dicountMv);
+                discount.StoreId = (int)user.StoreId;
+                _unitOfWork.DiscountRepository.AddDiscount(discount);
+                _unitOfWork.Complete();
+                return RedirectToAction("DiscountList", "Setup");
+            }
+
+        }
+        [HttpGet]
+        public ActionResult UpdateDiscount(int id)
+        {
+            ViewBag.edit = "UpdateDiscount";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            DiscountViewModel discountMv =
+                Mapper.Map<DiscountViewModel>(_unitOfWork.DiscountRepository.GetDiscountById(id, (int)user.StoreId));
+            return View("AddDiscount", discountMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateDiscount(int id, DiscountViewModel discountMv)
+        {
+            
+            ViewBag.edit = "UpdateDiscount";
+            if (!ModelState.IsValid)
+            {
+                return View("AddDiscount", discountMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Discount discount = Mapper.Map<Discount>(discountMv);
+                _unitOfWork.DiscountRepository.UpdateDiscount(id, discount, (int)user.StoreId);
+                _unitOfWork.Complete();
+                return RedirectToAction("DiscountList", "Setup");
+            }
+
+        }
+        public ActionResult DeleteDiscount(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.DiscountRepository.DeleteDiscount(id, (int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("DiscountList", "Setup");
+        }
 
         public ActionResult TaxList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.CouponRepository.GetCoupons((int)user.StoreId));
+            return View(_unitOfWork.TaxRepository.GetTaxes((int)user.StoreId));
         }
         [HttpGet]
         public ActionResult AddTax()
@@ -561,7 +620,65 @@ namespace POSApp.Controllers
             ViewBag.edit = "AddTax";
             return View();
         }
+        [HttpPost]
+        public ActionResult AddTax(TaxViewModel taxMv)
+        {
 
+            ViewBag.edit = "AddTax";
+            if (!ModelState.IsValid)
+            {
+                return View(taxMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Tax tax = Mapper.Map<Tax>(taxMv);
+                tax.StoreId = (int)user.StoreId;
+                _unitOfWork.TaxRepository.AddTax(tax);
+                _unitOfWork.Complete();
+                return RedirectToAction("TaxList", "Setup");
+            }
+
+        }
+        [HttpGet]
+        public ActionResult UpdateTax(int id)
+        {
+            ViewBag.edit = "UpdateTax";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            TaxViewModel taxMv =
+                Mapper.Map<TaxViewModel>(_unitOfWork.TaxRepository.GetTaxById(id, (int)user.StoreId));
+            return View("AddTax", taxMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateTax(int id, TaxViewModel taxMv)
+        {
+
+            ViewBag.edit = "UpdateTax";
+            if (!ModelState.IsValid)
+            {
+                return View("AddTax", taxMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Tax tax = Mapper.Map<Tax>(taxMv);
+                _unitOfWork.TaxRepository.UpdateTax(id, tax, (int)user.StoreId);
+                _unitOfWork.Complete();
+                return RedirectToAction("TaxList", "Setup");
+            }
+
+        }
+        public ActionResult DeleteTax(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.TaxRepository.DeleteTax(id, (int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("TaxList", "Setup");
+        }
 
         public ActionResult CouponList()
         {

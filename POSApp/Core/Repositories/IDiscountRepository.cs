@@ -9,12 +9,13 @@ namespace POSApp.Core.Repositories
 {
    public interface IDiscountRepository
     {
-        Discount GetDiscount(int id);
+        Discount GetDiscountById(int id,int storeId);
         IEnumerable<Discount> GetDiscounts(int storeId);
         IEnumerable<Discount> GetDiscountsFiltered(string query, int storeId);
         IEnumerable<Discount> GetDiscountsFiltered(int query, int storeId);
         int IsExisting(string discountName, int storeId);
-        void Delete(int id, int storeId);
-        void Add(Discount optcategory);
+        void DeleteDiscount(int id, int storeId);
+        void AddDiscount(Discount optcategory);
+        void UpdateDiscount(int id, Discount discount, int storeId);
     }
 }
