@@ -336,7 +336,9 @@
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\Models\Client.cs" />
+    <Compile Include="Core\Models\Discount.cs" />
     <Compile Include="Core\Models\Store.cs" />
+    <Compile Include="Core\Models\Tax.cs" />
     <Compile Include="Core\Repositories\IStoreRepository.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
