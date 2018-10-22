@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "PurchaseOrderList";
 }
-<section role="main" class="content-body">
+
     @*<header class="page-header">
         <h2>PurchaseOrders</h2>
 
@@ -24,55 +24,62 @@
 
     <!-- start: page -->
     <section class="panel">
+
         <header class="panel-heading">
-            <div class="panel-actions">
-                <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
-               
-                            <h3><b>Stores</b></h3>
-                    
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="" style="display: flex; justify-content: space-between;align-items: center">
+                        <h3 class="wb-color"><b>Stores</b></h3>
+                        <a href="#" class="modalShow">
+                            <span class="fa fa-2x fa-plus-circle"></span>
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <h2 class="panel-title"></h2>
         </header>
         <div class="panel-body">
-            <table class="table mb-none" style="width:100%" id="datatable-default">
-                <thead>
-                    <tr>
-                        <th width="5%">ID</th>
-                        <th width="15%">Supplier</th>
-                        <th width="15%">Order Date</th>
-                        <th width="15%">Supply Date</th>
-                        <th width="5%">Invoice</th>
-                        <th width="15%">Total Price</th>
-                        <th width="10%">Type</th>
-                        <th width="30%">Action</th>
-                           
-                    </tr>  
-                </thead>
-                <tbody>
-                    @{ int i = 1;}
-                    @foreach (var purchaseOrder in Model)
-                    {
+            <div class="table-responsive">
+                <table class="table mb-none" style="width:100%" id="datatable-default">
+                    <thead>
                         <tr>
-                            <td>@(i++)</td>
-                            <td>@purchaseOrder.SupplierId</td>
-                            <td>@purchaseOrder.OrderDate</td>
-                            <td>@purchaseOrder.SupplyDate</td>
-                            <td>@purchaseOrder.InvoiceId</td>
-                            <td>@purchaseOrder.TotalPrice</td>
-                            <td>@purchaseOrder.Type</td>
-                            <td></td>
+                            <th width="5%">ID</th>
+                            <th width="15%">Supplier</th>
+                            <th width="15%">Order Date</th>
+                            <th width="15%">Supply Date</th>
+                            <th width="5%">Invoice</th>
+                            <th width="15%">Total Price</th>
+                            <th width="10%">Type</th>
+                            <th width="30%">Action</th>
+
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-
-
-
+                    </thead>
+                    <tbody>
+                        @{ int i = 1;}
+                        @foreach (var purchaseOrder in Model)
+                        {
+                            <tr>
+                                <td>@(i++)</td>
+                                <td>@purchaseOrder.SupplierId</td>
+                                <td>@purchaseOrder.OrderDate</td>
+                                <td>@purchaseOrder.SupplyDate</td>
+                                <td>@purchaseOrder.InvoiceId</td>
+                                <td>@purchaseOrder.TotalPrice</td>
+                                <td>@purchaseOrder.Type</td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+            </div>
 </section>
+
+
+
+
+
 <div id="ModalData"></div>
 @section scripts
 {

@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "CityList";
 }
-<section role="main" class="content-body">
+
     @*<header class="page-header">
         <h2>Cities</h2>
 
@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
-                        <h3><b>Cities</b></h3>
+                        <h3 class="wb-color"><b>Cities</b></h3>
                         <a href="@Url.Action("AddCity", "Setup")" class="modalShow">
                             <span class="fa fa-2x fa-plus-circle"></span>
                         </a>
@@ -39,38 +39,40 @@
             <h2 class="panel-title"></h2>
         </header>
         <div class="panel-body">
-            <table class="table mb-none" style="width:100%" id="datatable-default">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>State</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{ int i = 1;}
-                    @foreach (var city in Model)
-                    {
+            <div class="table-responsive">
+                <table class="table mb-none" style="width:100%" id="datatable-default">
+                    <thead>
                         <tr>
-                            <td>@(i++)</td>
-                            <td>@city.Name</td>
-                            <td>@city.StateName</td>
-                            <td class="center">
-                                @Html.ActionLink(" ", "UpdateCity", "Setup", new { id = @city.Id }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow" })
-                                @Html.ActionLink(" ", "DeleteCity", "Setup", new { id = @city.Id }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
-                            </td>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>State</th>
+                            <th>Action</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-
-
-
+                    </thead>
+                    <tbody>
+                        @{ int i = 1;}
+                        @foreach (var city in Model)
+                        {
+                            <tr>
+                                <td>@(i++)</td>
+                                <td>@city.Name</td>
+                                <td>@city.StateName</td>
+                                <td class="center">
+                                    @Html.ActionLink(" ", "UpdateCity", "Setup", new { id = @city.Id }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow" })
+                                    @Html.ActionLink(" ", "DeleteCity", "Setup", new { id = @city.Id }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+            </div>
 </section>
+
+
+
+
+
 <div id="ModalData"></div>
 @section scripts
 {

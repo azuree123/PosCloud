@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "ServiceCategoryList";
 }
-<section role="main" class="content-body">
+
     @*<header class="page-header">
         <h2>ServiceCategories</h2>
 
@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
-                        <h3><b>Services Categories</b></h3>
+                        <h3 class="wb-color"><b>Services Categories</b></h3>
                         <a href="@Url.Action("AddServiceCategory", "Services")" class="modalShow">
                             <span class="fa fa-2x fa-plus-circle"></span>
                         </a>
@@ -38,36 +38,38 @@
 
         </header>
         <div class="panel-body">
-            <table class="table mb-none" style="width:100%" id="datatable-default">
-                <thead>
-                    <tr>
-                        <th width="5%">ID</th>
-                        <th width="30%">Name</th>
-                        <th width="30%">Images</th>
-                        <th width="25%">Type</th>
-                        <th width="10%">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{ int i = 1;}
-                    @foreach (var productCategory in Model)
-                    {
+            <div class="table-responsive">
+                <table class="table mb-none" style="width:100%" id="datatable-default">
+                    <thead>
                         <tr>
-                            <td>@(i++)</td>
-                            <td>@productCategory.Name</td>
-                            <td><img src="@productCategory.Image" width="50" height="50" /></td>
-                            <td>@productCategory.Type</td>
-                            <td>
-                                @Html.ActionLink(" ", "UpdateServiceCategory", "Services", new { id = productCategory.Id, storeId = @productCategory.StoreId }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow"})
-                                @Html.ActionLink(" ", "DeleteServiceCategory", "Services", new { id = productCategory.Id, storeId = @productCategory.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
-                            </td>
+                            <th width="5%">ID</th>
+                            <th width="30%">Name</th>
+                            <th width="30%">Images</th>
+                            <th width="25%">Type</th>
+                            <th width="10%">Action</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </section>
+                    </thead>
+                    <tbody>
+                        @{ int i = 1;}
+                        @foreach (var productCategory in Model)
+                        {
+                            <tr>
+                                <td>@(i++)</td>
+                                <td>@productCategory.Name</td>
+                                <td><img src="@productCategory.Image" width="50" height="50" /></td>
+                                <td>@productCategory.Type</td>
+                                <td>
+                                    @Html.ActionLink(" ", "UpdateServiceCategory", "Services", new { id = productCategory.Id, storeId = @productCategory.StoreId }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow" })
+                                    @Html.ActionLink(" ", "DeleteServiceCategory", "Services", new { id = productCategory.Id, storeId = @productCategory.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+            </div>
 </section>
+
 <div id="ModalData"></div>
 @section scripts
 {
