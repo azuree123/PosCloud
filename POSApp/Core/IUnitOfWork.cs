@@ -22,6 +22,8 @@ namespace POSApp.Core
         IExpenseHeadRepository ExpenseHeadRepository { get; }
         IStoreRepository StoreRepository { get; }
         ICouponRepository CouponRepository { get; }
+        IDiscountRepository DiscountRepository { get; }
+        ITaxRepository TaxRepository { get; }
         void Complete();
     }
 }
