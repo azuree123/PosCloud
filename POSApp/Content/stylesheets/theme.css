@@ -17005,3 +17005,8 @@ html .pagination > li.active a {
 /*html {
     scroll-behavior: smooth;
 }*/
+.checkbox-default > input{display:inline-block
+}
+.remember-label{
+    display:inline-block;
+}
