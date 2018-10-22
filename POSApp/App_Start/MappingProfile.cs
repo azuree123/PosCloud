@@ -38,6 +38,8 @@ namespace POSApp
             CreateMap<Product, ServiceCreateViewModel>().ForMember(a => a.ServiceCode, o => o.MapFrom(g => g.ProductCode));
             CreateMap<StoreViewModel, Store>();
             CreateMap<Store, StoreViewModel>();
+            CreateMap<CouponModelView, Coupon>();
+            CreateMap<Coupon, CouponModelView>();
 
 
         }

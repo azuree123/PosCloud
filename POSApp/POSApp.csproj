@@ -335,12 +335,13 @@
     <Compile Include="Controllers\WebApi\SyncController.cs" />
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\Models\Coupon.cs" />
     <Compile Include="Core\Models\Client.cs" />
-    <Compile Include="Core\Models\Discount.cs" />
     <Compile Include="Core\Models\Store.cs" />
-    <Compile Include="Core\Models\Tax.cs" />
+    <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IStoreRepository.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
+    <Compile Include="Core\ViewModels\CouponModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
@@ -424,11 +425,16 @@
     <Compile Include="Migrations\201810171013271_initial5.Designer.cs">
       <DependentUpon>201810171013271_initial5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810191357226_Init-6.cs" />
+    <Compile Include="Migrations\201810191357226_Init-6.Designer.cs">
+      <DependentUpon>201810191357226_Init-6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationUserEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\CityEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\CouponEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\CustomerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DepartmentEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DesignationEntityConfiguration.cs" />
@@ -447,6 +453,7 @@
     <Compile Include="Persistence\EntityConfigurations\SupplierEntityConfiguration.cs" />
     <Compile Include="Persistence\PosDbContext.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
+    <Compile Include="Persistence\Repositories\CouponRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\DepartmentRepository.cs" />
     <Compile Include="Persistence\Repositories\DesignationRepository.cs" />
@@ -2436,6 +2443,8 @@
     <Content Include="Views\Services\AddServiceCategory.cshtml" />
     <Content Include="Views\Store\AddStore.cshtml" />
     <Content Include="Views\Store\StoresList.cshtml" />
+    <Content Include="Views\Setup\CouponList.cshtml" />
+    <Content Include="Views\Setup\AddCoupon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2475,6 +2484,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810171013271_initial5.resx">
       <DependentUpon>201810171013271_initial5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810191357226_Init-6.resx">
+      <DependentUpon>201810191357226_Init-6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
