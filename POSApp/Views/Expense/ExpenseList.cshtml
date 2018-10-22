@@ -9,7 +9,7 @@
 
     ViewBag.Title = "ExpenseList";
 }
-<section role="main" class="content-body">
+
     @*<header class="page-header">
         <h2>Expenses</h2>
 
@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
-                        <h3><b>Expenses</b></h3>
+                        <h3 class="wb-color"><b>Expenses</b></h3>
                         <a href="@Url.Action("AddExpense", "Expense")" class="modalShow">
                             <span class="fa fa-2x fa-plus-circle"></span>
                         </a>
@@ -87,7 +87,7 @@
 
 
 
-</section>
+
 <div id="ModalData"></div>
 @section scripts
 {

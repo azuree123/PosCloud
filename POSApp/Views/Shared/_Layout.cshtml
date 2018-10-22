@@ -22,7 +22,7 @@
         <header class="header">
             <div class="logo-container">
                 <a href="@Url.Action("Index","Home")" class="logo">
-                    <img src="~/Content/images/pos-logo.png"  alt="Cosmic Admin"/>
+                    <img src="~/Content/images/pos-log.png"  alt="Cosmic Admin"/>
                     <h5 style="display: inline-block; display: inline-block; -webkit-background-clip: text !important; font-weight: bold; font-style: italic; background: -webkit-linear-gradient(#5fb1be 0%, #98dfe4 100%); -webkit-text-fill-color: transparent;">
                         
                     </h5>
@@ -39,12 +39,12 @@
                 <div class="header-right">
 
                     <form action="pages-search-results.html" class="search nav-form">
-                        <div class="input-group input-search">
+                        @*<div class="input-group input-search">
                             <input type="text" class="form-control" name="q" id="q" placeholder="Search...">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
                             </span>
-                        </div>
+                        </div>*@
                     </form>
 
 
@@ -343,7 +343,7 @@
                 @RenderBody()
                 <hr />
                 <footer>
-                    <p class="text-center">&copy; @DateTime.Now.Year - Cosmic PoS Admin Panel</p>
+                    <p class="text-center copyright">&copy; @DateTime.Now.Year - Cosmic PoS Admin Panel</p>
                 </footer>
             </section>
         </div>

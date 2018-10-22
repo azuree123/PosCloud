@@ -691,6 +691,7 @@
     <Content Include="Content\images\patterns\textured_stripes.png" />
     <Content Include="Content\images\patterns\wild_oliva.png" />
     <Content Include="Content\images\patterns\worn_dots.png" />
+    <Content Include="Content\images\pos-log.png" />
     <Content Include="Content\images\post-thumb-1.jpg" />
     <Content Include="Content\images\post-thumb-2.jpg" />
     <Content Include="Content\images\post-thumb-3.jpg" />

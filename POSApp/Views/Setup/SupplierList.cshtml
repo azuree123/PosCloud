@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
-                        <h3><b>Suppliers</b></h3>
+                        <h3 class="wb-color"><b>Suppliers</b></h3>
                         <a href="@Url.Action("AddSupplier", "Setup")" class="modalShow">
                             <span class="fa fa-2x fa-plus-circle"></span>
                         </a>
@@ -40,41 +40,43 @@
             <h2 class="panel-title"></h2>
         </header>
         <div class="panel-body">
-            <table class="table mb-none" style="width:100%" id="datatable-default">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Address</th>
-                        <th>Contact Person</th>
-                        <th>CpMobile Number</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{ int i = 1;}
-                    @foreach (var supplier in Model)
-                    {
-                    <tr>
-                        <td>@(i++)</td>
-                        <td>@supplier.Name</td>
-                        <td>@supplier.Email</td>
-                        <td>@supplier.PhoneNumber</td>
-                        <td>@supplier.CpMobileNumber</td>
-                        <td>@supplier.Address</td>
-                        <td>@supplier.ContactPerson</td>
-                        <td class="center">
-                            @Html.ActionLink(" ", "UpdateSupplier", "Setup", new { id = @supplier.Id, storeId = @supplier.StoreId }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
-                            @Html.ActionLink(" ", "DeleteSupplier", "Setup", new { id = @supplier.Id, storeId = @supplier.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </section>
+            <div class="table-responsive">
+                <table class="table mb-none" style="width:100%" id="datatable-default">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Address</th>
+                            <th>Contact Person</th>
+                            <th>CpMobile Number</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int i = 1;}
+                        @foreach (var supplier in Model)
+                        {
+                            <tr>
+                                <td>@(i++)</td>
+                                <td>@supplier.Name</td>
+                                <td>@supplier.Email</td>
+                                <td>@supplier.PhoneNumber</td>
+                                <td>@supplier.CpMobileNumber</td>
+                                <td>@supplier.Address</td>
+                                <td>@supplier.ContactPerson</td>
+                                <td class="center">
+                                    @Html.ActionLink(" ", "UpdateSupplier", "Setup", new { id = @supplier.Id, storeId = @supplier.StoreId }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
+                                    @Html.ActionLink(" ", "DeleteSupplier", "Setup", new { id = @supplier.Id, storeId = @supplier.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+            </div>
+</section>
 
 
 

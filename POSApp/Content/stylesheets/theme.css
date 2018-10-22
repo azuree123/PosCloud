@@ -62,7 +62,7 @@ a:active {
 /* Layout Base - Content Body */
 .content-body {
     display: table-cell;
-   padding: 0px 30px; 
+   padding: 0px 60px; 
     position: relative;
     vertical-align: top;
 }
@@ -89,7 +89,7 @@ a:active {
 	position: relative;
 	vertical-align: top;
 	width: 225px;
-	z-index: 1010;
+
 }
 
 /* Layout Base - Sidebar Left Opened ( Larger than mobile ) */
@@ -1552,8 +1552,8 @@ html.header-dark .header .input-search .input-group-btn .btn-default {
 }
 
 .sidebar-left {
-    z-index: 1010;
-    box-shadow: 0px 13px 25px 5px #d2322d40;
+
+    box-shadow: 0px 0px 25px 7px #d2322d40;
 }
 
 .sidebar-left .sidebar-header {
@@ -5505,7 +5505,7 @@ html.header-dark .notifications > li .notification-icon i {
 }
 
 .userbox .profile-info {
-	margin: 0 25px 0 10px;
+	margin: 0 15px 0 10px;
 }
 
 .userbox .name,
@@ -5659,13 +5659,7 @@ html.header-dark .userbox .dropdown-menu a {
 	background-color: #CCC;
 }
 
-.pagination > li a {
-	color: #CCC;
-}
 
-.pagination > li a:hover, .pagination > li a:focus {
-	color: #d9d9d9;
-}
 
 .pagination > li.active a, .pagination > li.active a:hover, .pagination > li.active a:focus,
 .pagination > li.active span,
@@ -6021,28 +6015,31 @@ html.sidebar-light:not(.dark) .sidebar-widget.widget-friends ul li.status-offlin
 
 /* Scroll to Top */
 html .scroll-to-top {
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	transition: all 0.3s;
-	background: #282d36;
-	border-radius: 7px 7px 0 0;
-	bottom: 0px;
-	color: #FFF;
-	display: block;
-	height: 9px;
-	opacity: 0;
-	padding: 5px 10px 25px;
-	position: fixed;
-	right: 10px;
-	text-align: center;
-	text-decoration: none;
-	min-width: 39px;
-	z-index: 1040;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    background: #242830;
+    border-radius: 50px 50px 0 0;
+    bottom: 17px;
+    color: #FFF !important;
+    display: block;
+    height: 9px;
+    opacity: 0;
+    padding: 5px 24px 25px;
+    position: fixed;
+    right: 10px;
+    text-align: center;
+    text-decoration: none;
+    min-width: 39px;
+    z-index: 1040;
 }
+    html .scroll-to-top:hover {
+        color: #d2322d !important;
+    }
 
-html .scroll-to-top:hover {
-	opacity: 1;
-}
+    html .scroll-to-top:hover {
+        opacity: 1;
+    }
 
 html .scroll-to-top.visible {
 	opacity: 0.75;
@@ -16950,3 +16947,61 @@ select {
     padding: 4px 12px;
     color: #0baa5a;
 }
+/*Azhar Changes*/
+div.dataTables_wrapper div.dataTables_filter input {
+    border-radius: 500px !important;
+    font-size:12px;
+}
+
+.copyright {
+    color: #d2322d;
+}
+.wb-color{
+    color: #d2322d;
+}
+.fa-pencil {
+    color: #0baa5a;
+    border: 1px solid #0baa5a;
+    background-color: white;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.fa-trash-o {
+    color: #d2322d !important;
+    background-color: white !important;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.fa-pencil:hover {
+    color: white;
+    border: 1px solid #0baa5a;
+    background-color: #0baa5a;
+}
+
+.fa-trash-o:hover {
+    color: white !important;
+    background-color: #d2322d !important;
+    border: 1px solid #d2322d;
+}
+
+html .pagination > li.active a {
+    background-color: #d2322d !important;
+    color:white !important;
+}
+.pagination > li a {
+    color: #d2322d !important;
+}
+
+    .pagination > li a:hover, .pagination > li a:focus {
+        color: black !important;
+    }
+.close{
+    opacity:unset !important;
+}
+.modal-footer > button span {
+    margin-right:8px;
+}
+/*html {
+    scroll-behavior: smooth;
+}*/

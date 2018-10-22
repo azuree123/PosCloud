@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "SaleOrderList";
 }
-<section role="main" class="content-body">
+
     @*<header class="page-header">
         <h2>Sale Orders</h2>
 
@@ -27,7 +27,7 @@
         <header class="panel-heading">
             <div class="panel-actions">
                
-                            <h3><b>Stores</b></h3>
+                            <h3 class="wb-color"><b>Stores</b></h3>
                       
                 <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
             </div>
@@ -35,56 +35,58 @@
             <h2 class="panel-title"></h2>
         </header>
         <div class="panel-body">
-            <table class="table mb-none" style="width:100%" id="datatable-default">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Code</th>
-                        <th>Customer</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Amount</th>
-                        <th>Tax</th>
-                        <th>Discount</th>
-                        <th>Status</th>
-                        <th>Canceled</th>
-                        <th>Type</th>
-                        <th>Cashier</th>
-                        <th>Action</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @{ int i = 1;}
-                    @foreach (var saleOrder in Model)
-                    {
+            <div class="table-responsive">
+                <table class="table mb-none" style="width:100%" id="datatable-default">
+                    <thead>
                         <tr>
-                            <td>@(i++)</td>
-                            <td>@saleOrder.Code</td>
-                            <td>@saleOrder.Customer.Name</td>
-                            <td>@saleOrder.Date</td>
-                            <td>@saleOrder.Time</td>
-                            <td>@saleOrder.Amount</td>
-                            <td>@saleOrder.Tax</td>
-                            <td>@saleOrder.Discount</td>
-                            <td>@saleOrder.Status</td>
-                            <td>@saleOrder.Canceled</td>
-                            <td>@saleOrder.Type</td>
-                            <td>@saleOrder.Employee.Name</td>
-                            <td>
-                                @Html.ActionLink(" ", "SaleOrderDetailList", "SaleOrders", new { id = @saleOrder.Id }, new { @class = "fa fa-info-circle modalShow" })
-                            </td>
+                            <th>ID</th>
+                            <th>Code</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Amount</th>
+                            <th>Tax</th>
+                            <th>Discount</th>
+                            <th>Status</th>
+                            <th>Canceled</th>
+                            <th>Type</th>
+                            <th>Cashier</th>
+                            <th>Action</th>
+
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-
-
-
+                    </thead>
+                    <tbody>
+                        @{ int i = 1;}
+                        @foreach (var saleOrder in Model)
+                        {
+                            <tr>
+                                <td>@(i++)</td>
+                                <td>@saleOrder.Code</td>
+                                <td>@saleOrder.Customer.Name</td>
+                                <td>@saleOrder.Date</td>
+                                <td>@saleOrder.Time</td>
+                                <td>@saleOrder.Amount</td>
+                                <td>@saleOrder.Tax</td>
+                                <td>@saleOrder.Discount</td>
+                                <td>@saleOrder.Status</td>
+                                <td>@saleOrder.Canceled</td>
+                                <td>@saleOrder.Type</td>
+                                <td>@saleOrder.Employee.Name</td>
+                                <td>
+                                    @Html.ActionLink(" ", "SaleOrderDetailList", "SaleOrders", new { id = @saleOrder.Id }, new { @class = "fa fa-info-circle modalShow" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+            </div>
 </section>
+
+
+
+
+
 <div id="ModalData"></div>
 @section scripts
 {
