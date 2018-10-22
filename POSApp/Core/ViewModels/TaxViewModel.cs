@@ -4,15 +4,16 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
-namespace POSApp.Core.Models
+namespace POSApp.Core.ViewModels
 {
-    public class Tax: AuditableEntity
+    public class TaxViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Name { get; set; }
         [DefaultValue(0)]
         public double Rate { get; set; }
         public int StoreId { get; set; }
-        public Store Store { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
     }
 }

@@ -337,14 +337,19 @@
     <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\Models\Coupon.cs" />
     <Compile Include="Core\Models\Client.cs" />
+    <Compile Include="Core\Models\Discount.cs" />
     <Compile Include="Core\Models\Store.cs" />
+    <Compile Include="Core\Models\Tax.cs" />
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
+    <Compile Include="Core\Repositories\IDiscountRepository.cs" />
     <Compile Include="Core\Repositories\IStoreRepository.cs" />
+    <Compile Include="Core\Repositories\ITaxRepository.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\CouponModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
+    <Compile Include="Core\ViewModels\DiscountViewModel.cs" />
     <Compile Include="Core\ViewModels\EmployeeModelView.cs" />
     <Compile Include="Core\ViewModels\ExpenseHeadViewModel.cs" />
     <Compile Include="Core\ViewModels\ExpenseViewModel.cs" />
@@ -401,6 +406,7 @@
     <Compile Include="Core\ViewModels\StateModelView.cs" />
     <Compile Include="Core\ViewModels\StoreViewModel.cs" />
     <Compile Include="Core\ViewModels\SupplierModelView.cs" />
+    <Compile Include="Core\ViewModels\TaxViewModel.cs" />
     <Compile Include="Core\ViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -438,6 +444,7 @@
     <Compile Include="Persistence\EntityConfigurations\CustomerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DepartmentEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DesignationEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\DiscountEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\EmployeeEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ExpenseEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ExpenseHeadEntityConfiguration.cs" />
@@ -451,12 +458,14 @@
     <Compile Include="Persistence\EntityConfigurations\StateEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\StoreEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SupplierEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\TaxEntityConfiguration.cs" />
     <Compile Include="Persistence\PosDbContext.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
     <Compile Include="Persistence\Repositories\CouponRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\DepartmentRepository.cs" />
     <Compile Include="Persistence\Repositories\DesignationRepository.cs" />
+    <Compile Include="Persistence\Repositories\DiscountRepository.cs" />
     <Compile Include="Persistence\Repositories\EmployeeRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseHeadRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseRepository.cs" />
@@ -470,6 +479,7 @@
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
     <Compile Include="Persistence\Repositories\StoreRepository.cs" />
     <Compile Include="Persistence\Repositories\SupplierRepository.cs" />
+    <Compile Include="Persistence\Repositories\TaxRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IUserInfoService.cs" />

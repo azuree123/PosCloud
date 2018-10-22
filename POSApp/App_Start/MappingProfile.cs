@@ -40,6 +40,11 @@ namespace POSApp
             CreateMap<Store, StoreViewModel>();
             CreateMap<CouponModelView, Coupon>();
             CreateMap<Coupon, CouponModelView>();
+            CreateMap<TaxViewModel, Tax>();
+            CreateMap<Tax, TaxViewModel>();
+            CreateMap<DiscountViewModel, Discount>();
+            CreateMap<Discount, DiscountViewModel>();
+
 
 
         }
