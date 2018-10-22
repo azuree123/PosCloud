@@ -535,6 +535,34 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("LocationList", "Setup");
         }
+
+        public ActionResult DiscountList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.CouponRepository.GetCoupons((int)user.StoreId));
+        }
+        [HttpGet]
+        public ActionResult AddDiscount()
+        {
+            ViewBag.edit = "AddDiscount";
+            return View();
+        }
+
+        public ActionResult TaxList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.CouponRepository.GetCoupons((int)user.StoreId));
+        }
+        [HttpGet]
+        public ActionResult AddTax()
+        {
+            ViewBag.edit = "AddTax";
+            return View();
+        }
+
+
         public ActionResult CouponList()
         {
             var userid = User.Identity.GetUserId();
