@@ -49,7 +49,6 @@
                         <th>Status</th>
                         <th>Canceled</th>
                         <th>Type</th>
-                        <th>Cashier</th>
                         <th>Action</th>
 
                     </tr>
@@ -70,7 +69,6 @@
                             <td>@saleOrder.Status</td>
                             <td>@saleOrder.Canceled</td>
                             <td>@saleOrder.Type</td>
-                            <td>@saleOrder.Employee.Name</td>
                             <td>
                                 @Html.ActionLink(" ", "SaleOrderDetailList", "SaleOrders", new { id = @saleOrder.Id }, new { @class = "fa fa-info-circle modalShow" })
                             </td>

@@ -3,27 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Mvc;
+using POSApp.Core.Models;
+using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
 {
     public class SyncController : ApiController
     {
+        private SyncViewModel syncView = new SyncViewModel();
         // GET: api/Sync
-        public IEnumerable<string> Get()
+        public SyncViewModel Get()
         {
-            return new string[] { "value1", "value2" };
+            return syncView;
         }
 
         // GET: api/Sync/5
-        public string Get(int id)
+        public SyncViewModel Get(int id)
         {
-            return "value";
+            SyncViewModel model=new SyncViewModel();
+            model.SaleOrder=new SaleOrder
+            {
+                Amount = 0,Canceled = false,Code ="0001",CustomerId = 1,Date = "10/22/2018",Discount = 0,Status = "HHH",
+                Tax = 0,Time = "16:00:00",Type = "Product"
+            };
+            model.SaleOrderDetails=new List<SaleOrderDetail>();
+            model.SaleOrderDetails.Add(new SaleOrderDetail{Discount = 0,ProductId = 18355,Quantity = 12,UnitPrice = 20});
+            return model;
         }
 
         // POST: api/Sync
-        public void Post([FromBody]string value)
-        {
+        public async Task<IHttpActionResult> Post([FromBody]SyncViewModel sync)
+       {
+            try
+            {
+            syncView = sync;
+                return Ok(syncView);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                
+                throw;
+            }
         }
 
         // PUT: api/Sync/5

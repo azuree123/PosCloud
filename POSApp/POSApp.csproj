@@ -406,6 +406,7 @@
     <Compile Include="Core\ViewModels\StateModelView.cs" />
     <Compile Include="Core\ViewModels\StoreViewModel.cs" />
     <Compile Include="Core\ViewModels\SupplierModelView.cs" />
+    <Compile Include="Core\ViewModels\Sync\SyncViewModel.cs" />
     <Compile Include="Core\ViewModels\TaxViewModel.cs" />
     <Compile Include="Core\ViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="Global.asax.cs">
