@@ -24,14 +24,33 @@
     </header>*@
 
     <!-- start: page -->
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
+            <li class="current"><a href="#">Products</a></li>
+            <li><a href="@Url.Action("ServicesList","Services")">Services</a></li>
+        </ul>
+        <hr />
+
+    </div>
+</div>
     <section class="panel">
         <header class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
+       
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
-                        <h3 class="wb-color"><b>Product Categories</b></h3>
-                        <a href="@Url.Action("AddProductCategory", "Products")" class="modalShow">
-                            <span class="fa fa-2x fa-plus-circle"></span>
+                        <h3 class="wb-color" style="flex-grow: 8"><b>Product Categories</b></h3>
+                        @*<a href="@Url.Action("AddProduct", "Products")" class="modalShow">
+                <span class="fa fa-2x fa-plus-circle"></span>
+            </a>*@
+                        <a href="@Url.Action("AddProductCategory", "Products")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Category</button>
+
+                        </a>
+                        <a href="@Url.Action("ProductsList","Products")" style="flex-grow: 0">
+                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Product List</button>
+
                         </a>
                     </div>
                 </div>

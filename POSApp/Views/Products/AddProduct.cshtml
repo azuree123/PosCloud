@@ -72,6 +72,12 @@
                                             @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDdl, "Select an Option", new {htmlAttributes = new {@class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.CategoryId, "", new {@class = "text-danger"})
                                         </div>
+                                        @*<div class="col-md-1">
+                                            <label>Add Categoory</label>
+                                            <a href="@Url.Action("", "")" class="modalShow">
+                                                <span class="fa fa-2x fa-plus-circle"></span>
+                                            </a>
+                                        </div>*@
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Available, htmlAttributes: new { @class = "control-label" })
                                             @Html.DropDownListFor(a => a.Available, new SelectList(Enum.GetValues(typeof(Available))), "Select Gender", new { @class = "form-control", @required = "true" })
