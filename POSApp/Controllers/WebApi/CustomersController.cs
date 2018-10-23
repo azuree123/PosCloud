@@ -5,8 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
@@ -21,7 +23,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetCustomers()
         {
-            return Ok(_unitOfWork.CustomerRepository.GetApiCustomers());
+            return Ok(Mapper.Map<CustomerModelView[]>(_unitOfWork.CustomerRepository.GetApiCustomers()));
         }
 
         // GET: api/CustomersSync/5
@@ -39,6 +41,8 @@ namespace POSApp.Controllers.WebApi
                 foreach (var customer in customers)
                 {
                     customer.Code = customer.Id.ToString();
+                    customer.Synced = true;
+                    customer.SyncedOn = DateTime.Now;
                     _unitOfWork.CustomerRepository.AddCustomer(customer);
                 }
                 _unitOfWork.Complete();

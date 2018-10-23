@@ -5,8 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
@@ -21,7 +23,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetExpenses()
         {
-            return Ok(_unitOfWork.ExpenseRepository.GetApiExpenses());
+            return Ok(Mapper.Map<ExpenseViewModel[]>(_unitOfWork.ExpenseRepository.GetApiExpenses()));
         }
 
         // GET: api/ExpensesSync/5
@@ -32,13 +34,15 @@ namespace POSApp.Controllers.WebApi
 
         // POST: api/ExpensesSync
         public async Task<IHttpActionResult> AddExpenses([FromBody]SyncObject sync)
-        {
+         {
             try
             {
                 List<Expense> expenses = System.Web.Helpers.Json.Decode<List<Expense>>(sync.Object);
                 foreach (var expense in expenses)
                 {
                     expense.Code = expense.Id.ToString();
+                    expense.Synced = true;
+                    expense.SyncedOn = DateTime.Now;
                     _unitOfWork.ExpenseRepository.AddExpense(expense);
                 }
                 _unitOfWork.Complete();

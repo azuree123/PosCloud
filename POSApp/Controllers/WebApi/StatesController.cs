@@ -5,8 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
@@ -21,7 +23,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetStates()
         {
-            return Ok(_unitOfWork.StateRepository.GetApiStates());
+            return Ok(Mapper.Map<StateModelView[]>(_unitOfWork.StateRepository.GetApiStates()));
         }
 
         // GET: api/StateCategoriesSync/5
@@ -39,6 +41,8 @@ namespace POSApp.Controllers.WebApi
                 foreach (var state in states)
                 {
                     state.Code = state.Id.ToString();
+                    state.Synced = true;
+                    state.SyncedOn = DateTime.Now;
                     _unitOfWork.StateRepository.AddState(state);
                 }
                 _unitOfWork.Complete();

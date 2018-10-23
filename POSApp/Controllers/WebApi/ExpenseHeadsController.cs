@@ -5,8 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
@@ -21,7 +23,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetExpenseHeads()
         {
-            return Ok(_unitOfWork.ExpenseHeadRepository.GetApiExpenseHeads());
+            return Ok(Mapper.Map<ExpenseHeadViewModel[]>(_unitOfWork.ExpenseHeadRepository.GetApiExpenseHeads()));
         }
 
         // GET: api/ExpenseHeadsSync/5
@@ -39,6 +41,8 @@ namespace POSApp.Controllers.WebApi
                 foreach (var expenseHead in expenseHeads)
                 {
                     expenseHead.Code = expenseHead.Id.ToString();
+                    expenseHead.Synced = true;
+                    expenseHead.SyncedOn=DateTime.Now;
                     _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expenseHead);
                 }
                 _unitOfWork.Complete();

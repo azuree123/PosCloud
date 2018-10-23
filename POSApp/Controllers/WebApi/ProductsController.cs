@@ -5,8 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
@@ -20,7 +22,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetProducts()
         {
-            return Ok(_unitOfWork.ProductRepository.GetApiProducts());
+            return Ok(Mapper.Map<ProductCreateViewModel[]>(_unitOfWork.ProductRepository.GetApiProducts()));
         }
 
         // GET: api/ProductsSync/5
@@ -38,6 +40,8 @@ namespace POSApp.Controllers.WebApi
                 foreach (var product in products)
                 {
                     product.Code = product.Id.ToString();
+                    product.Synced = true;
+                    product.SyncedOn = DateTime.Now;
                     _unitOfWork.ProductRepository.AddProduct(product);
                 }
                 _unitOfWork.Complete();

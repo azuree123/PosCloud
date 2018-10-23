@@ -5,8 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
@@ -14,13 +16,17 @@ namespace POSApp.Controllers.WebApi
     public class CitiesController : ApiController
     {
         private IUnitOfWork _unitOfWork;
+        public CitiesController()
+        {
+            
+        }
         public CitiesController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
         public async Task<IHttpActionResult> GetCities()
         {
-            return Ok(_unitOfWork.CityRepository.GetApiCities());
+            return Ok(Mapper.Map<CityModelView[]>(_unitOfWork.CityRepository.GetApiCities()));
         }
 
         // GET: api/CitiesSync/5
@@ -38,6 +44,8 @@ namespace POSApp.Controllers.WebApi
                 foreach (var city in cities)
                 {
                     city.Code = city.Id.ToString();
+                    city.Synced = true;
+                    city.SyncedOn = DateTime.Now;
                     _unitOfWork.CityRepository.AddCity(city);
                 }
                 _unitOfWork.Complete();

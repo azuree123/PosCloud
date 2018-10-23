@@ -5,8 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
@@ -21,7 +23,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetDepartments()
         {
-            return Ok(_unitOfWork.DepartmentRepository.GetApiDepartments());
+            return Ok(Mapper.Map<DepartmentViewModel[]>(_unitOfWork.DepartmentRepository.GetApiDepartments()));
         }
 
         // GET: api/DepartmentsSync/5
@@ -39,6 +41,8 @@ namespace POSApp.Controllers.WebApi
                 foreach (var department in departments)
                 {
                     department.Code = department.Id.ToString();
+                    department.Synced = true;
+                    department.SyncedOn = DateTime.Now;
                     _unitOfWork.DepartmentRepository.AddDepartment(department);
                 }
                 _unitOfWork.Complete();

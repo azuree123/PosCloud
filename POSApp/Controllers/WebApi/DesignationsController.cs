@@ -5,8 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
@@ -21,7 +23,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetDesignations()
         {
-            return Ok(_unitOfWork.DesignationRepository.GetApiDesignations());
+            return Ok(Mapper.Map<DesignationViewModel[]>(_unitOfWork.DesignationRepository.GetApiDesignations()));
         }
 
         // GET: api/DesignationsSync/5
@@ -39,6 +41,8 @@ namespace POSApp.Controllers.WebApi
                 foreach (var designation in designations)
                 {
                     designation.Code = designation.Id.ToString();
+                    designation.Synced = true;
+                    designation.SyncedOn = DateTime.Now;
                     _unitOfWork.DesignationRepository.AddDesignation(designation);
                 }
                 _unitOfWork.Complete();

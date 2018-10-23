@@ -5,8 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
@@ -21,7 +23,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetDiscounts()
         {
-            return Ok(_unitOfWork.DiscountRepository.GetApiDiscounts());
+            return Ok(Mapper.Map<DiscountViewModel[]>(_unitOfWork.DiscountRepository.GetApiDiscounts()));
         }
 
         // GET: api/DiscountsSync/5
@@ -39,6 +41,8 @@ namespace POSApp.Controllers.WebApi
                 foreach (var discount in discounts)
                 {
                     discount.Code = discount.Id.ToString();
+                    discount.Synced = true;
+                    discount.SyncedOn = DateTime.Now;
                     _unitOfWork.DiscountRepository.AddDiscount(discount);
                 }
                 _unitOfWork.Complete();
