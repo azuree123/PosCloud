@@ -23,14 +23,31 @@
     </header>*@
 
     <!-- start: page -->
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
+            <li class=""><a href="@Url.Action("ProductsList","Products")">Products</a></li>
+            <li class="current"><a href="">Services</a></li>
+        </ul>
+        <hr />
+
+    </div>
+</div>
     <section class="panel">
         <header class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
+        
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
-                        <h3 class="wb-color"><b>Services Categories</b></h3>
-                        <a href="@Url.Action("AddServiceCategory", "Services")" class="modalShow">
-                            <span class="fa fa-2x fa-plus-circle"></span>
+                        <h3 class="wb-color" style="flex-grow: 8"><b>Service Categories </b></h3>
+
+                        <a href="@Url.Action("AddServiceCategory", "Services")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Category</button>
+
+                        </a>
+                        <a href="@Url.Action("ServicesList","Services")" style="flex-grow: 0">
+                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Service List</button>
+
                         </a>
                     </div>
                 </div>

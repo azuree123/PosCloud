@@ -25,18 +25,15 @@
     </header>*@
 
     <!-- start: page -->
-<br />
-<div class="row" style="border-left:12px solid #0baa5a">
+
+<div class="row mt-md" >
     <div class="col-md-12">
         <ul class="snip1189">
-            <li class=""><a href="#">Home</a></li>
-            <li><a href="#">Services</a></li>
-
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">Products</a></li>
-
+            <li class="current"><a href="#">Products</a></li>
+            <li><a href="@Url.Action("ServicesList","Services")">Services</a></li>
         </ul>
+        <hr />
+      
     </div>
 </div>
     <section class="panel">
@@ -44,9 +41,17 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
-                        <h3 class="wb-color"><b>Products</b></h3>
-                        <a href="@Url.Action("AddProduct", "Products")" class="modalShow">
-                            <span class="fa fa-2x fa-plus-circle"></span>
+                        <h3 class="wb-color" style="flex-grow: 8"><b>Products</b></h3>
+                        @*<a href="@Url.Action("AddProduct", "Products")" class="modalShow">
+            <span class="fa fa-2x fa-plus-circle"></span>
+        </a>*@
+                        <a href="@Url.Action("AddProduct", "Products")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Product</button>
+
+                        </a>
+                        <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
+                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Category List</button>
+
                         </a>
                     </div>
                 </div>
@@ -55,6 +60,7 @@
             <h2 class="panel-title"></h2>
         </header>
         <div class="panel-body">
+
             <div class="table-responsive">
                 <table class="table mb-none" style="width:100%" id="datatable-default">
                     <thead>
