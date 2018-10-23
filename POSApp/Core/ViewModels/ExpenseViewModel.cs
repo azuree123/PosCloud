@@ -21,6 +21,7 @@ namespace POSApp.Core.ViewModels
         public DateTime Date { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
+        public string Code { get; set; }
         public IEnumerable<SelectListItem> EmpDdl { get; set; }
         public IEnumerable<SelectListItem> ExpHeadDdl { get; set; }
 

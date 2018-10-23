@@ -19,11 +19,13 @@ namespace POSApp.Core.Models
         public DateTime UpdatedOn { get; set; }
 
 
-        //[DefaultValue(false)]
-        //public bool Synced { get; set; }
+        [DefaultValue(false)]
+        public bool Synced { get; set; }
         //public string SyncedById { get; set; }
 
-        //[Column(TypeName = "DateTime2")]
-        //public DateTime? SyncedOn { get; set; }
+        [Column(TypeName = "DateTime2")]
+        public DateTime? SyncedOn { get; set; }
+
+        public string Code { get; set; }
     }
 }

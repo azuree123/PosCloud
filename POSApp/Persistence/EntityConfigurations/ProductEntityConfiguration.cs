@@ -20,7 +20,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Barcode).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
             Property(x => x.Duration).HasColumnType("nvarchar").IsOptional();
             Property(x => x.Image).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-            Property(x => x.ProductCode).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.Stock).HasColumnType("float").IsOptional();
             Property(x => x.Tax).HasColumnType("float").IsOptional();
             Property(x => x.UnitPrice).HasColumnType("float").IsOptional();

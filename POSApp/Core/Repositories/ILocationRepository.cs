@@ -10,5 +10,6 @@ namespace POSApp.Core.Repositories
         void AddLocation(Location location);
         void UpdateLocation(int id, Location location);
         void DeleteLocation(int id);
+        IEnumerable<Location> GetApiLocations();
     }
 }

@@ -10,5 +10,6 @@ namespace POSApp.Core.Repositories
         void AddExpense(Expense expense);
         void UpdateExpense(int id, Expense expense,int storeid);
         void DeleteExpense(int id,int storeid);
+        IEnumerable<Expense> GetApiExpenses();
     }
 }

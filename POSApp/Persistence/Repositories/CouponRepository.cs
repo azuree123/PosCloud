@@ -52,5 +52,17 @@ namespace POSApp.Persistence.Repositories
             _context.Coupons.Attach(coupon);
             _context.Entry(coupon).State = EntityState.Deleted;
         }
+        public IEnumerable<Coupon> GetApiCoupons()
+        {
+            IEnumerable<Coupon> coupons = _context.Coupons.Where(a => !a.Synced).ToList();
+            foreach (var coupon in coupons)
+            {
+                coupon.Synced = true;
+                coupon.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return coupons;
+        }
     }
 }

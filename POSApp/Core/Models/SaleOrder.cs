@@ -9,7 +9,6 @@ namespace POSApp.Core.Models
         public int StoreId { get; set; }
         public Store Store { get; set; }
 
-        public string Code { get; set; }
         public string Date { get; set; }
         public string Time { get; set; }
         [DefaultValue(0)]

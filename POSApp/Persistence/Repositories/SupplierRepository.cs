@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using POSApp.Core.Models;
@@ -19,6 +20,18 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Suppliers.ToList();
         }
+        public IEnumerable<Supplier> GetApiSuppliers()
+        {
+            IEnumerable<Supplier> suppliers = _context.Suppliers.Where(a=>!a.Synced).ToList();
+            foreach (var supplier in suppliers)
+            {
+                supplier.Synced = true;
+                supplier.SyncedOn=DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return suppliers;
+        }
 
         public Supplier GetSupplierById(int id, int storeid)
         {
@@ -28,6 +41,7 @@ namespace POSApp.Persistence.Repositories
         public void AddSupplier(Supplier supplier)
         {
             _context.Suppliers.Add(supplier);
+
         }
 
         public void UpdateSupplier(int id, int storeid ,Supplier supplier)
@@ -43,5 +57,6 @@ namespace POSApp.Persistence.Repositories
             _context.Suppliers.Attach(supplier);
             _context.Entry(supplier).State = EntityState.Deleted;
         }
+        
     }
 }

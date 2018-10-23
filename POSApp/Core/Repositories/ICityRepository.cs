@@ -11,5 +11,6 @@ namespace POSApp.Core.Repositories
         void UpdateCity(int id, City city);
         void DeleteCity(int id);
         IEnumerable<City> GetCities();
+        IEnumerable<City> GetApiCities();
     }
 }

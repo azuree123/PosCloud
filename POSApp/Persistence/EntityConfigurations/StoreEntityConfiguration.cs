@@ -22,6 +22,8 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Contact).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.State).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.City).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+
             Property(x => x.IsOperational).HasColumnType("bit").IsOptional();
         }
     }

@@ -10,5 +10,6 @@ namespace POSApp.Core.Repositories
         void AddProductCategory(ProductCategory productCategory);
         void UpdateProductCategory(int id,int storeid ,ProductCategory productCategory);
         void DeleteProductCategory(int id,int storeid);
+        IEnumerable<ProductCategory> GetApiProductCategories();
     }
 }

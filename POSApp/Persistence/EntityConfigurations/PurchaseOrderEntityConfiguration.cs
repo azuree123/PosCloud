@@ -18,6 +18,8 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.SupplyDate).HasColumnType("datetime").IsOptional();
             Property(x => x.TotalPrice).HasColumnType("float").IsOptional();
             Property(x => x.Type).HasColumnType("varchar").IsOptional();
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+
             //******************************************************************************************* Auditable ***************
             //Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
             //Property(x => x.UpdatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();

@@ -10,7 +10,6 @@ namespace POSApp.Core.Models
         public Store Store { get; set; }
 
         public string Name { get; set; }
-        public string ProductCode { get; set; }
         public int CategoryId { get; set; }
         public string Duration { get; set; }
         public string Available { get; set; }

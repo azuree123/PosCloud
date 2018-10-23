@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using POSApp.Core.Models;
@@ -49,6 +50,18 @@ namespace POSApp.Persistence.Repositories
             var employee = new Employee {Id = id, StoreId = storeid};
             _context.Employees.Attach(employee);
             _context.Entry(employee).State = EntityState.Deleted;
+        }
+        public IEnumerable<Employee> GetApiEmployees()
+        {
+            IEnumerable<Employee> employees = _context.Employees.Where(a => !a.Synced).ToList();
+            foreach (var employee in employees)
+            {
+                employee.Synced = true;
+                employee.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return employees;
         }
     }
 }

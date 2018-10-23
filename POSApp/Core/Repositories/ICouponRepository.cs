@@ -14,5 +14,6 @@ namespace POSApp.Core.Repositories
         void AddCoupon(Coupon coupon);
         void UpdateCoupon(int id, Coupon coupon, int storeid);
         void DeleteCoupon(int id, int storeid);
+        IEnumerable<Coupon> GetApiCoupons();
     }
 }

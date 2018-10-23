@@ -25,8 +25,10 @@ namespace POSApp.Persistence.EntityConfigurations
            // Property(x => x.Gender).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
             Property(x => x.Note).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             //Property(x => x.Referral).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
 
-        
+
+
             //HasOptional(x => x.CreatedBy).WithMany().HasForeignKey(x =>  new {x.CreatedById,x.StoreId}).WillCascadeOnDelete(false);
             //HasOptional(x => x.UpdatedBy).WithMany().HasForeignKey(x => new { x.UpdatedById, x.StoreId }).WillCascadeOnDelete(false);
 

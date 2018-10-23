@@ -6,10 +6,14 @@ using POSApp.Core.Models;
 
 namespace POSApp.Core.ViewModels.Sync
 {
-    public class SyncViewModel
+    public class SalesViewModel
     {
         public SaleOrder SaleOrder { get; set; }
         public List<SaleOrderDetail> SaleOrderDetails { get; set; }
 
+    }
+    public class SyncObject
+    {
+        public string Object { get; set; }
     }
 }

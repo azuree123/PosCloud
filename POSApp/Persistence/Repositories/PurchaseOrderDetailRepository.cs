@@ -42,5 +42,6 @@ namespace POSApp.Persistence.Repositories
             _context.PurchaseOrderDetails.Attach(purchaseOrderDetail);
             _context.Entry(purchaseOrderDetail).State = EntityState.Deleted;
         }
+
     }
 }

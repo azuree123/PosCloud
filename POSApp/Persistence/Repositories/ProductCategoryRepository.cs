@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using POSApp.Core.Models;
@@ -41,6 +42,18 @@ namespace POSApp.Persistence.Repositories
             var productCategory = new ProductCategory { Id = id, StoreId = storeid};
             _context.ProductCategories.Attach(productCategory);
             _context.Entry(productCategory).State = EntityState.Deleted;
+        }
+        public IEnumerable<ProductCategory> GetApiProductCategories()
+        {
+            IEnumerable<ProductCategory> productCategories = _context.ProductCategories.Where(a => !a.Synced).ToList();
+            foreach (var productCategory in productCategories)
+            {
+                productCategory.Synced = true;
+                productCategory.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return productCategories;
         }
     }
 }

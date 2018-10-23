@@ -25,6 +25,7 @@ namespace POSApp.Core.ViewModels
         public bool Booking { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
+        public string Code { get; set; }
         public IEnumerable<SelectListItem> DepartmentDdl { get; set; }
         public IEnumerable<SelectListItem> DesignationDdl { get; set; }
     }

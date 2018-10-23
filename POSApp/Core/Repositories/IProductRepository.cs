@@ -11,5 +11,6 @@ namespace POSApp.Core.Repositories
        void AddProduct(Product product);
        void UpdateProduct(int id, int storeid,Product product);
        void DeleteProduct(int id,int storeid);
+       IEnumerable<Product> GetApiProducts();
    }
 }

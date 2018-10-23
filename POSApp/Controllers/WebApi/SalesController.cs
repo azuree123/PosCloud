@@ -6,24 +6,31 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
+using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
 {
-    public class SyncController : ApiController
+    public class SalesController : ApiController
     {
-        private SyncViewModel syncView = new SyncViewModel();
-        // GET: api/Sync
-        public SyncViewModel Get()
+        private IUnitOfWork _unitOfWork;
+        public SalesController(IUnitOfWork unitOfWork)
         {
-            return syncView;
+            _unitOfWork = unitOfWork;
+        }
+
+        // GET: api/Sync
+        public SalesViewModel Get()
+        {
+            return null;
         }
 
         // GET: api/Sync/5
-        public SyncViewModel Get(int id)
+        public SalesViewModel Get(int id)
         {
-            SyncViewModel model=new SyncViewModel();
+            SalesViewModel model=new SalesViewModel();
             model.SaleOrder=new SaleOrder
             {
                 Amount = 0,Canceled = false,Code ="0001",CustomerId = 1,Date = "10/22/2018",Discount = 0,Status = "HHH",
@@ -35,12 +42,24 @@ namespace POSApp.Controllers.WebApi
         }
 
         // POST: api/Sync
-        public async Task<IHttpActionResult> Post([FromBody]SyncViewModel sync)
+        public async Task<IHttpActionResult> AddSaleOrder([FromBody]SyncObject sync)
        {
             try
             {
-            syncView = sync;
-                return Ok(syncView);
+
+                SalesViewModel salesView = System.Web.Helpers.Json.Decode<SalesViewModel>(sync.Object) ;
+                SaleOrder saleOrder = salesView.SaleOrder;
+                saleOrder.Code = saleOrder.Id.ToString();
+                var saleOrderAdd = saleOrder;
+                _unitOfWork.SaleOrderRepository.AddSaleOrder(saleOrder);
+                foreach (var saleOrderDetail in salesView.SaleOrderDetails)
+                {
+                    saleOrderDetail.Code = salesView.SaleOrder.Id.ToString();
+                    saleOrderDetail.SaleOrderId = saleOrderAdd.Id;
+                    _unitOfWork.SaleOrderDetailRepository.AddSaleOrderDetail(saleOrderDetail);
+                }
+                _unitOfWork.Complete();
+                return Ok("Success");
             }
             catch (Exception e)
             {
@@ -60,4 +79,6 @@ namespace POSApp.Controllers.WebApi
         {
         }
     }
+
+
 }

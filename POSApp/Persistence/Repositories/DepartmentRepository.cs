@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using POSApp.Core.Models;
@@ -41,6 +42,18 @@ namespace POSApp.Persistence.Repositories
             var department = new Department { Id = id };
             _context.Departments.Attach(department);
             _context.Entry(department).State = EntityState.Deleted;
+        }
+        public IEnumerable<Department> GetApiDepartments()
+        {
+            IEnumerable<Department> departments = _context.Departments.Where(a => !a.Synced).ToList();
+            foreach (var department in departments)
+            {
+                department.Synced = true;
+                department.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return departments;
         }
     }
 }

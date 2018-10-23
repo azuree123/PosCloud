@@ -10,5 +10,6 @@ namespace POSApp.Core.Repositories
        void AddEmployee(Employee employee);
        void UpdateEmployee(int id, Employee employee,int storeid);
        void DeleteEmployee(int id,int storeid);
+       IEnumerable<Employee> GetApiEmployees();
    }
 }

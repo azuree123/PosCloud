@@ -10,5 +10,6 @@ namespace POSApp.Core.Repositories
         void AddPurchaseOrder(PurchaseOrder purchaseOrder);
         void UpdatePurchaseOrder(int id, PurchaseOrder purchaseOrder);
         void DeletePurchaseOrder(int id);
+        IEnumerable<PurchaseOrder> GetApiPurchaseOrders();
     }
 }

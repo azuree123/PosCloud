@@ -25,7 +25,9 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.JoinDate).HasColumnType("datetime").IsOptional();
             Property(x => x.MobileNumber).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.Salary).HasColumnType("float").IsOptional();
-           
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+
+
 
             //******************************************************************************************* Auditable ***************
 
