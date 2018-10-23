@@ -19,7 +19,8 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Email).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
             Property(x => x.PhoneNumber).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
             Property(x => x.Address).HasColumnType("nvarchar").IsOptional();
-           
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+
             Property(x => x.State).HasColumnType("nvarchar").HasMaxLength(50).IsOptional();
             Property(x => x.City).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
 

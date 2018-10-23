@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using POSApp.Core.Models;
@@ -41,6 +42,18 @@ namespace POSApp.Persistence.Repositories
             var location = new Location { Id = id };
             _context.Locations.Attach(location);
             _context.Entry(location).State = EntityState.Deleted;
+        }
+        public IEnumerable<Location> GetApiLocations()
+        {
+            IEnumerable<Location> locations = _context.Locations.Where(a => !a.Synced).ToList();
+            foreach (var location in locations)
+            {
+                location.Synced = true;
+                location.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return locations;
         }
     }
 }

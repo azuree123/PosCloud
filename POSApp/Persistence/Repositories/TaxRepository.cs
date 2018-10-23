@@ -79,5 +79,17 @@ namespace POSApp.Persistence.Repositories
             _context.Taxes.Attach(tax);
             _context.Entry(tax).State = EntityState.Modified;
         }
+        public IEnumerable<Tax> GetApiTaxes()
+        {
+            IEnumerable<Tax> taxes = _context.Taxes.Where(a => !a.Synced).ToList();
+            foreach (var tax in taxes)
+            {
+                tax.Synced = true;
+                tax.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return taxes;
+        }
     }
 }

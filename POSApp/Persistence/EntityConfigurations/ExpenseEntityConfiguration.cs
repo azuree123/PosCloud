@@ -15,6 +15,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Amount).HasColumnType("float").IsOptional();
             Property(x => x.Date).HasColumnType("datetime").IsOptional();
             Property(x => x.Description).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
 
             //Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
             //Property(x => x.UpdatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();

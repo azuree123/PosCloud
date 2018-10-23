@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using POSApp.Core.Models;
@@ -41,6 +42,18 @@ namespace POSApp.Persistence.Repositories
             var designation = new Designation { Id = id };
             _context.Designations.Attach(designation);
             _context.Entry(designation).State = EntityState.Deleted;
+        }
+        public IEnumerable<Designation> GetApiDesignations()
+        {
+            IEnumerable<Designation> designations = _context.Designations.Where(a => !a.Synced).ToList();
+            foreach (var designation in designations)
+            {
+                designation.Synced = true;
+                designation.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return designations;
         }
     }
 }

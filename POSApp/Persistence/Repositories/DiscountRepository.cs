@@ -80,5 +80,17 @@ namespace POSApp.Persistence.Repositories
             _context.Discounts.Attach(discount);
             _context.Entry(discount).State = EntityState.Modified;
         }
+        public IEnumerable<Discount> GetApiDiscounts()
+        {
+            IEnumerable<Discount> discounts = _context.Discounts.Where(a => !a.Synced).ToList();
+            foreach (var discount in discounts)
+            {
+                discount.Synced = true;
+                discount.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return discounts;
+        }
     }
 }

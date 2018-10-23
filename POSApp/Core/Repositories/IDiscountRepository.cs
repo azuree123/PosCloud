@@ -17,5 +17,6 @@ namespace POSApp.Core.Repositories
         void DeleteDiscount(int id, int storeId);
         void AddDiscount(Discount optcategory);
         void UpdateDiscount(int id, Discount discount, int storeId);
+        IEnumerable<Discount> GetApiDiscounts();
     }
 }

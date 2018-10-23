@@ -17,5 +17,6 @@ namespace POSApp.Core.Repositories
         void DeleteTax(int id, int storeId);
         void AddTax(Tax optcategory);
         void UpdateTax(int id, Tax tax, int storeId);
+        IEnumerable<Tax> GetApiTaxes();
     }
 }

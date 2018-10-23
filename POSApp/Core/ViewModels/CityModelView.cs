@@ -11,6 +11,7 @@ namespace POSApp.Core.ViewModels
         public string Name { get; set; }
         [DisplayName("State")]
         public int StateId { get; set; }
+        public string Code { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         public IEnumerable<SelectListItem> StateDdl { get; set; }

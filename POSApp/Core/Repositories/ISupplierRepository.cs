@@ -10,5 +10,7 @@ namespace POSApp.Core.Repositories
         void AddSupplier(Supplier supplier);
         void UpdateSupplier(int id,int storeid ,Supplier supplier);
         void DeleteSupplier(int id, int storeid);
+
+        IEnumerable<Supplier> GetApiSuppliers();
     }
 }

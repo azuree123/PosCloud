@@ -11,5 +11,6 @@ namespace POSApp.Core.Repositories
         
         void UpdateExpenseHead(int id,int storeid, ExpenseHead expenseHead);
         void DeleteExpenseHead(int id,int storeid);
+        IEnumerable<ExpenseHead> GetApiExpenseHeads();
     }
 }

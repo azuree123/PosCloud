@@ -25,6 +25,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Type).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.Canceled).HasColumnType("bit").IsOptional();
             // Property(x => x.Synced).HasColumnType("bit").IsOptional();
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
 
 
             //******************************************************************************************* Auditable ***************

@@ -10,7 +10,6 @@ namespace POSApp.Core.Models
         public Store Store { get; set; }
 
         public string Name { get; set; }
-        public string Code { get; set; }
         [DefaultValue(0)]
         public double Value { get; set; }
         public DateTime ValidFrom { get; set; }

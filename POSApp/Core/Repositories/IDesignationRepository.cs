@@ -10,5 +10,6 @@ namespace POSApp.Core.Repositories
         Designation GetDesignationById(int id);
         void UpdateDesignation(int id, Designation designation);
         void DeleteDesignation(int id);
+        IEnumerable<Designation> GetApiDesignations();
     }
 }

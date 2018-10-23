@@ -17,5 +17,6 @@ namespace POSApp.Core.ViewModels
         [DefaultValue(0)]
         public double TotalPrice { get; set; }
         public string Type { get; set; }
+        public string Code { get; set; }
     }
 }

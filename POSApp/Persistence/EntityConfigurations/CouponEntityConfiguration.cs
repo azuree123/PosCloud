@@ -27,6 +27,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Amount).HasColumnType("int").IsRequired();
             Property(x => x.Days).HasColumnType("varchar").IsOptional().HasMaxLength(150);
             Property(x => x.IsPercentage).HasColumnType("bit").IsRequired();
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
 
             //******************************************************************************************* Auditable ***************
 

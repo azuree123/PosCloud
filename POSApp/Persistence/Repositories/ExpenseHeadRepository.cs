@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using POSApp.Core.Models;
@@ -42,6 +43,18 @@ namespace POSApp.Persistence.Repositories
             var expenseHeads = new ExpenseHead { Id = id,StoreId = storeid};
             _context.ExpenseHeads.Attach(expenseHeads);
             _context.Entry(expenseHeads).State = EntityState.Deleted;
+        }
+        public IEnumerable<ExpenseHead> GetApiExpenseHeads()
+        {
+            IEnumerable<ExpenseHead> expenseHeads = _context.ExpenseHeads.Where(a => !a.Synced).ToList();
+            foreach (var expenseHead in expenseHeads)
+            {
+                expenseHead.Synced = true;
+                expenseHead.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return expenseHeads;
         }
     }
 }

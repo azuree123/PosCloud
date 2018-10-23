@@ -53,7 +53,7 @@
                     </thead>
                     <tbody>
                         @{ int i = 1;}
-                        @foreach (var productCategory in Model)
+                        @foreach (var productCategory in Model.Where(x=>x.Type=="Product"))
                         {
                             <tr>
                                 <td>@(i++)</td>

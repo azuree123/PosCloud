@@ -10,5 +10,6 @@ namespace POSApp.Core.Repositories
         Department GetDepartmentById(int id);
         void UpdateDepartment(int id, Department department);
         void DeleteDepartment(int id);
+        IEnumerable<Department> GetApiDepartments();
     }
 }

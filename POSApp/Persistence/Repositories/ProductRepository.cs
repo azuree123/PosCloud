@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using POSApp.Core.Models;
@@ -45,6 +46,18 @@ namespace POSApp.Persistence.Repositories
             var product = new Product { Id = id, StoreId = storeid};
             _context.Products.Attach(product);
             _context.Entry(product).State = EntityState.Deleted;
+        }
+        public IEnumerable<Product> GetApiProducts()
+        {
+            IEnumerable<Product> products = _context.Products.Where(a => !a.Synced).ToList();
+            foreach (var product in products)
+            {
+                product.Synced = true;
+                product.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return products;
         }
     }
 }

@@ -18,6 +18,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Quantity).HasColumnType("int").IsOptional();
             Property(x => x.UnitPrice).HasColumnType("decimal").IsOptional();
             Property(x => x.Discount).HasColumnType("float").IsOptional();
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
 
 
 

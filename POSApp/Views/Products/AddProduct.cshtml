@@ -52,11 +52,11 @@
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                    
-                                        <div class="col-md-4">
+                                        @*<div class="col-md-4">
                                             @Html.LabelFor(model => model.ProductCode, htmlAttributes: new {@class = "control-label"})
                                             @Html.EditorFor(model => model.ProductCode, new {htmlAttributes = new {@class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.ProductCode, "", new {@class = "text-danger"})
-                                        </div>
+                                        </div>*@
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Tax, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.Tax, new {htmlAttributes = new {@class = "form-control", @required = true}})

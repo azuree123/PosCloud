@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using POSApp.Core.Models;
@@ -50,6 +51,18 @@ namespace POSApp.Persistence.Repositories
             var customer = new Customer {Id = id,StoreId = storeid};
             _context.Customers.Attach(customer);
             _context.Entry(customer).State = EntityState.Deleted;
+        }
+        public IEnumerable<Customer> GetApiCustomers()
+        {
+            IEnumerable<Customer> customers = _context.Customers.Where(a => !a.Synced).ToList();
+            foreach (var customer in customers)
+            {
+                customer.Synced = true;
+                customer.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return customers;
         }
     }
 }

@@ -18,6 +18,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Name).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
             Property(x=>x.Address).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
             Property(x => x.Contact).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
 
             //******************************************************************************************* Auditable ***************
 
