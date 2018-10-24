@@ -23,15 +23,46 @@
         </header>*@
 
     <!-- start: page -->
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
+            <li><a href="@Url.Action("CustomerList","Setup")">Customer</a></li>
+            <li><a href="@Url.Action("EmployeeList","Setup")">Employee</a></li>
+
+            <li><a href="@Url.Action("SupplierList","Setup")">Supplier</a></li>
+
+            <li><a href="@Url.Action("DepartmentList","Setup")">Department</a></li>
+
+            <li><a href="@Url.Action("DesignationList","Setup")">Desigantion</a></li>
+
+            <li><a href="@Url.Action("CouponList","Setup")">Coupon</a></li>
+
+            <li><a href="@Url.Action("DiscountList","Setup")" )">Discount</a></li>
+            <li class="current"><a href="#">Tax</a></li>
+            <li><a href="@Url.Action("StateList","Setup")">State</a></li>
+            <li><a href="@Url.Action("CityList","Setup")">City</a></li>
+
+
+        </ul>
+        <hr />
+
+    </div>
+</div>
     <section class="panel">
         <header class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
+          
+
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
-                        <h3 class="wb-color"><b>Taxes</b></h3>
+                        <h3 class="wb-color" style="flex-grow: 8"><b>Taxes</b></h3>
+
+
                         <a href="@Url.Action("AddTax", "Setup")" class="modalShow">
-                            <span class="fa fa-2x fa-plus-circle"></span>
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Tax</button>
+
                         </a>
+
                     </div>
                 </div>
             </div>

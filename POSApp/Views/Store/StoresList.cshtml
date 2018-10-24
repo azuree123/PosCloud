@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "StateList";
 }
-<section role="main" class="content-body">
+
     @*<header class="page-header">
         <h2>Stores</h2>
 
@@ -28,11 +28,16 @@
         <header class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
+
+
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
-                        <h3><b>Stores</b></h3>
-                        <a href="@Url.Action("AddStore", "Store")" class="modalShow">
-                            <span class="fa fa-2x fa-plus-circle"></span>
+                        <h3 class="wb-color" style="flex-grow: 8"><b>Branches </b></h3>
+
+                        <a href="@Url.Action("AddStore", "Store")" class="modalShow" >
+                            <button type="button" class="btn outline-success btn-sm" ><i class="fa fa-plus pr-sm"></i>Add Branch </button>
+
                         </a>
+                
                     </div>
                 </div>
             </div>
@@ -42,7 +47,7 @@
             <h2 class="panel-title"></h2>
         </header>
         <div class="panel-body">
-            <table class="table table-bordered table-striped mb-none" style="width:100%" id="datatable-default">
+            <table class="table  table-striped mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -78,8 +83,6 @@
 
 
 
-
-</section>
 
 <div id="ModalData"></div>
 @section scripts

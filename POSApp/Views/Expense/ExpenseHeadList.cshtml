@@ -27,10 +27,17 @@
         <header class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
+              
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
-                        <h3 class="wb-color"><b>Expense Heads</b></h3>
-                        <a href="@Url.Action("AddExpenseHead", "Expense")" class="modalShow">
-                            <span class="fa fa-2x fa-plus-circle"></span>
+                        <h3 class="wb-color" style="flex-grow: 8"><b>Expense Heads </b></h3>
+
+                        <a href="@Url.Action("AddExpenseHead", "Expense")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Expense Head</button>
+
+                        </a>
+                        <a href="@Url.Action("ExpenseList","Expense")" style="flex-grow: 0">
+                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Expense List</button>
+
                         </a>
                     </div>
                 </div>
