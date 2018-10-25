@@ -104,7 +104,7 @@
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "control-label" })
                                             <div class="input-group">
-                                                @Html.DropDownListFor(model => model.SupplierId, Model.SupplierDdl, "Select an Option", new { @id = " ", @class = "form-control ", @required = "true" })
+                                                @Html.DropDownListFor(model => model.SupplierId, Model.SupplierDdl, "Select an Option", new {  @class = "form-control ", @required = "true" })
 
                                                 <span type="button" data-toggle="modal" data-target="#myModal" class="input-group-addon" style="   ">
                                                     <a href="@Url.Action("AddSupplierPartial","Setup")" class="modalShow1"> <i class="fa fa-plus "></i></a>
@@ -167,8 +167,42 @@
     }
 
     <div id="ModalData1"></div>
-    <script>
 
+    <script>
+        function UpdateDdlSupplier() {
+            $.ajax({
+                url: "@Url.Action("GetSupplierDdl", "Setup")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.SupplierId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+
+                }
+            });
+
+        }
+        function UpdateDdlCategory() {
+            $.ajax({
+                url: "@Url.Action("GetProductCategoryDdl", "Products")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.CategoryId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+
+                }
+            });
+
+        }
         $('a.modalShow1').on('click', function () {
 
 

@@ -170,6 +170,9 @@ namespace POSApp.Controllers
             }
             else
             {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                productcategoryvm.StoreId = user.StoreId;
                 ProductCategory productcategory = Mapper.Map<ProductCategory>(productcategoryvm);
                 _unitOfWork.ProductCategoryRepository.AddProductCategory(productcategory);
                 _unitOfWork.Complete();
@@ -293,6 +296,19 @@ namespace POSApp.Controllers
             _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id,Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("ProductCategoryList", "Products");
+        }
+
+        public JsonResult GetProductCategoryDdl()
+        {
+            try
+            {
+                return Json(Mapper.Map<ProductCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
         public ApplicationUserManager UserManager
         {

@@ -898,6 +898,18 @@ namespace POSApp.Controllers
                 throw;
             }
         }
+        public JsonResult GetSupplierDdl()
+        {
+            try
+            {
+                return Json(Mapper.Map<SupplierModelView[]>(_unitOfWork.SupplierRepository.GetSuppliers()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
 
         public ApplicationUserManager UserManager
         {
