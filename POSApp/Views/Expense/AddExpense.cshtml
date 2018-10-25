@@ -49,20 +49,18 @@
                                             <div class="input-group">
                                                 @Html.DropDownListFor(model => model.ExpenseHeadId, Model.ExpHeadDdl, "Select an Option", new { @class = "form-control", @required = true })
                                                 <span class="input-group-addon" style="   ">
-                                                    <a href="@Url.Action("AddExpenseHeadPartial","Expense")" class="modalShow1"> <i class="fa fa-plus "></i></a>
+                                               <i class="fa fa-plus "></i>
                                                 </span>
                                                 @Html.ValidationMessageFor(model => model.ExpenseHeadId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label" })
-                                            <div class="input-group">
+                                         
                                                 @Html.DropDownListFor(model => model.EmployeeId, Model.EmpDdl, "Select an Option", new { @class = "form-control", @required = true })
-                                                <span class="input-group-addon" style="   ">
-                                                    <i class="fa fa-plus "></i>
-                                                </span>
+                                          
                                                 @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
-                                            </div>
+                                       
                                         </div>
 
                                     </div>
