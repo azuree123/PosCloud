@@ -32,6 +32,86 @@ namespace POSApp.Controllers
             
             return View(_unitOfWork.DepartmentRepository.GetDepartments());
         }
+        public ActionResult AddDepartmentPartial()
+        {
+            ViewBag.edit = "AddDepartmentPartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddDepartmentPartial(DepartmentViewModel departmentVm)
+        {
+            ViewBag.edit = "AddDepartmentPartial";
+            if (!ModelState.IsValid)
+            {
+                return View(departmentVm);
+            }
+            else
+            {
+                Department department = Mapper.Map<Department>(departmentVm);
+                _unitOfWork.DepartmentRepository.AddDepartment(department);
+                _unitOfWork.Complete();
+                return PartialView("Error");
+            }
+
+        }
+
+
+        public ActionResult AddDesignationPartial()
+        {
+            ViewBag.edit = "AddDesignationPartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddDesignationPartial(DesignationViewModel designationVm)
+        {
+            ViewBag.edit = "AddDesignationPartial";
+            if (!ModelState.IsValid)
+            {
+                return View(designationVm);
+            }
+            else
+            {
+                Designation designation = Mapper.Map<Designation>(designationVm);
+                _unitOfWork.DesignationRepository.AddDesignation(designation);
+                _unitOfWork.Complete();
+                return PartialView("Error");
+            }
+
+        }
+
+
+
+
+        public ActionResult AddStatePartial()
+        {
+            ViewBag.edit = "AddStatePartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddStatePartial(StateModelView statevm)
+        {
+            ViewBag.edit = "AddStatePartial";
+            if (!ModelState.IsValid)
+            {
+                return View(statevm);
+            }
+            else
+            {
+                State state = Mapper.Map<State>(statevm);
+                _unitOfWork.StateRepository.AddState(state);
+                _unitOfWork.Complete();
+                return PartialView("Error");
+            }
+
+        }
+
+
+
+
+
+
+
+
         [HttpGet]
         public ActionResult AddDepartment()
         {

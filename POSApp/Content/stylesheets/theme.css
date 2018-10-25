@@ -5518,6 +5518,7 @@ html.header-dark .notifications > li .notification-icon i {
         color: ##d2322d;
         font-size: 1.1rem;
         line-height: 1.2em;
+        float:right;
     }
 
     .userbox .custom-caret {

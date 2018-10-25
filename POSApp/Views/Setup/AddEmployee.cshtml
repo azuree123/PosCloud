@@ -69,9 +69,12 @@
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @class = "control-label " })
                                             <div class="input-group">
-                                                @Html.DropDownListFor(model => model.DepartmentId, Model.DepartmentDdl, "Select an Option", new  { @class = "form-control", @required = "true" } )
+                                                @Html.DropDownListFor(model => model.DepartmentId, Model.DepartmentDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+
                                                 <span class="input-group-addon" style="   ">
-                                                    <i class="fa fa-plus "></i>
+                                                    <a href="@Url.Action("AddDepartmentPartial","Setup")" class="modalShow1">
+                                                        <i class="fa fa-plus "></i>
+                                                    </a>
                                                 </span>
                                                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
                                             </div>
@@ -79,14 +82,14 @@
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.DesignationId, htmlAttributes: new { @class = "control-label" })
                                             <div class="input-group">
-                                                @Html.DropDownListFor(model => model.DesignationId, Model.DesignationDdl, "Select an Option", new  { @class = "form-control", @required = "true" } )
+                                                @Html.DropDownListFor(model => model.DesignationId, Model.DesignationDdl, "Select an Option", new { @class = "form-control", @required = "true" })
                                                 <span class="input-group-addon" style="   ">
-                                                    <i class="fa fa-plus "></i>
+                                                    <a href="@Url.Action("AddDesignationPartial","Setup")" class="modalShow1">  <i class="fa fa-plus "></i></a>
                                                 </span>
                                                 @Html.ValidationMessageFor(model => model.DesignationId, "", new { @class = "text-danger" })
-                                                </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
 
                                 <div class="row">
@@ -119,6 +122,37 @@
             </div>
         </div>
     }
-</div>
+    <div id="ModalData1"></div>
+    <script>
+
+        $('a.modalShow1').on('click', function () {
+
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData1').html(result).find('#ordine2').modal('show');
+                    //newWin = window.open("", "", "width=800, height=600");
+                    //    var query = " <" +"script> $('#AddDepartment').click();</"+"script>";
+                    //    newWin.document.write(result + query);
+
+                    //    if (newWin.closed) {
+                    //        alert("Closed");
+                    //    }
+                }
+            });
+
+            return false;
+        });
+
+    </script>
+
 
     
+
+</div>
+
+
+
