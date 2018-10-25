@@ -106,8 +106,8 @@
                                                 <div class="input-group">
                                                     @Html.DropDownListFor(model => model.SupplierId, Model.SupplierDdl, "Select an Option", new { @id = " ", @class = "form-control ", @required = "true" })
 
-                                                    <span class="input-group-addon" style="   ">
-                                                        <i class="fa fa-plus "></i>
+                                                    <span type="button" data-toggle="modal" data-target="#myModal" class="input-group-addon" style="   ">
+                                                         <i class="fa fa-plus "></i>
                                                     </span>
                                                     @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
                                                 </div>
@@ -166,7 +166,25 @@
         </div>
     }
 </div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 
 
