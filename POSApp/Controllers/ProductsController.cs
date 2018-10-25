@@ -174,17 +174,13 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 productcategoryvm.StoreId = user.StoreId;
                 ProductCategory productcategory = Mapper.Map<ProductCategory>(productcategoryvm);
+                productcategory.Type = "Product";
                 _unitOfWork.ProductCategoryRepository.AddProductCategory(productcategory);
                 _unitOfWork.Complete();
                 return PartialView("Error");
             }
 
         }
-
-
-
-
-
 
         public ActionResult AddProductCategory()
         {
@@ -302,7 +298,7 @@ namespace POSApp.Controllers
         {
             try
             {
-                return Json(Mapper.Map<ProductCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories()), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<ProductCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Product")), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

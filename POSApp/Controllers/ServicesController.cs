@@ -145,7 +145,32 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("ServicesList", "Services");
         }
+        public ActionResult AddServiceCategoryPartial()
+        {
+            ViewBag.edit = "AddServiceCategoryPartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddServiceCategoryPartial(ServiceCategoryViewModel productcategoryvm)
+        {
+            ViewBag.edit = "AddServiceCategoryPartial";
+            if (!ModelState.IsValid)
+            {
+                return View(productcategoryvm);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                productcategoryvm.StoreId = user.StoreId;
+                ProductCategory productcategory = Mapper.Map<ProductCategory>(productcategoryvm);
+                productcategory.Type = "Service";
+                _unitOfWork.ProductCategoryRepository.AddProductCategory(productcategory);
+                _unitOfWork.Complete();
+                return PartialView("Error");
+            }
 
+        }
         public ActionResult ServiceCategoryList()
         {
             return View(_unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a=>a.Type=="Service"));
@@ -257,6 +282,18 @@ namespace POSApp.Controllers
             _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id, Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("ServiceCategoryList", "Services");
+        }
+        public JsonResult GetServiceCategoryDdl()
+        {
+            try
+            {
+                return Json(Mapper.Map<ServiceCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a=>a.Type=="Service")), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
         public ApplicationUserManager UserManager
         {

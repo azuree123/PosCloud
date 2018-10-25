@@ -1,12 +1,13 @@
-﻿@model POSApp.Core.ViewModels.ProductCategoryViewModel
+﻿@model POSApp.Core.ViewModels.ServiceCategoryViewModel
 @{
     Layout = null;
 }
 
+
 <div id="ordine2" class="modal fade" role="dialog">
     @{ string s = ViewBag.edit;}
 
-    @using (Ajax.BeginForm(s, "Products", new AjaxOptions
+    @using (Ajax.BeginForm(s, "Services", new AjaxOptions
     {
         HttpMethod = "Post",
         OnSuccess = "UpdateDdlCategory();$('#ordine2').modal('hide');"
@@ -24,13 +25,13 @@
                     @if (s.Contains("Add"))
                     {
                         <h4 class="modal-title">
-                            Add Product Category
+                            Add Service Category
                         </h4>
                     }
                     else
                     {
                         <h4 class="modal-title">
-                            Edit Product Category
+                            Edit Service Category
                         </h4>
                     }
 
