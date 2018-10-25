@@ -137,6 +137,34 @@ namespace POSApp.Controllers
 
 
 
+        //public ActionResult AddEmployeePartial()
+        //{
+        //    ViewBag.edit = "AddEmployeePartial";
+        //    return View();
+        //}
+        //[HttpPost]
+        //public ActionResult AddEmployeePartial(EmployeeModelView employeevm)
+        //{
+        //    ViewBag.edit = "AddEmployeePartial";
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(employeevm);
+        //    }
+        //    else
+        //    {
+        //        var userid = User.Identity.GetUserId();
+        //        var user = UserManager.FindById(userid);
+        //        employeevm.StoreId = user.StoreId;
+        //        Employee employee = Mapper.Map<Employee>(employeevm);
+        //        _unitOfWork.EmployeeRepository.AddEmployee(employee);
+        //        _unitOfWork.Complete();
+        //        return PartialView("Error");
+        //    }
+
+        //}
+
+
+
 
 
 
