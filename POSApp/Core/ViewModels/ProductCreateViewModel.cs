@@ -20,6 +20,7 @@ namespace POSApp.Core.ViewModels
         public int SupplierId { get; set; }
         public double Tax { get; set; }
         public double UnitPrice { get; set; }
+        public double PurchasePrice { get; set; }
         public string Stock { get; set; }
         public string Barcode { get; set; }
         public string Image { get; set; }

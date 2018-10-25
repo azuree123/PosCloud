@@ -2854,14 +2854,7 @@ textarea[data-toggle=autosize] {
 	transition: height 0.15s ease-in;
 }
 
-select {
-	border: 1px solid #cccccc;
-	border-radius: 6px;
-	height: 27px;
-	padding: 0px 0px 0px 0px;
-    width: 100%;
-	outline: none;
-}
+
 
 /* Forms Validations */
 label.valid {
@@ -6076,7 +6069,7 @@ html.ie11 .scroll-to-top {
 }
 
 .panel-heading {
-	background: #f6f6f6;
+	/*background: #f6f6f6;*/
 	border-radius: 5px 5px 0 0;
 	/*border-bottom: 1px solid #DADADA;*/
 	/*padding: 28px;*/
@@ -6176,25 +6169,37 @@ html.ie11 .scroll-to-top {
 }*/
 
 .outline-success {
-    background-color: white ;
+    background-color: white;
     color: #09ab5a;
-    border-color: #09ab5a ;
+    border-color: #09ab5a;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
 }
     .outline-success:hover {
         background-color: #09ab5a;
         color: white;
         border-color: #09ab5a;
     }
+    .outline-success:focus {
+        color: rgba(9, 171, 90, 0.5411764705882353);
+        text-decoration: none
+    }
 .outline-danger {
     background-color: white;
     color: #d2322d;
     border-color: #d2322d;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
 }
 
     .outline-danger:hover {
         background-color: #d2322d;
         color: white;
         border-color: #d2322d;
+    }
+    .outline-danger:focus {
+        color: rgba(179, 44, 39, 0.55);
+        text-decoration: none;
     }
 
 .panel-actions a:hover,
@@ -16975,6 +16980,9 @@ select {
 .input-group-addon {
     padding: 4px 12px;
     color: #09ab5a;
+    border-radius: 0;
+    border-bottom-right-radius: 4px !important;
+    border-top-right-radius: 4px !important;
 }
 /*Azhar Changes*/
 div.dataTables_wrapper div.dataTables_filter input {
@@ -17014,6 +17022,7 @@ div.dataTables_wrapper div.dataTables_filter input {
     border: 1px solid #d2322d;
 }
 
+
 html .pagination > li.active a {
     background-color: #d2322d !important;
     color:white !important;
@@ -17052,6 +17061,8 @@ html .pagination > li.active a {
     text-transform: uppercase;
     font-weight: 500;
     letter-spacing: 1px;
+    padding-left:0;
+    margin-left:0;
 }
 
     .snip1189 * {
@@ -17064,7 +17075,7 @@ html .pagination > li.active a {
     .snip1189 li {
         display: inline-block;
         list-style: outside none none;
-        margin: 0 1em;
+        margin: 0 0.1em;
         padding: 0;
     }
 
@@ -17120,4 +17131,36 @@ html .pagination > li.active a {
                 opacity: 1;
             }
 /* Demo purposes only */
+
+select {
+    border: 1px solid #cccccc;
+   
+    height: 27px;
+    padding: 0px 0px 0px 0px;
+    width: 100% ;
+    outline: none;
+
+    
+}
+.border-r-6 {
+    border-radius: 6px !important;
+}
+.mo-btn {
+    padding: 2px 9px;
+    border: 1px solid;
+}
+.no-border {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+
+}
+.unstyled {
+    padding: 0.2rem 0 0.2rem 4px;
+    font-size:12px;
+}
+    .unstyled::-webkit-inner-spin-button {
+        display: none;
+        -webkit-appearance: none;
+  
+    }
   
