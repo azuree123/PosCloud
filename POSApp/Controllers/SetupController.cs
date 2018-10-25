@@ -833,6 +833,43 @@ namespace POSApp.Controllers
             return RedirectToAction("CouponList", "Setup");
         }
 
+        public JsonResult GetDepartmentDdl()
+        {
+            try
+            {
+                return Json(Mapper.Map<DepartmentViewModel[]>(_unitOfWork.DepartmentRepository.GetDepartments()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        public JsonResult GetDesignationDdl()
+        {
+            try
+            {
+                return Json(Mapper.Map<DesignationViewModel[]>(_unitOfWork.DesignationRepository.GetApiDesignations()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        public JsonResult GetStateDdl()
+        {
+            try
+            {
+                return Json(Mapper.Map<StateModelView[]>(_unitOfWork.StateRepository.GetStates()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         public ApplicationUserManager UserManager
         {
             get

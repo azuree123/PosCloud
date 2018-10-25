@@ -10,6 +10,7 @@
     @using (Html.BeginForm(s, "Setup", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
+
         <div class="modal-dialog modal-lg">
             <!-- Modal content-->
             <div class="modal-content ">
@@ -124,7 +125,40 @@
     }
     <div id="ModalData1"></div>
     <script>
-
+        function UpdateDdlDepartment() {
+            $.ajax({
+                url: "@Url.Action("GetDepartmentDdl","Setup")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.DepartmentId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+                 
+                }
+            });
+           
+        }
+        function UpdateDdlDesignation() {
+            $.ajax({
+                url: "@Url.Action("GetDesignationDdl", "Setup")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a => a.DesignationId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function(index,value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+                 
+                }
+            });
+           
+        }
         $('a.modalShow1').on('click', function () {
 
 
