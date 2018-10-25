@@ -59,6 +59,8 @@ namespace POSApp.Controllers
                     if (System.IO.File.Exists(path))
                     {
                         ViewBag.Message = "Image Already Exists!";
+                        serviceVm.Image = "/Images/Data/Service" + (file.FileName);
+
                     }
                     else
                     {
@@ -114,6 +116,8 @@ namespace POSApp.Controllers
                         if (System.IO.File.Exists(path))
                         {
                             ViewBag.Message = "Image Already Exists!";
+                            serviceVm.Image = "/Images/Data/Service/" + (file.FileName);
+
                         }
                         else
                         {
@@ -199,6 +203,8 @@ namespace POSApp.Controllers
                         if (System.IO.File.Exists(path))
                         {
                             ViewBag.Message = "Image Already Exist!";
+                            serviceCategory.Image = "/Images/Data/Service/" + (file.FileName);
+
                         }
                         else
                         {
@@ -251,6 +257,8 @@ namespace POSApp.Controllers
                     if (System.IO.File.Exists(path))
                     {
                         ViewBag.Message = "Image Already Exists!";
+                        serviceCategoryVm.Image = "/Images/Data/Service/" + (file.FileName);
+
                     }
                     else
                     {

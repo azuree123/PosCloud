@@ -143,6 +143,19 @@ namespace POSApp.Controllers
 
         }
 
+        public JsonResult GetExpenseHeadDdl()
+        {
+            try
+            {
+                return Json(Mapper.Map<ExpenseHeadViewModel[]>(_unitOfWork.ExpenseHeadRepository.GetExpenseHeads()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
 
 
 

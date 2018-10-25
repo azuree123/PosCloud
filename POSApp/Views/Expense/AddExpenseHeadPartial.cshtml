@@ -7,10 +7,10 @@
 <div id="ordine2" class="modal fade" role="dialog">
     @{ string s = ViewBag.edit;}
 
-    @using (Ajax.BeginForm(s, "Setup", new AjaxOptions
+    @using (Ajax.BeginForm(s, "Expense", new AjaxOptions
     {
         HttpMethod = "Post",
-        OnSuccess = "$('#ordine2').modal('hide');"
+        OnSuccess = "UpdateDdlExpenseHead();$('#ordine2').modal('hide');"
        ,
         UpdateTargetId = "ordine2"
     }, new { enctype = "multipart/form-data" }))
@@ -20,7 +20,7 @@
             <!-- Modal content-->
             <div class="modal-content ">
                 <div class="modal-header modalheader">
-                    <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+                    <button type="button" class="close modalheader" onclick="$('#ordine2').modal('hide');">×</button>
 
                     @if (s.Contains("Add"))
                     {
@@ -70,7 +70,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal"><span class="fa fa-close"></span>Close</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" onclick="$('#ordine2').modal('hide');"><span class="fa fa-close"></span>Close</button>
                 </div>
             </div>
         </div>
