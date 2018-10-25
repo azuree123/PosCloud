@@ -8,7 +8,7 @@
 <div id="ordine" class="modal fade" role="dialog">
     @{ string s = ViewBag.edit;}
 
-    @using (Html.BeginForm(s, "Products", FormMethod.Post, new {enctype = "multipart/form-data"}))
+    @using (Html.BeginForm(s, "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="modal-dialog modal-lg">
@@ -40,10 +40,10 @@
                             @Html.HiddenFor(a => a.Id)
                             @Html.HiddenFor(a => a.CreatedBy)
                             @Html.HiddenFor(a => a.CreatedOn)
-                            @Html.HiddenFor(a=>a.Image)
-                            @Html.HiddenFor(a=>a.StoreId)
+                            @Html.HiddenFor(a => a.Image)
+                            @Html.HiddenFor(a => a.StoreId)
                             <div class="">
-                                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-4">
@@ -58,11 +58,11 @@
                                         </div>
 
                                         @*<div class="col-md-4">
-            @Html.LabelFor(model => model.ProductCode, htmlAttributes: new {@class = "control-label"})
-            @Html.EditorFor(model => model.ProductCode, new {htmlAttributes = new {@class = "form-control", @required = true } })
-            @Html.ValidationMessageFor(model => model.ProductCode, "", new {@class = "text-danger"})
-        </div>*@
-                             
+                                                @Html.LabelFor(model => model.ProductCode, htmlAttributes: new {@class = "control-label"})
+                                                @Html.EditorFor(model => model.ProductCode, new {htmlAttributes = new {@class = "form-control", @required = true } })
+                                                @Html.ValidationMessageFor(model => model.ProductCode, "", new {@class = "text-danger"})
+                                            </div>*@
+
                                     </div>
                                 </div>
                                 <div class="row">
@@ -72,51 +72,51 @@
                                             @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label" })
                                             <div class="input-group">
                                                 @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                             
-                                                    <span class="input-group-addon" style="   ">
-                                                      <i class="fa fa-plus "></i>
-                                                    </span>
-                                               
+
+                                                <span class="input-group-addon" style="   ">
+                                                    <a href="@Url.Action("AddProductCategoryPartial","Products")" class="modalShow1"><i class="fa fa-plus "></i></a>
+                                                </span>
+
                                                 @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
                                             </div>
 
-                                            </div>
-                                            @*<div class="col-md-1">
-            <label>Add Categoory</label>
-            <a href="@Url.Action("", "")" class="modalShow">
-                <span class="fa fa-2x fa-plus-circle"></span>
-            </a>
-        </div>*@
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(model => model.Available, htmlAttributes: new { @class = "control-label" })
-                                                @Html.DropDownListFor(a => a.Available, new SelectList(Enum.GetValues(typeof(Available))), "Select Gender", new { @class = "form-control", @required = "true" })
-                                                @Html.ValidationMessageFor(model => model.Available, "", new { @class = "text-danger" })
-                                            </div>
-                                            @*<div class="col-md-4">
-            @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "control-label" })
-            @Html.DropDownListFor(model => model.SupplierId, Model.SupplierDdl, "Select an Option", new { htmlAttributes = new { @class = "form-control", @required = true } })
-            @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
-            <a href="#" class="modalShow ml-md text-right">
-                <button type="button" class="btn outline-success mo-btn  "><i class="fa fa-plus "></i> </button>
-
-            </a>
-        </div>*@
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "control-label" })
-                                                <div class="input-group">
-                                                    @Html.DropDownListFor(model => model.SupplierId, Model.SupplierDdl, "Select an Option", new { @id = " ", @class = "form-control ", @required = "true" })
-
-                                                    <span type="button" data-toggle="modal" data-target="#myModal" class="input-group-addon" style="   ">
-                                                         <i class="fa fa-plus "></i>
-                                                    </span>
-                                                    @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
-                                                </div>
-
-
-                                            </div>
                                         </div>
+                                        @*<div class="col-md-1">
+                                                <label>Add Categoory</label>
+                                                <a href="@Url.Action("", "")" class="modalShow">
+                                                    <span class="fa fa-2x fa-plus-circle"></span>
+                                                </a>
+                                            </div>*@
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Available, htmlAttributes: new { @class = "control-label" })
+                                            @Html.DropDownListFor(a => a.Available, new SelectList(Enum.GetValues(typeof(Available))), "Select Gender", new { @class = "form-control", @required = "true" })
+                                            @Html.ValidationMessageFor(model => model.Available, "", new { @class = "text-danger" })
+                                        </div>
+                                        @*<div class="col-md-4">
+                                                @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "control-label" })
+                                                @Html.DropDownListFor(model => model.SupplierId, Model.SupplierDdl, "Select an Option", new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                                @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                                                <a href="#" class="modalShow ml-md text-right">
+                                                    <button type="button" class="btn outline-success mo-btn  "><i class="fa fa-plus "></i> </button>
+
+                                                </a>
+                                            </div>*@
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "control-label" })
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(model => model.SupplierId, Model.SupplierDdl, "Select an Option", new { @id = " ", @class = "form-control ", @required = "true" })
+
+                                                <span type="button" data-toggle="modal" data-target="#myModal" class="input-group-addon" style="   ">
+                                                    <a href="@Url.Action("AddSupplierPartial","Setup")" class="modalShow1"> <i class="fa fa-plus "></i></a>
+                                                </span>
+                                                @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                                            </div>
+
+
+                                        </div>
+                                    </div>
                                 </div>
-                                
+
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-2">
@@ -153,7 +153,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -165,26 +165,35 @@
             </div>
         </div>
     }
-</div>
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
-                <p>Some text in the modal.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
+    <div id="ModalData1"></div>
+    <script>
 
-    </div>
+        $('a.modalShow1').on('click', function () {
+
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData1').html(result).find('#ordine2').modal('show');
+                    //newWin = window.open("", "", "width=800, height=600");
+                    //    var query = " <" +"script> $('#AddDepartment').click();</"+"script>";
+                    //    newWin.document.write(result + query);
+
+                    //    if (newWin.closed) {
+                    //        alert("Closed");
+                    //    }
+                }
+            });
+
+            return false;
+        });
+
+    </script>
 </div>
+
 
 
 

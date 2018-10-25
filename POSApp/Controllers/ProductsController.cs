@@ -152,6 +152,37 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductCategoryRepository.GetProductCategories());
         }
 
+
+
+
+        public ActionResult AddProductCategoryPartial()
+        {
+            ViewBag.edit = "AddProductCategoryPartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddProductCategoryPartial(ProductCategoryViewModel productcategoryvm)
+        {
+            ViewBag.edit = "AddProductCategoryPartial";
+            if (!ModelState.IsValid)
+            {
+                return View(productcategoryvm);
+            }
+            else
+            {
+                ProductCategory productcategory = Mapper.Map<ProductCategory>(productcategoryvm);
+                _unitOfWork.ProductCategoryRepository.AddProductCategory(productcategory);
+                _unitOfWork.Complete();
+                return PartialView("Error");
+            }
+
+        }
+
+
+
+
+
+
         public ActionResult AddProductCategory()
         {
             ViewBag.edit = "AddProductCategory";

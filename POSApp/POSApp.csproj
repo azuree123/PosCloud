@@ -2521,6 +2521,8 @@
     <Content Include="Views\Setup\AddDepartmentPartial.cshtml" />
     <Content Include="Views\Setup\AddDesignationPartial.cshtml" />
     <Content Include="Views\Setup\AddStatePartial.cshtml" />
+    <Content Include="Views\Products\AddProductCategoryPartial.cshtml" />
+    <Content Include="Views\Setup\AddSupplierPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

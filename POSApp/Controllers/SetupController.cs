@@ -108,6 +108,35 @@ namespace POSApp.Controllers
 
 
 
+        public ActionResult AddSupplierPartial()
+        {
+            ViewBag.edit = "AddSupplierPartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddSupplierPartial(SupplierModelView suppliervm)
+        {
+            ViewBag.edit = "AddSupplierPartial";
+            if (!ModelState.IsValid)
+            {
+                return View(suppliervm);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                suppliervm.StoreId = user.StoreId;
+                Supplier supplier = Mapper.Map<Supplier>(suppliervm);
+                _unitOfWork.SupplierRepository.AddSupplier(supplier);
+                _unitOfWork.Complete();
+                return PartialView("Error");
+            }
+
+        }
+
+
+
+
 
 
 

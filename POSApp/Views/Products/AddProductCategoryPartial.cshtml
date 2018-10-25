@@ -1,9 +1,9 @@
-﻿@model POSApp.Core.ViewModels.StateModelView
+﻿@model POSApp.Core.ViewModels.ProductCategoryViewModel
 @{
     Layout = null;
 }
 
-<div id="ordine2" class="modal fade" role="dialog" width="100%">
+<div id="ordine2" class="modal fade" role="dialog">
     @{ string s = ViewBag.edit;}
 
     @using (Ajax.BeginForm(s, "Setup", new AjaxOptions
@@ -24,13 +24,13 @@
                     @if (s.Contains("Add"))
                     {
                         <h4 class="modal-title">
-                            Add State
+                            Add Product Category
                         </h4>
                     }
                     else
                     {
                         <h4 class="modal-title">
-                            Edit State
+                            Edit Product Category
                         </h4>
                     }
 
@@ -65,6 +65,4 @@
             </div>
         </div>
     }
-
-
 </div>
