@@ -39,6 +39,10 @@ namespace POSApp.Persistence
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Tax> Taxes { get; set; }
         public DbSet<Discount> Discounts { get; set; }
+        public DbSet<TransDetail> TransDetails { get; set; }
+        public DbSet<TransMaster> TransMasters { get; set; }
+        public DbSet<BusinessPartner> BusinessPartners { get; set; }
+        public DbSet<ProductCategoryGroup> ProductCategoryGroups { get; set; }
 
         public void SetCommandTimeOut(int Timeout)
         {
@@ -81,7 +85,9 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new CouponEntityConfiguration());
             modelBuilder.Configurations.Add(new TaxEntityConfiguration());
             modelBuilder.Configurations.Add(new DiscountEntityConfiguration());
-
+            modelBuilder.Configurations.Add(new TransDetailEntityConfiguration());
+            modelBuilder.Configurations.Add(new TransMasterEntityConfiguration());
+            modelBuilder.Configurations.Add(new BusinessPartnerEntityConfiguration());
 
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);

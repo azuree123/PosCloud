@@ -29,6 +29,11 @@ namespace POSApp.Persistence
         public ITaxRepository TaxRepository { get; private set; }
         public IDiscountRepository DiscountRepository { get; private set; }
 
+        public IProductCategoryGroupRepository ProductCategoryGroupRepository { get; private set; }
+
+        public ITransDetailRepository TransDetailRepository { get; private set; }
+        public ITransMasterRepository TransMasterRepository { get; private set; }
+        public IBusinessPartnerRepository BusinessPartnerRepository { get; private set; }
 
         public UnitOfWork(PosDbContext context)
         {
@@ -53,7 +58,10 @@ namespace POSApp.Persistence
             CouponRepository = new CouponRepository(context);
             TaxRepository = new TaxRepository(context);
             DiscountRepository = new DiscountRepository(context);
-
+            ProductCategoryGroupRepository = new ProductCategoryGroupRepository(context);
+            BusinessPartnerRepository = new BusinessPartnerRepository(context);
+            TransDetailRepository = new TransDetailRepository(context);
+            TransMasterRepository = new TransMasterRepository(context);
 
         }
 

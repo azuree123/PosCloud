@@ -16,6 +16,10 @@ namespace POSApp.Core.Models
 
         public bool IsOperational { get; set; }
 
+        public virtual ICollection<BusinessPartner> BusinessPartners { get; set; }
+        public virtual ICollection<TransMaster> TransMasters { get; set; }
+        public virtual ICollection<TransDetail> TransDetails { get; set; }
+
         public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
         public virtual ICollection<Expense> Expenses { get; set; }

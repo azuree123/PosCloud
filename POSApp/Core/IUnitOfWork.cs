@@ -24,6 +24,11 @@ namespace POSApp.Core
         ICouponRepository CouponRepository { get; }
         IDiscountRepository DiscountRepository { get; }
         ITaxRepository TaxRepository { get; }
+        IProductCategoryGroupRepository ProductCategoryGroupRepository { get; }
+        ITransDetailRepository TransDetailRepository { get; }
+        ITransMasterRepository TransMasterRepository { get; }
+        IBusinessPartnerRepository BusinessPartnerRepository { get; }
+
         void Complete();
     }
 }
