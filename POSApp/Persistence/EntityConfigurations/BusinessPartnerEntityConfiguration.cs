@@ -38,8 +38,6 @@ namespace POSApp.Persistence.EntityConfigurations
             //************************************************************* ****************************** RELATIONS ****
             HasRequired(x => x.Store).WithMany(x => x.BusinessPartners).HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
 
-            HasOptional(x => x.CreatedById).WithMany().HasForeignKey(x => new { x.CreatedById, x.StoreId }).WillCascadeOnDelete(false);
-            HasOptional(x => x.UpdatedById).WithMany().HasForeignKey(x => new { x.UpdatedById, x.StoreId }).WillCascadeOnDelete(false);
             //******************
             //HasMany(g => g.Operations).WithMany();
         }

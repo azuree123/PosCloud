@@ -36,8 +36,6 @@ namespace POSApp.Persistence.EntityConfigurations
             HasRequired(x => x.Store).WithMany(x => x.TransMasters).HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
             HasRequired(x => x.BusinessPartner).WithMany(x => x.TransMasters).HasForeignKey(x => new { x.BusinessPartnerId, x.StoreId }).WillCascadeOnDelete(false);
 
-            HasOptional(x => x.CreatedById).WithMany().HasForeignKey(x => new { x.CreatedById, x.StoreId }).WillCascadeOnDelete(false);
-            HasOptional(x => x.UpdatedById).WithMany().HasForeignKey(x => new { x.UpdatedById, x.StoreId }).WillCascadeOnDelete(false);
 
         }
     }
