@@ -2523,6 +2523,7 @@
     <Content Include="Views\Setup\AddStatePartial.cshtml" />
     <Content Include="Views\Products\AddProductCategoryPartial.cshtml" />
     <Content Include="Views\Setup\AddSupplierPartial.cshtml" />
+    <Content Include="Views\Expense\AddExpenseHeadPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

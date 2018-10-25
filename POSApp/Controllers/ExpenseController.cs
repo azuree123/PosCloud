@@ -112,6 +112,46 @@ namespace POSApp.Controllers
         {
             return View(_unitOfWork.ExpenseHeadRepository.GetExpenseHeads());
         }
+
+
+
+
+        public ActionResult AddExpenseHeadPartial()
+        {
+            ViewBag.edit = "AddExpenseHeadPartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddExpenseHeadPartial(ExpenseHeadViewModel expenseheadvm)
+        {
+            ViewBag.edit = "AddExpenseHeadPartial";
+            if (!ModelState.IsValid)
+            {
+                return View(expenseheadvm);
+            }
+            else
+            {
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                expenseheadvm.StoreId = user.StoreId;
+                ExpenseHead expensehead = Mapper.Map<ExpenseHead>(expenseheadvm);
+                _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expensehead);
+                _unitOfWork.Complete();
+                return PartialView("Error");
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
         public ActionResult AddExpenseHead()
         {
             ViewBag.edit = "AddExpenseHead";

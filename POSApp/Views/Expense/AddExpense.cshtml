@@ -40,32 +40,32 @@
                             @Html.HiddenFor(a => a.CreatedOn)
                             <div class="">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                
+
                                 <div class="row">
                                     <div class="form-group">
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.ExpenseHeadId, htmlAttributes: new { @class = "control-label" })
                                             <div class="input-group">
-                                            @Html.DropDownListFor(model => model.ExpenseHeadId, Model.ExpHeadDdl, "Select an Option",  new { @class = "form-control", @required = true } )
-                                            <span class="input-group-addon" style="   ">
-                                                <i class="fa fa-plus "></i>
-                                            </span>
-                                            @Html.ValidationMessageFor(model => model.ExpenseHeadId, "", new { @class = "text-danger" })
+                                                @Html.DropDownListFor(model => model.ExpenseHeadId, Model.ExpHeadDdl, "Select an Option", new { @class = "form-control", @required = true })
+                                                <span class="input-group-addon" style="   ">
+                                                    <a href="@Url.Action("AddExpenseHeadPartial","Expense")" class="modalShow1"> <i class="fa fa-plus "></i></a>
+                                                </span>
+                                                @Html.ValidationMessageFor(model => model.ExpenseHeadId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label" })
                                             <div class="input-group">
-                                                @Html.DropDownListFor(model => model.EmployeeId, Model.EmpDdl, "Select an Option", new { @class = "form-control", @required = true } )
+                                                @Html.DropDownListFor(model => model.EmployeeId, Model.EmpDdl, "Select an Option", new { @class = "form-control", @required = true })
                                                 <span class="input-group-addon" style="   ">
                                                     <i class="fa fa-plus "></i>
                                                 </span>
                                                 @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
-                                                </div>
                                             </div>
-                                 
                                         </div>
+
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group">
@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
 
-                                
+
 
                             </div>
 
@@ -103,6 +103,33 @@
             </div>
         </div>
     }
+
+    <div id="ModalData1"></div>
+    <script>
+
+        $('a.modalShow1').on('click', function () {
+
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData1').html(result).find('#ordine2').modal('show');
+                    //newWin = window.open("", "", "width=800, height=600");
+                    //    var query = " <" +"script> $('#AddDepartment').click();</"+"script>";
+                    //    newWin.document.write(result + query);
+
+                    //    if (newWin.closed) {
+                    //        alert("Closed");
+                    //    }
+                }
+            });
+
+            return false;
+        });
+
+    </script>
 </div>
 
 
