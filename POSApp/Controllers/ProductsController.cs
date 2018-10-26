@@ -151,10 +151,6 @@ namespace POSApp.Controllers
         {
             return View(_unitOfWork.ProductCategoryRepository.GetProductCategories());
         }
-
-
-
-
         public ActionResult AddProductCategoryPartial()
         {
             ViewBag.edit = "AddProductCategoryPartial";
@@ -299,6 +295,123 @@ namespace POSApp.Controllers
             try
             {
                 return Json(Mapper.Map<ProductCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Product")), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public ActionResult ProductCategoryGroupList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId));
+        }
+        public ActionResult AddProductCategoryGroupPartial()
+        {
+            ViewBag.edit = "AddProductCategoryGroupPartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddProductCategoryGroupPartial(ProductCategoryGroupViewModel ProductCategoryGroupvm)
+        {
+            ViewBag.edit = "AddProductCategoryGroupPartial";
+            if (!ModelState.IsValid)
+            {
+                return View(ProductCategoryGroupvm);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                ProductCategoryGroupvm.StoreId = (int)user.StoreId;
+                ProductCategoryGroup ProductCategoryGroup = Mapper.Map<ProductCategoryGroup>(ProductCategoryGroupvm);
+               
+                _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(ProductCategoryGroup);
+                _unitOfWork.Complete();
+                return PartialView("Error");
+            }
+
+        }
+
+        public ActionResult AddProductCategoryGroup()
+        {
+            ViewBag.edit = "AddProductCategoryGroup";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddProductCategoryGroup(ProductCategoryGroupViewModel productCategoryGroup)
+        {
+            ViewBag.edit = "AddProductCategoryGroup";
+            if (!ModelState.IsValid)
+            {
+                return View(productCategoryGroup);
+            }
+            else
+           
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                productCategoryGroup.StoreId =(int) user.StoreId;
+               
+                ProductCategoryGroup category = Mapper.Map<ProductCategoryGroup>(productCategoryGroup);
+                _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(category);
+                _unitOfWork.Complete();
+                return RedirectToAction("ProductCategoryGroupList");
+            }
+        }
+        public ActionResult UpdateProductCategoryGroup(int id)
+        {
+            ViewBag.edit = "UpdateProductCategoryGroup";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ProductCategoryGroupViewModel product =
+                Mapper.Map<ProductCategoryGroupViewModel>(_unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroup(id));
+            return View("AddProductCategoryGroup", product);
+        }
+        [HttpPost]
+        public ActionResult UpdateProductCategoryGroup(int id, ProductCategoryGroupViewModel productCategoryGroupVm)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.edit = "UpdateProductCategoryGroup";
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                ProductCategoryGroupViewModel product =
+                    Mapper.Map<ProductCategoryGroupViewModel>(_unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroup(id));
+                return View("AddProductCategoryGroup", product);
+            }
+            else
+            {
+                
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                ProductCategoryGroup category = Mapper.Map<ProductCategoryGroup>(productCategoryGroupVm);
+                _unitOfWork.ProductCategoryGroupRepository.UpdateProductCategoryGroup(id, Convert.ToInt32(user.StoreId), category);
+                _unitOfWork.Complete();
+                return RedirectToAction("ProductCategoryGroupList");
+            }
+        }
+
+        public ActionResult DeleteProductCategoryGroup(int id, int storeid)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ProductCategoryGroupRepository.DeleteProductCategoryGroup(id, Convert.ToInt32(user.StoreId));
+            _unitOfWork.Complete();
+            return RedirectToAction("ProductCategoryGroupList", "Products");
+        }
+
+        public JsonResult GetProductCategoryGroupDdl()
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<ProductCategoryGroupViewModel[]>(_unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroup((int)user.StoreId)), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
