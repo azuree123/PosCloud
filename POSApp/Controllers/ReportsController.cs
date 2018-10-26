@@ -24,5 +24,9 @@ namespace POSApp.Controllers
         {
             return View();
         }
+        public ActionResult MyReports()
+        {
+            return View();
+        }
     }
 }
