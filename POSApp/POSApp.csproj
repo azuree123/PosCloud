@@ -2525,6 +2525,10 @@
     <Content Include="Views\Setup\AddSupplierPartial.cshtml" />
     <Content Include="Views\Expense\AddExpenseHeadPartial.cshtml" />
     <Content Include="Views\Services\AddServiceCategoryPartial.cshtml" />
+    <Content Include="Views\Reports\SaleReport.cshtml" />
+    <Content Include="Views\Reports\InventoryReport.cshtml" />
+    <Content Include="Views\Reports\MiscellaneousReport.cshtml" />
+    <Content Include="Views\Reports\ExportingReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2533,7 +2537,6 @@
     <Folder Include="Images\Data\Product\" />
     <Folder Include="Images\Data\Service\" />
     <Folder Include="Views\Product\" />
-    <Folder Include="Views\Reports\" />
     <Folder Include="Views\Sales\" />
   </ItemGroup>
   <ItemGroup>

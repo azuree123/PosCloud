@@ -16993,6 +16993,11 @@ div.dataTables_wrapper div.dataTables_filter input {
 
 .copyright {
     color: #d2322d;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
 }
 .wb-color{
     color: #d2322d;
@@ -17164,4 +17169,6 @@ select {
         -webkit-appearance: none;
   
     }
-  
+    .pos-footer{
+        padding:15px 0px;
+    }

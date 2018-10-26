@@ -1,0 +1,182 @@
+﻿
+
+@{
+    ViewBag.Title = "SaleReport";
+}
+
+@*<header class="page-header">
+        <h2>Customers</h2>
+
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>Customers</span></li>
+                <li><span>Setup</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>*@
+
+<!-- start: page -->
+<div class="container-fluid">
+    <div class="row mt-md">
+        <div class="col-md-12">
+            <ul class="snip1189">
+
+                <li class="current"><a href="#">Sales</a></li>
+
+                <li><a href="@Url.Action("InventoryReport","Reports")">Inventory</a></li>
+
+                <li><a href="@Url.Action("MiscellaneousReport","Reports")">Miscellaneous</a></li>
+
+                <li><a href="@Url.Action("ExportingReport","Reports")">Exporting</a></li>
+
+                <li><a href="@Url.Action("My Reports","Reports")">My Reports</a></li>
+
+
+
+
+            </ul>
+            <hr />
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+
+            <h4 class=" wb-color  text-center">Sales Reports</h4>
+            <h4 class="mb-lg">Menu Sales</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Categories Sales</button></a>
+                </div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Products Sales</button></a>
+                </div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"><button type="button" class="btn outline-success chart ">Products Sizes Sales</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Combos Sales</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart "> Product Sizes By Order Type Sales</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Modifiers Sales</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success  chart">Product Modifiers Sales</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Products Timely Sales</button></a>
+</div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+
+            <h4 class="mb-lg ">Locations Sales</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Branches Sales</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#">  <button type="button" class="btn outline-success chart ">Branches Timely Sales</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Locations Sales</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#">  <button type="button" class="btn outline-success chart ">Tables Sales</button></a>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+
+            <h4 class="mb-lg ">Employees Sales</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4 mb-lg">
+                    <a href="#">  <button type="button" class="btn outline-success chart ">Agent  Income</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Cashiers Income</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#">  <button type="button" class="btn outline-success chart ">Waiters Income</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Drivers Income</button></a>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+
+            <h4 class="mb-lg ">Others</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Customers  Sales</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Payment Methods</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#"> <button type="button" class="btn outline-success chart ">Payment Methods Timely Sales</button></a>
+</div>
+                <div class="col-md-4 mb-lg">
+                    <a href="#">  <button type="button" class="btn outline-success chart ">Order Type Sales </button></a>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+

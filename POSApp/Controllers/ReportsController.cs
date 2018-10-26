@@ -6,7 +6,21 @@ namespace POSApp.Controllers
     public class ReportsController : Controller
     {
         // GET: Reports
-        public ActionResult Index()
+        public ActionResult SaleReport()
+        {
+            return View();
+        }
+
+        public ActionResult InventoryReport()
+        {
+            return View();
+        }
+
+        public ActionResult MiscellaneousReport()
+        {
+            return View();
+        }
+        public ActionResult ExportingReport()
         {
             return View();
         }
