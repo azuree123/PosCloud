@@ -49,5 +49,101 @@ namespace POSApp.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult GenerateCategoriesSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateProductSizeSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateComboSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateProductSizeByOrderTypeSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateModifierSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateProductModifierSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateProductTimelySaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateBranchSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateBranchTimelySaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateLocationSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateTableSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateAgentIncomeReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateCashierIncomeReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateWaiterIncomeReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateDriverIncomeReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateCustomerSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GeneratePaymentMethodReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GeneratePaymentMethodTimelySaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateOrderTypeSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+     
     }
 }
