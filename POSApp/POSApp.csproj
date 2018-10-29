@@ -2400,6 +2400,23 @@
     <Content Include="Content\javascripts\tables\DataTables\Buttons-1.5.2\css\common.scss" />
     <Content Include="Content\javascripts\tables\DataTables\Buttons-1.5.2\css\mixins.scss" />
     <Content Include="Content\ImportFormats\StateImport.xls" />
+    <Content Include="Content\ImportFormats\BusinessPartnerImport.xls" />
+    <Content Include="Content\ImportFormats\CityImport.xls" />
+    <Content Include="Content\ImportFormats\CouponImport.xls" />
+    <Content Include="Content\ImportFormats\DepartmentImport.xls" />
+    <Content Include="Content\ImportFormats\DesignationImport.xls" />
+    <Content Include="Content\ImportFormats\EmployeeImport.xls" />
+    <Content Include="Content\ImportFormats\ExpenseHeadImport.xls" />
+    <Content Include="Content\ImportFormats\ExpenseImport.xls" />
+    <Content Include="Content\ImportFormats\ProductCategoryGroupImport.xls" />
+    <Content Include="Content\ImportFormats\ProductCategoryImport.xls" />
+    <Content Include="Content\ImportFormats\ProductImport.xls" />
+    <Content Include="Content\ImportFormats\SaleOrderDetailImport.xls" />
+    <Content Include="Content\ImportFormats\StoreImport.xls" />
+    <Content Include="Content\ImportFormats\SupplierImport.xls" />
+    <Content Include="Content\ImportFormats\TaxImport.xls" />
+    <Content Include="Content\ImportFormats\TransDetailImport.xls" />
+    <Content Include="Content\ImportFormats\TransMasterImport.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -2503,7 +2520,8 @@
     <Content Include="Views\Reports\MiscellaneousReport.cshtml" />
     <Content Include="Views\Reports\ExportingReport.cshtml" />
     <Content Include="Views\Reports\MyReports.cshtml" />
-    <Content Include="Views\ExcelImport\ExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\StateExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\CityExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
