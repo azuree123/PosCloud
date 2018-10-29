@@ -328,6 +328,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ExcelImportController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -2430,6 +2431,7 @@
     <Content Include="Content\vendor\summernote\font\summernote.woff" />
     <Content Include="Content\javascripts\tables\DataTables\Buttons-1.5.2\css\common.scss" />
     <Content Include="Content\javascripts\tables\DataTables\Buttons-1.5.2\css\mixins.scss" />
+    <Content Include="Content\ImportFormats\StateImport.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -2533,9 +2535,11 @@
     <Content Include="Views\Reports\MiscellaneousReport.cshtml" />
     <Content Include="Views\Reports\ExportingReport.cshtml" />
     <Content Include="Views\Reports\MyReports.cshtml" />
+    <Content Include="Views\ExcelImport\ExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Uploads\" />
     <Folder Include="Core\Dtos\" />
     <Folder Include="Core\Shared\" />
     <Folder Include="Images\Data\Product\" />
