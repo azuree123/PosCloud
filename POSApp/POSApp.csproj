@@ -449,41 +449,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810160748119_initial.cs" />
-    <Compile Include="Migrations\201810160748119_initial.Designer.cs">
-      <DependentUpon>201810160748119_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810160756021_initial2.cs" />
-    <Compile Include="Migrations\201810160756021_initial2.Designer.cs">
-      <DependentUpon>201810160756021_initial2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810160942269_initial3.cs" />
-    <Compile Include="Migrations\201810160942269_initial3.Designer.cs">
-      <DependentUpon>201810160942269_initial3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810161108022_initial4.cs" />
-    <Compile Include="Migrations\201810161108022_initial4.Designer.cs">
-      <DependentUpon>201810161108022_initial4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810171013271_initial5.cs" />
-    <Compile Include="Migrations\201810171013271_initial5.Designer.cs">
-      <DependentUpon>201810171013271_initial5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810191357226_Init-6.cs" />
-    <Compile Include="Migrations\201810191357226_Init-6.Designer.cs">
-      <DependentUpon>201810191357226_Init-6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810220538152_init-7.cs" />
-    <Compile Include="Migrations\201810220538152_init-7.Designer.cs">
-      <DependentUpon>201810220538152_init-7.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810230808134_Init-8.cs" />
-    <Compile Include="Migrations\201810230808134_Init-8.Designer.cs">
-      <DependentUpon>201810230808134_Init-8.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810250457043_Update-8.cs" />
-    <Compile Include="Migrations\201810250457043_Update-8.Designer.cs">
-      <DependentUpon>201810250457043_Update-8.cs</DependentUpon>
+    <Compile Include="Migrations\201810291122037_new1.cs" />
+    <Compile Include="Migrations\201810291122037_new1.Designer.cs">
+      <DependentUpon>201810291122037_new1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2561,32 +2529,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810160748119_initial.resx">
-      <DependentUpon>201810160748119_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810160756021_initial2.resx">
-      <DependentUpon>201810160756021_initial2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810160942269_initial3.resx">
-      <DependentUpon>201810160942269_initial3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810161108022_initial4.resx">
-      <DependentUpon>201810161108022_initial4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810171013271_initial5.resx">
-      <DependentUpon>201810171013271_initial5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810191357226_Init-6.resx">
-      <DependentUpon>201810191357226_Init-6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810220538152_init-7.resx">
-      <DependentUpon>201810220538152_init-7.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810230808134_Init-8.resx">
-      <DependentUpon>201810230808134_Init-8.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810250457043_Update-8.resx">
-      <DependentUpon>201810250457043_Update-8.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810291122037_new1.resx">
+      <DependentUpon>201810291122037_new1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
