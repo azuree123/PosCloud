@@ -4459,6 +4459,7 @@ html.no-overflowscrolling .nano {
 	position: relative;
 	overflow: hidden;
 	width: 100%;
+    z-index:1000;
     
 }
 
