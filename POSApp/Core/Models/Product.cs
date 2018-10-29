@@ -10,22 +10,28 @@ namespace POSApp.Core.Models
         public Store Store { get; set; }
 
         public string Name { get; set; }
-        public int CategoryId { get; set; }
-        public string Duration { get; set; }
-        public string Available { get; set; }
-        public int SupplierId { get; set; }
+        public string Description { get; set; }
+        public string Type { get; set; }
+        public string ProductCode { get; set; }
+        public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
+        public string Size { get; set; }//MED, SML, LRG,XRG, Child,
         [DefaultValue(0)]
         public double Tax { get; set; }
         [DefaultValue(0)]
         public double UnitPrice { get; set; }
         [DefaultValue(0)]
+        public decimal CostPrice { get; set; }
+        [DefaultValue(0)]
         public double Stock { get; set; }
+        [DefaultValue(0)]
+        public int ReOrderLevel { get; set; }
         public string Barcode { get; set; }
         public string Image { get; set; }
+        public int CategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
-        public virtual Supplier Supplier { get; set; }
-        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        public virtual ICollection<SaleOrderDetail> SaleOrderDetails { get; set; }
+        public int UnitId { get; set; }
+        public Unit ProductUnit { get; set; }
+
 
     }
 }

@@ -1,33 +1,22 @@
-﻿@*@model POSApp.Core.ViewModels.DepartmentViewModel*@
+﻿
 
 @{
     Layout = null;
 }
 
 <div id="ordine" class="modal fade" role="dialog">
-    @*@{ string s = ViewBag.edit;}
+    @{ string s = ViewBag.edit;}
 
-    @using (Html.BeginForm(s, "Setup", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm(s, "Reports", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        @Html.AntiForgeryToken()*@
+        @Html.AntiForgeryToken()
         <div class="modal-dialog modal-md">
             <!-- Modal content-->
             <div class="modal-content ">
                 <div class="modal-header modalheader">
                     <button type="button" class="close modalheader" data-dismiss="modal">×</button>
 
-                    @*@if (s.Contains("Add"))
-                    {
-                        <h4 class="modal-title">
-                            Add Department
-                        </h4>
-                    }
-                    else
-                    {
-                        <h4 class="modal-title">
-                            Edit Department
-                        </h4>
-                    }*@
+                   
 
 
                 </div>
@@ -36,23 +25,17 @@
 
                         <div class="panel-body">
 
-                            @*@Html.HiddenFor(a => a.Id)
-                            @Html.HiddenFor(a => a.CreatedBy)
-                            @Html.HiddenFor(a => a.CreatedOn)*@
+                            
                             <div class="row">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                                 <div class="col-md-6">
-                                    @*@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>*@
-
+                                   
                                     <div class="form-group">
                                         <label class="control-label">
                                             Date From
                                         </label>
-                                        <input type="date" class="form-control unstyled" required />
+                                        <input type="date" class="form-control unstyled" name="dateFrom" required />
                                     </div>
                                 </div>
 
@@ -63,7 +46,7 @@
                                         <label class="control-label">
                                             Date To
                                         </label>
-                                        <input type="date" class="form-control unstyled" required />
+                                        <input type="date" class="form-control unstyled" name="dateTo" required />
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -72,12 +55,14 @@
                                         <label class="control-label">
                                             Branches
                                         </label>
-                                        <select name="" id="" class="form-control">
-                                        <option value="">All</option>
-                                        <option value="Dammam">Dammam</option>
-                                        <option value="Riyad">Riyad</option>
-                                            <option value="Makkha">Makkha</option>
-                              
+                                        <select name="branchId" id="" class="form-control" required="">
+                                        <option value="0">All</option>
+                                      @foreach (var opt in ViewBag.branches)
+                                      {
+                                          <option value="@opt.Value">@opt.Text</option>
+
+                                      }
+
                                         </select>
                                     </div>
                                 </div>
@@ -91,6 +76,6 @@
                 </div>
             </div>
         </div>
-    @* } *@
 </div>
+     } 
     </div>
