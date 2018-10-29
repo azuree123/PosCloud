@@ -60,29 +60,29 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart ">Categories Sales</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports")" class="modalShow" id="AddDepartment"> <button type="button" class="btn outline-success chart ">Categories Sales</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart ">Products Sales</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"><button type="button" class="btn outline-success chart ">Products Sizes Sales</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart ">Combos Sales</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart "> Product Sizes By Order Type Sales</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart ">Modifiers Sales</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success  chart">Product Modifiers Sales</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart ">Products Timely Sales</button></a>
-</div>
+                </div>
             </div>
         </div>
     </div>
@@ -101,16 +101,16 @@
             <div class="row">
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart ">Branches Sales</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#">  <button type="button" class="btn outline-success chart ">Branches Timely Sales</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart ">Locations Sales</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#">  <button type="button" class="btn outline-success chart ">Tables Sales</button></a>
-</div>
+                </div>
 
             </div>
         </div>
@@ -131,16 +131,16 @@
             <div class="row">
                 <div class="col-md-4 mb-lg">
                     <a href="#">  <button type="button" class="btn outline-success chart ">Agent  Income</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart ">Cashiers Income</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#">  <button type="button" class="btn outline-success chart ">Waiters Income</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart ">Drivers Income</button></a>
-</div>
+                </div>
 
             </div>
         </div>
@@ -159,16 +159,16 @@
             <div class="row">
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart ">Customers  Sales</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart ">Payment Methods</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#"> <button type="button" class="btn outline-success chart ">Payment Methods Timely Sales</button></a>
-</div>
+                </div>
                 <div class="col-md-4 mb-lg">
                     <a href="#">  <button type="button" class="btn outline-success chart ">Order Type Sales </button></a>
-</div>
+                </div>
 
             </div>
         </div>
@@ -179,4 +179,24 @@
 
 
 
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').dataTable();
 
+        $('a.modalShow').on('click', function () {
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+    </script>
+}

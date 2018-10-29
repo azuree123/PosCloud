@@ -2533,6 +2533,7 @@
     <Content Include="Views\Reports\MiscellaneousReport.cshtml" />
     <Content Include="Views\Reports\ExportingReport.cshtml" />
     <Content Include="Views\Reports\MyReports.cshtml" />
+    <Content Include="Views\Reports\GenerateReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

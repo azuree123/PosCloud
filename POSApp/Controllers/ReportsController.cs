@@ -28,5 +28,10 @@ namespace POSApp.Controllers
         {
             return View();
         }
+
+        public ActionResult GenerateReport()
+        {
+            return View();
+        }
     }
 }
