@@ -144,6 +144,200 @@ namespace POSApp.Controllers
         {
             return View();
         }
-     
+
+
+        [HttpPost]
+        public ActionResult GenerateItemCostReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateSemiFinishedItemCostReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateInventoryItemTotalCostReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateItemHistoryReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateInventoryControlReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateConsumptionReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateLevelReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateExpirationReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateTotalTransferReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateTotalPurchaseReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GeneratePendingTransferReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateProductRecipeReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateInventoryItemRecipeReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GenerateModifierRecipeReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GeneratePurchaseperSupplierReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+          
+        }
+        [HttpPost]
+        public ActionResult GenerateProductPreparationTimeReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateProductCostReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateProductReturnReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateTillLogReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateTillOperationReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateVoidReasonReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateEmployeeShiftReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateTaxReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateOrderDiscountReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateProductDiscountReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateProductSizeDiscountReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateDataReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateOrderReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateCouponReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateCustomerReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateStockTakingReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateInventoryTransactionReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GeneratePurchaseOrderReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult GenerateSnapshotReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            return View();
+
+        }
+ 
+
     }
-}
+
+    }

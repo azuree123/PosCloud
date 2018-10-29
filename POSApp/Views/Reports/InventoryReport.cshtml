@@ -33,62 +33,62 @@
         <div class="col-md-12">
 
             <h4 class=" wb-color  text-center mb-xl">Inventory Reports</h4>
-         
+
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart ">Items Cost</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateItemCostReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Items Cost</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart ">Semi Finished Items Cost</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateSemiFinishedItemCostReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Semi Finished Items Cost</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"><button type="button" class="btn outline-success chart ">Inventory Items Total Cost</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateInventoryItemTotalCostReport"})" class="modalShow" id=""><button type="button" class="btn outline-success chart ">Inventory Items Total Cost</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart ">Items History</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateItemHistoryReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Items History</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart "> Inventory Control</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateInventoryControlReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart "> Inventory Control</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart ">Consumption</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateConsumptionReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Consumption</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success  chart">Levels</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateLevelReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success  chart">Levels</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart ">Semi Finished Items Levels</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateSemiFinishedItemLevelReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Semi Finished Items Levels</button></a>
                 </div>
 
 
 
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart ">Expiration</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateExpirationReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Expiration</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart ">Total Transfers</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateTotalTransferReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Total Transfers</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"><button type="button" class="btn outline-success chart "> Total Purchases</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateTotalPurchaseReport"})" class="modalShow" id=""><button type="button" class="btn outline-success chart "> Total Purchases</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart "> Pending Transfers</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GeneratePendingTransferReport"})" class="modalShow" id=""><button type="button" class="btn outline-success chart "> Pending Transfers</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart "> Products Recipe</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateProductRecipeReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart "> Products Recipe</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart ">Inventory Items Recipe</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateInventoryItemRecipeReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Inventory Items Recipe</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success  chart"> Modifiers Recipe</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateModifierRecipeReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success  chart"> Modifiers Recipe</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="#"> <button type="button" class="btn outline-success chart ">Purchases per Supplier</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GeneratePurchaseperSupplierReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Purchases per Supplier</button></a>
                 </div>
 
             </div>
@@ -98,3 +98,25 @@
 
 
 </div>
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').dataTable();
+
+        $('a.modalShow').on('click', function () {
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+    </script>
+}
