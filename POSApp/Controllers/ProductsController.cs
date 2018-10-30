@@ -154,6 +154,13 @@ namespace POSApp.Controllers
         public ActionResult AddProductCategoryPartial()
         {
             ViewBag.edit = "AddProductCategoryPartial";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ViewBag.ddl = _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId).Select(a => new SelectListItem
+            {
+                Text = a.Name,
+                Value = a.Name
+            });
             return View();
         }
         [HttpPost]
@@ -162,6 +169,13 @@ namespace POSApp.Controllers
             ViewBag.edit = "AddProductCategoryPartial";
             if (!ModelState.IsValid)
             {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                ViewBag.ddl = _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId).Select(a => new SelectListItem
+                {
+                    Text = a.Name,
+                    Value = a.Name
+                });
                 return View(productcategoryvm);
             }
             else
@@ -181,14 +195,27 @@ namespace POSApp.Controllers
         public ActionResult AddProductCategory()
         {
             ViewBag.edit = "AddProductCategory";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ViewBag.ddl = _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int) user.StoreId).Select(a=> new SelectListItem
+            {
+                Text = a.Name,Value = a.Name
+            });
             return View();
         }
         [HttpPost]
         public ActionResult AddProductCategory(ProductCategoryViewModel productCategory, HttpPostedFileBase file)
         {
             ViewBag.edit = "AddProductCategory";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             if (!ModelState.IsValid)
             {
+                ViewBag.ddl = _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId).Select(a => new SelectListItem
+                {
+                    Text = a.Name,
+                    Value = a.Name
+                });
                 return View(productCategory);
             }
             else
@@ -215,8 +242,7 @@ namespace POSApp.Controllers
 
             }
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 productCategory.StoreId = user.StoreId;
                 productCategory.Type = "Product";
                 ProductCategory category = Mapper.Map<ProductCategory>(productCategory);
@@ -232,6 +258,12 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             ProductCategoryViewModel product =
                 Mapper.Map<ProductCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id,Convert.ToInt32(user.StoreId)));
+       
+            ViewBag.ddl = _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId).Select(a => new SelectListItem
+            {
+                Text = a.Name,
+                Value = a.Name
+            });
             return View("AddProductCategory", product);
         }
         [HttpPost]
@@ -243,6 +275,12 @@ namespace POSApp.Controllers
                 ViewBag.edit = "UpdateProductCategory";
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
+      
+                ViewBag.ddl = _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId).Select(a => new SelectListItem
+                {
+                    Text = a.Name,
+                    Value = a.Name
+                });
                 ProductCategoryViewModel product =
                     Mapper.Map<ProductCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id,Convert.ToInt32(user.StoreId)));
                 return View("AddProductCategory", product);
@@ -411,7 +449,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return Json(Mapper.Map<ProductCategoryGroupViewModel[]>(_unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroup((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<ProductCategoryGroupViewModel[]>(_unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId)), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

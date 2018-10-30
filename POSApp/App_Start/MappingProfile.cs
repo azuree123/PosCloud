@@ -46,7 +46,8 @@ namespace POSApp
             CreateMap<Discount, DiscountViewModel>();
             CreateMap<ReportLogViewModel, ReportsLog>();
             CreateMap<ReportsLog, ReportLogViewModel>();
-
+            CreateMap<ProductCategoryGroupViewModel, ProductCategoryGroup>();
+            CreateMap<ProductCategoryGroup, ProductCategoryGroupViewModel>();
 
 
         }
