@@ -31,8 +31,8 @@ namespace POSApp.Core.Models
         public int CategoryId { get; set; }
         public ProductCategory ProductCategory { get; set; }
 
-        //public int UnitId { get; set; }
-        //public Unit ProductUnit { get; set; }
+        public int UnitId { get; set; }
+        public Unit ProductUnit { get; set; }
 
 
     }

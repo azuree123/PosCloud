@@ -15,7 +15,7 @@ namespace POSApp.Persistence.EntityConfigurations
         {
             ToTable("Units", PosDbContext.DEFAULT_SCHEMA);
             //******************************************************************************************* KEYS ********************
-            HasKey(x => x.Id);
+            HasKey(x => new{x.Id,x.StoreId});
             Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************

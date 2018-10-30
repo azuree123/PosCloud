@@ -130,15 +130,11 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
-                        Employee_Id = c.Int(),
-                        Employee_StoreId = c.Int(),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Customers", t => new { t.CustomerId, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
-                .ForeignKey("PosCloud.Employees", t => new { t.Employee_Id, t.Employee_StoreId })
-                .Index(t => new { t.CustomerId, t.StoreId })
-                .Index(t => new { t.Employee_Id, t.Employee_StoreId });
+                .Index(t => new { t.CustomerId, t.StoreId });
             
             CreateTable(
                 "PosCloud.SaleOrderDetails",
@@ -173,19 +169,21 @@ namespace POSApp.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         StoreId = c.Int(nullable: false),
                         Name = c.String(nullable: false, maxLength: 150),
-                        Description = c.String(),
+                        Description = c.String(maxLength: 300),
                         Type = c.String(),
-                        ProductCode = c.String(),
+                        ProductCode = c.String(maxLength: 150),
                         Attribute = c.String(),
                         Size = c.String(),
-                        Tax = c.Double(),
-                        UnitPrice = c.Double(),
-                        CostPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        TaxId = c.Int(),
+                        IsTaxable = c.Boolean(nullable: false),
+                        UnitPrice = c.Double(nullable: false),
+                        CostPrice = c.Double(nullable: false),
                         Stock = c.Double(),
                         ReOrderLevel = c.Int(nullable: false),
                         Barcode = c.String(maxLength: 150),
                         Image = c.String(maxLength: 150),
                         CategoryId = c.Int(nullable: false),
+                        UnitId = c.Int(nullable: false),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         CreatedById = c.String(),
                         UpdatedById = c.String(),
@@ -196,8 +194,12 @@ namespace POSApp.Migrations
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.ProductCategories", t => new { t.CategoryId, t.StoreId }, cascadeDelete: true)
+                .ForeignKey("PosCloud.Units", t => new { t.UnitId, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
-                .Index(t => new { t.CategoryId, t.StoreId });
+                .ForeignKey("PosCloud.Taxes", t => new { t.TaxId, t.StoreId })
+                .Index(t => new { t.CategoryId, t.StoreId })
+                .Index(t => new { t.UnitId, t.StoreId })
+                .Index(t => new { t.TaxId, t.StoreId });
             
             CreateTable(
                 "PosCloud.ProductCategories",
@@ -208,6 +210,46 @@ namespace POSApp.Migrations
                         Name = c.String(nullable: false, maxLength: 150),
                         Image = c.String(maxLength: 150),
                         Type = c.String(maxLength: 150),
+                        CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        CreatedById = c.String(),
+                        UpdatedById = c.String(),
+                        UpdatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        Synced = c.Boolean(nullable: false),
+                        SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
+                        Code = c.String(maxLength: 150, unicode: false),
+                    })
+                .PrimaryKey(t => new { t.Id, t.StoreId })
+                .ForeignKey("PosCloud.Stores", t => t.StoreId)
+                .Index(t => t.StoreId);
+            
+            CreateTable(
+                "PosCloud.Units",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        StoreId = c.Int(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 150),
+                        UnitCode = c.String(maxLength: 150, unicode: false),
+                        CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        CreatedById = c.String(),
+                        UpdatedById = c.String(),
+                        UpdatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        Synced = c.Boolean(nullable: false),
+                        SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
+                        Code = c.String(),
+                    })
+                .PrimaryKey(t => new { t.Id, t.StoreId })
+                .ForeignKey("PosCloud.Stores", t => t.StoreId)
+                .Index(t => t.StoreId);
+            
+            CreateTable(
+                "PosCloud.Taxes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        StoreId = c.Int(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 150, unicode: false),
+                        Rate = c.Double(nullable: false),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         CreatedById = c.String(),
                         UpdatedById = c.String(),
@@ -256,7 +298,6 @@ namespace POSApp.Migrations
                         Commission = c.Double(),
                         JoinDate = c.DateTime(),
                         DepartmentId = c.Int(nullable: false),
-                        DesignationId = c.Int(nullable: false),
                         Address = c.String(maxLength: 150, unicode: false),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         CreatedById = c.String(),
@@ -268,30 +309,14 @@ namespace POSApp.Migrations
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Departments", t => t.DepartmentId)
-                .ForeignKey("PosCloud.Designations", t => t.DesignationId)
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
+                .ForeignKey("PosCloud.Designations", t => t.Id)
+                .Index(t => t.Id)
                 .Index(t => t.StoreId)
-                .Index(t => t.DepartmentId)
-                .Index(t => t.DesignationId);
+                .Index(t => t.DepartmentId);
             
             CreateTable(
                 "PosCloud.Departments",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 150),
-                        CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        CreatedById = c.String(),
-                        UpdatedById = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        Synced = c.Boolean(nullable: false),
-                        SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
-                        Code = c.String(maxLength: 150, unicode: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "PosCloud.Designations",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -353,32 +378,6 @@ namespace POSApp.Migrations
                 .Index(t => t.StoreId);
             
             CreateTable(
-                "PosCloud.PurchaseOrderDetails",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        StoreId = c.Int(nullable: false),
-                        PurchaseOrderId = c.Int(nullable: false),
-                        ProductId = c.Int(nullable: false),
-                        Quantity = c.Int(),
-                        Discount = c.Double(),
-                        UnitPrice = c.Decimal(precision: 18, scale: 2),
-                        CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        CreatedById = c.String(),
-                        UpdatedById = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        Synced = c.Boolean(nullable: false),
-                        SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
-                        Code = c.String(maxLength: 150, unicode: false),
-                    })
-                .PrimaryKey(t => new { t.Id, t.StoreId })
-                .ForeignKey("PosCloud.Products", t => new { t.ProductId, t.StoreId })
-                .ForeignKey("PosCloud.PurchaseOrders", t => new { t.PurchaseOrderId, t.StoreId })
-                .ForeignKey("PosCloud.Stores", t => t.StoreId)
-                .Index(t => new { t.ProductId, t.StoreId })
-                .Index(t => new { t.PurchaseOrderId, t.StoreId });
-            
-            CreateTable(
                 "PosCloud.PurchaseOrders",
                 c => new
                     {
@@ -405,6 +404,32 @@ namespace POSApp.Migrations
                 .Index(t => new { t.SupplierId, t.StoreId });
             
             CreateTable(
+                "PosCloud.PurchaseOrderDetails",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        StoreId = c.Int(nullable: false),
+                        PurchaseOrderId = c.Int(nullable: false),
+                        ProductId = c.Int(nullable: false),
+                        Quantity = c.Int(),
+                        Discount = c.Double(),
+                        UnitPrice = c.Decimal(precision: 18, scale: 2),
+                        CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        CreatedById = c.String(),
+                        UpdatedById = c.String(),
+                        UpdatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        Synced = c.Boolean(nullable: false),
+                        SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
+                        Code = c.String(maxLength: 150, unicode: false),
+                    })
+                .PrimaryKey(t => new { t.Id, t.StoreId })
+                .ForeignKey("PosCloud.Products", t => new { t.ProductId, t.StoreId })
+                .ForeignKey("PosCloud.PurchaseOrders", t => new { t.PurchaseOrderId, t.StoreId })
+                .ForeignKey("PosCloud.Stores", t => t.StoreId)
+                .Index(t => new { t.ProductId, t.StoreId })
+                .Index(t => new { t.PurchaseOrderId, t.StoreId });
+            
+            CreateTable(
                 "PosCloud.Suppliers",
                 c => new
                     {
@@ -418,26 +443,6 @@ namespace POSApp.Migrations
                         Address = c.String(maxLength: 4000),
                         State = c.String(maxLength: 50),
                         City = c.String(maxLength: 150),
-                        CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        CreatedById = c.String(),
-                        UpdatedById = c.String(),
-                        UpdatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
-                        Synced = c.Boolean(nullable: false),
-                        SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
-                        Code = c.String(maxLength: 150, unicode: false),
-                    })
-                .PrimaryKey(t => new { t.Id, t.StoreId })
-                .ForeignKey("PosCloud.Stores", t => t.StoreId)
-                .Index(t => t.StoreId);
-            
-            CreateTable(
-                "PosCloud.Taxes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        StoreId = c.Int(nullable: false),
-                        Name = c.String(nullable: false, maxLength: 150, unicode: false),
-                        Rate = c.Double(nullable: false),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         CreatedById = c.String(),
                         UpdatedById = c.String(),
@@ -530,6 +535,22 @@ namespace POSApp.Migrations
             
             CreateTable(
                 "PosCloud.States",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 150),
+                        CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        CreatedById = c.String(),
+                        UpdatedById = c.String(),
+                        UpdatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        Synced = c.Boolean(nullable: false),
+                        SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
+                        Code = c.String(maxLength: 150, unicode: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "PosCloud.Designations",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -672,6 +693,7 @@ namespace POSApp.Migrations
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.ProductCategoryGroups", "StoreId", "PosCloud.Stores");
+            DropForeignKey("PosCloud.Employees", "Id", "PosCloud.Designations");
             DropForeignKey("PosCloud.Cities", "StateId", "PosCloud.States");
             DropForeignKey("PosCloud.BusinessPartners", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.TransDetails", "Store_Id", "PosCloud.Stores");
@@ -680,20 +702,17 @@ namespace POSApp.Migrations
             DropForeignKey("PosCloud.TransMaster", new[] { "BusinessPartnerId", "StoreId" }, "PosCloud.BusinessPartners");
             DropForeignKey("PosCloud.TransDetails", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.TransDetails", new[] { "ProductId", "StoreId" }, "PosCloud.Products");
-            DropForeignKey("PosCloud.Taxes", "StoreId", "PosCloud.Stores");
-            DropForeignKey("PosCloud.PurchaseOrderDetails", "StoreId", "PosCloud.Stores");
-            DropForeignKey("PosCloud.PurchaseOrderDetails", new[] { "PurchaseOrderId", "StoreId" }, "PosCloud.PurchaseOrders");
             DropForeignKey("PosCloud.PurchaseOrders", new[] { "SupplierId", "StoreId" }, "PosCloud.Suppliers");
             DropForeignKey("PosCloud.Suppliers", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.PurchaseOrders", "StoreId", "PosCloud.Stores");
+            DropForeignKey("PosCloud.PurchaseOrderDetails", "StoreId", "PosCloud.Stores");
+            DropForeignKey("PosCloud.PurchaseOrderDetails", new[] { "PurchaseOrderId", "StoreId" }, "PosCloud.PurchaseOrders");
             DropForeignKey("PosCloud.PurchaseOrderDetails", new[] { "ProductId", "StoreId" }, "PosCloud.Products");
             DropForeignKey("PosCloud.Employees", "StoreId", "PosCloud.Stores");
-            DropForeignKey("PosCloud.SaleOrders", new[] { "Employee_Id", "Employee_StoreId" }, "PosCloud.Employees");
             DropForeignKey("PosCloud.Expenses", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.Expenses", new[] { "ExpenseHeadId", "StoreId" }, "PosCloud.ExpenseHeads");
             DropForeignKey("PosCloud.ExpenseHeads", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.Expenses", new[] { "EmployeeId", "StoreId" }, "PosCloud.Employees");
-            DropForeignKey("PosCloud.Employees", "DesignationId", "PosCloud.Designations");
             DropForeignKey("PosCloud.Employees", "DepartmentId", "PosCloud.Departments");
             DropForeignKey("PosCloud.Discounts", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.Customers", "StoreId", "PosCloud.Stores");
@@ -701,7 +720,11 @@ namespace POSApp.Migrations
             DropForeignKey("PosCloud.SaleOrderDetails", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.SaleOrderDetails", new[] { "SaleOrderId", "StoreId" }, "PosCloud.SaleOrders");
             DropForeignKey("PosCloud.SaleOrderDetails", new[] { "ProductId", "StoreId" }, "PosCloud.Products");
+            DropForeignKey("PosCloud.Products", new[] { "TaxId", "StoreId" }, "PosCloud.Taxes");
+            DropForeignKey("PosCloud.Taxes", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.Products", "StoreId", "PosCloud.Stores");
+            DropForeignKey("PosCloud.Products", new[] { "UnitId", "StoreId" }, "PosCloud.Units");
+            DropForeignKey("PosCloud.Units", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.Products", new[] { "CategoryId", "StoreId" }, "PosCloud.ProductCategories");
             DropForeignKey("PosCloud.ProductCategories", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.SaleOrders", new[] { "CustomerId", "StoreId" }, "PosCloud.Customers");
@@ -721,24 +744,26 @@ namespace POSApp.Migrations
             DropIndex("PosCloud.TransDetails", new[] { "Store_Id" });
             DropIndex("PosCloud.TransDetails", new[] { "TransMasterId", "StoreId" });
             DropIndex("PosCloud.TransDetails", new[] { "ProductId", "StoreId" });
-            DropIndex("PosCloud.Taxes", new[] { "StoreId" });
             DropIndex("PosCloud.Suppliers", new[] { "StoreId" });
-            DropIndex("PosCloud.PurchaseOrders", new[] { "SupplierId", "StoreId" });
-            DropIndex("PosCloud.PurchaseOrders", new[] { "StoreId" });
             DropIndex("PosCloud.PurchaseOrderDetails", new[] { "PurchaseOrderId", "StoreId" });
             DropIndex("PosCloud.PurchaseOrderDetails", new[] { "ProductId", "StoreId" });
+            DropIndex("PosCloud.PurchaseOrders", new[] { "SupplierId", "StoreId" });
+            DropIndex("PosCloud.PurchaseOrders", new[] { "StoreId" });
             DropIndex("PosCloud.ExpenseHeads", new[] { "StoreId" });
             DropIndex("PosCloud.Expenses", new[] { "ExpenseHeadId", "StoreId" });
             DropIndex("PosCloud.Expenses", new[] { "EmployeeId", "StoreId" });
-            DropIndex("PosCloud.Employees", new[] { "DesignationId" });
             DropIndex("PosCloud.Employees", new[] { "DepartmentId" });
             DropIndex("PosCloud.Employees", new[] { "StoreId" });
+            DropIndex("PosCloud.Employees", new[] { "Id" });
             DropIndex("PosCloud.Discounts", new[] { "StoreId" });
+            DropIndex("PosCloud.Taxes", new[] { "StoreId" });
+            DropIndex("PosCloud.Units", new[] { "StoreId" });
             DropIndex("PosCloud.ProductCategories", new[] { "StoreId" });
+            DropIndex("PosCloud.Products", new[] { "TaxId", "StoreId" });
+            DropIndex("PosCloud.Products", new[] { "UnitId", "StoreId" });
             DropIndex("PosCloud.Products", new[] { "CategoryId", "StoreId" });
             DropIndex("PosCloud.SaleOrderDetails", new[] { "SaleOrderId", "StoreId" });
             DropIndex("PosCloud.SaleOrderDetails", new[] { "ProductId", "StoreId" });
-            DropIndex("PosCloud.SaleOrders", new[] { "Employee_Id", "Employee_StoreId" });
             DropIndex("PosCloud.SaleOrders", new[] { "CustomerId", "StoreId" });
             DropIndex("PosCloud.Customers", new[] { "StoreId" });
             DropIndex("PosCloud.Coupons", new[] { "StoreId" });
@@ -750,20 +775,21 @@ namespace POSApp.Migrations
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.ProductCategoryGroups");
             DropTable("PosCloud.Locations");
+            DropTable("PosCloud.Designations");
             DropTable("PosCloud.States");
             DropTable("PosCloud.Cities");
             DropTable("PosCloud.TransMaster");
             DropTable("PosCloud.TransDetails");
-            DropTable("PosCloud.Taxes");
             DropTable("PosCloud.Suppliers");
-            DropTable("PosCloud.PurchaseOrders");
             DropTable("PosCloud.PurchaseOrderDetails");
+            DropTable("PosCloud.PurchaseOrders");
             DropTable("PosCloud.ExpenseHeads");
             DropTable("PosCloud.Expenses");
-            DropTable("PosCloud.Designations");
             DropTable("PosCloud.Departments");
             DropTable("PosCloud.Employees");
             DropTable("PosCloud.Discounts");
+            DropTable("PosCloud.Taxes");
+            DropTable("PosCloud.Units");
             DropTable("PosCloud.ProductCategories");
             DropTable("PosCloud.Products");
             DropTable("PosCloud.SaleOrderDetails");

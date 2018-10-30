@@ -88,7 +88,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new TransDetailEntityConfiguration());
             modelBuilder.Configurations.Add(new TransMasterEntityConfiguration());
             modelBuilder.Configurations.Add(new BusinessPartnerEntityConfiguration());
-
+            modelBuilder.Configurations.Add(new UnitEntityConfiguration());
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);
 

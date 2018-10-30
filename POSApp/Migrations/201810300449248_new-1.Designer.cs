@@ -13,7 +13,7 @@ namespace POSApp.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201810291122037_new1"; }
+            get { return "201810300449248_new-1"; }
         }
         
         string IMigrationMetadata.Source

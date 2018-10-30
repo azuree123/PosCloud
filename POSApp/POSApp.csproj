@@ -368,6 +368,7 @@
     <Compile Include="Core\Models\Tax.cs" />
     <Compile Include="Core\Models\TransDetail.cs" />
     <Compile Include="Core\Models\TransMaster.cs" />
+    <Compile Include="Core\Models\Unit.cs" />
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
@@ -449,9 +450,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810291122037_new1.cs" />
-    <Compile Include="Migrations\201810291122037_new1.Designer.cs">
-      <DependentUpon>201810291122037_new1.cs</DependentUpon>
+    <Compile Include="Migrations\201810300449248_new-1.cs" />
+    <Compile Include="Migrations\201810300449248_new-1.Designer.cs">
+      <DependentUpon>201810300449248_new-1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2548,8 +2549,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810291122037_new1.resx">
-      <DependentUpon>201810291122037_new1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810300449248_new-1.resx">
+      <DependentUpon>201810300449248_new-1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
