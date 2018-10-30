@@ -87,7 +87,69 @@
                                                 <i class="fa fa-home" aria-hidden="true"></i>
                                                 <span>Dashboard</span>
                                             </a>
-                                        </li>@{
+                                        </li>
+
+
+                                        <li class="nav-parent disabled">
+                                            <a>
+                                                <i class="fa fa-exchange " aria-hidden="true"></i>
+                                                <span>Sales order</span>
+                                            </a>
+                                            <ul class="nav nav-children">
+                                                <li>
+                                                    <a href="@Url.Action("SaleOrderList","SaleOrders")">
+                                                        Sale Order
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("SaleOrderDetailList","SaleOrders")">
+                                                        SaleOrder Details
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")">
+                                                <i class="fa fa-shopping-cart " aria-hidden="true"></i>
+                                                <span>Purchase Orders</span>
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("ExpenseList","Expense")">
+                                                <i class="fa fa-dollar" aria-hidden="true"></i>
+                                                <span>Expenses</span>
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("StoresList","Store")">
+                                                <i class="fa fa-server" aria-hidden="true"></i>
+                                                <span>Branches</span>
+                                            </a>
+
+                                        </li>
+
+                                        <li>
+                                            <a href="@Url.Action("ProductsList","Products")">
+                                                <i class="fa fa-server" aria-hidden="true"></i>
+                                                <span>Products/Services</span>
+                                            </a>
+
+                                        </li>
+
+                                        <li>
+                                            <a href="@Url.Action("CustomerList","Setup")">
+                                                <i class="fa fa-download" aria-hidden="true"></i>
+                                                <span>Setup</span>
+                                            </a>
+
+                                        </li>
+
+
+
+                                        @{
                                             if (Request.IsAuthenticated)
                                             {
 
@@ -128,178 +190,13 @@
 
                                                     </ul>
                                                 </li>
-                                                <li>
-                                                    <a href="@Url.Action("ProductsList","Products")">
-                                                        <i class="fa fa-server" aria-hidden="true"></i>
-                                                        <span>Products/Services</span>
-                                                    </a>
-                                                    @*<ul class="nav nav-children">
-                                                            <li>
-                                                                <a href="@Url.Action("ProductsList","Products")">
-                                                                    Products
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("ServicesList","Services")">
-                                                                    Services
-                                                                </a>
-                                                            </li>
-                                                          <li>
-                                                                <a href="@Url.Action("ProductCategoryList","Products")">
-                                                                    Product Categories
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("ServiceCategoryList","Services")">
-                                                                    Services Categories
-                                                                </a>
-                                                            </li>
 
-                                                        </ul>*@
-                                                </li>
-                                                <li class="nav-parent disabled">
-                                                    <a>
-                                                        <i class="fa fa-exchange " aria-hidden="true"></i>
-                                                        <span>Sales order</span>
-                                                    </a>
-                                                    <ul class="nav nav-children">
-                                                        <li>
-                                                            <a href="@Url.Action("SaleOrderList","SaleOrders")">
-                                                                Sale Order
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("SaleOrderDetailList","SaleOrders")">
-                                                                SaleOrder Details
-                                                            </a>
-                                                        </li>
-
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")">
-                                                        <i class="fa fa-shopping-cart " aria-hidden="true"></i>
-                                                        <span>Purchase Orders</span>
-                                                    </a>
-                                                    @*<ul class="nav nav-children">
-                                                            <li>
-                                                                <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")">
-                                                                    Purchase Order
-                                                                </a>
-                                                            </li>
-                                                            <li class="disabled">
-                                                                <a href="@Url.Action("PurchaseOrderDetailList","PurchaseOrders")">
-                                                                    PurchaseOrder Details
-                                                                </a>
-                                                            </li>
-
-                                                        </ul>*@
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("ExpenseList","Expense")">
-                                                        <i class="fa fa-dollar" aria-hidden="true"></i>
-                                                        <span>Expenses</span>
-                                                    </a>
-                                                    @*<ul class="nav nav-children">
-                                                            <li>
-                                                                <a href="@Url.Action("ExpenseHeadList","Expense")">
-                                                                    Expense Heads
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("ExpenseList","Expense")">
-                                                                    Expenses
-                                                                </a>
-                                                            </li>
-
-                                                        </ul>*@
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("StoresList","Store")">
-                                                        <i class="fa fa-server" aria-hidden="true"></i>
-                                                        <span>Branches</span>
-                                                    </a>
-                                                    @*<ul class="nav nav-children">
-                                                            <li>
-                                                                <a href="@Url.Action("StoresList","Store")">
-                                                                    Stores
-                                                                </a>
-                                                            </li>
-                                                        </ul>*@
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("CustomerList","Setup")">
-                                                        <i class="fa fa-download" aria-hidden="true"></i>
-                                                        <span>Setup</span>
-                                                    </a>
-                                                    @*<ul class="nav nav-children">
-                                                            <li>
-                                                                <a href="@Url.Action("CustomerList","Setup")">
-                                                                    Customer
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("EmployeeList","Setup")">
-                                                                    Employee
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("SupplierList","Setup")">
-                                                                    Supplier
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("DepartmentList","Setup")">
-                                                                    Department
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("DesignationList","Setup")">
-                                                                    Designation
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("CouponList","Setup")">
-                                                                    Coupon
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("DiscountList","Setup")">
-                                                                    Discount
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("TaxList","Setup")">
-                                                                    Tax
-                                                                </a>
-                                                            </li>
-
-
-                                                        </ul>*@
-                                                </li>
                                                 <li>
                                                     <a href="@Url.Action("SaleReport","Reports")">
                                                         <i class="fa fa-gear" aria-hidden="true"></i>
                                                         <span>Reports</span>
                                                     </a>
-                                                    @*<ul class="nav nav-children">
 
-                                                            <li>
-                                                                <a href="@Url.Action("StateList","Setup")">
-                                                                    State
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("CityList","Setup")">
-                                                                    City
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="@Url.Action("LocationList","Setup")">
-                                                                    Location
-                                                                </a>
-                                                            </li>
-                                                        </ul>*@
                                                 </li>
                                             }
                                         }
@@ -352,8 +249,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
-    @*@Scripts.Render("~/bundles/js")*@
     @Scripts.Render("~/bundles/vendor")
+    @*@Scripts.Render("~/bundles/js")*@
     @Scripts.Render("~/bundles/datatables")
 
     @RenderSection("scripts", required: false)
