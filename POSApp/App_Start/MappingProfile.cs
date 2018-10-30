@@ -44,6 +44,8 @@ namespace POSApp
             CreateMap<Tax, TaxViewModel>();
             CreateMap<DiscountViewModel, Discount>();
             CreateMap<Discount, DiscountViewModel>();
+            CreateMap<ReportLogViewModel, ReportsLog>();
+            CreateMap<ReportsLog, ReportLogViewModel>();
 
 
 

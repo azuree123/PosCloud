@@ -28,6 +28,7 @@ namespace POSApp.Core
         ITransDetailRepository TransDetailRepository { get; }
         ITransMasterRepository TransMasterRepository { get; }
         IBusinessPartnerRepository BusinessPartnerRepository { get; }
+        IReportsLogRepository ReportsLogRepository { get; }
 
         void Complete();
     }

@@ -32,6 +32,8 @@ namespace POSApp.Core.Models
         public virtual ICollection<Tax> Taxes { get; set; }
         public virtual ICollection<Discount> Discounts { get; set; }
         public virtual ICollection<Unit> Units { get; set; }
+        public virtual ICollection<ReportsLog> ReportsLogs { get; set; }
+
 
     }
 }

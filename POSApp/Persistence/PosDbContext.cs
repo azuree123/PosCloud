@@ -43,6 +43,7 @@ namespace POSApp.Persistence
         public DbSet<TransMaster> TransMasters { get; set; }
         public DbSet<BusinessPartner> BusinessPartners { get; set; }
         public DbSet<ProductCategoryGroup> ProductCategoryGroups { get; set; }
+        public DbSet<ReportsLog> ReportsLogs { get; set; }
 
         public void SetCommandTimeOut(int Timeout)
         {

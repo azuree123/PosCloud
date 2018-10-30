@@ -364,6 +364,7 @@
     <Compile Include="Core\Models\Designation.cs" />
     <Compile Include="Core\Models\Discount.cs" />
     <Compile Include="Core\Models\ProductCategoryGroup.cs" />
+    <Compile Include="Core\Models\ReportsLog.cs" />
     <Compile Include="Core\Models\Store.cs" />
     <Compile Include="Core\Models\Tax.cs" />
     <Compile Include="Core\Models\TransDetail.cs" />
@@ -373,6 +374,7 @@
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
+    <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
     <Compile Include="Core\Repositories\IStoreRepository.cs" />
     <Compile Include="Core\Repositories\ITaxRepository.cs" />
     <Compile Include="Core\Repositories\ITransDetailRepository.cs" />
@@ -433,6 +435,7 @@
     <Compile Include="Core\ViewModels\LoginViewModel.cs" />
     <Compile Include="Core\ViewModels\PurchaseOrderViewModel.cs" />
     <Compile Include="Core\ViewModels\RegisterViewModel.cs" />
+    <Compile Include="Core\ViewModels\ReportLogViewModel.cs" />
     <Compile Include="Core\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Core\ViewModels\SendCodeViewModel.cs" />
     <Compile Include="Core\ViewModels\ServiceCategoryViewModel.cs" />
@@ -468,6 +471,10 @@
     <Compile Include="Migrations\201810301116588_emp121.Designer.cs">
       <DependentUpon>201810301116588_emp121.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810301210100_new-3.cs" />
+    <Compile Include="Migrations\201810301210100_new-3.Designer.cs">
+      <DependentUpon>201810301210100_new-3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -486,6 +493,7 @@
     <Compile Include="Persistence\EntityConfigurations\ProductEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\PurchaseOrderDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\PurchaseOrderEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ReportLogEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SaleOrderDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SaleOrderEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\StateEntityConfiguration.cs" />
@@ -511,6 +519,7 @@
     <Compile Include="Persistence\Repositories\ProductRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderRepository.cs" />
+    <Compile Include="Persistence\Repositories\ReportsLogRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
@@ -521,6 +530,7 @@
     <Compile Include="Persistence\Repositories\TransMasterRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ExcelService.cs" />
     <Compile Include="Services\IUserInfoService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -2544,8 +2554,7 @@
     <Content Include="Views\ExcelImport\CustomerExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\DepartmentExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\EmployeeExcelImport.cshtml" />
-    <Content Include="Views\ExcelImport\ExpenseExcelImport.cshtml" />
-    <Content Include="Views\ExcelImport\ExpenseHeadExcelImport.cshtml" />
+    <Content Include="Views\Reports\GenerateReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2585,6 +2594,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810301116588_emp121.resx">
       <DependentUpon>201810301116588_emp121.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301210100_new-3.resx">
+      <DependentUpon>201810301210100_new-3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

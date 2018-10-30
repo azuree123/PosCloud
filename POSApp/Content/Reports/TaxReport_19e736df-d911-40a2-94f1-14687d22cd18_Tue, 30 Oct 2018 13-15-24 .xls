@@ -1,0 +1,9 @@
+<table cellspacing="0" rules="all" border="1" style="border-collapse:collapse;">
+	<tr>
+		<td>Id</td><td>Name</td><td>Rate</td><td>StoreId</td><td>CreatedOn</td><td>CreatedById</td><td>UpdatedById</td><td>UpdatedOn</td><td>Synced</td><td>SyncedOn</td><td>Code</td>
+	</tr><tr>
+		<td>3</td><td>waqar</td><td>2525</td><td>2</td><td>10/30/2018 11:55:40 AM</td><td>19e736df-d911-40a2-94f1-14687d22cd18</td><td>19e736df-d911-40a2-94f1-14687d22cd18</td><td>10/30/2018 11:55:40 AM</td><td>False</td><td>&nbsp;</td><td>&nbsp;</td>
+	</tr><tr>
+		<td>4</td><td>waqar2</td><td>2525</td><td>2</td><td>10/30/2018 11:55:40 AM</td><td>19e736df-d911-40a2-94f1-14687d22cd18</td><td>19e736df-d911-40a2-94f1-14687d22cd18</td><td>10/30/2018 11:55:40 AM</td><td>False</td><td>&nbsp;</td><td>&nbsp;</td>
+	</tr>
+</table>
