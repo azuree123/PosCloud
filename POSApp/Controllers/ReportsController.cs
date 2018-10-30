@@ -287,9 +287,11 @@ namespace POSApp.Controllers
             {
                 Directory.CreateDirectory(path);
             }
+
+            string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            ExcelService.GenerateExcelSheet(ExcelService.ToDataTable(_unitOfWork.TaxRepository.GetTaxes(branchId)), "TaxReport", path, this.HttpContext.User.Identity.GetUserId(),_unitOfWork,(int)user.StoreId);
+            ExcelService.GenerateExcelSheet(ExcelService.ToDataTable(_unitOfWork.TaxRepository.GetTaxes(branchId)), "TaxReport", path, this.HttpContext.User.Identity.GetUserId(),_unitOfWork,(int)user.StoreId,details);
             return RedirectToAction("MyReports");
 
         }
