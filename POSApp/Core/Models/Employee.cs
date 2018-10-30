@@ -24,6 +24,7 @@ namespace POSApp.Core.Models
         public virtual Department Department { get; set; }
         public string Address { get; set; }
         public virtual ICollection<Expense> Expenses { get; set; }
+
     }
- 
+
 }

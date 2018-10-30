@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<POSApp.Core.ViewModels.ReportLogViewModel>
 @{
     ViewBag.Title = "MyReports";
 }
@@ -58,102 +58,48 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach (var item in Model)
+                        {
 
                         <tr class="">
 
                             <td>
-                                Categories Sales
+                                @item.Name
                             </td>
                             <td>
-                                <span class="badge mr-sm">18-12-18 </span>
-                                <span class="badge mr-sm">20-12-18 </span>
-                                <span class="badge mr-sm">Branch Damaam b01 </span>
+                                @{
+                                    if (item.Details.Contains(","))
+                                    {
+                                        string[] arr = item.Details.Split(',');
+                                        foreach (var s in arr)
+                                        {
+                                            <span class="badge mr-sm">@s</span>
+                                            <span class="badge mr-sm">@s</span>
+                                            <span class="badge mr-sm">@s</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="badge mr-sm">@item.Details</span>
+
+                                    }
+                                }
+
 
                             </td>
-                            <td>13-july-2018  03:15:55</td>
-                            <td>        <span class="label label-success mr-sm">Ready </span></td>
+                            <td>@Convert.ToDateTime(item.CreatedOn).ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
+                            <td>        <span class="label label-success mr-sm">@item.Status </span></td>
                             <td class="center">
                                 <div class="btn-group">
-                                    <a class="btn btn-default btn-sm fa fa-search" data-toggle="tooltip" title="Preview !"></a>
-                                    <a class="btn btn-default text-success btn-sm fa fa-download" data-toggle="tooltip" title="Download !"></a>
-                                    <a class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
+                                    @*<a class="btn btn-default btn-sm fa fa-search" data-toggle="tooltip" title="Preview !"></a>*@
+                                    <a class="btn btn-default text-success btn-sm fa fa-download" href="~/Content/Reports/@item.Path"  data-toggle="tooltip" title="Download !"></a>
+                                    <a href="@Url.Action("DeleteReport",new{id=@item.Id})" class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
                                 </div>
 
                             </td>
                         </tr>
-                        <tr class="">
-
-                            <td>
-                                Categories Sales
-                            </td>
-                            <td>
-                                <span class="badge mr-sm">18-12-18 </span>
-                                <span class="badge mr-sm">20-12-18 </span>
-                                <span class="badge mr-sm">Branch Damaam b01 </span>
-
-                            </td>
-                            <td>13-july-2018  03:15:55</td>
-                            <td>        <span class="label label-success mr-sm">Ready </span></td>
-                            <td class="center">
-                                @*@Html.ActionLink(" ", "UpdateProduct", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow" })
-        @Html.ActionLink(" ", "DeleteProduct", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })*@
-
-                                <div class="btn-group">
-                                    <a class="btn btn-default btn-sm fa fa-search" data-toggle="tooltip" title="Preview !"></a>
-                                    <a class="btn btn-default text-success btn-sm fa fa-download" data-toggle="tooltip" title="Download !"></a>
-                                    <a class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="">
-
-                            <td>
-                                Categories Sales
-                            </td>
-                            <td>
-                                <span class="badge mr-sm">18-12-18 </span>
-                                <span class="badge mr-sm">20-12-18 </span>
-                                <span class="badge mr-sm">Branch Damaam b01 </span>
-
-                            </td>
-                            <td>13-july-2018  03:15:55</td>
-                            <td>        <span class="label label-success mr-sm">Ready </span></td>
-                            <td class="center">
-                                @*@Html.ActionLink(" ", "UpdateProduct", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow" })
-        @Html.ActionLink(" ", "DeleteProduct", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })*@
-
-                                <div class="btn-group">
-                                    <a class="btn btn-default btn-sm fa fa-search" data-toggle="tooltip" title="Preview !"></a>
-                                    <a class="btn btn-default text-success btn-sm fa fa-download" data-toggle="tooltip" title="Download !"></a>
-                                    <a class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
-                                </div>
-
-                            </td>
-                        </tr>
-                        <tr class="">
-
-                            <td>
-                                Categories Sales
-                            </td>
-                            <td>
-                                <span class="badge mr-sm">18-12-18 </span>
-                                <span class="badge mr-sm">20-12-18 </span>
-                                <span class="badge mr-sm">Branch Damaam b01 </span>
-
-                            </td>
-                            <td>13-july-2018  03:15:55</td>
-                            <td>        <span class="label label-success mr-sm">Ready </span></td>
-                            <td class="center">
-                                @*@Html.ActionLink(" ", "UpdateProduct", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow" })
-        @Html.ActionLink(" ", "DeleteProduct", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })*@
-                                <div class="btn-group">
-                                    <a class="btn btn-default btn-sm fa fa-search" data-toggle="tooltip" title="Preview !"></a>
-                                    <a class="btn btn-default text-success btn-sm fa fa-download" data-toggle="tooltip" title="Download !"></a>
-                                    <a class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
-                                </div>
-
-                            </td>
-                        </tr>
+                        }
+                  
 
 
 

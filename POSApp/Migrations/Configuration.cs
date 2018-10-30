@@ -14,10 +14,7 @@ namespace POSApp.Migrations
 
         protected override void Seed(POSApp.Persistence.PosDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
+           
         }
     }
 }
