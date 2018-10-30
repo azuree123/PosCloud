@@ -8,19 +8,20 @@ namespace POSApp.Core.Models
         public int Id { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
-
         public string Name { get; set; }
         public string Description { get; set; }
         public string Type { get; set; }
         public string ProductCode { get; set; }
         public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
         public string Size { get; set; }//MED, SML, LRG,XRG, Child,
-        [DefaultValue(0)]
-        public double Tax { get; set; }
+        public int? TaxId { get; set; }
+        public Tax Tax { get; set; }
+        [DefaultValue(false)]
+        public bool IsTaxable { get; set; }
         [DefaultValue(0)]
         public double UnitPrice { get; set; }
         [DefaultValue(0)]
-        public decimal CostPrice { get; set; }
+        public double CostPrice { get; set; }
         [DefaultValue(0)]
         public double Stock { get; set; }
         [DefaultValue(0)]

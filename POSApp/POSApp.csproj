@@ -512,6 +512,7 @@
     <Compile Include="Persistence\EntityConfigurations\TaxEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransMasterEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\UnitEntityConfiguration.cs" />
     <Compile Include="Persistence\PosDbContext.cs" />
     <Compile Include="Persistence\Repositories\BusinessPartnerRepository.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />

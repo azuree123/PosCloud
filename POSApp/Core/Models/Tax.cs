@@ -14,5 +14,6 @@ namespace POSApp.Core.Models
         public double Rate { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }
