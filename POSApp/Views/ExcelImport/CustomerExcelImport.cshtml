@@ -34,13 +34,13 @@
                                 <div class="form-group">
 
                                     <div class="col-md-6" style="    border-right: 4px solid #09ab5a;">
-                                        <button type="button" onclick="$('#fileupload').click();" class="btn btn-block btn-md">Upload File</button>
+                                        <button type="button" onclick="$('#fileupload').click();" class="btn btn-block btn-md text-success">Upload File</button>
                                         <input onchange="$('#submitButton').click();" style="display: none" type="file" id="fileupload" name="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                                         <button hidden="" type="submit" id="submitButton"></button>
                                     </div>
                                     <div class="col-md-6">
-                                        <a href="/Content/ImportFormats/CustomerImport.xls">
-                                            <button type="button" class="btn btn-block btn-md">Download Template</button>
+                                        <a href="/Content/ImportFormats/CustomerImport.xls" style="text-decoration:none">
+                                            <button type="button" class="btn btn-block btn-md text-success">Download Template</button>
                                         </a>
                                     </div>
                                 </div>
