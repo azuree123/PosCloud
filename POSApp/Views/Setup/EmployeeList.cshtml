@@ -33,7 +33,7 @@
 
             <li><a href="@Url.Action("DepartmentList","Setup")">Department</a></li>
 
-            <li><a href="@Url.Action("DesignationList","Setup")">Desigantion</a></li>
+            @*<li><a href="@Url.Action("DesignationList","Setup")">Desigantion</a></li>*@
 
             <li><a href="@Url.Action("CouponList","Setup")">Coupon</a></li>
 
@@ -57,7 +57,13 @@
                         <h3 class="wb-color" style="flex-grow: 8"><b>Employees</b></h3>
 
 
-                        <a href="@Url.Action("AddEmployee", "Setup")" class="modalShow">
+
+                        <a href="@Url.Action("EmployeeExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+                        </a>
+
+                        <a href="@Url.Action("AddEmployee", "Setup")" class="modalShow" style="flex-grow: 0">
                             <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Employee</button>
 
                         </a>
@@ -75,13 +81,13 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            @*<th>Email</th>*@
+                            <th>Email</th>
                             <th>Gender</th>
                             <th>Department</th>
-                            <th>Designation</th>
+                            @*<th>Designation</th>*@
                             <th>Mobile Number</th>
                             <th>Commission</th>
-                            @*<th>Joining Date</th>*@
+                            <th>Joining Date</th>
                             <th width="10%">Action</th>
 
                         </tr>
@@ -93,13 +99,13 @@
                             <tr>
                                 <td>@(i++)</td>
                                 <td>@employee.Name</td>
-                                @*<td>@employee.Email</td>*@
+                                <td>@employee.Email</td>
                                 <td>@employee.Gender</td>
                                 <td>@employee.DepartmentId</td>
-                                <td>@employee.DesignationId</td>
+                                @*<td>@employee.DesignationId</td>*@
                                 <td>@employee.MobileNumber</td>
                                 <td>@employee.Commission</td>
-                                @*<td>@employee.JoinDate</td>*@
+                                <td>@employee.JoinDate</td>
                                 <td class="center">
                                     @Html.ActionLink(" ", "UpdateEmployee", "Setup", new { id = @employee.Id, storeId = @employee.StoreId }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow" })
                                     @Html.ActionLink(" ", "DeleteEmployee", "Setup", new { id = @employee.Id, storeId = @employee.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })

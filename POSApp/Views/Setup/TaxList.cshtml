@@ -33,7 +33,7 @@
 
             <li><a href="@Url.Action("DepartmentList","Setup")">Department</a></li>
 
-            <li><a href="@Url.Action("DesignationList","Setup")">Desigantion</a></li>
+            @*<li><a href="@Url.Action("DesignationList","Setup")">Desigantion</a></li>*@
 
             <li><a href="@Url.Action("CouponList","Setup")">Coupon</a></li>
 
@@ -57,8 +57,12 @@
                     <div class="" style="display: flex; align-items: center">
                         <h3 class="wb-color" style="flex-grow: 8"><b>Taxes</b></h3>
 
+                        <a href="@Url.Action("TaxExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
-                        <a href="@Url.Action("AddTax", "Setup")" class="modalShow">
+                        </a>
+
+                        <a href="@Url.Action("AddTax", "Setup")" class="modalShow" style="flex-grow: 0">
                             <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Tax</button>
 
                         </a>

@@ -61,23 +61,23 @@ namespace POSApp.Controllers
             ViewBag.edit = "AddDesignationPartial";
             return View();
         }
-        [HttpPost]
-        public ActionResult AddDesignationPartial(DesignationViewModel designationVm)
-        {
-            ViewBag.edit = "AddDesignationPartial";
-            if (!ModelState.IsValid)
-            {
-                return View(designationVm);
-            }
-            else
-            {
-                Designation designation = Mapper.Map<Designation>(designationVm);
-                _unitOfWork.DesignationRepository.AddDesignation(designation);
-                _unitOfWork.Complete();
-                return PartialView("Error");
-            }
+        //[HttpPost]
+        //public ActionResult AddDesignationPartial(DesignationViewModel designationVm)
+        //{
+        //    ViewBag.edit = "AddDesignationPartial";
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(designationVm);
+        //    }
+        //    else
+        //    {
+        //        Designation designation = Mapper.Map<Designation>(designationVm);
+        //        _unitOfWork.DesignationRepository.AddDesignation(designation);
+        //        _unitOfWork.Complete();
+        //        return PartialView("Error");
+        //    }
 
-        }
+        //}
 
 
 
@@ -223,64 +223,64 @@ namespace POSApp.Controllers
             return RedirectToAction("DepartmentList","Setup");
         }
 
-        public ActionResult DesignationList()
-        {
-            return View(_unitOfWork.DesignationRepository.GetDesignations());
-        }
+        //public ActionResult DesignationList()
+        //{
+        //    return View(_unitOfWork.DesignationRepository.GetDesignations());
+        //}
         [HttpGet]
         public ActionResult AddDesignation()
         {
             ViewBag.edit = "AddDesignation";
             return View();
         }
-        [HttpPost]
-        public ActionResult AddDesignation(DesignationViewModel designationVm)
-        {
-            ViewBag.edit = "AddDesignation";
-            if (!ModelState.IsValid)
-            {
-                return View(designationVm);
-            }
+        // [HttpPost]
+        //public ActionResult AddDesignation(DesignationViewModel designationVm)
+        //{
+        //    ViewBag.edit = "AddDesignation";
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(designationVm);
+        //    }
 
-            Designation designation = Mapper.Map<Designation>(designationVm);
-            _unitOfWork.DesignationRepository.AddDesignation(designation);
-            _unitOfWork.Complete();
-            return RedirectToAction("DesignationList", "Setup");
-        }
+        //    Designation designation = Mapper.Map<Designation>(designationVm);
+        //    _unitOfWork.DesignationRepository.AddDesignation(designation);
+        //    _unitOfWork.Complete();
+        //    return RedirectToAction("DesignationList", "Setup");
+        //}
+
+        //public ActionResult UpdateDesignation(int id)
+        //{
+        //    ViewBag.edit = "UpdateDesignation";
+        //    DesignationViewModel designationVm =
+        //        Mapper.Map<DesignationViewModel>(_unitOfWork.DesignationRepository.GetDesignationById(id));
+        //    return View("AddDesignation",designationVm);
+        //}
+        //[HttpPost]
+        //public ActionResult UpdateDesignation(int id, DesignationViewModel designationVm)
+        //{
+        //    ViewBag.edit = "UpdateDesignation";
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return RedirectToAction("AddDesignation", designationVm);
+        //    }
+        //    else
+        //    {
+        //        Designation designation = Mapper.Map<Designation>(designationVm);
+        //        _unitOfWork.DesignationRepository.UpdateDesignation(id,designation);
+        //        _unitOfWork.Complete();
+        //        return RedirectToAction("DesignationList", "Setup");
+        //    }
+        //}
+        //public ActionResult DeleteDesignation(int id)
+        //{
+        //    _unitOfWork.DesignationRepository.DeleteDesignation(id);
+        //    _unitOfWork.Complete();
+        //    return RedirectToAction("DesignationList","Setup");
+        //}
         [HttpGet]
-        public ActionResult UpdateDesignation(int id)
-        {
-            ViewBag.edit = "UpdateDesignation";
-            DesignationViewModel designationVm =
-                Mapper.Map<DesignationViewModel>(_unitOfWork.DesignationRepository.GetDesignationById(id));
-            return View("AddDesignation",designationVm);
-        }
-        [HttpPost]
-        public ActionResult UpdateDesignation(int id, DesignationViewModel designationVm)
-        {
-            ViewBag.edit = "UpdateDesignation";
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("AddDesignation", designationVm);
-            }
-            else
-            {
-                Designation designation = Mapper.Map<Designation>(designationVm);
-                _unitOfWork.DesignationRepository.UpdateDesignation(id,designation);
-                _unitOfWork.Complete();
-                return RedirectToAction("DesignationList", "Setup");
-            }
-        }
-        public ActionResult DeleteDesignation(int id)
-        {
-            _unitOfWork.DesignationRepository.DeleteDesignation(id);
-            _unitOfWork.Complete();
-            return RedirectToAction("DesignationList","Setup");
-        }
-
         public ActionResult EmployeeList()
         {
-            return View(_unitOfWork.EmployeeRepository.GetEmployees());
+            return View("EmployeeList", _unitOfWork.EmployeeRepository.GetEmployees());
         }
 
         [HttpGet]
@@ -289,8 +289,7 @@ namespace POSApp.Controllers
             EmployeeModelView employee = new EmployeeModelView();
             employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments()
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
-            employee.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations()
-                .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
+            
             ViewBag.edit = "AddEmployee";
             return View(employee);
         }
@@ -300,6 +299,8 @@ namespace POSApp.Controllers
             ViewBag.edit = "AddEmployee";
             if (!ModelState.IsValid)
             {
+                employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments()
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 return View(employeeMv);
             }
             else
@@ -308,6 +309,7 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 employeeMv.StoreId = user.StoreId;
                 Employee employee = Mapper.Map<Employee>(employeeMv);
+               
                 _unitOfWork.EmployeeRepository.AddEmployee(employee);
                 _unitOfWork.Complete();
                 return RedirectToAction("EmployeeList","Setup");
@@ -323,8 +325,7 @@ namespace POSApp.Controllers
             EmployeeModelView employeeMv = Mapper.Map<EmployeeModelView>(_unitOfWork.EmployeeRepository.GetEmployeeById(id, Convert.ToInt32(user.StoreId)));
             employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations()
-                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+           
             return View("AddEmployee",employeeMv);
         }
         [HttpPost]
@@ -902,18 +903,18 @@ namespace POSApp.Controllers
                 throw;
             }
         }
-        public JsonResult GetDesignationDdl()
-        {
-            try
-            {
-                return Json(Mapper.Map<DesignationViewModel[]>(_unitOfWork.DesignationRepository.GetApiDesignations()), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
+        //public JsonResult GetDesignationDdl()
+        //{
+        //    try
+        //    {
+        //        return Json(Mapper.Map<DesignationViewModel[]>(_unitOfWork.DesignationRepository.GetApiDesignations()), JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e);
+        //        throw;
+        //    }
+        //}
         public JsonResult GetStateDdl()
         {
             try

@@ -343,7 +343,6 @@
     <Compile Include="Controllers\WebApi\CouponsController.cs" />
     <Compile Include="Controllers\WebApi\CustomersController.cs" />
     <Compile Include="Controllers\WebApi\DepartmentsController.cs" />
-    <Compile Include="Controllers\WebApi\DesignationsController.cs" />
     <Compile Include="Controllers\WebApi\DiscountsController.cs" />
     <Compile Include="Controllers\WebApi\EmployeesController.cs" />
     <Compile Include="Controllers\WebApi\ExpenseHeadsController.cs" />
@@ -362,9 +361,9 @@
     <Compile Include="Core\Models\BusinessPartner.cs" />
     <Compile Include="Core\Models\Coupon.cs" />
     <Compile Include="Core\Models\Client.cs" />
+    <Compile Include="Core\Models\Designation.cs" />
     <Compile Include="Core\Models\Discount.cs" />
     <Compile Include="Core\Models\ProductCategoryGroup.cs" />
-    <Compile Include="Core\Models\ReportsLog.cs" />
     <Compile Include="Core\Models\Store.cs" />
     <Compile Include="Core\Models\Tax.cs" />
     <Compile Include="Core\Models\TransDetail.cs" />
@@ -374,7 +373,6 @@
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
-    <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
     <Compile Include="Core\Repositories\IStoreRepository.cs" />
     <Compile Include="Core\Repositories\ITaxRepository.cs" />
     <Compile Include="Core\Repositories\ITransDetailRepository.cs" />
@@ -402,7 +400,6 @@
     <Compile Include="Core\Models\City.cs" />
     <Compile Include="Core\Models\Customer.cs" />
     <Compile Include="Core\Models\Department.cs" />
-    <Compile Include="Core\Models\Designation.cs" />
     <Compile Include="Core\Models\Employee.cs" />
     <Compile Include="Core\Models\ExpenseHead.cs" />
     <Compile Include="Core\Models\Location.cs" />
@@ -418,7 +415,6 @@
     <Compile Include="Core\Repositories\ICityRepository.cs" />
     <Compile Include="Core\Repositories\ICustomerRepository.cs" />
     <Compile Include="Core\Repositories\IDepartmentRepository.cs" />
-    <Compile Include="Core\Repositories\IDesignationRepository.cs" />
     <Compile Include="Core\Repositories\IEmployeeRepository.cs" />
     <Compile Include="Core\Repositories\IExpenseHeadRepository.cs" />
     <Compile Include="Core\Repositories\IExpenseRepository.cs" />
@@ -437,7 +433,6 @@
     <Compile Include="Core\ViewModels\LoginViewModel.cs" />
     <Compile Include="Core\ViewModels\PurchaseOrderViewModel.cs" />
     <Compile Include="Core\ViewModels\RegisterViewModel.cs" />
-    <Compile Include="Core\ViewModels\ReportLogViewModel.cs" />
     <Compile Include="Core\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Core\ViewModels\SendCodeViewModel.cs" />
     <Compile Include="Core\ViewModels\ServiceCategoryViewModel.cs" />
@@ -457,6 +452,22 @@
     <Compile Include="Migrations\201810300449248_new-1.Designer.cs">
       <DependentUpon>201810300449248_new-1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810301016362_new-2.cs" />
+    <Compile Include="Migrations\201810301016362_new-2.Designer.cs">
+      <DependentUpon>201810301016362_new-2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810301049247_emp1.cs" />
+    <Compile Include="Migrations\201810301049247_emp1.Designer.cs">
+      <DependentUpon>201810301049247_emp1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810301109142_emp12.cs" />
+    <Compile Include="Migrations\201810301109142_emp12.Designer.cs">
+      <DependentUpon>201810301109142_emp12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810301116588_emp121.cs" />
+    <Compile Include="Migrations\201810301116588_emp121.Designer.cs">
+      <DependentUpon>201810301116588_emp121.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -466,7 +477,6 @@
     <Compile Include="Persistence\EntityConfigurations\CouponEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\CustomerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DepartmentEntityConfiguration.cs" />
-    <Compile Include="Persistence\EntityConfigurations\DesignationEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DiscountEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\EmployeeEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ExpenseEntityConfiguration.cs" />
@@ -476,7 +486,6 @@
     <Compile Include="Persistence\EntityConfigurations\ProductEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\PurchaseOrderDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\PurchaseOrderEntityConfiguration.cs" />
-    <Compile Include="Persistence\EntityConfigurations\ReportLogEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SaleOrderDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SaleOrderEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\StateEntityConfiguration.cs" />
@@ -492,7 +501,6 @@
     <Compile Include="Persistence\Repositories\CouponRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\DepartmentRepository.cs" />
-    <Compile Include="Persistence\Repositories\DesignationRepository.cs" />
     <Compile Include="Persistence\Repositories\DiscountRepository.cs" />
     <Compile Include="Persistence\Repositories\EmployeeRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseHeadRepository.cs" />
@@ -503,7 +511,6 @@
     <Compile Include="Persistence\Repositories\ProductRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderRepository.cs" />
-    <Compile Include="Persistence\Repositories\ReportsLogRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
@@ -514,7 +521,6 @@
     <Compile Include="Persistence\Repositories\TransMasterRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ExcelService.cs" />
     <Compile Include="Services\IUserInfoService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -2425,6 +2431,8 @@
     <Content Include="Content\ImportFormats\TaxImport.xls" />
     <Content Include="Content\ImportFormats\TransDetailImport.xls" />
     <Content Include="Content\ImportFormats\TransMasterImport.xls" />
+    <Content Include="Content\ImportFormats\DiscountImport.xls" />
+    <Content Include="Content\ImportFormats\CustomerImport.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -2439,6 +2447,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\Setup\EmployeeList.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2478,7 +2487,6 @@
     <Content Include="Views\Setup\CustomerList.cshtml" />
     <Content Include="Views\Setup\DepartmentList.cshtml" />
     <Content Include="Views\Setup\DesignationList.cshtml" />
-    <Content Include="Views\Setup\EmployeeList.cshtml" />
     <Content Include="Views\Setup\LocationList.cshtml" />
     <Content Include="Views\Setup\StateList.cshtml" />
     <Content Include="Views\Setup\SupplierList.cshtml" />
@@ -2530,7 +2538,12 @@
     <Content Include="Views\Reports\MyReports.cshtml" />
     <Content Include="Views\ExcelImport\StateExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\CityExcelImport.cshtml" />
-    <Content Include="Views\Reports\GenerateReport.cshtml" />
+    <Content Include="Views\ExcelImport\TaxExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\DiscountExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\CouponExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\CustomerExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\DepartmentExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\EmployeeExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2558,6 +2571,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201810300449248_new-1.resx">
       <DependentUpon>201810300449248_new-1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301016362_new-2.resx">
+      <DependentUpon>201810301016362_new-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301049247_emp1.resx">
+      <DependentUpon>201810301049247_emp1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301109142_emp12.resx">
+      <DependentUpon>201810301109142_emp12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301116588_emp121.resx">
+      <DependentUpon>201810301116588_emp121.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

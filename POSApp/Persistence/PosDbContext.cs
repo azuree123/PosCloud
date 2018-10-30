@@ -34,7 +34,7 @@ namespace POSApp.Persistence
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public DbSet<SaleOrder> SaleOrders { get; set; }
         public DbSet<SaleOrderDetail> SaleOrderDetails { get; set; }
-        public DbSet<Designation> Designations { get; set; }
+        //public DbSet<Designation> Designations { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Tax> Taxes { get; set; }
@@ -70,7 +70,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new CityEntityConfiguration());
             modelBuilder.Configurations.Add(new CustomerEntityConfiguration());
             modelBuilder.Configurations.Add(new DepartmentEntityConfiguration());
-            modelBuilder.Configurations.Add(new DesignationEntityConfiguration());
+            //modelBuilder.Configurations.Add(new DesignationEntityConfiguration());
             modelBuilder.Configurations.Add(new EmployeeEntityConfiguration());
             modelBuilder.Configurations.Add(new ExpenseEntityConfiguration());
             modelBuilder.Configurations.Add(new ExpenseHeadEntityConfiguration());
