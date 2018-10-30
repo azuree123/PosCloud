@@ -91,9 +91,9 @@
                             <td>        <span class="label label-success mr-sm">@item.Status </span></td>
                             <td class="center">
                                 <div class="btn-group">
-                                    <a class="btn btn-default btn-sm fa fa-search" data-toggle="tooltip" title="Preview !"></a>
-                                    <a class="btn btn-default text-success btn-sm fa fa-download" href="@item.Path" data-toggle="tooltip" title="Download !"></a>
-                                    <a class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
+                                    @*<a class="btn btn-default btn-sm fa fa-search" data-toggle="tooltip" title="Preview !"></a>*@
+                                    <a class="btn btn-default text-success btn-sm fa fa-download" href="~/Content/Reports/@item.Path"  data-toggle="tooltip" title="Download !"></a>
+                                    <a href="@Url.Action("DeleteReport",new{id=@item.Id})" class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
                                 </div>
 
                             </td>

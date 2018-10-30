@@ -27,7 +27,7 @@ namespace POSApp.Services
             unitOfWork.ReportsLogRepository.AddReportsLog(new ReportsLog
             {
                 Name = reportName,
-                Path = filePath + fileName,
+                Path = fileName,
                 Status = "Ready",
                 Details = "",
                 StoreId = storeId

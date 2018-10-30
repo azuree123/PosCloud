@@ -272,6 +272,13 @@ namespace POSApp.Controllers
             return View();
 
         }
+
+        public ActionResult DeleteReport(int id)
+        {
+            _unitOfWork.ReportsLogRepository.DeleteReportsLog(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("MyReports");
+        }
         [HttpPost]
         public ActionResult GenerateTaxReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
@@ -283,7 +290,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ExcelService.GenerateExcelSheet(ExcelService.ToDataTable(_unitOfWork.TaxRepository.GetTaxes(branchId)), "TaxReport", path, this.HttpContext.User.Identity.GetUserId(),_unitOfWork,(int)user.StoreId);
-            return RedirectToAction("ExportingReport");
+            return RedirectToAction("MyReports");
 
         }
         [HttpPost]
