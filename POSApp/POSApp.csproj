@@ -2544,6 +2544,8 @@
     <Content Include="Views\ExcelImport\CustomerExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\DepartmentExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\EmployeeExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ExpenseExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ExpenseHeadExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

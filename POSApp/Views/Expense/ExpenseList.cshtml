@@ -36,7 +36,10 @@
            
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
                         <h3 class="wb-color" style="flex-grow: 8"><b>Expense  </b></h3>
+                        <a href="@Url.Action("ExpenseExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
+                        </a>
                         <a href="@Url.Action("AddExpense", "Expense")" class="modalShow" style="flex-grow: 0.2">
                             <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Expense</button>
 
