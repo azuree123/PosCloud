@@ -26,8 +26,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Salary).HasColumnType("float").IsOptional();
             Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
 
-
-
+            
             //******************************************************************************************* Auditable ***************
 
             //Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
@@ -35,7 +34,8 @@ namespace POSApp.Persistence.EntityConfigurations
 
             //******************************************************************************************* Auditable ***************
 
-            HasRequired(x => x.Department).WithMany(x => x.Employees).HasForeignKey(x => new{x.DepartmentId}).WillCascadeOnDelete(false);
+            HasRequired(x => x.Department).WithMany(x => x.Employees).HasForeignKey(x => new{x.DepartmentId,x.StoreId}).WillCascadeOnDelete(false);
+            HasRequired(x => x.Store).WithMany(x => x.Employees).HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
             //HasRequired(x => x.CreatedBy).WithMany().HasForeignKey(x => new { x.CreatedById, x.StoreId }).WillCascadeOnDelete(false);
             //HasRequired(x => x.UpdatedBy).WithMany().HasForeignKey(x => new { x.UpdatedById, x.StoreId }).WillCascadeOnDelete(false);
         }

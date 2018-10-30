@@ -10,7 +10,7 @@ namespace POSApp.Core
         IProductCategoryRepository ProductCategoryRepository { get; }
         IEmployeeRepository EmployeeRepository { get; }
         IDepartmentRepository DepartmentRepository { get; }
-        IDesignationRepository DesignationRepository { get; }
+        //IDesignationRepository DesignationRepository { get; }
         ICustomerRepository CustomerRepository { get; }
         ISupplierRepository SupplierRepository { get; }
         ILocationRepository LocationRepository { get; }

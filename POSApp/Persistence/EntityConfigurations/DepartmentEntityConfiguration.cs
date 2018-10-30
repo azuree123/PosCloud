@@ -11,11 +11,11 @@ namespace POSApp.Persistence.EntityConfigurations
         {
             ToTable("Departments", PosDbContext.DEFAULT_SCHEMA);
             //******************************************************************************************* KEYS ********************
-            HasKey(x => x.Id);
+            HasKey(x => new { x.Id, x.StoreId });
             Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************
-            Property(x => x.Name).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
+            Property(x => x.Name).HasColumnType("varchar").HasMaxLength(150).IsRequired();
             Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
 
 
@@ -23,7 +23,7 @@ namespace POSApp.Persistence.EntityConfigurations
 
             //Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
             //Property(x => x.UpdatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-
+            HasRequired(x => x.Store).WithMany().HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
             //******************************************************************************************* Auditable ***************
             //HasRequired(x => x.CreatedBy).WithMany().HasForeignKey(x => new { x.CreatedById }).WillCascadeOnDelete(false);
             //HasRequired(x => x.UpdatedBy).WithMany().HasForeignKey(x => new { x.UpdatedById }).WillCascadeOnDelete(false);

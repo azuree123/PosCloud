@@ -59,7 +59,12 @@
                         <h3 class="wb-color" style="flex-grow: 8"><b>Coupons</b></h3>
 
 
-                        <a href="@Url.Action("AddCoupon", "Setup")" class="modalShow">
+                        <a href="@Url.Action("DiscountExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+                        </a>
+
+                        <a href="@Url.Action("AddCoupon", "Setup")" class="modalShow" style="flex-grow: 0">
                             <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Coupon</button>
 
                         </a>
