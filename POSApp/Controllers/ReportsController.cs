@@ -1,13 +1,21 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
+using POSApp.Core.ViewModels;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
     [Authorize]
     public class ReportsController : Controller
     {
+        private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;
 
         public ReportsController(IUnitOfWork unitOfWork)
@@ -35,7 +43,7 @@ namespace POSApp.Controllers
         }
         public ActionResult MyReports()
         {
-            return View();
+            return View(Mapper.Map<ReportLogViewModel[]>(_unitOfWork.ReportsLogRepository.GetReportsLogs(this.HttpContext.User.Identity.GetUserId())));
         }
 
         public ActionResult GenerateReport(string target)
@@ -267,7 +275,15 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateTaxReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            return View();
+            string path = Server.MapPath("~/Content/Reports/");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ExcelService.GenerateExcelSheet(ExcelService.ToDataTable(_unitOfWork.TaxRepository.GetTaxes(branchId)), "TaxReport", path, this.HttpContext.User.Identity.GetUserId(),_unitOfWork,(int)user.StoreId);
+            return RedirectToAction("ExportingReport");
 
         }
         [HttpPost]
@@ -336,7 +352,18 @@ namespace POSApp.Controllers
             return View();
 
         }
- 
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
 
     }
 
