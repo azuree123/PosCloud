@@ -13,7 +13,7 @@ namespace POSApp.Services
     public static class ExcelService
     {
 
-        public static void GenerateExcelSheet(DataTable dtList,string reportName,string filePath,string userId,IUnitOfWork unitOfWork,int storeId)
+        public static void GenerateExcelSheet(DataTable dtList,string reportName,string filePath,string userId,IUnitOfWork unitOfWork,int storeId,string details)
         {
             string fileName = reportName + "_" + userId + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".xls";
             DataGrid gridDetails=new DataGrid();
@@ -29,7 +29,7 @@ namespace POSApp.Services
                 Name = reportName,
                 Path = fileName,
                 Status = "Ready",
-                Details = "",
+                Details = details,
                 StoreId = storeId
             
             });
