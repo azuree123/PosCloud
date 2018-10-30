@@ -9,10 +9,14 @@
                 <div class="" style="display: flex; justify-content: space-between;align-items: center">
                     <h3 class="wb-color" style="flex-grow: 8"><b>Product Category Groups</b></h3>
                     @*<a href="@Url.Action("AddProduct", "Products")" class="modalShow">
-                            <span class="fa fa-2x fa-plus-circle"></span>
-                        </a>*@
+            <span class="fa fa-2x fa-plus-circle"></span>
+        </a>*@
                     <a href="@Url.Action("AddProductCategoryGroup", "Products")" class="modalShow" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Product Category Group</button>
+
+                    </a>
+                    <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Category List</button>
 
                     </a>
                 </div>
