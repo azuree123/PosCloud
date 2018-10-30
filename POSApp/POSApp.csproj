@@ -2524,6 +2524,7 @@
     <Content Include="Views\Reports\MyReports.cshtml" />
     <Content Include="Views\ExcelImport\StateExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\CityExcelImport.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddPurchaseOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

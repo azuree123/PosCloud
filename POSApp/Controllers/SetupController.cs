@@ -289,8 +289,7 @@ namespace POSApp.Controllers
             EmployeeModelView employee = new EmployeeModelView();
             employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments()
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
-            employee.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations()
-                .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
+           
             ViewBag.edit = "AddEmployee";
             return View(employee);
         }
@@ -323,8 +322,7 @@ namespace POSApp.Controllers
             EmployeeModelView employeeMv = Mapper.Map<EmployeeModelView>(_unitOfWork.EmployeeRepository.GetEmployeeById(id, Convert.ToInt32(user.StoreId)));
             employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations()
-                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+           
             return View("AddEmployee",employeeMv);
         }
         [HttpPost]

@@ -40,5 +40,10 @@ namespace POSApp.Controllers
             return View(_unitOfWork.PurchaseOrderDetailRepository.GetPurchaseOrderDetails(purchaseOrderId));
         }
         
+        public ActionResult AddPurchaseOrder()
+        {
+            return View();
+        }
+
     }
 }

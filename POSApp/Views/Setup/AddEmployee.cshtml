@@ -3,7 +3,7 @@
 
 @{
     Layout = null;
-}
+}    @Scripts.Render("~/bundles/vendor")
 <div id="ordine" class="modal fade" role="dialog">
     @{ string s = ViewBag.edit;}
 
@@ -80,16 +80,7 @@
                                                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.DesignationId, htmlAttributes: new { @class = "control-label" })
-                                            <div class="input-group">
-                                                @Html.DropDownListFor(model => model.DesignationId, Model.DesignationDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                <span class="input-group-addon" style="   ">
-                                                    <a href="@Url.Action("AddDesignationPartial","Setup")" class="modalShow1">  <i class="fa fa-plus "></i></a>
-                                                </span>
-                                                @Html.ValidationMessageFor(model => model.DesignationId, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
+                                       
                                     </div>
                                 </div>
 
@@ -106,10 +97,27 @@
                                             @Html.ValidationMessageFor(model => model.Commission, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
+
+
                                             @Html.LabelFor(model => model.JoinDate, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.JoinDate, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.JoinDate, "", new { @class = "text-danger" })
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(model => model.JoinDate, new { @class = "form-control unstyled", @data_plugin_datepicker = "true",@placeholder= "MM/dd/yyyy" })
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                                @Html.ValidationMessageFor(model => model.JoinDate, "", new { @class = "text-danger" })
+
+                                            </div>
                                         </div>
+
+
+
+
+
+
+
+
+
                                     </div>
                                 </div>
                             </div>
@@ -125,6 +133,10 @@
     }
     <div id="ModalData1"></div>
     <script>
+        $(document).ready(function () {
+            @*$('#@Html.IdFor(a=>a.JoinDate)').attr("",true);*@
+        }
+            );
         function UpdateDdlDepartment() {
             $.ajax({
                 url: "@Url.Action("GetDepartmentDdl","Setup")",
@@ -137,28 +149,12 @@
                     $.each(result, function (index, value) {
                         $dropdown.append($("<option />").val(value.Id).text(value.Name));
                     });
-                 
+
                 }
             });
-           
+
         }
-        function UpdateDdlDesignation() {
-            $.ajax({
-                url: "@Url.Action("GetDesignationDdl", "Setup")",
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    var $dropdown = $("#@Html.IdFor(a => a.DesignationId)");
-                    $dropdown.empty();
-                    $dropdown.append($("<option />").val('').text("Select an Option"));
-                    $.each(result, function(index,value) {
-                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
-                    });
-                 
-                }
-            });
-           
-        }
+       
         $('a.modalShow1').on('click', function () {
 
 
@@ -184,7 +180,7 @@
     </script>
 
 
-    
+
 
 </div>
 
