@@ -7049,7 +7049,7 @@ html .panel .panel-heading-transparent + .panel-body {
 
 .tabs-vertical .nav-tabs {
 	border-bottom: none;
-	display: table-cell;
+	display: block;
 	height: 100%;
 	float: none;
 	padding: 0;
