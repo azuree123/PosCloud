@@ -328,6 +328,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ExcelImportController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -367,7 +368,6 @@
     <Compile Include="Core\Models\Tax.cs" />
     <Compile Include="Core\Models\TransDetail.cs" />
     <Compile Include="Core\Models\TransMaster.cs" />
-    <Compile Include="Core\Models\Unit.cs" />
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
@@ -449,41 +449,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810160748119_initial.cs" />
-    <Compile Include="Migrations\201810160748119_initial.Designer.cs">
-      <DependentUpon>201810160748119_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810160756021_initial2.cs" />
-    <Compile Include="Migrations\201810160756021_initial2.Designer.cs">
-      <DependentUpon>201810160756021_initial2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810160942269_initial3.cs" />
-    <Compile Include="Migrations\201810160942269_initial3.Designer.cs">
-      <DependentUpon>201810160942269_initial3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810161108022_initial4.cs" />
-    <Compile Include="Migrations\201810161108022_initial4.Designer.cs">
-      <DependentUpon>201810161108022_initial4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810171013271_initial5.cs" />
-    <Compile Include="Migrations\201810171013271_initial5.Designer.cs">
-      <DependentUpon>201810171013271_initial5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810191357226_Init-6.cs" />
-    <Compile Include="Migrations\201810191357226_Init-6.Designer.cs">
-      <DependentUpon>201810191357226_Init-6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810220538152_init-7.cs" />
-    <Compile Include="Migrations\201810220538152_init-7.Designer.cs">
-      <DependentUpon>201810220538152_init-7.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810230808134_Init-8.cs" />
-    <Compile Include="Migrations\201810230808134_Init-8.Designer.cs">
-      <DependentUpon>201810230808134_Init-8.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810250457043_Update-8.cs" />
-    <Compile Include="Migrations\201810250457043_Update-8.Designer.cs">
-      <DependentUpon>201810250457043_Update-8.cs</DependentUpon>
+    <Compile Include="Migrations\201810291122037_new1.cs" />
+    <Compile Include="Migrations\201810291122037_new1.Designer.cs">
+      <DependentUpon>201810291122037_new1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2432,6 +2400,24 @@
     <Content Include="Content\vendor\summernote\font\summernote.woff" />
     <Content Include="Content\javascripts\tables\DataTables\Buttons-1.5.2\css\common.scss" />
     <Content Include="Content\javascripts\tables\DataTables\Buttons-1.5.2\css\mixins.scss" />
+    <Content Include="Content\ImportFormats\StateImport.xls" />
+    <Content Include="Content\ImportFormats\BusinessPartnerImport.xls" />
+    <Content Include="Content\ImportFormats\CityImport.xls" />
+    <Content Include="Content\ImportFormats\CouponImport.xls" />
+    <Content Include="Content\ImportFormats\DepartmentImport.xls" />
+    <Content Include="Content\ImportFormats\DesignationImport.xls" />
+    <Content Include="Content\ImportFormats\EmployeeImport.xls" />
+    <Content Include="Content\ImportFormats\ExpenseHeadImport.xls" />
+    <Content Include="Content\ImportFormats\ExpenseImport.xls" />
+    <Content Include="Content\ImportFormats\ProductCategoryGroupImport.xls" />
+    <Content Include="Content\ImportFormats\ProductCategoryImport.xls" />
+    <Content Include="Content\ImportFormats\ProductImport.xls" />
+    <Content Include="Content\ImportFormats\SaleOrderDetailImport.xls" />
+    <Content Include="Content\ImportFormats\StoreImport.xls" />
+    <Content Include="Content\ImportFormats\SupplierImport.xls" />
+    <Content Include="Content\ImportFormats\TaxImport.xls" />
+    <Content Include="Content\ImportFormats\TransDetailImport.xls" />
+    <Content Include="Content\ImportFormats\TransMasterImport.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -2535,10 +2521,12 @@
     <Content Include="Views\Reports\MiscellaneousReport.cshtml" />
     <Content Include="Views\Reports\ExportingReport.cshtml" />
     <Content Include="Views\Reports\MyReports.cshtml" />
-    <Content Include="Views\Reports\GenerateReport.cshtml" />
+    <Content Include="Views\ExcelImport\StateExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\CityExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Uploads\" />
     <Folder Include="Core\Dtos\" />
     <Folder Include="Core\Shared\" />
     <Folder Include="Images\Data\Product\" />
@@ -2560,32 +2548,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810160748119_initial.resx">
-      <DependentUpon>201810160748119_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810160756021_initial2.resx">
-      <DependentUpon>201810160756021_initial2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810160942269_initial3.resx">
-      <DependentUpon>201810160942269_initial3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810161108022_initial4.resx">
-      <DependentUpon>201810161108022_initial4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810171013271_initial5.resx">
-      <DependentUpon>201810171013271_initial5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810191357226_Init-6.resx">
-      <DependentUpon>201810191357226_Init-6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810220538152_init-7.resx">
-      <DependentUpon>201810220538152_init-7.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810230808134_Init-8.resx">
-      <DependentUpon>201810230808134_Init-8.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810250457043_Update-8.resx">
-      <DependentUpon>201810250457043_Update-8.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810291122037_new1.resx">
+      <DependentUpon>201810291122037_new1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

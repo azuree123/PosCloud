@@ -29,9 +29,10 @@ namespace POSApp.Core.Models
         public string Barcode { get; set; }
         public string Image { get; set; }
         public int CategoryId { get; set; }
-        public virtual ProductCategory ProductCategory { get; set; }
-        public int UnitId { get; set; }
-        public Unit ProductUnit { get; set; }
+        public ProductCategory ProductCategory { get; set; }
+
+        //public int UnitId { get; set; }
+        //public Unit ProductUnit { get; set; }
 
 
     }
