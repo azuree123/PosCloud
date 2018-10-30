@@ -52,6 +52,19 @@
                                         @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
+                                        <div class="input-group">
+                                            @Html.DropDownListFor(model => model.Type, (IEnumerable<SelectListItem>)ViewBag.ddl, "Select an Option", new  { @id="TypeDdl", @class = "form-control", @required = true  })
+                                            <span class="input-group-addon" style="   ">
+                                                <a href="@Url.Action("AddProductCategoryGroupPartial","Products")" class="modalShow1"><i class="fa fa-plus "></i></a>
+                                            </span>
+                                            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -63,6 +76,50 @@
             </div>
         </div>
     }
+    <div id="ModalData2"></div>
+    <script>
+
+        function UpdateDdlCategoryGroup() {
+            $.ajax({
+                url: "@Url.Action("GetProductCategoryGroupDdl", "Products")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+
+                    var $dropdown = $("#TypeDdl");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+
+                }
+            });
+
+        }
+        $('a.modalShow1').on('click', function () {
+
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData2').html(result).find('#ordine3').modal('show');
+                    //newWin = window.open("", "", "width=800, height=600");
+                    //    var query = " <" +"script> $('#AddDepartment').click();</"+"script>";
+                    //    newWin.document.write(result + query);
+
+                    //    if (newWin.closed) {
+                    //        alert("Closed");
+                    //    }
+                }
+            });
+
+            return false;
+        });
+
+    </script>
 </div>
 
 
