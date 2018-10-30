@@ -743,6 +743,190 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("EmployeeList", "Setup");
         }
+
+        //Expense
+
+        public ActionResult ExpenseExcelImport()
+        {
+            ViewBag.edit = "ExpenseExcelImport";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ExpenseExcelImport(HttpPostedFileBase file)
+        {
+            string filepath = string.Empty;
+            if (file != null)
+            {
+                string path = Server.MapPath("~/Content/Uploads/");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                filepath = path + Path.GetFileName(file.FileName);
+                string extension = Path.GetExtension(file.FileName);
+                file.SaveAs(filepath);
+
+                string conString = string.Empty;
+                switch (extension)
+                {
+                    case ".xls":
+                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                        break;
+                    case ".xlsx":
+                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                        break;
+                }
+
+                DataTable dt = new DataTable();
+                conString = string.Format(conString, filepath);
+
+                using (OleDbConnection conExcel = new OleDbConnection(conString))
+                {
+                    using (OleDbCommand cmdExcel = new OleDbCommand())
+                    {
+                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
+                        {
+                            cmdExcel.Connection = conExcel;
+                            conExcel.Open();
+                            DataTable dtExcelSchema;
+                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
+                            conExcel.Close();
+                            conExcel.Open();
+                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
+                            odaExcel.SelectCommand = cmdExcel;
+                            odaExcel.Fill(dt);
+                            conExcel.Close();
+                            if (dt.Rows.Count < 1)
+                            {
+                                conExcel.Open();
+                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                                sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
+                                conExcel.Close();
+                                conExcel.Open();
+                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
+                                odaExcel.SelectCommand = cmdExcel;
+                                odaExcel.Fill(dt);
+                                conExcel.Close();
+                            }
+                        }
+
+                    }
+                }
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Expense NewModel = new Expense();
+                    if (!string.IsNullOrWhiteSpace(dr["Amount"].ToString()))
+                    {
+                        NewModel.Date = DateTime.Parse(dr["Date"].ToString());
+                        NewModel.Amount = double.Parse(dr["Amount"].ToString());
+                        NewModel.ExpenseHeadId = Int32.Parse(dr["ExpenseHeadId"].ToString());
+                        NewModel.EmployeeId = Int32.Parse(dr["EmployeeId"].ToString());
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.ExpenseRepository.AddExpense(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+
+            }
+            return RedirectToAction("ExpenseList", "Expense");
+        }
+
+        //ExpenseHead
+
+        public ActionResult ExpenseHeadExcelImport()
+        {
+            ViewBag.edit = "ExpenseHeadExcelImport";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ExpenseHeadExcelImport(HttpPostedFileBase file)
+        {
+            string filepath = string.Empty;
+            if (file != null)
+            {
+                string path = Server.MapPath("~/Content/Uploads/");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                filepath = path + Path.GetFileName(file.FileName);
+                string extension = Path.GetExtension(file.FileName);
+                file.SaveAs(filepath);
+
+                string conString = string.Empty;
+                switch (extension)
+                {
+                    case ".xls":
+                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                        break;
+                    case ".xlsx":
+                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                        break;
+                }
+
+                DataTable dt = new DataTable();
+                conString = string.Format(conString, filepath);
+
+                using (OleDbConnection conExcel = new OleDbConnection(conString))
+                {
+                    using (OleDbCommand cmdExcel = new OleDbCommand())
+                    {
+                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
+                        {
+                            cmdExcel.Connection = conExcel;
+                            conExcel.Open();
+                            DataTable dtExcelSchema;
+                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
+                            conExcel.Close();
+                            conExcel.Open();
+                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
+                            odaExcel.SelectCommand = cmdExcel;
+                            odaExcel.Fill(dt);
+                            conExcel.Close();
+                            if (dt.Rows.Count < 1)
+                            {
+                                conExcel.Open();
+                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                                sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
+                                conExcel.Close();
+                                conExcel.Open();
+                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
+                                odaExcel.SelectCommand = cmdExcel;
+                                odaExcel.Fill(dt);
+                                conExcel.Close();
+                            }
+                        }
+
+                    }
+                }
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    ExpenseHead NewModel = new ExpenseHead();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        NewModel.Details = dr["Details"].ToString();
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.ExpenseHeadRepository.AddExpenseHead(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+
+            }
+            return RedirectToAction("ExpenseHeadList", "Expense");
+        }
         public ApplicationUserManager UserManager
         {
             get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
