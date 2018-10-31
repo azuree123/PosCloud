@@ -13,7 +13,7 @@ namespace POSApp.Core.Models
         public int StoreId { get; set; }
         public Store Store { get; set; }
 
-        public string Type { get; set; }
+        public string Type { get; set; }  //INV or PRI
         public string TransCode { get; set; }
 
         public int BusinessPartnerId { get; set; }
