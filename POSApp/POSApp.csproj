@@ -377,6 +377,7 @@
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
     <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
+    <Compile Include="Core\Repositories\IUnitRepository.cs" />
     <Compile Include="Core\Repositories\IStoreRepository.cs" />
     <Compile Include="Core\Repositories\ITaxRepository.cs" />
     <Compile Include="Core\Repositories\ITransDetailRepository.cs" />
@@ -450,6 +451,7 @@
     <Compile Include="Core\ViewModels\TaxViewModel.cs" />
     <Compile Include="Core\ViewModels\TransDetailViewModel.cs" />
     <Compile Include="Core\ViewModels\TransMasterViewModel.cs" />
+    <Compile Include="Core\ViewModels\UnitViewModel.cs" />
     <Compile Include="Core\ViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -548,6 +550,7 @@
     <Compile Include="Persistence\Repositories\TaxRepository.cs" />
     <Compile Include="Persistence\Repositories\TransDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\TransMasterRepository.cs" />
+    <Compile Include="Persistence\Repositories\UnitRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ExcelService.cs" />
@@ -2586,6 +2589,8 @@
     <Content Include="Views\ExcelImport\ProductCategoryExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\ProductCategoryGroupExcelImport.cshtml" />
     <Content Include="Views\PurchaseOrders\PoTable.cshtml" />
+    <Content Include="Views\Setup\UnitList.cshtml" />
+    <Content Include="Views\Setup\AddUnit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

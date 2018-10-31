@@ -891,8 +891,80 @@ namespace POSApp.Controllers
             return RedirectToAction("CouponList", "Setup");
         }
 
+        //Unit
 
+        public ActionResult UnitList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.UnitRepository.GetUnit((int)user.StoreId));
+        }
+        [HttpGet]
+        public ActionResult AddUnit()
+        {
+            ViewBag.edit = "AddUnit";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddUnit(UnitViewModel unitVm)
+        {
+            ViewBag.edit = "AddUnit";
+            if (!ModelState.IsValid)
+            {
+                return View(unitVm);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Unit unit = Mapper.Map<Unit>(unitVm);
+                unit.StoreId = (int)user.StoreId;
+                _unitOfWork.UnitRepository.AddUnit(unit);
+                _unitOfWork.Complete();
+                return RedirectToAction("UnitList", "Setup");
+            }
 
+        }
+        [HttpGet]
+        public ActionResult UpdateUnit(int id)
+        {
+            ViewBag.edit = "UpdateUnit";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            UnitViewModel unitVm =
+                Mapper.Map<UnitViewModel>(_unitOfWork.UnitRepository.GetUnitById(id, (int)user.StoreId));
+            return View("AddUnit", unitVm);
+        }
+        [HttpPost]
+        public ActionResult UpdateUnit(int id, UnitViewModel unitVm)
+        {
+            ViewBag.edit = "UpdateUnit";
+            if (!ModelState.IsValid)
+            {
+                return View("AddUnit", unitVm);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Unit unit = Mapper.Map<Unit>(unitVm);
+                _unitOfWork.UnitRepository.UpdateUnit(id, unit, (int)user.StoreId);
+                _unitOfWork.Complete();
+                return RedirectToAction("UnitList", "Setup");
+
+            }
+
+        }
+        public ActionResult DeleteUnit(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.UnitRepository.DeleteUnit(id,(int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("UnitList", "Setup");
+        }
+
+       
         public JsonResult GetDepartmentDdl()
         {
             try
