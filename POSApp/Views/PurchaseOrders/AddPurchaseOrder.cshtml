@@ -20,6 +20,8 @@
 
         </div>
     </div>
+    @using (Html.BeginForm())
+    {
     <div class="row mt-lg">
 
 
@@ -61,7 +63,8 @@
                                         <label class="control-label">  Purchase order Date</label>
 
                                         <div class="input-group">
-                                            <input type="text" data-plugin-datepicker="true" class="form-control unstyled">
+                                            @Html.TextBoxFor(a=>a.TransDate,new{ @class = "form-control unstyled", @data_plugin_datepicker = "true",@required="true" })
+                                            @*<input type="text" data-plugin-datepicker="true" class="form-control unstyled">*@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </span>
@@ -138,6 +141,7 @@
             </div>
         </div>
     </div>
+    }
 </div>
 
 
