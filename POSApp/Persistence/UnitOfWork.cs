@@ -36,7 +36,8 @@ namespace POSApp.Persistence
         public IBusinessPartnerRepository BusinessPartnerRepository { get; private set; }
         public IReportsLogRepository ReportsLogRepository { get; private set; }
 
-       public IAppCountersRepository AppCountersRepository { get; private set; }
+        public IAppCountersRepository AppCountersRepository { get; private set; }
+        public IClientRepository ClientRepository { get; private set; }
 
         public UnitOfWork(PosDbContext context)
         {
@@ -67,6 +68,7 @@ namespace POSApp.Persistence
             TransMasterRepository = new TransMasterRepository(context);
             ReportsLogRepository = new ReportsLogRepository(context);
             AppCountersRepository=new AppCountersRepository(context);
+            ClientRepository = new ClientRepository(context);
         }
 
         public void Complete()
