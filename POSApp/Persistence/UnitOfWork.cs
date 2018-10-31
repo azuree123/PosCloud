@@ -69,6 +69,8 @@ namespace POSApp.Persistence
             TransMasterRepository = new TransMasterRepository(context);
             ReportsLogRepository = new ReportsLogRepository(context);
             AppCountersRepository=new AppCountersRepository(context);
+            UnitRepository=new UnitRepository(context);
+            ClientRepository=new ClientRepository(context);
         }
 
         public void Complete()

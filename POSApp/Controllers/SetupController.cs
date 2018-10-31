@@ -900,6 +900,75 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("CouponList", "Setup");
         }
+        public ActionResult UnitList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.UnitRepository.GetUnit((int)user.StoreId));
+        }
+        [HttpGet]
+        public ActionResult AddUnit()
+        {
+            ViewBag.edit = "AddUnit";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddUnit(UnitViewModel unitMv)
+        {
+            ViewBag.edit = "AddUnit";
+            if (!ModelState.IsValid)
+            {
+                return View(unitMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Unit location = Mapper.Map<Unit>(unitMv);
+                location.StoreId = (int)user.StoreId;
+                _unitOfWork.UnitRepository.AddUnit(location);
+                _unitOfWork.Complete();
+                return RedirectToAction("UnitList", "Setup");
+            }
+
+        }
+        [HttpGet]
+        public ActionResult UpdateUnit(int id)
+        {
+            ViewBag.edit = "UpdateUnit";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            UnitViewModel unitMv =
+                Mapper.Map<UnitViewModel>(_unitOfWork.UnitRepository.GetUnitById(id, (int)user.StoreId));
+            return View("AddUnit", unitMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateUnit(int id, UnitViewModel unitMv)
+        {
+            ViewBag.edit = "UpdateUnit";
+            if (!ModelState.IsValid)
+            {
+                return View("AddUnit", unitMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Unit location = Mapper.Map<Unit>(unitMv);
+                _unitOfWork.UnitRepository.UpdateUnit(id, location, (int)user.StoreId);
+                _unitOfWork.Complete();
+                return RedirectToAction("UnitList", "Setup");
+            }
+
+        }
+        public ActionResult DeleteUnit(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.UnitRepository.DeleteUnit(id, (int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("UnitList", "Setup");
+        }
         public ActionResult ClientList()
         {
             var userid = User.Identity.GetUserId();
@@ -913,7 +982,7 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddClient(Client clientMv, HttpPostedFileBase file)
+        public ActionResult AddClient(ClientViewModel clientMv, HttpPostedFileBase file)
         {
             ViewBag.edit = "AddClient";
             if (!ModelState.IsValid)
@@ -945,7 +1014,8 @@ namespace POSApp.Controllers
                     }
 
                 }
-                _unitOfWork.ClientRepository.AddClient(clientMv);
+                
+                _unitOfWork.ClientRepository.AddClient(Mapper.Map<Client>(clientMv));
                 _unitOfWork.Complete();
                 return RedirectToAction("ClientList", "Setup");
             }
@@ -955,13 +1025,13 @@ namespace POSApp.Controllers
         public ActionResult UpdateClient(int id)
         {
             ViewBag.edit = "UpdateClient";
-            
-            Client clientMv =
-                (_unitOfWork.ClientRepository.GetClient(id));
+
+            ClientViewModel clientMv =
+                Mapper.Map<ClientViewModel>(_unitOfWork.ClientRepository.GetClient(id));
             return View("AddClient", clientMv);
         }
         [HttpPost]
-        public ActionResult UpdateClient(int id, Client clientMv, HttpPostedFileBase file)
+        public ActionResult UpdateClient(int id, ClientViewModel clientMv, HttpPostedFileBase file)
         {
             ViewBag.edit = "UpdateClient";
             if (!ModelState.IsValid)
@@ -993,7 +1063,7 @@ namespace POSApp.Controllers
                     }
 
                 }
-                _unitOfWork.ClientRepository.UpdateClient(id, clientMv);
+                _unitOfWork.ClientRepository.UpdateClient(id, Mapper.Map<Client>(clientMv));
                 _unitOfWork.Complete();
                 return RedirectToAction("ClientList", "Setup");
             }
