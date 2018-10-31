@@ -13,6 +13,16 @@ namespace POSApp.Core.Shared
 
         public static void AddToTemptTransDetail(Product product,int qty,decimal cost,string userId)
         {
+            TransDetailViewModel checkTrans = temptTransDetail
+                .Where(a => a.ProductId == product.Id && a.UnitPrice == cost && a.CreatedByUserId == userId).ToList()
+                .FirstOrDefault();
+            if (checkTrans != null)
+            {
+                checkTrans.Quantity+=qty;
+            }
+            else
+            {
+
             TransDetailViewModel transDetail=new TransDetailViewModel
             {
                 Discount = 0,
@@ -23,7 +33,10 @@ namespace POSApp.Core.Shared
                 CreatedByUserId = userId,
                 ProductName = product.Name
             };
+            
             temptTransDetail.Add(transDetail);
+            }
+
         }
         public static void RemoveFromTemptTransDetail(int  product,int storeId, string userId)
         {

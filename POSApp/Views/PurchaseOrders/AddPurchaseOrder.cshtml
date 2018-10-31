@@ -20,6 +20,8 @@
 
         </div>
     </div>
+    @using (Html.BeginForm())
+    {
     <div class="row mt-lg">
 
 
@@ -61,7 +63,8 @@
                                         <label class="control-label">  Purchase order Date</label>
 
                                         <div class="input-group">
-                                            <input type="text" data-plugin-datepicker="true" class="form-control unstyled">
+                                            @Html.TextBoxFor(a=>a.TransDate,new{ @class = "form-control unstyled", @data_plugin_datepicker = "true",@required="true" })
+                                            @*<input type="text" data-plugin-datepicker="true" class="form-control unstyled">*@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </span>
@@ -103,7 +106,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td colspan="41" class="text-center">No records found</td>
+                                                <td colspan="5" class="text-center">No records found</td>
                                             </tr>
 
                                         </tbody>
@@ -138,6 +141,7 @@
             </div>
         </div>
     </div>
+    }
 </div>
 
 
@@ -145,10 +149,8 @@
 @section scripts
 {
     <script>
-        $('#datatable-default').dataTable();
 
         $('a.modalShow').on('click', function () {
-
             $.ajax({
                 url: this.href,
                 type: 'GET',
@@ -160,6 +162,7 @@
 
             return false;
         });
+        $('#datatable-default').dataTable();
     </script>
 }
 

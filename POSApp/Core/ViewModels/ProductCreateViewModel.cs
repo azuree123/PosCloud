@@ -16,6 +16,7 @@ namespace POSApp.Core.ViewModels
         public string ProductCode { get; set; }
         public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
         public string Size { get; set; }//MED, SML, LRG,XRG, Child,
+        [DisplayName("Tax")]
         public int? TaxId { get; set; }
         public bool IsTaxable { get; set; }
 
@@ -35,6 +36,7 @@ namespace POSApp.Core.ViewModels
         public string Image { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
+        [DisplayName("Unit")]
         public int UnitId { get; set; }
         public IEnumerable<SelectListItem> CategoryDdl { get; set; }
         public IEnumerable<SelectListItem> SupplierDdl { get; set; }
