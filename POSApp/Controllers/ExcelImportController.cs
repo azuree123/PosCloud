@@ -444,7 +444,10 @@ namespace POSApp.Controllers
                         NewModel.ProductCode = dr["ProductCode"].ToString();
                         NewModel.Attribute = dr["Attribute"].ToString();
                         NewModel.Size = dr["Size"].ToString();
+                        if (!string.IsNullOrEmpty(dr["TaxId"].ToString()))
+                        {
                         NewModel.TaxId =Int32.Parse(dr["TaxId"].ToString());
+                        }
                         NewModel.UnitPrice =double.Parse(dr["UnitPrice"].ToString());
                         NewModel.CostPrice = double.Parse(dr["CostPrice"].ToString());
                         NewModel.Stock = double.Parse(dr["Stock"].ToString());
@@ -453,6 +456,7 @@ namespace POSApp.Controllers
                         NewModel.CategoryId = Int32.Parse(dr["CategoryId"].ToString());
                         NewModel.UnitId = Int32.Parse(dr["UnitId"].ToString());
                         NewModel.StoreId = (int)user.StoreId;
+                        NewModel.Type = "Product";
                         _unitOfWork.ProductRepository.AddProduct(NewModel);
                     }
                 }
@@ -526,6 +530,10 @@ namespace POSApp.Controllers
 
             return RedirectToAction("ProductCategoryGroupList", "Products");
         }
+
+      
+
+     
         public ApplicationUserManager UserManager
         {
             get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
