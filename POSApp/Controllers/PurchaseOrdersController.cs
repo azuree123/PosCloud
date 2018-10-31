@@ -45,5 +45,10 @@ namespace POSApp.Controllers
             return View();
         }
 
+        public ActionResult AddTransactionItem()
+        {
+            return View();
+        }
+
     }
 }
