@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
@@ -18,6 +19,7 @@ namespace POSApp.Controllers
     {
         private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;
+
 
         public ExcelImportController()
         {
@@ -39,70 +41,12 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult StateExcelImport(HttpPostedFileBase file)
         {
-            string filepath = string.Empty;
-            if (file != null)
-            {
-                string path = Server.MapPath("~/Content/Uploads/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+            
+            DataTable dt = ImportService.GetExcelData(file);
 
-                filepath = path + Path.GetFileName(file.FileName);
-                string extension = Path.GetExtension(file.FileName);
-                file.SaveAs(filepath);
-
-                string conString = string.Empty;
-                switch (extension)
-                {
-                    case ".xls":
-                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx":
-                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-                }
-
-                DataTable dt = new DataTable();
-                conString = string.Format(conString, filepath);
-
-                using (OleDbConnection conExcel = new OleDbConnection(conString))
-                {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
-                    {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = conExcel;
-                            conExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            conExcel.Close();
-                            conExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            conExcel.Close();
-                            if (dt.Rows.Count < 1)
-                            {
-                                conExcel.Open();
-                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                                sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
-                                conExcel.Close();
-                                conExcel.Open();
-                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                                odaExcel.SelectCommand = cmdExcel;
-                                odaExcel.Fill(dt);
-                                conExcel.Close();
-                            }
-                        }
-
-                    }
-                }
-
-                //var userid = User.Identity.GetUserId();
-                //var user = UserManager.FindById(userid);
-                foreach (DataRow dr in dt.Rows)
+            //var userid = User.Identity.GetUserId();
+            //var user = UserManager.FindById(userid);
+            foreach (DataRow dr in dt.Rows)
                 {
                     State NewModel = new State();
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
@@ -113,7 +57,7 @@ namespace POSApp.Controllers
                 }
                 _unitOfWork.Complete();
 
-            }
+            
                 return RedirectToAction("StateList", "Setup");
         }
         [HttpGet]
@@ -125,70 +69,12 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult CityExcelImport(HttpPostedFileBase file)
         {
-            string filepath = string.Empty;
-            if (file != null)
-            {
-                string path = Server.MapPath("~/Content/Uploads/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+            
+            DataTable dt = ImportService.GetExcelData(file);
 
-                filepath = path + Path.GetFileName(file.FileName);
-                string extension = Path.GetExtension(file.FileName);
-                file.SaveAs(filepath);
-
-                string conString = string.Empty;
-                switch (extension)
-                {
-                    case ".xls":
-                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx":
-                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-                }
-
-                DataTable dt = new DataTable();
-                conString = string.Format(conString, filepath);
-
-                using (OleDbConnection conExcel = new OleDbConnection(conString))
-                {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
-                    {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = conExcel;
-                            conExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            conExcel.Close();
-                            conExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            conExcel.Close();
-                            if (dt.Rows.Count < 1)
-                            {
-                                conExcel.Open();
-                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                                sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
-                                conExcel.Close();
-                                conExcel.Open();
-                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                                odaExcel.SelectCommand = cmdExcel;
-                                odaExcel.Fill(dt);
-                                conExcel.Close();
-                            }
-                        }
-
-                    }
-                }
-
-                //var userid = User.Identity.GetUserId();
-                //var user = UserManager.FindById(userid);
-                foreach (DataRow dr in dt.Rows)
+            //var userid = User.Identity.GetUserId();
+            //var user = UserManager.FindById(userid);
+            foreach (DataRow dr in dt.Rows)
                 {
                     City NewModel = new City();
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
@@ -200,7 +86,7 @@ namespace POSApp.Controllers
                 }
                 _unitOfWork.Complete();
 
-            }
+            
             return RedirectToAction("CityList", "Setup");
         }
 
@@ -213,68 +99,10 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult TaxExcelImport(HttpPostedFileBase file)
         {
-            string filepath = string.Empty;
-            if (file != null)
-            {
-                string path = Server.MapPath("~/Content/Uploads/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+            
+            DataTable dt = ImportService.GetExcelData(file);
 
-                filepath = path + Path.GetFileName(file.FileName);
-                string extension = Path.GetExtension(file.FileName);
-                file.SaveAs(filepath);
-
-                string conString = string.Empty;
-                switch (extension)
-                {
-                    case ".xls":
-                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx":
-                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-                }
-
-                DataTable dt = new DataTable();
-                conString = string.Format(conString, filepath);
-
-                using (OleDbConnection conExcel = new OleDbConnection(conString))
-                {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
-                    {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = conExcel;
-                            conExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            conExcel.Close();
-                            conExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            conExcel.Close();
-                            if (dt.Rows.Count < 1)
-                            {
-                                conExcel.Open();
-                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                                 sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
-                                conExcel.Close();
-                                conExcel.Open();
-                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                                odaExcel.SelectCommand = cmdExcel;
-                                odaExcel.Fill(dt);
-                                conExcel.Close();
-                            }
-                        }
-
-                    }
-                }
-
-                var userid = User.Identity.GetUserId();
+            var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -289,7 +117,7 @@ namespace POSApp.Controllers
                 }
                 _unitOfWork.Complete();
 
-            }
+            
             return RedirectToAction("TaxList", "Setup");
         }
 
@@ -302,68 +130,10 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult DiscountExcelImport(HttpPostedFileBase file)
         {
-            string filepath = string.Empty;
-            if (file != null)
-            {
-                string path = Server.MapPath("~/Content/Uploads/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+            
+            DataTable dt = ImportService.GetExcelData(file);
 
-                filepath = path + Path.GetFileName(file.FileName);
-                string extension = Path.GetExtension(file.FileName);
-                file.SaveAs(filepath);
-
-                string conString = string.Empty;
-                switch (extension)
-                {
-                    case ".xls":
-                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx":
-                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-                }
-
-                DataTable dt = new DataTable();
-                conString = string.Format(conString, filepath);
-
-                using (OleDbConnection conExcel = new OleDbConnection(conString))
-                {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
-                    {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = conExcel;
-                            conExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            conExcel.Close();
-                            conExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            conExcel.Close();
-                            if (dt.Rows.Count < 1)
-                            {
-                                conExcel.Open();
-                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                                sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
-                                conExcel.Close();
-                                conExcel.Open();
-                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                                odaExcel.SelectCommand = cmdExcel;
-                                odaExcel.Fill(dt);
-                                conExcel.Close();
-                            }
-                        }
-
-                    }
-                }
-
-                var userid = User.Identity.GetUserId();
+            var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -378,7 +148,7 @@ namespace POSApp.Controllers
                 }
                 _unitOfWork.Complete();
 
-            }
+            
             return RedirectToAction("DiscountList", "Setup");
         }
         public ActionResult CouponExcelImport()
@@ -390,68 +160,10 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult CouponExcelImport(HttpPostedFileBase file)
         {
-            string filepath = string.Empty;
-            if (file != null)
-            {
-                string path = Server.MapPath("~/Content/Uploads/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+            
+            DataTable dt = ImportService.GetExcelData(file);
 
-                filepath = path + Path.GetFileName(file.FileName);
-                string extension = Path.GetExtension(file.FileName);
-                file.SaveAs(filepath);
-
-                string conString = string.Empty;
-                switch (extension)
-                {
-                    case ".xls":
-                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx":
-                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-                }
-
-                DataTable dt = new DataTable();
-                conString = string.Format(conString, filepath);
-
-                using (OleDbConnection conExcel = new OleDbConnection(conString))
-                {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
-                    {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = conExcel;
-                            conExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            conExcel.Close();
-                            conExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            conExcel.Close();
-                            if (dt.Rows.Count < 1)
-                            {
-                                conExcel.Open();
-                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                                sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
-                                conExcel.Close();
-                                conExcel.Open();
-                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                                odaExcel.SelectCommand = cmdExcel;
-                                odaExcel.Fill(dt);
-                                conExcel.Close();
-                            }
-                        }
-
-                    }
-                }
-
-                var userid = User.Identity.GetUserId();
+            var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -467,7 +179,7 @@ namespace POSApp.Controllers
                 }
                 _unitOfWork.Complete();
 
-            }
+            
             return RedirectToAction("DiscountList", "Setup");
         }
 
@@ -480,68 +192,10 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult CustomerExcelImport(HttpPostedFileBase file)
         {
-            string filepath = string.Empty;
-            if (file != null)
-            {
-                string path = Server.MapPath("~/Content/Uploads/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+            
+            DataTable dt = ImportService.GetExcelData(file);
 
-                filepath = path + Path.GetFileName(file.FileName);
-                string extension = Path.GetExtension(file.FileName);
-                file.SaveAs(filepath);
-
-                string conString = string.Empty;
-                switch (extension)
-                {
-                    case ".xls":
-                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx":
-                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-                }
-
-                DataTable dt = new DataTable();
-                conString = string.Format(conString, filepath);
-
-                using (OleDbConnection conExcel = new OleDbConnection(conString))
-                {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
-                    {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = conExcel;
-                            conExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            conExcel.Close();
-                            conExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            conExcel.Close();
-                            if (dt.Rows.Count < 1)
-                            {
-                                conExcel.Open();
-                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                                sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
-                                conExcel.Close();
-                                conExcel.Open();
-                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                                odaExcel.SelectCommand = cmdExcel;
-                                odaExcel.Fill(dt);
-                                conExcel.Close();
-                            }
-                        }
-
-                    }
-                }
-
-                var userid = User.Identity.GetUserId();
+            var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -558,7 +212,7 @@ namespace POSApp.Controllers
                 }
                 _unitOfWork.Complete();
 
-            }
+            
             return RedirectToAction("CustomerList", "Setup");
         }
 
@@ -571,70 +225,12 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult DepartmentExcelImport(HttpPostedFileBase file)
         {
-            string filepath = string.Empty;
-            if (file != null)
-            {
-                string path = Server.MapPath("~/Content/Uploads/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+            
+            DataTable dt = ImportService.GetExcelData(file);
 
-                filepath = path + Path.GetFileName(file.FileName);
-                string extension = Path.GetExtension(file.FileName);
-                file.SaveAs(filepath);
-
-                string conString = string.Empty;
-                switch (extension)
-                {
-                    case ".xls":
-                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx":
-                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-                }
-
-                DataTable dt = new DataTable();
-                conString = string.Format(conString, filepath);
-
-                using (OleDbConnection conExcel = new OleDbConnection(conString))
-                {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
-                    {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = conExcel;
-                            conExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            conExcel.Close();
-                            conExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            conExcel.Close();
-                            if (dt.Rows.Count < 1)
-                            {
-                                conExcel.Open();
-                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                                sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
-                                conExcel.Close();
-                                conExcel.Open();
-                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                                odaExcel.SelectCommand = cmdExcel;
-                                odaExcel.Fill(dt);
-                                conExcel.Close();
-                            }
-                        }
-
-                    }
-                }
-
-                //var userid = User.Identity.GetUserId();
-                //var user = UserManager.FindById(userid);
-                foreach (DataRow dr in dt.Rows)
+            //var userid = User.Identity.GetUserId();
+            //var user = UserManager.FindById(userid);
+            foreach (DataRow dr in dt.Rows)
                 {
                     Department NewModel = new Department();
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
@@ -645,7 +241,7 @@ namespace POSApp.Controllers
                 }
                 _unitOfWork.Complete();
 
-            }
+            
             return RedirectToAction("DepartmentList", "Setup");
         }
 
@@ -659,68 +255,10 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult EmployeeExcelImport(HttpPostedFileBase file)
         {
-            string filepath = string.Empty;
-            if (file != null)
-            {
-                string path = Server.MapPath("~/Content/Uploads/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+            
+            DataTable dt = ImportService.GetExcelData(file);
 
-                filepath = path + Path.GetFileName(file.FileName);
-                string extension = Path.GetExtension(file.FileName);
-                file.SaveAs(filepath);
-
-                string conString = string.Empty;
-                switch (extension)
-                {
-                    case ".xls":
-                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx":
-                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-                }
-
-                DataTable dt = new DataTable();
-                conString = string.Format(conString, filepath);
-
-                using (OleDbConnection conExcel = new OleDbConnection(conString))
-                {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
-                    {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = conExcel;
-                            conExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            conExcel.Close();
-                            conExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            conExcel.Close();
-                            if (dt.Rows.Count < 1)
-                            {
-                                conExcel.Open();
-                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                                sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
-                                conExcel.Close();
-                                conExcel.Open();
-                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                                odaExcel.SelectCommand = cmdExcel;
-                                odaExcel.Fill(dt);
-                                conExcel.Close();
-                            }
-                        }
-
-                    }
-                }
-
-                var userid = User.Identity.GetUserId();
+            var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -740,7 +278,7 @@ namespace POSApp.Controllers
                 }
                 _unitOfWork.Complete();
 
-            }
+            
             return RedirectToAction("EmployeeList", "Setup");
         }
 
@@ -755,68 +293,10 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult ExpenseExcelImport(HttpPostedFileBase file)
         {
-            string filepath = string.Empty;
-            if (file != null)
-            {
-                string path = Server.MapPath("~/Content/Uploads/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+            
+            DataTable dt = ImportService.GetExcelData(file);
 
-                filepath = path + Path.GetFileName(file.FileName);
-                string extension = Path.GetExtension(file.FileName);
-                file.SaveAs(filepath);
-
-                string conString = string.Empty;
-                switch (extension)
-                {
-                    case ".xls":
-                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx":
-                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-                }
-
-                DataTable dt = new DataTable();
-                conString = string.Format(conString, filepath);
-
-                using (OleDbConnection conExcel = new OleDbConnection(conString))
-                {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
-                    {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = conExcel;
-                            conExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            conExcel.Close();
-                            conExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            conExcel.Close();
-                            if (dt.Rows.Count < 1)
-                            {
-                                conExcel.Open();
-                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                                sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
-                                conExcel.Close();
-                                conExcel.Open();
-                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                                odaExcel.SelectCommand = cmdExcel;
-                                odaExcel.Fill(dt);
-                                conExcel.Close();
-                            }
-                        }
-
-                    }
-                }
-
-                var userid = User.Identity.GetUserId();
+            var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -833,7 +313,7 @@ namespace POSApp.Controllers
                 }
                 _unitOfWork.Complete();
 
-            }
+            
             return RedirectToAction("ExpenseList", "Expense");
         }
 
@@ -848,68 +328,10 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult ExpenseHeadExcelImport(HttpPostedFileBase file)
         {
-            string filepath = string.Empty;
-            if (file != null)
-            {
-                string path = Server.MapPath("~/Content/Uploads/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+            
+            DataTable dt = ImportService.GetExcelData(file);
 
-                filepath = path + Path.GetFileName(file.FileName);
-                string extension = Path.GetExtension(file.FileName);
-                file.SaveAs(filepath);
-
-                string conString = string.Empty;
-                switch (extension)
-                {
-                    case ".xls":
-                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx":
-                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-                }
-
-                DataTable dt = new DataTable();
-                conString = string.Format(conString, filepath);
-
-                using (OleDbConnection conExcel = new OleDbConnection(conString))
-                {
-                    using (OleDbCommand cmdExcel = new OleDbCommand())
-                    {
-                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = conExcel;
-                            conExcel.Open();
-                            DataTable dtExcelSchema;
-                            dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            conExcel.Close();
-                            conExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            conExcel.Close();
-                            if (dt.Rows.Count < 1)
-                            {
-                                conExcel.Open();
-                                dtExcelSchema = conExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                                sheetName = dtExcelSchema.Rows[1]["TABLE_NAME"].ToString();
-                                conExcel.Close();
-                                conExcel.Open();
-                                cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                                odaExcel.SelectCommand = cmdExcel;
-                                odaExcel.Fill(dt);
-                                conExcel.Close();
-                            }
-                        }
-
-                    }
-                }
-
-                var userid = User.Identity.GetUserId();
+            var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -924,8 +346,120 @@ namespace POSApp.Controllers
                 }
                 _unitOfWork.Complete();
 
-            }
+            
             return RedirectToAction("ExpenseHeadList", "Expense");
+        }
+
+        //Store
+
+        public ActionResult StoreExcelImport()
+        {
+            ViewBag.edit = "StoreExcelImport";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult StoreExcelImport(HttpPostedFileBase file)
+        {
+            
+            DataTable dt = ImportService.GetExcelData(file);
+
+            //var userid = User.Identity.GetUserId();
+            //var user = UserManager.FindById(userid);
+            foreach (DataRow dr in dt.Rows)
+                {
+                    Store NewModel = new Store();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        NewModel.Address = dr["Address"].ToString();
+                        //NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.StoreRepository.AddStore(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+
+            
+            return RedirectToAction("StoresList", "Store");
+        }
+
+        //Supplier
+
+        public ActionResult SupplierExcelImport()
+        {
+            ViewBag.edit = "SupplierExcelImport";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SupplierExcelImport(HttpPostedFileBase file)
+        {
+            
+            DataTable dt = ImportService.GetExcelData(file);
+
+            var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Supplier NewModel = new Supplier();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        NewModel.ContactPerson = dr["ContactPerson"].ToString();
+                        NewModel.PhoneNumber = dr["PhoneNumber"].ToString();
+                        NewModel.CpMobileNumber = dr["CpMobileNumber"].ToString();
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.SupplierRepository.AddSupplier(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+
+            
+            return RedirectToAction("SupplierList", "Setup");
+        }
+
+        //Product
+
+        public ActionResult ProductExcelImport()
+        {
+            ViewBag.edit = "ProductExcelImport";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ProductExcelImport(HttpPostedFileBase file)
+        {
+                
+             DataTable dt= ImportService.GetExcelData(file);
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Product NewModel = new Product();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        NewModel.Description = dr["Description"].ToString();
+                        NewModel.ProductCode = dr["ProductCode"].ToString();
+                        NewModel.Attribute = dr["Attribute"].ToString();
+                        NewModel.Size = dr["Size"].ToString();
+                        NewModel.TaxId =Int32.Parse(dr["TaxId"].ToString());
+                        NewModel.UnitPrice =double.Parse(dr["UnitPrice"].ToString());
+                        NewModel.CostPrice = double.Parse(dr["CostPrice"].ToString());
+                        NewModel.Stock = double.Parse(dr["Stock"].ToString());
+                        NewModel.ReOrderLevel = Int32.Parse(dr["ReOrderLevel"].ToString());
+                        NewModel.Barcode = dr["Barcode"].ToString();
+                        NewModel.CategoryId = Int32.Parse(dr["CategoryId"].ToString());
+                        NewModel.UnitId = Int32.Parse(dr["UnitId"].ToString());
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.ProductRepository.AddProduct(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+
+            
+            return RedirectToAction("ProductsList", "Products");
         }
         public ApplicationUserManager UserManager
         {

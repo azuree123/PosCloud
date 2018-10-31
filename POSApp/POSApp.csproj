@@ -531,6 +531,7 @@
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ExcelService.cs" />
+    <Compile Include="Services\ImportService.cs" />
     <Compile Include="Services\IUserInfoService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -2434,7 +2435,6 @@
     <Content Include="Content\ImportFormats\ExpenseImport.xls" />
     <Content Include="Content\ImportFormats\ProductCategoryGroupImport.xls" />
     <Content Include="Content\ImportFormats\ProductCategoryImport.xls" />
-    <Content Include="Content\ImportFormats\ProductImport.xls" />
     <Content Include="Content\ImportFormats\SaleOrderDetailImport.xls" />
     <Content Include="Content\ImportFormats\StoreImport.xls" />
     <Content Include="Content\ImportFormats\SupplierImport.xls" />
@@ -2443,6 +2443,7 @@
     <Content Include="Content\ImportFormats\TransMasterImport.xls" />
     <Content Include="Content\ImportFormats\DiscountImport.xls" />
     <Content Include="Content\ImportFormats\CustomerImport.xls" />
+    <Content Include="Content\ImportFormats\ProductImport.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -2555,6 +2556,9 @@
     <Content Include="Views\ExcelImport\DepartmentExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\EmployeeExcelImport.cshtml" />
     <Content Include="Views\Reports\GenerateReport.cshtml" />
+    <Content Include="Views\ExcelImport\StoreExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\SupplierExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ProductExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -59,7 +59,12 @@
                         <h3 class="wb-color" style="flex-grow: 8"><b>Suppliers</b></h3>
 
 
-                        <a href="@Url.Action("AddSupplier", "Setup")" class="modalShow">
+                        <a href="@Url.Action("SupplierExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+                        </a>
+
+                        <a href="@Url.Action("AddSupplier", "Setup")" class="modalShow" style="flex-grow: 0">
                             <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Supplier</button>
 
                         </a>
@@ -94,9 +99,9 @@
                                 <td>@supplier.Name</td>
                                 <td>@supplier.Email</td>
                                 <td>@supplier.PhoneNumber</td>
-                                <td>@supplier.CpMobileNumber</td>
                                 <td>@supplier.Address</td>
                                 <td>@supplier.ContactPerson</td>
+                                <td>@supplier.CpMobileNumber</td>
                                 <td class="center">
                                     @Html.ActionLink(" ", "UpdateSupplier", "Setup", new { id = @supplier.Id, storeId = @supplier.StoreId }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow" })
                                     @Html.ActionLink(" ", "DeleteSupplier", "Setup", new { id = @supplier.Id, storeId = @supplier.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
