@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<SelectListItem>
 
 @{
     Layout = null;
@@ -43,11 +43,16 @@
                                                 Inventory Item
                                             </label>
 
-                                            <select   class="form-control populate selectddl" style="width:100%">
-                                                <optgroup label="Choose Items">
-                                                    <option value="Ketchup">Ketchup</option>
-                                                    <option value="Petty">Petty</option>
-                                                </optgroup>
+                                            <select name="ProductId" class="form-control populate selectddl" style="width:100%">
+                                                @*<optgroup label="Choose Items">*@
+                                                <option value="" >Select an Option</option>
+
+                                                @foreach (var data in Model)
+                                                {
+                                                    <option value="@data.Value">@data.Text</option>
+
+                                                }
+                                                @*</optgroup>*@
 
 
 
@@ -61,7 +66,7 @@
                                                 Quantity
                                             </label>
                                             <div class="input-group">
-                                                <input class="form-control" type="text" name="" />
+                                                <input  class="form-control" type="text" name="Quantity" />
 
                                                 <span class="input-group-addon" style="   ">
                                                     <span class="input-group-text">-</span>
@@ -76,7 +81,7 @@
                                             <label class="control-label">
                                                 Cost
                                             </label>
-                                            <input type="number" class="form-control" name="" placeholder="Enter Cost" />
+                                            <input type="number" class="form-control" name="Cost" placeholder="Enter Cost" />
                                         </div>
                                     </div>
 

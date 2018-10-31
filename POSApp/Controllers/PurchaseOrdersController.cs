@@ -67,7 +67,7 @@ namespace POSApp.Controllers
 
         public ActionResult AddTransactionItem()
         {
-            return View();
+            return View(_unitOfWork.ProductRepository.GetAllProducts().Select(a=>new SelectListItem{Text = a.Name,Value = a.Id.ToString()}));
         }
         public ApplicationUserManager UserManager
         {
