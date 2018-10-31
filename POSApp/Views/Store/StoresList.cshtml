@@ -33,8 +33,13 @@
                     <div class="" style="display: flex; justify-content: space-between;align-items: center">
                         <h3 class="wb-color" style="flex-grow: 8"><b>Branches </b></h3>
 
-                        <a href="@Url.Action("AddStore", "Store")" class="modalShow" >
-                            <button type="button" class="btn outline-success btn-sm" ><i class="fa fa-plus pr-sm"></i>Add Branch </button>
+                        <a href="@Url.Action("StoreExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+                        </a>
+
+                        <a href="@Url.Action("AddStore", "Store")" class="modalShow" style="flex-grow: 0">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Store</button>
 
                         </a>
                 

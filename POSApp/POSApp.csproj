@@ -544,6 +544,7 @@
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ExcelService.cs" />
+    <Compile Include="Services\ImportService.cs" />
     <Compile Include="Services\IUserInfoService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -2570,6 +2571,11 @@
     <Content Include="Views\Reports\GenerateReport.cshtml" />
     <Content Include="Views\PurchaseOrders\AddPurchaseOrder.cshtml" />
     <Content Include="Views\PurchaseOrders\AddTransactionItem.cshtml" />
+    <Content Include="Views\ExcelImport\ExpenseExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ExpenseHeadExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ProductExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\StoreExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\SupplierExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
