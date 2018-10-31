@@ -32,11 +32,17 @@ namespace POSApp.Controllers
 
         public ActionResult AddProduct()
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ProductCreateViewModel product = new ProductCreateViewModel();
             product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a=>a.Type=="Product")
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             product.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
+            product.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            product.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddProduct";
            
             return View(product);
@@ -45,11 +51,17 @@ namespace POSApp.Controllers
         public ActionResult AddProduct(ProductCreateViewModel productVm, HttpPostedFileBase file)
         {
             ViewBag.edit = "AddProduct";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             if (!ModelState.IsValid)
             {
                 productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Product")
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 productVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 return View(productVm);
             }
@@ -67,8 +79,8 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productVm.Image = "/Images/Data/Product/" + file.FileName;
                     }
+                        productVm.Image = "/Images/Data/Product/" + file.FileName;
                 }
                 catch (Exception e)
                 {
@@ -77,8 +89,7 @@ namespace POSApp.Controllers
                 
             }
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 productVm.StoreId = user.StoreId;
                 Product product = Mapper.Map<Product>(productVm);
                 _unitOfWork.ProductRepository.AddProduct(product);
@@ -97,14 +108,24 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddProduct", productVm);
         }
         [HttpPost]
         public ActionResult UpdateProduct(int id, ProductCreateViewModel productVm,HttpPostedFileBase file)
         {
             ViewBag.edit = "UpdateProduct";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             if (!ModelState.IsValid)
             {
+                productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 return View("AddProduct", productVm);
             }
             else if (file != null && file.ContentLength > 0)
@@ -119,8 +140,8 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productVm.Image = "/Images/Data/Product/" + file.FileName;
                     }
+                        productVm.Image = "/Images/Data/Product/" + file.FileName;
                 }
                 catch (Exception e)
                 {
@@ -130,8 +151,7 @@ namespace POSApp.Controllers
 
             {
                 Product product = Mapper.Map<Product>(productVm);
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+               
                 _unitOfWork.ProductRepository.UpdateProduct(id,Convert.ToInt32(user.StoreId),product);
                 _unitOfWork.Complete();
                 return RedirectToAction("ProductsList", "Products");
@@ -232,8 +252,8 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productCategory.Image = "/Images/Data/Product/" + file.FileName;
                     }
+                        productCategory.Image = "/Images/Data/Product/" + file.FileName;
                 }
                 catch (Exception e)
                 {
@@ -299,8 +319,8 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productCategoryVm.Image = "/Images/Data/Product/" + file.FileName;
                     }
+                        productCategoryVm.Image = "/Images/Data/Product/" + file.FileName;
                 }
                 catch (Exception e)
                 {

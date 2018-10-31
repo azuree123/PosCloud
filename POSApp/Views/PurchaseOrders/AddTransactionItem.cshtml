@@ -5,9 +5,13 @@
 }
 
 <div id="ordine" class="modal fade" role="dialog">
-    @{ string s = ViewBag.edit;}
+  
 
-    @using (Html.BeginForm(s, "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Ajax.BeginForm("AddTransactionItem", "PurchaseOrders",new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "AjaxUpdate"
+    }, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="modal-dialog modal-block-md">
@@ -43,7 +47,7 @@
                                                 Inventory Item
                                             </label>
 
-                                            <select name="ProductId" class="form-control populate selectddl" style="width:100%">
+                                            <select name="productId" class="form-control populate selectddl" style="width:100%">
                                                 @*<optgroup label="Choose Items">*@
                                                 <option value="" >Select an Option</option>
 
@@ -66,7 +70,7 @@
                                                 Quantity
                                             </label>
                                             <div class="input-group">
-                                                <input  class="form-control" type="text" name="Quantity" />
+                                                <input  class="form-control" type="text" name="quantity" />
 
                                                 <span class="input-group-addon" style="   ">
                                                     <span class="input-group-text">-</span>
@@ -81,7 +85,7 @@
                                             <label class="control-label">
                                                 Cost
                                             </label>
-                                            <input type="number" class="form-control" name="Cost" placeholder="Enter Cost" />
+                                            <input type="number" class="form-control" name="cost" placeholder="Enter Cost" />
                                         </div>
                                     </div>
 

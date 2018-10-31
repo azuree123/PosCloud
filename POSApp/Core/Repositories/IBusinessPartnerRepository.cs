@@ -11,7 +11,7 @@ namespace POSApp.Core.Repositories
     public interface IBusinessPartnerRepository
     {
         BusinessPartner GetBusinessPartner(int id, int StoreId);
-        IEnumerable<BusinessPartnerViewModel> GetBusinessPartners(string type, int StoreId);
+        IEnumerable<BusinessPartner> GetBusinessPartners(string type, int StoreId);
         IEnumerable<BusinessPartnerViewModel> GetBusinessPartnersFiltered(string type, string query, int StoreId);
         IEnumerable<BusinessPartnerViewModel> GetBusinessPartnersFiltered(string type, int query, int StoreId);
         int IsExisting(string type, string name, int StoreId);

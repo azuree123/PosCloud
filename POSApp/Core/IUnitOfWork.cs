@@ -30,6 +30,8 @@ namespace POSApp.Core
         IBusinessPartnerRepository BusinessPartnerRepository { get; }
         IReportsLogRepository ReportsLogRepository { get; }
         IAppCountersRepository AppCountersRepository { get; }
+        IClientRepository ClientRepository { get; }
+        IUnitRepository UnitRepository { get; }
 
         void Complete();
     }

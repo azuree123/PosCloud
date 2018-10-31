@@ -356,7 +356,9 @@ namespace POSApp.Controllers
 
         public ActionResult CustomerList()
         {
-            return View(_unitOfWork.CustomerRepository.GetCustomers());
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(Mapper.Map<CustomerModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("C",(int)user.StoreId)));
         }
         [HttpGet]
         public ActionResult AddCustomer()
@@ -377,8 +379,9 @@ namespace POSApp.Controllers
                 var userid= User.Identity.GetUserId();
                 var user =  UserManager.FindById(userid);
                 customerMv.StoreId = user.StoreId;
-                Customer customer = Mapper.Map<Customer>(customerMv);
-                _unitOfWork.CustomerRepository.AddCustomer(customer);
+                BusinessPartner customer = Mapper.Map<BusinessPartner>(customerMv);
+                customer.Type = "C";
+                _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(customer);
                 _unitOfWork.Complete();
                 return RedirectToAction("CustomerList","Setup");
             }
@@ -391,7 +394,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             CustomerModelView customerMv =
-                Mapper.Map<CustomerModelView>(_unitOfWork.CustomerRepository.GetCustomerById(id, Convert.ToInt32(user.StoreId)));
+                Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(id, Convert.ToInt32(user.StoreId)));
             return View("AddCustomer",customerMv);
         }
         [HttpPost]
@@ -404,10 +407,11 @@ namespace POSApp.Controllers
             }
             else
             {
-                Customer customer = Mapper.Map<Customer>(customerMv);
+                BusinessPartner customer = Mapper.Map<BusinessPartner>(customerMv);
+                customer.Type = "C";
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.CustomerRepository.UpdateCustomer(id, Convert.ToInt32(user.StoreId), customer);
+                _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id, Convert.ToInt32(user.StoreId), customer);
                 _unitOfWork.Complete();
                 return RedirectToAction("CustomerList", "Setup");
             }
@@ -417,14 +421,16 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            _unitOfWork.CustomerRepository.DeleteCustomer(id, Convert.ToInt32(user.StoreId));
+            _unitOfWork.BusinessPartnerRepository.DeleteBusinessPartner(id, Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("CustomerList","Setup");
         }
 
         public ActionResult SupplierList()
         {
-            return View(_unitOfWork.SupplierRepository.GetSuppliers());
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId)));
         }
         [HttpGet]
         public ActionResult AddSupplier()
@@ -445,8 +451,11 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 supplierMv.StoreId = user.StoreId;
-                Supplier supplier = Mapper.Map<Supplier>(supplierMv);
-                _unitOfWork.SupplierRepository.AddSupplier(supplier);
+               
+                BusinessPartner supplier = Mapper.Map<BusinessPartner>(supplierMv);
+                supplier.Birthday=DateTime.Now;
+                supplier.Type = "S";
+                _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(supplier);
                 _unitOfWork.Complete();
                 return RedirectToAction("SupplierList","Setup");
             }
@@ -459,7 +468,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             SupplierModelView supplierVm =
-                Mapper.Map<SupplierModelView>(_unitOfWork.SupplierRepository.GetSupplierById(id,Convert.ToInt32(user.StoreId)));
+                Mapper.Map<SupplierModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(id,Convert.ToInt32(user.StoreId)));
             return View("AddSupplier",supplierVm);
         }
         [HttpPost]
@@ -472,10 +481,11 @@ namespace POSApp.Controllers
             }
 
             {
-                Supplier supplier = Mapper.Map<Supplier>(supplierVm);
+                BusinessPartner supplier = Mapper.Map<BusinessPartner>(supplierVm);
+                supplier.Type = "S";
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.SupplierRepository.UpdateSupplier(id,Convert.ToInt32(user.StoreId),supplier);
+                _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id,Convert.ToInt32(user.StoreId),supplier);
                 _unitOfWork.Complete();
                 return RedirectToAction("SupplierList", "Setup");
             }
@@ -485,7 +495,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            _unitOfWork.SupplierRepository.DeleteSupplier(id, Convert.ToInt32(user.StoreId));
+            _unitOfWork.BusinessPartnerRepository.DeleteBusinessPartner(id, Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("SupplierList","Setup");
         }
@@ -890,7 +900,183 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("CouponList", "Setup");
         }
+        public ActionResult UnitList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.UnitRepository.GetUnit((int)user.StoreId));
+        }
+        [HttpGet]
+        public ActionResult AddUnit()
+        {
+            ViewBag.edit = "AddUnit";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddUnit(UnitViewModel unitMv)
+        {
+            ViewBag.edit = "AddUnit";
+            if (!ModelState.IsValid)
+            {
+                return View(unitMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Unit location = Mapper.Map<Unit>(unitMv);
+                location.StoreId = (int)user.StoreId;
+                _unitOfWork.UnitRepository.AddUnit(location);
+                _unitOfWork.Complete();
+                return RedirectToAction("UnitList", "Setup");
+            }
 
+        }
+        [HttpGet]
+        public ActionResult UpdateUnit(int id)
+        {
+            ViewBag.edit = "UpdateUnit";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            UnitViewModel unitMv =
+                Mapper.Map<UnitViewModel>(_unitOfWork.UnitRepository.GetUnitById(id, (int)user.StoreId));
+            return View("AddUnit", unitMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateUnit(int id, UnitViewModel unitMv)
+        {
+            ViewBag.edit = "UpdateUnit";
+            if (!ModelState.IsValid)
+            {
+                return View("AddUnit", unitMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Unit location = Mapper.Map<Unit>(unitMv);
+                _unitOfWork.UnitRepository.UpdateUnit(id, location, (int)user.StoreId);
+                _unitOfWork.Complete();
+                return RedirectToAction("UnitList", "Setup");
+            }
+
+        }
+        public ActionResult DeleteUnit(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.UnitRepository.DeleteUnit(id, (int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("UnitList", "Setup");
+        }
+        public ActionResult ClientList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ClientRepository.GetClients());
+        }
+        [HttpGet]
+        public ActionResult AddClient()
+        {
+            ViewBag.edit = "AddClient";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddClient(ClientViewModel clientMv, HttpPostedFileBase file)
+        {
+            ViewBag.edit = "AddClient";
+            if (!ModelState.IsValid)
+            {
+                return View(clientMv);
+            }
+            else
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+
+                    try
+                    {
+                        string path = Server.MapPath("~/Images/Data/" + file.FileName);
+                        if (System.IO.File.Exists(path))
+                        {
+                            ViewBag.Message = "Image Already Exists!";
+                          
+                        }
+                        else
+                        {
+                            file.SaveAs(path);
+                        }
+                            clientMv.Image = "/Images/Data/" + file.FileName;
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.Message = "ERROR:" + e.Message.ToString();
+                    }
+
+                }
+                
+                _unitOfWork.ClientRepository.AddClient(Mapper.Map<Client>(clientMv));
+                _unitOfWork.Complete();
+                return RedirectToAction("ClientList", "Setup");
+            }
+
+        }
+        [HttpGet]
+        public ActionResult UpdateClient(int id)
+        {
+            ViewBag.edit = "UpdateClient";
+
+            ClientViewModel clientMv =
+                Mapper.Map<ClientViewModel>(_unitOfWork.ClientRepository.GetClient(id));
+            return View("AddClient", clientMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateClient(int id, ClientViewModel clientMv, HttpPostedFileBase file)
+        {
+            ViewBag.edit = "UpdateClient";
+            if (!ModelState.IsValid)
+            {
+                return View("AddClient", clientMv);
+            }
+            else
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+
+                    try
+                    {
+                        string path = Server.MapPath("~/Images/Data/" + file.FileName);
+                        if (System.IO.File.Exists(path))
+                        {
+                            ViewBag.Message = "Image Already Exists!";
+
+                        }
+                        else
+                        {
+                            file.SaveAs(path);
+                        }
+                        clientMv.Image = "/Images/Data/" + file.FileName;
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.Message = "ERROR:" + e.Message.ToString();
+                    }
+
+                }
+                _unitOfWork.ClientRepository.UpdateClient(id, Mapper.Map<Client>(clientMv));
+                _unitOfWork.Complete();
+                return RedirectToAction("ClientList", "Setup");
+            }
+
+        }
+        public ActionResult DeleteClient(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ClientRepository.DeleteClient(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("ClientList", "Setup");
+        }
         public JsonResult GetDepartmentDdl()
         {
             try
