@@ -29,16 +29,27 @@
             <div class="row">
                 <div class="col-md-12">
 
+
                     <div class="" style="display: flex; align-items: center">
-                        <h3 class="wb-color" style="flex-grow: 8"><b>Purchase Orders</b></h3>
+                        <h3 class="wb-color" style="flex-grow: 8"><b>Branches </b></h3>
 
 
-                        <a href="@Url.Action("AddPurchaseOrder","PurchaseOrders")">
+
+                        <a href="@Url.Action("AddPurchaseOrder","PurchaseOrders")" style="flex-grow: 0.2">
                             <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Purchase Order</button>
+
+                        </a>
+                        <a href="@Url.Action("GenerateReceipt ", "PurchaseOrders")">
+                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Generate Receipt</button>
 
                         </a>
 
                     </div>
+
+
+
+
+                
                 </div>
             </div>
 

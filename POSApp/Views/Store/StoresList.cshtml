@@ -78,8 +78,8 @@
                         <td class="center">
                             <div class="btn-group">
 
-                            @Html.ActionLink(" ", "UpdateStore", "Store", new { id = @store.Id }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow",  })
-                            @Html.ActionLink(" ", "DeleteStore", "Store", new { id = @store.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "UpdateStore", "Store", new { id = @store.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                @Html.ActionLink(" ", "DeleteStore", "Store", new { id = @store.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                             </div>
                         </td>
                     </tr>

@@ -1,0 +1,255 @@
+﻿
+@{
+                /**/
+
+                ViewBag.Title = "GenerateReceipt";
+}
+<style>
+   
+
+    
+
+    .invoice {
+        background: #fff;
+        width: 100%;
+        padding: 50px;
+    }
+
+    .logo {
+        max-width: 4.4cm;
+    }
+
+    .document-type {
+   
+        color: #444;
+    }
+
+    .conditions {
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    .bottom-page {
+        font-size: 0.7em;
+    }
+
+    .invoice table.table > thead:first-child > tr > th{
+        border-top:0px;
+        border-bottom:0px;
+    }
+
+    .invoice table.table > tbody tr > td {
+        border-top: 0px;
+        border-bottom: 0px;
+        padding: 16px 8px;
+    }
+
+
+
+</style>
+
+
+
+
+
+<div class="container-fluid">
+    <div class=" mt-md">
+     
+        
+                <div class="invoice">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h3 class="document-type display-4">INVOICE<b> #1234567666780</b></h3>
+                            @*<p class=""><strong>N°90T-17-01-0123</strong></p>*@
+
+                            <div class="col-md-3 p-none">
+                            <i class="fa fa-file-o " style="font-size: 6.6em;"></i>
+                            </div>
+                            <div class="col-md-9">
+                                <p class="m-none">
+                                    DATE : <strong>03.10.2018</strong>
+
+                                </p>
+                                <p class="m-none">
+                                    TO : <strong>HAMZA TARIQ</strong>
+
+                                </p>
+                                <div class="">
+                                    <i class="fa fa-envelope"></i>
+                                    <strong class="text-right">HAMZATARIQ@381TECG.COM</strong>
+                                </div>
+                                <div class="">
+                                    <i class="fa fa-phone"></i>
+                                    <strong  class="text-right">+923191-3456221</strong>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-7 text-right">
+                            <img src="https://s3.eu-central-1.amazonaws.com/zl-clients-sharings/90Tech.png" class="logo">
+                        </div>
+                    </div>
+                    <div class="row">
+                        @*<div class="col-md-7">
+                            <p>
+                                <strong>90TECH SAS</strong><br>
+                                6B Rue Aux-Saussaies-Des-Dames<br>
+                                57950 MONTIGNY-LES-METZ
+                            </p>
+                        </div>*@
+                        @*<div class="col-md-5">
+                            <br><br><br>
+                            <p>
+                                <strong>Energies54</strong><br>
+                                Réf. Client <em>C00022</em><br>
+                                12 Rue de Verdun<br>
+                                54250 JARNY
+                            </p>
+                        </div>*@
+                    </div>
+                    <br>
+                    <br>
+                    @*<h6>Audits et rapports mensuels (1er Novembre 2016 - 30 Novembre 2016)</h6>*@
+                    <br>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th width="50%" class="text-left">ITEMS</th>
+                                <th width="25%">QUANTITY</th>
+                                <th width="25%" class="text-right">PRICE</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-left">Audits et rapports mensuels</td>
+
+                                <td class="text-center">500,00€</td>
+
+                                <td class="text-right">500,00€</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">Audits et rapports mensuels</td>
+
+                                <td class="text-center">500,00€</td>
+
+                                <td class="text-right">500,00€</td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-left">Audits et rapports mensuels</td>
+
+                                <td class="text-center">500,00€</td>
+
+                                <td class="text-right">500,00€</td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-left">Audits et rapports mensuels</td>
+
+                                <td class="text-center">500,00€</td>
+
+                                <td class="text-right">500,00€</td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-left">Audits et rapports mensuels</td>
+
+                                <td class="text-center">500,00€</td>
+
+                                <td class="text-right">500,00€</td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-left">Audits et rapports mensuels</td>
+
+                                <td class="text-center">500,00€</td>
+
+                                <td class="text-right">500,00€</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td rowspan="3" class="pr-xx">
+                                    @*<div class="row">
+                    <div class="col-md-9">*@
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <h4 class="text-left mt-none">TERMS AND CONDITIONS</h4>
+                                    <p class="text-left conditions" style="word-break:break-word">
+                                        SDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAasdddddddddddddddd
+                                        SDFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                                        sdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                        asdddddddddddddddddddddddddddddddddddddd
+                                    </p>
+                                    @*</div>
+
+                    </div>*@
+
+                                </td>
+                                <td>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <strong>SUBTOTAL:</strong>
+                                </td>
+                                <td class="text-right">
+
+                                    <br />
+                                    <br />
+                                    <br />
+
+                                    3 700,00 USD
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td style="border-bottom:1px solid lightgrey"><strong>TAX (20%):</strong></td>
+                                <td style="border-bottom:1px solid lightgrey" class="text-right">740,00 USD</td>
+                            </tr>
+                            <tr>
+
+                                <td class="text-capitalize text-xl"><strong>Total </strong></td>
+                                <td class="text-right text-xl"><strong> 4 440,00 USD</strong></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4 class="text-left mt-none">PAYMENT METHODS:</h4>
+                                    <img src="~/Content/images/widget-twitter-profile.jpg" width="100%" />
+
+                                </td>
+                                <td colspan="2">
+                                    <img src="~/Content/images/widget-twitter-profile.jpg" width="100%" />
+
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color:#46af5f;padding:30px ">
+                                <td>
+                                    <h2 class="text-left " > Cosmic.</h2>
+                                </td>
+                                <td colspan="2" class="text-right">
+
+                                    <p><strong class="text-right">+90 34348 0876</strong></p>
+                                    <p> <strong>therestaurant@gmail.com</strong></p>
+                                </td>
+                           
+                            </tr>
+                        </tfoot>
+                    </table>
+            
+
+          
+
+                </div>
+       
+
+       
+    </div>
+</div>
+

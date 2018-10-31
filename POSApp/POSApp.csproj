@@ -2584,6 +2584,7 @@
     <Content Include="Views\ExcelImport\SupplierExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\ProductCategoryExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\ProductCategoryGroupExcelImport.cshtml" />
+    <Content Include="Views\PurchaseOrders\GenerateReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
