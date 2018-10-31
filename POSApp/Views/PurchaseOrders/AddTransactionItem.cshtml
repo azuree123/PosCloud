@@ -10,24 +10,17 @@
     @using (Html.BeginForm(s, "PurchaseOrders", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-sm">
             <!-- Modal content-->
             <div class="modal-content ">
                 <div class="modal-header modalheader">
+                  
                     <button type="button" class="close modalheader" data-dismiss="modal">×</button>
 
-                    @*@if (s.Contains("Add"))
-                    {
                         <h4 class="modal-title">
-                            Add Tax
+                            Add Item
                         </h4>
-                    }
-                    else
-                    {
-                        <h4 class="modal-title">
-                            Edit Tax
-                        </h4>
-                    }*@
+                   
 
 
                 </div>
