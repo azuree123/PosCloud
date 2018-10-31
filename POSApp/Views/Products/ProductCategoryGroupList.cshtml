@@ -59,8 +59,11 @@
                                 @product.Name
                             </td>
                             <td class="center">
-                                @Html.ActionLink(" ", "UpdateProductCategoryGroup", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow" })
-                                @Html.ActionLink(" ", "DeleteProductCategoryGroup", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
+                                <div class="btn-group">
+                                     
+                                @Html.ActionLink(" ", "UpdateProductCategoryGroup", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                @Html.ActionLink(" ", "DeleteProductCategoryGroup", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                </div>
                             </td>
                         </tr>
                     }

@@ -381,6 +381,7 @@
     <Compile Include="Core\Repositories\ITaxRepository.cs" />
     <Compile Include="Core\Repositories\ITransDetailRepository.cs" />
     <Compile Include="Core\Repositories\ITransMasterRepository.cs" />
+    <Compile Include="Core\Shared\PoHelper.cs" />
     <Compile Include="Core\ViewModels\BusinessPartnerViewModel.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\CouponModelView.cs" />
@@ -2584,12 +2585,12 @@
     <Content Include="Views\ExcelImport\SupplierExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\ProductCategoryExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\ProductCategoryGroupExcelImport.cshtml" />
+    <Content Include="Views\PurchaseOrders\PoTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
     <Folder Include="Core\Dtos\" />
-    <Folder Include="Core\Shared\" />
     <Folder Include="Images\Data\Product\" />
     <Folder Include="Images\Data\Service\" />
     <Folder Include="Views\Product\" />

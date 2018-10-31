@@ -48,6 +48,7 @@ namespace POSApp
             CreateMap<ReportsLog, ReportLogViewModel>();
             CreateMap<ProductCategoryGroupViewModel, ProductCategoryGroup>();
             CreateMap<ProductCategoryGroup, ProductCategoryGroupViewModel>();
+          
 
 
         }

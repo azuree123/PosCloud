@@ -120,9 +120,9 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-2">
-                                            @Html.LabelFor(model => model.PurchasePrice, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.PurchasePrice, new { htmlAttributes = new { @class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.PurchasePrice, "", new { @class = "text-danger" })
+                                            @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
                                         </div>
 
                                         <div class="col-md-2">
@@ -130,11 +130,11 @@
                                             @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2">
+                                        @*<div class="col-md-2">
                                             @Html.LabelFor(model => model.Tax, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
-                                        </div>
+                                        </div>*@
                                         <div class="col-md-2">
                                             @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })

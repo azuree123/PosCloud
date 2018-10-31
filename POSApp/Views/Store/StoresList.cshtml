@@ -76,8 +76,11 @@
                         <td>@store.State</td>
                         <td>@store.City</td>
                         <td class="center">
+                            <div class="btn-group">
+
                             @Html.ActionLink(" ", "UpdateStore", "Store", new { id = @store.Id }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow",  })
-                            @Html.ActionLink(" ", "DeleteStore", "Store", new { id = @store.Id }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
+                            @Html.ActionLink(" ", "DeleteStore", "Store", new { id = @store.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                            </div>
                         </td>
                     </tr>
                     }
