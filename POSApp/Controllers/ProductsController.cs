@@ -51,6 +51,8 @@ namespace POSApp.Controllers
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 productVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                //productVm.UnitDdl = _unitOfWork.ProductUnitRepository.GetSuppliers()
+                //    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 return View(productVm);
             }
             else 
