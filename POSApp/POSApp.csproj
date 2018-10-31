@@ -371,6 +371,7 @@
     <Compile Include="Core\Models\TransDetail.cs" />
     <Compile Include="Core\Models\TransMaster.cs" />
     <Compile Include="Core\Models\Unit.cs" />
+    <Compile Include="Core\Repositories\IAppCountersRepository.cs" />
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
@@ -517,6 +518,7 @@
     <Compile Include="Persistence\EntityConfigurations\TransMasterEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\UnitEntityConfiguration.cs" />
     <Compile Include="Persistence\PosDbContext.cs" />
+    <Compile Include="Persistence\Repositories\AppCountersRepository.cs" />
     <Compile Include="Persistence\Repositories\BusinessPartnerRepository.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
     <Compile Include="Persistence\Repositories\CouponRepository.cs" />

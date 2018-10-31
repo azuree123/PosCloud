@@ -1,4 +1,4 @@
-﻿
+﻿@model POSApp.Core.ViewModels.TransMasterViewModel
 
 @{
     ViewBag.Title = "AddPurchaseOrder";
@@ -52,11 +52,8 @@
                                         <label class="control-label">
                                             Supplier <span class="text-danger">*</span>
                                         </label>
-                                        <select class="form-control" required>
-                                            <option value="" disabled selected> Choose</option>
-                                            <option value=""> Supplier 1</option>
-                                            <option value=""> Supplier 2</option>
-                                        </select>
+                                        @Html.DropDownListFor(a=>a.BusinessPartnerId,Model.SupplierDdl,"Select an Option",new{ @class = "form-control", @required="true" })
+                                      
                                     </div>
 
 
@@ -76,7 +73,7 @@
                                         <label class="control-label">
                                             Remarks
                                         </label>
-                                        <textarea rows="4" class="form-control "></textarea>
+                                        @Html.TextAreaFor(a=>a.TransRef,new{ @rows = "4" ,@class="form-control "})
                                     </div>
                                 </div>
                             </div>
@@ -84,27 +81,15 @@
 
                         </div>
                         <div id="transactionitems" class="tab-pane">
-
-
-
                             <div class=" mb-lg" style="display: flex; align-items: center">
                                 <h4 class="mt-xs  " style="flex-grow: 8">Transaction Items</h4>
-
-
                                 <a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
                                     <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New</button>
 
                                 </a>
-
                             </div>
-
-
-
-
                             <div class="row mb-lg">
                                 <div class="col-md-12">
-
-
                                     <table class="table mb-none" style="width:100%" id="datatable-default">
                                         <thead>
                                             <tr>
@@ -112,14 +97,10 @@
                                                 <th>Name</th>
                                                 <th>Quantity</th>
                                                 <th>Cost</th>
-
                                                 <th>Action</th>
-
-
                                             </tr>
                                         </thead>
                                         <tbody>
-
                                             <tr>
                                                 <td>1</td>
                                                 <td>ketchup</td>
@@ -129,8 +110,6 @@
                                                     <i class="btn btn-default btn-sm fa fa-pencil modalShow"></i>
                                                     <i class="btn btn-danger btn-sm fa fa-trash-o" style="color: #ffffff;" , onclick="return confirm('Are you sure?');"></i>
                                                 </td>
-
-
                                             </tr>
 
                                         </tbody>
@@ -138,13 +117,9 @@
                                 </div>
                             </div>
                             <div class="hidden">
-
                                 <h4 class="mb-lg ">Add items From Tag</h4>
-
                                 <div class="row mb-lg">
                                     <div class="col-md-9 col-lg-offset-2">
-
-
                                         <div class="form-group">
                                             <label class="control-label">
                                                 Select Tag
@@ -153,32 +128,20 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                                 <h4 class="mb-lg ">Upload Items Via Excel</h4>
-
                                 <div class="row">
                                     <div class="col-md-9 col-lg-offset-2">
-
-
                                         <div class="form-group">
-
                                             <input type="file" class="" placeholder="" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
-
                 </div>
-
-
             </div>
         </div>
-
     </div>
 </div>
 
