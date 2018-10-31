@@ -27,7 +27,7 @@ namespace POSApp.Controllers
         // GET: Products
         public ActionResult ProductsList()
         {
-            return View(_unitOfWork.ProductRepository.GetAllProducts().Where(a=>a.ProductCategory.Type=="Product").ToList());
+            return View(_unitOfWork.ProductRepository.GetAllProducts().Where(a=>a.Type=="Product").ToList());
         }
 
         public ActionResult AddProduct()
@@ -92,6 +92,7 @@ namespace POSApp.Controllers
                 
                 productVm.StoreId = user.StoreId;
                 Product product = Mapper.Map<Product>(productVm);
+                product.Type = "Product";
                 _unitOfWork.ProductRepository.AddProduct(product);
                 _unitOfWork.Complete();
                 return RedirectToAction("ProductsList", "Products");
@@ -151,7 +152,7 @@ namespace POSApp.Controllers
 
             {
                 Product product = Mapper.Map<Product>(productVm);
-               
+                product.Type = "Product";
                 _unitOfWork.ProductRepository.UpdateProduct(id,Convert.ToInt32(user.StoreId),product);
                 _unitOfWork.Complete();
                 return RedirectToAction("ProductsList", "Products");

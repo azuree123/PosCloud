@@ -57,16 +57,6 @@
                                             @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
                                         </div>
 
-                                        @*<div class="col-md-4">
-                                                @Html.LabelFor(model => model.ProductCode, htmlAttributes: new {@class = "control-label"})
-                                                @Html.EditorFor(model => model.ProductCode, new {htmlAttributes = new {@class = "form-control", @required = true } })
-                                                @Html.ValidationMessageFor(model => model.ProductCode, "", new {@class = "text-danger"})
-                                            </div>*@
-
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group ">
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label" })
@@ -81,26 +71,19 @@
                                             </div>
 
                                         </div>
-                                        @*<div class="col-md-1">
-                                                <label>Add Categoory</label>
-                                                <a href="@Url.Action("", "")" class="modalShow">
-                                                    <span class="fa fa-2x fa-plus-circle"></span>
-                                                </a>
-                                            </div>*@
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group ">
+
+                                      
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Available, htmlAttributes: new { @class = "control-label" })
                                             @Html.DropDownListFor(a => a.Available, new SelectList(Enum.GetValues(typeof(Available))), "Select Gender", new { @class = "form-control", @required = "true" })
                                             @Html.ValidationMessageFor(model => model.Available, "", new { @class = "text-danger" })
                                         </div>
-                                        @*<div class="col-md-4">
-                                                @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "control-label" })
-                                                @Html.DropDownListFor(model => model.SupplierId, Model.SupplierDdl, "Select an Option", new { htmlAttributes = new { @class = "form-control", @required = true } })
-                                                @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
-                                                <a href="#" class="modalShow ml-md text-right">
-                                                    <button type="button" class="btn outline-success mo-btn  "><i class="fa fa-plus "></i> </button>
-
-                                                </a>
-                                            </div>*@
+                                       
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "control-label" })
                                             <div class="input-group">
@@ -113,6 +96,11 @@
                                             </div>
 
 
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(a => a.UnitId, htmlAttributes: new { @class = "control-label" })
+                                            @Html.DropDownListFor(model => model.UnitId, Model.UnitDdl, "Select an Option", new {  @class = "form-control",@required="true"  })
+                                            @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -130,26 +118,7 @@
                                             @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2">
-                                            @Html.Label("Is Taxable?", htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.IsTaxable, "", new { @class = "text-danger" })
-                                        </div>
-                                        <script>
-                                            $("#@Html.IdFor(a=>a.IsTaxable)").on("change",
-                                                function() {
-                                                    if(document.getElementById('@Html.IdFor(a=>a.IsTaxable)').checked) {
-                                                        $("#taxDdl").show();
-                                                    } else {
-                                                        $("#taxDdl").hide();
-                                                    }
-                                                });
-                                        </script>
-                                        <div class="col-md-2" style="display: none" id="taxDdl">
-                                            @Html.LabelFor(a=>a.TaxId, htmlAttributes: new { @class = "control-label" })
-                                            @Html.DropDownListFor(model => model.TaxId,Model.TaxDdl,"Select an Option", new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.TaxId, "", new { @class = "text-danger" })
-                                        </div>
+                                   
                                         <div class="col-md-2">
                                             @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })
@@ -165,11 +134,7 @@
                                             @Html.EditorFor(model => model.Size, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-2">
-                                            @Html.LabelFor(a => a.UnitId, htmlAttributes: new { @class = "control-label" })
-                                            @Html.DropDownListFor(model => model.UnitId, Model.UnitDdl, "Select an Option", new { htmlAttributes = new { @class = "form-control",@required="true" } })
-                                            @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
-                                        </div>
+                                      
 
 
                                     </div>
@@ -181,6 +146,26 @@
                                             @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label" })
                                             <input type="file" name="file" id="file" />
                                             @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.Label("Is Taxable?", htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.IsTaxable, "", new { @class = "text-danger" })
+                                        </div>
+                                        <script>
+                                            $("#@Html.IdFor(a=>a.IsTaxable)").on("change",
+                                                function() {
+                                                    if(document.getElementById('@Html.IdFor(a=>a.IsTaxable)').checked) {
+                                                        $("#taxDdl").show();
+                                                    } else {
+                                                        $("#taxDdl").hide();
+                                                    }
+                                                });
+                                        </script>
+                                        <div class="col-md-4" style="display: none" id="taxDdl">
+                                            @Html.LabelFor(a=>a.TaxId, htmlAttributes: new { @class = "control-label" })
+                                            @Html.DropDownListFor(model => model.TaxId,Model.TaxDdl,"Select an Option", new {  @class = "form-control"  })
+                                            @Html.ValidationMessageFor(model => model.TaxId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>

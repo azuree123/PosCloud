@@ -103,7 +103,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td colspan="41" class="text-center">No records found</td>
+                                                <td colspan="5" class="text-center">No records found</td>
                                             </tr>
 
                                         </tbody>
@@ -145,10 +145,8 @@
 @section scripts
 {
     <script>
-        $('#datatable-default').dataTable();
 
         $('a.modalShow').on('click', function () {
-
             $.ajax({
                 url: this.href,
                 type: 'GET',
@@ -160,6 +158,7 @@
 
             return false;
         });
+        $('#datatable-default').dataTable();
     </script>
 }
 
