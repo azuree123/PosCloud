@@ -113,5 +113,10 @@ namespace POSApp.Controllers
             }
         }
 
+        public ActionResult GenerateReceipt()
+        {
+            return View();
+        }
+
     }
 }

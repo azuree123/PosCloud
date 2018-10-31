@@ -3575,6 +3575,21 @@ html.dark .text-muted {
 	padding-right: 30px !important;
 }
 
+.pr-xx {
+    padding-right: 110px !important;
+}
+
+.pt-xx {
+    padding-top: 45px !important;
+}
+.pl-xx {
+    padding-left: 45px !important;
+}
+.pb-xx {
+    padding-bottom: 45px !important;
+}
+
+
 .ib {
 	display: inline-block;
 	vertical-align: top;
