@@ -1,4 +1,4 @@
-﻿@model IEnumerable<POSApp.Core.Models.Customer>
+﻿@model IEnumerable<POSApp.Core.ViewModels.CustomerModelView>
 
 @{
     ViewBag.Title = "CustomerList";
@@ -91,19 +91,19 @@
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var customer in Model)
+                    @foreach (var cus in Model)
                     {
                         <tr>
                             <td>@(i++)</td>
-                            <td>@customer.Name</td>
-                            <td>@customer.Email</td>
-                            <td>@customer.PhoneNumber</td>
-                            <td>@customer.Address</td>
+                            <td>@cus.Name</td>
+                            <td>@cus.Email</td>
+                            <td>@cus.PhoneNumber</td>
+                            <td>@cus.Address</td>
                             <td class="center">
                                 <div class="btn-group">
 
-                                @Html.ActionLink(" ", "UpdateCustomer", "Setup", new { id = @customer.Id, storeId = @customer.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteCustomer", "Setup", new { id = @customer.Id, storeId = @customer.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "UpdateCustomer", "Setup", new { id = cus.Id, storeId = cus.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                @Html.ActionLink(" ", "DeleteCustomer", "Setup", new { id = cus.Id, storeId = cus.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                                 </div>
                             </td>
                         </tr>

@@ -373,6 +373,7 @@
     <Compile Include="Core\Models\Unit.cs" />
     <Compile Include="Core\Repositories\IAppCountersRepository.cs" />
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
+    <Compile Include="Core\Repositories\IClientRepository.cs" />
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
@@ -528,6 +529,7 @@
     <Compile Include="Persistence\Repositories\AppCountersRepository.cs" />
     <Compile Include="Persistence\Repositories\BusinessPartnerRepository.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
+    <Compile Include="Persistence\Repositories\ClientRepository.cs" />
     <Compile Include="Persistence\Repositories\CouponRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\DepartmentRepository.cs" />
@@ -2589,6 +2591,8 @@
     <Content Include="Views\ExcelImport\ProductCategoryExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\ProductCategoryGroupExcelImport.cshtml" />
     <Content Include="Views\PurchaseOrders\PoTable.cshtml" />
+    <Content Include="Views\Setup\ClientList.cshtml" />
+    <Content Include="Views\Setup\AddClient.cshtml" />
     <Content Include="Views\Setup\UnitList.cshtml" />
     <Content Include="Views\Setup\AddUnit.cshtml" />
   </ItemGroup>

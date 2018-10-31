@@ -22,10 +22,10 @@ namespace POSApp
             CreateMap<Designation, DesignationViewModel>();
             CreateMap<EmployeeModelView, Employee>();
             CreateMap<Employee, EmployeeModelView>();
-            CreateMap<CustomerModelView, Customer>();
-            CreateMap<Customer, CustomerModelView>();
-            CreateMap<SupplierModelView, Supplier>();
-            CreateMap<Supplier, SupplierModelView>();
+            CreateMap<CustomerModelView, BusinessPartner>();
+            CreateMap<BusinessPartner, CustomerModelView>();
+            CreateMap<SupplierModelView, BusinessPartner>();
+            CreateMap<BusinessPartner, SupplierModelView>();
             CreateMap<StateModelView, State>();
             CreateMap<State, StateModelView>();
             CreateMap<CityModelView, City>();

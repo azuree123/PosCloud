@@ -69,8 +69,8 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productVm.Image = "/Images/Data/Product/" + file.FileName;
                     }
+                        productVm.Image = "/Images/Data/Product/" + file.FileName;
                 }
                 catch (Exception e)
                 {
@@ -121,8 +121,8 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productVm.Image = "/Images/Data/Product/" + file.FileName;
                     }
+                        productVm.Image = "/Images/Data/Product/" + file.FileName;
                 }
                 catch (Exception e)
                 {
@@ -234,8 +234,8 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productCategory.Image = "/Images/Data/Product/" + file.FileName;
                     }
+                        productCategory.Image = "/Images/Data/Product/" + file.FileName;
                 }
                 catch (Exception e)
                 {
@@ -301,8 +301,8 @@ namespace POSApp.Controllers
                     else
                     {
                         file.SaveAs(path);
-                        productCategoryVm.Image = "/Images/Data/Product/" + file.FileName;
                     }
+                        productCategoryVm.Image = "/Images/Data/Product/" + file.FileName;
                 }
                 catch (Exception e)
                 {

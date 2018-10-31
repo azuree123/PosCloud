@@ -40,11 +40,12 @@ namespace POSApp.Controllers
         {
             TransMasterViewModel po=new TransMasterViewModel();
             po.Type = "PRI";
-            po.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers().Select(a => new SelectListItem{Value = a.Id.ToString(),Text = a.Name});
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)user.StoreId).Select(a => new SelectListItem{Value = a.Id.ToString(),Text = a.Name});
             if (PoHelper.temptTransDetail != null)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 PoHelper.EmptyTemptTransDetail(user.Id,(int)user.StoreId);
             }
             return View(po);
@@ -52,16 +53,17 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddPurchaseOrder(TransMasterViewModel po)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             po.Type = "PRI";
             if (!ModelState.IsValid)
             {
-            po.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers().Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+                po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
                 return View(po);
             }
             else
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+               
                 int TransId = _unitOfWork.AppCountersRepository.GetId("Invoice");
                 po.TransCode = "INV-" + "C-" + TransId.ToString() + "-" + user.StoreId;
 

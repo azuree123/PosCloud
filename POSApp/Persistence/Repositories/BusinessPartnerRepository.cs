@@ -21,25 +21,13 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.BusinessPartners.FirstOrDefault(x => x.Id == id && x.StoreId == StoreId);
         }
-        public IEnumerable<BusinessPartnerViewModel> GetBusinessPartners(string type, int StoreId)
+        public IEnumerable<BusinessPartner> GetBusinessPartners(string type, int StoreId)
         {
             //return _context.Customers;
             return _context.BusinessPartners
-                
-                .Where(u => u.StoreId == StoreId && u.Type == type)
-                .Select(p => new BusinessPartnerViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    State = p.State,
-                    City = p.City,
-                    Address = p.Address,
-                    Email = p.Email,
-                    PhoneNumber = p.PhoneNumber
-                    ,
-                    Birthday = p.Birthday,
-                    Note = p.Remarks
-                }).ToList();
+
+                .Where(u => u.StoreId == StoreId && u.Type == type);
+
         }
         public IEnumerable<BusinessPartnerViewModel> GetBusinessPartnersFiltered(string type, string query, int StoreId)
         {
