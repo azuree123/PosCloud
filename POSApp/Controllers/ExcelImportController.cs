@@ -461,6 +461,71 @@ namespace POSApp.Controllers
             
             return RedirectToAction("ProductsList", "Products");
         }
+
+        //ProductCategory
+
+        public ActionResult ProductCategoryExcelImport()
+        {
+            ViewBag.edit = "ProductCategoryExcelImport";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ProductCategoryExcelImport(HttpPostedFileBase file)
+        {
+
+            DataTable dt = ImportService.GetExcelData(file);
+
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                ProductCategory NewModel = new ProductCategory();
+                if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                {
+                    NewModel.Name = dr["Name"].ToString();
+                    NewModel.Type = dr["Type"].ToString();
+                    NewModel.StoreId = (int) user.StoreId;
+                    _unitOfWork.ProductCategoryRepository.AddProductCategory(NewModel);
+                }
+            }
+            _unitOfWork.Complete();
+
+
+            return RedirectToAction("ProductCategoryList", "Products");
+        }
+
+        //ProductCategory Group
+
+        public ActionResult ProductCategoryGroupExcelImport()
+        {
+            ViewBag.edit = "ProductCategoryGroupExcelImport";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ProductCategoryGroupExcelImport(HttpPostedFileBase file)
+        {
+
+            DataTable dt = ImportService.GetExcelData(file);
+
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                ProductCategoryGroup NewModel = new ProductCategoryGroup();
+                if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                {
+                    NewModel.Name = dr["Name"].ToString();
+                    NewModel.StoreId = (int)user.StoreId;
+                    _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(NewModel);
+                }
+            }
+            _unitOfWork.Complete();
+
+
+            return RedirectToAction("ProductCategoryGroupList", "Products");
+        }
         public ApplicationUserManager UserManager
         {
             get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }

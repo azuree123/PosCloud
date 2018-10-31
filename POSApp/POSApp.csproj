@@ -371,6 +371,7 @@
     <Compile Include="Core\Models\TransDetail.cs" />
     <Compile Include="Core\Models\TransMaster.cs" />
     <Compile Include="Core\Models\Unit.cs" />
+    <Compile Include="Core\Repositories\IAppCountersRepository.cs" />
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
@@ -488,6 +489,10 @@
     <Compile Include="Migrations\201810310551276_new-6.Designer.cs">
       <DependentUpon>201810310551276_new-6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810310753553_new-7.cs" />
+    <Compile Include="Migrations\201810310753553_new-7.Designer.cs">
+      <DependentUpon>201810310753553_new-7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -517,6 +522,7 @@
     <Compile Include="Persistence\EntityConfigurations\TransMasterEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\UnitEntityConfiguration.cs" />
     <Compile Include="Persistence\PosDbContext.cs" />
+    <Compile Include="Persistence\Repositories\AppCountersRepository.cs" />
     <Compile Include="Persistence\Repositories\BusinessPartnerRepository.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
     <Compile Include="Persistence\Repositories\CouponRepository.cs" />
@@ -2576,6 +2582,8 @@
     <Content Include="Views\ExcelImport\ProductExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\StoreExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\SupplierExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ProductCategoryExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ProductCategoryGroupExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2627,6 +2635,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810310551276_new-6.resx">
       <DependentUpon>201810310551276_new-6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810310753553_new-7.resx">
+      <DependentUpon>201810310753553_new-7.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
