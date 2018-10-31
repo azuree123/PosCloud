@@ -237,9 +237,9 @@
             <section role="main" class="content-body">
 
                 @RenderBody()
-        
-                <footer >
-                  
+
+                <footer>
+
                     <p class="text-center copyright">&copy; @DateTime.Now.Year - Cosmic PoS Admin Panel</p>
                 </footer>
             </section>
@@ -250,20 +250,21 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/vendor")
-    @*@Scripts.Render("~/bundles/js")*@
     @Scripts.Render("~/bundles/datatables")
+
+    @*@Scripts.Render("~/bundles/js")*@
 
     @RenderSection("scripts", required: false)
     @section scripts
       {
         <script>
-                                    //$(document).ready(function () {
-                                    //    $('.nano').nanoScroller({
-                                    //        preventPageScrolling: true,
-                                    //        sliderMaxHeight: 100,
-                                    //        alwaysVisible: true
-                                    //    });
-                                    //});
+                                                //$(document).ready(function () {
+                                                //    $('.nano').nanoScroller({
+                                                //        preventPageScrolling: true,
+                                                //        sliderMaxHeight: 100,
+                                                //        alwaysVisible: true
+                                                //    });
+                                                //});
 
         </script>
 

@@ -56,7 +56,6 @@ namespace POSApp
                           "~/Content/vendor/liquid-meter/liquid.meter.js",
                           "~/Content/vendor/jqvmap/jquery.vmap.js",
                           "~/Content/vendor/jqvmap/data/jquery.vmap.sampledata.js",
-
                           "~/Content/vendor/jqvmap/maps/jquery.vmap.world.js",
                           "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.africa.js",
                           "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.asia.js",
