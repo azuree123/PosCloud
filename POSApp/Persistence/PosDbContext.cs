@@ -44,6 +44,7 @@ namespace POSApp.Persistence
         public DbSet<BusinessPartner> BusinessPartners { get; set; }
         public DbSet<ProductCategoryGroup> ProductCategoryGroups { get; set; }
         public DbSet<ReportsLog> ReportsLogs { get; set; }
+        public DbSet<AppCounter> AppCounters { get; set; }
 
         public void SetCommandTimeOut(int Timeout)
         {

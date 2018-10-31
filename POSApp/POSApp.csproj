@@ -358,6 +358,7 @@
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\Enums\PaymentMethod.cs" />
+    <Compile Include="Core\Models\AppCounter.cs" />
     <Compile Include="Core\Models\BusinessPartner.cs" />
     <Compile Include="Core\Models\Coupon.cs" />
     <Compile Include="Core\Models\Client.cs" />
@@ -474,6 +475,18 @@
     <Compile Include="Migrations\201810301210100_new-3.cs" />
     <Compile Include="Migrations\201810301210100_new-3.Designer.cs">
       <DependentUpon>201810301210100_new-3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810310540409_new-4.cs" />
+    <Compile Include="Migrations\201810310540409_new-4.Designer.cs">
+      <DependentUpon>201810310540409_new-4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810310548234_new-5.cs" />
+    <Compile Include="Migrations\201810310548234_new-5.Designer.cs">
+      <DependentUpon>201810310548234_new-5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810310551276_new-6.cs" />
+    <Compile Include="Migrations\201810310551276_new-6.Designer.cs">
+      <DependentUpon>201810310551276_new-6.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2598,6 +2611,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810301210100_new-3.resx">
       <DependentUpon>201810301210100_new-3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810310540409_new-4.resx">
+      <DependentUpon>201810310540409_new-4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810310548234_new-5.resx">
+      <DependentUpon>201810310548234_new-5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810310551276_new-6.resx">
+      <DependentUpon>201810310551276_new-6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
