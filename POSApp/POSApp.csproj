@@ -735,6 +735,7 @@
     <Content Include="Content\images\!happy-face.png" />
     <Content Include="Content\images\!logged-user.jpg" />
     <Content Include="Content\images\!sample-user.jpg" />
+    <Content Include="Content\images\381logo.png" />
     <Content Include="Content\images\apple-touch-icon-precomposed.png" />
     <Content Include="Content\images\arrows.png" />
     <Content Include="Content\images\blog-image-1.jpg" />
@@ -743,8 +744,11 @@
     <Content Include="Content\images\device.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\icon.png" />
+    <Content Include="Content\images\invoice-41.png" />
+    <Content Include="Content\images\invoice-411.png" />
     <Content Include="Content\images\jstree-dark.png" />
     <Content Include="Content\images\jstree.png" />
+    <Content Include="Content\images\loggo.png" />
     <Content Include="Content\images\logo-light.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\mkfarooq-gmail-com.png" />
@@ -2600,6 +2604,7 @@
     <Content Include="Views\Setup\AddClient.cshtml" />
     <Content Include="Views\Setup\UnitList.cshtml" />
     <Content Include="Views\Setup\AddUnit.cshtml" />
+    <Content Include="Views\PurchaseOrders\GenerateReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
