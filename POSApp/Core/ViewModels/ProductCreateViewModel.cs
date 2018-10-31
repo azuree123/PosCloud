@@ -37,6 +37,10 @@ namespace POSApp.Core.ViewModels
         public string CreatedBy { get; set; }
         public int UnitId { get; set; }
         public IEnumerable<SelectListItem> CategoryDdl { get; set; }
-        public IEnumerable<SelectListItem> SupplierDdl { get; set; } 
+        public IEnumerable<SelectListItem> SupplierDdl { get; set; }
+        public IEnumerable<SelectListItem> UnitDdl { get; set; }
+        public IEnumerable<SelectListItem> TaxDdl { get; set; }
+
+
     }
 }
