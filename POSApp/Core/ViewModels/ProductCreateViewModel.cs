@@ -24,8 +24,12 @@ namespace POSApp.Core.ViewModels
         public string Stock { get; set; }
         public string Barcode { get; set; }
         public string Image { get; set; }
+        public string Attribute { get; set; }
+        public string Size { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
+        public int UnitId { get; set; }
+        public IEnumerable<SelectListItem> UnitDdl { get; set; }
         public IEnumerable<SelectListItem> CategoryDdl { get; set; }
         public IEnumerable<SelectListItem> SupplierDdl { get; set; } 
     }

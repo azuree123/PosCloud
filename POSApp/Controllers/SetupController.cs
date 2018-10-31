@@ -891,6 +891,8 @@ namespace POSApp.Controllers
             return RedirectToAction("CouponList", "Setup");
         }
 
+
+
         public JsonResult GetDepartmentDdl()
         {
             try
