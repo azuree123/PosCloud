@@ -38,7 +38,6 @@ namespace POSApp.Persistence
 
         public IAppCountersRepository AppCountersRepository { get; private set; }
         public IClientRepository ClientRepository { get; private set; }
-       public IAppCountersRepository AppCountersRepository { get; private set; }
         public IUnitRepository UnitRepository { get; private set; }
 
         public UnitOfWork(PosDbContext context)
