@@ -15,14 +15,16 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************
-            Property(x => x.Name).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
-            Property(x => x.Description).HasColumnType("nvarchar").HasMaxLength(300).IsOptional();
-            Property(x => x.Barcode).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-            Property(x => x.ProductCode).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-            Property(x => x.Image).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
+            Property(x => x.Name).HasColumnType("varchar").HasMaxLength(150).IsRequired();
+            Property(x => x.Description).HasColumnType("varchar").HasMaxLength(300).IsOptional();
+            Property(x => x.Barcode).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+            Property(x => x.ProductCode).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+            Property(x => x.Image).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.Stock).HasColumnType("float").IsOptional();
             Property(x => x.UnitPrice).HasColumnType("float").IsRequired();
+            Property(x => x.Attribute).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+            Property(x => x.Size).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.CostPrice).HasColumnType("float").IsRequired();
             Property(x => x.ReOrderLevel).HasColumnType("int").IsRequired();
             Property(x => x.IsTaxable).HasColumnType("bit").IsRequired();
