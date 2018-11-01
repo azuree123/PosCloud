@@ -13,6 +13,5 @@ namespace POSApp.Core.Repositories
         void AddUnit(Unit unit);
         void UpdateUnit(int id, Unit unit, int storeid);
         void DeleteUnit(int id, int storeId);
-        IEnumerable<Unit> GetApiUnits(int storeid);
     }
 }
