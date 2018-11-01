@@ -20,9 +20,9 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetTaxes()
+        public async Task<IHttpActionResult> GetTaxes(int storeId)
         {
-            return Ok(Mapper.Map<TaxViewModel[]>(_unitOfWork.TaxRepository.GetApiTaxes()));
+            return Ok(Mapper.Map<TaxViewModel[]>(_unitOfWork.TaxRepository.GetTaxes(storeId)));
         }
 
         // GET: api/TaxCategoriesSync/5

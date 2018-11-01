@@ -5,7 +5,7 @@ namespace POSApp.Core.Repositories
 {
     public interface IProductCategoryRepository
     {
-        IEnumerable<ProductCategory> GetProductCategories();
+        IEnumerable<ProductCategory> GetProductCategories(int storeId);
         ProductCategory GetProductCategoryById(int id, int storeid);
         void AddProductCategory(ProductCategory productCategory);
         void UpdateProductCategory(int id,int storeid ,ProductCategory productCategory);

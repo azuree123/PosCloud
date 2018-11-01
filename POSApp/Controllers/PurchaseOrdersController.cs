@@ -28,7 +28,9 @@ namespace POSApp.Controllers
         // GET: PurchaseOrders
         public ActionResult PurchaseOrderList()
         {
-            return View(_unitOfWork.PurchaseOrderRepository.GetPurchaseOrders());
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.PurchaseOrderRepository.GetPurchaseOrders((int)user.StoreId));
         }
        
        

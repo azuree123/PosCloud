@@ -5,7 +5,7 @@ namespace POSApp.Core.Repositories
 {
    public interface IEmployeeRepository
    {
-       IEnumerable<Employee> GetEmployees();
+       IEnumerable<Employee> GetEmployees(int storeId);
        Employee GetEmployeeById(int id,int storeid);
        void AddEmployee(Employee employee);
        void UpdateEmployee(int id, Employee employee,int storeid);

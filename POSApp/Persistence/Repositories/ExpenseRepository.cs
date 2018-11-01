@@ -16,9 +16,9 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<Expense> GetExpenses()
+        public IEnumerable<Expense> GetExpenses(int storeId)
         {
-            return _context.Expenses.ToList();
+            return _context.Expenses.Where(a=>a.StoreId==storeId).ToList();
         }
 
         public Expense GetExpenseById(int id, int storeid)

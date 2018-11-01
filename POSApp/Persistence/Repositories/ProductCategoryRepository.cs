@@ -16,9 +16,9 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<ProductCategory> GetProductCategories()
+        public IEnumerable<ProductCategory> GetProductCategories(int storeId)
         {
-            return _context.ProductCategories.ToList();
+            return _context.ProductCategories.Where(a=>a.StoreId==storeId).ToList();
         }
         public ProductCategory GetProductCategoryById(int id, int storeid)
         {

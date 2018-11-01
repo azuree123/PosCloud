@@ -16,9 +16,9 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<ExpenseHead> GetExpenseHeads()
+        public IEnumerable<ExpenseHead> GetExpenseHeads(int storeId)
         {
-            return _context.ExpenseHeads.ToList();
+            return _context.ExpenseHeads.Where(a=>a.StoreId == storeId).ToList();
         }
 
         public ExpenseHead GetExpenseHeadById(int id, int storeid)

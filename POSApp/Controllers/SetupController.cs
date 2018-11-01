@@ -293,7 +293,9 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult EmployeeList()
         {
-            return View("EmployeeList", _unitOfWork.EmployeeRepository.GetEmployees());
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View("EmployeeList", _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId));
         }
 
         [HttpGet]

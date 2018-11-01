@@ -20,9 +20,9 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetProductCategories()
+        public async Task<IHttpActionResult> GetProductCategories(int storeId)
         {
-            return Ok(Mapper.Map<ProductCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetApiProductCategories()));
+            return Ok(Mapper.Map<ProductCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories(storeId)));
         }
 
         // GET: api/ProductCategoryCategoriesSync/5

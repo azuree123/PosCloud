@@ -18,9 +18,9 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetPurchaseOrders()
+        public async Task<IHttpActionResult> GetPurchaseOrders(int storeId)
         {
-            return Ok(_unitOfWork.PurchaseOrderRepository.GetApiPurchaseOrders());
+            return Ok(_unitOfWork.PurchaseOrderRepository.GetPurchaseOrders(storeId));
         }
 
         // GET: api/PurchaseOrderCategoriesSync/5

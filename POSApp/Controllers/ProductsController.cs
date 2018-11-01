@@ -35,7 +35,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ProductCreateViewModel product = new ProductCreateViewModel();
-            product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a=>a.Type=="Product")
+            product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a=>a.Type=="Product")
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             product.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
@@ -55,7 +55,7 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             if (!ModelState.IsValid)
             {
-                productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Product")
+                productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Product")
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 productVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
@@ -105,7 +105,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id,Convert.ToInt32(user.StoreId)));
-            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Product")
+            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Product")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
@@ -170,7 +170,9 @@ namespace POSApp.Controllers
 
         public ActionResult ProductCategoryList()
         {
-            return View(_unitOfWork.ProductCategoryRepository.GetProductCategories());
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId));
         }
         public ActionResult AddProductCategoryPartial()
         {
@@ -353,7 +355,9 @@ namespace POSApp.Controllers
         {
             try
             {
-                return Json(Mapper.Map<ProductCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Product")), JsonRequestBehavior.AllowGet);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<ProductCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)).Where(a => a.Type == "Product"), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

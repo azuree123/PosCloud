@@ -33,8 +33,10 @@ namespace POSApp.Controllers
 
         public ActionResult AddService()
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ServiceCreateViewModel service = new ServiceCreateViewModel();
-            service.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Service")
+            service.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Service")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             service.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
@@ -91,7 +93,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ServiceCreateViewModel serviceVm = Mapper.Map<ServiceCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id,Convert.ToInt32(user.StoreId)));
-            serviceVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Service")
+            serviceVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Service")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             serviceVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
@@ -177,7 +179,9 @@ namespace POSApp.Controllers
         }
         public ActionResult ServiceCategoryList()
         {
-            return View(_unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a=>a.Type=="Service"));
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a=>a.Type=="Service"));
         }
 
         public ActionResult AddServiceCategory()
@@ -295,7 +299,9 @@ namespace POSApp.Controllers
         {
             try
             {
-                return Json(Mapper.Map<ServiceCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a=>a.Type=="Service")), JsonRequestBehavior.AllowGet);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<ServiceCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a=>a.Type=="Service")), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
