@@ -48,6 +48,9 @@ namespace POSApp.Controllers
             else
             {
                 Department department = Mapper.Map<Department>(departmentVm);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                department.StoreId = (int) user.StoreId;
                 _unitOfWork.DepartmentRepository.AddDepartment(department);
                 _unitOfWork.Complete();
                 return PartialView("Error");
@@ -186,6 +189,9 @@ namespace POSApp.Controllers
             else
             {
                 Department department = Mapper.Map<Department>(departmentVm);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                department.StoreId = (int)user.StoreId;
                 _unitOfWork.DepartmentRepository.AddDepartment(department);
                 _unitOfWork.Complete();
                 return RedirectToAction("DepartmentList","Setup");
@@ -196,8 +202,10 @@ namespace POSApp.Controllers
         public ActionResult UpdateDepartment(int id)
         {
             ViewBag.edit = "UpdateDepartment";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             DepartmentViewModel departmentVm =
-                Mapper.Map<DepartmentViewModel>(_unitOfWork.DepartmentRepository.GetDepartmentById(id));
+                Mapper.Map<DepartmentViewModel>(_unitOfWork.DepartmentRepository.GetDepartmentById(id, (int)user.StoreId));
             return View("AddDepartment", departmentVm);
         }
         [HttpPost]
@@ -211,14 +219,19 @@ namespace POSApp.Controllers
             else
             {
                 Department department = Mapper.Map<Department>(departmentVm);
-                _unitOfWork.DepartmentRepository.UpdateDepartment(id,department);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                department.StoreId = (int)user.StoreId;
+                _unitOfWork.DepartmentRepository.UpdateDepartment(id, department.StoreId, department);
                 _unitOfWork.Complete();
                 return RedirectToAction("DepartmentList", "Setup");
             }
         }
         public ActionResult DeleteDepartment( int id)
         {
-            _unitOfWork.DepartmentRepository.DeleteDepartment(id);
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.DepartmentRepository.DeleteDepartment(id,(int)user.StoreId);
             _unitOfWork.Complete();
             return RedirectToAction("DepartmentList","Setup");
         }
