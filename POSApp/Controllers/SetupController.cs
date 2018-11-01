@@ -29,8 +29,9 @@ namespace POSApp.Controllers
         // GET: Setup
         public ActionResult DepartmentList()
         {
-            
-            return View(_unitOfWork.DepartmentRepository.GetDepartments());
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId));
         }
         public ActionResult AddDepartmentPartial()
         {
@@ -302,7 +303,9 @@ namespace POSApp.Controllers
         public ActionResult AddEmployee()
         {
             EmployeeModelView employee = new EmployeeModelView();
-            employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments()
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             
             ViewBag.edit = "AddEmployee";
@@ -312,16 +315,16 @@ namespace POSApp.Controllers
         public ActionResult AddEmployee(EmployeeModelView employeeMv)
         {
             ViewBag.edit = "AddEmployee";
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
             if (!ModelState.IsValid)
             {
-                employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments()
+                employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 return View(employeeMv);
             }
             else
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
                 employeeMv.StoreId = user.StoreId;
                 Employee employee = Mapper.Map<Employee>(employeeMv);
                
@@ -338,7 +341,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             EmployeeModelView employeeMv = Mapper.Map<EmployeeModelView>(_unitOfWork.EmployeeRepository.GetEmployeeById(id, Convert.ToInt32(user.StoreId)));
-            employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments()
+            employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
            
             return View("AddEmployee",employeeMv);
@@ -1096,7 +1099,9 @@ namespace POSApp.Controllers
         {
             try
             {
-                return Json(Mapper.Map<DepartmentViewModel[]>(_unitOfWork.DepartmentRepository.GetDepartments()), JsonRequestBehavior.AllowGet);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<DepartmentViewModel[]>(_unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -1132,7 +1137,9 @@ namespace POSApp.Controllers
         {
             try
             {
-                return Json(Mapper.Map<SupplierModelView[]>(_unitOfWork.SupplierRepository.GetSuppliers()), JsonRequestBehavior.AllowGet);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)user.StoreId)), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
