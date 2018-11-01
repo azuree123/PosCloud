@@ -22,7 +22,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetProducts(int storeId)
         {
-            return Ok(Mapper.Map<ProductCreateViewModel[]>(_unitOfWork.ProductRepository.GetAllProducts(storeId)));
+            return Ok(Mapper.Map<ProductSyncViewModel[]>(_unitOfWork.ProductRepository.GetAllProducts(storeId)));
         }
 
         // GET: api/ProductsSync/5

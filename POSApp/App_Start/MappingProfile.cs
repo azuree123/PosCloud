@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
 
@@ -52,6 +53,8 @@ namespace POSApp
             CreateMap<Unit, UnitViewModel>();
             CreateMap<ClientViewModel, Client>();
             CreateMap<Client, ClientViewModel>();
+            CreateMap<ProductSyncViewModel, Product>() ;
+            CreateMap<Product, ProductSyncViewModel>().ForMember(d => d.Image, o => o.MapFrom(g => Convert.ToBase64String(g.Image))); 
 
 
 
