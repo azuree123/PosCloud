@@ -17205,6 +17205,14 @@ select {
 
     height: 42%;
 }
+div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTables_paginate {
+    margin-top: 20px !important;
+}
+
+#header-flex {
+    display: flex;
+    align-items: center;
+}
 
 @media only screen and (max-width: 600px) {
     .invoice {
@@ -17224,5 +17232,14 @@ select {
     .pr-xx {
      padding-right: 0 !important; */
     }
-
+    div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTables_paginate {
+        margin-top: 0px !important;
+    }
+    #header-flex{
+        display:block !important;
+    }
+    #header-flex>a>button{
+        width:100%;
+        margin-top:10px;
+    }
 }

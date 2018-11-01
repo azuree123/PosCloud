@@ -56,7 +56,7 @@
                 <div class="col-md-12">
    
                    
-                        <div class="" style="display: flex;align-items: center">
+                        <div class="" id="header-flex">
                             <h3 class="wb-color" style="flex-grow: 8"><b>Customers</b></h3>
   
    
@@ -91,7 +91,7 @@
 
                     </tr>
                 </thead>
-                <tbody>
+                <tbody >
                     @{ int i = 1;}
                     @foreach (var cus in Model)
                     {
@@ -110,6 +110,7 @@
                             </td>
                         </tr>
                     }
+                  
                 </tbody>
             </table>
                  </div>
