@@ -64,7 +64,10 @@ namespace POSApp.Persistence.Repositories
         }
         public void AddTax(Tax optcategory)
         {
+            if (!_context.Taxes.Where(a => a.Name == optcategory.Name && a.StoreId==optcategory.StoreId).Any())
+            {
             _context.Taxes.Add(optcategory);
+            }
 
         }
         public void UpdateTax(int id, Tax tax, int storeId)

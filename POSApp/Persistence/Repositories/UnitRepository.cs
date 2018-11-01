@@ -29,7 +29,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddUnit(Unit unit)
         {
+            if (!_context.Units.Where(a => a.Name == unit.Name && a.StoreId == unit.StoreId).Any())
+            {
             _context.Units.Add(unit);
+            }
         }
 
         public void UpdateUnit(int id, Unit unit, int storeid)

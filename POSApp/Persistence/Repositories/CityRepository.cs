@@ -31,7 +31,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddCity(City city)
         {
+            if (!_context.Cities.Where(a => a.Name == city.Name && a.StateId == city.StateId).Any())
+            {
             _context.Cities.Add(city);
+            }
         }
 
         public void UpdateCity(int id, City city)

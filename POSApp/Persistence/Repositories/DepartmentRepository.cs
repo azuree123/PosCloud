@@ -28,7 +28,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddDepartment(Department department)
         {
+            if (!_context.Departments.Where(a => a.Name == department.Name && a.StoreId == department.StoreId).Any())
+            {
             _context.Departments.Add(department);
+            }
         }
 
         public void UpdateDepartment(int id, int storeId, Department department)

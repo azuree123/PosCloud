@@ -29,7 +29,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddCoupon(Coupon coupon)
         {
+            if (!_context.Coupons.Where(a => a.Name == coupon.Name  && a.StoreId == coupon.StoreId).Any())
+            {
             _context.Coupons.Add(coupon);
+            }
 
         }
 

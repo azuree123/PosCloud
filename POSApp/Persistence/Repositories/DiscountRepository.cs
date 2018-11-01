@@ -64,7 +64,10 @@ namespace POSApp.Persistence.Repositories
         }
         public void AddDiscount(Discount optcategory)
         {
+            if (!_context.Discounts.Where(a => a.Name == optcategory.Name && a.StoreId == optcategory.StoreId).Any())
+            {
             _context.Discounts.Add(optcategory);
+            }
 
         }
 

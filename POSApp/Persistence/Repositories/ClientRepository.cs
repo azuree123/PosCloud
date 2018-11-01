@@ -29,7 +29,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddClient(Client client)
         {
+            if (!_context.Clients.Where(a => a.Name == client.Name ).Any())
+            {
             _context.Clients.Add(client);
+            }
         }
 
         public void UpdateClient(int id, Client client)

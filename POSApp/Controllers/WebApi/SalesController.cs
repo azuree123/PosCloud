@@ -39,17 +39,25 @@ namespace POSApp.Controllers.WebApi
             try
             {
 
-                SalesViewModel salesView = System.Web.Helpers.Json.Decode<SalesViewModel>(sync.Object) ;
-                TransMaster saleOrder = salesView.SaleOrder;
-                saleOrder.Code = saleOrder.Id.ToString();
-                var saleOrderAdd = saleOrder;
-                _unitOfWork.TransMasterRepository.AddTransMaster(saleOrder);
-                foreach (var saleOrderDetail in salesView.SaleOrderDetails)
+                List<SalesViewModel> salesView = System.Web.Helpers.Json.Decode<List<SalesViewModel>>(sync.Object) ;
+                foreach (var salesViewModel in salesView)
                 {
-                    saleOrderDetail.Code = salesView.SaleOrder.Id.ToString();
-                    saleOrderDetail.TransMasterId = saleOrderAdd.Id;
-                    _unitOfWork.TransDetailRepository.AddTransDetail(saleOrderDetail);
+                    TransMaster saleOrder = salesViewModel.TransMaster;
+                    int bId = _unitOfWork.BusinessPartnerRepository
+                        .GetBusinessPartners("C", saleOrder.StoreId).Select(a=>a.Id).FirstOrDefault();
+                    saleOrder.BusinessPartnerId = bId;
+                    saleOrder.Code = saleOrder.Id.ToString();
+                    var saleOrderAdd = saleOrder;
+                    _unitOfWork.TransMasterRepository.AddTransMaster(saleOrder);
+                    _unitOfWork.Complete();
+                    foreach (var saleOrderDetail in salesViewModel.TransDetailsList)
+                    {
+                        saleOrderDetail.Code = salesViewModel.TransMaster.Id.ToString();
+                        saleOrderDetail.TransMasterId = saleOrderAdd.Id;
+                        _unitOfWork.TransDetailRepository.AddTransDetail(saleOrderDetail);
+                    }
                 }
+              
                 _unitOfWork.Complete();
                 return Ok("Success");
             }

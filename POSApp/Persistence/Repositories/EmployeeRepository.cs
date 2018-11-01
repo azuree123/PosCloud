@@ -28,7 +28,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddEmployee(Employee employee)
         {
+            if (!_context.Employees.Where(a => a.Name == employee.Name && a.StoreId == employee.StoreId && a.DepartmentId==employee.DepartmentId && a.Email==employee.Email).Any())
+            {
             _context.Employees.Add(employee);
+            }
 
         }
 
