@@ -16,9 +16,9 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
-        public IEnumerable<Product> GetAllProducts()
+        public IEnumerable<Product> GetAllProducts(int storeId)
         {
-            return _context.Products.Include(a=>a.ProductCategory).ToList();
+            return _context.Products.Include(a=>a.ProductCategory).Where(a=>a.StoreId==storeId).ToList();
         }
         public IEnumerable<Product> GetProducts(int productCategoryId)
         {

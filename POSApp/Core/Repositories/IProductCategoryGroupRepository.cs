@@ -10,7 +10,7 @@ namespace POSApp.Core.Repositories
 {
     public interface IProductCategoryGroupRepository
     {
-        ProductCategoryGroup GetProductCategoryGroup(int id);
+        ProductCategoryGroup GetProductCategoryGroup(int id, int storeId);
         IEnumerable<ProductCategoryGroupViewModel> GetProductCategoryGroups(int storeId);
         IEnumerable<ProductCategoryGroupViewModel> GetProductCategoryGroupsFiltered(string query, int storeId);
         IEnumerable<ProductCategoryGroupViewModel> GetProductCategoryGroupsFiltered(int query, int storeId);

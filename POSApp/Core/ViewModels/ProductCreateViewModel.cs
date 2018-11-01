@@ -33,7 +33,7 @@ namespace POSApp.Core.ViewModels
 
         public string Stock { get; set; }
         public string Barcode { get; set; }
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         [DisplayName("Unit")]

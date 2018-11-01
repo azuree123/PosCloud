@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace POSApp.Core.Models
 {
@@ -27,7 +28,7 @@ namespace POSApp.Core.Models
         [DefaultValue(0)]
         public int ReOrderLevel { get; set; }
         public string Barcode { get; set; }
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
         public int CategoryId { get; set; }
         public ProductCategory ProductCategory { get; set; }
 

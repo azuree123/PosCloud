@@ -5,7 +5,7 @@ namespace POSApp.Core.Repositories
 {
    public interface IProductRepository
    {
-       IEnumerable<Product> GetAllProducts();
+       IEnumerable<Product> GetAllProducts(int storeId);
        IEnumerable<Product> GetProducts(int productCategoryId);
        Product GetProductById(int id, int storeid);
        void AddProduct(Product product);

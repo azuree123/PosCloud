@@ -28,7 +28,9 @@ namespace POSApp.Controllers
         // GET: Services
         public ActionResult ServicesList()
         {
-            return View(_unitOfWork.ProductRepository.GetAllProducts().Where(a => a.ProductCategory.Type == "Service").ToList());
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.ProductCategory.Type == "Service").ToList());
         }
 
         public ActionResult AddService()

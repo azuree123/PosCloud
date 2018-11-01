@@ -17,9 +17,9 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
-        public ProductCategoryGroup GetProductCategoryGroup(int id)
+        public ProductCategoryGroup GetProductCategoryGroup(int id,int storeId)
         {
-            return _context.ProductCategoryGroups.FirstOrDefault(x => x.Id == id);
+            return _context.ProductCategoryGroups.FirstOrDefault(x => x.Id == id && x.StoreId==storeId);
         }
         public IEnumerable<ProductCategoryGroupViewModel> GetProductCategoryGroups(int storeId)
         {

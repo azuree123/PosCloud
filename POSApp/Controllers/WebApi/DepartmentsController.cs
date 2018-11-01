@@ -21,15 +21,15 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetDepartments()
+        public async Task<IHttpActionResult> GetDepartments(int storeId)
         {
-            return Ok(Mapper.Map<DepartmentViewModel[]>(_unitOfWork.DepartmentRepository.GetApiDepartments()));
+            return Ok(Mapper.Map<DepartmentViewModel[]>(_unitOfWork.DepartmentRepository.GetDepartments(storeId)));
         }
 
         // GET: api/DepartmentsSync/5
         public async Task<IHttpActionResult> GetDepartment(int id, int storeId)
         {
-            return Ok(_unitOfWork.DepartmentRepository.GetDepartmentById(id));
+            return Ok(_unitOfWork.DepartmentRepository.GetDepartmentById(id,storeId));
         }
 
         // POST: api/DepartmentsSync

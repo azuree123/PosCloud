@@ -349,6 +349,7 @@
     <Compile Include="Controllers\WebApi\ExpensesController.cs" />
     <Compile Include="Controllers\WebApi\LocationsController.cs" />
     <Compile Include="Controllers\WebApi\ProductCategoriesController.cs" />
+    <Compile Include="Controllers\WebApi\ProductCategoryGroupsController.cs" />
     <Compile Include="Controllers\WebApi\ProductsController.cs" />
     <Compile Include="Controllers\WebApi\PurchaseOrdersController.cs" />
     <Compile Include="Controllers\WebApi\SalesController.cs" />
@@ -503,6 +504,10 @@
     <Compile Include="Migrations\201810311204593_new-8.cs" />
     <Compile Include="Migrations\201810311204593_new-8.Designer.cs">
       <DependentUpon>201810311204593_new-8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811010706485_new-9.cs" />
+    <Compile Include="Migrations\201811010706485_new-9.Designer.cs">
+      <DependentUpon>201811010706485_new-9.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2663,6 +2668,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810311204593_new-8.resx">
       <DependentUpon>201810311204593_new-8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811010706485_new-9.resx">
+      <DependentUpon>201811010706485_new-9.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

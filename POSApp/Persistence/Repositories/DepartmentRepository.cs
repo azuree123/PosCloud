@@ -16,14 +16,14 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<Department> GetDepartments()
+        public IEnumerable<Department> GetDepartments(int storeId)
         {
-            return _context.Departments.ToList();
+            return _context.Departments.Where(a=>a.StoreId==storeId).ToList();
         }
 
-        public Department GetDepartmentById(int id)
+        public Department GetDepartmentById(int id, int storeId)
         {
-            return _context.Departments.Find(id);
+            return _context.Departments.Where(a=>a.Id==id && a.StoreId==storeId).ToList().FirstOrDefault();
         }
 
         public void AddDepartment(Department department)
@@ -31,15 +31,16 @@ namespace POSApp.Persistence.Repositories
             _context.Departments.Add(department);
         }
 
-        public void UpdateDepartment(int id, Department department)
+        public void UpdateDepartment(int id, int storeId, Department department)
         {
+            department.StoreId = storeId;
             _context.Departments.Attach(department);
             _context.Entry(department).State = EntityState.Modified;
         }
 
-        public void DeleteDepartment(int id)
+        public void DeleteDepartment(int id, int storeId)
         {
-            var department = new Department { Id = id };
+            var department = new Department { Id = id,StoreId = storeId};
             _context.Departments.Attach(department);
             _context.Entry(department).State = EntityState.Deleted;
         }
