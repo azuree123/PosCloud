@@ -93,6 +93,7 @@ namespace POSApp.Persistence.Repositories
         }
         public void UpdateBusinessPartner(int id, int StoreId,BusinessPartner item)
         {
+            item.StoreId = StoreId;
             _context.BusinessPartners.Attach(item);
             _context.Entry(item).State = EntityState.Modified;
         }
