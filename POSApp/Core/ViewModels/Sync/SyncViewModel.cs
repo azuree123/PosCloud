@@ -8,8 +8,8 @@ namespace POSApp.Core.ViewModels.Sync
 {
     public class SalesViewModel
     {
-        public SaleOrder SaleOrder { get; set; }
-        public List<SaleOrderDetail> SaleOrderDetails { get; set; }
+        public TransMaster SaleOrder { get; set; }
+        public List<TransDetail> SaleOrderDetails { get; set; }
 
     }
     public class SyncObject

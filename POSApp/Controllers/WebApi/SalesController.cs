@@ -30,15 +30,7 @@ namespace POSApp.Controllers.WebApi
         // GET: api/Sync/5
         public SalesViewModel Get(int id)
         {
-            SalesViewModel model=new SalesViewModel();
-            model.SaleOrder=new SaleOrder
-            {
-                Amount = 0,Canceled = false,Code ="0001",CustomerId = 1,Date = "10/22/2018",Discount = 0,Status = "HHH",
-                Tax = 0,Time = "16:00:00",Type = "Product"
-            };
-            model.SaleOrderDetails=new List<SaleOrderDetail>();
-            model.SaleOrderDetails.Add(new SaleOrderDetail{Discount = 0,ProductId = 18355,Quantity = 12,UnitPrice = 20});
-            return model;
+            return null;
         }
 
         // POST: api/Sync
@@ -48,15 +40,15 @@ namespace POSApp.Controllers.WebApi
             {
 
                 SalesViewModel salesView = System.Web.Helpers.Json.Decode<SalesViewModel>(sync.Object) ;
-                SaleOrder saleOrder = salesView.SaleOrder;
+                TransMaster saleOrder = salesView.SaleOrder;
                 saleOrder.Code = saleOrder.Id.ToString();
                 var saleOrderAdd = saleOrder;
-                _unitOfWork.SaleOrderRepository.AddSaleOrder(saleOrder);
+                _unitOfWork.TransMasterRepository.AddTransMaster(saleOrder);
                 foreach (var saleOrderDetail in salesView.SaleOrderDetails)
                 {
                     saleOrderDetail.Code = salesView.SaleOrder.Id.ToString();
-                    saleOrderDetail.SaleOrderId = saleOrderAdd.Id;
-                    _unitOfWork.SaleOrderDetailRepository.AddSaleOrderDetail(saleOrderDetail);
+                    saleOrderDetail.TransMasterId = saleOrderAdd.Id;
+                    _unitOfWork.TransDetailRepository.AddTransDetail(saleOrderDetail);
                 }
                 _unitOfWork.Complete();
                 return Ok("Success");
