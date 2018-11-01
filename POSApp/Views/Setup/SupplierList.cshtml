@@ -57,17 +57,18 @@
                 <div class="col-md-12">
     
 
-                    <div class="" style="display: flex; align-items: center">
+                    <div class="" id="header-flex">
                         <h3 class="wb-color" style="flex-grow: 8"><b>Suppliers</b></h3>
 
 
-                        <a href="@Url.Action("SupplierExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+
+                        <a href="@Url.Action("AddSupplier", "Setup")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Supplier</button>
 
                         </a>
-
-                        <a href="@Url.Action("AddSupplier", "Setup")" class="modalShow" style="flex-grow: 0">
-                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Supplier</button>
+                        <a href="@Url.Action("SupplierExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
+                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
                         </a>
 
