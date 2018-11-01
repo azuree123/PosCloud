@@ -503,6 +503,7 @@ namespace POSApp.Controllers
                 supplier.Type = "S";
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
+                supplier.Birthday = DateTime.Now;
                 _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id,Convert.ToInt32(user.StoreId),supplier);
                 _unitOfWork.Complete();
                 return RedirectToAction("SupplierList", "Setup");

@@ -22,8 +22,8 @@ namespace POSApp.Persistence.EntityConfigurations
             //HasRequired(x => x.CreatedBy).WithMany().HasForeignKey(x => new { x.CreatedById, x.StoreId }).WillCascadeOnDelete(false);
             //HasRequired(x => x.UpdatedBy).WithMany().HasForeignKey(x => new { x.UpdatedById, x.StoreId }).WillCascadeOnDelete(false);
 
-            HasRequired(x=>x.ExpenseHead).WithMany(a=>a.Expenses).HasForeignKey(a=> new{a.ExpenseHeadId, a.StoreId }).WillCascadeOnDelete(false);
-            HasRequired(x=>x.Employee).WithMany(x=>x.Expenses).HasForeignKey(x=> new {x.EmployeeId, x.StoreId }).WillCascadeOnDelete(false);
+            HasRequired(x=>x.ExpenseHead).WithMany(a=>a.Expenses).HasForeignKey(a=> new{a.ExpenseHeadId, a.StoreId }).WillCascadeOnDelete(true);
+            HasRequired(x=>x.Employee).WithMany(x=>x.Expenses).HasForeignKey(x=> new {x.EmployeeId, x.StoreId }).WillCascadeOnDelete(true);
         }
     }
 }
