@@ -2472,7 +2472,6 @@
     <Content Include="Content\ImportFormats\StateImport.xls" />
     <Content Include="Content\ImportFormats\BusinessPartnerImport.xls" />
     <Content Include="Content\ImportFormats\CityImport.xls" />
-    <Content Include="Content\ImportFormats\CouponImport.xls" />
     <Content Include="Content\ImportFormats\DepartmentImport.xls" />
     <Content Include="Content\ImportFormats\DesignationImport.xls" />
     <Content Include="Content\ImportFormats\EmployeeImport.xls" />
@@ -2489,6 +2488,7 @@
     <Content Include="Content\ImportFormats\TransMasterImport.xls" />
     <Content Include="Content\ImportFormats\DiscountImport.xls" />
     <Content Include="Content\ImportFormats\CustomerImport.xls" />
+    <Content Include="Content\ImportFormats\CouponImport.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
