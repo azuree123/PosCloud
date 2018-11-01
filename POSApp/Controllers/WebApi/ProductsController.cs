@@ -20,9 +20,9 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetProducts()
+        public async Task<IHttpActionResult> GetProducts(int storeId)
         {
-            return Ok(Mapper.Map<ProductCreateViewModel[]>(_unitOfWork.ProductRepository.GetApiProducts()));
+            return Ok(Mapper.Map<ProductCreateViewModel[]>(_unitOfWork.ProductRepository.GetProducts(storeId)));
         }
 
         // GET: api/ProductsSync/5

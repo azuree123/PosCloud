@@ -21,9 +21,9 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetEmployees()
+        public async Task<IHttpActionResult> GetEmployees(int storeId)
         {
-            return Ok(Mapper.Map<EmployeeModelView[]>(_unitOfWork.EmployeeRepository.GetApiEmployees()));
+            return Ok(Mapper.Map<EmployeeModelView[]>(_unitOfWork.EmployeeRepository.GetEmployees(storeId)));
         }
 
         // GET: api/EmployeesSync/5

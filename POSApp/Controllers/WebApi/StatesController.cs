@@ -23,7 +23,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetStates()
         {
-            return Ok(Mapper.Map<StateModelView[]>(_unitOfWork.StateRepository.GetApiStates()));
+            return Ok(Mapper.Map<StateModelView[]>(_unitOfWork.StateRepository.GetStates()));
         }
 
         // GET: api/StateCategoriesSync/5

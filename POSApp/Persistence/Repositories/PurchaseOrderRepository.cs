@@ -16,9 +16,9 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<PurchaseOrder> GetPurchaseOrders()
+        public IEnumerable<PurchaseOrder> GetPurchaseOrders(int storeId)
         {
-            return _context.PurchaseOrders.ToList();
+            return _context.PurchaseOrders.Where(a=>a.StoreId==storeId).ToList();
         }
 
         public PurchaseOrder GetPurchaseOrderById(int id)

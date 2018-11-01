@@ -21,9 +21,9 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetDiscounts()
+        public async Task<IHttpActionResult> GetDiscounts(int storeId)
         {
-            return Ok(Mapper.Map<DiscountViewModel[]>(_unitOfWork.DiscountRepository.GetApiDiscounts()));
+            return Ok(Mapper.Map<DiscountViewModel[]>(_unitOfWork.DiscountRepository.GetDiscounts(storeId)));
         }
 
         // GET: api/DiscountsSync/5

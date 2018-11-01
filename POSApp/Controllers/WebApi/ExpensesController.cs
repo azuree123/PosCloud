@@ -21,9 +21,9 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetExpenses()
+        public async Task<IHttpActionResult> GetExpenses(int storeId)
         {
-            return Ok(Mapper.Map<ExpenseViewModel[]>(_unitOfWork.ExpenseRepository.GetApiExpenses()));
+            return Ok(Mapper.Map<ExpenseViewModel[]>(_unitOfWork.ExpenseRepository.GetExpenses(storeId)));
         }
 
         // GET: api/ExpensesSync/5

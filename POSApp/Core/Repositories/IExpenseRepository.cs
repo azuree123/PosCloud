@@ -5,7 +5,7 @@ namespace POSApp.Core.Repositories
 {
     public interface IExpenseRepository
     {
-        IEnumerable<Expense> GetExpenses();
+        IEnumerable<Expense> GetExpenses(int storeId);
         Expense GetExpenseById(int id,int storeid);
         void AddExpense(Expense expense);
         void UpdateExpense(int id, Expense expense,int storeid);

@@ -16,9 +16,9 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<Employee> GetEmployees()
+        public IEnumerable<Employee> GetEmployees(int storeId)
         {
-            return _context.Employees.ToList();
+            return _context.Employees.Where(a=>a.StoreId == storeId).ToList();
         }
 
         public Employee GetEmployeeById(int id,int storeid)

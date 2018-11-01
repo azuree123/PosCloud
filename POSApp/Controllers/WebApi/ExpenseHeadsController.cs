@@ -21,9 +21,9 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetExpenseHeads()
+        public async Task<IHttpActionResult> GetExpenseHeads(int storeId)
         {
-            return Ok(Mapper.Map<ExpenseHeadViewModel[]>(_unitOfWork.ExpenseHeadRepository.GetApiExpenseHeads()));
+            return Ok(Mapper.Map<ExpenseHeadViewModel[]>(_unitOfWork.ExpenseHeadRepository.GetExpenseHeads(storeId)));
         }
 
         // GET: api/ExpenseHeadsSync/5
