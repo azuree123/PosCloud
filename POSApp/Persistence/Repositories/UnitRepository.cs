@@ -52,5 +52,6 @@ namespace POSApp.Persistence.Repositories
             _context.Units.Attach(unit);
             _context.Entry(unit).State = EntityState.Deleted;
         }
+        
     }
 }

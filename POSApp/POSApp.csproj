@@ -355,6 +355,7 @@
     <Compile Include="Controllers\WebApi\StatesController.cs" />
     <Compile Include="Controllers\WebApi\SuppliersController.cs" />
     <Compile Include="Controllers\WebApi\TaxesController.cs" />
+    <Compile Include="Controllers\WebApi\UnitsController.cs" />
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\Enums\PaymentMethod.cs" />
@@ -395,6 +396,7 @@
     <Compile Include="Core\ViewModels\EmployeeModelView.cs" />
     <Compile Include="Core\ViewModels\ExpenseHeadViewModel.cs" />
     <Compile Include="Core\ViewModels\ExpenseViewModel.cs" />
+    <Compile Include="Core\ViewModels\GeneratePurchaseOrderViewModel.cs" />
     <Compile Include="Core\ViewModels\InvoiceViewModel.cs" />
     <Compile Include="Core\ViewModels\LocationModelView.cs" />
     <Compile Include="Core\ViewModels\ProductCategoryGroupViewModel.cs" />

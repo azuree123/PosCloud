@@ -26,7 +26,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetCities()
         {
-            return Ok(Mapper.Map<CityModelView[]>(_unitOfWork.CityRepository.GetApiCities()));
+            return Ok(Mapper.Map<CityModelView[]>(_unitOfWork.CityRepository.GetCities()));
         }
 
         // GET: api/CitiesSync/5

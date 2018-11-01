@@ -1,4 +1,4 @@
-﻿
+﻿@model POSApp.Core.ViewModels.GeneratePurchaseOrderViewModel
 @{
                 /**/
 
@@ -55,36 +55,34 @@
 
 
 <div class="container-fluid">
-    @*<div class="row">
-        <div class="col-md-8 col-md-offset-2">*@
+
             <div class=" mt-md">
 
 
                 <div class="invoice">
                     <div class="row">
                         <div class="col-md-5">
-                            <h3 class="document-type display-4">INVOICE<b> #1234567666780</b></h3>
-                            @*<p class=""><strong>N°90T-17-01-0123</strong></p>*@
+                            <h3 class="document-type display-4">INVOICE<b> #@Model.TransMasterViewModel.TransCode</b></h3>
 
                             <div class="col-md-2 p-none">
                                 <i class="fa fa-receipt " style="font-size: 6.6em;    color: #abaaaa;"></i>
                             </div>
                             <div class="col-md-9">
                                 <p class="m-none">
-                                    DATE : <strong>03.10.2018</strong>
+                                    DATE : <strong>@Model.TransMasterViewModel.TransDate.ToString("MM/dd/yyyy")</strong>
 
                                 </p>
                                 <p class="m-none">
-                                    TO : <strong>HAMZA TARIQ</strong>
+                                    TO : <strong>@Model.BusinessPartnerViewModel.Name</strong>
 
                                 </p>
                                 <div class="">
                                     <i class="fa fa-envelope"></i>
-                                    <strong class="text-right">HAMZATARIQ@381TECG.COM</strong>
+                                    <strong class="text-right">@Model.BusinessPartnerViewModel.Email</strong>
                                 </div>
                                 <div class="">
                                     <i class="fa fa-phone"></i>
-                                    <strong class="text-right">+923191-3456221</strong>
+                                    <strong class="text-right">@Model.BusinessPartnerViewModel.PhoneNumber</strong>
                                 </div>
 
                             </div>
@@ -95,26 +93,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        @*<div class="col-md-7">
-                        <p>
-                            <strong>90TECH SAS</strong><br>
-                            6B Rue Aux-Saussaies-Des-Dames<br>
-                            57950 MONTIGNY-LES-METZ
-                        </p>
-                    </div>*@
-                        @*<div class="col-md-5">
-                        <br><br><br>
-                        <p>
-                            <strong>Energies54</strong><br>
-                            Réf. Client <em>C00022</em><br>
-                            12 Rue de Verdun<br>
-                            54250 JARNY
-                        </p>
-                    </div>*@
+                  
                     </div>
                     <br>
                     <br>
-                    @*<h6>Audits et rapports mensuels (1er Novembre 2016 - 30 Novembre 2016)</h6>*@
                     <br>
                     <table class="table table-striped">
                         <thead>
@@ -126,114 +108,72 @@
                             </tr>
                         </thead>
                         <tbody>
+                        @foreach (var s in Model.TransDetailViewModels)
+                        {
                             <tr>
-                                <td class="text-left">Audits et rapports mensuels</td>
+                                <td class="text-left">@s.ProductName</td>
 
-                                <td class="text-center">500,00 USD</td>
+                                <td class="text-center">@s.Quantity</td>
 
-                                <td class="text-right">500,00 USD</td>
+                                <td class="text-right">@s.UnitPrice</td>
                             </tr>
-                            <tr>
-                                <td class="text-left">Audits et rapports mensuels</td>
+                        }
+                   
+                    
 
-                                <td class="text-center">500,00 USD</td>
+                        <tr>
 
-                                <td class="text-right">500,00 USD</td>
+                            <td rowspan="3" class="pr-xx">
+                            
+                                <br/>
+                                <br/>
+                                <br/>
+                                <h4 class="text-left mt-none text-weight-bold">TERMS AND CONDITIONS</h4>
+                                <p class="text-left conditions" style="word-break: break-word">
+                                    Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy faster collaborative thinking
+                                    to further the overall value proposition. Organically grow the holistic world view of distrutive innovation.
+                                </p>
+                              
 
-                            </tr>
-                            <tr>
-                                <td class="text-left">Audits et rapports mensuels</td>
+                            </td>
+                            <td>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <strong>SUBTOTAL:</strong>
+                            </td>
+                            <td class="text-right">
 
-                                <td class="text-center">500,00 USD</td>
+                                <br />
+                                <br />
+                                <br />
 
-                                <td class="text-right">500,00 USD</td>
+                                @Model.TotalAmount
+                            </td>
+                        </tr>
+                        <tr>
 
-                            </tr>
-                            <tr>
-                                <td class="text-left">Audits et rapports mensuels</td>
+                            <td style="border-bottom: 1px solid lightgrey"><strong>TAX (20%):</strong></td>
+                            <td style="border-bottom: 1px solid lightgrey" class="text-right">0 USD</td>
+                        </tr>
+                        <tr>
 
-                                <td class="text-center">500,00 USD</td>
+                            <td class="text-capitalize text-xl"><strong>Total </strong></td>
+                            <td class="text-right text-xl"><strong>  @Model.TotalAmount</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 60px;">
+                                <h4 class="text-left mt-none text-weight-bold">PAYMENT METHODS:</h4>
 
-                                <td class="text-right">500,00 USD</td>
+                                <img src="~/Content/images/invoice-41.png" style="width: 51%; float: left; height: 42%;"/>
 
-                            </tr>
-                            <tr>
-                                <td class="text-left">Audits et rapports mensuels</td>
+                            </td>
+                            <td colspan="2">
 
-                                <td class="text-center">500,00 USD</td>
+                                <img src="~/Content/images/invoice-411.png" style="width: 84%; height: 51%; float: right;"/>
 
-                                <td class="text-right">500,00 USD</td>
-
-                            </tr>
-                            <tr>
-                                <td class="text-left">Audits et rapports mensuels</td>
-
-                                <td class="text-center">500,00 USD</td>
-
-                                <td class="text-right">500,00 USD</td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td rowspan="3" class="pr-xx">
-                                    @*<div class="row">
-                                <div class="col-md-9">*@
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <h4 class="text-left mt-none text-weight-bold">TERMS AND CONDITIONS</h4>
-                                    <p class="text-left conditions" style="word-break:break-word">
-                                        Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy faster collaborative thinking
-                                        to further the overall value proposition. Organically grow the holistic world view of distrutive innovation.
-                                    </p>
-                                    @*</div>
-
-                                </div>*@
-
-                                </td>
-                                <td>
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <strong>SUBTOTAL:</strong>
-                                </td>
-                                <td class="text-right">
-
-                                    <br />
-                                    <br />
-                                    <br />
-
-                                    3 700,00 USD
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td style="border-bottom:1px solid lightgrey"><strong>TAX (20%):</strong></td>
-                                <td style="border-bottom:1px solid lightgrey" class="text-right">740,00 USD</td>
-                            </tr>
-                            <tr>
-
-                                <td class="text-capitalize text-xl"><strong>Total </strong></td>
-                                <td class="text-right text-xl"><strong> 4 440,00 USD</strong></td>
-                            </tr>
-                            <tr>
-                                <td style="padding-bottom: 60px;">
-                                    <h4 class="text-left mt-none text-weight-bold">PAYMENT METHODS:</h4>
-
-                                    <img src="~/Content/images/invoice-41.png" style="       width: 51%;
-    float: left;
-    height: 42%;" />
-
-                                </td>
-                                <td colspan="2">
-
-                                    <img src="~/Content/images/invoice-411.png" style="    width: 84%;
-       height: 51%;
-    float: right;" />
-
-                                </td>
-                            </tr>
+                            </td>
+                        </tr>
 
 
                         </tbody>
@@ -260,8 +200,7 @@
 
 
             </div>
-        @*</div>
-    </div>*@
+        
 
 </div>
 

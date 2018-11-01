@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
@@ -55,6 +57,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+            GeneratePurchaseOrderViewModel temp = new GeneratePurchaseOrderViewModel();
             po.Type = "PRI";
             if (!ModelState.IsValid)
             {
@@ -66,11 +69,18 @@ namespace POSApp.Controllers
                
                 int TransId = _unitOfWork.AppCountersRepository.GetId("Invoice");
                 po.TransCode = "INV-" + "C-" + TransId.ToString() + "-" + user.StoreId;
-
+                IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a=>a.CreatedByUserId==userid && a.StoreId==user.StoreId);
+                temp.TransMasterViewModel = po;
+                temp.BusinessPartnerViewModel =
+                    Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(po.BusinessPartnerId, (int) user.StoreId));
+                temp.TransDetailViewModels = poItems;
+                temp.TotalAmount = (from a in temp.TransDetailViewModels
+                    select a.Quantity * a.UnitPrice).Sum();
+                TempData["po"] = temp;
             }
+                return RedirectToAction("GenerateReceipt","PurchaseOrders");
             
 
-            return View();
         }
 
         public ActionResult AddTransactionItem()
@@ -115,7 +125,30 @@ namespace POSApp.Controllers
 
         public ActionResult GenerateReceipt()
         {
-            return View();
+            GeneratePurchaseOrderViewModel po = (GeneratePurchaseOrderViewModel) TempData["po"];
+            if (po == null)
+            {
+                return RedirectToAction("PurchaseOrderList");
+            }
+            return View(po);
+        }
+
+        public JsonResult GetProductInfo(int id)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                ProductCreateViewModel product =
+                    Mapper.Map<ProductCreateViewModel>(
+                        _unitOfWork.ProductRepository.GetProductById(id, (int) user.StoreId));
+                return Json(product, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
     }

@@ -21,15 +21,15 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetCustomers()
+        public async Task<IHttpActionResult> GetCustomers(int storeId)
         {
-            return Ok(Mapper.Map<CustomerModelView[]>(_unitOfWork.CustomerRepository.GetApiCustomers()));
+            return Ok(Mapper.Map<CustomerModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("C", storeId)));
         }
 
         // GET: api/CustomersSync/5
         public async Task<IHttpActionResult> GetCustomer(int id, int storeId)
         {
-            return Ok(_unitOfWork.CustomerRepository.GetCustomerById(id, storeId));
+            return Ok(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(id,storeId));
         }
 
         // POST: api/CustomersSync
@@ -37,13 +37,14 @@ namespace POSApp.Controllers.WebApi
         {
             try
             {
-                List<Customer> customers = System.Web.Helpers.Json.Decode<List<Customer>>(sync.Object);
+                List<BusinessPartner> customers = System.Web.Helpers.Json.Decode<List<BusinessPartner>>(sync.Object);
                 foreach (var customer in customers)
                 {
                     customer.Code = customer.Id.ToString();
+                    customer.Type = "C";
                     customer.Synced = true;
                     customer.SyncedOn = DateTime.Now;
-                    _unitOfWork.CustomerRepository.AddCustomer(customer);
+                    _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(customer);
                 }
                 _unitOfWork.Complete();
                 return Ok("Success");
