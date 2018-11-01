@@ -74,32 +74,7 @@
             </div>
         </div>
     }
-    <div id="ModalData1"></div>
-    <script>
 
-        $('a.modalShow1').on('click', function () {
-
-
-            $.ajax({
-                url: this.href,
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('#ModalData1').html(result).find('#ordine2').modal('show');
-                    //newWin = window.open("", "", "width=800, height=600");
-                    //    var query = " <" +"script> $('#AddDepartment').click();</"+"script>";
-                    //    newWin.document.write(result + query);
-
-                    //    if (newWin.closed) {
-                    //        alert("Closed");
-                    //    }
-                }
-            });
-
-            return false;
-        });
-
-    </script>
 </div>
 <div id="ModalData1"></div>
 <script>

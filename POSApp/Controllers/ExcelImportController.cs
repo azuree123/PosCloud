@@ -171,6 +171,9 @@ namespace POSApp.Controllers
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
                     {
                         NewModel.Name = dr["Name"].ToString();
+                        NewModel.Amount = int.Parse(dr["Amount"].ToString());
+                        NewModel.Value = double.Parse(dr["Value"].ToString());
+                        NewModel.Days = dr["Days"].ToString();
                         NewModel.ValidFrom = DateTime.Parse(dr["ValidFrom"].ToString());
                         NewModel.ValidFrom = DateTime.Parse(dr["ValidTill"].ToString());
                         NewModel.StoreId = (int)user.StoreId;
@@ -180,7 +183,7 @@ namespace POSApp.Controllers
                 _unitOfWork.Complete();
 
             
-            return RedirectToAction("DiscountList", "Setup");
+            return RedirectToAction("CouponList", "Setup");
         }
 
         public ActionResult CustomerExcelImport()
@@ -199,7 +202,7 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    Customer NewModel = new Customer();
+                    BusinessPartner NewModel = new BusinessPartner();
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
                     {
                         NewModel.Name = dr["Name"].ToString();
@@ -207,7 +210,8 @@ namespace POSApp.Controllers
                         NewModel.Birthday = DateTime.Parse(dr["Birthday"].ToString());
                         NewModel.Address = dr["Address"].ToString();
                         NewModel.StoreId = (int)user.StoreId;
-                        _unitOfWork.CustomerRepository.AddCustomer(NewModel);
+                        NewModel.Type = "C";
+                        _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(NewModel);
                     }
                 }
                 _unitOfWork.Complete();
@@ -228,14 +232,15 @@ namespace POSApp.Controllers
             
             DataTable dt = ImportService.GetExcelData(file);
 
-            //var userid = User.Identity.GetUserId();
-            //var user = UserManager.FindById(userid);
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             foreach (DataRow dr in dt.Rows)
                 {
                     Department NewModel = new Department();
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
                     {
                         NewModel.Name = dr["Name"].ToString();
+                        NewModel.StoreId = (int) user.StoreId;
                         _unitOfWork.DepartmentRepository.AddDepartment(NewModel);
                     }
                 }
@@ -401,7 +406,7 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    Supplier NewModel = new Supplier();
+                    BusinessPartner NewModel = new BusinessPartner();
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
                     {
                         NewModel.Name = dr["Name"].ToString();
@@ -409,7 +414,9 @@ namespace POSApp.Controllers
                         NewModel.PhoneNumber = dr["PhoneNumber"].ToString();
                         NewModel.CpMobileNumber = dr["CpMobileNumber"].ToString();
                         NewModel.StoreId = (int)user.StoreId;
-                        _unitOfWork.SupplierRepository.AddSupplier(NewModel);
+                        NewModel.Type = "S";
+                        NewModel.Birthday=DateTime.Now;
+                        _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(NewModel);
                     }
                 }
                 _unitOfWork.Complete();
