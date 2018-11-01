@@ -47,7 +47,10 @@ namespace POSApp.Controllers
             }
             else
             {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
                 Department department = Mapper.Map<Department>(departmentVm);
+                department.StoreId = (int) user.StoreId;
                 _unitOfWork.DepartmentRepository.AddDepartment(department);
                 _unitOfWork.Complete();
                 return PartialView("Error");
