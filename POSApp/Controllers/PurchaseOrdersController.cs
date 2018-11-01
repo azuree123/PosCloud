@@ -87,7 +87,9 @@ namespace POSApp.Controllers
 
         public ActionResult AddTransactionItem()
         {
-            return View(_unitOfWork.ProductRepository.GetAllProducts().Select(a=>new SelectListItem{Text = a.Name,Value = a.Id.ToString()}));
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Select(a=>new SelectListItem{Text = a.Name,Value = a.Id.ToString()}));
         }
         [HttpPost]
         public ActionResult AddTransactionItem(int productId,int quantity,decimal cost)

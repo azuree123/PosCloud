@@ -27,7 +27,9 @@ namespace POSApp.Controllers
         // GET: Products
         public ActionResult ProductsList()
         {
-            return View(_unitOfWork.ProductRepository.GetAllProducts().Where(a=>a.Type=="Product").ToList());
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>a.Type=="Product").ToList());
         }
 
         public ActionResult AddProduct()
@@ -71,16 +73,17 @@ namespace POSApp.Controllers
                 
                 try
                 {
-                    string path = Server.MapPath("~/Images/Data/Product/" + file.FileName);
-                    if (System.IO.File.Exists(path))
-                    {
-                        ViewBag.Message = "Image Already Exists!";
-                    }
-                    else
-                    {
-                        file.SaveAs(path);
-                    }
-                        productVm.Image = "/Images/Data/Product/" + file.FileName;
+                    //string path = Server.MapPath("~/Images/Data/Product/" + file.FileName);
+                    //if (System.IO.File.Exists(path))
+                    //{
+                    //    ViewBag.Message = "Image Already Exists!";
+                    //}
+                    //else
+                    //{
+                    //    file.SaveAs(path);
+                    //}
+                    productVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
+                    file.InputStream.Read(productVm.Image, 0, file.ContentLength);
                 }
                 catch (Exception e)
                 {
@@ -133,16 +136,9 @@ namespace POSApp.Controllers
             {
                 try
                 {
-                    string path = Server.MapPath("~/Images/Data/Product/" + file.FileName);
-                    if (System.IO.File.Exists(path))
-                    {
-                        ViewBag.Message = "Image Already Exists";
-                    }
-                    else
-                    {
-                        file.SaveAs(path);
-                    }
-                        productVm.Image = "/Images/Data/Product/" + file.FileName;
+                    productVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
+                    file.InputStream.Read(productVm.Image, 0, file.ContentLength);
+
                 }
                 catch (Exception e)
                 {
@@ -247,16 +243,8 @@ namespace POSApp.Controllers
 
                 try
                 {
-                    string path = Server.MapPath("~/Images/Data/Product/" + file.FileName);
-                    if (System.IO.File.Exists(path))
-                    {
-                        ViewBag.Message = "Image Already Exists!";
-                    }
-                    else
-                    {
-                        file.SaveAs(path);
-                    }
-                        productCategory.Image = "/Images/Data/Product/" + file.FileName;
+                    productCategory.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
+                    file.InputStream.Read(productCategory.Image, 0, file.ContentLength);
                 }
                 catch (Exception e)
                 {
@@ -314,16 +302,8 @@ namespace POSApp.Controllers
 
                 try
                 {
-                    string path = Server.MapPath("~/Images/Data/Product/" + file.FileName);
-                    if (System.IO.File.Exists(path))
-                    {
-                        ViewBag.Message = "Image Already Exists!";
-                    }
-                    else
-                    {
-                        file.SaveAs(path);
-                    }
-                        productCategoryVm.Image = "/Images/Data/Product/" + file.FileName;
+                    productCategoryVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
+                    file.InputStream.Read(productCategoryVm.Image, 0, file.ContentLength);
                 }
                 catch (Exception e)
                 {

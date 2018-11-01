@@ -19,7 +19,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Description).HasColumnType("varchar").HasMaxLength(300).IsOptional();
             Property(x => x.Barcode).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.ProductCode).HasColumnType("varchar").HasMaxLength(150).IsOptional();
-            Property(x => x.Image).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+            Property(x => x.Image).HasColumnType("varbinary(MAX)").IsOptional();
             Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.Stock).HasColumnType("float").IsOptional();
             Property(x => x.UnitPrice).HasColumnType("float").IsRequired();

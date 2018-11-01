@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace POSApp.Core.Models
 {
@@ -8,7 +9,7 @@ namespace POSApp.Core.Models
         public int StoreId { get; set; }
         public Store Store { get; set; }
         public string Name { get; set; }
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
         public string Type { get; set; }
         public virtual ICollection<Product> Products { get; set; }
        
