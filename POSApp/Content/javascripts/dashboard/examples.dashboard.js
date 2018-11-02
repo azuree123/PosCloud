@@ -21,6 +21,39 @@ Theme Version: 	1.5.2
 
 	$('#salesSelectorWrapper').addClass('ready');
 
+    var flotDashBasicData = [{
+        data: [
+            [0, 170],
+            [1, 169],
+            [2, 173],
+            [3, 188],
+            [4, 147],
+            [5, 113],
+            [6, 128],
+            [7, 169],
+            [8, 173],
+            [9, 128],
+            [10, 128]
+        ],
+        label: "Series 1",
+        color: "#d8342fb3"
+    }, {
+        data: [
+            [0, 115],
+            [1, 124],
+            [2, 114],
+            [3, 121],
+            [4, 115],
+            [5, 83],
+            [6, 102],
+            [7, 148],
+            [8, 147],
+            [9, 103],
+            [10, 113]
+        ],
+        label: "Series 2",
+        color: "#0baa5aad"
+    }];
 	/*
 	Flot: Sales 1
 	*/
@@ -268,7 +301,53 @@ Theme Version: 	1.5.2
 
 			return res;
 		}
+        /*
+Sparkline: Bar
+*/
 
+        var sparklineBarDashData = [5, 6, 7, 2, 0, 4, 2, 4, 2, 0, 4, 2, 4, 2, 0, 4];
+        var sparklineBarDashOptions = {
+            type: 'bar',
+            width: '80',
+            height: '55',
+            barColor: '#d2322d99',
+            negBarColor: '#B20000'
+        };
+
+        $("#sparklineBarDash").sparkline(sparklineBarDashData, sparklineBarDashOptions);
+
+        /*
+        Sparkline: Line
+        */
+        var sparklineLineDashOptions = {
+            type: 'line',
+            width: '80',
+            height: '55',
+            lineColor: '#d2322d',
+               
+        };
+
+        $("#sparklineLineDash").sparkline(sparklineLineDashData, sparklineLineDashOptions);
+
+        /*
+        Map
+        */
+        var vectorMapDashOptions = {
+            map: 'world_en',
+            backgroundColor: null,
+            color: '#FFF',
+            hoverOpacity: 0.7,
+            selectedColor: '#0088CC',
+            selectedRegions: ['US'],
+            enableZoom: true,
+            borderWidth: 1,
+            showTooltip: true,
+            values: sample_data,
+            scaleColors: ['#0088cc'],
+            normalizeFunction: 'polynomial'
+        };
+
+        $('#vectorMapWorld').vectorMap(vectorMapDashOptions);
 		var flotDashRealTime = $.plot('#flotDashRealTime', [getRandomData()], {
 			colors: ['#8CC9E8'],
 			series: {
@@ -317,49 +396,6 @@ Theme Version: 	1.5.2
 		update();
 	})();
 
-	/*
-	Sparkline: Bar
-	*/
-	var sparklineBarDashOptions = {
-		type: 'bar',
-		width: '80',
-		height: '55',
-		barColor: '#0088cc',
-		negBarColor: '#B20000'
-	};
 
-	$("#sparklineBarDash").sparkline(sparklineBarDashData, sparklineBarDashOptions);
-
-	/*
-	Sparkline: Line
-	*/
-	var sparklineLineDashOptions = {
-		type: 'line',
-		width: '80',
-		height: '55',
-		lineColor: '#0088cc'
-	};
-
-	$("#sparklineLineDash").sparkline(sparklineLineDashData, sparklineLineDashOptions);
-
-	/*
-	Map
-	*/
-	var vectorMapDashOptions = {
-		map: 'world_en',
-		backgroundColor: null,
-		color: '#FFF',
-		hoverOpacity: 0.7,
-		selectedColor: '#0088CC',
-		selectedRegions: ['US'],
-		enableZoom: true,
-		borderWidth:1,
-		showTooltip: true,
-		values: sample_data,
-		scaleColors: ['#0088cc'],
-		normalizeFunction: 'polynomial'
-	};
-
-	$('#vectorMapWorld').vectorMap(vectorMapDashOptions);
 
 }).apply(this, [jQuery]);
