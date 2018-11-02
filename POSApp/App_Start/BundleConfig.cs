@@ -68,8 +68,8 @@ namespace POSApp
                           "~/Content/javascripts/theme.js",
                           "~/Content/javascripts/theme.custom.js",
                           "~/Content/javascripts/theme.init.js",
-                          "~/Content/javascripts/dashboard/examples.dashboard.js",
-                          "~/Content/vendor/summernote/summernote.js"
+                          "~/Content/vendor/summernote/summernote.js",
+                          "~/Content/javascripts/dashboard/examples.dashboard.js"
 
 
 

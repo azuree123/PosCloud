@@ -2,9 +2,17 @@
     ViewBag.Title = "Home Page";
 }
 
+<style>
+    .multiselect-container > li > a > label {
+        text-align: center;
+        padding: 10px 0px 10px 0px;
+    }
+    .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+        margin-left: -20px;
+    }
 
-
-    @*<header class="page-header">
+</style>
+@*<header class="page-header">
         <h2>Dashboard</h2>
 
         <div class="right-wrapper pull-right">
@@ -21,270 +29,353 @@
         </div>
     </header>*@
 
-    <!-- start: page -->
-    <br/>
-    <br/>
-    <div class="row">
-        <div class="col-md-6 col-lg-12 col-xl-6">
-            <div class="row">
-                <div class="col-md-12 col-lg-6 col-xl-6">
-                    <section class="panel panel-featured-left panel-featured-primary">
-                        <div class="panel-body">
-                            <div class="widget-summary">
-                                <div class="widget-summary-col widget-summary-col-icon">
-                                    <div class="summary-icon bg-success">
-                                        <i class="fa fa-life-ring"></i>
-                                    </div>
-                                </div>
-                                <div class="widget-summary-col">
-                                    <div class="summary">
-                                        <h4 class="title">Support Questions</h4>
-                                        <div class="info">
-                                            <strong class="amount">1281</strong>
-                                            <span class="text-primary">(14 unread)</span>
-                                        </div>
-                                    </div>
-                                    <div class="summary-footer">
-                                    </div>
-                                </div>
+<!-- start: page -->
+<br />
+<br />
+<div class="row">
+    <div class="col-md-6 col-lg-12 col-xl-6">
+        <section class="panel">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="chart-data-selector" id="salesSelectorWrapper">
+                            <h2>
+                                Sales:
+                                <strong>
+                                    <select class="form-control" id="salesSelector">
+                                        <option value="Cosmic 1" selected>Cosmic 1</option>
+                                        <option value="Cosmic 2">Cosmic 2</option>
+                                        <option value="Cosmic 3">Cosmic 3</option>
+                                    </select>
+                                </strong>
+                            </h2>
+
+                            <div id="salesSelectorItems" class="chart-data-selector-items mt-sm">
+                                <div class="chart chart-sm" data-sales-rel="Cosmic 1" id="flotDashSales1" class="chart-active"></div>
+                                <script>
+
+                                    var flotDashSales1Data = [{
+                                        data: [
+                                            ["Jan", 140],
+                                            ["Feb", 240],
+                                            ["Mar", 190],
+                                            ["Apr", 140],
+                                            ["May", 180],
+                                            ["Jun", 320],
+                                            ["Jul", 270],
+                                            ["Aug", 180]
+                                        ],
+                                        color: "#d2322d"
+                                    }];
+
+                                    // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
+
+                                </script>
+
+                                <div class="chart chart-sm" data-sales-rel="Cosmic 2" id="flotDashSales2" class="chart-hidden"></div>
+                                <script>
+
+                                    var flotDashSales2Data = [{
+                                        data: [
+                                            ["Jan", 240],
+                                            ["Feb", 240],
+                                            ["Mar", 290],
+                                            ["Apr", 540],
+                                            ["May", 480],
+                                            ["Jun", 220],
+                                            ["Jul", 170],
+                                            ["Aug", 190]
+                                        ],
+                                        color: "#d2322d"
+                                    }];
+
+                                    // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
+
+                                </script>
+
+                                <div class="chart chart-sm" data-sales-rel="Cosmic 3" id="flotDashSales3" class="chart-hidden"></div>
+                                <script>
+
+                                    var flotDashSales3Data = [{
+                                        data: [
+                                            ["Jan", 840],
+                                            ["Feb", 740],
+                                            ["Mar", 690],
+                                            ["Apr", 940],
+                                            ["May", 1180],
+                                            ["Jun", 820],
+                                            ["Jul", 570],
+                                            ["Aug", 780]
+                                        ],
+                                        color: "#d2322d"
+                                    }];
+
+                                    // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
+
+                                </script>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h2 class="panel-title mt-md">Sales Goal</h2>
+                        <div class="liquid-meter-wrapper liquid-meter-sm mt-lg">
+                            <div class="liquid-meter">
+                                <meter min="0" max="100" value="35" id="meterSales"></meter>
+                            </div>
+                            <div class="liquid-meter-selector" id="meterSalesSel">
+                                <a href="#" data-val="35" class="active">Monthly Goal</a>
+                                <a href="#" data-val="28">Annual Goal</a>
                             </div>
                         </div>
-                    </section>
-                </div>
-                <div class="col-md-12 col-lg-6 col-xl-6">
-                    <section class="panel panel-featured-left panel-featured-secondary">
-                        <div class="panel-body">
-                            <div class="widget-summary">
-                                <div class="widget-summary-col widget-summary-col-icon">
-                                    <div class="summary-icon bg-secondary">
-                                        <i class="fa fa-usd"></i>
-                                    </div>
-                                </div>
-                                <div class="widget-summary-col">
-                                    <div class="summary">
-                                        <h4 class="title">Total Profit</h4>
-                                        <div class="info">
-                                            <strong class="amount">$ 14,890.30</strong>
-                                        </div>
-                                    </div>
-                                    <div class="summary-footer">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <div class="col-md-12 col-lg-6 col-xl-6">
-                    <section class="panel panel-featured-left panel-featured-tertiary">
-                        <div class="panel-body">
-                            <div class="widget-summary">
-                                <div class="widget-summary-col widget-summary-col-icon">
-                                    <div class="summary-icon bg-tertiary">
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                                <div class="widget-summary-col">
-                                    <div class="summary">
-                                        <h4 class="title">Today's Orders</h4>
-                                        <div class="info">
-                                            <strong class="amount">38</strong>
-                                        </div>
-                                    </div>
-                                    <div class="summary-footer">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <div class="col-md-12 col-lg-6 col-xl-6">
-                    <section class="panel panel-featured-left panel-featured-quartenary">
-                        <div class="panel-body">
-                            <div class="widget-summary">
-                                <div class="widget-summary-col widget-summary-col-icon">
-                                    <div class="summary-icon bg-quartenary">
-                                        <i class="fa fa-user"></i>
-                                    </div>
-                                </div>
-                                <div class="widget-summary-col">
-                                    <div class="summary">
-                                        <h4 class="title">Today's Visitors</h4>
-                                        <div class="info">
-                                            <strong class="amount">3765</strong>
-                                        </div>
-                                    </div>
-                                    <div class="summary-footer">
-                                    </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <section class="panel">
+                            <header class="panel-heading panel-heading-transparent">
+                                @*<div class="panel-actions">
+                                        <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
+                                        <a href="#" class="panel-action panel-action-dismiss" data-panel-dismiss></a>
+                                    </div>*@
+
+                                <h2 class="panel-title">Projects Stats</h2>
+                            </header>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped mb-none">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Operations</th>
+                                                <th>Status</th>
+                                                <th>Progress</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Chickent BarBQ</td>
+                                                <td><span class="label label-success">Completed</span></td>
+                                                <td>
+                                                    <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
+                                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                                            100%
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Pizza</td>
+                                                <td><span class="label label-success">Completed</span></td>
+                                                <td>
+                                                    <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
+                                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                                            100%
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Chicken Karahi</td>
+                                                <td><span class="label label-danger">Processing</span></td>
+                                                <td>
+                                                    <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
+                                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                            60%
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6 col-lg-12 col-xl-6">
-            <section class="panel">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="chart-data-selector" id="salesSelectorWrapper">
-                                <h2>
-                                    Sales:
-                                    <strong>
-                                        <select class="form-control" id="salesSelector">
-                                            <option value="Cosmic 1" selected>Cosmic 1</option>
-                                            <option value="Cosmic 2">Cosmic 2</option>
-                                            <option value="Cosmic 3">Cosmic 3</option>
-                                        </select>
-                                    </strong>
-                                </h2>
-
-                                <div id="salesSelectorItems" class="chart-data-selector-items mt-sm">
-                                    <div class="chart chart-sm" data-sales-rel="Cosmic 1" id="flotDashSales1" class="chart-active"></div>
-                                    <script>
-
-														var flotDashSales1Data = [{
-														    data: [
-														        ["Jan", 140],
-														        ["Feb", 240],
-														        ["Mar", 190],
-														        ["Apr", 140],
-														        ["May", 180],
-														        ["Jun", 320],
-														        ["Jul", 270],
-														        ["Aug", 180]
-														    ],
-                                                            color: "#d2322d"
-														}];
-
-														// See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
-
-                                    </script>
-
-                                    <div class="chart chart-sm" data-sales-rel="Cosmic 2" id="flotDashSales2" class="chart-hidden"></div>
-                                    <script>
-
-														var flotDashSales2Data = [{
-														    data: [
-														        ["Jan", 240],
-														        ["Feb", 240],
-														        ["Mar", 290],
-														        ["Apr", 540],
-														        ["May", 480],
-														        ["Jun", 220],
-														        ["Jul", 170],
-														        ["Aug", 190]
-														    ],
-                                                            color: "#d2322d"
-														}];
-
-														// See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
-
-                                    </script>
-
-                                    <div class="chart chart-sm" data-sales-rel="Cosmic 3" id="flotDashSales3" class="chart-hidden"></div>
-                                    <script>
-
-														var flotDashSales3Data = [{
-														    data: [
-														        ["Jan", 840],
-														        ["Feb", 740],
-														        ["Mar", 690],
-														        ["Apr", 940],
-														        ["May", 1180],
-														        ["Jun", 820],
-														        ["Jul", 570],
-														        ["Aug", 780]
-														    ],
-                                                            color: "#d2322d"
-														}];
-
-														// See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
-
-                                    </script>
+        </section>
+    </div>
+    <div class="col-md-6 col-lg-12 col-xl-6">
+        <div class="row">
+            <div class="col-md-3 col-xs-6 col-lg-3 col-xl-3">
+                <section class="panel panel-featured-left panel-featured-primary">
+                    <div class="panel-body">
+                        <div class="widget-summary">
+                            <div class="widget-summary-col widget-summary-col-icon">
+                                <div class="summary-icon bg-success">
+                                    <i class="fa fa-life-ring"></i>
                                 </div>
-
                             </div>
-                        </div>
-                        <div class="col-lg-4 text-center">
-                            <h2 class="panel-title mt-md">Sales Goal</h2>
-                            <div class="liquid-meter-wrapper liquid-meter-sm mt-lg">
-                                <div class="liquid-meter">
-                                    <meter min="0" max="100" value="35" id="meterSales"></meter>
+                            <div class="widget-summary-col">
+                                <div class="summary">
+                                    <h4 class="title">Daily Sales</h4>
+                                    <div class="info">
+                                        <strong class="amount">21,281</strong>
+                                        <a href="#"><span class="text-primary">(View more)</span></a>
+                                    </div>
                                 </div>
-                                <div class="liquid-meter-selector" id="meterSalesSel">
-                                    <a href="#" data-val="35" class="active">Monthly Goal</a>
-                                    <a href="#" data-val="28">Annual Goal</a>
-                                </div>
+                                @*<div class="summary-footer">
+                                </div>*@
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
+            <div class="col-md-3 col-xs-6 col-lg-3 col-xl-3">
+                <section class="panel panel-featured-left panel-featured-secondary">
+                    <div class="panel-body">
+                        <div class="widget-summary">
+                            <div class="widget-summary-col widget-summary-col-icon">
+                                <div class="summary-icon bg-secondary">
+                                    <i class="fa fa-usd"></i>
+                                </div>
+                            </div>
+                            <div class="widget-summary-col">
+                                <div class="summary">
+                                    <h4 class="title">Daily Expense</h4>
+                                    <div class="info">
+                                        <strong class="amount">14,234</strong>
+                                        <a href="#" class=""><span class="text-primary">(View more)</span></a>
+                                    </div>
+                                </div>
+                                @*<div class="summary-footer">
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-3 col-xs-6 col-lg-3 col-xl-3">
+                <section class="panel panel-featured-left panel-featured-tertiary">
+                    <div class="panel-body">
+                        <div class="widget-summary">
+                            <div class="widget-summary-col widget-summary-col-icon">
+                                <div class="summary-icon bg-tertiary">
+                                    <i class="fa fa-clipboard"></i>
+                                </div>
+                            </div>
+                            <div class="widget-summary-col">
+                                <div class="summary">
+                                    <h4 class="title">Today's Orders</h4>
+                                    <div class="info">
+                                        <strong class="amount">38</strong>
+                                        <a href="#" class=""><span class="text-primary">(View more)</span></a>
+                                    </div>
+                                </div>
+                                @*<div class="summary-footer">
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-3 col-xs-6 col-lg-3 col-xl-3">
+                <section class="panel panel-featured-left panel-featured-quartenary">
+                    <div class="panel-body">
+                        <div class="widget-summary">
+                            <div class="widget-summary-col widget-summary-col-icon">
+                                <div class="summary-icon bg-quartenary">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                            </div>
+                            <div class="widget-summary-col">
+                                <div class="summary">
+                                    <h4 class="title">Today's Customers</h4>
+                                    <div class="info">
+                                        <strong class="amount">3765</strong>
+                                        <a href="#" class=""><span class="text-primary">(View more)</span></a>
+                                    </div>
+                                </div>
+                                @*<div class="summary-footer">
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <section class="panel">
-                <header class="panel-heading">
-                    <div class="panel-actions">
-                        <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
-                        <a href="#" class="panel-action panel-action-dismiss" data-panel-dismiss></a>
-                    </div>
-
-                    <h2 class="panel-title">Sale Vs Expenses</h2>
-                    <p class="panel-subtitle">Sale Vs Expenses Graph.</p>
-                </header>
-                <div class="panel-body">
-
-                    <!-- Flot: Basic -->
-                    <div class="chart chart-md" id="flotDashBasic"></div>
-                    <script>
-
-										var flotDashBasicData = [{
-											data: [
-												[0, 170],
-												[1, 169],
-												[2, 173],
-												[3, 188],
-												[4, 147],
-												[5, 113],
-												[6, 128],
-												[7, 169],
-												[8, 173],
-												[9, 128],
-												[10, 128]
-											],
-											label: "Series 1",
-                                            color: "#d8342fb3"
-										}, {
-											data: [
-												[0, 115],
-												[1, 124],
-												[2, 114],
-												[3, 121],
-												[4, 115],
-												[5, 83],
-												[6, 102],
-												[7, 148],
-												[8, 147],
-												[9, 103],
-												[10, 113]
-											],
-											label: "Series 2",
-                                                color: "#0baa5aad"
-										}];
-
-										// See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
-
-                    </script>
-
+<div class="row">
+    <div class="col-md-4">
+        <section class="panel panel-transparent">
+            <header class="panel-heading">
+                <div class="panel-actions">
+                    <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
+                    <a href="#" class="panel-action panel-action-dismiss" data-panel-dismiss></a>
                 </div>
-            </section>
-        </div>
+
+                <h2 class="panel-title">My Stats</h2>
+            </header>
+            <div class="panel-body">
+                <section class="panel">
+                    <div class="panel-body" style="border: 1px solid #dddddd;border-bottom-width: 5px;">
+                        <div class="small-chart pull-right" id="sparklineBarDash"></div>
+
+                        <div class="h4 text-weight-bold mb-none">488</div>
+                        <p class="text-xs text-muted mb-none">Average Customers</p>
+                    </div>
+                </section>
+                <section class="panel">
+                    <div class="panel-body" style="border: 1px solid #dddddd;border-bottom-width: 5px;">
+                        <div class="circular-bar circular-bar-xs m-none mt-xs mr-md pull-right">
+                            <div class="circular-bar-chart" data-percent="45" data-plugin-options='{ "barColor": "#09ab5a", "delay": 300, "size": 50, "lineWidth": 4 }'>
+                                <strong>Average</strong>
+                                <label><span class="percent">45</span>%</label>
+                            </div>
+                        </div>
+                        <div class="h4 text-weight-bold mb-none">12</div>
+                        <p class="text-xs text-muted mb-none">Working Tasks</p>
+                    </div>
+                </section>
+                <section class="panel">
+                    <div class="panel-body" style="border: 1px solid #dddddd;border-bottom-width: 5px;">
+                        <div class="small-chart pull-right" id="sparklineLineDash"></div>
+                        <script type="text/javascript">
+                            var sparklineLineDashData = [15, 16, 17, 19, 10, 15, 13, 12, 12, 14, 16, 17];
+                        </script>
+                        <div class="h4 text-weight-bold mb-none">89</div>
+                        <p class="text-xs text-muted mb-none">Pending Tasks</p>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-8 ">
+        <section class="panel">
+            <header class="panel-heading">
+                <div class="panel-actions">
+                    <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
+                    <a href="#" class="panel-action panel-action-dismiss" data-panel-dismiss></a>
+                </div>
+
+                <h2 class="panel-title">Sale Vs Expenses</h2>
+                <p class="panel-subtitle">Sale Vs Expenses Graph.</p>
+            </header>
+            <div class="panel-body">
+
+                <!-- Flot: Basic -->
+                <div class="chart chart-md" id="flotDashBasic"></div>
+
+
+            </div>
+        </section>
+    </div>
+
+</div>
+
+@section scripts{
+ 
+    <script>
+
         
-    </div>
 
 
-    <!-- end: page -->
+    </script>
+}
+<!-- end: page -->
