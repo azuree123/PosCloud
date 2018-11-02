@@ -28,7 +28,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddExpenseHead(ExpenseHead expenseHeads)
         {
+            if (!_context.ExpenseHeads.Where(a => a.Name == expenseHeads.Name && a.StoreId == expenseHeads.StoreId).Any())
+            {
             _context.ExpenseHeads.Add(expenseHeads);
+            }
         }
 
         public void UpdateExpenseHead(int id,int storeid, ExpenseHead expenseHeads)

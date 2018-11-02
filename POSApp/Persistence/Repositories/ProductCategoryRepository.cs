@@ -27,7 +27,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddProductCategory(ProductCategory productCategory)
         {
+            if (!_context.ProductCategories.Where(a => a.Name == productCategory.Name && a.Type== productCategory.Type && a.StoreId == productCategory.StoreId).Any())
+            {
             _context.ProductCategories.Add(productCategory);
+            }
         }
 
         public void UpdateProductCategory(int id,int storeid ,ProductCategory productCategory)

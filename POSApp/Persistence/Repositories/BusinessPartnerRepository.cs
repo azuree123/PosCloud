@@ -88,7 +88,10 @@ namespace POSApp.Persistence.Repositories
         }
         public void AddBusinessPartner(BusinessPartner item)
         {
+            if (!_context.BusinessPartners.Where(a => a.Name == item.Name && a.Type == item.Type && a.StoreId==item.StoreId && a.Email==item.Email).Any())
+            {
             _context.BusinessPartners.Add(item);
+            }
 
         }
         public void UpdateBusinessPartner(int id, int StoreId,BusinessPartner item)

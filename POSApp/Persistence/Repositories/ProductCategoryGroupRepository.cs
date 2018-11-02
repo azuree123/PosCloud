@@ -70,7 +70,10 @@ namespace POSApp.Persistence.Repositories
         }
         public void AddProductCategoryGroup(ProductCategoryGroup optcategory)
         {
+            if (!_context.ProductCategoryGroups.Where(a => a.Name == optcategory.Name && a.StoreId == optcategory.StoreId).Any())
+            {
             _context.ProductCategoryGroups.Add(optcategory);
+            }
 
         }
 

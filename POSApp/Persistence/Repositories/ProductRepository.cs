@@ -31,7 +31,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddProduct(Product product)
         {
+            if (!_context.Products.Where(a => a.Name == product.Name && a.CategoryId==product.CategoryId && a.Type == product.Type && a.StoreId == product.StoreId).Any())
+            {
             _context.Products.Add(product);
+            }
         }
 
         public void UpdateProduct(int id, int storeid,Product product)

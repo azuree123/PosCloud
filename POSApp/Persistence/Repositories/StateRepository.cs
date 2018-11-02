@@ -27,7 +27,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddState(State state)
         {
-             _context.States.Add(state);
+            if (!_context.States.Where(a => a.Name == state.Name).Any())
+            {
+            _context.States.Add(state);
+            }
         }
 
         public void UpdateState(int id, State state)
