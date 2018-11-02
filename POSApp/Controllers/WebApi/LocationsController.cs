@@ -23,7 +23,7 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetLocations()
         {
-            return Ok(Mapper.Map<LocationModelView[]>(_unitOfWork.LocationRepository.GetApiLocations()));
+            return Ok(Mapper.Map<LocationModelView[]>(_unitOfWork.LocationRepository.GetLocations()));
         }
 
         // GET: api/LocationsSync/5

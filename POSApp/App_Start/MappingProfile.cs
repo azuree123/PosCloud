@@ -54,9 +54,12 @@ namespace POSApp
             CreateMap<ClientViewModel, Client>();
             CreateMap<Client, ClientViewModel>();
             CreateMap<ProductSyncViewModel, Product>() ;
-            CreateMap<Product, ProductSyncViewModel>().ForMember(d => d.Image, o => o.MapFrom(g => Convert.ToBase64String(g.Image))); 
-
-
+            CreateMap<Product, ProductSyncViewModel>().ForMember(d => d.Image, o => o.MapFrom(g => Convert.ToBase64String(g.Image)));
+            CreateMap<TransMaster, TransMasterViewModel>().ForMember(d => d.TransDate, o => o.MapFrom(g => g.TransDate.ToString("yyyy-MMM-dd ddd")))
+                .ForMember(d => d.TransTime, o => o.MapFrom(g => g.TransDate.ToShortTimeString()))
+                .ForMember(d => d.BusinessPartnerName, o => o.MapFrom(g => g.BusinessPartner.Name));
+            CreateMap<TransDetail, TransDetailViewModel>()
+                .ForMember(d => d.ProductName, o => o.MapFrom(g => g.Product.Name));
 
         }
     }

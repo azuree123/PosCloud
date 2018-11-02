@@ -35,6 +35,6 @@ namespace POSApp.Core.Models
         public int UnitId { get; set; }
         public Unit ProductUnit { get; set; }
 
-
+        public virtual ICollection<TransDetail> TransDetails { get; set; }
     }
 }
