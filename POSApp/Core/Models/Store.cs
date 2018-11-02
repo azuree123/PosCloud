@@ -33,6 +33,8 @@ namespace POSApp.Core.Models
         public virtual ICollection<Discount> Discounts { get; set; }
         public virtual ICollection<Unit> Units { get; set; }
         public virtual ICollection<ReportsLog> ReportsLogs { get; set; }
+        public virtual ICollection<Modifier> Modifiers { get; set; }
+        public virtual ICollection<ModifierOption> ModifierOptions { get; set; }
 
 
     }

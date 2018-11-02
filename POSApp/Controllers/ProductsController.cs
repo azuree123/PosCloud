@@ -462,6 +462,11 @@ namespace POSApp.Controllers
                 throw;
             }
         }
+
+        public ActionResult ModifierList()
+        {
+            return View();
+        }
         public ApplicationUserManager UserManager
         {
             get
