@@ -3172,7 +3172,7 @@ html.dark .text-muted {
 }
 
 .text-tertiary {
-	color: #2BAAB1 !important;
+	color: #337ab7 !important;
 }
 
 .text-quartenary {
@@ -3624,12 +3624,12 @@ html.dark .text-muted {
 }
 
 .bg-tertiary {
-	background: #2BAAB1;
+	background: #337ab7;
 	color: #FFF;
 }
 
 .bg-quartenary {
-	background: #734BA9;
+	background: #777777;
 	color: #FFF;
 }
 
@@ -6108,7 +6108,7 @@ html.ie11 .scroll-to-top {
 }
 
 .panel-heading.bg-tertiary {
-	background: #2BAAB1;
+	background: #337ab7;
 	color: #FFF;
 	border-bottom: 0 none;
 	border-right: 0 none;
@@ -6308,7 +6308,7 @@ html.ie11 .scroll-to-top {
 }
 
 .panel-body.bg-tertiary {
-	background: #2BAAB1;
+	background: #337ab7;
 	color: #FFF;
 }
 
@@ -6363,7 +6363,7 @@ html.ie11 .scroll-to-top {
 }
 
 .panel-featured-left {
-	border-left: 3px solid #33353F;
+	border: 1px solid #33353F;
 }
 
 .panel-featured-primary {
@@ -6383,15 +6383,15 @@ html.ie11 .scroll-to-top {
 }
 
 .panel-featured-tertiary {
-	border-color: #2BAAB1;
+	border-color: #337ab7;
 }
 
 .panel-featured-tertiary .panel-title {
-	color: #2BAAB1;
+	color: #337ab7;
 }
 
 .panel-featured-quartenary {
-	border-color: #734BA9;
+    border-color: #777777;
 }
 
 .panel-featured-quartenary .panel-title {
@@ -6464,7 +6464,7 @@ html.ie11 .scroll-to-top {
 }
 
 .panel-highlight-title .panel-heading {
-	background-color: #2BAAB1;
+	background-color: #337ab7;
 }
 
 .panel-highlight-title .panel-title {
@@ -6505,7 +6505,7 @@ html.ie11 .scroll-to-top {
 }
 
 .panel-heading-icon.bg-tertiary {
-	background: #2BAAB1;
+	background: #337ab7;
 	color: #FFF;
 }
 
@@ -6615,7 +6615,7 @@ html .panel-secondary .panel-actions a {
 }
 
 html .panel-tertiary .panel-heading {
-	background: #2BAAB1;
+	background: #337ab7;
 }
 
 html .panel-tertiary .panel-subtitle {
@@ -8937,12 +8937,12 @@ html.dark .panel-group .panel-accordion .form-control {
 .ct-chart .ct-series.ct-series-e .ct-line,
 .ct-chart .ct-series.ct-series-e .ct-point,
 .ct-chart .ct-series.ct-series-e .ct-slice.ct-donut {
-	stroke: #2BAAB1;
+	stroke: #337ab7;
 }
 
 .ct-chart .ct-series.ct-series-e .ct-area,
 .ct-chart .ct-series.ct-series-e .ct-slice:not(.ct-donut) {
-	fill: #2BAAB1;
+	fill: #337ab7;
 }
 
 .ct-chart .ct-series.ct-series-f .ct-bar,

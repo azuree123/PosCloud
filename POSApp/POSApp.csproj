@@ -369,6 +369,8 @@
     <Compile Include="Core\Models\Client.cs" />
     <Compile Include="Core\Models\Designation.cs" />
     <Compile Include="Core\Models\Discount.cs" />
+    <Compile Include="Core\Models\Modifier.cs" />
+    <Compile Include="Core\Models\ModifierOption.cs" />
     <Compile Include="Core\Models\ProductCategoryGroup.cs" />
     <Compile Include="Core\Models\ReportsLog.cs" />
     <Compile Include="Core\Models\Store.cs" />
@@ -403,6 +405,8 @@
     <Compile Include="Core\ViewModels\GeneratePurchaseOrderViewModel.cs" />
     <Compile Include="Core\ViewModels\InvoiceViewModel.cs" />
     <Compile Include="Core\ViewModels\LocationModelView.cs" />
+    <Compile Include="Core\ViewModels\ModifierOptionViewModel.cs" />
+    <Compile Include="Core\ViewModels\ModifierViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCategoryGroupViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCategoryViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCreateViewModel.cs" />
@@ -534,6 +538,8 @@
     <Compile Include="Persistence\EntityConfigurations\ExpenseEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ExpenseHeadEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\LocationEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ModifierEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ModifierOptionEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ProductCategoryEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ProductEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\PurchaseOrderDetailEntityConfiguration.cs" />
@@ -561,6 +567,7 @@
     <Compile Include="Persistence\Repositories\ExpenseHeadRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseRepository.cs" />
     <Compile Include="Persistence\Repositories\LocationRepository.cs" />
+    <Compile Include="Persistence\Repositories\ModifierRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryGroupRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductRepository.cs" />

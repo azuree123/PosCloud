@@ -47,6 +47,8 @@ namespace POSApp.Persistence
         public DbSet<AppCounter> AppCounters { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Unit> Units { get; set; }
+        public DbSet<Modifier> Modifiers { get; set; }
+        public DbSet<ModifierOption> ModifierOptions { get; set; }
 
         public void SetCommandTimeOut(int Timeout)
         {
