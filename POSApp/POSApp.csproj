@@ -363,6 +363,7 @@
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\Enums\PaymentMethod.cs" />
+    <Compile Include="Core\Enums\TimedEventType.cs" />
     <Compile Include="Core\Models\AppCounter.cs" />
     <Compile Include="Core\Models\BusinessPartner.cs" />
     <Compile Include="Core\Models\Coupon.cs" />
@@ -2653,6 +2654,9 @@
     <Content Include="Views\PurchaseOrders\GenerateReceipt.cshtml" />
     <Content Include="Views\Products\AddModifier.cshtml" />
     <Content Include="Views\Products\ModifierOptionList.cshtml" />
+    <Content Include="Views\Setup\TimedEventList.cshtml" />
+    <Content Include="Views\Setup\AddTimedEvent.cshtml" />
+    <Content Include="Views\Products\ModifierList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

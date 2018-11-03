@@ -1,8 +1,8 @@
 ﻿
-@model IEnumerable<POSApp.Core.Models.Unit>
+@model IEnumerable<POSApp.Core.Models.TimedEvent>
 
 @{
-    ViewBag.Title = "UnitList";
+    ViewBag.Title = "TimedEventList";
 }
 
 @*<header class="page-header">
@@ -43,8 +43,9 @@
             <li><a href="@Url.Action("StateList","Setup")">State</a></li>
             <li><a href="@Url.Action("CityList","Setup")">City</a></li>
             <li><a href="@Url.Action("ClientList","Setup")">Client</a></li>
-            <li class="current"><a href="#">Unit</a></li>
-            <li><a href="@Url.Action("TimedEventList","Setup")">Timed Event</a></li>
+            <li><a href="@Url.Action("UnitList","Setup")">Client</a></li>
+            
+            <li class="current"><a href="#">Timed Events</a></li>
 
 
 
@@ -59,15 +60,15 @@
             <div class="col-md-12">
 
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Units</b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Timed Events</b></h3>
 
                     @*<a href="@Url.Action("StateExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
-                    </a>*@
+                        </a>*@
 
-                    <a href="@Url.Action("AddUnit", "Setup")" class="modalShow" style="flex-grow: 0">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Unit</button>
+                    <a href="@Url.Action("AddTimedEvent", "Setup")" class="modalShow" style="flex-grow: 0">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Timed Event</button>
 
                     </a>
 
@@ -89,23 +90,37 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>unit Code</th>
+                        <th>type</th>
+                        <th>Value</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>From Hour</th>
+                        <th>To Hour</th>
+                        <th>Days</th>
+                        <th>IsActive</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var unit in Model)
+                    @foreach (var timedevent in Model)
                     {
                     <tr>
                         <td>@(i++)</td>
-                        <td>@unit.Name</td>
-                        <td>@unit.UnitCode</td>
+                        <td>@timedevent.Name</td>
+                        <td>@timedevent.Type</td>
+                        <td>@timedevent.Value</td>
+                        <td>@timedevent.FromDate</td>
+                        <td>@timedevent.ToDate</td>
+                        <td>@timedevent.FromHour</td>
+                        <td>@timedevent.ToHour</td>
+                        <td>@timedevent.Days</td>
+                        <td>@timedevent.IsActive</td>
                         <td class="center">
                             <div class="btn-group">
 
-                                @Html.ActionLink(" ", "UpdateUnit", "Setup", new { id = @unit.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteUnit", "Setup", new { id = @unit.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "UpdateTimedEvent", "Setup", new { id = @timedevent.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                @Html.ActionLink(" ", "DeleteTimedEvent", "Setup", new { id = @timedevent.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                             </div>
                         </td>
                     </tr>
