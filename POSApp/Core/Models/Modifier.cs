@@ -13,5 +13,6 @@ namespace POSApp.Core.Models
         public string Name { get; set; }
         public string Barcode { get; set; }
         public virtual ICollection<ModifierOption> ModifierOptions { get; set; }      
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

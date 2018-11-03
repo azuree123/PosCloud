@@ -1,4 +1,4 @@
-﻿@model IEnumerable<POSApp.Core.Models.SaleOrderDetail>
+﻿@model IEnumerable<POSApp.Core.ViewModels.TransDetailViewModel>
 @{
     Layout = null;
 }
@@ -46,14 +46,14 @@
                                 {
                                     <tr>
                                         <td>@(i++)</td>
-                                        <td>@saleOrder.Product.Name</td>
+                                        <td>@saleOrder.ProductName</td>
                                         <td>@saleOrder.Quantity</td>
-                                        <td>@saleOrder.Price</td>
+                                        <td>@saleOrder.UnitPrice</td>
                                         <td>@saleOrder.Discount</td>
                                      
                         
                                         <td>
-                                            @((saleOrder.Price*saleOrder.Quantity)-saleOrder.Discount)
+                                            @((saleOrder.UnitPrice * saleOrder.Quantity)-Convert.ToDecimal(saleOrder.Discount))
                                         </td>
                                     </tr>
                                 }

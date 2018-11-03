@@ -1,79 +1,48 @@
-﻿@model IEnumerable<POSApp.Core.Models.SaleOrder>
+﻿
 
 @{
     ViewBag.Title = "SaleOrderList";
 }
 
-    @*<header class="page-header">
-        <h2>Sale Orders</h2>
-
-        <div class="right-wrapper pull-right">
-            <ol class="breadcrumbs">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <i class="fa fa-home"></i>
-                    </a>
-                </li>
-                <li><span>SaleOrder</span></li>
-                
-            </ol>
-
-            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-        </div>
-    </header>*@
+  
 
     <!-- start: page -->
     <section class="panel">
         <header class="panel-heading">
             <div class="panel-actions">
                
-                            <h3 class="wb-color"><b>Stores</b></h3>
-                      
+                            
+                     <br/>
                 <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
             </div>
 
-            <h2 class="panel-title"></h2>
+            <h2 class="panel-title">
+                <h3 class="wb-color"><b>Sale Orders</b></h3>
+            </h2>
         </header>
         <div class="panel-body">
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Code</th>
                         <th>Customer</th>
                         <th>Date</th>
                         <th>Time</th>
                         <th>Amount</th>
-                        <th>Tax</th>
-                        <th>Discount</th>
                         <th>Status</th>
-                        <th>Canceled</th>
-                        <th>Type</th>
                         <th>Action</th>
-
                     </tr>
                 </thead>
                 <tbody>
-                    @{ int i = 1;}
-                    @foreach (var saleOrder in Model)
-                    {
-                        <tr>
-                            <td>@(i++)</td>
-                            <td>@saleOrder.Code</td>
-                            <td>@saleOrder.Customer.Name</td>
-                            <td>@saleOrder.Date</td>
-                            <td>@saleOrder.Time</td>
-                            <td>@saleOrder.Amount</td>
-                            <td>@saleOrder.Tax</td>
-                            <td>@saleOrder.Discount</td>
-                            <td>@saleOrder.Status</td>
-                            <td>@saleOrder.Canceled</td>
-                            <td>@saleOrder.Type</td>
-                            <td>
-                                @Html.ActionLink(" ", "SaleOrderDetailList", "SaleOrders", new { id = @saleOrder.Id }, new { @class = "fa fa-info-circle modalShow" })
-                            </td>
-                        </tr>
-                    }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                
                 </tbody>
             </table>
         </div>
@@ -87,12 +56,47 @@
 @section scripts
 {
     <script>
-        $('#datatable-default').dataTable();
+        $('#datatable-default').DataTable({
+            
+            "processing": true, // for show progress bar lBfrtip
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once,
+            "lengthMenu": [[50, 100, 200], [50, 100, 200]],
+       
+            "ajax": {
+            
+                "url": "@Url.Action("GetSaleOrdersData", "SaleOrders")",
+                "type": "POST",
+                "datatype": "json"
+            }, "language": {
+                "search": "Search: ",
+                "searchPlaceholder": "Search..."
+            }, "search": {
+                "search": ""
+            }, 
+            "columns": [
+                { "data": "TransCode", "name": "Code", "autoWidth": true },
+                { "data": "BusinessPartnerName", "name": "Customer", "autoWidth": true },
+                
+                { "data": "TransDate", "name": "Date", "autoWidth": true }
+                , { "data": "TransTime", "name": "Time", "autoWidth": true },
+                { "data": "TotalPrice", "name": "Amount", "autoWidth": true },
+                { "data": "TransStatus", "name": "Status", "autoWidth": true },
+                   
+                {
+                    "data": "Id", "autoWidth": true, render: function (data, type, full, meta) {
+                        return '<span class=" btn btn-default text-success btn-sm fa fa-edit modalShow2"  onclick="DisplayDetails(' + data +')"  ></span>';
+                    }
+                }
 
-        $('a.modalShow').on('click', function () {
+            ]
+        });
+        function DisplayDetails(a) {
 
             $.ajax({
-                url: this.href,
+                url: "@Url.Action("SaleOrderDetailList","SaleOrders")",
+                data: { saleOrderId:a},
                 type: 'GET',
                 cache: false,
                 success: function (result) {
@@ -101,7 +105,12 @@
             });
 
             return false;
-        });
+        }
+
+       
+
+
+        
     </script>
 }
 

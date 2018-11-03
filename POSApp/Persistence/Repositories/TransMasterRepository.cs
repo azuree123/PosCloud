@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using AutoMapper;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 using POSApp.Core.ViewModels;
@@ -23,7 +25,7 @@ namespace POSApp.Persistence.Repositories
                 .FirstOrDefault(x => x.Id == id && x.StoreId == storeId);
 
         }
-        public IEnumerable<TransMasterViewModel> GetPurchaseOrders(int storeId)
+        public IEnumerable<TransMasterViewModel> GetTransMasters(int storeId)
         {
             //return _context.PurchaseOrder;
             return _context.TransMasters
@@ -45,42 +47,24 @@ namespace POSApp.Persistence.Repositories
                 WHERE (TransMaster.Id = @p1) AND (TransMaster.StoreId = @p2)";
 
             return _context.Database.SqlQuery<InvoiceViewModel>(sql, parameters.ToArray()).ToList();
-            //  .Local.ToBindingList();
-            //_context.TransMasters.Load();
-            //return _context.TransMasters
-            //     .Local.ToBindingList()   
-            //    .Include(d => d.TransDetails.Select(p => p.Product).Select(u => u.ProductUnit)              
-            //    .Where(a => a.StoreId == storeId)
-            // .Select(p => new TransMasterViewModel { Id = p.Id }).ToList();
+            
         }
-        public IEnumerable<TransMasterViewModel> GetPurchaseOrdersFiltered(string query, int storeId)
+        public IEnumerable<TransMasterViewModel> GetTransMastersFiltered(string query, int storeId)
         {
             //return _context.PurchaseOrder;
             query = query.ToUpper();
             return _context.TransMasters
-                //.Where(x => x.Name.ToUpper().Contains(query))
+                .Where(x => x.StoreId==storeId)
                 .Select(p => new TransMasterViewModel { Id = p.Id });
         }
-        public IEnumerable<TransMasterViewModel> GetPurchaseOrdersFiltered(int query, int storeId)
+        public IEnumerable<TransMasterViewModel> GetTransMastersFiltered(int query, int storeId)
         {
             return _context.TransMasters
                 .Where(x => x.Id == query && x.StoreId == storeId)
                 .Select(p => new TransMasterViewModel { Id = p.Id });
         }
 
-        //public int IsExisting(string purchaseOrderName, int storeId)
-        //{
-        //    var purchaseOrder = _context.PurchaseOrders.Where(z => z.Name == purchaseOrderName && z.StoreId == storeId);
-        //    if (purchaseOrder.Any())
-        //    {
-        //        return purchaseOrder.FirstOrDefault().Id;
-        //    }
-        //    else
-        //    {
-        //        return 0;
-        //    }
-
-        //}
+       
         public void DeleteTransMaster(int id, int storeId)
         {
             var dept = _context.TransMasters.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
@@ -91,5 +75,13 @@ namespace POSApp.Persistence.Repositories
             _context.TransMasters.Add(optcategory);
 
         }
+        public IQueryable<TransMasterViewModel> GetTransMastersQuery(int storeId)
+        {
+            //return _context.PurchaseOrder;
+            return Mapper.Map<TransMasterViewModel[]>(_context.TransMasters
+                .Where(a => a.StoreId == storeId).Include(a=>a.BusinessPartner)).AsQueryable();
+
+        }
+
     }
 }

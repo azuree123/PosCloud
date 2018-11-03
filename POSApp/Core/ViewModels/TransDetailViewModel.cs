@@ -15,8 +15,8 @@ namespace POSApp.Core.ViewModels
 
         public int ProductId { get; set; }
 
-        public decimal Quantity { get; set; }
-        public double Discount { get; set; }
+        public int Quantity { get; set; }
+        public decimal Discount { get; set; }
         public decimal UnitPrice { get; set; }
         public string CreatedByUserId { get; set; }
         public string ProductName { get; set; }

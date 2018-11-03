@@ -141,6 +141,9 @@
     <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
     </Reference>
@@ -517,6 +520,10 @@
     <Compile Include="Migrations\201811010807180_new-10.cs" />
     <Compile Include="Migrations\201811010807180_new-10.Designer.cs">
       <DependentUpon>201811010807180_new-10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811021202101_new-11.cs" />
+    <Compile Include="Migrations\201811021202101_new-11.Designer.cs">
+      <DependentUpon>201811021202101_new-11.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2686,6 +2693,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811010807180_new-10.resx">
       <DependentUpon>201811010807180_new-10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811021202101_new-11.resx">
+      <DependentUpon>201811021202101_new-11.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
