@@ -375,6 +375,7 @@
     <Compile Include="Core\Models\ReportsLog.cs" />
     <Compile Include="Core\Models\Store.cs" />
     <Compile Include="Core\Models\Tax.cs" />
+    <Compile Include="Core\Models\TimedEvent.cs" />
     <Compile Include="Core\Models\TransDetail.cs" />
     <Compile Include="Core\Models\TransMaster.cs" />
     <Compile Include="Core\Models\Unit.cs" />
@@ -386,6 +387,7 @@
     <Compile Include="Core\Repositories\IModifierRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
     <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
+    <Compile Include="Core\Repositories\ITimedEventRepository.cs" />
     <Compile Include="Core\Repositories\IUnitRepository.cs" />
     <Compile Include="Core\Repositories\IStoreRepository.cs" />
     <Compile Include="Core\Repositories\ITaxRepository.cs" />
@@ -462,6 +464,7 @@
     <Compile Include="Core\ViewModels\SupplierModelView.cs" />
     <Compile Include="Core\ViewModels\Sync\SyncViewModel.cs" />
     <Compile Include="Core\ViewModels\TaxViewModel.cs" />
+    <Compile Include="Core\ViewModels\TimedEventViewModel.cs" />
     <Compile Include="Core\ViewModels\TransDetailViewModel.cs" />
     <Compile Include="Core\ViewModels\TransMasterViewModel.cs" />
     <Compile Include="Core\ViewModels\UnitViewModel.cs" />
@@ -552,6 +555,7 @@
     <Compile Include="Persistence\EntityConfigurations\StoreEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SupplierEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TaxEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\TimedEventEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransMasterEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\UnitEntityConfiguration.cs" />
@@ -581,6 +585,7 @@
     <Compile Include="Persistence\Repositories\StoreRepository.cs" />
     <Compile Include="Persistence\Repositories\SupplierRepository.cs" />
     <Compile Include="Persistence\Repositories\TaxRepository.cs" />
+    <Compile Include="Persistence\Repositories\TimedEventRepository.cs" />
     <Compile Include="Persistence\Repositories\TransDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\TransMasterRepository.cs" />
     <Compile Include="Persistence\Repositories\UnitRepository.cs" />

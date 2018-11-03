@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using POSApp.Persistence;
 
 namespace POSApp.Core.Models
 {
+        [Table("Clients", Schema = PosDbContext.DEFAULT_SCHEMA)]
     public class Client:AuditableEntity
     {
         [Key]

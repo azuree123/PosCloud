@@ -49,6 +49,7 @@ namespace POSApp.Persistence
         public DbSet<Unit> Units { get; set; }
         public DbSet<Modifier> Modifiers { get; set; }
         public DbSet<ModifierOption> ModifierOptions { get; set; }
+        public DbSet<TimedEvent> TimedEvents { get; set; }
 
         public void SetCommandTimeOut(int Timeout)
         {
@@ -67,7 +68,7 @@ namespace POSApp.Persistence
             //modelBuilder.Configurations.Add(new ApplicationUserEntityConfiguration());
             //modelBuilder.Configurations.Add(new UserRoleConfiguration());
             //modelBuilder.Configurations.Add(new RoleConfiguration());
-
+            //modelBuilder.Configurations.Add(new DesignationEntityConfiguration());
             //modelBuilder.Configurations.Add(new UserLoginConfiguration());
             //modelBuilder.Configurations.Add(new UserClaimConfiguration());
 
@@ -75,7 +76,6 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new CityEntityConfiguration());
             modelBuilder.Configurations.Add(new CustomerEntityConfiguration());
             modelBuilder.Configurations.Add(new DepartmentEntityConfiguration());
-            //modelBuilder.Configurations.Add(new DesignationEntityConfiguration());
             modelBuilder.Configurations.Add(new EmployeeEntityConfiguration());
             modelBuilder.Configurations.Add(new ExpenseEntityConfiguration());
             modelBuilder.Configurations.Add(new ExpenseHeadEntityConfiguration());
@@ -95,6 +95,13 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new TransMasterEntityConfiguration());
             modelBuilder.Configurations.Add(new BusinessPartnerEntityConfiguration());
             modelBuilder.Configurations.Add(new UnitEntityConfiguration());
+            modelBuilder.Configurations.Add(new TimedEventEntityConfiguration());
+            modelBuilder.Configurations.Add(new ModifierEntityConfiguration());
+            modelBuilder.Configurations.Add(new ModifierOptionEntityConfiguration());
+            modelBuilder.Configurations.Add(new ReportLogEntityConfiguration()));
+
+
+
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);
 

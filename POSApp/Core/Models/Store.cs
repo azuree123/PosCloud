@@ -36,6 +36,8 @@ namespace POSApp.Core.Models
         public virtual ICollection<Modifier> Modifiers { get; set; }
         public virtual ICollection<ModifierOption> ModifierOptions { get; set; }
 
+        public virtual ICollection<TimedEvent> TimedEvents { get; set; }
+
 
     }
 }

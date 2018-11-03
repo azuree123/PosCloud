@@ -32,6 +32,7 @@ namespace POSApp.Core
         IAppCountersRepository AppCountersRepository { get; }
         IClientRepository ClientRepository { get; }
         IUnitRepository UnitRepository { get; }
+        ITimedEventRepository TimedEventRepository { get; }
 
         void Complete();
     }

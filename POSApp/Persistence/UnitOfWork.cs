@@ -39,6 +39,8 @@ namespace POSApp.Persistence
         public IAppCountersRepository AppCountersRepository { get; private set; }
         public IClientRepository ClientRepository { get; private set; }
         public IUnitRepository UnitRepository { get; private set; }
+        public ITimedEventRepository TimedEventRepository { get; private set; }
+
 
         public UnitOfWork(PosDbContext context)
         {
@@ -71,6 +73,7 @@ namespace POSApp.Persistence
             AppCountersRepository=new AppCountersRepository(context);
             UnitRepository=new UnitRepository(context);
             ClientRepository=new ClientRepository(context);
+            TimedEventRepository = new TimedEventRepository(context);
         }
 
         public void Complete()

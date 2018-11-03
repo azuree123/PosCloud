@@ -40,6 +40,13 @@ namespace POSApp.Persistence.EntityConfigurations
             HasRequired(x => x.ProductCategory).WithMany(x => x.Products).HasForeignKey(x => new {x.CategoryId,x.StoreId}).WillCascadeOnDelete(true);
             HasOptional(x => x.Tax).WithMany(x => x.Products).HasForeignKey(x => new {x.TaxId,x.StoreId}).WillCascadeOnDelete(false);
             HasRequired(x => x.ProductUnit).WithMany(x => x.Products).HasForeignKey(x => new { x.UnitId, x.StoreId }).WillCascadeOnDelete(false);
+            HasMany(x => x.TimedEvents).WithMany(x => x.Products).Map(a =>
+            {
+                a.MapLeftKey("TimedEventId");
+                a.MapRightKey("ProductId");
+                a.ToTable("TimedEventProducts", PosDbContext.DEFAULT_SCHEMA);
+            });
+
         }
     }
 }
