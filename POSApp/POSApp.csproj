@@ -141,6 +141,9 @@
     <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
     </Reference>
@@ -366,10 +369,13 @@
     <Compile Include="Core\Models\Client.cs" />
     <Compile Include="Core\Models\Designation.cs" />
     <Compile Include="Core\Models\Discount.cs" />
+    <Compile Include="Core\Models\Modifier.cs" />
+    <Compile Include="Core\Models\ModifierOption.cs" />
     <Compile Include="Core\Models\ProductCategoryGroup.cs" />
     <Compile Include="Core\Models\ReportsLog.cs" />
     <Compile Include="Core\Models\Store.cs" />
     <Compile Include="Core\Models\Tax.cs" />
+    <Compile Include="Core\Models\TimedEvent.cs" />
     <Compile Include="Core\Models\TransDetail.cs" />
     <Compile Include="Core\Models\TransMaster.cs" />
     <Compile Include="Core\Models\Unit.cs" />
@@ -378,8 +384,11 @@
     <Compile Include="Core\Repositories\IClientRepository.cs" />
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
+    <Compile Include="Core\Repositories\IModifierOptionRepository.cs" />
+    <Compile Include="Core\Repositories\IModifierRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
     <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
+    <Compile Include="Core\Repositories\ITimedEventRepository.cs" />
     <Compile Include="Core\Repositories\IUnitRepository.cs" />
     <Compile Include="Core\Repositories\IStoreRepository.cs" />
     <Compile Include="Core\Repositories\ITaxRepository.cs" />
@@ -400,6 +409,8 @@
     <Compile Include="Core\ViewModels\GeneratePurchaseOrderViewModel.cs" />
     <Compile Include="Core\ViewModels\InvoiceViewModel.cs" />
     <Compile Include="Core\ViewModels\LocationModelView.cs" />
+    <Compile Include="Core\ViewModels\ModifierOptionViewModel.cs" />
+    <Compile Include="Core\ViewModels\ModifierViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCategoryGroupViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCategoryViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCreateViewModel.cs" />
@@ -454,6 +465,7 @@
     <Compile Include="Core\ViewModels\SupplierModelView.cs" />
     <Compile Include="Core\ViewModels\Sync\SyncViewModel.cs" />
     <Compile Include="Core\ViewModels\TaxViewModel.cs" />
+    <Compile Include="Core\ViewModels\TimedEventViewModel.cs" />
     <Compile Include="Core\ViewModels\TransDetailViewModel.cs" />
     <Compile Include="Core\ViewModels\TransMasterViewModel.cs" />
     <Compile Include="Core\ViewModels\UnitViewModel.cs" />
@@ -513,6 +525,14 @@
     <Compile Include="Migrations\201811010807180_new-10.Designer.cs">
       <DependentUpon>201811010807180_new-10.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811021202101_new-11.cs" />
+    <Compile Include="Migrations\201811021202101_new-11.Designer.cs">
+      <DependentUpon>201811021202101_new-11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811030717345_new-12.cs" />
+    <Compile Include="Migrations\201811030717345_new-12.Designer.cs">
+      <DependentUpon>201811030717345_new-12.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -527,6 +547,8 @@
     <Compile Include="Persistence\EntityConfigurations\ExpenseEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ExpenseHeadEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\LocationEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ModifierEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ModifierOptionEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ProductCategoryEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ProductEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\PurchaseOrderDetailEntityConfiguration.cs" />
@@ -538,6 +560,7 @@
     <Compile Include="Persistence\EntityConfigurations\StoreEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SupplierEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TaxEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\TimedEventEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransMasterEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\UnitEntityConfiguration.cs" />
@@ -554,6 +577,8 @@
     <Compile Include="Persistence\Repositories\ExpenseHeadRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseRepository.cs" />
     <Compile Include="Persistence\Repositories\LocationRepository.cs" />
+    <Compile Include="Persistence\Repositories\ModifierOptionRepository.cs" />
+    <Compile Include="Persistence\Repositories\ModifierRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryGroupRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductRepository.cs" />
@@ -566,6 +591,7 @@
     <Compile Include="Persistence\Repositories\StoreRepository.cs" />
     <Compile Include="Persistence\Repositories\SupplierRepository.cs" />
     <Compile Include="Persistence\Repositories\TaxRepository.cs" />
+    <Compile Include="Persistence\Repositories\TimedEventRepository.cs" />
     <Compile Include="Persistence\Repositories\TransDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\TransMasterRepository.cs" />
     <Compile Include="Persistence\Repositories\UnitRepository.cs" />
@@ -2616,6 +2642,8 @@
     <Content Include="Views\Setup\UnitList.cshtml" />
     <Content Include="Views\Setup\AddUnit.cshtml" />
     <Content Include="Views\PurchaseOrders\GenerateReceipt.cshtml" />
+    <Content Include="Views\Products\ModifierList.cshtml" />
+    <Content Include="Views\Products\AddModifier.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2678,6 +2706,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811010807180_new-10.resx">
       <DependentUpon>201811010807180_new-10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811021202101_new-11.resx">
+      <DependentUpon>201811021202101_new-11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811030717345_new-12.resx">
+      <DependentUpon>201811030717345_new-12.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

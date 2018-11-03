@@ -462,6 +462,75 @@ namespace POSApp.Controllers
                 throw;
             }
         }
+        public ActionResult ModifierList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ModifierRepository.GetModifiers((int)user.StoreId));
+        }
+        [HttpGet]
+        public ActionResult AddModifier()
+        {
+            ViewBag.edit = "AddModifier";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddModifier(ModifierViewModel modifierVm)
+        {
+            ViewBag.edit = "AddModifier";
+            if (!ModelState.IsValid)
+            {
+                return View(modifierVm);
+            }
+            else
+            {
+                Modifier modifier = Mapper.Map<Modifier>(modifierVm);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                modifier.StoreId = (int)user.StoreId;
+                _unitOfWork.ModifierRepository.AddModifier(modifier);
+                _unitOfWork.Complete();
+                return RedirectToAction("ModifierList", "Products");
+            }
+
+        }
+        [HttpGet]
+        public ActionResult UpdateModifier(int id)
+        {
+            ViewBag.edit = "UpdateModifier";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ModifierViewModel modifierVm =
+                Mapper.Map<ModifierViewModel>(_unitOfWork.ModifierRepository.GetModifierById(id, (int)user.StoreId));
+            return View("AddModifier", modifierVm);
+        }
+        [HttpPost]
+        public ActionResult UpdateModifier(int id, ModifierViewModel modifierVm)
+        {
+            ViewBag.edit = "UpdateModifier";
+            if (!ModelState.IsValid)
+            {
+                return View("AddModifier", modifierVm);
+            }
+            else
+            {
+                Modifier modifier = Mapper.Map<Modifier>(modifierVm);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                modifier.StoreId = (int)user.StoreId;
+                _unitOfWork.ModifierRepository.UpdateModifier(id, modifier.StoreId, modifier);
+                _unitOfWork.Complete();
+                return RedirectToAction("ModifierList", "Products");
+            }
+        }
+        public ActionResult DeleteModifier(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ModifierRepository.DeleteModifier(id, (int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("ModifierList", "Products");
+        }
         public ApplicationUserManager UserManager
         {
             get
