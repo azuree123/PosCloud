@@ -372,6 +372,7 @@
     <Compile Include="Core\Models\Modifier.cs" />
     <Compile Include="Core\Models\ModifierOption.cs" />
     <Compile Include="Core\Models\ProductCategoryGroup.cs" />
+    <Compile Include="Core\Models\ProductsSub.cs" />
     <Compile Include="Core\Models\ReportsLog.cs" />
     <Compile Include="Core\Models\Store.cs" />
     <Compile Include="Core\Models\Tax.cs" />
@@ -387,6 +388,7 @@
     <Compile Include="Core\Repositories\IModifierOptionRepository.cs" />
     <Compile Include="Core\Repositories\IModifierRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
+    <Compile Include="Core\Repositories\IProductsSubRepository.cs" />
     <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventRepository.cs" />
     <Compile Include="Core\Repositories\IUnitRepository.cs" />
@@ -453,6 +455,7 @@
     <Compile Include="Core\ViewModels\ExternalLoginListViewModel.cs" />
     <Compile Include="Core\ViewModels\ForgotPasswordViewModel.cs" />
     <Compile Include="Core\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Core\ViewModels\ProductSubViewModel.cs" />
     <Compile Include="Core\ViewModels\PurchaseOrderViewModel.cs" />
     <Compile Include="Core\ViewModels\RegisterViewModel.cs" />
     <Compile Include="Core\ViewModels\ReportLogViewModel.cs" />
@@ -533,6 +536,10 @@
     <Compile Include="Migrations\201811030717345_new-12.Designer.cs">
       <DependentUpon>201811030717345_new-12.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811030848436_new-13.cs" />
+    <Compile Include="Migrations\201811030848436_new-13.Designer.cs">
+      <DependentUpon>201811030848436_new-13.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -551,6 +558,7 @@
     <Compile Include="Persistence\EntityConfigurations\ModifierOptionEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ProductCategoryEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ProductEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ProductSubEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\PurchaseOrderDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\PurchaseOrderEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ReportLogEntityConfiguration.cs" />
@@ -582,6 +590,7 @@
     <Compile Include="Persistence\Repositories\ProductCategoryGroupRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductRepository.cs" />
+    <Compile Include="Persistence\Repositories\ProductsSubRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\ReportsLogRepository.cs" />
@@ -2642,8 +2651,8 @@
     <Content Include="Views\Setup\UnitList.cshtml" />
     <Content Include="Views\Setup\AddUnit.cshtml" />
     <Content Include="Views\PurchaseOrders\GenerateReceipt.cshtml" />
-    <Content Include="Views\Products\ModifierList.cshtml" />
     <Content Include="Views\Products\AddModifier.cshtml" />
+    <Content Include="Views\Products\ModifierOptionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2712,6 +2721,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811030717345_new-12.resx">
       <DependentUpon>201811030717345_new-12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811030848436_new-13.resx">
+      <DependentUpon>201811030848436_new-13.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

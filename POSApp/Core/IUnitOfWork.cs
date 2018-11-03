@@ -35,6 +35,7 @@ namespace POSApp.Core
         IModifierRepository ModifierRepository { get; }
         IModifierOptionRepository ModifierOptionRepository { get; }
         ITimedEventRepository TimedEventRepository { get; }
+        IProductsSubRepository ProductsSubRepository { get; }
 
         void Complete();
     }
