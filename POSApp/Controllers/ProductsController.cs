@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.Core.Shared;
 using POSApp.Core.ViewModels;
 
 namespace POSApp.Controllers
@@ -461,47 +463,42 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ModifierOptionViewModel modifieroption = new ModifierOptionViewModel();
-            modifieroption.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
-                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddModifierOption";
-
+           
             return View(modifieroption);
         }
         [HttpPost]
         public ActionResult AddModifierOption(ModifierOptionViewModel modifieroptionVm)
         {
+            if (Helper.TempModifierOptions == null)
+            {
+                Helper.TempModifierOptions = new List<ModifierOptionViewModel>();
+            }
             ViewBag.edit = "AddModifierOption";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             if (!ModelState.IsValid)
             {
-               
-                modifieroptionVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
-                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 return View(modifieroptionVm);
             }
             else
             
             {
-
                 modifieroptionVm.StoreId = user.StoreId;
-                ModifierOption modifieroption = Mapper.Map<ModifierOption>(modifieroptionVm);
-                
-                _unitOfWork.ModifierOptionRepository.AddModifierOption(modifieroption);
-                _unitOfWork.Complete();
-                return RedirectToAction("ModifierOptionList", "Products");
+                Helper.AddToTempModifierOptions(modifieroptionVm,userid);
+                //ModifierOption modifieroption = Mapper.Map<ModifierOption>(modifieroptionVm);
+                //_unitOfWork.ModifierOptionRepository.AddModifierOption(modifieroption);
+                //_unitOfWork.Complete();
+                return View("ModifierOptionListTable", Helper.TempModifierOptions.Where(a => a.CreatedBy == userid).ToList());
             }
 
         }
-        public ActionResult UpdateModifierOption(int id)
+        public ActionResult UpdateModifierOption(string name)
         {
-            ViewBag.edit = "UpdateModifierOption";
+            ViewBag.edit = "AddModifierOption";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            ModifierOptionViewModel modifieroptionVm = Mapper.Map<ModifierOptionViewModel>(_unitOfWork.ModifierOptionRepository.GetModifierOptionsById(id, Convert.ToInt32(user.StoreId)));
-           
-            modifieroptionVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
-                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            ModifierOptionViewModel modifieroptionVm = Helper.TempModifierOptions.FirstOrDefault(a=>a.Name==name && a.CreatedBy==userid);
             return View("AddModifierOption", modifieroptionVm);
         }
         [HttpPost]
@@ -512,30 +509,36 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             if (!ModelState.IsValid)
             {
-               
-                modifieroptionVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
-                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 return View("AddModifierOption", modifieroptionVm);
             }
             else 
             
 
             {
-                ModifierOption modifieroption = Mapper.Map<ModifierOption>(modifieroptionVm);
+
+                //ModifierOption modifieroption = Mapper.Map<ModifierOption>(modifieroptionVm);
                 
-                _unitOfWork.ModifierOptionRepository.UpdateModifierOptions(id, Convert.ToInt32(user.StoreId), modifieroption);
-                _unitOfWork.Complete();
+                //_unitOfWork.ModifierOptionRepository.UpdateModifierOptions(id, Convert.ToInt32(user.StoreId), modifieroption);
+                //_unitOfWork.Complete();
                 return RedirectToAction("ModifierOptionList", "Products");
             }
 
         }
-        public ActionResult DeleteModifierOption(int id, int storeid)
+        public ActionResult DeleteModifierOption(string name, int storeid)
         {
+            if (Helper.TempModifierOptions == null)
+            {
+                Helper.TempModifierOptions = new List<ModifierOptionViewModel>();
+                return View("ModifierOptionListTable", Helper.TempModifierOptions.ToList());
+
+            }
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            _unitOfWork.ModifierOptionRepository.DeleteModifierOptions(id, Convert.ToInt32(user.StoreId));
-            _unitOfWork.Complete();
-            return RedirectToAction("ModifierOptionList", "Products");
+            Helper.RemoveFromTempModifierOptions(name,(int)user.StoreId,userid);
+            //_unitOfWork.ModifierOptionRepository.DeleteModifierOptions(id, Convert.ToInt32(user.StoreId));
+            //_unitOfWork.Complete();
+            return View("ModifierOptionListTable", Helper.TempModifierOptions.Where(a => a.CreatedBy == userid).ToList());
+
         }
         public JsonResult GetProductCategoryGroupDdl()
         {
@@ -561,6 +564,13 @@ namespace POSApp.Controllers
         public ActionResult AddModifier()
         {
             ViewBag.edit = "AddModifier";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (Helper.TempModifierOptions != null)
+            {
+
+                Helper.EmptyTempModifierOptions(user.Id, (int)user.StoreId);
+            }
             return View();
         }
         [HttpPost]
@@ -577,7 +587,14 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 modifier.StoreId = (int)user.StoreId;
-                _unitOfWork.ModifierRepository.AddModifier(modifier);
+                var mod = modifier;
+                _unitOfWork.ModifierRepository.AddModifier(mod);
+                _unitOfWork.Complete();
+                foreach (var modifierOptionViewModel in Helper.TempModifierOptions.Where(a=>a.CreatedBy==userid))
+                {
+                    modifierOptionViewModel.ModifierId = mod.Id;
+                    _unitOfWork.ModifierOptionRepository.AddModifierOption(Mapper.Map<ModifierOption>(modifierOptionViewModel));
+                }
                 _unitOfWork.Complete();
                 return RedirectToAction("ModifierList", "Products");
             }

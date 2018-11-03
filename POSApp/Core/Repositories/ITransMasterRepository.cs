@@ -11,7 +11,7 @@ namespace POSApp.Core.Repositories
     public interface ITransMasterRepository
     {
         TransMaster GetTransMaster(int id, int storeId);
-        IEnumerable<TransMasterViewModel> GetTransMasters(int storeId);
+        IEnumerable<TransMaster> GetTransMasters(int storeId);
         IEnumerable<InvoiceViewModel> GetInvoice(int id, int storeId);
         IEnumerable<TransMasterViewModel> GetTransMastersFiltered(string query, int storeId);
         IEnumerable<TransMasterViewModel> GetTransMastersFiltered(int query, int storeId);

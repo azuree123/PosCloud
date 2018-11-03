@@ -25,12 +25,12 @@ namespace POSApp.Persistence.Repositories
                 .FirstOrDefault(x => x.Id == id && x.StoreId == storeId);
 
         }
-        public IEnumerable<TransMasterViewModel> GetTransMasters(int storeId)
+        public IEnumerable<TransMaster> GetTransMasters(int storeId)
         {
             //return _context.PurchaseOrder;
-            return _context.TransMasters
+            return _context.TransMasters.Include(a=>a.BusinessPartner)
                 .Where(a => a.StoreId == storeId)
-                .Select(p => new TransMasterViewModel { Id = p.Id }).ToList();
+                ;
         }
         public IEnumerable<InvoiceViewModel> GetInvoice(int id, int storeId)
         {

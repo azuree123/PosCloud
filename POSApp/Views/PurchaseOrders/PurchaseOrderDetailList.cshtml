@@ -1,5 +1,4 @@
-﻿@model IEnumerable<POSApp.Core.Models.PurchaseOrderDetail>
-
+﻿
 @{
     ViewBag.Title = "PurchaseOrdersDetailsList";
 }
@@ -52,13 +51,15 @@
                     {
                         <tr>
                             <td>@(i++)</td>
-                            <td>@purchaseOrderDetail.PurchaseOrderId</td>
+                            <td>@purchaseOrderDetail.TransCode</td>
                             <td>@purchaseOrderDetail.ProductId</td>
                             <td>@purchaseOrderDetail.Quantity</td>
                             @*<td>@purchaseOrderDetail.RetailPrice</td>*@
                             <td>@purchaseOrderDetail.Discount</td>
                             <td>@purchaseOrderDetail.UnitPrice</td>
-                            <td></td>
+                            <td>
+
+                            </td>
                         </tr>
                     }
                 </tbody>

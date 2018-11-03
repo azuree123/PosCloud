@@ -362,6 +362,7 @@
     <Compile Include="Controllers\WebApi\UnitsController.cs" />
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\Enums\ModifierOptionEnum.cs" />
     <Compile Include="Core\Enums\PaymentMethod.cs" />
     <Compile Include="Core\Models\AppCounter.cs" />
     <Compile Include="Core\Models\BusinessPartner.cs" />
@@ -396,6 +397,7 @@
     <Compile Include="Core\Repositories\ITaxRepository.cs" />
     <Compile Include="Core\Repositories\ITransDetailRepository.cs" />
     <Compile Include="Core\Repositories\ITransMasterRepository.cs" />
+    <Compile Include="Core\Shared\Helper.cs" />
     <Compile Include="Core\Shared\PoHelper.cs" />
     <Compile Include="Core\ViewModels\BusinessPartnerViewModel.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
@@ -2653,6 +2655,8 @@
     <Content Include="Views\PurchaseOrders\GenerateReceipt.cshtml" />
     <Content Include="Views\Products\AddModifier.cshtml" />
     <Content Include="Views\Products\ModifierOptionList.cshtml" />
+    <Content Include="Views\Products\AddModifierOption.cshtml" />
+    <Content Include="Views\Products\ModifierOptionListTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
