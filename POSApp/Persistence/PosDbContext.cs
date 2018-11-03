@@ -50,6 +50,7 @@ namespace POSApp.Persistence
         public DbSet<Modifier> Modifiers { get; set; }
         public DbSet<ModifierOption> ModifierOptions { get; set; }
         public DbSet<TimedEvent> TimedEvents { get; set; }
+        public DbSet<ProductsSub> ProductsSubs { get; set; }
 
         public void SetCommandTimeOut(int Timeout)
         {
@@ -99,6 +100,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new ModifierEntityConfiguration());
             modelBuilder.Configurations.Add(new ModifierOptionEntityConfiguration());
             modelBuilder.Configurations.Add(new ReportLogEntityConfiguration());
+            modelBuilder.Configurations.Add(new ProductsSubEntityConfiguration());
 
 
 
