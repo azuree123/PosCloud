@@ -1,4 +1,4 @@
-﻿@model IEnumerable<POSApp.Core.Models.PurchaseOrder>
+﻿@model IEnumerable<POSApp.Core.ViewModels.TransMasterViewModel>
 
 @{
     ViewBag.Title = "PurchaseOrderList";
@@ -64,7 +64,6 @@
                             <th width="5%">ID</th>
                             <th width="15%">Supplier</th>
                             <th width="15%">Order Date</th>
-                            <th width="15%">Supply Date</th>
                             <th width="5%">Invoice</th>
                             <th width="15%">Total Price</th>
                             <th width="10%">Type</th>
@@ -78,13 +77,14 @@
                         {
                             <tr>
                                 <td>@(i++)</td>
-                                <td>@purchaseOrder.SupplierId</td>
-                                <td>@purchaseOrder.OrderDate</td>
-                                <td>@purchaseOrder.SupplyDate</td>
-                                <td>@purchaseOrder.InvoiceId</td>
+                                <td>@purchaseOrder.BusinessPartnerName</td>
+                                <td>@purchaseOrder.TransDate</td>
+                                <td>@purchaseOrder.TransCode</td>
                                 <td>@purchaseOrder.TotalPrice</td>
                                 <td>@purchaseOrder.Type</td>
-                                <td></td>
+                                <td>
+                                    @Html.ActionLink(" ", "PreviewPurchaseOrder", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-list  ", data_toggle = "tooltip", title = "Preview !" })
+                                </td>
                             </tr>
                         }
                     </tbody>

@@ -267,29 +267,29 @@ Theme Version: 	1.5.2
 Sparkline: Bar
 */
 
-        var sparklineBarDashData = [5, 6, 7, 2, 0, 4, 2, 4, 2, 0, 4, 2, 4, 2, 0, 4];
-        var sparklineBarDashOptions = {
-            type: 'bar',
-            width: '80',
-            height: '55',
-            barColor: '#d2322d99',
-            negBarColor: '#B20000'
-        };
+        //var sparklineBarDashData = [5, 6, 7, 2, 0, 4, 2, 4, 2, 0, 4, 2, 4, 2, 0, 4];
+        //var sparklineBarDashOptions = {
+        //    type: 'bar',
+        //    width: '80',
+        //    height: '55',
+        //    barColor: '#d2322d99',
+        //    negBarColor: '#B20000'
+        //};
 
-        $("#sparklineBarDash").sparkline(sparklineBarDashData, sparklineBarDashOptions);
+        //$("#sparklineBarDash").sparkline(sparklineBarDashData, sparklineBarDashOptions);
 
-        /*
-        Sparkline: Line
-        */
-        var sparklineLineDashOptions = {
-            type: 'line',
-            width: '80',
-            height: '55',
-            lineColor: '#d2322d',
+        ///*
+        //Sparkline: Line
+        //*/
+        //var sparklineLineDashOptions = {
+        //    type: 'line',
+        //    width: '80',
+        //    height: '55',
+        //    lineColor: '#d2322d',
                
-        };
+        //};
 
-        $("#sparklineLineDash").sparkline(sparklineLineDashData, sparklineLineDashOptions);
+        //$("#sparklineLineDash").sparkline(sparklineLineDashData, sparklineLineDashOptions);
 
         /*
         Map

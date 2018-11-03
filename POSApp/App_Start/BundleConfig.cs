@@ -52,7 +52,7 @@ namespace POSApp
                          "~/Content/vendor/morris.js/morris.js",
                          "~/Content/vendor/gauge/gauge.js",
                          "~/Content//vendor/chartist/chartist.js",
-
+                         "~/Content//vendor/pnotify/pnotify.custom.js",
                           "~/Content/vendor/snap.svg/snap.svg.js",
                           "~/Content/vendor/liquid-meter/liquid.meter.js",
                           "~/Content/vendor/jqvmap/jquery.vmap.js",
@@ -102,7 +102,7 @@ namespace POSApp
 
                       "~/Content/vendor/select2/css/select2.css",
                       "~/Content/vendor/select2-bootstrap-theme/select2-bootstrap.css",
-
+                      "~/Content//vendor/pnotify/pnotify.custom.css",
                       "~/Content/vendor/jquery-ui/jquery-ui.theme.css",
                       "~/Content/vendor/bootstrap-multiselect/bootstrap-multiselect.css",
 

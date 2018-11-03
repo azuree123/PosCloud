@@ -118,16 +118,19 @@ namespace POSApp.Persistence
             foreach (var entry in addedOrUpdatedEntries)
             {
                 var entity = entry.Entity as AuditableEntity;
-
-                if (entry.State == EntityState.Added)
+                if (entity != null)
                 {
-                    entity.CreatedOn = DateTime.Now;
-                    entity.CreatedById = HttpContext.Current.User.Identity.GetUserId();
+                    if (entry.State == EntityState.Added)
+                    {
+                        entity.CreatedOn = DateTime.Now;
+                        entity.CreatedById = HttpContext.Current.User.Identity.GetUserId();
 
+                    }
+
+                    entity.UpdatedById = HttpContext.Current.User.Identity.GetUserId();
+                    entity.UpdatedOn = DateTime.Now;
                 }
-
-                entity.UpdatedById = HttpContext.Current.User.Identity.GetUserId();
-                entity.UpdatedOn = DateTime.Now;
+               
             }
 
             return base.SaveChanges();

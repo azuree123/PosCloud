@@ -1096,6 +1096,107 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("ClientList", "Setup");
         }
+
+        //TimedEvents
+
+        public ActionResult TimedEventList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.TimedEventRepository.GetTimedEvents((int)user.StoreId));
+        }
+        [HttpGet]
+        public ActionResult AddTimedEvent()
+        {
+            ViewBag.edit = "AddTimedEvent";
+            TimedEventViewModel model=new TimedEventViewModel();
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            model.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int) user.StoreId)
+                .Select(a => new SelectListItem{Text = a.Name,Value = a.Id.ToString()});
+            model.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            model.BranchDdl = _unitOfWork.StoreRepository.GetStores()
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult AddTimedEvent(TimedEventViewModel timeeventVm)
+        {
+            ViewBag.edit = "AddTimedEvent";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!ModelState.IsValid)
+            {
+                timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
+                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+                timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+                timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
+                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+                return View(timeeventVm);
+            }
+            else
+            {
+               
+                TimedEvent time = Mapper.Map<TimedEvent>(timeeventVm);
+                time.StoreId = (int)user.StoreId;
+                _unitOfWork.TimedEventRepository.AddTimedEvent(time);
+                _unitOfWork.Complete();
+                return RedirectToAction("TimedEventList", "Setup");
+            }
+
+        }
+        [HttpGet]
+        public ActionResult UpdateTimedEvent(int id)
+        {
+            ViewBag.edit = "UpdateTimedEvent";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            TimedEventViewModel timeeventVm =
+                Mapper.Map<TimedEventViewModel>(_unitOfWork.TimedEventRepository.GetTimedEventById(id, (int)user.StoreId));
+            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            return View("AddTimedEvent", timeeventVm);
+        }
+        [HttpPost]
+        public ActionResult UpdateTimedEvent(int id, TimedEventViewModel timeeventVm)
+        {
+            ViewBag.edit = "UpdateTimedEvent";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!ModelState.IsValid)
+            {
+                timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
+                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+                timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+                timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
+                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+                return View("AddTimedEvent", timeeventVm);
+            }
+            else
+            {
+               
+                TimedEvent location = Mapper.Map<TimedEvent>(timeeventVm);
+                _unitOfWork.TimedEventRepository.UpdateTimedEvent(id, location, (int)user.StoreId);
+                _unitOfWork.Complete();
+                return RedirectToAction("TimedEventList", "Setup");
+            }
+
+        }
+        public ActionResult DeleteTimedEvent(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.TimedEventRepository.DeleteTimedEvent(id, (int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("TimedEventList", "Setup");
+        }
         public JsonResult GetDepartmentDdl()
         {
             try
