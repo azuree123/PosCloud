@@ -23,7 +23,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.IsTaxable).HasColumnType("bit").IsRequired();
 
             HasRequired(x=>x.Modifier).WithMany(x=>x.ModifierOptions).HasForeignKey(x=> new{x.ModifierId, x.StoreId}).WillCascadeOnDelete(true);
-            HasRequired(x=>x.Tax).WithMany(x=>x.ModifierOptions).HasForeignKey(x=> new {x.TaxId, x.StoreId}).WillCascadeOnDelete(false);
+            HasOptional(x=>x.Tax).WithMany(x=>x.ModifierOptions).HasForeignKey(x=> new {x.TaxId, x.StoreId}).WillCascadeOnDelete(false);
         }
     }
 }

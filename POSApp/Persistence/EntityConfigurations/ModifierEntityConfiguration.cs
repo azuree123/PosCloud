@@ -20,6 +20,12 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Name).HasColumnType("varchar").HasMaxLength(150).IsRequired();
 
             HasRequired(x => x.Store).WithMany().HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
+            HasMany(x => x.Products).WithMany(x => x.Modifiers).Map(a =>
+            {
+                a.MapLeftKey("ProductId");
+                a.MapRightKey("ModifierId");
+                a.ToTable("ProductModifiers", PosDbContext.DEFAULT_SCHEMA);
+            });
 
         }
     }
