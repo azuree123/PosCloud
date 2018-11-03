@@ -12,14 +12,42 @@
 
 
 <!-- start: page -->
-<div class="container-fluid">
+@*<div class="container-fluid">
     <div class="row mt-md">
+        <div class="col-md-12">
+            <ul class="snip1189">
+
+                <li class="current"><a href="#">Sales</a></li>
+
+                <li><a href="@Url.Action("InventoryReport","Reports")">Inventory</a></li>
+
+                <li><a href="@Url.Action("MiscellaneousReport","Reports")">Miscellaneous</a></li>
+
+                <li><a href="@Url.Action("ExportingReport","Reports")">Exporting</a></li>
+
+                <li><a href="@Url.Action("MyReports","Reports")">My Reports</a></li>
+
+
+
+
+            </ul>
+            <hr />
+
+        </div>
+    </div>
+</div>*@
+
+
+
+
+<div class="container-fluid">
+    @*<div class="row mt-md">
         <div class="col-md-12">
             <h4 class=" wb-color  text-center">New Purchase Order</h4>
             <hr />
 
         </div>
-    </div>
+    </div>*@
     @using (Html.BeginForm())
     {
     <div class="row mt-lg">
@@ -27,20 +55,20 @@
 
 
         <div class="col-md-12">
-            <div class="tabs tabs-vertical tabs-left">
+            <div class="tabs  tabs-left">
                 <div class="row">
-                    <div class="col-md-3  col-xs-12 mb-xlg">
-                        <ul class="nav nav-tabs  ">
-                            <li class="active mt-xs">
-                                <a href="#basicdata" data-toggle="tab"> Basic Data <i class="fa fa-chevron-right tb-icon"></i></a>
+                    <div class="col-md-12 text-center  col-xs-12 mb-xlg">
+                        <ul class=" snip1189 ">
+                            <li class="mt-xs">
+                                <a href="#basicdata" data-toggle="tab"> Basic Data </a>
                             </li>
                             <li>
-                                <a href="#transactionitems" data-toggle="tab">Transaction Items <i class="fa fa-chevron-right tb-icon"></i></a>
+                                <a href="#transactionitems" data-toggle="tab">Transaction Items </a>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="tab-content col-md-9 col-xs-12  pb-xlg">
+                    <div class="tab-content col-md-8 col-xs-12 col-md-offset-2  pb-xlg">
                         <div class="row mb-xlg">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-default btn-lg btnPro" style="float:right"><span class="fa fa-save mr-md"></span> Save</button>
