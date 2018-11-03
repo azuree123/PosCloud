@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.4.2/css/all.css' integrity='sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns' crossorigin='anonymous'>
 <style>
     .multiselect-container > li > a > label {
         text-align: center;
@@ -12,6 +12,7 @@
     }
 
 </style>
+
 @*<header class="page-header">
         <h2>Dashboard</h2>
 
@@ -117,7 +118,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-4 text-center">
+                    @*<div class="col-md-4 text-center">
                         <h2 class="panel-title mt-md">Sales Goal</h2>
                         <div class="liquid-meter-wrapper liquid-meter-sm mt-lg">
                             <div class="liquid-meter">
@@ -128,7 +129,7 @@
                                 <a href="#" data-val="28">Annual Goal</a>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="col-md-4 text-center">
                         <section class="panel">
                             <header class="panel-heading panel-heading-transparent">
@@ -137,7 +138,7 @@
                                         <a href="#" class="panel-action panel-action-dismiss" data-panel-dismiss></a>
                                     </div>*@
 
-                                <h2 class="panel-title">Projects Stats</h2>
+                                <h2 class="panel-title">Operations</h2>
                             </header>
                             <div class="panel-body">
                                 <div class="table-responsive">
@@ -279,14 +280,14 @@
                         <div class="widget-summary">
                             <div class="widget-summary-col widget-summary-col-icon">
                                 <div class="summary-icon bg-quartenary">
-                                    <i class="fa fa-user"></i>
+                                    <i class="fas fa-sync"></i>
                                 </div>
                             </div>
                             <div class="widget-summary-col">
                                 <div class="summary">
-                                    <h4 class="title">Today's Customers</h4>
+                                    <h4 class="title">Total Refunds</h4>
                                     <div class="info">
-                                        <strong class="amount">3765</strong>
+                                        <strong class="amount">0000</strong>
                                         <a href="#" class=""><span class="text-primary">(View more)</span></a>
                                     </div>
                                 </div>
@@ -321,6 +322,22 @@
                         <p class="text-xs text-muted mb-none">Average Customers</p>
                     </div>
                 </section>
+
+
+                <section class="panel">
+
+                    <div class="panel-body" style="border: 1px solid #dddddd;border-bottom-width: 5px;">
+                        <div id="ChartistHorizontalChart" class="ct-chart ct-perfect-fourth ct-golden-section"></div>
+                        <div class="h4 text-weight-bold mb-none">488</div>
+                        <p class="text-xs text-muted mb-none">Average Customers</p> 
+                        <!-- See: assets/javascripts/ui-elements/examples.charts.js for the example code. -->
+                    </div>
+                </section>
+
+
+
+
+
                 <section class="panel">
                     <div class="panel-body" style="border: 1px solid #dddddd;border-bottom-width: 5px;">
                         <div class="circular-bar circular-bar-xs m-none mt-xs mr-md pull-right">
@@ -354,17 +371,68 @@
                     <a href="#" class="panel-action panel-action-dismiss" data-panel-dismiss></a>
                 </div>
 
-                <h2 class="panel-title">Sale Vs Expenses</h2>
-                <p class="panel-subtitle">Sale Vs Expenses Graph.</p>
+                <h2 class="panel-title">Bar Chart</h2>
+                <p class="panel-subtitle">A bar chart is a way of summarizing a set of categorical data.</p>
             </header>
             <div class="panel-body">
 
-                <!-- Flot: Basic -->
-                <div class="chart chart-md" id="flotDashBasic"></div>
+                <!-- Morris: Bar -->
+                <div class="chart chart-md" id="morrisBar"></div>
+                <script type="text/javascript">
 
+                    var morrisBarData = [{
+                        y: '2004',
+                        a: 10,
+                        b: 30
+                    }, {
+                        y: '2005',
+                        a: 100,
+                        b: 25
+                    }, {
+                        y: '2006',
+                        a: 60,
+                        b: 25
+                    }, {
+                        y: '2007',
+                        a: 75,
+                        b: 35
+                    }, {
+                        y: '2008',
+                        a: 90,
+                        b: 20
+                    }, {
+                        y: '2009',
+                        a: 75,
+                        b: 15
+                    }, {
+                        y: '2010',
+                        a: 50,
+                        b: 10
+                    }, {
+                        y: '2011',
+                        a: 75,
+                        b: 25
+                    }, {
+                        y: '2012',
+                        a: 30,
+                        b: 10
+                    }, {
+                        y: '2013',
+                        a: 75,
+                        b: 5
+                    }, {
+                        y: '2014',
+                        a: 60,
+                        b: 8
+                    }];
+
+                                                            // See: assets/javascripts/ui-elements/examples.charts.js for more settings.
+
+                </script>
 
             </div>
         </section>
+
     </div>
 
 </div>

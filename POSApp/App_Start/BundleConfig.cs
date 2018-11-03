@@ -51,6 +51,7 @@ namespace POSApp
                          "~/Content/vendor/raphael/raphael.js",
                          "~/Content/vendor/morris.js/morris.js",
                          "~/Content/vendor/gauge/gauge.js",
+                         "~/Content//vendor/chartist/chartist.js",
 
                           "~/Content/vendor/snap.svg/snap.svg.js",
                           "~/Content/vendor/liquid-meter/liquid.meter.js",
@@ -69,7 +70,8 @@ namespace POSApp
                           "~/Content/javascripts/theme.custom.js",
                           "~/Content/javascripts/theme.init.js",
                           "~/Content/vendor/summernote/summernote.js",
-                          "~/Content/javascripts/dashboard/examples.dashboard.js"
+                          "~/Content/javascripts/dashboard/examples.dashboard.js",
+                          "~/Content/javascripts/ui-elements/examples.charts.js"
 
 
 
