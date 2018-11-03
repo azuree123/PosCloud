@@ -1,4 +1,5 @@
-﻿using POSApp.Core;
+﻿using Microsoft.Owin.Security.MicrosoftAccount;
+using POSApp.Core;
 using POSApp.Core.Repositories;
 using POSApp.Persistence.Repositories;
 
@@ -42,6 +43,8 @@ namespace POSApp.Persistence
         public ITimedEventRepository TimedEventRepository { get; private set; }
 
 
+        public IModifierRepository ModifierRepository { get; private set; }
+        public IModifierOptionRepository ModifierOptionRepository { get; private set; }
         public UnitOfWork(PosDbContext context)
         {
             _context = context;
@@ -73,6 +76,8 @@ namespace POSApp.Persistence
             AppCountersRepository=new AppCountersRepository(context);
             UnitRepository=new UnitRepository(context);
             ClientRepository=new ClientRepository(context);
+            ModifierRepository=new ModifierRepository(context);
+            ModifierOptionRepository=new ModifierOptionRepository(context);
             TimedEventRepository = new TimedEventRepository(context);
         }
 

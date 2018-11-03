@@ -4,10 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using POSApp.Core.Models;
+using POSApp.Core.Repositories;
 
 namespace POSApp.Persistence.Repositories
 {
-    public class ModifierRepository
+    public class ModifierRepository:IModifierRepository
     {
         private PosDbContext _context;
 

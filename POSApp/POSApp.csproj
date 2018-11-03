@@ -384,6 +384,7 @@
     <Compile Include="Core\Repositories\IClientRepository.cs" />
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
+    <Compile Include="Core\Repositories\IModifierOptionRepository.cs" />
     <Compile Include="Core\Repositories\IModifierRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
     <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
@@ -572,6 +573,7 @@
     <Compile Include="Persistence\Repositories\ExpenseHeadRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseRepository.cs" />
     <Compile Include="Persistence\Repositories\LocationRepository.cs" />
+    <Compile Include="Persistence\Repositories\ModifierOptionRepository.cs" />
     <Compile Include="Persistence\Repositories\ModifierRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryGroupRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryRepository.cs" />
@@ -2636,6 +2638,8 @@
     <Content Include="Views\Setup\UnitList.cshtml" />
     <Content Include="Views\Setup\AddUnit.cshtml" />
     <Content Include="Views\PurchaseOrders\GenerateReceipt.cshtml" />
+    <Content Include="Views\Products\ModifierList.cshtml" />
+    <Content Include="Views\Products\AddModifier.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
