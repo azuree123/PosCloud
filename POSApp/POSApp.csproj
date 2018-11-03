@@ -2642,8 +2642,8 @@
     <Content Include="Views\Setup\UnitList.cshtml" />
     <Content Include="Views\Setup\AddUnit.cshtml" />
     <Content Include="Views\PurchaseOrders\GenerateReceipt.cshtml" />
-    <Content Include="Views\Products\ModifierList.cshtml" />
     <Content Include="Views\Products\AddModifier.cshtml" />
+    <Content Include="Views\Products\ModifierOptionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

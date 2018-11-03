@@ -448,6 +448,95 @@ namespace POSApp.Controllers
             return RedirectToAction("ProductCategoryGroupList", "Products");
         }
 
+        //ModifierOption
+        public ActionResult ModifierOptionList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ModifierOptionRepository.GetModifierOptions((int)user.StoreId).ToList());
+        }
+
+        public ActionResult AddModifierOption()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ModifierOptionViewModel modifieroption = new ModifierOptionViewModel();
+            modifieroption.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            ViewBag.edit = "AddModifierOption";
+
+            return View(modifieroption);
+        }
+        [HttpPost]
+        public ActionResult AddModifierOption(ModifierOptionViewModel modifieroptionVm)
+        {
+            ViewBag.edit = "AddModifierOption";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!ModelState.IsValid)
+            {
+               
+                modifieroptionVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                return View(modifieroptionVm);
+            }
+            else
+            
+            {
+
+                modifieroptionVm.StoreId = user.StoreId;
+                ModifierOption modifieroption = Mapper.Map<ModifierOption>(modifieroptionVm);
+                
+                _unitOfWork.ModifierOptionRepository.AddModifierOption(modifieroption);
+                _unitOfWork.Complete();
+                return RedirectToAction("ModifierOptionList", "Products");
+            }
+
+        }
+        public ActionResult UpdateModifierOption(int id)
+        {
+            ViewBag.edit = "UpdateModifierOption";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ModifierOptionViewModel modifieroptionVm = Mapper.Map<ModifierOptionViewModel>(_unitOfWork.ModifierOptionRepository.GetModifierOptionsById(id, Convert.ToInt32(user.StoreId)));
+           
+            modifieroptionVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            return View("AddModifierOption", modifieroptionVm);
+        }
+        [HttpPost]
+        public ActionResult UpdateModifierOption(int id, ModifierOptionViewModel modifieroptionVm)
+        {
+            ViewBag.edit = "UpdateModifierOption";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!ModelState.IsValid)
+            {
+               
+                modifieroptionVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                return View("AddModifierOption", modifieroptionVm);
+            }
+            else 
+            
+
+            {
+                ModifierOption modifieroption = Mapper.Map<ModifierOption>(modifieroptionVm);
+                
+                _unitOfWork.ModifierOptionRepository.UpdateModifierOptions(id, Convert.ToInt32(user.StoreId), modifieroption);
+                _unitOfWork.Complete();
+                return RedirectToAction("ModifierOptionList", "Products");
+            }
+
+        }
+        public ActionResult DeleteModifierOption(int id, int storeid)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ModifierOptionRepository.DeleteModifierOptions(id, Convert.ToInt32(user.StoreId));
+            _unitOfWork.Complete();
+            return RedirectToAction("ModifierOptionList", "Products");
+        }
         public JsonResult GetProductCategoryGroupDdl()
         {
             try

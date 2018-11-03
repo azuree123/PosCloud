@@ -1,34 +1,207 @@
 ﻿@model POSApp.Core.ViewModels.ModifierViewModel
 
 @{
-    Layout = null;
+    ViewBag.Title = "AddPurchaseOrder";
+}
+<style>
+    .table > thead > tr > th {
+        background-color: rgba(153, 153, 153, 0.4);
+        padding: 16px 0;
+    }
+</style>
+
+
+<!-- start: page -->
+<div class="container-fluid">
+    <div class="row mt-md">
+        <div class="col-md-12">
+            <h4 class=" wb-color  text-center">New Modifier</h4>
+            <hr />
+
+        </div>
+    </div>
+    @using (Html.BeginForm())
+    {
+        <div class="row mt-lg">
+
+
+
+            <div class="col-md-12">
+                <div class="tabs tabs-vertical tabs-left">
+                    <div class="row">
+                        <div class="col-md-3  col-xs-12 mb-xlg">
+                            <ul class="nav nav-tabs  ">
+                                <li class="active mt-xs">
+                                    <a href="#basicdata" data-toggle="tab"> Basic Data <i class="fa fa-chevron-right tb-icon"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#transactionitems" data-toggle="tab">ModifierOptions <i class="fa fa-chevron-right tb-icon"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-content col-md-9 col-xs-12  pb-xlg">
+                            <div class="row mb-xlg">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-default btn-lg btnPro" style="float:right"><span class="fa fa-save mr-md"></span> Save</button>
+                                </div>
+                            </div>
+                            <div id="basicdata" class="tab-pane active">
+                                <h4 class="mt-none mb-lg ">Basic Data</h4>
+                                <div class="row">
+                                    <div class="col-md-9 col-lg-offset-2">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div id="transactionitems" class="tab-pane">
+                                <div class=" mb-lg" id="header-flex">
+                                    <h4 class="mt-xs  " style="flex-grow: 8">Modifier Options</h4>
+                                    <a href="@Url.Action("AddModifierOption", "Products")" class="modalShow" style="flex-grow: 0">
+                                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New</button>
+
+                                    </a>
+                                </div>
+                                <div id="AjaxUpdate">
+                                    <div class="row mb-lg">
+                                        <div class="col-md-12">
+                                            <table class="table mb-none" style="width:100%" id="datatable-default">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Name</th>
+                                                        <th>Cost</th>
+                                                        <th>Price</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colspan="5" class="text-center">No records found</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hidden">
+                                    <h4 class="mb-lg ">Add items From Tag</h4>
+                                    <div class="row mb-lg">
+                                        <div class="col-md-9 col-lg-offset-2">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    Select Tag
+                                                </label>
+                                                <input type="text" class="form-control unstyled" placeholder="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h4 class="mb-lg ">Upload Items Via Excel</h4>
+                                    <div class="row">
+                                        <div class="col-md-9 col-lg-offset-2">
+                                            <div class="form-group">
+                                                <input type="file" class="" placeholder="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+
+        $('a.modalShow').on('click', function () {
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+        $('#datatable-default').dataTable();
+    </script>
 }
 
-<!DOCTYPE html>
 
-<div class="">
-    <
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    
-    <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+
+
+
+
+
+
+
+@*@model POSApp.Core.ViewModels.ModifierViewModel
+
+@{
+    ViewBag.Title = "AddModifier";
+}
+
+<h2>AddModifier</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
         </div>
     </div>
-    
-    <div class="form-group">
-        @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@

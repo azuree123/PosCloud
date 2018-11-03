@@ -9,9 +9,9 @@ namespace POSApp.Core.Repositories
 {
     public interface IModifierOptionRepository
     {
-        IEnumerable<ModifierOption> GetModifiers(int storeId);
+        IEnumerable<ModifierOption> GetModifierOptions(int storeId);
         ModifierOption GetModifierOptionsById(int id, int storeId);
-        void AddModifier(ModifierOption mo);
+        void AddModifierOption(ModifierOption mo);
         void UpdateModifierOptions(int id, int storeId, ModifierOption mo);
         void DeleteModifierOptions(int id, int storeId);
     }

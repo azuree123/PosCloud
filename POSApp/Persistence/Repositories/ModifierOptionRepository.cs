@@ -17,7 +17,7 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<ModifierOption> GetModifiers(int storeId)
+        public IEnumerable<ModifierOption> GetModifierOptions(int storeId)
         {
             return _context.ModifierOptions.Where(x => x.StoreId == storeId).ToList();
         }
@@ -27,7 +27,7 @@ namespace POSApp.Persistence.Repositories
             return _context.ModifierOptions.Where(a => a.Id == id && a.StoreId == storeId).ToList().FirstOrDefault();
         }
 
-        public void AddModifier(ModifierOption mo)
+        public void AddModifierOption(ModifierOption mo)
         {
             if (!_context.ModifierOptions.Where(a => a.Name == mo.Name && a.StoreId == mo.StoreId).Any())
             {
