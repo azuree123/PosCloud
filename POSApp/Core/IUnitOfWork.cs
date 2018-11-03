@@ -32,7 +32,8 @@ namespace POSApp.Core
         IAppCountersRepository AppCountersRepository { get; }
         IClientRepository ClientRepository { get; }
         IUnitRepository UnitRepository { get; }
-
+        IModifierRepository ModifierRepository { get; }
+        IModifierOptionRepository ModifierOptionRepository { get; }
         void Complete();
     }
 }
