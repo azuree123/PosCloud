@@ -37,6 +37,8 @@ namespace POSApp.Core.Models
         public virtual ICollection<ModifierOption> ModifierOptions { get; set; }
 
         public virtual ICollection<TimedEvent> TimedEvents { get; set; }
+        public virtual ICollection<ProductsSub> ProductsSubs { get; set; }
+
 
 
     }
