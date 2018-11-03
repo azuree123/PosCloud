@@ -12,6 +12,7 @@ namespace POSApp.Core.Models
         public int StoreId { get; set; }
         public Store Store { get; set; }
         public string Name { get; set; }
+        public double Cost { get; set; }
         public string CostType { get; set; }
         public double Price { get; set; }
         public int? TaxId { get; set; }

@@ -18,7 +18,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x=>x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             Property(x => x.Name).HasColumnType("varchar").HasMaxLength(150).IsRequired();
-
+            Property(x => x.Barcode).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             HasRequired(x => x.Store).WithMany().HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
 
         }

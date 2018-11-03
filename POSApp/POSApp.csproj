@@ -380,6 +380,7 @@
     <Compile Include="Core\Repositories\IClientRepository.cs" />
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
+    <Compile Include="Core\Repositories\IModifierRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
     <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
     <Compile Include="Core\Repositories\IUnitRepository.cs" />
