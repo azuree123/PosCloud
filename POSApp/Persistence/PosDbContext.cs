@@ -98,7 +98,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new TimedEventEntityConfiguration());
             modelBuilder.Configurations.Add(new ModifierEntityConfiguration());
             modelBuilder.Configurations.Add(new ModifierOptionEntityConfiguration());
-            modelBuilder.Configurations.Add(new ReportLogEntityConfiguration()));
+            modelBuilder.Configurations.Add(new ReportLogEntityConfiguration());
 
 
 

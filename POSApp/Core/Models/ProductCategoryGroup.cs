@@ -7,7 +7,7 @@ using POSApp.Persistence;
 
 namespace POSApp.Core.Models
 {
-    [Table("Clients", Schema = PosDbContext.DEFAULT_SCHEMA)]
+    [Table("ProductCategoryGroups", Schema = PosDbContext.DEFAULT_SCHEMA)]
     public class ProductCategoryGroup:AuditableEntity
     {
         public int Id { get; set; }

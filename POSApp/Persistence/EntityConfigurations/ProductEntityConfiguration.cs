@@ -42,8 +42,8 @@ namespace POSApp.Persistence.EntityConfigurations
             HasRequired(x => x.ProductUnit).WithMany(x => x.Products).HasForeignKey(x => new { x.UnitId, x.StoreId }).WillCascadeOnDelete(false);
             HasMany(x => x.TimedEvents).WithMany(x => x.Products).Map(a =>
             {
-                a.MapLeftKey("TimedEventId");
-                a.MapRightKey("ProductId");
+                a.MapLeftKey("TimedEventId","TimedEventStoreId");
+                a.MapRightKey("ProductId", "ProductStoreId");
                 a.ToTable("TimedEventProducts", PosDbContext.DEFAULT_SCHEMA);
             });
 

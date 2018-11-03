@@ -24,8 +24,8 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Value).HasColumnType("float").IsRequired();
             Property(x => x.FromDate).HasColumnType("date").IsRequired();
             Property(x => x.ToDate).HasColumnType("date").IsRequired();
-            Property(x => x.FromHour).HasColumnType("time(7)").IsRequired();
-            Property(x => x.ToHour).HasColumnType("time(7)").IsRequired();
+            Property(x => x.FromHour).HasColumnType("time").IsRequired();
+            Property(x => x.ToHour).HasColumnType("time").IsRequired();
             Property(x => x.Days).HasColumnType("varchar").HasMaxLength(100).IsOptional();
             Property(x => x.IsActive).HasColumnType("bit").IsRequired();
 
