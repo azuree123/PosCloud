@@ -12489,7 +12489,7 @@ ul.simple-bullet-list li.orange:before {
 
 .widget-summary .summary .amount {
 	margin-right: .2em;
-	font-size: 2.4rem;
+	font-size: 2.0rem;
 	font-weight: 600;
 	color: #333;
 	vertical-align: middle;
@@ -17141,8 +17141,6 @@ html .pagination > li.active a {
             -webkit-transform: translate(-100%, -50%);
             transform: translate(-100%, -50%);
         }
-  
-
 
         .snip1189 a:hover,
         .snip1189 .current a {
@@ -17157,17 +17155,15 @@ html .pagination > li.active a {
                 transform: translate(0%, 0%);
                 opacity: 1;
             }
-/* Demo purposes only */
 
+
+/* Demo purposes only */
 select {
     border: 1px solid #cccccc;
-   
     height: 27px;
     padding: 0px 0px 0px 0px;
-    width: 100% ;
+    width: 100%;
     outline: none;
-
-    
 }
 .border-r-6 {
     border-radius: 6px !important;

@@ -362,6 +362,7 @@
     <Compile Include="Controllers\WebApi\UnitsController.cs" />
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\Enums\ModifierOptionEnum.cs" />
     <Compile Include="Core\Enums\PaymentMethod.cs" />
     <Compile Include="Core\Enums\TimedEventType.cs" />
     <Compile Include="Core\Models\AppCounter.cs" />
@@ -397,6 +398,7 @@
     <Compile Include="Core\Repositories\ITaxRepository.cs" />
     <Compile Include="Core\Repositories\ITransDetailRepository.cs" />
     <Compile Include="Core\Repositories\ITransMasterRepository.cs" />
+    <Compile Include="Core\Shared\Helper.cs" />
     <Compile Include="Core\Shared\PoHelper.cs" />
     <Compile Include="Core\ViewModels\BusinessPartnerViewModel.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
@@ -788,6 +790,7 @@
     <Content Include="Content\images\blog-image-1.jpg" />
     <Content Include="Content\images\blog-image-2.jpg" />
     <Content Include="Content\images\blog-image-3.jpg" />
+    <Content Include="Content\images\cosmic.png" />
     <Content Include="Content\images\device.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\icon.png" />
@@ -2654,6 +2657,8 @@
     <Content Include="Views\PurchaseOrders\GenerateReceipt.cshtml" />
     <Content Include="Views\Products\AddModifier.cshtml" />
     <Content Include="Views\Products\ModifierOptionList.cshtml" />
+    <Content Include="Views\Products\AddModifierOption.cshtml" />
+    <Content Include="Views\Products\ModifierOptionListTable.cshtml" />
     <Content Include="Views\Setup\TimedEventList.cshtml" />
     <Content Include="Views\Setup\AddTimedEvent.cshtml" />
     <Content Include="Views\Products\ModifierList.cshtml" />

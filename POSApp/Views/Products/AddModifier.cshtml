@@ -35,7 +35,7 @@
                                     <a href="#basicdata" data-toggle="tab"> Basic Data <i class="fa fa-chevron-right tb-icon"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#transactionitems" data-toggle="tab">ModifierOptions <i class="fa fa-chevron-right tb-icon"></i></a>
+                                    <a href="#transactionitems" data-toggle="tab" id="modifierOption">ModifierOptions <i class="fa fa-chevron-right tb-icon"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -43,7 +43,7 @@
                         <div class="tab-content col-md-9 col-xs-12  pb-xlg">
                             <div class="row mb-xlg">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-default btn-lg btnPro" style="float:right"><span class="fa fa-save mr-md"></span> Save</button>
+                                    <button type="submit" class="btn btn-default btn-lg btnPro" style="float:right" onclick="return CheckData();"><span class="fa fa-save mr-md"></span> Save</button>
                                 </div>
                             </div>
                             <div id="basicdata" class="tab-pane active">
@@ -53,7 +53,7 @@
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control",@required="true" } })
                                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -61,7 +61,7 @@
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                                 @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -136,6 +136,41 @@
 @section scripts
 {
     <script>
+        var tablefill = false;
+        function CheckData() {
+           
+            var rowCount = $('#datatable-default >tbody >tr').length;
+            if (tablefill && rowCount >= 1) {
+               
+                return true;
+            }
+            new PNotify({
+                title: 'Modifier Options Cannot Be Empty',
+                text:  'Please Enter Atleast 1 Modifier Option.',
+                type: 'error'
+            });
+            $('#modifierOption').click();
+            return false;
+        }
+        function ChangeTableFill() {
+            tablefill = true;
+        }
+
+        function ShowUpdate(a) {
+            
+            $.ajax({
+                url: "@Url.Action("UpdateModifierOption","Products")",
+                data: {name:a},
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+           
+        }
 
         $('a.modalShow').on('click', function () {
             $.ajax({

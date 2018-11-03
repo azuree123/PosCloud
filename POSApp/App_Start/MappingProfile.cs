@@ -60,6 +60,8 @@ namespace POSApp
                 .ForMember(d => d.BusinessPartnerName, o => o.MapFrom(g => g.BusinessPartner.Name));
             CreateMap<TransDetail, TransDetailViewModel>()
                 .ForMember(d => d.ProductName, o => o.MapFrom(g => g.Product.Name));
+            CreateMap<TransMasterViewModel, TransMaster>();
+            CreateMap<TransDetailViewModel, TransDetail>();
             CreateMap<ModifierViewModel, Modifier>();
             CreateMap<Modifier, ModifierViewModel>();
             CreateMap<ModifierOptionViewModel, ModifierOption>();

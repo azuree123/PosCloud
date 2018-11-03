@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
+using POSApp.Core.Models;
 using POSApp.Core.Shared;
 using POSApp.Core.ViewModels;
 
@@ -30,15 +31,30 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.PurchaseOrderRepository.GetPurchaseOrders((int)user.StoreId));
+            return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "PRI")));
         }
-       
-       
 
-        public ActionResult PurchaseOrderDetailList(int purchaseOrderId)
+        public ActionResult PreviewPurchaseOrder(int id)
         {
-            return View(_unitOfWork.PurchaseOrderDetailRepository.GetPurchaseOrderDetails(purchaseOrderId));
-        }
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            GeneratePurchaseOrderViewModel temp = new GeneratePurchaseOrderViewModel();
+            temp.TransMasterViewModel = Mapper.Map<TransMasterViewModel>(_unitOfWork.TransMasterRepository.GetTransMaster(id, (int) user.StoreId));
+            temp.TransDetailViewModels = Mapper.Map<TransDetailViewModel[]>(
+                _unitOfWork.TransDetailRepository.GetTransDetails(temp.TransMasterViewModel.Id, (int) user.StoreId));
+            temp.BusinessPartnerViewModel =
+                Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(temp.TransMasterViewModel.BusinessPartnerId, (int)user.StoreId));
+            temp.TotalAmount = (from a in temp.TransDetailViewModels
+                select a.Quantity * a.UnitPrice).Sum();
+            TempData["po"] = temp;
+        return RedirectToAction("GenerateReceipt","PurchaseOrders");
+
+    }
+
+    public ActionResult PurchaseOrderDetailList(int purchaseOrderId)
+    {
+        return View();
+    }
         
         public ActionResult AddPurchaseOrder()
         {
@@ -71,7 +87,17 @@ namespace POSApp.Controllers
                
                 int TransId = _unitOfWork.AppCountersRepository.GetId("Invoice");
                 po.TransCode = "INV-" + "C-" + TransId.ToString() + "-" + user.StoreId;
+                po.StoreId = user.StoreId;
+                var savePo = Mapper.Map<TransMaster>(po);
+                _unitOfWork.TransMasterRepository.AddTransMaster(savePo);
+                _unitOfWork.Complete();
                 IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a=>a.CreatedByUserId==userid && a.StoreId==user.StoreId);
+                foreach (var transDetailViewModel in poItems)
+                {
+                    transDetailViewModel.TransMasterId = savePo.Id;
+                    _unitOfWork.TransDetailRepository.AddTransDetail(Mapper.Map<TransDetail>(transDetailViewModel));
+                }
+                _unitOfWork.Complete();
                 temp.TransMasterViewModel = po;
                 temp.BusinessPartnerViewModel =
                     Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(po.BusinessPartnerId, (int) user.StoreId));
