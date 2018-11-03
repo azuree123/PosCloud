@@ -787,6 +787,7 @@
     <Content Include="Content\images\blog-image-1.jpg" />
     <Content Include="Content\images\blog-image-2.jpg" />
     <Content Include="Content\images\blog-image-3.jpg" />
+    <Content Include="Content\images\cosmic.png" />
     <Content Include="Content\images\device.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\icon.png" />
