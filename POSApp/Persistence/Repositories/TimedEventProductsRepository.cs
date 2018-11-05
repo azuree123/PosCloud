@@ -35,8 +35,18 @@ namespace POSApp.Persistence.Repositories
             }
         }
 
-        public void UpdateTimedEventProducts(int id, TimedEventProducts tep ,int storeId)
+        public void UpdateTimedEventProducts(int id,int timedEventId, TimedEventProducts tep ,int storeId)
         {
+            if (tep.ProductId != id)
+            {
+                tep.ProductId = id;
+            }
+            else { }
+            if (tep.TimedEventId != timedEventId)
+            {
+                tep.TimedEventId = timedEventId;
+            }
+            else { }
             tep.StoreId = storeId;
             _context.TimedEventProducts.Attach(tep);
             _context.Entry(tep).State = EntityState.Modified;
