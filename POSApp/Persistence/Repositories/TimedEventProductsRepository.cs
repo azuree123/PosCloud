@@ -17,19 +17,19 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<TimedEventProducts> GeTimedEventProducts(int storeId)
+        public IEnumerable<TimedEventProducts> GeTimedEventProducts(int id, int storeId)
         {
-            return _context.TimedEventProducts.Where(a=>a.StoreId == storeId).ToList();
+            return _context.TimedEventProducts.Where(a=>a.StoreId == storeId && a.TimedEventId==id).ToList();
         }
 
-        public TimedEventProducts GetTimedEventsById(int id, int storeId)
+        public TimedEventProducts GetTimedEventsById(int id, int storeId,int product)
         {
-            return _context.TimedEventProducts.Find(id, storeId);
+            return _context.TimedEventProducts.FirstOrDefault(a=>a.StoreId==storeId&&a.ProductId==product&&a.TimedEventId==id);
         }
 
         public void AddTimedEventProducts(TimedEventProducts tep)
         {
-            if (!_context.TimedEventProducts.Where(a => a.ProductId == tep.ProductId && a.StoreId == tep.StoreId).Any())
+            if (!_context.TimedEventProducts.Where(a => a.ProductId == tep.ProductId && a.StoreId == tep.StoreId && a.TimedEventId == tep.TimedEventId).Any())
             {
                 _context.TimedEventProducts.Add(tep);
             }
@@ -53,9 +53,13 @@ namespace POSApp.Persistence.Repositories
         }
         public void DeleteTimedEventProducts(int id, int storeId)
         {
-            var tep = new TimedEventProducts { StoreId = storeId };
-            _context.TimedEventProducts.Attach(tep);
-            _context.Entry(tep).State = EntityState.Deleted;
+            List<TimedEventProducts> products = _context.TimedEventProducts
+                .Where(a => a.StoreId == storeId && a.TimedEventId == id).ToList();
+            foreach (var timedEventProductse in products)
+            {
+                _context.TimedEventProducts.Remove(timedEventProductse);
+            }
+          
         }
     }
 }
