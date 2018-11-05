@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "AddPurchaseOrder";
+        int number= 1;
+    
 }
 <style>
     .table > thead > tr > th {
@@ -13,13 +15,7 @@
 
 <!-- start: page -->
 <div class="container-fluid">
-    <div class="row mt-md">
-        <div class="col-md-12">
-            <h4 class=" wb-color  text-center">New Modifier</h4>
-            <hr />
 
-        </div>
-    </div>
     @using (Html.BeginForm())
     {
         <div class="row mt-lg">
@@ -27,23 +23,36 @@
 
 
             <div class="col-md-12">
-                <div class="tabs tabs-vertical tabs-left">
+                <div class="tabs  tabs-left">
                     <div class="row">
-                        <div class="col-md-3  col-xs-12 mb-xlg">
-                            <ul class="nav nav-tabs  ">
-                                <li class="active mt-xs">
-                                    <a href="#basicdata" data-toggle="tab"> Basic Data <i class="fa fa-chevron-right tb-icon"></i></a>
+                        <div class="col-md-12 text-center  col-xs-12 mb-xlg">
+                            <ul class="snip1189  ">
+
+
+                                <li class="mt-xs  current" id="basicInfo">
+                                    <a href="#basicdata" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
+
+                                        Basic Data 
+                                    </a>
                                 </li>
-                                <li>
-                                    <a href="#transactionitems" data-toggle="tab" id="modifierOption">ModifierOptions <i class="fa fa-chevron-right tb-icon"></i></a>
+
+                                <li id="tranInfo">
+                                    <a href="#transactionitems" data-toggle="tab" id="modifierOption" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">ModifierOptions </a>
                                 </li>
                             </ul>
+                            <hr />
+                            <div class="row mt-md">
+                                <div class="col-md-12">
+                                    <h4 class=" wb-color  text-center">New Modifier</h4>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="tab-content col-md-9 col-xs-12  pb-xlg">
+                        <div class="tab-content col-md-8 col-xs-12 col-md-offset-2  p-xlg">
                             <div class="row mb-xlg">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-default btn-lg btnPro" style="float:right" onclick="return CheckData();"><span class="fa fa-save mr-md"></span> Save</button>
+                              
+
+                                    <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:17px" onclick="return CheckData();"><span class="fa fa-save mr-md"></span> Save</button>
                                 </div>
                             </div>
                             <div id="basicdata" class="tab-pane active">
@@ -92,9 +101,42 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                @if (Model.ModifierOptionViewModels != null)
+                                                {
+
+                                                if (Model.ModifierOptionViewModels.Count > 0)
+                                                {
+
+                                                    foreach (var modelModifierOptionViewModel in Model.ModifierOptionViewModels)
+                                                    {
+                                                        <tr>
+                                                            <td>@(number++)</td>
+                                                            <td>@modelModifierOptionViewModel.Name</td>
+                                                            <td>@modelModifierOptionViewModel.Cost</td>
+                                                            <td>@modelModifierOptionViewModel.Price</td>
+                                                            <td>
+                                                                <a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@modelModifierOptionViewModel.Name.ToString()')" data-toggle="tooltip" title="Edit !"></a>
+                                                                @Ajax.ActionLink(" ", "DeleteModifierOption", "Products", new {name = @modelModifierOptionViewModel.Name, storeId = @modelModifierOptionViewModel.StoreId}, new AjaxOptions
+                                                                {
+                                                                    HttpMethod = "GET",
+                                                                    UpdateTargetId = "AjaxUpdate"
+                                                                }, new
+                                                                {
+                                                                    @onclick = "return confirm('Are you sure?')",
+                                                                    @class = "btn btn-danger btn-sm fa fa-trash-o",
+                                                                    @style = "color: #ffffff;"
+                                                                })
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
                                                     <tr>
                                                         <td colspan="5" class="text-center">No records found</td>
                                                     </tr>
+                                                }
+                                                }
 
                                                 </tbody>
                                             </table>

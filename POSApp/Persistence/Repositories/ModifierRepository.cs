@@ -24,7 +24,7 @@ namespace POSApp.Persistence.Repositories
 
         public Modifier GetModifierById(int id, int storeId)
         {
-            return _context.Modifiers.Where(a => a.Id == id && a.StoreId == storeId).ToList().FirstOrDefault();
+            return _context.Modifiers.Include(a=>a.ModifierOptions).Where(a => a.Id == id && a.StoreId == storeId).ToList().FirstOrDefault();
         }
 
         public void AddModifier(Modifier modifier)

@@ -79,7 +79,15 @@
                             <td>@modifieroption.Cost</td>
                             <td>@modifieroption.Price</td>
                             
-                            <td></td>
+                            
+                                <td class="center">
+                                    <div class="btn-group">
+
+                                        @Html.ActionLink(" ", "UpdateModifierOption", "Products", new { id =@modifieroption.Id, storeId = @modifieroption.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                        @Html.ActionLink(" ", "DeleteModifierOption", "Products", new { id = @modifieroption.Id, storeId = @modifieroption.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    </div>
+                                </td>
+                            
                         </tr>
                     }
                 </tbody>
