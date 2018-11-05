@@ -390,6 +390,7 @@
     <Compile Include="Core\Repositories\IClientRepository.cs" />
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
+    <Compile Include="Core\Repositories\IFloorRepository.cs" />
     <Compile Include="Core\Repositories\IModifierOptionRepository.cs" />
     <Compile Include="Core\Repositories\IModifierRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
@@ -411,10 +412,12 @@
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
+    <Compile Include="Core\ViewModels\DineTableViewModel.cs" />
     <Compile Include="Core\ViewModels\DiscountViewModel.cs" />
     <Compile Include="Core\ViewModels\EmployeeModelView.cs" />
     <Compile Include="Core\ViewModels\ExpenseHeadViewModel.cs" />
     <Compile Include="Core\ViewModels\ExpenseViewModel.cs" />
+    <Compile Include="Core\ViewModels\FloorViewModel.cs" />
     <Compile Include="Core\ViewModels\GeneratePurchaseOrderViewModel.cs" />
     <Compile Include="Core\ViewModels\InvoiceViewModel.cs" />
     <Compile Include="Core\ViewModels\LocationModelView.cs" />
@@ -598,6 +601,7 @@
     <Compile Include="Persistence\Repositories\EmployeeRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseHeadRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseRepository.cs" />
+    <Compile Include="Persistence\Repositories\FloorRepository.cs" />
     <Compile Include="Persistence\Repositories\LocationRepository.cs" />
     <Compile Include="Persistence\Repositories\ModifierOptionRepository.cs" />
     <Compile Include="Persistence\Repositories\ModifierRepository.cs" />
