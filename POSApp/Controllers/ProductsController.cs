@@ -571,7 +571,7 @@ namespace POSApp.Controllers
 
                 Helper.EmptyTempModifierOptions(user.Id, (int)user.StoreId);
             }
-            return View();
+            return View(new ModifierViewModel());
         }
         [HttpPost]
         public ActionResult AddModifier(ModifierViewModel modifierVm)
