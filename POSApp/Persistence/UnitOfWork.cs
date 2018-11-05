@@ -44,6 +44,8 @@ namespace POSApp.Persistence
         public IProductsSubRepository ProductsSubRepository { get; private set; }
         public IModifierRepository ModifierRepository { get; private set; }
         public IModifierOptionRepository ModifierOptionRepository { get; private set; }
+
+        public ITimedEventProductsRepository TimedEventProducts { get; private set; }
         public UnitOfWork(PosDbContext context)
         {
             _context = context;
@@ -79,6 +81,7 @@ namespace POSApp.Persistence
             ModifierOptionRepository=new ModifierOptionRepository(context);
             TimedEventRepository = new TimedEventRepository(context);
             ProductsSubRepository = new ProductsSubRepository(context);
+            TimedEventProducts = new TimedEventProductsRepository(context);
         }
 
         public void Complete()
