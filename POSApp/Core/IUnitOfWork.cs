@@ -37,6 +37,7 @@ namespace POSApp.Core
         ITimedEventRepository TimedEventRepository { get; }
         IProductsSubRepository ProductsSubRepository { get; }
         ITimedEventProductsRepository TimedEventProductsRepository { get; }
+        IFloorRepository FloorRepository { get; }
         void Complete();
     }
 }

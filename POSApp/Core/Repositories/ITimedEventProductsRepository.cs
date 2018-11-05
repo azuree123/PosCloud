@@ -9,10 +9,10 @@ namespace POSApp.Core.Repositories
 {
     public interface ITimedEventProductsRepository
     {
-        IEnumerable<TimedEventProducts> GeTimedEventProducts(int storeId);
-        TimedEventProducts GetTimedEventsById(int id, int storeId);
+        IEnumerable<TimedEventProducts> GeTimedEventProducts(int id, int storeId);
+        TimedEventProducts GetTimedEventsById(int id, int storeId, int product);
         void AddTimedEventProducts(TimedEventProducts tep);
-        void UpdateTimedEventProducts(int id, TimedEventProducts tep, int storeId);
+        void UpdateTimedEventProducts(int id, int timedEventId, TimedEventProducts tep, int storeId);
         void DeleteTimedEventProducts(int id, int storeId);
     }
 }

@@ -1148,16 +1148,21 @@ namespace POSApp.Controllers
                     data.StoreId = timeeventVmBranch;
                     _unitOfWork.TimedEventRepository.AddTimedEvent(data);
                     _unitOfWork.Complete();
-                    if (timeeventVm.Categories.Length > 0)
+                    if (timeeventVm.Categories!=null)
                     {
 
                         foreach (var timeeventVmCategory in timeeventVm.Categories)
                         {
-                            int[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory)
+                            int[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a=>a.StoreId==timeeventVmBranch)
                                 .Select(a => a.Id).ToArray();
                             foreach (var product in products)
                             {
-
+                                _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
+                                {
+                                    ProductId = product
+                                    ,StoreId = timeeventVmBranch
+                                    ,TimedEventId = data.Id
+                                });
                             }
                         }
                     }
@@ -1165,9 +1170,17 @@ namespace POSApp.Controllers
                     {
                         foreach (var product in timeeventVm.Products)
                         {
-
+                            _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
+                            {
+                                ProductId = product
+                                ,
+                                StoreId = timeeventVmBranch
+                                ,
+                                TimedEventId = data.Id
+                            });
                         }
                     }
+                    _unitOfWork.Complete();
                 }
                 return RedirectToAction("TimedEventList", "Setup");
             }
@@ -1210,11 +1223,48 @@ namespace POSApp.Controllers
                
                 TimedEvent location = Mapper.Map<TimedEvent>(timeeventVm);
                 _unitOfWork.TimedEventRepository.UpdateTimedEvent(id, location, (int)user.StoreId);
+                _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id,location.StoreId);
+                _unitOfWork.Complete();
+                if (timeeventVm.Categories.Length > 0)
+                {
+
+                    foreach (var timeeventVmCategory in timeeventVm.Categories)
+                    {
+                        int[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a => a.StoreId == location.StoreId)
+                            .Select(a => a.Id).ToArray();
+                        foreach (var product in products)
+                        {
+                            _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
+                            {
+                                ProductId = product
+                                ,
+                                StoreId = location.StoreId
+                                ,
+                                TimedEventId = location.Id
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var product in timeeventVm.Products)
+                    {
+                        _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
+                        {
+                            ProductId = product
+                            ,
+                            StoreId = (int)user.StoreId
+                            ,
+                            TimedEventId = location.Id
+                        });
+                    }
+                }
                 _unitOfWork.Complete();
                 return RedirectToAction("TimedEventList", "Setup");
             }
 
         }
+        
         public ActionResult DeleteTimedEvent(int id)
         {
             var userid = User.Identity.GetUserId();
