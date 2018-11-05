@@ -17211,6 +17211,10 @@ div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTable
     display: flex;
     align-items: center;
 }
+.select2-container {
+    width: 100% !important;
+    display: block;
+}
 
 
 @media only screen and (max-width: 600px) {
