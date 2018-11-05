@@ -17,7 +17,7 @@ namespace POSApp.Persistence.EntityConfigurations
             HasKey(a => new {a.Id, a.StoreId});
             Property(a => a.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            Property(a => a.FloorNumber).HasColumnType("varchar").IsRequired();
+            Property(a => a.FloorNumber).HasColumnType("varchar").HasMaxLength(150).IsRequired();
 
             
         }

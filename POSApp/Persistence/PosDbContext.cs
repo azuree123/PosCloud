@@ -104,6 +104,8 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new ReportLogEntityConfiguration());
             modelBuilder.Configurations.Add(new ProductsSubEntityConfiguration());
             modelBuilder.Configurations.Add(new TimedEventProductEntityConfiguration());
+            modelBuilder.Configurations.Add(new FloorEntityConfiguration());
+            modelBuilder.Configurations.Add(new DineTableEntityConfiguration());
 
 
 

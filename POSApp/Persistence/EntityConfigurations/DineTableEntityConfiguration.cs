@@ -18,7 +18,8 @@ namespace POSApp.Persistence.EntityConfigurations
 
             Property(a => a.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            Property(a => a.DineTableNumber).HasColumnType("varchar").IsRequired();
+            Property(a => a.DineTableNumber).HasColumnType("varchar").HasMaxLength(150).IsRequired();
+            Property(a => a.IsBooked).HasColumnType("bit").IsRequired();
 
             HasRequired(a => a.Floor).WithMany(a => a.Tables).HasForeignKey(a => new {a.FloorId, a.StoreId})
                 .WillCascadeOnDelete(true);

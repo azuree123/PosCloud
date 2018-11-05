@@ -1160,8 +1160,11 @@ namespace POSApp.Controllers
                                 _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
                                 {
                                     ProductId = product
-                                    ,StoreId = timeeventVmBranch
-                                    ,TimedEventId = data.Id
+                                    ,ProductStoreId = timeeventVmBranch
+                                    ,
+                                    TimedEventStoreId = timeeventVmBranch
+                                    ,
+                                    TimedEventId = data.Id
                                 });
                             }
                         }
@@ -1174,7 +1177,9 @@ namespace POSApp.Controllers
                             {
                                 ProductId = product
                                 ,
-                                StoreId = timeeventVmBranch
+                                ProductStoreId = timeeventVmBranch
+                                ,
+                                TimedEventStoreId = timeeventVmBranch
                                 ,
                                 TimedEventId = data.Id
                             });
@@ -1238,7 +1243,9 @@ namespace POSApp.Controllers
                             {
                                 ProductId = product
                                 ,
-                                StoreId = location.StoreId
+                                ProductStoreId = location.StoreId
+                                ,
+                                TimedEventStoreId = location.StoreId
                                 ,
                                 TimedEventId = location.Id
                             });
@@ -1253,7 +1260,9 @@ namespace POSApp.Controllers
                         {
                             ProductId = product
                             ,
-                            StoreId = (int)user.StoreId
+                            ProductStoreId = location.StoreId
+                            ,
+                            TimedEventStoreId = location.StoreId
                             ,
                             TimedEventId = location.Id
                         });
