@@ -80,7 +80,7 @@ namespace POSApp.Persistence
             ModifierOptionRepository=new ModifierOptionRepository(context);
             TimedEventRepository = new TimedEventRepository(context);
             ProductsSubRepository = new ProductsSubRepository(context);
-            TimedEventProducts = new TimedEventProductsRepository(context);
+            TimedEventProductsRepository = new TimedEventProductsRepository(context);
         }
 
         public void Complete()
