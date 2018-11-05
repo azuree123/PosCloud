@@ -6197,10 +6197,10 @@ html.ie11 .scroll-to-top {
         color: white;
         border-color: #09ab5a;
     }
-    .outline-success:focus {
+    /*.outline-success:focus {
         color: rgba(9, 171, 90, 0.5411764705882353);
         text-decoration: none
-    }
+    }*/
 .outline-danger {
     background-color: white;
     color: #d2322d;
@@ -6214,10 +6214,10 @@ html.ie11 .scroll-to-top {
         color: white;
         border-color: #d2322d;
     }
-    .outline-danger:focus {
+    /*.outline-danger:focus {
         color: rgba(179, 44, 39, 0.55);
         text-decoration: none;
-    }
+    }*/
 
 .panel-actions a:hover,
 .panel-actions .panel-action:hover {
@@ -17212,6 +17212,7 @@ div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTable
     display: flex;
     align-items: center;
 }
+
 
 @media only screen and (max-width: 600px) {
     .invoice {
