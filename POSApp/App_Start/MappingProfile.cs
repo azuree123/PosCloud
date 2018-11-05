@@ -63,7 +63,7 @@ namespace POSApp
             CreateMap<TransMasterViewModel, TransMaster>();
             CreateMap<TransDetailViewModel, TransDetail>();
             CreateMap<ModifierViewModel, Modifier>();
-            CreateMap<Modifier, ModifierViewModel>();
+            CreateMap<Modifier, ModifierViewModel>().ForMember(a => a.ModifierOptionViewModels, o => o.MapFrom(a=>a.ModifierOptions));
             CreateMap<ModifierOptionViewModel, ModifierOption>();
             CreateMap<ModifierOption, ModifierOptionViewModel>();
         }

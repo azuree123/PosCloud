@@ -15,7 +15,7 @@ namespace POSApp.Core.Shared
         {
             
             ModifierOptionViewModel checkTrans = TempModifierOptions
-                .Where(a => a.Name == modifierOptionViewModel.Name && a.Price.Equals(modifierOptionViewModel.Price)  && a.CreatedBy == userId).ToList()
+                .Where(a => a.Name == modifierOptionViewModel.Name   && a.CreatedBy == userId).ToList()
                 .FirstOrDefault();
             modifierOptionViewModel.CreatedBy = userId;
             if (checkTrans != null)

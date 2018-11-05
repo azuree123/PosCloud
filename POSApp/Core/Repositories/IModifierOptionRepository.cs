@@ -14,5 +14,6 @@ namespace POSApp.Core.Repositories
         void AddModifierOption(ModifierOption mo);
         void UpdateModifierOptions(int id, int storeId, ModifierOption mo);
         void DeleteModifierOptions(int id, int storeId);
+        void DeleteModifierOptionsByModifierId(int id, int storeId);
     }
 }

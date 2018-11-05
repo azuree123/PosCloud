@@ -48,5 +48,14 @@ namespace POSApp.Persistence.Repositories
             _context.ModifierOptions.Attach(mo);
             _context.Entry(mo).State = EntityState.Deleted;
         }
+        public void DeleteModifierOptionsByModifierId(int id, int storeId)
+        {
+            List<ModifierOption> modeList = _context.ModifierOptions
+                .Where(a => a.ModifierId == id && a.StoreId == storeId).ToList();
+            foreach (var modifierOption in modeList)
+            {
+                _context.ModifierOptions.Remove(modifierOption);
+            }
+        }
     }
 }

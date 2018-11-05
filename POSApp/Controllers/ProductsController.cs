@@ -596,6 +596,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ModifierOptionRepository.AddModifierOption(Mapper.Map<ModifierOption>(modifierOptionViewModel));
                 }
                 _unitOfWork.Complete();
+                Helper.EmptyTempModifierOptions(user.Id, (int)user.StoreId);
                 return RedirectToAction("ModifierList", "Products");
             }
 
@@ -606,8 +607,22 @@ namespace POSApp.Controllers
             ViewBag.edit = "UpdateModifier";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+            if (Helper.TempModifierOptions == null)
+            {
+                Helper.TempModifierOptions = new List<ModifierOptionViewModel>();
+
+            }
+            if (Helper.TempModifierOptions != null)
+            {
+
+                Helper.EmptyTempModifierOptions(user.Id, (int)user.StoreId);
+            }
             ModifierViewModel modifierVm =
                 Mapper.Map<ModifierViewModel>(_unitOfWork.ModifierRepository.GetModifierById(id, (int)user.StoreId));
+            foreach (var modifierVmModifierOptionViewModel in modifierVm.ModifierOptionViewModels)
+            {
+                Helper.AddToTempModifierOptions(modifierVmModifierOptionViewModel,userid);
+            }
             return View("AddModifier", modifierVm);
         }
         [HttpPost]
@@ -625,6 +640,13 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 modifier.StoreId = (int)user.StoreId;
                 _unitOfWork.ModifierRepository.UpdateModifier(id, modifier.StoreId, modifier);
+                _unitOfWork.ModifierOptionRepository.DeleteModifierOptionsByModifierId(modifier.Id,modifier.StoreId);
+                _unitOfWork.Complete();
+                foreach (var modifierOptionViewModel in Helper.TempModifierOptions.Where(a => a.CreatedBy == userid))
+                {
+                    modifierOptionViewModel.ModifierId = modifier.Id;
+                    _unitOfWork.ModifierOptionRepository.AddModifierOption(Mapper.Map<ModifierOption>(modifierOptionViewModel));
+                }
                 _unitOfWork.Complete();
                 return RedirectToAction("ModifierList", "Products");
             }
