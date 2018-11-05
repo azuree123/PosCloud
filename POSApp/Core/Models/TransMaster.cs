@@ -34,6 +34,8 @@ namespace POSApp.Core.Models
 
         public string PaymentMethod { get; set; }//visa, master,accout,credit, cash etc
 
+        public int? TableId { get; set; }
+        public virtual DineTable DineTable { get; set; }
 
         public ICollection<TransDetail> TransDetails { get; set; }
     }
