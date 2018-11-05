@@ -9,6 +9,9 @@ namespace POSApp.Core.Models
     public class Floor
     {
         public int Id { get; set; }
+
+        public int StoreId { get; set; }
+        public Store Store { get; set; }
         public int FloorNumber { get; set; }
         public ICollection<DineTable> Tables { get; set; }
     }

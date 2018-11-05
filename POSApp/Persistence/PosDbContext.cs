@@ -52,6 +52,8 @@ namespace POSApp.Persistence
         public DbSet<TimedEvent> TimedEvents { get; set; }
         public DbSet<ProductsSub> ProductsSubs { get; set; }
         public DbSet<TimedEventProducts> TimedEventProducts { get; set; }
+        public DbSet<Floor> Floors { get; set; }
+        public DbSet<DineTable> DineTables { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
             var objectContext = (this as IObjectContextAdapter).ObjectContext;

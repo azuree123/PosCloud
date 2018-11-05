@@ -560,10 +560,12 @@
     <Compile Include="Persistence\EntityConfigurations\CouponEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\CustomerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DepartmentEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\DineTableEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DiscountEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\EmployeeEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ExpenseEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ExpenseHeadEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\FloorEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\LocationEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ModifierEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ModifierOptionEntityConfiguration.cs" />
