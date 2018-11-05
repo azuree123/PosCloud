@@ -370,7 +370,9 @@
     <Compile Include="Core\Models\Coupon.cs" />
     <Compile Include="Core\Models\Client.cs" />
     <Compile Include="Core\Models\Designation.cs" />
+    <Compile Include="Core\Models\DineTable.cs" />
     <Compile Include="Core\Models\Discount.cs" />
+    <Compile Include="Core\Models\Floor.cs" />
     <Compile Include="Core\Models\Modifier.cs" />
     <Compile Include="Core\Models\ModifierOption.cs" />
     <Compile Include="Core\Models\ProductCategoryGroup.cs" />
