@@ -1148,12 +1148,12 @@ namespace POSApp.Controllers
                     data.StoreId = timeeventVmBranch;
                     _unitOfWork.TimedEventRepository.AddTimedEvent(data);
                     _unitOfWork.Complete();
-                    if (timeeventVm.Categories.Length > 0)
+                    if (timeeventVm.Categories!=null)
                     {
 
                         foreach (var timeeventVmCategory in timeeventVm.Categories)
                         {
-                            int[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory)
+                            int[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a=>a.StoreId==timeeventVmBranch)
                                 .Select(a => a.Id).ToArray();
                             foreach (var product in products)
                             {
@@ -1230,7 +1230,7 @@ namespace POSApp.Controllers
 
                     foreach (var timeeventVmCategory in timeeventVm.Categories)
                     {
-                        int[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory)
+                        int[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a => a.StoreId == location.StoreId)
                             .Select(a => a.Id).ToArray();
                         foreach (var product in products)
                         {
