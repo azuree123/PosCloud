@@ -1141,7 +1141,18 @@ namespace POSApp.Controllers
                
                 TimedEvent time = Mapper.Map<TimedEvent>(timeeventVm);
                 time.StoreId = (int)user.StoreId;
-
+                foreach (var timeeventVmBranch in timeeventVm.Branches)
+                {
+                    foreach (var timeeventVmCategory in timeeventVm.Categories)
+                    {
+                        int[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory)
+                            .Select(a => a.Id).ToArray();
+                        foreach (var product in products)
+                        {
+                            
+                        }
+                    }
+                }
                 _unitOfWork.TimedEventRepository.AddTimedEvent(time);
                 _unitOfWork.Complete();
                 return RedirectToAction("TimedEventList", "Setup");

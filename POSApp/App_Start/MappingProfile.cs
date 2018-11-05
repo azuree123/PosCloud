@@ -66,6 +66,8 @@ namespace POSApp
             CreateMap<Modifier, ModifierViewModel>().ForMember(a => a.ModifierOptionViewModels, o => o.MapFrom(a=>a.ModifierOptions));
             CreateMap<ModifierOptionViewModel, ModifierOption>();
             CreateMap<ModifierOption, ModifierOptionViewModel>();
+            CreateMap<TimedEventViewModel, TimedEvent>();
+            CreateMap<TimedEvent, TimedEventViewModel>();
         }
     }
 }
