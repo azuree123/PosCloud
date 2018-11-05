@@ -393,6 +393,7 @@
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
     <Compile Include="Core\Repositories\IProductsSubRepository.cs" />
     <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
+    <Compile Include="Core\Repositories\ITimedEventProductsRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventRepository.cs" />
     <Compile Include="Core\Repositories\IUnitRepository.cs" />
     <Compile Include="Core\Repositories\IStoreRepository.cs" />
@@ -609,6 +610,7 @@
     <Compile Include="Persistence\Repositories\StoreRepository.cs" />
     <Compile Include="Persistence\Repositories\SupplierRepository.cs" />
     <Compile Include="Persistence\Repositories\TaxRepository.cs" />
+    <Compile Include="Persistence\Repositories\TimedEventProductsRepository.cs" />
     <Compile Include="Persistence\Repositories\TimedEventRepository.cs" />
     <Compile Include="Persistence\Repositories\TransDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\TransMasterRepository.cs" />
