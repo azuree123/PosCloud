@@ -35,7 +35,6 @@ namespace POSApp.Core.Models
         public int UnitId { get; set; }
         public Unit ProductUnit { get; set; }
 
-        public virtual ICollection<TimedEvent> TimedEvents { get; set; }
 
         public virtual ICollection<TransDetail> TransDetails { get; set; }
 
@@ -43,6 +42,7 @@ namespace POSApp.Core.Models
         public virtual ICollection<ProductsSub> ProductsSubs { get; set; }
         public virtual ICollection<ProductsSub> ComboProducts { get; set; }
 
+        public virtual ICollection<TimedEventProducts> TimedEventProducts { get; set; }
 
     }
 }

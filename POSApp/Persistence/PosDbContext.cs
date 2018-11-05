@@ -51,7 +51,7 @@ namespace POSApp.Persistence
         public DbSet<ModifierOption> ModifierOptions { get; set; }
         public DbSet<TimedEvent> TimedEvents { get; set; }
         public DbSet<ProductsSub> ProductsSubs { get; set; }
-
+        public DbSet<TimedEventProducts> TimedEventProducts { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
             var objectContext = (this as IObjectContextAdapter).ObjectContext;
@@ -101,6 +101,8 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new ModifierOptionEntityConfiguration());
             modelBuilder.Configurations.Add(new ReportLogEntityConfiguration());
             modelBuilder.Configurations.Add(new ProductsSubEntityConfiguration());
+            modelBuilder.Configurations.Add(new TimedEventProductEntityConfiguration());
+
 
 
 

@@ -1141,6 +1141,7 @@ namespace POSApp.Controllers
                
                 TimedEvent time = Mapper.Map<TimedEvent>(timeeventVm);
                 time.StoreId = (int)user.StoreId;
+
                 _unitOfWork.TimedEventRepository.AddTimedEvent(time);
                 _unitOfWork.Complete();
                 return RedirectToAction("TimedEventList", "Setup");

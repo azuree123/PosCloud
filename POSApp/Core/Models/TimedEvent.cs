@@ -24,7 +24,7 @@ namespace POSApp.Core.Models
         [DefaultValue(false)]
         public bool IsActive { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<TimedEventProducts> TimedEventProducts { get; set; }
 
     }
 }

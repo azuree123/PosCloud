@@ -379,6 +379,7 @@
     <Compile Include="Core\Models\Store.cs" />
     <Compile Include="Core\Models\Tax.cs" />
     <Compile Include="Core\Models\TimedEvent.cs" />
+    <Compile Include="Core\Models\TimedEventProducts.cs" />
     <Compile Include="Core\Models\TransDetail.cs" />
     <Compile Include="Core\Models\TransMaster.cs" />
     <Compile Include="Core\Models\Unit.cs" />
@@ -543,6 +544,10 @@
     <Compile Include="Migrations\201811030848436_new-13.Designer.cs">
       <DependentUpon>201811030848436_new-13.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811050458144_new-14.cs" />
+    <Compile Include="Migrations\201811050458144_new-14.Designer.cs">
+      <DependentUpon>201811050458144_new-14.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -572,6 +577,7 @@
     <Compile Include="Persistence\EntityConfigurations\SupplierEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TaxEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TimedEventEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\TimedEventProductEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransMasterEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\UnitEntityConfiguration.cs" />
@@ -2733,6 +2739,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811030848436_new-13.resx">
       <DependentUpon>201811030848436_new-13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811050458144_new-14.resx">
+      <DependentUpon>201811050458144_new-14.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

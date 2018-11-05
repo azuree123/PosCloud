@@ -32,6 +32,10 @@ namespace POSApp.Core.ViewModels
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
 
+        public int[] Categories { get; set; }
+        public int[] Products { get; set; }
+        public int[] Branches { get; set; }
+
         public IEnumerable<SelectListItem> CatDdl { get; set; }
         public IEnumerable<SelectListItem> ProductDdl { get; set; }
         public IEnumerable<SelectListItem> BranchDdl { get; set; }

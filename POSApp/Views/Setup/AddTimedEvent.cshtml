@@ -129,7 +129,7 @@
 
                                             @Html.Label("Categories", htmlAttributes: new { @class = "control-label" })
                                             <div class="input-group">
-                                                @Html.DropDownList("Categories", Model.CatDdl, "Select an Option", new { @class = "form-control ",@multiple= "multiple", @data_plugin_multiselect="true" ,@data_plugin_options = "{ 'maxHeight': 200, 'includeSelectAllOption': true }" })
+                                                @Html.DropDownListFor(a=>a.Categories, Model.CatDdl, "Select an Option", new { @class = "form-control ",@multiple= "multiple", @data_plugin_multiselect="true" ,@data_plugin_options = "{ 'maxHeight': 200, 'includeSelectAllOption': true }" })
                                             </div>
 
                                         </div>
@@ -137,7 +137,7 @@
 
                                             @Html.Label("Products", htmlAttributes: new { @class = "control-label" })
                                             <div class="input-group">
-                                                @Html.DropDownList("Products", Model.ProductDdl, "Select an Option", new { @class = "form-control ", @multiple = "multiple", @data_plugin_multiselect = "true", @data_plugin_options = "{ 'maxHeight': 200, 'includeSelectAllOption': true }" })
+                                                @Html.DropDownListFor(a => a.Products, Model.ProductDdl, "Select an Option", new { @class = "form-control ", @multiple = "multiple", @data_plugin_multiselect = "true", @data_plugin_options = "{ 'maxHeight': 200, 'includeSelectAllOption': true }" })
                                             </div>
 
                                         </div>
@@ -145,7 +145,7 @@
 
                                             @Html.Label("Branches", htmlAttributes: new { @class = "control-label" })
                                             <div class="input-group">
-                                                @Html.DropDownList("Branches", Model.BranchDdl, "Select an Option", new { @class = "form-control ", @multiple = "multiple", @data_plugin_multiselect = "true", @data_plugin_options = "{ 'maxHeight': 200, 'includeSelectAllOption': true }" })
+                                                @Html.DropDownListFor(a => a.Branches, Model.BranchDdl, "Select an Option", new { @class = "form-control ", @multiple = "multiple", @data_plugin_multiselect = "true", @data_plugin_options = "{ 'maxHeight': 200, 'includeSelectAllOption': true }" })
                                             </div>
 
                                         </div>
