@@ -42,10 +42,9 @@ namespace POSApp.Persistence
         public IUnitRepository UnitRepository { get; private set; }
         public ITimedEventRepository TimedEventRepository { get; private set; }
         public IProductsSubRepository ProductsSubRepository { get; private set; }
+        public ITimedEventProductsRepository TimedEventProductsRepository { get; private set; }
         public IModifierRepository ModifierRepository { get; private set; }
         public IModifierOptionRepository ModifierOptionRepository { get; private set; }
-
-        public ITimedEventProductsRepository TimedEventProducts { get; private set; }
         public UnitOfWork(PosDbContext context)
         {
             _context = context;
