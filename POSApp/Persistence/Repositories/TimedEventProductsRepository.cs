@@ -24,7 +24,8 @@ namespace POSApp.Persistence.Repositories
 
         public TimedEventProducts GetTimedEventsById(int id, int storeId,int product)
         {
-            return _context.TimedEventProducts.FirstOrDefault(a=>a.StoreId==storeId&&a.ProductId==product&&a.TimedEventId==id);
+            var objecty= _context.TimedEventProducts.Single(a=> a.StoreId == storeId && a.ProductId == product && a.TimedEventId == id);
+            return objecty;
         }
 
         public void AddTimedEventProducts(TimedEventProducts tep)
@@ -55,9 +56,9 @@ namespace POSApp.Persistence.Repositories
         {
             List<TimedEventProducts> products = _context.TimedEventProducts
                 .Where(a => a.StoreId == storeId && a.TimedEventId == id).ToList();
-            foreach (var timedEventProductse in products)
+            foreach (var timedEventProducts in products)
             {
-                _context.TimedEventProducts.Remove(timedEventProductse);
+                _context.TimedEventProducts.Remove(timedEventProducts);
             }
           
         }

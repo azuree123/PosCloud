@@ -1160,7 +1160,8 @@ namespace POSApp.Controllers
                                 _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
                                 {
                                     ProductId = product
-                                    ,StoreId = timeeventVmBranch
+                                    ,
+                                    StoreId = timeeventVmBranch
                                     ,TimedEventId = data.Id
                                 });
                             }

@@ -15,17 +15,17 @@ namespace POSApp.Persistence.EntityConfigurations
         {
             ToTable("TimedEventProducts", PosDbContext.DEFAULT_SCHEMA);
             //******************************************************************************************* KEYS ********************
-            HasKey(x => new{x.ProductId,x.ProductStoreId,x.TimedEventStoreId,x.TimedEventId});
-            
+            HasKey(x => new{x.ProductId,x.TimedEventId,x.StoreId});
+
             //******************************************************************************************* PROPERTIES ***************
            
 
             //******************************************************************************************* Auditable ***************
 
             //******************************************************************************************* Auditable ***************
-
-            HasRequired(x => x.TimedEvent).WithMany(x => x.TimedEventProducts).HasForeignKey(x => new{x.TimedEventStoreId,x.TimedEventId}).WillCascadeOnDelete(true);
-            HasRequired(x => x.Product).WithMany(x => x.TimedEventProducts).HasForeignKey(x => new { x.ProductStoreId, x.ProductId }).WillCascadeOnDelete(true);
+            HasRequired(x => x.Store).WithMany().HasForeignKey(s => s.StoreId).WillCascadeOnDelete(false);
+            HasRequired(x => x.Product).WithMany(x => x.TimedEventProducts).HasForeignKey(x => new{x.ProductId,x.StoreId}).WillCascadeOnDelete(false);
+            HasRequired(x => x.TimedEvent).WithMany(x => x.TimedEventProducts).HasForeignKey(x => new { x.TimedEventId, x.StoreId }).WillCascadeOnDelete(false);
 
         }
 
