@@ -1420,5 +1420,10 @@ namespace POSApp.Controllers
         {
             return View();
         }
+
+        public ActionResult AddRole()
+        {
+            return View();
+        }
     }
 }

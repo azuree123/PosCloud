@@ -2623,6 +2623,7 @@
     <Content Include="Views\Setup\FloorList.cshtml" />
     <Content Include="Views\Setup\AddFloor.cshtml" />
     <Content Include="Views\Setup\RolesList.cshtml" />
+    <Content Include="Views\Setup\AddRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

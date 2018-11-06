@@ -1,0 +1,225 @@
+﻿@{
+    ViewBag.Title = "AddRole";
+}
+<style>
+    .table > thead > tr > th {
+        background-color: rgba(153, 153, 153, 0.4);
+        padding: 16px 0;
+    }
+
+    .btn-group > .btn-group {
+        width: 60%
+    }
+    .multiselect, .dropdown-toggle{
+       width: 100%;
+    }
+    .multiselect-container{
+        width:100%;
+    }
+</style>
+
+
+<!-- start: page -->
+@*<div class="container-fluid">
+        <div class="row mt-md">
+            <div class="col-md-12">
+                <ul class="snip1189">
+
+                    <li class="current"><a href="#">Sales</a></li>
+
+                    <li><a href="@Url.Action("InventoryReport","Reports")">Inventory</a></li>
+
+                    <li><a href="@Url.Action("MiscellaneousReport","Reports")">Miscellaneous</a></li>
+
+                    <li><a href="@Url.Action("ExportingReport","Reports")">Exporting</a></li>
+
+                    <li><a href="@Url.Action("MyReports","Reports")">My Reports</a></li>
+
+
+
+
+                </ul>
+                <hr />
+
+            </div>
+        </div>
+    </div>*@
+
+
+
+
+<div class="container-fluid">
+
+    @using (Html.BeginForm())
+    {
+        <div class="row mt-lg">
+
+
+
+            <div class="col-md-12">
+                <div class="tabs  tabs-left">
+                    <div class="row">
+                        <div class="col-md-12 text-center  col-xs-12 mb-xlg">
+                            <ul class=" snip1189 ">
+                                <li class="mt-xs  current" id="basicInfo">
+                                    <a href="#basicdata" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
+                                        Basic Data
+                                    </a>
+                                </li>
+                                <li id="tranInfo">
+                                    <a href="#authorities" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
+                                  Authorities
+
+                                    </a>
+                                </li>
+                            </ul>
+                            <hr />
+                            <div class="row mt-md">
+                                <div class="col-md-12">
+                                    <h4 class=" wb-color  text-center">Create New Role</h4>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content col-md-8 col-xs-12 col-md-offset-2  p-xlg">
+                            <div class="row mb-xlg">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:17px"><i class="fa fa-save  pr-md"></i> Save</button>
+                                </div>
+                            </div>
+                            <div id="basicdata" class="tab-pane active">
+                                <h4 class="mt-none mb-lg ">Basic Data</h4>
+                                <div class="row">
+                                    <div class="col-md-9 col-lg-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Name <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" required />
+                                    
+
+                                        </div>
+
+
+                                  
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div id="authorities" class="tab-pane">
+                                <div class=" mb-lg" id="header-flex">
+                                    <h4 class="mt-xs  " style="flex-grow: 8">Authorities</h4>
+                                 
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @*<div class="form-group">
+
+                                                <input type="checkbox" class="form-control" style="display:inline;width:18%"/>
+
+                                                <label class="control-label" style="display:inline;float:right;    margin: 5px 20px 0px 0px !important;
+        font-size: 16px;
+        margin-top: 5px;">
+                                                   Toggle All
+                                                </label>
+                                            </div>*@
+                                        <div class="form-group">
+                                 
+                                            <div class="col-md-9 col-lg-offset-2">
+                                                <div class="btn-group" style="display:block">
+                                                    <select class="form-control" multiple="multiple" style="width:100%" data-plugin-multiselect data-plugin-options='{ "maxHeight": 200 }' data-multiselect-toggle-all="true" id="ms_example7">
+                                                        <optgroup label="Customers">
+                                                            <option value="View">View</option>
+                                                            <option value="Manage">Manage</option>
+
+                                                        </optgroup>
+                                                        <optgroup label="Customers-tags">
+                                                            <option value="Customers-tags-View">View</option>
+                                                            <option value="Customers-tags-Manage">Manage</option>
+                                                        </optgroup>
+                                                 
+                                                        <optgroup label="inventory-items">
+                                                            <option value="inventory-items-View">View</option>
+                                                            <option value="inventory-items-Manage">Manage</option>
+                                                        </optgroup>
+                                                        <optgroup label="inventory-items-tags">
+                                                            <option value="inventory-items-tags-View">View</option>
+                                                            <option value="inventory-items-tags-Manage">Manage</option>
+                                                        </optgroup>
+                                                        <optgroup label="suppliers">
+                                                            <option value="suppliers-View">View</option>
+                                                            <option value="suppliers-Manage">Manage</option>
+                                                        </optgroup>
+                                                        <optgroup label="warehouses">
+                                                            <option value="warehouses-View">View</option>
+                                                            <option value="warehouses-Manage">Manage</option>
+                                                        </optgroup>
+                                                        <optgroup label="authorities.app-user-roles">
+                                                            <option value="view-app-user-roles">view-app-user-roles</option>
+                                                            <option value="manage-app-user-roles">manage-app-user-roles</option>
+                                                        </optgroup>
+
+                                                        <optgroup label="More">
+                                                            <option value="Restore-Company-Data">Restore Company Data</option>
+
+
+
+                                                            <option value="View-Cost">View Cost</option>
+
+                                                            </optgroup>
+
+                                                    </select>
+                                                    <button id="ms_example7-toggle"  class="btn outline-success">Select All</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    </div>
+
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+
+        $('a.modalShow').on('click', function () {
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+        $('#datatable-default').dataTable();
+
+
+
+        $("#ms_example7-toggle").click(function (e) {
+            e.preventDefault();
+            multiselect_toggle($("#ms_example7"), $(this));
+        });
+
+    </script>
+}
+
+
+
+

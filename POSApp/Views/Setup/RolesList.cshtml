@@ -34,11 +34,11 @@
 
 
 
-                    <a href="@Url.Action("AddRole","Setup")" >
+                    <a href="@Url.Action("AddRole","Setup")">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New </button>
 
                     </a>
-               
+
 
                 </div>
 
@@ -61,14 +61,14 @@
                         <th>Name</th>
                         <th>Type</th>
                         <th>Linked Employees</th>
-            
+
                         <th>Created At</th>
                         <th width="15%">Action</th>
 
                     </tr>
                 </thead>
                 <tbody>
-             
+
                     <tr>
                         <td>1</td>
                         <td>Cashier</td>
@@ -77,8 +77,8 @@
                         <td>15-oct-2017</td>
                         <td>
                             <div class="btn-group">
-                                <a class="btn btn-default text-success btn-sm fa fa-edit modalShow"  data-toggle = "tooltip"  title = "Edit !"></a>
-                                <a class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle = "tooltip"  title = "Delete !"  onclick = "return confirm('Are you sure?');"></a>
+                                <a class="btn btn-default text-success btn-sm fa fa-edit modalShow" data-toggle="tooltip" title="Edit !"></a>
+                                <a class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
 
 
 
@@ -86,10 +86,10 @@
                         </td>
 
                         @*<td>
-                            @Html.ActionLink(" ", "PreviewPurchaseOrder", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
-                        </td>*@
+                                @Html.ActionLink(" ", "PreviewPurchaseOrder", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
+                            </td>*@
                     </tr>
-                
+
                 </tbody>
             </table>
         </div>
@@ -98,6 +98,29 @@
 
 
 
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+<script>
+    $('#datatable-default').dataTable();
+
+    $('a.modalShow').on('click', function () {
+
+        $.ajax({
+            url: this.href,
+            type: 'GET',
+            cache: false,
+            success: function (result) {
+                $('#ModalData').html(result).find('#ordine').modal('show');
+            }
+        });
+
+        return false;
+    });
+</script>
+}
 
 
 
