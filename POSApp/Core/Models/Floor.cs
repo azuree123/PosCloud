@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 
 namespace POSApp.Core.Models
 {
-    public class Floor
+    public class Floor:AuditableEntity
     {
         public int Id { get; set; }
 

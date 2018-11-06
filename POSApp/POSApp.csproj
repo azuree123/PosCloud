@@ -389,6 +389,7 @@
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
     <Compile Include="Core\Repositories\IClientRepository.cs" />
     <Compile Include="Core\Repositories\ICouponRepository.cs" />
+    <Compile Include="Core\Repositories\IDineTableRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
     <Compile Include="Core\Repositories\IFloorRepository.cs" />
     <Compile Include="Core\Repositories\IModifierOptionRepository.cs" />
@@ -490,6 +491,10 @@
     <Compile Include="Migrations\201811060842196_Initial.Designer.cs">
       <DependentUpon>201811060842196_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811061032401_Initial3.cs" />
+    <Compile Include="Migrations\201811061032401_Initial3.Designer.cs">
+      <DependentUpon>201811061032401_Initial3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -533,6 +538,7 @@
     <Compile Include="Persistence\Repositories\CouponRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\DepartmentRepository.cs" />
+    <Compile Include="Persistence\Repositories\DineTableRepository.cs" />
     <Compile Include="Persistence\Repositories\DiscountRepository.cs" />
     <Compile Include="Persistence\Repositories\EmployeeRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseHeadRepository.cs" />
@@ -2614,6 +2620,8 @@
     <Content Include="Views\Setup\TimedEventList.cshtml" />
     <Content Include="Views\Setup\AddTimedEvent.cshtml" />
     <Content Include="Views\Products\ModifierList.cshtml" />
+    <Content Include="Views\Setup\FloorList.cshtml" />
+    <Content Include="Views\Setup\AddFloor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2640,6 +2648,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811060842196_Initial.resx">
       <DependentUpon>201811060842196_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811061032401_Initial3.resx">
+      <DependentUpon>201811061032401_Initial3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
