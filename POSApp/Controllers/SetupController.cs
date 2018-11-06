@@ -1174,10 +1174,8 @@ namespace POSApp.Controllers
                             {
                                 ProductId = product
                                 ,
-                                ProductStoreId = timeeventVmBranch
-                                ,
-                                TimedEventStoreId = timeeventVmBranch
-                                ,
+                                StoreId = timeeventVmBranch
+                               ,
                                 TimedEventId = data.Id
                             });
                         }
@@ -1240,10 +1238,9 @@ namespace POSApp.Controllers
                             {
                                 ProductId = product
                                 ,
-                                ProductStoreId = location.StoreId
+                                StoreId = location.StoreId
                                 ,
-                                TimedEventStoreId = location.StoreId
-                                ,
+                               
                                 TimedEventId = location.Id
                             });
                         }
@@ -1257,11 +1254,9 @@ namespace POSApp.Controllers
                         {
                             ProductId = product
                             ,
-                            ProductStoreId = location.StoreId
-                            ,
-                            TimedEventStoreId = location.StoreId
-                            ,
-                            TimedEventId = location.Id
+                            StoreId = location.StoreId
+                                ,
+                           TimedEventId = location.Id
                         });
                     }
                 }

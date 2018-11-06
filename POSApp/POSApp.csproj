@@ -490,6 +490,10 @@
     <Compile Include="Migrations\201811060641426_initial.Designer.cs">
       <DependentUpon>201811060641426_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811060651458_timedeventfix.cs" />
+    <Compile Include="Migrations\201811060651458_timedeventfix.Designer.cs">
+      <DependentUpon>201811060651458_timedeventfix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -2640,6 +2644,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811060641426_initial.resx">
       <DependentUpon>201811060641426_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811060651458_timedeventfix.resx">
+      <DependentUpon>201811060651458_timedeventfix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
