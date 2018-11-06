@@ -1339,6 +1339,9 @@ namespace POSApp.Controllers
             }
         }
 
-
+        public ActionResult RolesList()
+        {
+            return View();
+        }
     }
 }

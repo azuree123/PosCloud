@@ -2614,6 +2614,7 @@
     <Content Include="Views\Setup\TimedEventList.cshtml" />
     <Content Include="Views\Setup\AddTimedEvent.cshtml" />
     <Content Include="Views\Products\ModifierList.cshtml" />
+    <Content Include="Views\Setup\RolesList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
