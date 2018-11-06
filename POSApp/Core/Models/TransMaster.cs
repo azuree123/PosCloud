@@ -9,7 +9,7 @@ namespace POSApp.Core.Models
 {
     public class TransMaster:AuditableEntity
     {
-        [Key]
+        
         public int Id { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
@@ -35,8 +35,10 @@ namespace POSApp.Core.Models
 
         public string PaymentMethod { get; set; }//visa, master,accout,credit, cash etc
 
-        public int? TableId { get; set; }
+        public int? DineTableId { get; set; }
         public DineTable DineTable { get; set; }
+
+        public int? OrderTime { get; set; }//in minutes
 
         public ICollection<TransDetail> TransDetails { get; set; }
     }

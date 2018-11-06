@@ -3,7 +3,7 @@ namespace POSApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -342,18 +342,15 @@ namespace POSApp.Migrations
                 c => new
                     {
                         ProductId = c.Int(nullable: false),
-                        TimedEventId = c.Int(nullable: false),
                         StoreId = c.Int(nullable: false),
-                        Store_Id = c.Int(),
+                        TimedEventId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.ProductId, t.TimedEventId, t.StoreId })
+                .PrimaryKey(t => new { t.ProductId, t.StoreId, t.TimedEventId })
                 .ForeignKey("PosCloud.Products", t => new { t.ProductId, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
                 .ForeignKey("PosCloud.TimedEvents", t => new { t.TimedEventId, t.StoreId })
-                .ForeignKey("PosCloud.Stores", t => t.Store_Id)
                 .Index(t => new { t.ProductId, t.StoreId })
-                .Index(t => new { t.TimedEventId, t.StoreId })
-                .Index(t => t.Store_Id);
+                .Index(t => new { t.TimedEventId, t.StoreId });
             
             CreateTable(
                 "PosCloud.TimedEvents",
@@ -427,7 +424,8 @@ namespace POSApp.Migrations
                         Posted = c.Boolean(nullable: false),
                         ACRef = c.String(maxLength: 25, unicode: false),
                         PaymentMethod = c.String(),
-                        TableId = c.Int(),
+                        DineTableId = c.Int(),
+                        OrderTime = c.Int(),
                         CreatedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         CreatedById = c.String(),
                         UpdatedById = c.String(),
@@ -438,10 +436,10 @@ namespace POSApp.Migrations
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.BusinessPartners", t => new { t.BusinessPartnerId, t.StoreId })
-                .ForeignKey("PosCloud.DineTables", t => new { t.TableId, t.StoreId })
+                .ForeignKey("PosCloud.DineTables", t => new { t.DineTableId, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
                 .Index(t => new { t.BusinessPartnerId, t.StoreId })
-                .Index(t => new { t.TableId, t.StoreId })
+                .Index(t => new { t.DineTableId, t.StoreId })
                 .Index(t => t.TransCode, unique: true);
             
             CreateTable(
@@ -894,7 +892,6 @@ namespace POSApp.Migrations
             DropForeignKey("PosCloud.Cities", "StateId", "PosCloud.States");
             DropForeignKey("PosCloud.BusinessPartners", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.TransDetails", "Store_Id", "PosCloud.Stores");
-            DropForeignKey("PosCloud.TimedEventProducts", "Store_Id", "PosCloud.Stores");
             DropForeignKey("PosCloud.ReportLogs", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.PurchaseOrders", new[] { "SupplierId", "StoreId" }, "PosCloud.Suppliers");
             DropForeignKey("PosCloud.Suppliers", "StoreId", "PosCloud.Stores");
@@ -918,7 +915,7 @@ namespace POSApp.Migrations
             DropForeignKey("PosCloud.SaleOrderDetails", new[] { "ProductId", "StoreId" }, "PosCloud.Products");
             DropForeignKey("PosCloud.TransDetails", new[] { "TransMasterId", "StoreId" }, "PosCloud.TransMaster");
             DropForeignKey("PosCloud.TransMaster", "StoreId", "PosCloud.Stores");
-            DropForeignKey("PosCloud.TransMaster", new[] { "TableId", "StoreId" }, "PosCloud.DineTables");
+            DropForeignKey("PosCloud.TransMaster", new[] { "DineTableId", "StoreId" }, "PosCloud.DineTables");
             DropForeignKey("PosCloud.DineTables", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.DineTables", new[] { "FloorId", "StoreId" }, "PosCloud.Floors");
             DropForeignKey("PosCloud.Floors", "StoreId", "PosCloud.Stores");
@@ -974,13 +971,12 @@ namespace POSApp.Migrations
             DropIndex("PosCloud.Floors", new[] { "StoreId" });
             DropIndex("PosCloud.DineTables", new[] { "FloorId", "StoreId" });
             DropIndex("PosCloud.TransMaster", new[] { "TransCode" });
-            DropIndex("PosCloud.TransMaster", new[] { "TableId", "StoreId" });
+            DropIndex("PosCloud.TransMaster", new[] { "DineTableId", "StoreId" });
             DropIndex("PosCloud.TransMaster", new[] { "BusinessPartnerId", "StoreId" });
             DropIndex("PosCloud.TransDetails", new[] { "Store_Id" });
             DropIndex("PosCloud.TransDetails", new[] { "TransMasterId", "StoreId" });
             DropIndex("PosCloud.TransDetails", new[] { "ProductId", "StoreId" });
             DropIndex("PosCloud.TimedEvents", new[] { "StoreId" });
-            DropIndex("PosCloud.TimedEventProducts", new[] { "Store_Id" });
             DropIndex("PosCloud.TimedEventProducts", new[] { "TimedEventId", "StoreId" });
             DropIndex("PosCloud.TimedEventProducts", new[] { "ProductId", "StoreId" });
             DropIndex("PosCloud.Units", new[] { "StoreId" });

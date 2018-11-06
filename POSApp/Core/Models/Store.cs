@@ -41,6 +41,7 @@ namespace POSApp.Core.Models
         public virtual ICollection<TimedEventProducts> TimedEventProducts { get; set; }
         public virtual ICollection<Floor> Floors { get; set; }
         public virtual ICollection<DineTable> DineTables { get; set; }
+       
 
 
 

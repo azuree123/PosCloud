@@ -15,7 +15,7 @@ namespace POSApp.Persistence.EntityConfigurations
         {
             ToTable("TimedEventProducts", PosDbContext.DEFAULT_SCHEMA);
             //******************************************************************************************* KEYS ********************
-            HasKey(x => new{x.ProductId,x.TimedEventId,x.StoreId});
+            HasKey(x => new{x.ProductId, x.StoreId,x.TimedEventId});
 
             //******************************************************************************************* PROPERTIES ***************
            
@@ -23,10 +23,19 @@ namespace POSApp.Persistence.EntityConfigurations
             //******************************************************************************************* Auditable ***************
 
             //******************************************************************************************* Auditable ***************
-            HasRequired(x => x.Store).WithMany().HasForeignKey(s => s.StoreId).WillCascadeOnDelete(false);
-            HasRequired(x => x.Product).WithMany(x => x.TimedEventProducts).HasForeignKey(x => new{x.ProductId,x.StoreId}).WillCascadeOnDelete(false);
-            HasRequired(x => x.TimedEvent).WithMany(x => x.TimedEventProducts).HasForeignKey(x => new { x.TimedEventId, x.StoreId }).WillCascadeOnDelete(false);
+            HasRequired(x => x.Store).WithMany(x => x.TimedEventProducts).HasForeignKey(s => new { s.StoreId}).WillCascadeOnDelete(false);
+            HasRequired(x => x.Product).WithMany(x => x.TimedEventProducts).HasForeignKey(x => new{x.ProductId,x.StoreId }).WillCascadeOnDelete(false);
+            HasRequired(x => x.TimedEvent).WithMany(x => x.TimedEventProducts).HasForeignKey(x => new { x.TimedEventId ,x.StoreId}).WillCascadeOnDelete(false);
 
+            //modelBuilder.Entity<Contract>()
+            //    .HasMany(c => c.ContractParts)
+            //    .WithRequired()
+            //    .HasForeignKey(cp => cp.ContractId);
+
+            //modelBuilder.Entity<Part>()
+            //    .HasMany(p => p.ContractParts)
+            //    .WithRequired()
+            //    .HasForeignKey(cp => cp.PartId);
         }
 
     }
