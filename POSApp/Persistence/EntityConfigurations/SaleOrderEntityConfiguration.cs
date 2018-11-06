@@ -32,7 +32,7 @@ namespace POSApp.Persistence.EntityConfigurations
 
             //  Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
             // Property(x => x.UpdatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-
+    //        HasRequired(x=> x.Store).WithMany().HasForeignKey(s => s.StoreId).WillCascadeOnDelete(false);
             //******************************************************************************************* Auditable ***************
             //HasRequired(x => x.CreatedBy).WithMany().HasForeignKey(x => new { x.CreatedById, x.StoreId }).WillCascadeOnDelete(false);
             //HasRequired(x => x.UpdatedBy).WithMany().HasForeignKey(x => new { x.UpdatedById, x.StoreId }).WillCascadeOnDelete(false);

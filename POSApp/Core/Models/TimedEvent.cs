@@ -14,7 +14,7 @@ namespace POSApp.Core.Models
         public string Name { get; set; }
         public string Type { get; set; }
         [DefaultValue(0)]
-        public double Value { get; set; }
+        public float Value { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public TimeSpan FromHour { get; set; }
@@ -24,7 +24,7 @@ namespace POSApp.Core.Models
         [DefaultValue(false)]
         public bool IsActive { get; set; }
 
-        public virtual ICollection<TimedEventProducts> TimedEventProducts { get; set; }
+        public ICollection<TimedEventProducts> TimedEventProducts { get; set; }
 
     }
 }
