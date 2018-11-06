@@ -68,6 +68,10 @@ namespace POSApp
             CreateMap<ModifierOption, ModifierOptionViewModel>();
             CreateMap<TimedEventViewModel, TimedEvent>();
             CreateMap<TimedEvent, TimedEventViewModel>();
+            CreateMap<DineTableViewModel, DineTable>();
+            CreateMap<DineTable, DineTableViewModel>();
+            CreateMap<FloorViewModel, Floor>();
+            CreateMap<Floor, FloorViewModel>();
         }
     }
 }

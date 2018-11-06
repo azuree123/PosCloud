@@ -1274,6 +1274,83 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("TimedEventList", "Setup");
         }
+
+        //Floor
+
+        public ActionResult FloorList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.FloorRepository.GetFloors((int)user.StoreId));
+        }
+        [HttpGet]
+        public ActionResult AddFloor()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            FloorViewModel floor = new FloorViewModel();
+            ViewBag.edit = "AddFloor";
+            return View(floor);
+        }
+        [HttpPost]
+        public ActionResult AddFloor(FloorViewModel FloorMv)
+        {
+            
+            ViewBag.edit = "AddFloor";
+            if (!ModelState.IsValid)
+            {
+                return View(FloorMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Floor floor = Mapper.Map<Floor>(FloorMv);
+                floor.StoreId = (int)user.StoreId;
+                _unitOfWork.FloorRepository.AddFloor(floor);
+                _unitOfWork.Complete();
+                return RedirectToAction("FloorList", "Setup");
+            }
+
+        }
+        [HttpGet]
+        public ActionResult UpdateFloor(int id)
+        {
+            ViewBag.edit = "UpdateFloor";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            FloorViewModel floorMv =
+                Mapper.Map<FloorViewModel>(_unitOfWork.FloorRepository.GetFloorById(id, (int)user.StoreId));
+            return View("AddFloor", floorMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateFloor(int id, FloorViewModel FloorMv)
+        {
+            ViewBag.edit = "UpdateSate";
+            if (!ModelState.IsValid)
+            {
+                return View("AddFloor", FloorMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Floor floor = Mapper.Map<Floor>(FloorMv);
+                _unitOfWork.FloorRepository.UpdateFloor(id, floor, (int)user.StoreId);
+                _unitOfWork.Complete();
+                return RedirectToAction("FloorList", "Setup");
+
+            }
+
+        }
+        public ActionResult DeleteFloor(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.FloorRepository.DeleteFloor(id,(int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("FloorList", "Setup");
+        }
         public JsonResult GetDepartmentDdl()
         {
             try
