@@ -5,6 +5,9 @@ namespace POSApp.Core.Models
     public class Store : AuditableEntity
     {
         public int Id { get; set; }
+
+       // public string Reference { get; set; } //code
+
         public string Name { get; set; }
         public string Address { get; set; }
 

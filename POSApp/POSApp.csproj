@@ -324,6 +324,7 @@
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\Models\Device.cs" />
     <Compile Include="Core\Models\Client.cs" />
     <Compile Include="Core\Models\Store.cs" />
     <Compile Include="Core\Repositories\IStoreRepository.cs" />
