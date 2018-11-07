@@ -141,7 +141,7 @@ namespace POSApp.Controllers
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
                     {
                         NewModel.Name = dr["Name"].ToString();
-                        NewModel.Amount = double.Parse(dr["Amount"].ToString()) ;
+                        NewModel.Value = decimal.Parse(dr["Value"].ToString()) ;
                         NewModel.StoreId = (int)user.StoreId;
                         _unitOfWork.DiscountRepository.AddDiscount(NewModel);
                     }
@@ -167,17 +167,17 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    Coupon NewModel = new Coupon();
+                    Discount NewModel = new Discount();
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
                     {
                         NewModel.Name = dr["Name"].ToString();
-                        NewModel.Amount = int.Parse(dr["Amount"].ToString());
-                        NewModel.Value = double.Parse(dr["Value"].ToString());
+                        //NewModel.Amount = int.Parse(dr["Amount"].ToString());
+                        NewModel.Value = decimal.Parse(dr["Value"].ToString());
                         NewModel.Days = dr["Days"].ToString();
                         NewModel.ValidFrom = DateTime.Parse(dr["ValidFrom"].ToString());
                         NewModel.ValidFrom = DateTime.Parse(dr["ValidTill"].ToString());
                         NewModel.StoreId = (int)user.StoreId;
-                        _unitOfWork.CouponRepository.AddCoupon(NewModel);
+                        _unitOfWork.DiscountRepository.AddDiscount(NewModel);
                     }
                 }
                 _unitOfWork.Complete();

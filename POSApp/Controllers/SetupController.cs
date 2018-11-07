@@ -850,78 +850,78 @@ namespace POSApp.Controllers
             return RedirectToAction("TaxList", "Setup");
         }
 
-        public ActionResult CouponList()
-        {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            return View(_unitOfWork.CouponRepository.GetCoupons((int)user.StoreId));
-        }
-        [HttpGet]
-        public ActionResult AddCoupon()
-        {
-            ViewBag.edit = "AddCoupon";
-            return View();
-        }
-        [HttpPost]
-        public ActionResult AddCoupon(CouponModelView couponMv)
-        {
-            couponMv.Days = string.Join(",", couponMv.tempDays);
-            ViewBag.edit = "AddCoupon";
-            if (!ModelState.IsValid)
-            {
-                return View(couponMv);
-            }
-            else
-            {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Coupon location = Mapper.Map<Coupon>(couponMv);
-                location.StoreId= (int)user.StoreId;
-                _unitOfWork.CouponRepository.AddCoupon(location);
-                _unitOfWork.Complete();
-                return RedirectToAction("CouponList", "Setup");
-            }
+        //public ActionResult CouponList()
+        //{
+        //    var userid = User.Identity.GetUserId();
+        //    var user = UserManager.FindById(userid);
+        //    return View(_unitOfWork.CouponRepository.GetCoupons((int)user.StoreId));
+        //}
+        //[HttpGet]
+        //public ActionResult AddCoupon()
+        //{
+        //    ViewBag.edit = "AddCoupon";
+        //    return View();
+        //}
+        //[HttpPost]
+        //public ActionResult AddCoupon(CouponModelView couponMv)
+        //{
+        //    couponMv.Days = string.Join(",", couponMv.tempDays);
+        //    ViewBag.edit = "AddCoupon";
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(couponMv);
+        //    }
+        //    else
+        //    {
+        //        var userid = User.Identity.GetUserId();
+        //        var user = UserManager.FindById(userid);
+        //        Coupon location = Mapper.Map<Coupon>(couponMv);
+        //        location.StoreId= (int)user.StoreId;
+        //        _unitOfWork.CouponRepository.AddCoupon(location);
+        //        _unitOfWork.Complete();
+        //        return RedirectToAction("CouponList", "Setup");
+        //    }
 
-        }
-        [HttpGet]
-        public ActionResult UpdateCoupon(int id)
-        {
-            ViewBag.edit = "UpdateCoupon";
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            CouponModelView couponMv =
-                Mapper.Map<CouponModelView>(_unitOfWork.CouponRepository.GetCouponById(id, (int)user.StoreId));
-            couponMv.tempDays = couponMv.Days.Split(',');
-            return View("AddCoupon", couponMv);
-        }
-        [HttpPost]
-        public ActionResult UpdateCoupon(int id, CouponModelView couponMv)
-        {
-            couponMv.Days = string.Join(",", couponMv.tempDays);
-            ViewBag.edit = "UpdateCoupon";
-            if (!ModelState.IsValid)
-            {
-                return View("AddCoupon", couponMv);
-            }
-            else
-            {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Coupon location = Mapper.Map<Coupon>(couponMv);
-                _unitOfWork.CouponRepository.UpdateCoupon(id, location, (int)user.StoreId);
-                _unitOfWork.Complete();
-                return RedirectToAction("CouponList", "Setup");
-            }
+        //}
+        //[HttpGet]
+        //public ActionResult UpdateCoupon(int id)
+        //{
+        //    ViewBag.edit = "UpdateCoupon";
+        //    var userid = User.Identity.GetUserId();
+        //    var user = UserManager.FindById(userid);
+        //    CouponModelView couponMv =
+        //        Mapper.Map<CouponModelView>(_unitOfWork.CouponRepository.GetCouponById(id, (int)user.StoreId));
+        //    couponMv.tempDays = couponMv.Days.Split(',');
+        //    return View("AddCoupon", couponMv);
+        //}
+        //[HttpPost]
+        //public ActionResult UpdateCoupon(int id, CouponModelView couponMv)
+        //{
+        //    couponMv.Days = string.Join(",", couponMv.tempDays);
+        //    ViewBag.edit = "UpdateCoupon";
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View("AddCoupon", couponMv);
+        //    }
+        //    else
+        //    {
+        //        var userid = User.Identity.GetUserId();
+        //        var user = UserManager.FindById(userid);
+        //        Coupon location = Mapper.Map<Coupon>(couponMv);
+        //        _unitOfWork.CouponRepository.UpdateCoupon(id, location, (int)user.StoreId);
+        //        _unitOfWork.Complete();
+        //        return RedirectToAction("CouponList", "Setup");
+        //    }
 
-        }
-        public ActionResult DeleteCoupon(int id)
-        {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.CouponRepository.DeleteCoupon(id, (int)user.StoreId);
-            _unitOfWork.Complete();
-            return RedirectToAction("CouponList", "Setup");
-        }
+        //}
+        //public ActionResult DeleteCoupon(int id)
+        //{
+        //    var userid = User.Identity.GetUserId();
+        //    var user = UserManager.FindById(userid);
+        //    _unitOfWork.CouponRepository.DeleteCoupon(id, (int)user.StoreId);
+        //    _unitOfWork.Complete();
+        //    return RedirectToAction("CouponList", "Setup");
+        //}
         public ActionResult UnitList()
         {
             var userid = User.Identity.GetUserId();
@@ -1203,6 +1203,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            ViewBag.alert = "<script> $(document).ready(function() {$('#CategoriesArea').css('display', 'none');$('#BranchesArea').css('display', 'none');" +
+                            @"});</script>";
             return View("AddTimedEvent", timeeventVm);
         }
         [HttpPost]
@@ -1228,7 +1230,7 @@ namespace POSApp.Controllers
                 _unitOfWork.TimedEventRepository.UpdateTimedEvent(id, location, (int)user.StoreId);
                 _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id,location.StoreId);
                 _unitOfWork.Complete();
-                if (timeeventVm.Categories.Length > 0)
+                if (timeeventVm.Categories != null)
                 {
 
                     foreach (var timeeventVmCategory in timeeventVm.Categories)
@@ -1353,6 +1355,86 @@ namespace POSApp.Controllers
             _unitOfWork.FloorRepository.DeleteFloor(id,(int)user.StoreId);
             _unitOfWork.Complete();
             return RedirectToAction("FloorList", "Setup");
+        }
+
+        //DineTale
+
+        public ActionResult DineTableList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.DineTableRepository.GetDineTables((int)user.StoreId).Select(a => new DineTableListModelView { Id = a.Id, DineTableNumber = a.DineTableNumber, FloorNumber =a.Floor.FloorNumber }));
+        }
+        public ActionResult AddDineTable()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            DineTableViewModel dinetable  = new DineTableViewModel();
+            dinetable.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FloorNumber }).AsEnumerable();
+            ViewBag.edit = "AddDineTable";
+            return View(dinetable);
+        }
+
+        [HttpPost]
+        public ActionResult AddDineTable(DineTableViewModel DineTableVm)
+        {
+            ViewBag.edit = "AddDineTable";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!ModelState.IsValid)
+            {
+                DineTableVm.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int) user.StoreId)
+                    .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.FloorNumber}).AsEnumerable();
+                return View(DineTableVm);
+            }
+            else
+            {
+                DineTableVm.StoreId = (int)user.StoreId;
+                DineTable DineTable = Mapper.Map<DineTable>(DineTableVm);
+                _unitOfWork.DineTableRepository.AddDineTable(DineTable);
+                _unitOfWork.Complete();
+                return RedirectToAction("DineTableList", "Setup");
+            }
+
+        }
+
+        [HttpGet]
+        public ActionResult UpdateDineTable(int id)
+        {
+            ViewBag.edit = "UpdateDineTable";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            DineTableViewModel DineTableMv = Mapper.Map<DineTableViewModel>(_unitOfWork.DineTableRepository.GetDineTableById(id,(int)user.StoreId));
+            DineTableMv.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FloorNumber }).AsEnumerable();
+            return View("AddDineTable", DineTableMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateDineTable(int id, DineTableViewModel DineTableVm,int storeId)
+        {
+            ViewBag.edit = "UpdateDineTable";
+            if (!ModelState.IsValid)
+            {
+                return View("AddDineTable", DineTableVm);
+            }
+            else
+            {
+                DineTable DineTable = Mapper.Map<DineTable>(DineTableVm);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.DineTableRepository.UpdateDineTable(id, DineTable, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                return RedirectToAction("DineTableList", "Setup");
+            }
+        }
+        public ActionResult DeleteDineTable(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.DineTableRepository.DeleteDineTable(id,(int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("DineTableList", "Setup");
         }
         public JsonResult GetDepartmentDdl()
         {

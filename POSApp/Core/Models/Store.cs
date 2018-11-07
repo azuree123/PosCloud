@@ -5,6 +5,9 @@ namespace POSApp.Core.Models
     public class Store : AuditableEntity
     {
         public int Id { get; set; }
+
+       // public string Reference { get; set; } //code
+
         public string Name { get; set; }
         public string Address { get; set; }
 
@@ -28,7 +31,7 @@ namespace POSApp.Core.Models
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual ICollection<SaleOrder> SaleOrders { get; set; }
         public virtual ICollection<Supplier> Suppliers { get; set; }
-        public virtual ICollection<Coupon> Coupons { get; set; }
+        //public virtual ICollection<Coupon> Coupons { get; set; }
         public virtual ICollection<Tax> Taxes { get; set; }
         public virtual ICollection<Discount> Discounts { get; set; }
         public virtual ICollection<Unit> Units { get; set; }
@@ -41,7 +44,8 @@ namespace POSApp.Core.Models
         public virtual ICollection<TimedEventProducts> TimedEventProducts { get; set; }
         public virtual ICollection<Floor> Floors { get; set; }
         public virtual ICollection<DineTable> DineTables { get; set; }
-       
+        public virtual ICollection<Device> Devices { get; set; }
+
 
 
 

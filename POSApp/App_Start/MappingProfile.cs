@@ -40,8 +40,8 @@ namespace POSApp
             CreateMap<Product, ServiceCreateViewModel>();
             CreateMap<StoreViewModel, Store>();
             CreateMap<Store, StoreViewModel>();
-            CreateMap<CouponModelView, Coupon>();
-            CreateMap<Coupon, CouponModelView>();
+            //CreateMap<CouponModelView, Coupon>();
+            //CreateMap<Coupon, CouponModelView>();
             CreateMap<TaxViewModel, Tax>();
             CreateMap<Tax, TaxViewModel>();
             CreateMap<DiscountViewModel, Discount>();
@@ -70,7 +70,9 @@ namespace POSApp
             CreateMap<TimedEventViewModel, TimedEvent>().ForMember(a => a.Days, o => o.MapFrom(g => string.Join(",",g.Days)));
             CreateMap<TimedEvent, TimedEventViewModel>().ForMember(a=>a.BranchesDisplay,o=>o.MapFrom(g=>g.StoreId))
                 .ForMember(a => a.ProductsDisplay, o => o.MapFrom(g => string.Join(",",g.TimedEventProducts.Select(a=>a.ProductId).ToArray())))
-                .ForMember(a => a.DaysDisplay, o => o.MapFrom(g => g.Days));
+                .ForMember(a => a.DaysDisplay, o => o.MapFrom(g => g.Days))
+                .ForMember(a => a.Days, o => o.MapFrom(g => g.Days.Split(',')))
+                .ForMember(a => a.Products, o => o.MapFrom(g => g.TimedEventProducts.Select(a => a.ProductId).ToArray()));
             CreateMap<DineTableViewModel, DineTable>();
             CreateMap<DineTable, DineTableViewModel>();
             CreateMap<FloorViewModel, Floor>();

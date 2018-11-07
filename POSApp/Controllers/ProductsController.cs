@@ -41,7 +41,7 @@ namespace POSApp.Controllers
             ProductCreateViewModel product = new ProductCreateViewModel();
             product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a=>a.Type=="Product")
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
-            product.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
+            product.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)user.StoreId)
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             product.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
@@ -61,7 +61,7 @@ namespace POSApp.Controllers
             {
                 productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Product")
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-                productVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
+                productVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId)
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
@@ -112,7 +112,7 @@ namespace POSApp.Controllers
             ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id,Convert.ToInt32(user.StoreId)));
             productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Product")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
+            productVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
@@ -659,6 +659,138 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("ModifierList", "Products");
         }
+
+        public ActionResult CombosList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.Type == "Combo").ToList());
+        }
+
+        public ActionResult AddCombo()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ProductCreateViewModel product = new ProductCreateViewModel();
+            product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo")
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            product.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            product.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            product.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            ViewBag.edit = "AddCombo";
+
+            return View(product);
+        }
+        [HttpPost]
+        public ActionResult AddCombo(ProductCreateViewModel productVm, HttpPostedFileBase file)
+        {
+            ViewBag.edit = "AddCombo";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!ModelState.IsValid)
+            {
+                productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo")
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                return View(productVm);
+            }
+            else
+            if (file != null && file.ContentLength > 0)
+            {
+
+                try
+                {
+                
+                    productVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
+                    file.InputStream.Read(productVm.Image, 0, file.ContentLength);
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Message = "ERROR:" + e.Message.ToString();
+                }
+
+            }
+            {
+
+                productVm.StoreId = user.StoreId;
+                Product product = Mapper.Map<Product>(productVm);
+                product.Type = "Combo";
+                _unitOfWork.ProductRepository.AddProduct(product);
+                _unitOfWork.Complete();
+                return RedirectToAction("CombosList", "Products");
+            }
+
+        }
+        public ActionResult UpdateCombo(int id)
+        {
+            ViewBag.edit = "UpdateCombo";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id, Convert.ToInt32(user.StoreId)));
+            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo")
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            return View("AddCombo", productVm);
+        }
+        [HttpPost]
+        public ActionResult UpdateCombo(int id, ProductCreateViewModel productVm, HttpPostedFileBase file)
+        {
+            ViewBag.edit = "UpdateCombo";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!ModelState.IsValid)
+            {
+                productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                return View("AddCombo", productVm);
+            }
+            else if (file != null && file.ContentLength > 0)
+            {
+                try
+                {
+                    productVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
+                    file.InputStream.Read(productVm.Image, 0, file.ContentLength);
+
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Message = "ERROR:" + e.Message.ToString();
+                }
+            }
+
+            {
+                Product product = Mapper.Map<Product>(productVm);
+                product.Type = "Combo";
+                _unitOfWork.ProductRepository.UpdateProduct(id, Convert.ToInt32(user.StoreId), product);
+                _unitOfWork.Complete();
+                return RedirectToAction("CombosList", "Products");
+            }
+
+        }
+        public ActionResult DeleteCombo(int id, int storeid)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ProductRepository.DeleteProduct(id, Convert.ToInt32(user.StoreId));
+            _unitOfWork.Complete();
+            return RedirectToAction("CombosList", "Products");
+        }
+
         public ApplicationUserManager UserManager
         {
             get

@@ -344,7 +344,6 @@
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\WebApi\CitiesController.cs" />
-    <Compile Include="Controllers\WebApi\CouponsController.cs" />
     <Compile Include="Controllers\WebApi\CustomersController.cs" />
     <Compile Include="Controllers\WebApi\DepartmentsController.cs" />
     <Compile Include="Controllers\WebApi\DiscountsController.cs" />
@@ -363,14 +362,11 @@
     <Compile Include="Controllers\WebApi\UnitsController.cs" />
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
-    <Compile Include="Core\Enums\ModifierOptionEnum.cs" />
-    <Compile Include="Core\Enums\PaymentMethod.cs" />
-    <Compile Include="Core\Enums\TimedEventType.cs" />
     <Compile Include="Core\Models\AppCounter.cs" />
     <Compile Include="Core\Models\BusinessPartner.cs" />
-    <Compile Include="Core\Models\Coupon.cs" />
     <Compile Include="Core\Models\Client.cs" />
     <Compile Include="Core\Models\Designation.cs" />
+    <Compile Include="Core\Models\Device.cs" />
     <Compile Include="Core\Models\DineTable.cs" />
     <Compile Include="Core\Models\Discount.cs" />
     <Compile Include="Core\Models\Floor.cs" />
@@ -389,7 +385,6 @@
     <Compile Include="Core\Repositories\IAppCountersRepository.cs" />
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
     <Compile Include="Core\Repositories\IClientRepository.cs" />
-    <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDineTableRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
     <Compile Include="Core\Repositories\IFloorRepository.cs" />
@@ -410,7 +405,6 @@
     <Compile Include="Core\ViewModels\BusinessPartnerViewModel.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\ClientViewModel.cs" />
-    <Compile Include="Core\ViewModels\CouponModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
@@ -500,15 +494,19 @@
     <Compile Include="Migrations\201811070644034_Update-1.Designer.cs">
       <DependentUpon>201811070644034_Update-1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811070946166_Update-2.cs" />
+    <Compile Include="Migrations\201811070946166_Update-2.Designer.cs">
+      <DependentUpon>201811070946166_Update-2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationUserEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\BusinessPartnerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\CityEntityConfiguration.cs" />
-    <Compile Include="Persistence\EntityConfigurations\CouponEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\CustomerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DepartmentEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\DeviceEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DineTableEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DiscountEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\EmployeeEntityConfiguration.cs" />
@@ -540,7 +538,6 @@
     <Compile Include="Persistence\Repositories\BusinessPartnerRepository.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
     <Compile Include="Persistence\Repositories\ClientRepository.cs" />
-    <Compile Include="Persistence\Repositories\CouponRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\DepartmentRepository.cs" />
     <Compile Include="Persistence\Repositories\DineTableRepository.cs" />
@@ -2574,8 +2571,6 @@
     <Content Include="Views\Services\AddServiceCategory.cshtml" />
     <Content Include="Views\Store\AddStore.cshtml" />
     <Content Include="Views\Store\StoresList.cshtml" />
-    <Content Include="Views\Setup\CouponList.cshtml" />
-    <Content Include="Views\Setup\AddCoupon.cshtml" />
     <Content Include="Views\Setup\DiscountList.cshtml" />
     <Content Include="Views\Setup\AddDiscount.cshtml" />
     <Content Include="Views\Setup\TaxList.cshtml" />
@@ -2628,8 +2623,12 @@
     <Content Include="Views\Products\ModifierList.cshtml" />
     <Content Include="Views\Setup\FloorList.cshtml" />
     <Content Include="Views\Setup\AddFloor.cshtml" />
+    <Content Include="Views\Setup\DineTableList.cshtml" />
+    <Content Include="Views\Setup\AddDineTable.cshtml" />
     <Content Include="Views\Setup\RolesList.cshtml" />
     <Content Include="Views\Setup\AddRole.cshtml" />
+    <Content Include="Views\Products\CombosList.cshtml" />
+    <Content Include="Views\Products\AddCombo.cshtml" />
     <Content Include="Views\Setting\BusinessSetting.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -2663,6 +2662,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811070644034_Update-1.resx">
       <DependentUpon>201811070644034_Update-1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811070946166_Update-2.resx">
+      <DependentUpon>201811070946166_Update-2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

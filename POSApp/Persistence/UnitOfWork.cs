@@ -26,7 +26,7 @@ namespace POSApp.Persistence
         public IExpenseRepository ExpenseRepository { get; private set; }
         public IExpenseHeadRepository ExpenseHeadRepository { get; private set; }
         public IStoreRepository StoreRepository { get; private set; }
-        public ICouponRepository CouponRepository { get; private set; }
+        //public ICouponRepository CouponRepository { get; private set; }
         public ITaxRepository TaxRepository { get; private set; }
         public IDiscountRepository DiscountRepository { get; private set; }
 
@@ -67,7 +67,7 @@ namespace POSApp.Persistence
             ExpenseRepository = new ExpenseRepository(context);
             ExpenseHeadRepository = new ExpenseHeadRepository(context);
             StoreRepository = new StoreRepository(context);
-            CouponRepository = new CouponRepository(context);
+            //CouponRepository = new CouponRepository(context);
             TaxRepository = new TaxRepository(context);
             DiscountRepository = new DiscountRepository(context);
             ProductCategoryGroupRepository = new ProductCategoryGroupRepository(context);

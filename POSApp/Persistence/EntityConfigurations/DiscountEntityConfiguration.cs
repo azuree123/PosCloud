@@ -20,10 +20,15 @@ namespace POSApp.Persistence.EntityConfigurations
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************
             Property(x => x.Name).HasColumnType("varchar").IsRequired().HasMaxLength(150);
-            Property(x => x.Amount).HasColumnType("float").IsRequired();
+            Property(x => x.Value).HasColumnType("decimal").IsRequired();
+            Property(x => x.Type).HasColumnType("varchar").IsRequired().HasMaxLength(150);
+            Property(x => x.Days).HasColumnType("varchar").IsRequired().HasMaxLength(150);
             Property(x => x.IsPercentage).HasColumnType("bit").IsRequired();
             Property(x => x.IsTaxable).HasColumnType("bit").IsRequired();
-            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+            Property(x => x.IsActive).HasColumnType("bit").IsOptional();
+            Property(x => x.ValidFrom).HasColumnType("datetime").IsOptional();
+            Property(x => x.ValidTill).HasColumnType("datetime").IsOptional();
+            Property(x => x.DiscountCode).HasColumnType("varchar").IsRequired().HasMaxLength(150);
 
             // *******************************************************************************************RELATIONS*****************
             HasRequired(x => x.Store).WithMany(x => x.Discounts).HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);

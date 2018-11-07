@@ -11,7 +11,7 @@ namespace POSApp.Core.ViewModels
         public int? Id { get; set; }
         public int? StoreId { get; set; }
         public string Name { get; set; }
-        public string Code { get; set; }
+        public string DiscountCode { get; set; }
         public double Value { get; set; }
         [DataType(DataType.Date)]
         public DateTime ValidFrom { get; set; }
