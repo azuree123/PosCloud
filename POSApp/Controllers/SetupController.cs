@@ -753,12 +753,13 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             DiscountViewModel discountMv =
                 Mapper.Map<DiscountViewModel>(_unitOfWork.DiscountRepository.GetDiscountById(id, (int)user.StoreId));
+            discountMv.tempDays = discountMv.Days.Split(',');
             return View("AddDiscount", discountMv);
         }
         [HttpPost]
         public ActionResult UpdateDiscount(int id, DiscountViewModel discountMv)
         {
-            
+            discountMv.Days = string.Join(",", discountMv.tempDays);
             ViewBag.edit = "UpdateDiscount";
             if (!ModelState.IsValid)
             {
