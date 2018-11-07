@@ -659,6 +659,7 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("ModifierList", "Products");
         }
+
         public ApplicationUserManager UserManager
         {
             get
