@@ -38,40 +38,13 @@ namespace POSApp
 
                          "~/Content/vendor/select2/js/select2.js",
                          "~/Content/vendor/bootstrap-multiselect/bootstrap-multiselect.js",
-                         "~/Content/vendor/jquery.easy-pie-chart/jquery.easy-pie-chart.js",
-                         "~/Content/vendor/flot/jquery.flot.js",
-                         "~/Content/vendor/flot.tooltip/flot.tooltip.js",
-
-                         "~/Content/vendor/flot/jquery.flot.pie.js",
-                         "~/Content/vendor/flot/jquery.flot.categories.js",
-
-                         "~/Content/vendor/flot/jquery.flot.resize.js",
-                         "~/Content/vendor/jquery-sparkline/jquery-sparkline.js",
-
-                         "~/Content/vendor/raphael/raphael.js",
-                         "~/Content/vendor/morris.js/morris.js",
-                         "~/Content/vendor/gauge/gauge.js",
-                         "~/Content//vendor/chartist/chartist.js",
+                     
                          "~/Content//vendor/pnotify/pnotify.custom.js",
-                          "~/Content/vendor/snap.svg/snap.svg.js",
-                          "~/Content/vendor/liquid-meter/liquid.meter.js",
-                          "~/Content/vendor/jqvmap/jquery.vmap.js",
-                          "~/Content/vendor/jqvmap/data/jquery.vmap.sampledata.js",
-                          "~/Content/vendor/jqvmap/maps/jquery.vmap.world.js",
-                          "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.africa.js",
-                          "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.asia.js",
-                          "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.asia.js",
-                          "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.europe.js",
-                          "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.australia.js",
-                          "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.australia.js",
-                          "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js",
-                          "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js",
                           "~/Content/javascripts/theme.js",
                           "~/Content/javascripts/theme.custom.js",
                           "~/Content/javascripts/theme.init.js",
-                          "~/Content/vendor/summernote/summernote.js",
-                          "~/Content/javascripts/dashboard/examples.dashboard.js",
-                          "~/Content/javascripts/ui-elements/examples.charts.js"
+                          "~/Content/vendor/summernote/summernote.js"
+                         
 
 
 
@@ -79,6 +52,37 @@ namespace POSApp
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
                         "~/Content/javascripts/tables/DataTables/datatables.min.js"
                         ));
+            bundles.Add(new ScriptBundle("~/bundles/charts").Include(
+                "~/Content/vendor/jquery.easy-pie-chart/jquery.easy-pie-chart.js",
+                "~/Content/vendor/flot/jquery.flot.js",
+                "~/Content/vendor/flot.tooltip/flot.tooltip.js",
+
+                "~/Content/vendor/flot/jquery.flot.pie.js",
+                "~/Content/vendor/flot/jquery.flot.categories.js",
+
+                "~/Content/vendor/flot/jquery.flot.resize.js",
+                "~/Content/vendor/jquery-sparkline/jquery-sparkline.js",
+
+                "~/Content/vendor/raphael/raphael.js",
+                "~/Content/vendor/morris.js/morris.js",
+                "~/Content/vendor/gauge/gauge.js",
+                "~/Content//vendor/chartist/chartist.js",
+                "~/Content/vendor/snap.svg/snap.svg.js",
+                "~/Content/vendor/liquid-meter/liquid.meter.js",
+                "~/Content/vendor/jqvmap/jquery.vmap.js",
+                "~/Content/vendor/jqvmap/data/jquery.vmap.sampledata.js",
+                "~/Content/vendor/jqvmap/maps/jquery.vmap.world.js",
+                "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.africa.js",
+                "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.asia.js",
+                "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.asia.js",
+                "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.europe.js",
+                "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.australia.js",
+                "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.australia.js",
+                "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js",
+                "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js",
+                "~/Content/javascripts/dashboard/examples.dashboard.js",
+                "~/Content/javascripts/ui-elements/examples.charts.js"
+            ));
 
             //bundles.Add(new ScriptBundle("~/bundles/js").Include(
             //           //"~/js/jquery-2.0.0.min.js",

@@ -132,7 +132,7 @@
 
                                 <div class="row">
                                     <div class="form-group">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4" id="CategoriesArea">
 
                                             @Html.Label("Categories", htmlAttributes: new { @class = "control-label" })
                                             <div class="">
@@ -159,11 +159,11 @@
                                         </div>
                                         <input type="hidden" id="branchesDispaly" value="@Model.BranchesDisplay" />
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-4" id="BranchesArea">
 
                                             @Html.Label("Branches", htmlAttributes: new { @class = "control-label" })
                                             <div class="">
-                                                @Html.DropDownListFor(a => a.Branches, Model.BranchDdl, new { @class = "form-control ", @multiple = "multiple" })
+                                                @Html.DropDownListFor(a => a.Branches, Model.BranchDdl, new { @class = "form-control disabled", @multiple = "multiple" })
 
 
                                                 <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Branches)');" />
@@ -190,10 +190,13 @@
 
 
 <script>
+
+    
     $("#@Html.IdFor(a=>a.Products)").select2();
     $("#@Html.IdFor(a=>a.Categories)").select2();
     $("#@Html.IdFor(a=>a.Branches)").select2();
     $("#@Html.IdFor(a=>a.Days)").select2();
+
     function Select_All(a, b) {
         if (a){
             $("#"+b+" > option").prop("selected","selected");
@@ -204,16 +207,15 @@
         }
     }
     $(document).ready(function () {
-        var ddlData = $('#daysDispaly').val();
-        $('#@Html.IdFor(a=>a.Days)').val(''+ddlData+'');
-        $('#@Html.IdFor(a=>a.Days)').trigger("change");
-        ddlData = $('#productsDispaly').val();
-        $('#@Html.IdFor(a=>a.Products)').val(ddlData);
-        $('#@Html.IdFor(a=>a.Products)').trigger("change");
-        ddlData = $('#branchesDispaly').val();
-        $('#@Html.IdFor(a=>a.Branches)').val(ddlData);
-        $('#@Html.IdFor(a=>a.Branches)').trigger("change");
-
+       
+       
+        var selectedValues = $('#daysDispaly').val().split(',');
+        $('#@Html.IdFor(a=>a.Days)').val(selectedValues).trigger("change");
+        selectedValues = $('#productsDispaly').val().split(',');
+        $('#@Html.IdFor(a=>a.Products)').val(selectedValues).trigger("change");
+        selectedValues = $('#branchesDispaly').val().split(',');
+        $('#@Html.IdFor(a=>a.Branches)').val(selectedValues).trigger("change");
+      
 
         var date = document.getElementById('date1').value;
         var temp;
@@ -235,7 +237,7 @@
   
 </script>
 
-
+@Html.Raw(ViewBag.alert)
 
 
 

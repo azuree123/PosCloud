@@ -1203,6 +1203,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            ViewBag.alert = "<script> $(document).ready(function() {$('#CategoriesArea').css('display', 'none');$('#BranchesArea').css('display', 'none');" +
+                            @"});</script>";
             return View("AddTimedEvent", timeeventVm);
         }
         [HttpPost]
@@ -1228,7 +1230,7 @@ namespace POSApp.Controllers
                 _unitOfWork.TimedEventRepository.UpdateTimedEvent(id, location, (int)user.StoreId);
                 _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id,location.StoreId);
                 _unitOfWork.Complete();
-                if (timeeventVm.Categories.Length > 0)
+                if (timeeventVm.Categories != null)
                 {
 
                     foreach (var timeeventVmCategory in timeeventVm.Categories)
