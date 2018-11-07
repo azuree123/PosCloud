@@ -1,0 +1,122 @@
+﻿@model IEnumerable<POSApp.Core.Models.Product>
+@{
+    ViewBag.Title = "ProductsList";
+}
+
+<!-- start: page -->
+
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
+            <li class="current"><a href="#">Products</a></li>
+            <li><a class="hidden" href="@Url.Action("ServicesList","Services")">Services</a></li>
+            <li><a href="@Url.Action("ModifierList","Products")">Modifiers</a></li>
+        </ul>
+        <hr />
+
+    </div>
+</div>
+<section class="panel">
+    <header class="panel-heading">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="" id="header-flex">
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Combos</b></h3>
+                   
+                   
+
+                    <a href="@Url.Action("AddCombo", "Products")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Combo</button>
+
+                    </a>
+                    <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Category List</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
+
+        <div class="table-responsive">
+            <table class="table mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                    <tr>
+                        <th width="10%">ID</th>
+                        <th width="20%">Name</th>
+                        <th width="20%">Attribute</th>
+                        <th width="10%">Size</th>
+                        <th width="10%">Price</th>
+                        <th width="20%">Image</th>
+                        <th width="10%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 1;}
+                    @foreach (var product in Model)
+                    {
+                        <tr class="">
+                            <td>@(i++)</td>
+                            <td>
+                                @product.Name
+                            </td>
+                            <td>
+                                @product.Attribute
+                            </td>
+                            <td>
+                                @product.Size
+                            </td>
+                            <td>@product.UnitPrice</td>
+                            <td>
+                                @if (product.Image != null)
+                                {
+                                    var base64 = Convert.ToBase64String(product.Image);
+                                    var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                                    <img src='@imgsrc' style="width:50px;height:50px" />
+                                }
+
+                            </td>
+                            <td class="center">
+                                <div class="btn-group">
+
+                                    @Html.ActionLink(" ", "UpdateCombo", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "DeleteCombo", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').dataTable();
+
+        $('a.modalShow').on('click', function () {
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+    </script>
+}
+

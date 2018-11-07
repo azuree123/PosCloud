@@ -2620,6 +2620,8 @@
     <Content Include="Views\Setup\AddDineTable.cshtml" />
     <Content Include="Views\Setup\RolesList.cshtml" />
     <Content Include="Views\Setup\AddRole.cshtml" />
+    <Content Include="Views\Products\CombosList.cshtml" />
+    <Content Include="Views\Products\AddCombo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
