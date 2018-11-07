@@ -1,0 +1,149 @@
+﻿
+@model IEnumerable<POSApp.Core.Models.Coupon>
+
+@{
+    ViewBag.Title = "CouponList";
+}
+
+
+    @*<header class="page-header">
+            <h2>Coupons</h2>
+
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li>
+                        <a href="@Url.Action("Index","Home")">
+                            <i class="fa fa-home"></i>
+                        </a>
+                    </li>
+                    <li><span>Coupon</span></li>
+                    <li><span>Setup</span></li>
+                </ol>
+
+                <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+            </div>
+        </header>*@
+
+    <!-- start: page -->
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189" class="">
+            <li><a href="@Url.Action("CustomerList","Setup")">Customer</a></li>
+            <li><a href="@Url.Action("EmployeeList","Setup")">Employee</a></li>
+
+            <li><a href="@Url.Action("SupplierList","Setup")">Supplier</a></li>
+
+            <li><a href="@Url.Action("DepartmentList","Setup")">Department</a></li>
+
+            @*<li><a href="@Url.Action("DesignationList","Setup")">Desigantion</a></li>*@
+
+            <li class="current"><a href="#">Coupon</a></li>
+
+            <li><a href="@Url.Action("DiscountList","Setup")" )">Discount</a></li>
+            <li><a href="@Url.Action("TaxList","Setup")">Tax</a></li>
+            <li><a href="@Url.Action("StateList","Setup")">State</a></li>
+            <li><a href="@Url.Action("CityList","Setup")">City</a></li>
+            <li><a href="@Url.Action("ClientList","Setup")">Client</a></li>
+            <li><a href="@Url.Action("UnitList","Setup")">Unit</a></li>
+            <li><a href="@Url.Action("TimedEventList","Setup")">Timed Event</a></li>
+
+        </ul>
+        <hr />
+
+    </div>
+</div>
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+             
+                    <div class="" id="header-flex">
+                        <h3 class="wb-color" style="flex-grow: 8"><b>Coupons</b></h3>
+
+                        <a href="@Url.Action("AddCoupon", "Setup")" class="modalShow"  style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Coupon</button>
+
+                        </a>
+                        <a href="@Url.Action("CouponExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0" >
+                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="panel-title"></h2>
+        </header>
+        <div class="panel-body">
+            <div class="table-responsive">
+
+            <table class="table mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        @*<th>Code</th>*@
+                        <th>Value</th>
+                        <th>ValidFrom</th>
+                        <th>ValidTill</th>
+                        <th>Amount</th>
+                        <th>Days</th>
+                        <th>IsPercentage</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 1;}
+                    @foreach (var Coupon in Model)
+                    {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@Coupon.Name</td>
+                        @*<td>@Coupon.Code</td>*@
+                        <td>@Coupon.Value</td>
+                        <td>@Coupon.ValidFrom.ToShortDateString()</td>
+                        <td>@Coupon.ValidTill.ToShortDateString()</td>
+                        <td>@Coupon.Amount</td>
+                        <td>@Coupon.Days</td>
+                        <td>@Coupon.IsPercentage</td>
+                        <td class="center">
+                            <div class="btn-group">
+
+                            @Html.ActionLink(" ", "UpdateCoupon", "Setup", new { id = @Coupon.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                            @Html.ActionLink(" ", "DeleteCoupon", "Setup", new { id = @Coupon.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').dataTable();
+
+        $('a.modalShow').on('click', function () {
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+    </script>
+}
+

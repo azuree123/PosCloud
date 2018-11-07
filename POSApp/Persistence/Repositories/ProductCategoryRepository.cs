@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using POSApp.Core.Models;
@@ -15,9 +16,9 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<ProductCategory> GetProductCategories()
+        public IEnumerable<ProductCategory> GetProductCategories(int storeId)
         {
-            return _context.ProductCategories.ToList();
+            return _context.ProductCategories.Where(a=>a.StoreId==storeId).ToList();
         }
         public ProductCategory GetProductCategoryById(int id, int storeid)
         {
@@ -26,7 +27,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddProductCategory(ProductCategory productCategory)
         {
+            if (!_context.ProductCategories.Where(a => a.Name == productCategory.Name && a.Type== productCategory.Type && a.StoreId == productCategory.StoreId).Any())
+            {
             _context.ProductCategories.Add(productCategory);
+            }
         }
 
         public void UpdateProductCategory(int id,int storeid ,ProductCategory productCategory)
@@ -41,6 +45,18 @@ namespace POSApp.Persistence.Repositories
             var productCategory = new ProductCategory { Id = id, StoreId = storeid};
             _context.ProductCategories.Attach(productCategory);
             _context.Entry(productCategory).State = EntityState.Deleted;
+        }
+        public IEnumerable<ProductCategory> GetApiProductCategories()
+        {
+            IEnumerable<ProductCategory> productCategories = _context.ProductCategories.Where(a => !a.Synced).ToList();
+            foreach (var productCategory in productCategories)
+            {
+                productCategory.Synced = true;
+                productCategory.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return productCategories;
         }
     }
 }

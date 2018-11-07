@@ -1,0 +1,114 @@
+﻿@model IEnumerable<POSApp.Core.ViewModels.ReportLogViewModel>
+@{
+    ViewBag.Title = "MyReports";
+}
+
+<style>
+
+    .table > thead > tr > th {
+        background-color: rgba(153, 153, 153, 0.4);
+        padding: 16px 0;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row mt-md">
+        <div class="col-md-12">
+            <ul class="snip1189">
+
+                <li><a href="@Url.Action("SaleReport","Reports")">Sales</a></li>
+
+                <li><a href="@Url.Action("InventoryReport","Reports")">Inventory</a></li>
+
+                <li><a href="@Url.Action("MiscellaneousReport","Reports")">Miscellaneous</a></li>
+
+                <li><a href="@Url.Action("ExportingReport","Reports")">Exporting</a></li>
+
+                <li class="current"><a href="#">My Reports</a></li>
+
+
+
+
+            </ul>
+            <hr />
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row mb-lg">
+        <div class="col-md-12">
+
+            <h4 class=" wb-color  text-center mb-xl">My Reports</h4>
+
+        </div>
+    </div>
+    <div class="row mt-lg ">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table " style="width:100%" id="datatable-default">
+                    <thead>
+                        <tr>
+                          
+                            <th width="20%">Name</th>
+                            <th width="">Details</th>
+                            <th width="20%">Created at</th>
+                            <th width="10%"> Status</th>
+                            <th width="15%">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+
+                        <tr class="">
+
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @{
+                                    if (item.Details.Contains(","))
+                                    {
+                                        string[] arr = item.Details.Split(',');
+                                        foreach (var s in arr)
+                                        {
+                                            <span class="badge mr-sm">@s</span>
+                                            <span class="badge mr-sm">@s</span>
+                                            <span class="badge mr-sm">@s</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="badge mr-sm">@item.Details</span>
+
+                                    }
+                                }
+
+
+                            </td>
+                            <td>@Convert.ToDateTime(item.CreatedOn).ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
+                            <td>        <span class="label label-success mr-sm">@item.Status </span></td>
+                            <td class="center">
+                                <div class="btn-group">
+                                    @*<a class="btn btn-default btn-sm fa fa-eye" data-toggle="tooltip" title="Preview !"></a>*@
+                                    <a class="btn btn-default text-success btn-sm fa fa-download" href="~/Content/Reports/@item.Path"  data-toggle="tooltip" title="Download !"></a>
+                                    <a href="@Url.Action("DeleteReport",new{id=@item.Id})" class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
+                                </div>
+
+                            </td>
+                        </tr>
+                        }
+                  
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

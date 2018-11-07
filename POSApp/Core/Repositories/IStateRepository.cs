@@ -10,5 +10,6 @@ namespace POSApp.Core.Repositories
         void AddState(State state);
         void UpdateState(int id, State state);
         void DeleteState(int id);
+        IEnumerable<State> GetApiStates();
     }
 }

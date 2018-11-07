@@ -25,13 +25,14 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Type).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.Canceled).HasColumnType("bit").IsOptional();
             // Property(x => x.Synced).HasColumnType("bit").IsOptional();
+            Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
 
 
             //******************************************************************************************* Auditable ***************
 
             //  Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
             // Property(x => x.UpdatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-
+    //        HasRequired(x=> x.Store).WithMany().HasForeignKey(s => s.StoreId).WillCascadeOnDelete(false);
             //******************************************************************************************* Auditable ***************
             //HasRequired(x => x.CreatedBy).WithMany().HasForeignKey(x => new { x.CreatedById, x.StoreId }).WillCascadeOnDelete(false);
             //HasRequired(x => x.UpdatedBy).WithMany().HasForeignKey(x => new { x.UpdatedById, x.StoreId }).WillCascadeOnDelete(false);

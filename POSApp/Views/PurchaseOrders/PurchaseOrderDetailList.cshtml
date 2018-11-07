@@ -1,10 +1,9 @@
-﻿@model IEnumerable<POSApp.Core.Models.PurchaseOrderDetail>
-
+﻿
 @{
     ViewBag.Title = "PurchaseOrdersDetailsList";
 }
 <section role="main" class="content-body">
-    <header class="page-header">
+    @*<header class="page-header">
         <h2>PurchaseOrdersDetails</h2>
 
         <div class="right-wrapper pull-right">
@@ -20,7 +19,7 @@
 
             <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
         </div>
-    </header>
+    </header>*@
 
     <!-- start: page -->
     <section class="panel">
@@ -32,14 +31,14 @@
             <h2 class="panel-title"></h2>
         </header>
         <div class="panel-body">
-            <table class="table table-bordered table-striped mb-none" style="width:100%" id="datatable-default">
+            <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
                         <th width="5%">ID</th>
                         <th width="15%">PurchaseOrder</th>
                         <th width="15%">Product</th>
                         <th width="15%">Quantity</th>
-                        <th width="5%">Retail Price</th>
+                        @*<th width="5%">Retail Price</th>*@
                         <th width="15%">Discount</th>
                         <th width="10%">Unit Price</th>
                         <th width="5%">Action</th>
@@ -52,13 +51,15 @@
                     {
                         <tr>
                             <td>@(i++)</td>
-                            <td>@purchaseOrderDetail.PurchaseOrderId</td>
+                            <td>@purchaseOrderDetail.TransCode</td>
                             <td>@purchaseOrderDetail.ProductId</td>
                             <td>@purchaseOrderDetail.Quantity</td>
-                            <td>@purchaseOrderDetail.RetailPrice</td>
+                            @*<td>@purchaseOrderDetail.RetailPrice</td>*@
                             <td>@purchaseOrderDetail.Discount</td>
                             <td>@purchaseOrderDetail.UnitPrice</td>
-                            <td></td>
+                            <td>
+
+                            </td>
                         </tr>
                     }
                 </tbody>

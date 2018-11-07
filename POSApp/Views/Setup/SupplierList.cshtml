@@ -1,11 +1,11 @@
 ﻿
-@model IEnumerable<POSApp.Core.Models.Supplier>
+@model IEnumerable<POSApp.Core.ViewModels.SupplierModelView>
 
 @{
     ViewBag.Title = "SupplierList";
 }
 
-    <header class="page-header">
+    @*<header class="page-header">
         <h2>Suppliers</h2>
 
         <div class="right-wrapper pull-right">
@@ -21,57 +21,105 @@
 
             <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
         </div>
-    </header>
+    </header>*@
 
     <!-- start: page -->
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
+            <li><a href="@Url.Action("CustomerList","Setup")">Customer</a></li>
+            <li><a href="@Url.Action("EmployeeList","Setup")">Employee</a></li>
+
+            <li class="current"><a href="#">Supplier</a></li>
+
+            <li><a href="@Url.Action("DepartmentList","Setup")">Department</a></li>
+
+            @*<li><a href="@Url.Action("DesignationList","Setup")">Desigantion</a></li>*@
+
+            <li><a href="@Url.Action("CouponList","Setup")">Coupon</a></li>
+
+            <li><a href="@Url.Action("DiscountList","Setup")" )">Discount</a></li>
+            <li><a href="@Url.Action("TaxList","Setup")">Tax</a></li>
+            <li><a href="@Url.Action("StateList","Setup")">State</a></li>
+            <li><a href="@Url.Action("CityList","Setup")">City</a></li>
+            <li><a href="@Url.Action("ClientList","Setup")">Client</a></li>
+            <li><a href="@Url.Action("UnitList","Setup")">Unit</a></li>
+            <li><a href="@Url.Action("TimedEventList","Setup")">Timed Event</a></li>
+
+
+        </ul>
+        <hr />
+
+    </div>
+</div>
     <section class="panel">
         <header class="panel-heading">
-            <div class="panel-actions">
-                <a href="@Url.Action("AddSupplier","Setup")" class="modalShow">
-                    <span class="fa fa-2x fa-plus-circle"></span>
-                </a>
-                <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
+            <div class="row">
+                <div class="col-md-12">
+    
 
+                    <div class="" id="header-flex">
+                        <h3 class="wb-color" style="flex-grow: 8"><b>Suppliers</b></h3>
+
+
+
+
+                        <a href="@Url.Action("AddSupplier", "Setup")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Supplier</button>
+
+                        </a>
+                        <a href="@Url.Action("SupplierExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
+                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+                        </a>
+
+                    </div>
+                </div>
             </div>
 
             <h2 class="panel-title"></h2>
         </header>
         <div class="panel-body">
-            <table class="table table-bordered table-striped mb-none" style="width:100%" id="datatable-default">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Address</th>
-                        <th>Contact Person</th>
-                        <th>CpMobile Number</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{ int i = 1;}
-                    @foreach (var supplier in Model)
-                    {
-                    <tr>
-                        <td>@(i++)</td>
-                        <td>@supplier.Name</td>
-                        <td>@supplier.Email</td>
-                        <td>@supplier.PhoneNumber</td>
-                        <td>@supplier.CpMobileNumber</td>
-                        <td>@supplier.Address</td>
-                        <td>@supplier.ContactPerson</td>
-                        <td class="center">
-                            @Html.ActionLink(" ", "UpdateSupplier", "Setup", new { id = @supplier.Id, storeId = @supplier.StoreId }, new { @class = "btn btn-info btn-sm fa fa-pencil modalShow", @style = "color: #ffffff;" })
-                            @Html.ActionLink(" ", "DeleteSupplier", "Setup", new { id = @supplier.Id, storeId = @supplier.StoreId }, new { @class = "btn btn-danger btn-sm fa fa-trash-o", @style = "color: #ffffff;", onclick = "return confirm('Are you sure?');" })
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </section>
+            <div class="table-responsive">
+                <table class="table mb-none" style="width:100%" id="datatable-default">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Address</th>
+                            <th>Contact Person</th>
+                            <th>CpMobile Number</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int i = 1;}
+                        @foreach (var supplier in Model)
+                        {
+                            <tr>
+                                <td>@(i++)</td>
+                                <td>@supplier.Name</td>
+                                <td>@supplier.Email</td>
+                                <td>@supplier.PhoneNumber</td>
+                                <td>@supplier.Address</td>
+                                <td>@supplier.ContactPerson</td>
+                                <td>@supplier.CpMobileNumber</td>
+                                <td class="center">
+                                    <div class="btn-group">
+
+                                        @Html.ActionLink(" ", "UpdateSupplier", "Setup", new { id = @supplier.Id, storeId = @supplier.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                        @Html.ActionLink(" ", "DeleteSupplier", "Setup", new { id = @supplier.Id, storeId = @supplier.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+            </div>
+</section>
 
 
 

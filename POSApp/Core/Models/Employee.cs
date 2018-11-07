@@ -22,15 +22,9 @@ namespace POSApp.Core.Models
         public DateTime JoinDate { get; set; }
         public int DepartmentId { get; set; }
         public virtual Department Department { get; set; }
-        public int DesignationId { get; set; }
-        public virtual Designation Designation { get; set; }
-
-       
-
-
         public string Address { get; set; }
-        public virtual ICollection<SaleOrder> SaleOrders { get; set; }
         public virtual ICollection<Expense> Expenses { get; set; }
+
     }
- 
+
 }

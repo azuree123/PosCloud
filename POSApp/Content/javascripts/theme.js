@@ -822,7 +822,7 @@ window.theme = {};
 										'</div>',
 										'<div class="form-group mb-lg">',
 											'<div class="input-group input-group-icon">',
-												'<input id="pwd" name="pwd" type="password" class="form-control input-lg" placeholder="Password" />',
+												'<input id="pwd" name="pwd" type="password" class="form-control input-md" placeholder="Password" />',
 												'<span class="input-group-addon">',
 													'<span class="icon icon-lg">',
 														'<i class="fa fa-lock"></i>',
@@ -4513,7 +4513,7 @@ window.theme = {};
 	if ( $.isFunction( $.fn[ 'dataTable' ] ) ) {
 
 		$.extend(true, $.fn.dataTable.defaults, {
-			sDom: "<'row datatables-header form-inline'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>r><'table-responsive't><'row datatables-footer'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
+            sDom: "<'row datatables-header form-inline'<'col-sm-12  col-md-6'l><'col-sm-12 col-xs-6 col-md-6'f>r><'table-responsive't><'row datatables-footer'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
 			oLanguage: {
 				sLengthMenu: '_MENU_ records per page',
 				sProcessing: '<i class="fa fa-spinner fa-spin"></i> Loading'

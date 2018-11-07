@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using POSApp.Core.Models;
@@ -30,7 +31,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddCity(City city)
         {
+            if (!_context.Cities.Where(a => a.Name == city.Name && a.StateId == city.StateId).Any())
+            {
             _context.Cities.Add(city);
+            }
         }
 
         public void UpdateCity(int id, City city)
@@ -44,6 +48,18 @@ namespace POSApp.Persistence.Repositories
             var city=new City{Id = id};
             _context.Cities.Attach(city);
             _context.Entry(city).State = EntityState.Deleted;
+        }
+        public IEnumerable<City> GetApiCities()
+        {
+            IEnumerable<City> cities = _context.Cities.Where(a => !a.Synced).ToList();
+            foreach (var city in cities)
+            {
+                city.Synced = true;
+                city.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return cities;
         }
     }
 }

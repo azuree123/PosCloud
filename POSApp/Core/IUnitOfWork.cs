@@ -10,7 +10,7 @@ namespace POSApp.Core
         IProductCategoryRepository ProductCategoryRepository { get; }
         IEmployeeRepository EmployeeRepository { get; }
         IDepartmentRepository DepartmentRepository { get; }
-        IDesignationRepository DesignationRepository { get; }
+        //IDesignationRepository DesignationRepository { get; }
         ICustomerRepository CustomerRepository { get; }
         ISupplierRepository SupplierRepository { get; }
         ILocationRepository LocationRepository { get; }
@@ -21,7 +21,24 @@ namespace POSApp.Core
         IExpenseRepository ExpenseRepository { get; }
         IExpenseHeadRepository ExpenseHeadRepository { get; }
         IStoreRepository StoreRepository { get; }
-
+        ICouponRepository CouponRepository { get; }
+        IDiscountRepository DiscountRepository { get; }
+        ITaxRepository TaxRepository { get; }
+        IProductCategoryGroupRepository ProductCategoryGroupRepository { get; }
+        ITransDetailRepository TransDetailRepository { get; }
+        ITransMasterRepository TransMasterRepository { get; }
+        IBusinessPartnerRepository BusinessPartnerRepository { get; }
+        IReportsLogRepository ReportsLogRepository { get; }
+        IAppCountersRepository AppCountersRepository { get; }
+        IClientRepository ClientRepository { get; }
+        IUnitRepository UnitRepository { get; }
+        IModifierRepository ModifierRepository { get; }
+        IModifierOptionRepository ModifierOptionRepository { get; }
+        ITimedEventRepository TimedEventRepository { get; }
+        IProductsSubRepository ProductsSubRepository { get; }
+        ITimedEventProductsRepository TimedEventProductsRepository { get; }
+        IFloorRepository FloorRepository { get; }
+        IDineTableRepository DineTableRepository { get; }
         void Complete();
     }
 }

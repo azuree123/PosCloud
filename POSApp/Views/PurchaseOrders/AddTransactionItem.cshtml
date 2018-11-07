@@ -1,0 +1,147 @@
+﻿@model IEnumerable<SelectListItem>
+
+@{
+    Layout = null;
+}
+
+<div id="ordine" class="modal fade" role="dialog">
+
+
+    @using (Ajax.BeginForm("AddTransactionItem", "PurchaseOrders", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "AjaxUpdate",OnSuccess = "$('#ordine').modal('hide');"
+    }, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog modal-block-md">
+            <!-- Modal content-->
+            <div class="modal-content ">
+                <div class="modal-header modalheader">
+
+                    <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+
+                    <h4 class="modal-title">
+                        Add Item
+                    </h4>
+
+
+
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-bd lobidrag">
+
+                        <div class="panel-body">
+
+
+
+
+                            <div class="">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="row">
+
+
+                                    <div class="col-md-8  col-md-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Inventory Item
+                                            </label>
+
+                                            <select name="productId" id="productDdl" class="form-control populate selectddl" style="width:100%">
+                                                @*<optgroup label="Choose Items">*@
+                                                <option value="">Select an Option</option>
+
+                                                @foreach (var data in Model)
+                                                {
+                                                    <option value="@data.Value">@data.Text</option>
+
+                                                }
+                                                @*</optgroup>*@
+
+
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Quantity
+                                            </label>
+                                            <div class="input-group">
+                                                <input class="form-control" id="quty" type="text" name="quantity" />
+
+                                                <span class="input-group-addon" style="   ">
+                                                    <span id="disQty" class="input-group-text">-</span>
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Cost
+                                            </label>
+                                            <input type="number" class="form-control" id="price" name="cost" placeholder="Enter Cost" />
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-lg btnPro">Save</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+    <script>
+        $(document).ready(function () {
+            $('.selectddl').select2();
+        });
+        $('#productDdl').on("change",
+            function () {
+                var val = $(this).val();
+                if (val !== '') {
+                    $.ajax({
+                        url: "@Url.Action("GetProductInfo","PurchaseOrders")",
+                        type: "GET",
+                        data: { id: val },
+                        success: function(data) {
+                            $('#disQty').text(data.Stock);
+                            $('#price').val(data.UnitPrice);
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+
+                    });
+                } else {
+                    $('#disQty').text('-');
+                    $('#price').val('');
+                }
+            });
+    </script>
+
+

@@ -12,7 +12,8 @@ namespace POSApp
                         "~/Content/vendor/jquery/jquery.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate*",
+                        "~/Scripts/jquery.unobtrusive*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -50,12 +51,12 @@ namespace POSApp
                          "~/Content/vendor/raphael/raphael.js",
                          "~/Content/vendor/morris.js/morris.js",
                          "~/Content/vendor/gauge/gauge.js",
-
+                         "~/Content//vendor/chartist/chartist.js",
+                         "~/Content//vendor/pnotify/pnotify.custom.js",
                           "~/Content/vendor/snap.svg/snap.svg.js",
                           "~/Content/vendor/liquid-meter/liquid.meter.js",
                           "~/Content/vendor/jqvmap/jquery.vmap.js",
                           "~/Content/vendor/jqvmap/data/jquery.vmap.sampledata.js",
-
                           "~/Content/vendor/jqvmap/maps/jquery.vmap.world.js",
                           "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.africa.js",
                           "~/Content/vendor/jqvmap/maps/continents/jquery.vmap.asia.js",
@@ -68,8 +69,9 @@ namespace POSApp
                           "~/Content/javascripts/theme.js",
                           "~/Content/javascripts/theme.custom.js",
                           "~/Content/javascripts/theme.init.js",
+                          "~/Content/vendor/summernote/summernote.js",
                           "~/Content/javascripts/dashboard/examples.dashboard.js",
-                          "~/Content/vendor/summernote/summernote.js"
+                          "~/Content/javascripts/ui-elements/examples.charts.js"
 
 
 
@@ -100,7 +102,7 @@ namespace POSApp
 
                       "~/Content/vendor/select2/css/select2.css",
                       "~/Content/vendor/select2-bootstrap-theme/select2-bootstrap.css",
-
+                      "~/Content//vendor/pnotify/pnotify.custom.css",
                       "~/Content/vendor/jquery-ui/jquery-ui.theme.css",
                       "~/Content/vendor/bootstrap-multiselect/bootstrap-multiselect.css",
 

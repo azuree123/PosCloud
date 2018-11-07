@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace POSApp.Core.Models
 {
@@ -8,25 +9,40 @@ namespace POSApp.Core.Models
         public int Id { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
-
         public string Name { get; set; }
+        public string Description { get; set; }
+        public string Type { get; set; }
         public string ProductCode { get; set; }
-        public int CategoryId { get; set; }
-        public string Duration { get; set; }
-        public string Available { get; set; }
-        public int SupplierId { get; set; }
-        [DefaultValue(0)]
-        public double Tax { get; set; }
+        public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
+        public string Size { get; set; }//MED, SML, LRG,XRG, Child,
+        public int? TaxId { get; set; }
+        public Tax Tax { get; set; }
+        [DefaultValue(false)]
+        public bool IsTaxable { get; set; }
         [DefaultValue(0)]
         public double UnitPrice { get; set; }
         [DefaultValue(0)]
+        public double CostPrice { get; set; }
+        [DefaultValue(0)]
         public double Stock { get; set; }
+        [DefaultValue(0)]
+        public int ReOrderLevel { get; set; }
         public string Barcode { get; set; }
-        public string Image { get; set; }
-        public virtual ProductCategory ProductCategory { get; set; }
-        public virtual Supplier Supplier { get; set; }
-        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        public virtual ICollection<SaleOrderDetail> SaleOrderDetails { get; set; }
+        public byte[] Image { get; set; }
+        public int CategoryId { get; set; }
+        public ProductCategory ProductCategory { get; set; }
+
+        public int UnitId { get; set; }
+        public Unit ProductUnit { get; set; }
+
+
+        public virtual ICollection<TransDetail> TransDetails { get; set; }
+
+        public virtual ICollection<Modifier> Modifiers { get; set; }
+        public virtual ICollection<ProductsSub> ProductsSubs { get; set; }
+        public virtual ICollection<ProductsSub> ComboProducts { get; set; }
+
+        public virtual ICollection<TimedEventProducts> TimedEventProducts { get; set; }
 
     }
 }

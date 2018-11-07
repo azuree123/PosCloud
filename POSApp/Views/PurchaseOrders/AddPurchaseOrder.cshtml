@@ -1,0 +1,206 @@
+﻿@model POSApp.Core.ViewModels.TransMasterViewModel
+
+@{
+    ViewBag.Title = "AddPurchaseOrder";
+}
+<style>
+    .table > thead > tr > th {
+        background-color: rgba(153, 153, 153, 0.4);
+        padding: 16px 0;
+    }
+</style>
+
+
+<!-- start: page -->
+@*<div class="container-fluid">
+    <div class="row mt-md">
+        <div class="col-md-12">
+            <ul class="snip1189">
+
+                <li class="current"><a href="#">Sales</a></li>
+
+                <li><a href="@Url.Action("InventoryReport","Reports")">Inventory</a></li>
+
+                <li><a href="@Url.Action("MiscellaneousReport","Reports")">Miscellaneous</a></li>
+
+                <li><a href="@Url.Action("ExportingReport","Reports")">Exporting</a></li>
+
+                <li><a href="@Url.Action("MyReports","Reports")">My Reports</a></li>
+
+
+
+
+            </ul>
+            <hr />
+
+        </div>
+    </div>
+</div>*@
+
+
+
+
+<div class="container-fluid">
+
+    @using (Html.BeginForm())
+    {
+    <div class="row mt-lg">
+
+
+
+        <div class="col-md-12">
+            <div class="tabs  tabs-left">
+                <div class="row">
+                    <div class="col-md-12 text-center  col-xs-12 mb-xlg">
+                        <ul class=" snip1189 ">
+                                <li class="mt-xs  current" id="basicInfo">
+                            <a href="#basicdata" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
+                                    Basic Data
+                            </a>
+                                </li>
+                                <li id="tranInfo">
+                            <a href="#transactionitems" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');" >
+                                    Transaction Items
+
+                            </a>
+                                </li>
+                        </ul>
+                        <hr />
+                        <div class="row mt-md">
+                            <div class="col-md-12">
+                                <h4 class=" wb-color  text-center">New Purchase Order</h4>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content col-md-8 col-xs-12 col-md-offset-2  p-xlg">
+                        <div class="row mb-xlg">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:17px"><i class="fa fa-save  pr-md"></i> Save</button>
+                            </div>
+                        </div>
+                        <div id="basicdata" class="tab-pane active">
+                            <h4 class="mt-none mb-lg ">Basic Data</h4>
+                            <div class="row">
+                                <div class="col-md-9 col-lg-offset-2">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Supplier <span class="text-danger">*</span>
+                                        </label>
+                                        @Html.DropDownListFor(a=>a.BusinessPartnerId,Model.SupplierDdl,"Select an Option",new{ @class = "form-control", @required="true" })
+                                      
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="control-label">  Purchase order Date</label>
+
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(a=>a.TransDate,new{ @class = "form-control unstyled", @data_plugin_datepicker = "true",@required="true" })
+                                            @*<input type="text" data-plugin-datepicker="true" class="form-control unstyled">*@
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Remarks
+                                        </label>
+                                        @Html.TextAreaFor(a=>a.TransRef,new{ @rows = "4" ,@class="form-control "})
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div id="transactionitems" class="tab-pane">
+                            <div class=" mb-lg" id="header-flex">
+                                <h4 class="mt-xs  " style="flex-grow: 8">Transaction Items</h4>
+                                <a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
+                                    <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New</button>
+
+                                </a>
+                            </div>
+                            <div id="AjaxUpdate">
+                            <div class="row mb-lg">
+                                <div class="col-md-12">
+                                    <table class="table mb-none" style="width:100%" id="datatable-default">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Quantity</th>
+                                                <th>Cost</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="5" class="text-center">No records found</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="hidden">
+                                <h4 class="mb-lg ">Add items From Tag</h4>
+                                <div class="row mb-lg">
+                                    <div class="col-md-9 col-lg-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Select Tag
+                                            </label>
+                                            <input type="text" class="form-control unstyled" placeholder="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="mb-lg ">Upload Items Via Excel</h4>
+                                <div class="row">
+                                    <div class="col-md-9 col-lg-offset-2">
+                                        <div class="form-group">
+                                            <input type="file" class="" placeholder="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+
+        $('a.modalShow').on('click', function () {
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+        $('#datatable-default').dataTable();
+    </script>
+}
+
+
+
+

@@ -18,6 +18,7 @@ namespace POSApp.Core.ViewModels
         //public double Balance { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
+        public string Code { get; set; }
 
     }
 }

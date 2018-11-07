@@ -6,6 +6,8 @@ using Ninject.Extensions.Conventions;
 using Ninject.Web.Common;
 using Ninject.Web.Common.WebHost;
 using POSApp;
+using POSApp.Core;
+using POSApp.Persistence;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
@@ -73,7 +75,7 @@ namespace POSApp
         {
             //kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
 
-
+            //kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
         }        
     }
 }

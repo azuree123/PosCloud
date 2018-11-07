@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "ExportingReport";
+}
+
+<div class="container-fluid">
+    <div class="row mt-md">
+        <div class="col-md-12">
+            <ul class="snip1189">
+
+                <li><a href="@Url.Action("SaleReport","Reports")">Sales</a></li>
+
+                <li><a href="@Url.Action("InventoryReport","Reports")">Inventory</a></li>
+
+                <li><a href="@Url.Action("MiscellaneousReport","Reports")">Miscellaneous</a></li>
+
+                <li class="current"><a href="#">Exporting</a></li>
+
+                <li><a href="@Url.Action("MyReports","Reports")">My Reports</a></li>
+
+
+
+
+            </ul>
+            <hr />
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+
+            <h4 class=" wb-color  text-center mb-xl">Exporting Reports</h4>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4 mb-lg">
+                          <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateDataReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart "> Data</button></a>
+                </div>
+                <div class="col-md-4 mb-lg">
+                          <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateOrderReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Orders</button></a>
+                </div>
+                <div class="col-md-4 mb-lg">
+                          <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateCouponReport"})" class="modalShow" id=""><button type="button" class="btn outline-success chart ">Coupons</button></a>
+                </div>
+                <div class="col-md-4 mb-lg">
+                          <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateCustomerReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Customers</button></a>
+                </div>
+                <div class="col-md-4 mb-lg">
+                          <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateStockTakingReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart "> StockTaking</button></a>
+                </div>
+                <div class="col-md-4 mb-lg">
+                          <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateInventoryTransactionReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Inventory Transactions</button></a>
+                </div>
+                <div class="col-md-4 mb-lg">
+                          <a href="@Url.Action("GenerateReport", "Reports",new{target="GeneratePurchaseOrderReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success  chart">Purchase Orders</button></a>
+                </div>
+                <div class="col-md-4 mb-lg">
+                          <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateSnapshotReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Snapshots</button></a>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').dataTable();
+
+        $('a.modalShow').on('click', function () {
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+    </script>
+}

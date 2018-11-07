@@ -1,0 +1,70 @@
+﻿@model POSApp.Core.ViewModels.StateModelView
+@{
+    Layout = null;
+}
+
+<div id="ordine2" class="modal fade" role="dialog" width="100%">
+    @{ string s = ViewBag.edit;}
+
+    @using (Ajax.BeginForm(s, "Setup", new AjaxOptions
+    {
+        HttpMethod = "Post",
+        OnSuccess = "$('#ordine2').modal('hide');UpdateDdlState();"
+       ,
+        UpdateTargetId = "ordine2"
+    }, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content ">
+                <div class="modal-header modalheader">
+                    <button type="button" class="close modalheader" onclick="$('#ordine2').modal('hide');">×</button>
+
+                    @if (s.Contains("Add"))
+                    {
+                        <h4 class="modal-title">
+                            Add State
+                        </h4>
+                    }
+                    else
+                    {
+                        <h4 class="modal-title">
+                            Edit State
+                        </h4>
+                    }
+
+
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-bd lobidrag">
+
+                        <div class="panel-body">
+
+                            @Html.HiddenFor(a => a.Id)
+                            @Html.HiddenFor(a => a.CreatedBy)
+                            @Html.HiddenFor(a => a.CreatedOn)
+                            <div class="">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    <div class="col-lg-offset-3 col-md-6">
+                                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" onclick="$('#ordine2').modal('hide');"><span class="fa fa-close"></span>Close</button>
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>

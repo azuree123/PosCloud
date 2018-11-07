@@ -5,11 +5,12 @@ namespace POSApp.Core.Repositories
 {
     public interface IExpenseHeadRepository
     {
-        IEnumerable<ExpenseHead> GetExpenseHeads();
+        IEnumerable<ExpenseHead> GetExpenseHeads(int storeId);
         ExpenseHead GetExpenseHeadById(int id, int storeid);
         void AddExpenseHead(ExpenseHead expenseHeads);
         
         void UpdateExpenseHead(int id,int storeid, ExpenseHead expenseHead);
         void DeleteExpenseHead(int id,int storeid);
+        IEnumerable<ExpenseHead> GetApiExpenseHeads();
     }
 }

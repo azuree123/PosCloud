@@ -34,9 +34,26 @@ namespace POSApp.Persistence
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public DbSet<SaleOrder> SaleOrders { get; set; }
         public DbSet<SaleOrderDetail> SaleOrderDetails { get; set; }
-        public DbSet<Designation> Designations { get; set; }
+        //public DbSet<Designation> Designations { get; set; }
         public DbSet<Store> Stores { get; set; }
-
+        public DbSet<Coupon> Coupons { get; set; }
+        public DbSet<Tax> Taxes { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<TransDetail> TransDetails { get; set; }
+        public DbSet<TransMaster> TransMasters { get; set; }
+        public DbSet<BusinessPartner> BusinessPartners { get; set; }
+        public DbSet<ProductCategoryGroup> ProductCategoryGroups { get; set; }
+        public DbSet<ReportsLog> ReportsLogs { get; set; }
+        public DbSet<AppCounter> AppCounters { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<Modifier> Modifiers { get; set; }
+        public DbSet<ModifierOption> ModifierOptions { get; set; }
+        public DbSet<TimedEvent> TimedEvents { get; set; }
+        public DbSet<ProductsSub> ProductsSubs { get; set; }
+        public DbSet<TimedEventProducts> TimedEventProducts { get; set; }
+        public DbSet<Floor> Floors { get; set; }
+        public DbSet<DineTable> DineTables { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
             var objectContext = (this as IObjectContextAdapter).ObjectContext;
@@ -54,7 +71,7 @@ namespace POSApp.Persistence
             //modelBuilder.Configurations.Add(new ApplicationUserEntityConfiguration());
             //modelBuilder.Configurations.Add(new UserRoleConfiguration());
             //modelBuilder.Configurations.Add(new RoleConfiguration());
-
+            //modelBuilder.Configurations.Add(new DesignationEntityConfiguration());
             //modelBuilder.Configurations.Add(new UserLoginConfiguration());
             //modelBuilder.Configurations.Add(new UserClaimConfiguration());
 
@@ -62,7 +79,6 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new CityEntityConfiguration());
             modelBuilder.Configurations.Add(new CustomerEntityConfiguration());
             modelBuilder.Configurations.Add(new DepartmentEntityConfiguration());
-            modelBuilder.Configurations.Add(new DesignationEntityConfiguration());
             modelBuilder.Configurations.Add(new EmployeeEntityConfiguration());
             modelBuilder.Configurations.Add(new ExpenseEntityConfiguration());
             modelBuilder.Configurations.Add(new ExpenseHeadEntityConfiguration());
@@ -75,6 +91,24 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new SaleOrderEntityConfiguration());
             modelBuilder.Configurations.Add(new SupplierEntityConfiguration());
             modelBuilder.Configurations.Add(new StoreEntityConfiguration());
+            modelBuilder.Configurations.Add(new CouponEntityConfiguration());
+            modelBuilder.Configurations.Add(new TaxEntityConfiguration());
+            modelBuilder.Configurations.Add(new DiscountEntityConfiguration());
+            modelBuilder.Configurations.Add(new TransDetailEntityConfiguration());
+            modelBuilder.Configurations.Add(new TransMasterEntityConfiguration());
+            modelBuilder.Configurations.Add(new BusinessPartnerEntityConfiguration());
+            modelBuilder.Configurations.Add(new UnitEntityConfiguration());
+            modelBuilder.Configurations.Add(new TimedEventEntityConfiguration());
+            modelBuilder.Configurations.Add(new ModifierEntityConfiguration());
+            modelBuilder.Configurations.Add(new ModifierOptionEntityConfiguration());
+            modelBuilder.Configurations.Add(new ReportLogEntityConfiguration());
+            modelBuilder.Configurations.Add(new ProductsSubEntityConfiguration());
+            modelBuilder.Configurations.Add(new TimedEventProductEntityConfiguration());
+            modelBuilder.Configurations.Add(new DineTableEntityConfiguration());
+            modelBuilder.Configurations.Add(new FloorEntityConfiguration());
+
+
+
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);
 
@@ -89,16 +123,19 @@ namespace POSApp.Persistence
             foreach (var entry in addedOrUpdatedEntries)
             {
                 var entity = entry.Entity as AuditableEntity;
-
-                if (entry.State == EntityState.Added)
+                if (entity != null)
                 {
-                    entity.CreatedOn = DateTime.Now;
-                    entity.CreatedById = HttpContext.Current.User.Identity.GetUserId();
+                    if (entry.State == EntityState.Added)
+                    {
+                        entity.CreatedOn = DateTime.Now;
+                        entity.CreatedById = HttpContext.Current.User.Identity.GetUserId();
 
+                    }
+
+                    entity.UpdatedById = HttpContext.Current.User.Identity.GetUserId();
+                    entity.UpdatedOn = DateTime.Now;
                 }
-
-                entity.UpdatedById = HttpContext.Current.User.Identity.GetUserId();
-                entity.UpdatedOn = DateTime.Now;
+               
             }
 
             return base.SaveChanges();

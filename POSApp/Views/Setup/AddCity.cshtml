@@ -44,19 +44,24 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label"})
-                                            @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
 
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.StateId, htmlAttributes: new {@class = "control-label"})
-                                            @Html.DropDownListFor(model => model.StateId, Model.StateDdl, "Select an Option", new {htmlAttributes = new {@class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.StateId, "", new {@class = "text-danger"})
+                                            @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label" })
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(model => model.StateId, Model.StateDdl, "Select an Option", new { @class = "form-control", @required = true })
+                                                <span class="input-group-addon" style="   ">
+                                                    <a href="@Url.Action("AddStatePartial","Setup")" class="modalShow1"> <i class="fa fa-plus "></i></a>
+                                                </span>
+                                                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
 
                         </div>
@@ -69,7 +74,51 @@
             </div>
         </div>
     }
+
 </div>
+<div id="ModalData1"></div>
+<script>
+        function UpdateDdlState() {
+            $.ajax({
+                url: "@Url.Action("GetStateDdl", "Setup")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.StateId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+
+                }
+            });
+
+        }
+    
+        $('a.modalShow1').on('click', function () {
+
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData1').html(result).find('#ordine2').modal('show');
+                    //newWin = window.open("", "", "width=800, height=600");
+                    //    var query = " <" +"script> $('#AddDepartment').click();</"+"script>";
+                    //    newWin.document.write(result + query);
+
+                    //    if (newWin.closed) {
+                    //        alert("Closed");
+                    //    }
+                }
+            });
+
+            return false;
+        });
+
+</script>
 
 
 

@@ -21,6 +21,45 @@ Theme Version: 	1.5.2
 
 	$('#salesSelectorWrapper').addClass('ready');
 
+    var flotDashBasicData = [{
+        data: [
+            [0, 170],
+            [1, 169],
+            [2, 173],
+            [3, 188],
+            [4, 147],
+            [5, 113],
+            [6, 128],
+            [7, 169],
+            [8, 173],
+            [9, 128],
+            [10, 128]
+        ],
+        label: "Series 1",
+        color: "#d8342fb3"
+    }, {
+        data: [
+            [0, 115],
+            [1, 124],
+            [2, 114],
+            [3, 121],
+            [4, 115],
+            [5, 83],
+            [6, 102],
+            [7, 148],
+            [8, 147],
+            [9, 103],
+            [10, 113]
+        ],
+        label: "Series 2",
+        color: "#0baa5aad"
+        }];
+
+
+
+
+
+
 	/*
 	Flot: Sales 1
 	*/
@@ -187,51 +226,7 @@ Theme Version: 	1.5.2
 	/*
 	Flot: Basic
 	*/
-	var flotDashBasic = $.plot('#flotDashBasic', flotDashBasicData, {
-		series: {
-			lines: {
-				show: true,
-				fill: true,
-				lineWidth: 1,
-				fillColor: {
-					colors: [{
-						opacity: 0.45
-					}, {
-						opacity: 0.45
-					}]
-				}
-			},
-			points: {
-				show: true
-			},
-			shadowSize: 0
-		},
-		grid: {
-			hoverable: true,
-			clickable: true,
-			borderColor: 'rgba(0,0,0,0.1)',
-			borderWidth: 1,
-			labelMargin: 15,
-			backgroundColor: 'transparent'
-		},
-		yaxis: {
-			min: 0,
-			max: 200,
-			color: 'rgba(0,0,0,0.1)'
-		},
-		xaxis: {
-			color: 'rgba(0,0,0,0)'
-		},
-		tooltip: true,
-		tooltipOpts: {
-			content: '%s: Value of %x is %y',
-			shifts: {
-				x: -60,
-				y: 25
-			},
-			defaultTheme: false
-		}
-	});
+
 
 	/*
 	Flot: Real-Time
@@ -268,98 +263,44 @@ Theme Version: 	1.5.2
 
 			return res;
 		}
+        /*
+Sparkline: Bar
+*/
 
-		var flotDashRealTime = $.plot('#flotDashRealTime', [getRandomData()], {
-			colors: ['#8CC9E8'],
-			series: {
-				lines: {
-					show: true,
-					fill: true,
-					lineWidth: 1,
-					fillColor: {
-						colors: [{
-							opacity: 0.45
-						}, {
-							opacity: 0.45
-						}]
-					}
-				},
-				points: {
-					show: false
-				},
-				shadowSize: 0
-			},
-			grid: {
-				borderColor: 'rgba(0,0,0,0.1)',
-				borderWidth: 1,
-				labelMargin: 15,
-				backgroundColor: 'transparent'
-			},
-			yaxis: {
-				min: 0,
-				max: 100,
-				color: 'rgba(0,0,0,0.1)'
-			},
-			xaxis: {
-				show: false
-			}
-		});
+        //var sparklineBarDashData = [5, 6, 7, 2, 0, 4, 2, 4, 2, 0, 4, 2, 4, 2, 0, 4];
+        //var sparklineBarDashOptions = {
+        //    type: 'bar',
+        //    width: '80',
+        //    height: '55',
+        //    barColor: '#d2322d99',
+        //    negBarColor: '#B20000'
+        //};
 
-		function update() {
+        //$("#sparklineBarDash").sparkline(sparklineBarDashData, sparklineBarDashOptions);
 
-			flotDashRealTime.setData([getRandomData()]);
+        ///*
+        //Sparkline: Line
+        //*/
+        //var sparklineLineDashOptions = {
+        //    type: 'line',
+        //    width: '80',
+        //    height: '55',
+        //    lineColor: '#d2322d',
+               
+        //};
 
-			// Since the axes don't change, we don't need to call plot.setupGrid()
-			flotDashRealTime.draw();
-			setTimeout(update, ($('html').hasClass( 'mobile-device' ) ? 1000 : 30) );
-		}
+        //$("#sparklineLineDash").sparkline(sparklineLineDashData, sparklineLineDashOptions);
 
-		update();
+        /*
+        Map
+        */
+     
+
+        
+
+		
 	})();
 
-	/*
-	Sparkline: Bar
-	*/
-	var sparklineBarDashOptions = {
-		type: 'bar',
-		width: '80',
-		height: '55',
-		barColor: '#0088cc',
-		negBarColor: '#B20000'
-	};
 
-	$("#sparklineBarDash").sparkline(sparklineBarDashData, sparklineBarDashOptions);
-
-	/*
-	Sparkline: Line
-	*/
-	var sparklineLineDashOptions = {
-		type: 'line',
-		width: '80',
-		height: '55',
-		lineColor: '#0088cc'
-	};
-
-	$("#sparklineLineDash").sparkline(sparklineLineDashData, sparklineLineDashOptions);
-
-	/*
-	Map
-	*/
-	var vectorMapDashOptions = {
-		map: 'world_en',
-		backgroundColor: null,
-		color: '#FFF',
-		hoverOpacity: 0.7,
-		selectedColor: '#0088CC',
-		selectedRegions: ['US'],
-		enableZoom: true,
-		borderWidth:1,
-		showTooltip: true,
-		values: sample_data,
-		scaleColors: ['#0088cc'],
-		normalizeFunction: 'polynomial'
-	};
-
-	$('#vectorMapWorld').vectorMap(vectorMapDashOptions);
 
 }).apply(this, [jQuery]);

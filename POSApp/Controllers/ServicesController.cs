@@ -28,13 +28,17 @@ namespace POSApp.Controllers
         // GET: Services
         public ActionResult ServicesList()
         {
-            return View(_unitOfWork.ProductRepository.GetAllProducts().Where(a => a.ProductCategory.Type == "Service").ToList());
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.ProductCategory.Type == "Service").ToList());
         }
 
         public ActionResult AddService()
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ServiceCreateViewModel service = new ServiceCreateViewModel();
-            service.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Service")
+            service.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Service")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             service.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
@@ -59,6 +63,8 @@ namespace POSApp.Controllers
                     if (System.IO.File.Exists(path))
                     {
                         ViewBag.Message = "Image Already Exists!";
+                        serviceVm.Image = "/Images/Data/Service" + (file.FileName);
+
                     }
                     else
                     {
@@ -89,7 +95,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ServiceCreateViewModel serviceVm = Mapper.Map<ServiceCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id,Convert.ToInt32(user.StoreId)));
-            serviceVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a => a.Type == "Service")
+            serviceVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Service")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             serviceVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
@@ -114,6 +120,8 @@ namespace POSApp.Controllers
                         if (System.IO.File.Exists(path))
                         {
                             ViewBag.Message = "Image Already Exists!";
+                            serviceVm.Image = "/Images/Data/Service/" + (file.FileName);
+
                         }
                         else
                         {
@@ -145,10 +153,37 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("ServicesList", "Services");
         }
+        public ActionResult AddServiceCategoryPartial()
+        {
+            ViewBag.edit = "AddServiceCategoryPartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddServiceCategoryPartial(ServiceCategoryViewModel productcategoryvm)
+        {
+            ViewBag.edit = "AddServiceCategoryPartial";
+            if (!ModelState.IsValid)
+            {
+                return View(productcategoryvm);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                productcategoryvm.StoreId = user.StoreId;
+                ProductCategory productcategory = Mapper.Map<ProductCategory>(productcategoryvm);
+                productcategory.Type = "Service";
+                _unitOfWork.ProductCategoryRepository.AddProductCategory(productcategory);
+                _unitOfWork.Complete();
+                return PartialView("Error");
+            }
 
+        }
         public ActionResult ServiceCategoryList()
         {
-            return View(_unitOfWork.ProductCategoryRepository.GetProductCategories().Where(a=>a.Type=="Service"));
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a=>a.Type=="Service"));
         }
 
         public ActionResult AddServiceCategory()
@@ -174,6 +209,8 @@ namespace POSApp.Controllers
                         if (System.IO.File.Exists(path))
                         {
                             ViewBag.Message = "Image Already Exist!";
+                            serviceCategory.Image = "/Images/Data/Service/" + (file.FileName);
+
                         }
                         else
                         {
@@ -226,6 +263,8 @@ namespace POSApp.Controllers
                     if (System.IO.File.Exists(path))
                     {
                         ViewBag.Message = "Image Already Exists!";
+                        serviceCategoryVm.Image = "/Images/Data/Service/" + (file.FileName);
+
                     }
                     else
                     {
@@ -257,6 +296,20 @@ namespace POSApp.Controllers
             _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id, Convert.ToInt32(user.StoreId));
             _unitOfWork.Complete();
             return RedirectToAction("ServiceCategoryList", "Services");
+        }
+        public JsonResult GetServiceCategoryDdl()
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<ServiceCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a=>a.Type=="Service")), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
         public ApplicationUserManager UserManager
         {

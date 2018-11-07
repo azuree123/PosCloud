@@ -5,45 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic PoS</title>
     <!-- Web Fonts  -->
+
     <link href="~/Content/fontStyle.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/datatables")
-    <style>
-        select {
-            padding: 0 !important;
-        }
-        .modalheader {
-            background-color: #111640;
-            text-align: center;
-            color:#ffffff;
-            
-        }
-        .modalFooter {
-            background-color: #e5e5e6;
-            color: black;
-        }
-        .btnPro {
-            background-color: #111640;
-            color: #ffffff;
-            font-size: small;
-        }
-        .btnPro1 {
-            background-color: #d2322d;
-            color: #ffffff;
-            font-size: small;
-        }
-        .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
-            margin-left: 0;
-        }
-        .radio, .checkbox {
-            margin-top: 0;
-        }
-    </style>
+
 
 </head>
+
 <body>
 
     <section class="body">
@@ -52,10 +25,8 @@
         <header class="header">
             <div class="logo-container">
                 <a href="@Url.Action("Index","Home")" class="logo">
-                    <img src="~/Content/images/pos-logo.png"  alt="Cosmic Admin"/>
-                    <h5 style="display: inline-block; display: inline-block; -webkit-background-clip: text !important; font-weight: bold; font-style: italic; background: -webkit-linear-gradient(#5fb1be 0%, #98dfe4 100%); -webkit-text-fill-color: transparent;">
-                        
-                    </h5>
+                    <img src="~/Content/images/cosmic.png" alt="Cosmic Admin" style="max-width: 150px;max-height: 50px;" />
+                    <h5 style="display: inline-block; display: inline-block; -webkit-background-clip: text !important; font-weight: bold; font-style: italic; background: -webkit-linear-gradient(#5fb1be 0%, #98dfe4 100%); -webkit-text-fill-color: transparent;"></h5>
                 </a>
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
                     <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -63,32 +34,32 @@
             </div>
 
             <!-- start: search & user box -->
-        @{
-            if (Request.IsAuthenticated)
-            {
-                <div class="header-right">
+            @{
+                if (Request.IsAuthenticated)
+                {
+                    <div class="header-right">
 
-                    <form action="pages-search-results.html" class="search nav-form">
-                        <div class="input-group input-search">
-                            <input type="text" class="form-control" name="q" id="q" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </form>
-
-
+                        <form action="pages-search-results.html" class="search nav-form">
+                            @*<div class="input-group input-search">
+                                    <input type="text" class="form-control" name="q" id="q" placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>*@
+                        </form>
 
 
-                    <span class="separator"></span>
 
-                    @Html.Partial("_LoginPartial")
-                </div>
+
+                        <span class="separator"></span>
+
+                        @Html.Partial("_LoginPartial")
+                    </div>
+                }
+                else
+                {
+                }
             }
-            else
-            {
-            }
-        }
             <!-- end: search & user box -->
         </header>
         <!-- end: header -->
@@ -102,7 +73,7 @@
 
                         <div class="sidebar-header">
                             <div class="sidebar-title">
-                                <span class="fa fa-cloud"> POScloud</span>
+                                <span class="fa fa-cloud" style=" margin-left: 15px"> POS Cloud</span>
                             </div>
                             <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
                                 <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -118,12 +89,64 @@
                                                 <i class="fa fa-home" aria-hidden="true"></i>
                                                 <span>Dashboard</span>
                                             </a>
-                                        </li>@{
+                                        </li>
+
+
+                                        <li >
+                                            <a href="@Url.Action("SaleOrderList","SaleOrders")">
+                                                <i class="fa fa-calculator " aria-hidden="true"></i>
+                                                
+                                                <span>Sales Order</span>
+                                                
+                                            </a>
+                                         
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")">
+                                                <i class="fa fa-shopping-cart " aria-hidden="true"></i>
+                                                <span>Purchase Orders</span>
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("ExpenseList","Expense")">
+                                                <i class="fa fa-dollar" aria-hidden="true"></i>
+                                                <span>Expenses</span>
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("StoresList","Store")">
+                                                <i class="fa fa-list-alt" aria-hidden="true"></i>
+                                                <span>Branches</span>
+                                            </a>
+
+                                        </li>
+
+                                        <li>
+                                            <a href="@Url.Action("ProductsList","Products")">
+                                                <i class="fa fa-archive" aria-hidden="true"></i>
+                                                <span>Products/Services</span>
+                                            </a>
+
+                                        </li>
+
+                                        <li>
+                                            <a href="@Url.Action("CustomerList","Setup")">
+                                                <i class="fa fa-gears" aria-hidden="true"></i>
+                                                <span>Setup</span>
+                                            </a>
+
+                                        </li>
+
+
+
+                                        @{
                                             if (Request.IsAuthenticated)
                                             {
 
 
-                                                <li class="nav-parent">
+                                                <li class="nav-parent disabled">
                                                     <a>
                                                         <i class="fa fa-user-secret" aria-hidden="true"></i>
                                                         <span>Users </span>
@@ -159,163 +182,13 @@
 
                                                     </ul>
                                                 </li>
-                                                <li class="nav-parent">
-                                                    <a>
-                                                        <i class="fa fa-server" aria-hidden="true"></i>
-                                                        <span>Products/Services</span>
-                                                    </a>
-                                                    <ul class="nav nav-children">
-                                                        <li>
-                                                            <a href="@Url.Action("ProductCategoryList","Products")">
-                                                                Product Categories
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("ProductsList","Products")">
-                                                                Products
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("ServicesList","Services")">
-                                                                Services
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("ServiceCategoryList","Services")">
-                                                                Services Categories
-                                                            </a>
-                                                        </li>
 
-                                                    </ul>
-                                                </li>
-                                                <li class="nav-parent">
-                                                    <a>
-                                                        <i class="fa fa-exchange " aria-hidden="true"></i>
-                                                        <span>Sales order</span>
+                                                <li>
+                                                    <a href="@Url.Action("SaleReport","Reports")">
+                                                        <i class="fa fa-indent" aria-hidden="true"></i>
+                                                        <span>Reports</span>
                                                     </a>
-                                                    <ul class="nav nav-children">
-                                                        <li>
-                                                            <a href="@Url.Action("SaleOrderList","SaleOrders")">
-                                                                Sale Order
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("SaleOrderDetailList","SaleOrders")">
-                                                                SaleOrder Details
-                                                            </a>
-                                                        </li>
 
-                                                    </ul>
-                                                </li>
-                                                <li class="nav-parent">
-                                                    <a>
-                                                        <i class="fa fa-shopping-cart " aria-hidden="true"></i>
-                                                        <span>Purchase Orders</span>
-                                                    </a>
-                                                    <ul class="nav nav-children">
-                                                        <li>
-                                                            <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")">
-                                                                Purchase Order
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("PurchaseOrderDetailList","PurchaseOrders")">
-                                                                PurchaseOrder Details
-                                                            </a>
-                                                        </li>
-
-                                                    </ul>
-                                                </li>
-                                                <li class="nav-parent">
-                                                    <a>
-                                                        <i class="fa fa-dollar" aria-hidden="true"></i>
-                                                        <span>Expenses</span>
-                                                    </a>
-                                                    <ul class="nav nav-children">
-                                                        <li>
-                                                            <a href="@Url.Action("ExpenseHeadList","Expense")">
-                                                                Expense Heads
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("ExpenseList","Expense")">
-                                                                Expenses
-                                                            </a>
-                                                        </li>
-
-                                                    </ul>
-                                                </li>
-                                                <li class="nav-parent">
-                                                    <a>
-                                                        <i class="fa fa-server" aria-hidden="true"></i>
-                                                        <span>Stores</span>
-                                                    </a>
-                                                    <ul class="nav nav-children">
-                                                        <li>
-                                                            <a href="@Url.Action("StoresList","Store")">
-                                                                Stores
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="nav-parent">
-                                                    <a>
-                                                        <i class="fa fa-download" aria-hidden="true"></i>
-                                                        <span>Setup</span>
-                                                    </a>
-                                                    <ul class="nav nav-children">
-                                                        <li>
-                                                            <a href="@Url.Action("CustomerList","Setup")">
-                                                                Customer
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("EmployeeList","Setup")">
-                                                                Employee
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("SupplierList","Setup")">
-                                                                Supplier
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("DepartmentList","Setup")">
-                                                                Department
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("DesignationList","Setup")">
-                                                                Designation
-                                                            </a>
-                                                        </li>
-
-
-                                                    </ul>
-                                                </li>
-                                                <li class="nav-parent">
-                                                    <a>
-                                                        <i class="fa fa-gear" aria-hidden="true"></i>
-                                                        <span>Settings</span>
-                                                    </a>
-                                                    <ul class="nav nav-children">
-
-                                                        <li>
-                                                            <a href="@Url.Action("StateList","Setup")">
-                                                                State
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("CityList","Setup")">
-                                                                City
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="@Url.Action("LocationList","Setup")">
-                                                                Location
-                                                            </a>
-                                                        </li>
-                                                    </ul>
                                                 </li>
                                             }
                                         }
@@ -356,40 +229,42 @@
             <section role="main" class="content-body">
 
                 @RenderBody()
-                <hr />
+
                 <footer>
-                    <p class="text-center">&copy; @DateTime.Now.Year - Cosmic PoS Admin Panel</p>
+
+                    <p class="text-center copyright">&copy; @DateTime.Now.Year - Cosmic PoS Admin Panel</p>
                 </footer>
             </section>
         </div>
     </section>
-    
+
     @Scripts.Render("~/bundles/jquery")
-    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
-    @*@Scripts.Render("~/bundles/js")*@
     @Scripts.Render("~/bundles/vendor")
     @Scripts.Render("~/bundles/datatables")
+
+    @*@Scripts.Render("~/bundles/js")*@
 
     @RenderSection("scripts", required: false)
     @section scripts
       {
         <script>
-            //$(document).ready(function () {
-            //    $('.nano').nanoScroller({
-            //        preventPageScrolling: true,
-            //        sliderMaxHeight: 100,
-            //        alwaysVisible: true
-            //    });
-            //});
-          
-        </script>
-     
-    }
-    
+                                                //$(document).ready(function () {
+                                                //    $('.nano').nanoScroller({
+                                                //        preventPageScrolling: true,
+                                                //        sliderMaxHeight: 100,
+                                                //        alwaysVisible: true
+                                                //    });
+                                                //});
 
-   
-       
-   
+        </script>
+
+    }
+
+
+
+
+
 </body>
 </html>

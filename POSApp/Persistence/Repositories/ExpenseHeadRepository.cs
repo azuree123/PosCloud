@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using POSApp.Core.Models;
@@ -15,9 +16,9 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<ExpenseHead> GetExpenseHeads()
+        public IEnumerable<ExpenseHead> GetExpenseHeads(int storeId)
         {
-            return _context.ExpenseHeads.ToList();
+            return _context.ExpenseHeads.Where(a=>a.StoreId == storeId).ToList();
         }
 
         public ExpenseHead GetExpenseHeadById(int id, int storeid)
@@ -27,7 +28,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddExpenseHead(ExpenseHead expenseHeads)
         {
+            if (!_context.ExpenseHeads.Where(a => a.Name == expenseHeads.Name && a.StoreId == expenseHeads.StoreId).Any())
+            {
             _context.ExpenseHeads.Add(expenseHeads);
+            }
         }
 
         public void UpdateExpenseHead(int id,int storeid, ExpenseHead expenseHeads)
@@ -42,6 +46,18 @@ namespace POSApp.Persistence.Repositories
             var expenseHeads = new ExpenseHead { Id = id,StoreId = storeid};
             _context.ExpenseHeads.Attach(expenseHeads);
             _context.Entry(expenseHeads).State = EntityState.Deleted;
+        }
+        public IEnumerable<ExpenseHead> GetApiExpenseHeads()
+        {
+            IEnumerable<ExpenseHead> expenseHeads = _context.ExpenseHeads.Where(a => !a.Synced).ToList();
+            foreach (var expenseHead in expenseHeads)
+            {
+                expenseHead.Synced = true;
+                expenseHead.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return expenseHeads;
         }
     }
 }

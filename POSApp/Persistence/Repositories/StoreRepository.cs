@@ -30,7 +30,10 @@ namespace POSApp.Persistence.Repositories
 
         public void AddStore(Store store)
         {
+            if (!_context.Stores.Where(a => a.Name == store.Name ).Any())
+            {
             _context.Stores.Add(store);
+            }
         }
 
         public void UpdateStore(int id, Store store)

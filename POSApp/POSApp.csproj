@@ -100,6 +100,12 @@
     <Reference Include="Ninject.Web.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.MVC5.3.3.0\lib\net45\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Web.WebApi, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.3.3.0\lib\net45\Ninject.Web.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.WebApi.WebHost, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.WebHost.3.3.0\lib\net45\Ninject.Web.WebApi.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\packages\Remotion.Linq.2.1.1\lib\net45\Remotion.Linq.dll</HintPath>
     </Reference>
@@ -135,8 +141,14 @@
     <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
@@ -166,6 +178,12 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -311,7 +329,9 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ExcelImportController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -322,20 +342,83 @@
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
+    <Compile Include="Controllers\WebApi\CitiesController.cs" />
+    <Compile Include="Controllers\WebApi\CouponsController.cs" />
+    <Compile Include="Controllers\WebApi\CustomersController.cs" />
+    <Compile Include="Controllers\WebApi\DepartmentsController.cs" />
+    <Compile Include="Controllers\WebApi\DiscountsController.cs" />
+    <Compile Include="Controllers\WebApi\EmployeesController.cs" />
+    <Compile Include="Controllers\WebApi\ExpenseHeadsController.cs" />
+    <Compile Include="Controllers\WebApi\ExpensesController.cs" />
+    <Compile Include="Controllers\WebApi\LocationsController.cs" />
+    <Compile Include="Controllers\WebApi\ProductCategoriesController.cs" />
+    <Compile Include="Controllers\WebApi\ProductCategoryGroupsController.cs" />
+    <Compile Include="Controllers\WebApi\ProductsController.cs" />
+    <Compile Include="Controllers\WebApi\PurchaseOrdersController.cs" />
+    <Compile Include="Controllers\WebApi\SalesController.cs" />
+    <Compile Include="Controllers\WebApi\StatesController.cs" />
+    <Compile Include="Controllers\WebApi\SuppliersController.cs" />
+    <Compile Include="Controllers\WebApi\TaxesController.cs" />
+    <Compile Include="Controllers\WebApi\UnitsController.cs" />
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
-    <Compile Include="Core\Models\Device.cs" />
     <Compile Include="Core\Models\Client.cs" />
+    <Compile Include="Core\Models\Designation.cs" />
+    <Compile Include="Core\Models\DineTable.cs" />
+    <Compile Include="Core\Models\Discount.cs" />
+    <Compile Include="Core\Models\Floor.cs" />
+    <Compile Include="Core\Models\Modifier.cs" />
+    <Compile Include="Core\Models\ModifierOption.cs" />
+    <Compile Include="Core\Models\ProductCategoryGroup.cs" />
+    <Compile Include="Core\Models\ProductsSub.cs" />
+    <Compile Include="Core\Models\ReportsLog.cs" />
     <Compile Include="Core\Models\Store.cs" />
+    <Compile Include="Core\Models\Tax.cs" />
+    <Compile Include="Core\Models\TimedEvent.cs" />
+    <Compile Include="Core\Models\TimedEventProducts.cs" />
+    <Compile Include="Core\Models\TransDetail.cs" />
+    <Compile Include="Core\Models\TransMaster.cs" />
+    <Compile Include="Core\Models\Unit.cs" />
+    <Compile Include="Core\Repositories\IAppCountersRepository.cs" />
+    <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
+    <Compile Include="Core\Repositories\IClientRepository.cs" />
+    <Compile Include="Core\Repositories\ICouponRepository.cs" />
+    <Compile Include="Core\Repositories\IDineTableRepository.cs" />
+    <Compile Include="Core\Repositories\IDiscountRepository.cs" />
+    <Compile Include="Core\Repositories\IFloorRepository.cs" />
+    <Compile Include="Core\Repositories\IModifierOptionRepository.cs" />
+    <Compile Include="Core\Repositories\IModifierRepository.cs" />
+    <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
+    <Compile Include="Core\Repositories\IProductsSubRepository.cs" />
+    <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
+    <Compile Include="Core\Repositories\ITimedEventProductsRepository.cs" />
+    <Compile Include="Core\Repositories\ITimedEventRepository.cs" />
+    <Compile Include="Core\Repositories\IUnitRepository.cs" />
     <Compile Include="Core\Repositories\IStoreRepository.cs" />
+    <Compile Include="Core\Repositories\ITaxRepository.cs" />
+    <Compile Include="Core\Repositories\ITransDetailRepository.cs" />
+    <Compile Include="Core\Repositories\ITransMasterRepository.cs" />
+    <Compile Include="Core\Shared\Helper.cs" />
+    <Compile Include="Core\Shared\PoHelper.cs" />
+    <Compile Include="Core\ViewModels\BusinessPartnerViewModel.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
+    <Compile Include="Core\ViewModels\ClientViewModel.cs" />
+    <Compile Include="Core\ViewModels\CouponModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
+    <Compile Include="Core\ViewModels\DineTableViewModel.cs" />
+    <Compile Include="Core\ViewModels\DiscountViewModel.cs" />
     <Compile Include="Core\ViewModels\EmployeeModelView.cs" />
     <Compile Include="Core\ViewModels\ExpenseHeadViewModel.cs" />
     <Compile Include="Core\ViewModels\ExpenseViewModel.cs" />
+    <Compile Include="Core\ViewModels\FloorViewModel.cs" />
+    <Compile Include="Core\ViewModels\GeneratePurchaseOrderViewModel.cs" />
+    <Compile Include="Core\ViewModels\InvoiceViewModel.cs" />
     <Compile Include="Core\ViewModels\LocationModelView.cs" />
+    <Compile Include="Core\ViewModels\ModifierOptionViewModel.cs" />
+    <Compile Include="Core\ViewModels\ModifierViewModel.cs" />
+    <Compile Include="Core\ViewModels\ProductCategoryGroupViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCategoryViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCreateViewModel.cs" />
     <Compile Include="Core\Enums\AttendanceStatus.cs" />
@@ -346,7 +429,6 @@
     <Compile Include="Core\Models\City.cs" />
     <Compile Include="Core\Models\Customer.cs" />
     <Compile Include="Core\Models\Department.cs" />
-    <Compile Include="Core\Models\Designation.cs" />
     <Compile Include="Core\Models\Employee.cs" />
     <Compile Include="Core\Models\ExpenseHead.cs" />
     <Compile Include="Core\Models\Location.cs" />
@@ -362,7 +444,6 @@
     <Compile Include="Core\Repositories\ICityRepository.cs" />
     <Compile Include="Core\Repositories\ICustomerRepository.cs" />
     <Compile Include="Core\Repositories\IDepartmentRepository.cs" />
-    <Compile Include="Core\Repositories\IDesignationRepository.cs" />
     <Compile Include="Core\Repositories\IEmployeeRepository.cs" />
     <Compile Include="Core\Repositories\IExpenseHeadRepository.cs" />
     <Compile Include="Core\Repositories\IExpenseRepository.cs" />
@@ -379,8 +460,10 @@
     <Compile Include="Core\ViewModels\ExternalLoginListViewModel.cs" />
     <Compile Include="Core\ViewModels\ForgotPasswordViewModel.cs" />
     <Compile Include="Core\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Core\ViewModels\ProductSubViewModel.cs" />
     <Compile Include="Core\ViewModels\PurchaseOrderViewModel.cs" />
     <Compile Include="Core\ViewModels\RegisterViewModel.cs" />
+    <Compile Include="Core\ViewModels\ReportLogViewModel.cs" />
     <Compile Include="Core\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Core\ViewModels\SendCodeViewModel.cs" />
     <Compile Include="Core\ViewModels\ServiceCategoryViewModel.cs" />
@@ -388,71 +471,98 @@
     <Compile Include="Core\ViewModels\StateModelView.cs" />
     <Compile Include="Core\ViewModels\StoreViewModel.cs" />
     <Compile Include="Core\ViewModels\SupplierModelView.cs" />
+    <Compile Include="Core\ViewModels\Sync\SyncViewModel.cs" />
+    <Compile Include="Core\ViewModels\TaxViewModel.cs" />
+    <Compile Include="Core\ViewModels\TimedEventViewModel.cs" />
+    <Compile Include="Core\ViewModels\TransDetailViewModel.cs" />
+    <Compile Include="Core\ViewModels\TransMasterViewModel.cs" />
+    <Compile Include="Core\ViewModels\UnitViewModel.cs" />
     <Compile Include="Core\ViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810160748119_initial.cs" />
-    <Compile Include="Migrations\201810160748119_initial.Designer.cs">
-      <DependentUpon>201810160748119_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201811060842196_Initial.cs" />
+    <Compile Include="Migrations\201811060842196_Initial.Designer.cs">
+      <DependentUpon>201811060842196_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810160756021_initial2.cs" />
-    <Compile Include="Migrations\201810160756021_initial2.Designer.cs">
-      <DependentUpon>201810160756021_initial2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810160942269_initial3.cs" />
-    <Compile Include="Migrations\201810160942269_initial3.Designer.cs">
-      <DependentUpon>201810160942269_initial3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810161108022_initial4.cs" />
-    <Compile Include="Migrations\201810161108022_initial4.Designer.cs">
-      <DependentUpon>201810161108022_initial4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810171013271_initial5.cs" />
-    <Compile Include="Migrations\201810171013271_initial5.Designer.cs">
-      <DependentUpon>201810171013271_initial5.cs</DependentUpon>
+    <Compile Include="Migrations\201811061032401_Initial3.cs" />
+    <Compile Include="Migrations\201811061032401_Initial3.Designer.cs">
+      <DependentUpon>201811061032401_Initial3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationUserEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\BusinessPartnerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\CityEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\CouponEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\CustomerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DepartmentEntityConfiguration.cs" />
-    <Compile Include="Persistence\EntityConfigurations\DesignationEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\DineTableEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\DiscountEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\EmployeeEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ExpenseEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ExpenseHeadEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\FloorEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\LocationEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ModifierEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ModifierOptionEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ProductCategoryEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ProductEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ProductSubEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\PurchaseOrderDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\PurchaseOrderEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ReportLogEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SaleOrderDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SaleOrderEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\StateEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\StoreEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SupplierEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\TaxEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\TimedEventEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\TimedEventProductEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\TransDetailEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\TransMasterEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\UnitEntityConfiguration.cs" />
     <Compile Include="Persistence\PosDbContext.cs" />
+    <Compile Include="Persistence\Repositories\AppCountersRepository.cs" />
+    <Compile Include="Persistence\Repositories\BusinessPartnerRepository.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
+    <Compile Include="Persistence\Repositories\ClientRepository.cs" />
+    <Compile Include="Persistence\Repositories\CouponRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\DepartmentRepository.cs" />
-    <Compile Include="Persistence\Repositories\DesignationRepository.cs" />
+    <Compile Include="Persistence\Repositories\DineTableRepository.cs" />
+    <Compile Include="Persistence\Repositories\DiscountRepository.cs" />
     <Compile Include="Persistence\Repositories\EmployeeRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseHeadRepository.cs" />
     <Compile Include="Persistence\Repositories\ExpenseRepository.cs" />
+    <Compile Include="Persistence\Repositories\FloorRepository.cs" />
     <Compile Include="Persistence\Repositories\LocationRepository.cs" />
+    <Compile Include="Persistence\Repositories\ModifierOptionRepository.cs" />
+    <Compile Include="Persistence\Repositories\ModifierRepository.cs" />
+    <Compile Include="Persistence\Repositories\ProductCategoryGroupRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductRepository.cs" />
+    <Compile Include="Persistence\Repositories\ProductsSubRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderRepository.cs" />
+    <Compile Include="Persistence\Repositories\ReportsLogRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
     <Compile Include="Persistence\Repositories\StoreRepository.cs" />
     <Compile Include="Persistence\Repositories\SupplierRepository.cs" />
+    <Compile Include="Persistence\Repositories\TaxRepository.cs" />
+    <Compile Include="Persistence\Repositories\TimedEventProductsRepository.cs" />
+    <Compile Include="Persistence\Repositories\TimedEventRepository.cs" />
+    <Compile Include="Persistence\Repositories\TransDetailRepository.cs" />
+    <Compile Include="Persistence\Repositories\TransMasterRepository.cs" />
+    <Compile Include="Persistence\Repositories\UnitRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ExcelService.cs" />
+    <Compile Include="Services\ImportService.cs" />
     <Compile Include="Services\IUserInfoService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -626,16 +736,21 @@
     <Content Include="Content\images\!happy-face.png" />
     <Content Include="Content\images\!logged-user.jpg" />
     <Content Include="Content\images\!sample-user.jpg" />
+    <Content Include="Content\images\381logo.png" />
     <Content Include="Content\images\apple-touch-icon-precomposed.png" />
     <Content Include="Content\images\arrows.png" />
     <Content Include="Content\images\blog-image-1.jpg" />
     <Content Include="Content\images\blog-image-2.jpg" />
     <Content Include="Content\images\blog-image-3.jpg" />
+    <Content Include="Content\images\cosmic.png" />
     <Content Include="Content\images\device.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\icon.png" />
+    <Content Include="Content\images\invoice-41.png" />
+    <Content Include="Content\images\invoice-411.png" />
     <Content Include="Content\images\jstree-dark.png" />
     <Content Include="Content\images\jstree.png" />
+    <Content Include="Content\images\loggo.png" />
     <Content Include="Content\images\logo-light.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\mkfarooq-gmail-com.png" />
@@ -2345,17 +2460,41 @@
     <Content Include="Content\vendor\summernote\font\summernote.woff" />
     <Content Include="Content\javascripts\tables\DataTables\Buttons-1.5.2\css\common.scss" />
     <Content Include="Content\javascripts\tables\DataTables\Buttons-1.5.2\css\mixins.scss" />
+    <Content Include="Content\ImportFormats\StateImport.xls" />
+    <Content Include="Content\ImportFormats\BusinessPartnerImport.xls" />
+    <Content Include="Content\ImportFormats\CityImport.xls" />
+    <Content Include="Content\ImportFormats\DepartmentImport.xls" />
+    <Content Include="Content\ImportFormats\DesignationImport.xls" />
+    <Content Include="Content\ImportFormats\EmployeeImport.xls" />
+    <Content Include="Content\ImportFormats\ExpenseHeadImport.xls" />
+    <Content Include="Content\ImportFormats\ExpenseImport.xls" />
+    <Content Include="Content\ImportFormats\ProductCategoryGroupImport.xls" />
+    <Content Include="Content\ImportFormats\ProductCategoryImport.xls" />
+    <Content Include="Content\ImportFormats\ProductImport.xls" />
+    <Content Include="Content\ImportFormats\SaleOrderDetailImport.xls" />
+    <Content Include="Content\ImportFormats\StoreImport.xls" />
+    <Content Include="Content\ImportFormats\SupplierImport.xls" />
+    <Content Include="Content\ImportFormats\TaxImport.xls" />
+    <Content Include="Content\ImportFormats\TransDetailImport.xls" />
+    <Content Include="Content\ImportFormats\TransMasterImport.xls" />
+    <Content Include="Content\ImportFormats\DiscountImport.xls" />
+    <Content Include="Content\ImportFormats\CustomerImport.xls" />
+    <Content Include="Content\ImportFormats\CouponImport.xls" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\Setup\EmployeeList.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2395,7 +2534,6 @@
     <Content Include="Views\Setup\CustomerList.cshtml" />
     <Content Include="Views\Setup\DepartmentList.cshtml" />
     <Content Include="Views\Setup\DesignationList.cshtml" />
-    <Content Include="Views\Setup\EmployeeList.cshtml" />
     <Content Include="Views\Setup\LocationList.cshtml" />
     <Content Include="Views\Setup\StateList.cshtml" />
     <Content Include="Views\Setup\SupplierList.cshtml" />
@@ -2424,15 +2562,70 @@
     <Content Include="Views\Services\AddServiceCategory.cshtml" />
     <Content Include="Views\Store\AddStore.cshtml" />
     <Content Include="Views\Store\StoresList.cshtml" />
+    <Content Include="Views\Setup\CouponList.cshtml" />
+    <Content Include="Views\Setup\AddCoupon.cshtml" />
+    <Content Include="Views\Setup\DiscountList.cshtml" />
+    <Content Include="Views\Setup\AddDiscount.cshtml" />
+    <Content Include="Views\Setup\TaxList.cshtml" />
+    <Content Include="Views\Setup\AddTax.cshtml" />
+    <Content Include="Views\Setup\AddDepartmentPartial.cshtml" />
+    <Content Include="Views\Setup\AddDesignationPartial.cshtml" />
+    <Content Include="Views\Setup\AddStatePartial.cshtml" />
+    <Content Include="Views\Products\AddProductCategoryPartial.cshtml" />
+    <Content Include="Views\Setup\AddSupplierPartial.cshtml" />
+    <Content Include="Views\Expense\AddExpenseHeadPartial.cshtml" />
+    <Content Include="Views\Services\AddServiceCategoryPartial.cshtml" />
+    <Content Include="Views\Products\ProductCategoryGroupList.cshtml" />
+    <Content Include="Views\Products\AddProductCategoryGroupPartial.cshtml" />
+    <Content Include="Views\Products\AddProductCategoryGroup.cshtml" />
+    <Content Include="Views\Reports\SaleReport.cshtml" />
+    <Content Include="Views\Reports\InventoryReport.cshtml" />
+    <Content Include="Views\Reports\MiscellaneousReport.cshtml" />
+    <Content Include="Views\Reports\ExportingReport.cshtml" />
+    <Content Include="Views\Reports\MyReports.cshtml" />
+    <Content Include="Views\ExcelImport\StateExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\CityExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\TaxExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\DiscountExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\CouponExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\CustomerExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\DepartmentExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\EmployeeExcelImport.cshtml" />
+    <Content Include="Views\Reports\GenerateReport.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddPurchaseOrder.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddTransactionItem.cshtml" />
+    <Content Include="Views\ExcelImport\ExpenseExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ExpenseHeadExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ProductExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\StoreExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\SupplierExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ProductCategoryExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ProductCategoryGroupExcelImport.cshtml" />
+    <Content Include="Views\PurchaseOrders\PoTable.cshtml" />
+    <Content Include="Views\Setup\ClientList.cshtml" />
+    <Content Include="Views\Setup\AddClient.cshtml" />
+    <Content Include="Views\Setup\UnitList.cshtml" />
+    <Content Include="Views\Setup\AddUnit.cshtml" />
+    <Content Include="Views\PurchaseOrders\GenerateReceipt.cshtml" />
+    <Content Include="Views\Products\AddModifier.cshtml" />
+    <Content Include="Views\Products\ModifierOptionList.cshtml" />
+    <Content Include="Views\Products\AddModifierOption.cshtml" />
+    <Content Include="Views\Products\ModifierOptionListTable.cshtml" />
+    <Content Include="Views\Setup\TimedEventList.cshtml" />
+    <Content Include="Views\Setup\AddTimedEvent.cshtml" />
+    <Content Include="Views\Products\ModifierList.cshtml" />
+    <Content Include="Views\Setup\FloorList.cshtml" />
+    <Content Include="Views\Setup\AddFloor.cshtml" />
+    <Content Include="Views\Setup\RolesList.cshtml" />
+    <Content Include="Views\Setup\AddRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Uploads\" />
     <Folder Include="Core\Dtos\" />
-    <Folder Include="Core\Shared\" />
     <Folder Include="Images\Data\Product\" />
     <Folder Include="Images\Data\Service\" />
     <Folder Include="Views\Product\" />
-    <Folder Include="Views\Reports\" />
     <Folder Include="Views\Sales\" />
   </ItemGroup>
   <ItemGroup>
@@ -2449,20 +2642,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810160748119_initial.resx">
-      <DependentUpon>201810160748119_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811060842196_Initial.resx">
+      <DependentUpon>201811060842196_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810160756021_initial2.resx">
-      <DependentUpon>201810160756021_initial2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810160942269_initial3.resx">
-      <DependentUpon>201810160942269_initial3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810161108022_initial4.resx">
-      <DependentUpon>201810161108022_initial4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810171013271_initial5.resx">
-      <DependentUpon>201810171013271_initial5.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811061032401_Initial3.resx">
+      <DependentUpon>201811061032401_Initial3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

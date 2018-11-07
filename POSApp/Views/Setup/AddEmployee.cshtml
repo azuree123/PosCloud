@@ -10,6 +10,7 @@
     @using (Html.BeginForm(s, "Setup", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
+
         <div class="modal-dialog modal-lg">
             <!-- Modal content-->
             <div class="modal-content ">
@@ -68,14 +69,18 @@
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @class = "control-label " })
-                                            @Html.DropDownListFor(model => model.DepartmentId, Model.DepartmentDdl, "Select an Option", new { htmlAttributes = new { @class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(model => model.DepartmentId, Model.DepartmentDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+
+                                                <span class="input-group-addon" style="   ">
+                                                    <a href="@Url.Action("AddDepartmentPartial","Setup")" class="modalShow1">
+                                                        <i class="fa fa-plus "></i>
+                                                    </a>
+                                                </span>
+                                                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.DesignationId, htmlAttributes: new { @class = "control-label" })
-                                            @Html.DropDownListFor(model => model.DesignationId, Model.DesignationDdl, "Select an Option", new { htmlAttributes = new { @class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.DesignationId, "", new { @class = "text-danger" })
-                                        </div>
+                                    
                                     </div>
                                 </div>
 
@@ -109,6 +114,54 @@
             </div>
         </div>
     }
-</div>
+    <div id="ModalData1"></div>
+    <script>
+        function UpdateDdlDepartment() {
+            $.ajax({
+                url: "@Url.Action("GetDepartmentDdl","Setup")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.DepartmentId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+                 
+                }
+            });
+           
+        }
+       
+        $('a.modalShow1').on('click', function () {
+
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData1').html(result).find('#ordine2').modal('show');
+                    //newWin = window.open("", "", "width=800, height=600");
+                    //    var query = " <" +"script> $('#AddDepartment').click();</"+"script>";
+                    //    newWin.document.write(result + query);
+
+                    //    if (newWin.closed) {
+                    //        alert("Closed");
+                    //    }
+                }
+            });
+
+            return false;
+        });
+
+    </script>
+
 
     
+
+</div>
+
+
+
