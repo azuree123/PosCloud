@@ -10,22 +10,64 @@ namespace POSApp.Core.Shared
 {
     public class Helper
     {
-        public static List<ModifierOptionViewModel> TempModifierOptions;
-        public static void AddToTempModifierOptions(ModifierOptionViewModel modifierOptionViewModel, string userId)
+        public static List<ProductSubViewModel> TempComboOptions;
+        public static void AddToTempComboOptions(ProductSubViewModel ComboOptionViewModel, string userId)
         {
-            
-            ModifierOptionViewModel checkTrans = TempModifierOptions
-                .Where(a => a.Name == modifierOptionViewModel.Name   && a.CreatedBy == userId).ToList()
+
+            ProductSubViewModel checkTrans = TempComboOptions
+                .Where(a => a.ProductId == ComboOptionViewModel.ProductId  && a.CreatedBy == userId).ToList()
                 .FirstOrDefault();
-            modifierOptionViewModel.CreatedBy = userId;
+            ComboOptionViewModel.CreatedBy = userId;
             if (checkTrans != null)
             {
-                TempModifierOptions.Remove(checkTrans);
-                TempModifierOptions.Add(modifierOptionViewModel);
+                TempComboOptions.Remove(checkTrans);
+                TempComboOptions.Add(ComboOptionViewModel);
             }
             else
             {
-                ModifierOptionViewModel transDetail = modifierOptionViewModel;
+                ProductSubViewModel transDetail = ComboOptionViewModel;
+                TempComboOptions.Add(transDetail);
+            }
+
+        }
+        public static void RemoveFromTempComboOptions(int product, int storeId, string userId)
+        {
+            ProductSubViewModel transDetail = TempComboOptions
+                .Where(a => a.ProductId == product && a.CreatedBy == userId && a.StoreId == storeId).ToList().FirstOrDefault();
+            TempComboOptions.Remove(transDetail);
+        }
+        public static void EmptyTempComboOptions(string userId, int storeId)
+        {
+            List<ProductSubViewModel> transDetail = TempComboOptions
+                .Where(a => a.CreatedBy == userId && a.StoreId == storeId).ToList().ToList();
+            foreach (var transDetailViewModel in transDetail)
+            {
+                TempComboOptions.Remove(transDetailViewModel);
+            }
+        }
+
+
+
+
+
+
+
+        public static List<ModifierOptionViewModel> TempModifierOptions;
+        public static void AddToTempModifierOptions(ModifierOptionViewModel ModifierOptionViewModel, string userId)
+        {
+
+            ModifierOptionViewModel checkTrans = TempModifierOptions
+                .Where(a => a.Name == ModifierOptionViewModel.Name && a.CreatedBy == userId).ToList()
+                .FirstOrDefault();
+            ModifierOptionViewModel.CreatedBy = userId;
+            if (checkTrans != null)
+            {
+                TempModifierOptions.Remove(checkTrans);
+                TempModifierOptions.Add(ModifierOptionViewModel);
+            }
+            else
+            {
+                ModifierOptionViewModel transDetail = ModifierOptionViewModel;
                 TempModifierOptions.Add(transDetail);
             }
 

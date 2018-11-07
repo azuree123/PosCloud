@@ -2497,6 +2497,7 @@
     <Content Include="Content\ImportFormats\DiscountImport.xls" />
     <Content Include="Content\ImportFormats\CustomerImport.xls" />
     <Content Include="Content\ImportFormats\CouponImport.xls" />
+    <None Include="Properties\PublishProfiles\almuaibida.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -2640,6 +2641,8 @@
     <Content Include="Views\Setting\BusinessSetting.cshtml" />
     <Content Include="Views\Device\DeviceList.cshtml" />
     <Content Include="Views\Device\AddDevice.cshtml" />
+    <Content Include="Views\Products\ComboOptionListTable.cshtml" />
+    <Content Include="Views\Products\AddComboOption.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
