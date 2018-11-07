@@ -6,7 +6,9 @@
         background-color: rgba(153, 153, 153, 0.4);
         padding: 16px 0;
     }
-
+    .fch{
+        height:36px !important;
+    }
 
 
 
@@ -96,43 +98,45 @@
                                 </div>
                             </div>
                             <div id="General" class="tab-pane active">
-                                <h4 class="mt-none mb-lg ">Basic Data</h4>
+                                <h4 class="mt-none mb-lg text-weight-bold ">General</h4>
                                 <div class="row">
                                     <div class="col-md-12">
 
                                         <div>
-                                            <div class="form-group row mb-0"><label class="col-sm-3 col-xs-3 control-label">Company</label> 
-                                            <div class="col-sm-9 col-xs-9">
-                                                <input type="text" value="381Restaurant" class="form-control-plain"></div>
-                                                </div> 
                                             <div class="form-group row mb-0">
-                                            <label class="col-sm-3 col-xs-3 control-label">Business Reference</label>
-                                            <div class="col-sm-9 col-xs-9">
-                                                <input type="text" value="LSHFRST" class="form-control-plain">
+                                                <label class="col-sm-3 col-sm-offset-2 col-xs-3 control-label">Company</label>
+                                                <div class="col-sm-7 col-xs-9">
+                                                    <input type="text" value="381Restaurant" class="form-control-plain">
                                                 </div>
-                                                </div>
+                                            </div>
                                             <div class="form-group row mb-0">
-                                            <label class="col-sm-3 col-xs-3 control-label">Business HID</label>
-                                            <div class="col-sm-9 col-xs-9">
-                                                <input type="text" value="_deS787GE" class="form-control-plain">
+                                                <label class="col-sm-3 col-sm-offset-2 col-xs-3 control-label">Business Reference</label>
+                                                <div class="col-sm-7 col-xs-9">
+                                                    <input type="text" value="LSHFRST" class="form-control-plain">
                                                 </div>
-                                                </div> 
+                                            </div>
+                                            <div class="form-group row mb-0">
+                                                <label class="col-sm-3 col-sm-offset-2 col-xs-3 control-label">Business HID</label>
+                                                <div class="col-sm-7 col-xs-9">
+                                                    <input type="text" value="_deS787GE" class="form-control-plain">
+                                                </div>
+                                            </div>
                                             <hr>
-                                            <div class="form-group row mb-md mt-md">
-                                                <label class="col-sm-3 control-label">Tax Inclusive Pricing ?</label>
-                                                <div class="col-sm-9">
+                                            <div class="form-group row ">
+                                                <label class="col-sm-3 col-sm-offset-2 control-label mb-md mt-md">Tax Inclusive Pricing ?</label>
+                                                <div class="col-sm-7 mb-md mt-md">
                                                     <div class="form-check">
                                                         <label class="form-check-label">
                                                             <input type="checkbox" class="form-check-input"> Yes, Products and delivery prices include taxes.
                                                         </label>
                                                     </div>
                                                 </div>
-                                            </div> 
+                                            </div>
                                             <hr>
                                             <div class="form-group row  mb-md mt-md">
-                                            <label class="col-sm-3 col-form-label">Delivery Price</label> 
-                                            <div class="col-sm-6">
-                                                <input type="text" class="form-control">
+                                                <label class="col-sm-3 col-sm-offset-2 mb-md mt-md control-label">Delivery Price</label>
+                                                <div class="col-sm-6 mb-md mt-md">
+                                                    <input type="text" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -144,16 +148,66 @@
 
                             </div>
                             <div id="Display" class="tab-pane ">
-                                <h4 class="mt-none mb-lg ">Basic Data</h4>
+                                <h4 class="mt-none mb-lg text-weight-bold">Display</h4>
                                 <div class="row">
                                     <div class="col-md-9 col-lg-offset-2">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Name <span class="text-danger">*</span>
-                                            </label>
-                                            <input type="text" class="form-control" required />
-
-
+                                        <div style="">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label>Receipt Logo (578x218 px)</label>
+                                                </div> 
+                                            <input type="file" class="form-control fch">
+                                                </div>
+                                            <div class="col-md-10">
+                                            <img src="" class="float-right" style="width: 80px;">
+                                            <!----></div>
+                                            </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label>Waiter App (2048x1538 px)</label>
+                                                </div> 
+                                            <input type="file" class="form-control fch">
+                                                </div>
+                                            <div class="col-md-10">
+                                            <img src="" class="float-right" style="width: 80px;">
+                                                </div>
+                                            </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label>Display App (2048x1538 px)</label>
+                                                </div> 
+                                            <input type="file" class="form-control fch">
+                                                </div> 
+                                            <div class="col-md-10">
+                                            <img src="" class="float-right" style="width: 80px;">
+                                                </div>
+                                            </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label>Waiter App Main Color</label>
+                                                </div>
+                                                </div>
+                                            <div class="col-md-5">
+                                            <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label>Waiter App Sub Color</label>
+                                                </div>
+                                                </div> 
+                                            <div class="col-md-5">
+                                            <input type="text" class="form-control">
+                                                </div>
+                                            </div>
                                         </div>
 
 
@@ -164,16 +218,41 @@
 
                             </div>
                             <div id="Receipt" class="tab-pane ">
-                                <h4 class="mt-none mb-lg ">Basic Data</h4>
+                                <h4 class="mt-none mb-lg text-weight-bold">Receipt</h4>
                                 <div class="row">
-                                    <div class="col-md-9 col-lg-offset-2">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Name <span class="text-danger">*</span>
-                                            </label>
-                                            <input type="text" class="form-control" required />
-
-
+                                    <div class="col-md-12 ">
+                                        <div style="">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="alert alert-info">
+                                                        Receipt Placeholders:<br> <small>
+                                                            {business_name}, {branch_name},
+                                                            {branch_phone},
+                                                            {branch_reference}, {branch_header},
+                                                            {branch_footer}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div> <hr> <div class="row">
+                                            <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Receipt Header</label> 
+                                                <textarea rows="7" value="{business_name}
+                                                          {branch_name}
+                                                          
+                                                          
+                                                          Welcome" class="form-control">
+                                                 </textarea>
+                                                </div>
+                                                </div> 
+                                            <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Receipt Footer</label> 
+                                                <textarea rows="7"  class="form-control">
+                                                </textarea>
+                                                </div>
+                                                </div>
+                                            </div>
                                         </div>
 
 
@@ -184,72 +263,13 @@
 
                             </div>
                             <div id="DangerZone" class="tab-pane">
-                                <div class=" mb-lg" id="header-flex">
-                                    <h4 class="mt-xs  " style="flex-grow: 8">Authorities</h4>
-
-                                </div>
+                                <h4 class="mt-none mb-lg text-weight-bold">Danger Zone</h4>
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        @*<div class="form-group">
-
-                                                            <input type="checkbox" class="form-control" style="display:inline;width:18%"/>
-
-                                                            <label class="control-label" style="display:inline;float:right;    margin: 5px 20px 0px 0px !important;
-                    font-size: 16px;
-                    margin-top: 5px;">
-                                                               Toggle All
-                                                            </label>
-                                                        </div>*@
-                                        <div class="form-group">
-
-                                            <div class="col-md-9 col-lg-offset-2">
-                                                <div class="btn-group" style="display:block">
-                                                    <select class="form-control" multiple="multiple" style="width:100%" data-plugin-multiselect data-plugin-options='{ "maxHeight": 200 }' data-multiselect-toggle-all="true" id="ms_example7">
-                                                        <optgroup label="Customers">
-                                                            <option value="View">View</option>
-                                                            <option value="Manage">Manage</option>
-
-                                                        </optgroup>
-                                                        <optgroup label="Customers-tags">
-                                                            <option value="Customers-tags-View">View</option>
-                                                            <option value="Customers-tags-Manage">Manage</option>
-                                                        </optgroup>
-
-                                                        <optgroup label="inventory-items">
-                                                            <option value="inventory-items-View">View</option>
-                                                            <option value="inventory-items-Manage">Manage</option>
-                                                        </optgroup>
-                                                        <optgroup label="inventory-items-tags">
-                                                            <option value="inventory-items-tags-View">View</option>
-                                                            <option value="inventory-items-tags-Manage">Manage</option>
-                                                        </optgroup>
-                                                        <optgroup label="suppliers">
-                                                            <option value="suppliers-View">View</option>
-                                                            <option value="suppliers-Manage">Manage</option>
-                                                        </optgroup>
-                                                        <optgroup label="warehouses">
-                                                            <option value="warehouses-View">View</option>
-                                                            <option value="warehouses-Manage">Manage</option>
-                                                        </optgroup>
-                                                        <optgroup label="authorities.app-user-roles">
-                                                            <option value="view-app-user-roles">view-app-user-roles</option>
-                                                            <option value="manage-app-user-roles">manage-app-user-roles</option>
-                                                        </optgroup>
-
-                                                        <optgroup label="More">
-                                                            <option value="Restore-Company-Data">Restore Company Data</option>
-
-
-
-                                                            <option value="View-Cost">View Cost</option>
-
-                                                        </optgroup>
-
-                                                    </select>
-                                                    <button id="ms_example7-toggle" class="btn outline-success">Select All</button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="col-md-9 col-md-offset-2">
+                                        <button type="button" class="btn outline-danger btn-md btn-block"><i class="fa fa-trash pr-sm"></i>
+                                            Delete Company Inventory Transactions
+                                        </button>
+                                  
 
 
                                     </div>
