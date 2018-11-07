@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "AddRole";
+    ViewBag.Title = "BussinessSetting";
 }
 <style>
     .table > thead > tr > th {
@@ -7,15 +7,9 @@
         padding: 16px 0;
     }
 
-    .btn-group > .btn-group {
-        width: 60%
-    }
-    .multiselect, .dropdown-toggle{
-       width: 100%;
-    }
-    .multiselect-container{
-        width:100%;
-    }
+
+
+
 </style>
 
 
@@ -62,13 +56,25 @@
                         <div class="col-md-12 text-center  col-xs-12 mb-xlg">
                             <ul class=" snip1189 ">
                                 <li class="mt-xs  current" id="basicInfo">
-                                    <a href="#basicdata" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
-                                        Basic Data
+                                    <a href="#General" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#dis').removeClass('current');$('#rec').removeClass('current');$('#dz').removeClass('current');">
+                                        General
                                     </a>
                                 </li>
-                                <li id="tranInfo">
-                                    <a href="#authorities" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
-                                  Authorities
+                                <li id="dis">
+                                    <a href="#Display" data-toggle="tab" onclick="$('#dis').addClass('current'); $('#basicInfo').removeClass('current');$('#rec').removeClass('current');$('#dz').removeClass('current');">
+                                        Display
+
+                                    </a>
+                                </li>
+                                <li id="rec">
+                                    <a href="#Receipt" data-toggle="tab" onclick="$('#rec').addClass('current'); $('#basicInfo').removeClass('current');$('#dis').removeClass('current');$('#dz').removeClass('current');">
+                                     Receipt
+
+                                    </a>
+                                </li>
+                                <li id="dz">
+                                    <a href="#DangerZone" data-toggle="tab" onclick="$('#dz').addClass('current'); $('#basicInfo').removeClass('current');$('#rec').removeClass('current');$('#dis').removeClass('current');">
+                                       Danger Zone
 
                                     </a>
                                 </li>
@@ -76,7 +82,7 @@
                             <hr />
                             <div class="row mt-md">
                                 <div class="col-md-12">
-                                    <h4 class=" wb-color  text-center">Create New Role</h4>
+                                    <h4 class=" wb-color  text-center">Business Settings</h4>
 
 
                                 </div>
@@ -89,7 +95,55 @@
                                     <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:17px"><i class="fa fa-save  pr-md"></i> Save</button>
                                 </div>
                             </div>
-                            <div id="basicdata" class="tab-pane active">
+                            <div id="General" class="tab-pane active">
+                                <h4 class="mt-none mb-lg ">Basic Data</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div>
+                                            <div class="form-group row mb-0"><label class="col-sm-3 col-xs-3 control-label">Company</label> 
+                                            <div class="col-sm-9 col-xs-9">
+                                                <input type="text" value="381Restaurant" class="form-control-plain"></div>
+                                                </div> 
+                                            <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-xs-3 control-label">Business Reference</label>
+                                            <div class="col-sm-9 col-xs-9">
+                                                <input type="text" value="LSHFRST" class="form-control-plain">
+                                                </div>
+                                                </div>
+                                            <div class="form-group row mb-0">
+                                            <label class="col-sm-3 col-xs-3 control-label">Business HID</label>
+                                            <div class="col-sm-9 col-xs-9">
+                                                <input type="text" value="_deS787GE" class="form-control-plain">
+                                                </div>
+                                                </div> 
+                                            <hr>
+                                            <div class="form-group row mb-md mt-md">
+                                                <label class="col-sm-3 control-label">Tax Inclusive Pricing ?</label>
+                                                <div class="col-sm-9">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input"> Yes, Products and delivery prices include taxes.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <hr>
+                                            <div class="form-group row  mb-md mt-md">
+                                            <label class="col-sm-3 col-form-label">Delivery Price</label> 
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div id="Display" class="tab-pane ">
                                 <h4 class="mt-none mb-lg ">Basic Data</h4>
                                 <div class="row">
                                     <div class="col-md-9 col-lg-offset-2">
@@ -98,36 +152,56 @@
                                                 Name <span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control" required />
-                                    
+
 
                                         </div>
 
 
-                                  
+
                                     </div>
                                 </div>
 
 
                             </div>
-                            <div id="authorities" class="tab-pane">
+                            <div id="Receipt" class="tab-pane ">
+                                <h4 class="mt-none mb-lg ">Basic Data</h4>
+                                <div class="row">
+                                    <div class="col-md-9 col-lg-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Name <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" required />
+
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div id="DangerZone" class="tab-pane">
                                 <div class=" mb-lg" id="header-flex">
                                     <h4 class="mt-xs  " style="flex-grow: 8">Authorities</h4>
-                                 
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         @*<div class="form-group">
 
-                                                <input type="checkbox" class="form-control" style="display:inline;width:18%"/>
+                                                            <input type="checkbox" class="form-control" style="display:inline;width:18%"/>
 
-                                                <label class="control-label" style="display:inline;float:right;    margin: 5px 20px 0px 0px !important;
-        font-size: 16px;
-        margin-top: 5px;">
-                                                   Toggle All
-                                                </label>
-                                            </div>*@
+                                                            <label class="control-label" style="display:inline;float:right;    margin: 5px 20px 0px 0px !important;
+                    font-size: 16px;
+                    margin-top: 5px;">
+                                                               Toggle All
+                                                            </label>
+                                                        </div>*@
                                         <div class="form-group">
-                                 
+
                                             <div class="col-md-9 col-lg-offset-2">
                                                 <div class="btn-group" style="display:block">
                                                     <select class="form-control" multiple="multiple" style="width:100%" data-plugin-multiselect data-plugin-options='{ "maxHeight": 200 }' data-multiselect-toggle-all="true" id="ms_example7">
@@ -140,7 +214,7 @@
                                                             <option value="Customers-tags-View">View</option>
                                                             <option value="Customers-tags-Manage">Manage</option>
                                                         </optgroup>
-                                                 
+
                                                         <optgroup label="inventory-items">
                                                             <option value="inventory-items-View">View</option>
                                                             <option value="inventory-items-Manage">Manage</option>
@@ -169,19 +243,19 @@
 
                                                             <option value="View-Cost">View Cost</option>
 
-                                                            </optgroup>
+                                                        </optgroup>
 
                                                     </select>
-                                                    <button id="ms_example7-toggle"  class="btn outline-success">Select All</button>
+                                                    <button id="ms_example7-toggle" class="btn outline-success">Select All</button>
                                                 </div>
                                             </div>
                                         </div>
 
 
                                     </div>
-                                    </div>
-
                                 </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -196,7 +270,7 @@
 {
     <script>
 
-      
+
         $('a.modalShow').on('click', function () {
             $.ajax({
                 url: this.href,
@@ -212,11 +286,6 @@
         $('#datatable-default').dataTable();
 
 
-
-        $("#ms_example7-toggle").click(function (e) {
-            e.preventDefault();
-            MultiSelect($("#ms_example7"), $(this));
-        });
 
     </script>
 }

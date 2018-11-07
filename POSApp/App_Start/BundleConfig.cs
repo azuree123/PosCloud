@@ -72,7 +72,7 @@ namespace POSApp
                           "~/Content/vendor/summernote/summernote.js",
                           "~/Content/javascripts/dashboard/examples.dashboard.js",
                           "~/Content/javascripts/ui-elements/examples.charts.js",
-                          "~/Content/javascripts/forms/examples.advanced.form.js"
+                          "~/Content/javascripts/forms/multiSelect.js"
 
 
 
