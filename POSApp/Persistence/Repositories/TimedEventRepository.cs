@@ -24,7 +24,7 @@ namespace POSApp.Persistence.Repositories
 
         public TimedEvent GetTimedEventById(int id, int storeid)
         {
-            return _context.TimedEvents.Find(id, storeid);
+            return _context.TimedEvents.Include(a=>a.TimedEventProducts).FirstOrDefault(a=>a.Id==id&& a.StoreId== storeid);
         }
 
         public void AddTimedEvent(TimedEvent TimedEvent)
