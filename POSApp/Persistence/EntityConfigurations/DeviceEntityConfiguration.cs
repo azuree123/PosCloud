@@ -20,7 +20,7 @@ namespace POSApp.Persistence.EntityConfigurations
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************
             Property(x => x.Name).HasColumnType("varchar").IsRequired().HasMaxLength(150);
-            Property(x => x.License).HasColumnType("decimal").IsRequired();
+            Property(x => x.License).HasColumnType("varchar").IsRequired().HasMaxLength(150);
             Property(x => x.DeviceCode).HasColumnType("varchar").IsRequired().HasMaxLength(150);
             Property(x => x.AppVersion).HasColumnType("varchar").IsRequired().HasMaxLength(150);
             Property(x => x.DownloadedDate).HasColumnType("datetime").IsOptional();
