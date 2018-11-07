@@ -23,11 +23,11 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Value).HasColumnType("decimal").IsRequired();
             Property(x => x.Type).HasColumnType("varchar").IsRequired().HasMaxLength(150);
             Property(x => x.Days).HasColumnType("varchar").IsRequired().HasMaxLength(150);
-            Property(x => x.IsPercentage).HasColumnType("bit").IsRequired();
-            Property(x => x.IsTaxable).HasColumnType("bit").IsRequired();
+            Property(x => x.IsPercentage).HasColumnType("bit").IsOptional();
+            Property(x => x.IsTaxable).HasColumnType("bit").IsOptional();
             Property(x => x.IsActive).HasColumnType("bit").IsOptional();
-            Property(x => x.ValidFrom).HasColumnType("datetime").IsOptional();
-            Property(x => x.ValidTill).HasColumnType("datetime").IsOptional();
+            Property(x => x.ValidFrom).HasColumnType("datetime").IsRequired();
+            Property(x => x.ValidTill).HasColumnType("datetime").IsRequired();
             Property(x => x.DiscountCode).HasColumnType("varchar").IsRequired().HasMaxLength(150);
 
             // *******************************************************************************************RELATIONS*****************

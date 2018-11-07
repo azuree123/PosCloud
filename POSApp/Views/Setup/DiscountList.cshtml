@@ -35,7 +35,7 @@
 
             @*<li><a href="@Url.Action("DesignationList","Setup")">Desigantion</a></li>*@
 
-            <li><a href="@Url.Action("CouponList","Setup")">Coupon</a></li>
+            @*<li><a href="@Url.Action("CouponList","Setup")">Coupon</a></li>*@
 
             <li class="current"><a href="#">Discount</a></li>
             <li><a href="@Url.Action("TaxList","Setup")">Tax</a></li>
@@ -84,10 +84,13 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                       
-                      
-                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Discount Code</th>
+                            <th>Value</th>
                             <th>IsPercentage</th>
+                            <th>Valid From</th>
+                            <th>Valid Till</th>
+                            <th>Days</th>
                             <th>Is Taxable</th>
                             <th>Action</th>
                         </tr>
@@ -96,21 +99,25 @@
                         @{ int i = 1;}
                         @foreach (var Discount in Model)
                         {
-                            <tr>
-                                <td>@(i++)</td>
-                                <td>@Discount.Name</td>
-                   
-                                <td>@Discount.Amount</td>
-                                <td>@Discount.IsPercentage</td>
-                                <td>@Discount.IsTaxable</td>
-                                <td class="center">
-                                    <div class="btn-group">
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@Discount.Name</td>
+                            <td>@Discount.Type</td>
+                            <td>@Discount.DiscountCode</td>
+                            <td>@Discount.Value</td>
+                            <td>@Discount.IsPercentage</td>
+                            <td>@Discount.ValidFrom</td>
+                            <td>@Discount.ValidTill</td>
+                            <td>@Discount.Days</td>
+                            <td>@Discount.IsTaxable</td>
+                            <td class="center">
+                                <div class="btn-group">
 
                                     @Html.ActionLink(" ", "UpdateDiscount", "Setup", new { id = @Discount.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
                                     @Html.ActionLink(" ", "DeleteDiscount", "Setup", new { id = @Discount.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                                    </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

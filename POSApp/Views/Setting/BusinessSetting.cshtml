@@ -1,0 +1,315 @@
+﻿@{
+    ViewBag.Title = "BussinessSetting";
+}
+<style>
+    .table > thead > tr > th {
+        background-color: rgba(153, 153, 153, 0.4);
+        padding: 16px 0;
+    }
+    .fch{
+        height:36px !important;
+    }
+
+
+
+</style>
+
+
+<!-- start: page -->
+@*<div class="container-fluid">
+        <div class="row mt-md">
+            <div class="col-md-12">
+                <ul class="snip1189">
+
+                    <li class="current"><a href="#">Sales</a></li>
+
+                    <li><a href="@Url.Action("InventoryReport","Reports")">Inventory</a></li>
+
+                    <li><a href="@Url.Action("MiscellaneousReport","Reports")">Miscellaneous</a></li>
+
+                    <li><a href="@Url.Action("ExportingReport","Reports")">Exporting</a></li>
+
+                    <li><a href="@Url.Action("MyReports","Reports")">My Reports</a></li>
+
+
+
+
+                </ul>
+                <hr />
+
+            </div>
+        </div>
+    </div>*@
+
+
+
+
+<div class="container-fluid">
+
+    @using (Html.BeginForm())
+    {
+        <div class="row mt-lg">
+
+
+
+            <div class="col-md-12">
+                <div class="tabs  tabs-left">
+                    <div class="row">
+                        <div class="col-md-12 text-center  col-xs-12 mb-xlg">
+                            <ul class=" snip1189 ">
+                                <li class="mt-xs  current" id="basicInfo">
+                                    <a href="#General" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#dis').removeClass('current');$('#rec').removeClass('current');$('#dz').removeClass('current');">
+                                        General
+                                    </a>
+                                </li>
+                                <li id="dis">
+                                    <a href="#Display" data-toggle="tab" onclick="$('#dis').addClass('current'); $('#basicInfo').removeClass('current');$('#rec').removeClass('current');$('#dz').removeClass('current');">
+                                        Display
+
+                                    </a>
+                                </li>
+                                <li id="rec">
+                                    <a href="#Receipt" data-toggle="tab" onclick="$('#rec').addClass('current'); $('#basicInfo').removeClass('current');$('#dis').removeClass('current');$('#dz').removeClass('current');">
+                                     Receipt
+
+                                    </a>
+                                </li>
+                                <li id="dz">
+                                    <a href="#DangerZone" data-toggle="tab" onclick="$('#dz').addClass('current'); $('#basicInfo').removeClass('current');$('#rec').removeClass('current');$('#dis').removeClass('current');">
+                                       Danger Zone
+
+                                    </a>
+                                </li>
+                            </ul>
+                            <hr />
+                            <div class="row mt-md">
+                                <div class="col-md-12">
+                                    <h4 class=" wb-color  text-center">Business Settings</h4>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content col-md-8 col-xs-12 col-md-offset-2  p-xlg">
+                            <div class="row mb-xlg">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:17px"><i class="fa fa-save  pr-md"></i> Save</button>
+                                </div>
+                            </div>
+                            <div id="General" class="tab-pane active">
+                                <h4 class="mt-none mb-lg text-weight-bold ">General</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div>
+                                            <div class="form-group row mb-0">
+                                                <label class="col-sm-3 col-sm-offset-2 col-xs-3 control-label">Company</label>
+                                                <div class="col-sm-7 col-xs-9">
+                                                    <input type="text" value="381Restaurant" class="form-control-plain">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-0">
+                                                <label class="col-sm-3 col-sm-offset-2 col-xs-3 control-label">Business Reference</label>
+                                                <div class="col-sm-7 col-xs-9">
+                                                    <input type="text" value="LSHFRST" class="form-control-plain">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-0">
+                                                <label class="col-sm-3 col-sm-offset-2 col-xs-3 control-label">Business HID</label>
+                                                <div class="col-sm-7 col-xs-9">
+                                                    <input type="text" value="_deS787GE" class="form-control-plain">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group row ">
+                                                <label class="col-sm-3 col-sm-offset-2 control-label mb-md mt-md">Tax Inclusive Pricing ?</label>
+                                                <div class="col-sm-7 mb-md mt-md">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input"> Yes, Products and delivery prices include taxes.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group row  mb-md mt-md">
+                                                <label class="col-sm-3 col-sm-offset-2 mb-md mt-md control-label">Delivery Price</label>
+                                                <div class="col-sm-6 mb-md mt-md">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div id="Display" class="tab-pane ">
+                                <h4 class="mt-none mb-lg text-weight-bold">Display</h4>
+                                <div class="row">
+                                    <div class="col-md-9 col-lg-offset-2">
+                                        <div style="">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label>Receipt Logo (578x218 px)</label>
+                                                </div> 
+                                            <input type="file" class="form-control fch">
+                                                </div>
+                                            <div class="col-md-10">
+                                            <img src="" class="float-right" style="width: 80px;">
+                                            <!----></div>
+                                            </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label>Waiter App (2048x1538 px)</label>
+                                                </div> 
+                                            <input type="file" class="form-control fch">
+                                                </div>
+                                            <div class="col-md-10">
+                                            <img src="" class="float-right" style="width: 80px;">
+                                                </div>
+                                            </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label>Display App (2048x1538 px)</label>
+                                                </div> 
+                                            <input type="file" class="form-control fch">
+                                                </div> 
+                                            <div class="col-md-10">
+                                            <img src="" class="float-right" style="width: 80px;">
+                                                </div>
+                                            </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label>Waiter App Main Color</label>
+                                                </div>
+                                                </div>
+                                            <div class="col-md-5">
+                                            <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label>Waiter App Sub Color</label>
+                                                </div>
+                                                </div> 
+                                            <div class="col-md-5">
+                                            <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div id="Receipt" class="tab-pane ">
+                                <h4 class="mt-none mb-lg text-weight-bold">Receipt</h4>
+                                <div class="row">
+                                    <div class="col-md-12 ">
+                                        <div style="">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="alert alert-info">
+                                                        Receipt Placeholders:<br> <small>
+                                                            {business_name}, {branch_name},
+                                                            {branch_phone},
+                                                            {branch_reference}, {branch_header},
+                                                            {branch_footer}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div> <hr> <div class="row">
+                                            <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Receipt Header</label> 
+                                                <textarea rows="7" value="{business_name}
+                                                          {branch_name}
+                                                          
+                                                          
+                                                          Welcome" class="form-control">
+                                                 </textarea>
+                                                </div>
+                                                </div> 
+                                            <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Receipt Footer</label> 
+                                                <textarea rows="7"  class="form-control">
+                                                </textarea>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div id="DangerZone" class="tab-pane">
+                                <h4 class="mt-none mb-lg text-weight-bold">Danger Zone</h4>
+                                <div class="row">
+                                    <div class="col-md-9 col-md-offset-2">
+                                        <button type="button" class="btn outline-danger btn-md btn-block"><i class="fa fa-trash pr-sm"></i>
+                                            Delete Company Inventory Transactions
+                                        </button>
+                                  
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+
+
+        $('a.modalShow').on('click', function () {
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+        $('#datatable-default').dataTable();
+
+
+
+    </script>
+}
+
+
+
+

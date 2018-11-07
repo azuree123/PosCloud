@@ -340,6 +340,7 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SaleOrdersController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
+    <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\WebApi\CitiesController.cs" />
@@ -496,6 +497,10 @@
     <Compile Include="Migrations\201811070946166_Update-2.cs" />
     <Compile Include="Migrations\201811070946166_Update-2.Designer.cs">
       <DependentUpon>201811070946166_Update-2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811071018060_update-3.cs" />
+    <Compile Include="Migrations\201811071018060_update-3.Designer.cs">
+      <DependentUpon>201811071018060_update-3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -797,6 +802,7 @@
     <Content Include="Content\javascripts\forms\examples.advanced.form.js" />
     <Content Include="Content\javascripts\forms\examples.validation.js" />
     <Content Include="Content\javascripts\forms\examples.wizard.js" />
+    <Content Include="Content\javascripts\forms\multiSelect.js" />
     <Content Include="Content\javascripts\maps\examples.gmap.js" />
     <Content Include="Content\javascripts\maps\examples.map.builder.js" />
     <Content Include="Content\javascripts\maps\examples.vector.maps.js" />
@@ -2628,6 +2634,7 @@
     <Content Include="Views\Setup\AddRole.cshtml" />
     <Content Include="Views\Products\CombosList.cshtml" />
     <Content Include="Views\Products\AddCombo.cshtml" />
+    <Content Include="Views\Setting\BusinessSetting.cshtml" />
     <Content Include="Views\Products\ComboOptionListTable.cshtml" />
     <Content Include="Views\Products\AddComboOption.cshtml" />
   </ItemGroup>
@@ -2665,6 +2672,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811070946166_Update-2.resx">
       <DependentUpon>201811070946166_Update-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811071018060_update-3.resx">
+      <DependentUpon>201811071018060_update-3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

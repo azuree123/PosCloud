@@ -196,6 +196,7 @@
 {
     <script>
 
+      
         $('a.modalShow').on('click', function () {
             $.ajax({
                 url: this.href,
@@ -214,7 +215,7 @@
 
         $("#ms_example7-toggle").click(function (e) {
             e.preventDefault();
-            multiselect_toggle($("#ms_example7"), $(this));
+            MultiSelect($("#ms_example7"), $(this));
         });
 
     </script>

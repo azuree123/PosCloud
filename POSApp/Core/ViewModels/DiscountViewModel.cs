@@ -11,8 +11,6 @@ namespace POSApp.Core.ViewModels
     {
         public int? Id { get; set; }
         public string Name { get; set; }
-        [DefaultValue(0)]
-        public double Amount { get; set; }
         [DefaultValue(false)]
         public bool IsPercentage { get; set; }
         public string Type { get; set; }
