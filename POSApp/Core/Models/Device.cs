@@ -9,7 +9,7 @@ namespace POSApp.Core.Models
         public int StoreId { get; set; }
         public Store Store { get; set; }
 
-        public string Licence { get; set; }
+        public string License { get; set; }
 
         public string DeviceCode { get; set; }
 
