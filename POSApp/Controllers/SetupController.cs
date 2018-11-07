@@ -721,7 +721,7 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddDiscount(DiscountViewModel dicountMv)
         {
-            
+            dicountMv.Days = string.Join(",", dicountMv.tempDays);
             ViewBag.edit = "AddDiscount";
             if (!ModelState.IsValid)
             {
@@ -731,8 +731,14 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
+                var days1 = "";
+                
+               
+               
+                
                 Discount discount = Mapper.Map<Discount>(dicountMv);
                 discount.StoreId = (int)user.StoreId;
+                discount.Days = days1;
                 _unitOfWork.DiscountRepository.AddDiscount(discount);
                 _unitOfWork.Complete();
                 return RedirectToAction("DiscountList", "Setup");
