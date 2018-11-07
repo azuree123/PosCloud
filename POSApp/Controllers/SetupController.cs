@@ -850,78 +850,78 @@ namespace POSApp.Controllers
             return RedirectToAction("TaxList", "Setup");
         }
 
-        public ActionResult CouponList()
-        {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            return View(_unitOfWork.CouponRepository.GetCoupons((int)user.StoreId));
-        }
-        [HttpGet]
-        public ActionResult AddCoupon()
-        {
-            ViewBag.edit = "AddCoupon";
-            return View();
-        }
-        [HttpPost]
-        public ActionResult AddCoupon(CouponModelView couponMv)
-        {
-            couponMv.Days = string.Join(",", couponMv.tempDays);
-            ViewBag.edit = "AddCoupon";
-            if (!ModelState.IsValid)
-            {
-                return View(couponMv);
-            }
-            else
-            {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Coupon location = Mapper.Map<Coupon>(couponMv);
-                location.StoreId= (int)user.StoreId;
-                _unitOfWork.CouponRepository.AddCoupon(location);
-                _unitOfWork.Complete();
-                return RedirectToAction("CouponList", "Setup");
-            }
+        //public ActionResult CouponList()
+        //{
+        //    var userid = User.Identity.GetUserId();
+        //    var user = UserManager.FindById(userid);
+        //    return View(_unitOfWork.CouponRepository.GetCoupons((int)user.StoreId));
+        //}
+        //[HttpGet]
+        //public ActionResult AddCoupon()
+        //{
+        //    ViewBag.edit = "AddCoupon";
+        //    return View();
+        //}
+        //[HttpPost]
+        //public ActionResult AddCoupon(CouponModelView couponMv)
+        //{
+        //    couponMv.Days = string.Join(",", couponMv.tempDays);
+        //    ViewBag.edit = "AddCoupon";
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(couponMv);
+        //    }
+        //    else
+        //    {
+        //        var userid = User.Identity.GetUserId();
+        //        var user = UserManager.FindById(userid);
+        //        Coupon location = Mapper.Map<Coupon>(couponMv);
+        //        location.StoreId= (int)user.StoreId;
+        //        _unitOfWork.CouponRepository.AddCoupon(location);
+        //        _unitOfWork.Complete();
+        //        return RedirectToAction("CouponList", "Setup");
+        //    }
 
-        }
-        [HttpGet]
-        public ActionResult UpdateCoupon(int id)
-        {
-            ViewBag.edit = "UpdateCoupon";
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            CouponModelView couponMv =
-                Mapper.Map<CouponModelView>(_unitOfWork.CouponRepository.GetCouponById(id, (int)user.StoreId));
-            couponMv.tempDays = couponMv.Days.Split(',');
-            return View("AddCoupon", couponMv);
-        }
-        [HttpPost]
-        public ActionResult UpdateCoupon(int id, CouponModelView couponMv)
-        {
-            couponMv.Days = string.Join(",", couponMv.tempDays);
-            ViewBag.edit = "UpdateCoupon";
-            if (!ModelState.IsValid)
-            {
-                return View("AddCoupon", couponMv);
-            }
-            else
-            {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Coupon location = Mapper.Map<Coupon>(couponMv);
-                _unitOfWork.CouponRepository.UpdateCoupon(id, location, (int)user.StoreId);
-                _unitOfWork.Complete();
-                return RedirectToAction("CouponList", "Setup");
-            }
+        //}
+        //[HttpGet]
+        //public ActionResult UpdateCoupon(int id)
+        //{
+        //    ViewBag.edit = "UpdateCoupon";
+        //    var userid = User.Identity.GetUserId();
+        //    var user = UserManager.FindById(userid);
+        //    CouponModelView couponMv =
+        //        Mapper.Map<CouponModelView>(_unitOfWork.CouponRepository.GetCouponById(id, (int)user.StoreId));
+        //    couponMv.tempDays = couponMv.Days.Split(',');
+        //    return View("AddCoupon", couponMv);
+        //}
+        //[HttpPost]
+        //public ActionResult UpdateCoupon(int id, CouponModelView couponMv)
+        //{
+        //    couponMv.Days = string.Join(",", couponMv.tempDays);
+        //    ViewBag.edit = "UpdateCoupon";
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View("AddCoupon", couponMv);
+        //    }
+        //    else
+        //    {
+        //        var userid = User.Identity.GetUserId();
+        //        var user = UserManager.FindById(userid);
+        //        Coupon location = Mapper.Map<Coupon>(couponMv);
+        //        _unitOfWork.CouponRepository.UpdateCoupon(id, location, (int)user.StoreId);
+        //        _unitOfWork.Complete();
+        //        return RedirectToAction("CouponList", "Setup");
+        //    }
 
-        }
-        public ActionResult DeleteCoupon(int id)
-        {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.CouponRepository.DeleteCoupon(id, (int)user.StoreId);
-            _unitOfWork.Complete();
-            return RedirectToAction("CouponList", "Setup");
-        }
+        //}
+        //public ActionResult DeleteCoupon(int id)
+        //{
+        //    var userid = User.Identity.GetUserId();
+        //    var user = UserManager.FindById(userid);
+        //    _unitOfWork.CouponRepository.DeleteCoupon(id, (int)user.StoreId);
+        //    _unitOfWork.Complete();
+        //    return RedirectToAction("CouponList", "Setup");
+        //}
         public ActionResult UnitList()
         {
             var userid = User.Identity.GetUserId();

@@ -343,7 +343,6 @@
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\WebApi\CitiesController.cs" />
-    <Compile Include="Controllers\WebApi\CouponsController.cs" />
     <Compile Include="Controllers\WebApi\CustomersController.cs" />
     <Compile Include="Controllers\WebApi\DepartmentsController.cs" />
     <Compile Include="Controllers\WebApi\DiscountsController.cs" />
@@ -365,7 +364,6 @@
     <Compile Include="Core\Models\AppCounter.cs" />
     <Compile Include="Core\Models\BusinessPartner.cs" />
     <Compile Include="Core\Models\Client.cs" />
-    <Compile Include="Core\Models\Coupon.cs" />
     <Compile Include="Core\Models\Designation.cs" />
     <Compile Include="Core\Models\Device.cs" />
     <Compile Include="Core\Models\DineTable.cs" />
@@ -386,7 +384,6 @@
     <Compile Include="Core\Repositories\IAppCountersRepository.cs" />
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
     <Compile Include="Core\Repositories\IClientRepository.cs" />
-    <Compile Include="Core\Repositories\ICouponRepository.cs" />
     <Compile Include="Core\Repositories\IDineTableRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
     <Compile Include="Core\Repositories\IFloorRepository.cs" />
@@ -407,7 +404,6 @@
     <Compile Include="Core\ViewModels\BusinessPartnerViewModel.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\ClientViewModel.cs" />
-    <Compile Include="Core\ViewModels\CouponModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
@@ -503,7 +499,6 @@
     <Compile Include="Persistence\EntityConfigurations\ApplicationUserEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\BusinessPartnerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\CityEntityConfiguration.cs" />
-    <Compile Include="Persistence\EntityConfigurations\CouponEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\CustomerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DepartmentEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DineTableEntityConfiguration.cs" />
@@ -537,7 +532,6 @@
     <Compile Include="Persistence\Repositories\BusinessPartnerRepository.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
     <Compile Include="Persistence\Repositories\ClientRepository.cs" />
-    <Compile Include="Persistence\Repositories\CouponRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\DepartmentRepository.cs" />
     <Compile Include="Persistence\Repositories\DineTableRepository.cs" />
@@ -2570,8 +2564,6 @@
     <Content Include="Views\Services\AddServiceCategory.cshtml" />
     <Content Include="Views\Store\AddStore.cshtml" />
     <Content Include="Views\Store\StoresList.cshtml" />
-    <Content Include="Views\Setup\CouponList.cshtml" />
-    <Content Include="Views\Setup\AddCoupon.cshtml" />
     <Content Include="Views\Setup\DiscountList.cshtml" />
     <Content Include="Views\Setup\AddDiscount.cshtml" />
     <Content Include="Views\Setup\TaxList.cshtml" />

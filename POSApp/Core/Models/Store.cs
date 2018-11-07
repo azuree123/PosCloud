@@ -31,7 +31,7 @@ namespace POSApp.Core.Models
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual ICollection<SaleOrder> SaleOrders { get; set; }
         public virtual ICollection<Supplier> Suppliers { get; set; }
-        public virtual ICollection<Coupon> Coupons { get; set; }
+        //public virtual ICollection<Coupon> Coupons { get; set; }
         public virtual ICollection<Tax> Taxes { get; set; }
         public virtual ICollection<Discount> Discounts { get; set; }
         public virtual ICollection<Unit> Units { get; set; }
