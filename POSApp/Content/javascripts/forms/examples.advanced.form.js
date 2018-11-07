@@ -43,41 +43,38 @@ Theme Version: 	1.5.2
 		}
 	}
 
-	$("#ms_example7-toggle").click(function(e) {
-		e.preventDefault();
-		multiselect_toggle($("#ms_example7"), $(this));
-	});
+
 
 	/*
 	Slider Range: Output Values
 	*/
-	$('#listenSlider').change(function() {
-		$('.output b').text( this.value );
-	});
+	//$('#listenSlider').change(function() {
+	//	$('.output b').text( this.value );
+	//});
 
-	$('#listenSlider2').change(function() {
-		var min = parseInt(this.value.split('/')[0], 10);
-		var max = parseInt(this.value.split('/')[1], 10);
+	//$('#listenSlider2').change(function() {
+	//	var min = parseInt(this.value.split('/')[0], 10);
+	//	var max = parseInt(this.value.split('/')[1], 10);
 
-		$('.output2 b.min').text( min );
-		$('.output2 b.max').text( max );
-	});
+	//	$('.output2 b.min').text( min );
+	//	$('.output2 b.max').text( max );
+	//});
 
 	/*
 	Bootstrap Confirmation - BASIC
 	*/
-	$('[data-toggle="confirmation"]').confirmation();
+	//$('[data-toggle="confirmation"]').confirmation();
 
 	/*
 	Bootstrap Confirmation - CALLBACK
 	*/
-	$('.confirmation-callback').confirmation({
-		onConfirm: function() {
-			alert('You clicked: confirm' );
-		},
-		onCancel: function() {
-			alert('You clicked: cancel' );
-		}
-	});
+	//$('.confirmation-callback').confirmation({
+	//	onConfirm: function() {
+	//		alert('You clicked: confirm' );
+	//	},
+	//	onCancel: function() {
+	//		alert('You clicked: cancel' );
+	//	}
+	//});
 
 }(jQuery));
