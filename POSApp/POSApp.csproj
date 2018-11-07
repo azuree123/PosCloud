@@ -362,14 +362,12 @@
     <Compile Include="Controllers\WebApi\UnitsController.cs" />
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
-    <Compile Include="Core\Enums\ModifierOptionEnum.cs" />
-    <Compile Include="Core\Enums\PaymentMethod.cs" />
-    <Compile Include="Core\Enums\TimedEventType.cs" />
     <Compile Include="Core\Models\AppCounter.cs" />
     <Compile Include="Core\Models\BusinessPartner.cs" />
-    <Compile Include="Core\Models\Coupon.cs" />
     <Compile Include="Core\Models\Client.cs" />
+    <Compile Include="Core\Models\Coupon.cs" />
     <Compile Include="Core\Models\Designation.cs" />
+    <Compile Include="Core\Models\Device.cs" />
     <Compile Include="Core\Models\DineTable.cs" />
     <Compile Include="Core\Models\Discount.cs" />
     <Compile Include="Core\Models\Floor.cs" />
@@ -2626,6 +2624,8 @@
     <Content Include="Views\Products\ModifierList.cshtml" />
     <Content Include="Views\Setup\FloorList.cshtml" />
     <Content Include="Views\Setup\AddFloor.cshtml" />
+    <Content Include="Views\Setup\DineTableList.cshtml" />
+    <Content Include="Views\Setup\AddDineTable.cshtml" />
     <Content Include="Views\Setup\RolesList.cshtml" />
     <Content Include="Views\Setup\AddRole.cshtml" />
   </ItemGroup>

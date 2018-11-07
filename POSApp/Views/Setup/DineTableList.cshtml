@@ -1,11 +1,11 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.CustomerModelView>
+﻿@model IEnumerable<POSApp.Core.ViewModels.DineTableListModelView>
 
 @{
-    ViewBag.Title = "CustomerList";
+    ViewBag.Title = "DineTableList";
 }
 
-    @*<header class="page-header">
-        <h2>Customers</h2>
+@*<header class="page-header">
+        <h2>Cities</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -14,7 +14,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>Customers</span></li>
+                <li><span>Cities</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -22,11 +22,11 @@
         </div>
     </header>*@
 
-    <!-- start: page -->
+<!-- start: page -->
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li class="current"><a href="@Url.Action("CustomerList","Setup")">Customer</a></li>
+            <li><a href="@Url.Action("CustomerList","Setup")">Customer</a></li>
             <li><a href="@Url.Action("EmployeeList","Setup")">Employee</a></li>
 
             <li><a href="@Url.Action("SupplierList","Setup")">Supplier</a></li>
@@ -40,13 +40,13 @@
             <li><a href="@Url.Action("DiscountList","Setup")">Discount</a></li>
             <li><a href="@Url.Action("TaxList","Setup")">Tax</a></li>
             <li><a href="@Url.Action("StateList","Setup")">State</a></li>
-            <li><a href="@Url.Action("CityList","Setup")">City</a></li>
+            <li><a href="@Url.Action("CityList","Setup")">State</a></li>
+
+
             <li><a href="@Url.Action("ClientList","Setup")">Client</a></li>
             <li><a href="@Url.Action("UnitList","Setup")">Unit</a></li>
             <li><a href="@Url.Action("TimedEventList","Setup")">Timed Event</a></li>
-            <li><a href="@Url.Action("RolesList","Setup")">Roles</a></li>
-
-            <li><a href="@Url.Action("DineTableList","Setup")">Dine Table</a></li>
+            <li class="current"><a href="#">Dine Table</a></li>
             <li><a href="@Url.Action("FloorList","Setup")">Floor</a></li>
 
         </ul>
@@ -54,73 +54,63 @@
 
     </div>
 </div>
-    <section class="panel">
-        <header class="panel-heading">
-            <div class="row">
-                <div class="col-md-12">
-   
-                   
-                        <div class="" id="header-flex">
-                            <h3 class="wb-color" style="flex-grow: 8"><b>Customers</b></h3>
-  
-   
-                            <a href="@Url.Action("AddCustomer", "Setup")" class="modalShow" style="flex-grow: 0.2" >
-                                <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Customer</button>
+<section class="panel">
+    <header class="panel-heading">
+        <div class="row">
 
-                            </a>
-                            <a href="@Url.Action("CustomerExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
-                                <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+            <div class="" id="header-flex">
+                <h3 class="wb-color" style="flex-grow: 8"><b>Tables</b></h3>
 
-                            </a>
 
-                 
-                        </div>
-               
-                </div>
+                <a href="@Url.Action("AddDineTable", "Setup")" class="modalShow" style="flex-grow: 0.2">
+                    <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add DineTable</button>
+
+                </a>
+                @*<a href="@Url.Action("CityExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
+                    <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+                </a>*@
+
             </div>
+        </div>
 
-            <h2 class="panel-title"></h2>
-        </header>
-        <div class="panel-body">
-             <div class="table-responsive">
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Mobile Number</th>
-                        <th>Address</th>
+                        <th>Table Number</th>
+                        <th>Floor</th>
                         <th>Action</th>
-
                     </tr>
                 </thead>
-                <tbody >
+                <tbody>
                     @{ int i = 1;}
-                    @foreach (var cus in Model)
+                    @foreach (var dinetable in Model)
                     {
                         <tr>
                             <td>@(i++)</td>
-                            <td>@cus.Name</td>
-                            <td>@cus.Email</td>
-                            <td>@cus.PhoneNumber</td>
-                            <td>@cus.Address</td>
+                            <td>@dinetable.DineTableNumber</td>
+                            <td>@dinetable.FloorNumber</td>
                             <td class="center">
                                 <div class="btn-group">
 
-                                @Html.ActionLink(" ", "UpdateCustomer", "Setup", new { id = cus.Id, storeId = cus.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteCustomer", "Setup", new { id = cus.Id, storeId = cus.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    @Html.ActionLink(" ", "UpdateDinetable", "Setup", new { id = @dinetable.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+
+                                    @Html.ActionLink(" ", "DeleteDineTable", "Setup", new { id = @dinetable.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                                 </div>
+
                             </td>
                         </tr>
                     }
-                  
                 </tbody>
             </table>
-                 </div>
         </div>
-    </section>
-
+    </div>
+</section>
 
 
 

@@ -11,6 +11,6 @@ namespace POSApp.Core.ViewModels
         public int StoreId { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
-        public int FloorNumber { get; set; }
+        public string FloorNumber { get; set; }
     }
 }
