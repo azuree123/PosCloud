@@ -790,6 +790,71 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("CombosList", "Products");
         }
+        public ActionResult AddComboOption()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ProductSubViewModel Combooption = new ProductSubViewModel();
+            ViewBag.edit = "AddComboOption";
+            Combooption.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int) user.StoreId)
+                .Select(a => new SelectListItem {Text = a.Name, Value = a.Id.ToString()}).ToList();
+            return View(Combooption);
+        }
+        [HttpPost]
+        public ActionResult AddComboOption(ProductSubViewModel CombooptionVm)
+        {
+            if (Helper.TempComboOptions == null)
+            {
+                Helper.TempComboOptions = new List<ProductSubViewModel>();
+            }
+            ViewBag.edit = "AddComboOption";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!ModelState.IsValid)
+            {
+                CombooptionVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).ToList();
+                return View(CombooptionVm);
+            }
+            else
+
+            {
+                CombooptionVm.StoreId = (int)user.StoreId;
+                Helper.AddToTempComboOptions(CombooptionVm, userid);
+                //ComboOption Combooption = Mapper.Map<ComboOption>(CombooptionVm);
+                //_unitOfWork.ComboOptionRepository.AddComboOption(Combooption);
+                //_unitOfWork.Complete();
+                return View("ComboOptionListTable", Helper.TempComboOptions.Where(a => a.CreatedBy == userid).ToList());
+            }
+
+        }
+        public ActionResult UpdateComboOption(int productId)
+        {
+            ViewBag.edit = "AddComboOption";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ProductSubViewModel CombooptionVm = Helper.TempComboOptions.FirstOrDefault(a => a.ProductId == productId && a.CreatedBy == userid);
+            CombooptionVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).ToList();
+            return View("AddComboOption", CombooptionVm);
+        }
+        
+        public ActionResult DeleteComboOption(int productId, int storeid)
+        {
+            if (Helper.TempComboOptions == null)
+            {
+                Helper.TempComboOptions = new List<ProductSubViewModel>();
+                return View("ComboOptionListTable", Helper.TempComboOptions.ToList());
+
+            }
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            Helper.RemoveFromTempComboOptions(productId, (int)user.StoreId, userid);
+            //_unitOfWork.ComboOptionRepository.DeleteComboOptions(id, Convert.ToInt32(user.StoreId));
+            //_unitOfWork.Complete();
+            return View("ComboOptionListTable", Helper.TempComboOptions.Where(a => a.CreatedBy == userid).ToList());
+
+        }
 
         public ApplicationUserManager UserManager
         {
