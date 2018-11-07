@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AutoMapper;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
@@ -66,8 +67,10 @@ namespace POSApp
             CreateMap<Modifier, ModifierViewModel>().ForMember(a => a.ModifierOptionViewModels, o => o.MapFrom(a=>a.ModifierOptions));
             CreateMap<ModifierOptionViewModel, ModifierOption>();
             CreateMap<ModifierOption, ModifierOptionViewModel>();
-            CreateMap<TimedEventViewModel, TimedEvent>();
-            CreateMap<TimedEvent, TimedEventViewModel>();
+            CreateMap<TimedEventViewModel, TimedEvent>().ForMember(a => a.Days, o => o.MapFrom(g => string.Join(",",g.Days)));
+            CreateMap<TimedEvent, TimedEventViewModel>().ForMember(a=>a.BranchesDisplay,o=>o.MapFrom(g=>g.StoreId))
+                .ForMember(a => a.ProductsDisplay, o => o.MapFrom(g => string.Join(",",g.TimedEventProducts.Select(a=>a.ProductId).ToArray())))
+                .ForMember(a => a.DaysDisplay, o => o.MapFrom(g => g.Days));
             CreateMap<DineTableViewModel, DineTable>();
             CreateMap<DineTable, DineTableViewModel>();
             CreateMap<FloorViewModel, Floor>();
