@@ -1351,6 +1351,86 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("FloorList", "Setup");
         }
+
+        //DineTale
+
+        public ActionResult DineTableList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.DineTableRepository.GetDineTables((int)user.StoreId).Select(a => new DineTableListModelView { Id = a.Id, DineTableNumber = a.DineTableNumber, FloorNumber =a.Floor.FloorNumber }));
+        }
+        public ActionResult AddDineTable()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            DineTableViewModel dinetable  = new DineTableViewModel();
+            dinetable.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FloorNumber }).AsEnumerable();
+            ViewBag.edit = "AddDineTable";
+            return View(dinetable);
+        }
+
+        [HttpPost]
+        public ActionResult AddDineTable(DineTableViewModel DineTableVm)
+        {
+            ViewBag.edit = "AddDineTable";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!ModelState.IsValid)
+            {
+                DineTableVm.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int) user.StoreId)
+                    .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.FloorNumber}).AsEnumerable();
+                return View(DineTableVm);
+            }
+            else
+            {
+                DineTableVm.StoreId = (int)user.StoreId;
+                DineTable DineTable = Mapper.Map<DineTable>(DineTableVm);
+                _unitOfWork.DineTableRepository.AddDineTable(DineTable);
+                _unitOfWork.Complete();
+                return RedirectToAction("DineTableList", "Setup");
+            }
+
+        }
+
+        [HttpGet]
+        public ActionResult UpdateDineTable(int id)
+        {
+            ViewBag.edit = "UpdateDineTable";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            DineTableViewModel DineTableMv = Mapper.Map<DineTableViewModel>(_unitOfWork.DineTableRepository.GetDineTableById(id,(int)user.StoreId));
+            DineTableMv.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FloorNumber }).AsEnumerable();
+            return View("AddDineTable", DineTableMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateDineTable(int id, DineTableViewModel DineTableVm,int storeId)
+        {
+            ViewBag.edit = "UpdateDineTable";
+            if (!ModelState.IsValid)
+            {
+                return View("AddDineTable", DineTableVm);
+            }
+            else
+            {
+                DineTable DineTable = Mapper.Map<DineTable>(DineTableVm);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.DineTableRepository.UpdateDineTable(id, DineTable, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                return RedirectToAction("DineTableList", "Setup");
+            }
+        }
+        public ActionResult DeleteDineTable(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.DineTableRepository.DeleteDineTable(id,(int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("DineTableList", "Setup");
+        }
         public JsonResult GetDepartmentDdl()
         {
             try

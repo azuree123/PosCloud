@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<DineTable> GetDineTables(int storeid)
         {
-            return _context.DineTables.Where(a => a.StoreId == storeid).ToList();
+            return _context.DineTables.Where(a => a.StoreId == storeid).Include(f => f.Floor).ToList();
         }
 
         public DineTable GetDineTableById(int id, int storeid)
