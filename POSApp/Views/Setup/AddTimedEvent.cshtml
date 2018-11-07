@@ -68,6 +68,8 @@
 
                                 <div class="row">
                                     <div class="form-group">
+                                        <input type="hidden" id="date1" value="@Model.FromDate" />
+                                        <input type="hidden" id="date2" value="@Model.ToDate" />
 
                                         <div class="col-md-3">
                                             @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
@@ -104,6 +106,7 @@
                                         Ddl.Add(new SelectListItem { Text = "Sun", Value = "Sun" });
 
                                     }
+                                    <input type="hidden" id="daysDispaly" value="@Model.DaysDisplay"/>
                                     <div class="col-md-3">
                                         @Html.LabelFor(model => model.Days, htmlAttributes: new { @class = "control-label" })
                                         @Html.DropDownListFor(model => model.Days, Ddl, new { @class = "form-control", @required = "true", @multiple = "multiple" })
@@ -117,8 +120,8 @@
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-                                            <div class="checkbox">
-                                                @Html.EditorFor(model => model.IsActive)
+                                            <div class="">
+                                                @Html.EditorFor(model => model.IsActive,new {@class="form-control"})
                                                 @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -126,6 +129,7 @@
                                 </div>
 
                                 <hr />
+
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-4">
@@ -133,34 +137,38 @@
                                             @Html.Label("Categories", htmlAttributes: new { @class = "control-label" })
                                             <div class="">
                                                 @Html.DropDownListFor(a => a.Categories, Model.CatDdl, new { @class = "form-control ", @multiple = "multiple" })
-                                                
-                                                    
-                                                  <input type="checkbox" onclick="Select_All($(this).prop('checked'),'@Html.IdFor(a=>a.Categories)');" />
+
+
+                                                <input type="checkbox" onclick="Select_All($(this).prop('checked'),'@Html.IdFor(a=>a.Categories)');" />
                                                 Select All
-                                                </div>
+                                            </div>
 
                                         </div>
+                                        <input type="hidden" id="productsDispaly" value="@Model.ProductsDisplay" />
+
                                         <div class="col-md-4">
 
                                             @Html.Label("Products", htmlAttributes: new { @class = "control-label" })
                                             <div class="">
-                                                @Html.DropDownListFor(a => a.Products, Model.ProductDdl, new { @class = "form-control ", @multiple = "multiple"})
-                                               
-                                                    
-                                                    <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Products)');" />
+                                                @Html.DropDownListFor(a => a.Products, Model.ProductDdl, new { @class = "form-control ", @multiple = "multiple" })
+
+
+                                                <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Products)');" />
                                                 Select All
-                                                </div>
+                                            </div>
                                         </div>
+                                        <input type="hidden" id="branchesDispaly" value="@Model.BranchesDisplay" />
+
                                         <div class="col-md-4">
 
                                             @Html.Label("Branches", htmlAttributes: new { @class = "control-label" })
                                             <div class="">
                                                 @Html.DropDownListFor(a => a.Branches, Model.BranchDdl, new { @class = "form-control ", @multiple = "multiple" })
-                                               
-                                                    
-                                                    <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Branches)');"  />
-                                                    Select All
-                                                </div>
+
+
+                                                <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Branches)');" />
+                                                Select All
+                                            </div>
 
                                         </div>
                                     </div>
@@ -195,6 +203,35 @@
             $("#" + b +"").trigger("change");
         }
     }
+    $(document).ready(function () {
+        var ddlData = $('#daysDispaly').val();
+        $('#@Html.IdFor(a=>a.Days)').val(''+ddlData+'');
+        $('#@Html.IdFor(a=>a.Days)').trigger("change");
+        ddlData = $('#productsDispaly').val();
+        $('#@Html.IdFor(a=>a.Products)').val(ddlData);
+        $('#@Html.IdFor(a=>a.Products)').trigger("change");
+        ddlData = $('#branchesDispaly').val();
+        $('#@Html.IdFor(a=>a.Branches)').val(ddlData);
+        $('#@Html.IdFor(a=>a.Branches)').trigger("change");
+
+
+        var date = document.getElementById('date1').value;
+        var temp;
+        if (date !== '1/1/0001 12:00:00 AM') {
+            temp = new Date(date);
+            temp.setDate(temp.getDate() + 1);
+            if(date)
+                document.getElementById('@Html.IdFor(a=>a.FromDate)').valueAsDate = temp;
+        }
+
+            date = document.getElementById('date2').value;
+        if (date !== '1/1/0001 12:00:00 AM') {
+            temp = new Date(date);
+            temp.setDate(temp.getDate() + 1);
+            if(date)
+                document.getElementById('@Html.IdFor(a=>a.ToDate)').valueAsDate = temp;
+        }
+    });
   
 </script>
 
