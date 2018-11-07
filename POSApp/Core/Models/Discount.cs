@@ -24,7 +24,7 @@ namespace POSApp.Core.Models
         public bool IsPercentage { get; set; }
         [DefaultValue(false)]
         public bool IsTaxable { get; set; }
-
+        public string Days { get; set; }
         public bool IsActive { get; set; }
 
     }
