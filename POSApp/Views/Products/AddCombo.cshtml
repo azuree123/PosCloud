@@ -1,4 +1,4 @@
-﻿@model POSApp.Core.ViewModels.ProductCreateViewModel
+﻿@model POSApp.Core.ViewModels.ComboViewModel
 
 @{
     ViewBag.Title = "AddCombo";
@@ -37,13 +37,13 @@
                                 </li>
 
                                 <li id="tranInfo">
-                                    <a href="#transactionitems" data-toggle="tab" id="modifierOption" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">ModifierOptions </a>
+                                    <a href="#transactionitems" data-toggle="tab" id="modifierOption" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">Combo Options </a>
                                 </li>
                             </ul>
                             <hr />
                             <div class="row mt-md">
                                 <div class="col-md-12">
-                                    <h4 class=" wb-color  text-center">New Modifier</h4>
+                                    <h4 class=" wb-color  text-center">New Combo</h4>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                             </div>
                             <div id="transactionitems" class="tab-pane">
                                 <div class=" mb-lg" id="header-flex">
-                                    <h4 class="mt-xs  " style="flex-grow: 8">Modifier Options</h4>
+                                    <h4 class="mt-xs  " style="flex-grow: 8">Combo Options</h4>
                                     <a href="@Url.Action("AddComboOption", "Products")" class="modalShow" style="flex-grow: 0">
                                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New</button>
 
@@ -177,6 +177,21 @@
 @section scripts
 {
     <script>
+
+        $('a.modalShow').on('click', function () {
+           
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+
         var tablefill = false;
         function CheckData() {
 
@@ -197,11 +212,11 @@
             tablefill = true;
         }
 
-        function ShowUpdate(a) {
+        function ShowUpdate(a,b) {
 
             $.ajax({
-                url: "@Url.Action("UpdateModifierOption","Products")",
-                data: {name:a},
+                url: "@Url.Action("UpdateComboOption","Products")",
+                data: { productId: a, storeId:b},
                 type: 'GET',
                 cache: false,
                 success: function (result) {
@@ -213,18 +228,6 @@
 
         }
 
-        $('a.modalShow').on('click', function () {
-            $.ajax({
-                url: this.href,
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('#ModalData').html(result).find('#ordine').modal('show');
-                }
-            });
-
-            return false;
-        });
         $('#datatable-default').dataTable();
     </script>
 }

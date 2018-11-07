@@ -77,6 +77,9 @@ namespace POSApp
             CreateMap<DineTable, DineTableViewModel>();
             CreateMap<FloorViewModel, Floor>();
             CreateMap<Floor, FloorViewModel>();
+
+            CreateMap<ComboViewModel, Product>();
+            CreateMap<Product, ComboViewModel>().ForMember(a => a.ProductSubViewModels,o=>o.MapFrom(g=>g.ComboProducts));
         }
     }
 }

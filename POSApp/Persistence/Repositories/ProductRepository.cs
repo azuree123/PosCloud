@@ -26,7 +26,7 @@ namespace POSApp.Persistence.Repositories
         }
         public Product GetProductById(int id, int storeid)
         {
-            return _context.Products.Find(id,storeid);
+            return _context.Products.Include(a=>a.ComboProducts).FirstOrDefault(a=>a.Id==id&&a.StoreId==storeid);
         }
 
         public void AddProduct(Product product)
