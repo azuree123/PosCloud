@@ -63,7 +63,7 @@
                                             @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                             @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
                                         </div>
-                               
+
 
                                         <div class="col-md-2">
                                             @Html.LabelFor(model => model.IsPercentage, htmlAttributes: new { @class = "control-label" })
@@ -77,7 +77,46 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.ValidFrom, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.ValidFrom, new { htmlAttributes = new { @class = "form-control unstyled", @required = "true" } })
+                                            @Html.ValidationMessageFor(model => model.ValidFrom, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.ValidTill, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.ValidTill, new { htmlAttributes = new { @class = "form-control unstyled", @required = "true" } })
+                                            @Html.ValidationMessageFor(model => model.ValidTill, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
+                                            @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                                        </div>
+                                        @{
+                                            List<SelectListItem> Ddl = new List<SelectListItem>();
+                                            Ddl.Add(new SelectListItem { Text = "Mon", Value = "Mon" });
+                                            Ddl.Add(new SelectListItem { Text = "Tue", Value = "Tue" });
+                                            Ddl.Add(new SelectListItem { Text = "Wed", Value = "Wed" });
+                                            Ddl.Add(new SelectListItem { Text = "Thu", Value = "Thu" });
+                                            Ddl.Add(new SelectListItem { Text = "Fri", Value = "Fri" });
+                                            Ddl.Add(new SelectListItem { Text = "Sat", Value = "Sat" });
+                                            Ddl.Add(new SelectListItem { Text = "Sun", Value = "Sun" });
 
+                                        }
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.Days, htmlAttributes: new { @class = "control-label" })
+                                            @Html.DropDownListFor(model => model.tempDays, Ddl, new { @class = "form-control", @required = "true", @multiple = "multiple" })
+                                            @Html.ValidationMessageFor(model => model.tempDays, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.IsPercentage, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.IsPercentage, new { htmlAttributes = new { @class = "" } })
+                                            @Html.ValidationMessageFor(model => model.IsPercentage, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
 
 
                             </div>

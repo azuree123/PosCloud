@@ -11,7 +11,7 @@ namespace POSApp.Core.Models
 
         public string Licence { get; set; }
 
-        public string Code { get; set; }
+        public string DeviceCode { get; set; }
 
         public string AppVersion { get; set; }
 
