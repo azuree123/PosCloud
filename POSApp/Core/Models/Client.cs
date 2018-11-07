@@ -10,7 +10,6 @@ namespace POSApp.Core.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [MaxLength(150)]
         public string Name { get; set; }
         [MaxLength(300)]
         public string Address { get; set; }
@@ -20,8 +19,6 @@ namespace POSApp.Core.Models
         public string City { get; set; }
         [MaxLength(150)]
         public string State { get; set; }
-        [MaxLength(150)]
-        public string Image { get; set; }
-     
+
     }
 }

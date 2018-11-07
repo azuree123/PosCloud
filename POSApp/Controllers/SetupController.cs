@@ -130,8 +130,11 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 suppliervm.StoreId = user.StoreId;
-                Supplier supplier = Mapper.Map<Supplier>(suppliervm);
-                _unitOfWork.SupplierRepository.AddSupplier(supplier);
+                BusinessPartner supplier = Mapper.Map<BusinessPartner>(suppliervm);
+                supplier.StoreId = (int) user.StoreId;
+                supplier.Type = "S";
+                supplier.Birthday=DateTime.Now;
+                _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(supplier);
                 _unitOfWork.Complete();
                 return PartialView("Error");
             }

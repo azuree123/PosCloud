@@ -362,12 +362,6 @@
     <Compile Include="Controllers\WebApi\UnitsController.cs" />
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
-    <Compile Include="Core\Enums\ModifierOptionEnum.cs" />
-    <Compile Include="Core\Enums\PaymentMethod.cs" />
-    <Compile Include="Core\Enums\TimedEventType.cs" />
-    <Compile Include="Core\Models\AppCounter.cs" />
-    <Compile Include="Core\Models\BusinessPartner.cs" />
-    <Compile Include="Core\Models\Coupon.cs" />
     <Compile Include="Core\Models\Client.cs" />
     <Compile Include="Core\Models\Designation.cs" />
     <Compile Include="Core\Models\DineTable.cs" />
@@ -494,6 +488,10 @@
     <Compile Include="Migrations\201811061032401_Initial3.cs" />
     <Compile Include="Migrations\201811061032401_Initial3.Designer.cs">
       <DependentUpon>201811061032401_Initial3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811070644034_Update-1.cs" />
+    <Compile Include="Migrations\201811070644034_Update-1.Designer.cs">
+      <DependentUpon>201811070644034_Update-1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2655,6 +2653,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811061032401_Initial3.resx">
       <DependentUpon>201811061032401_Initial3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811070644034_Update-1.resx">
+      <DependentUpon>201811070644034_Update-1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

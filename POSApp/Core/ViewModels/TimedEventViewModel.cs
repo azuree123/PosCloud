@@ -26,7 +26,7 @@ namespace POSApp.Core.ViewModels
         [DataType(DataType.Time)]
         public TimeSpan ToHour { get; set; }
         [DefaultValue(0)]
-        public string Days { get; set; }
+        public string[] Days { get; set; }
         [DefaultValue(false)]
         public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
@@ -35,6 +35,11 @@ namespace POSApp.Core.ViewModels
         public int[] Categories { get; set; }
         public int[] Products { get; set; }
         public int[] Branches { get; set; }
+
+        public string DaysDisplay { get; set; }
+        public string ProductsDisplay { get; set; }
+        public string BranchesDisplay { get; set; }
+
 
         public IEnumerable<SelectListItem> CatDdl { get; set; }
         public IEnumerable<SelectListItem> ProductDdl { get; set; }
