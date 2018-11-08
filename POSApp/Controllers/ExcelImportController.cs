@@ -141,8 +141,16 @@ namespace POSApp.Controllers
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
                     {
                         NewModel.Name = dr["Name"].ToString();
+                        NewModel.IsPercentage = Convert.ToBoolean(dr["IsPercentage"].ToString());
+                        NewModel.IsTaxable = Convert.ToBoolean(dr["IsTaxable"].ToString());
+                        NewModel.Type = dr["Type"].ToString();
+                        NewModel.DiscountCode = dr["DiscountCode"].ToString();
                         NewModel.Value = decimal.Parse(dr["Value"].ToString()) ;
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.Days = dr["Days"].ToString();
+                        NewModel.ValidFrom = DateTime.Parse(dr["ValidFrom"].ToString());
+                        NewModel.ValidTill = DateTime.Parse(dr["ValidTill"].ToString());
+                        NewModel.IsActive = bool.Parse(dr["IsActive"].ToString());
+                    NewModel.StoreId = (int)user.StoreId;
                         _unitOfWork.DiscountRepository.AddDiscount(NewModel);
                     }
                 }
@@ -158,33 +166,34 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult CouponExcelImport(HttpPostedFileBase file)
-        {
+        //public ActionResult CouponExcelImport(HttpPostedFileBase file)
+        //{
             
-            DataTable dt = ImportService.GetExcelData(file);
+        //    DataTable dt = ImportService.GetExcelData(file);
 
-            var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Discount NewModel = new Discount();
-                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
-                    {
-                        NewModel.Name = dr["Name"].ToString();
-                        //NewModel.Amount = int.Parse(dr["Amount"].ToString());
-                        NewModel.Value = decimal.Parse(dr["Value"].ToString());
-                        NewModel.Days = dr["Days"].ToString();
-                        NewModel.ValidFrom = DateTime.Parse(dr["ValidFrom"].ToString());
-                        NewModel.ValidFrom = DateTime.Parse(dr["ValidTill"].ToString());
-                        NewModel.StoreId = (int)user.StoreId;
-                        _unitOfWork.DiscountRepository.AddDiscount(NewModel);
-                    }
-                }
-                _unitOfWork.Complete();
+        //    var userid = User.Identity.GetUserId();
+        //        var user = UserManager.FindById(userid);
+        //        foreach (DataRow dr in dt.Rows)
+        //        {
+        //            Discount NewModel = new Discount();
+        //            if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+        //            {
+        //                NewModel.Name = dr["Name"].ToString();
+        //                //NewModel.Amount = int.Parse(dr["Amount"].ToString());
+        //                NewModel.Value = decimal.Parse(dr["Value"].ToString());
+
+        //                NewModel.Days = dr["Days"].ToString();
+        //                NewModel.ValidFrom = DateTime.Parse(dr["ValidFrom"].ToString());
+        //                NewModel.ValidFrom = DateTime.Parse(dr["ValidTill"].ToString());
+        //                NewModel.StoreId = (int)user.StoreId;
+        //                _unitOfWork.DiscountRepository.AddDiscount(NewModel);
+        //            }
+        //        }
+        //        _unitOfWork.Complete();
 
             
-            return RedirectToAction("CouponList", "Setup");
-        }
+        //    return RedirectToAction("CouponList", "Setup");
+        //}
 
         public ActionResult CustomerExcelImport()
         {

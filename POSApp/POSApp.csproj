@@ -362,6 +362,7 @@
     <Compile Include="Controllers\WebApi\TaxesController.cs" />
     <Compile Include="Controllers\WebApi\UnitsController.cs" />
     <Compile Include="Core\Enums\Available.cs" />
+    <Compile Include="Core\Enums\DiscountType.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\Models\AppCounter.cs" />
     <Compile Include="Core\Models\BusinessPartner.cs" />
@@ -2494,9 +2495,9 @@
     <Content Include="Content\ImportFormats\TaxImport.xls" />
     <Content Include="Content\ImportFormats\TransDetailImport.xls" />
     <Content Include="Content\ImportFormats\TransMasterImport.xls" />
-    <Content Include="Content\ImportFormats\DiscountImport.xls" />
     <Content Include="Content\ImportFormats\CustomerImport.xls" />
     <Content Include="Content\ImportFormats\CouponImport.xls" />
+    <Content Include="Content\ImportFormats\DiscountImport.xls" />
     <None Include="Properties\PublishProfiles\almuaibida.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
