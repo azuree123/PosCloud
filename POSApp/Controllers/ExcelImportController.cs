@@ -654,6 +654,66 @@ namespace POSApp.Controllers
 
             return RedirectToAction("DineTableList", "Setup");
         }
+        public ActionResult ClientExcelImport()
+        {
+            ViewBag.edit = "ClientExcelImport";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ClientExcelImport(HttpPostedFileBase file)
+        {
+
+            DataTable dt = ImportService.GetExcelData(file);
+
+            //var userid = User.Identity.GetUserId();
+            //var user = UserManager.FindById(userid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                Client NewModel = new Client();
+                if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                {
+                    NewModel.Name = dr["Name"].ToString();
+                    NewModel.Address = dr["Address"].ToString();
+                    NewModel.Contact = dr["Contact"].ToString();
+                    _unitOfWork.ClientRepository.AddClient(NewModel);
+                }
+            }
+            _unitOfWork.Complete();
+
+
+            return RedirectToAction("ClientList", "Setup");
+        }
+        public ActionResult UnitExcelImport()
+        {
+            ViewBag.edit = "UnitExcelImport";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UnitExcelImport(HttpPostedFileBase file)
+        {
+
+            DataTable dt = ImportService.GetExcelData(file);
+
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                Unit NewModel = new Unit();
+                if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                {
+                    NewModel.Name = dr["Name"].ToString();
+                    NewModel.UnitCode = dr["UnitCode"].ToString();
+                    NewModel.StoreId = (int)user.StoreId;
+                    _unitOfWork.UnitRepository.AddUnit(NewModel);
+                }
+            }
+            _unitOfWork.Complete();
+
+
+            return RedirectToAction("UnitList", "Setup");
+        }
         public ApplicationUserManager UserManager
         {
             get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
