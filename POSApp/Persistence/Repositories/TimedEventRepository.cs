@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<TimedEvent> GetTimedEvents(int storeid)
         {
-            return _context.TimedEvents.Where(a => a.StoreId == storeid).ToList();
+            return _context.TimedEvents.Include(a => a.TimedEventProducts).Where(a => a.StoreId == storeid).ToList();
         }
 
         public TimedEvent GetTimedEventById(int id, int storeid)

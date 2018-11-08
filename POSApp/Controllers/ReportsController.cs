@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using CrystalDecisions.CrystalReports.Engine;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
@@ -55,7 +57,33 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateProductSaleReport(DateTime dateFrom,DateTime dateTo,int branchId)
         {
-            return View();
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            int[] transMasters = _unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId).Select(a => a.Id)
+                .ToArray();
+            List<TransDetailViewModel>transDetail=new List<TransDetailViewModel>();
+            foreach (var transMaster in transMasters)
+            {
+                transDetail.AddRange(_unitOfWork.TransDetailRepository.GetTransDetails(transMaster,(int)user.StoreId));
+            }
+            foreach (var tempTransDetailViewModel in transDetail)
+            {
+                tempTransDetailViewModel.ProductName = _unitOfWork.ProductRepository
+                    .GetProductById(tempTransDetailViewModel.ProductId, tempTransDetailViewModel.StoreId).Name;
+            }
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProductSales.rpt"));
+            rd.SetDataSource(transDetail);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "application/vnd.ms-excel", "ProductSales.xls");
+           
         }
         [HttpPost]
         public ActionResult GenerateCategoriesSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
