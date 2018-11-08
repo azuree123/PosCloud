@@ -80,6 +80,9 @@ namespace POSApp
 
             CreateMap<ComboViewModel, Product>();
             CreateMap<Product, ComboViewModel>().ForMember(a => a.ProductSubViewModels,o=>o.MapFrom(g=>g.ComboProducts));
+            CreateMap<DeviceViewModel, Device>();
+            CreateMap<Device, DeviceViewModel>();
+
 
             CreateMap<ProductDdlViewModel, Product>();
             CreateMap<Product, ProductDdlViewModel>();

@@ -331,6 +331,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\ExcelImportController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -386,6 +387,7 @@
     <Compile Include="Core\Repositories\IAppCountersRepository.cs" />
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
     <Compile Include="Core\Repositories\IClientRepository.cs" />
+    <Compile Include="Core\Repositories\IDeviceRepository.cs" />
     <Compile Include="Core\Repositories\IDineTableRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
     <Compile Include="Core\Repositories\IFloorRepository.cs" />
@@ -409,6 +411,8 @@
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
+    <Compile Include="Core\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Persistence\Repositories\DeviceRepository.cs" />
     <Compile Include="Core\ViewModels\DineTableViewModel.cs" />
     <Compile Include="Core\ViewModels\DiscountViewModel.cs" />
     <Compile Include="Core\ViewModels\EmployeeModelView.cs" />
@@ -2636,6 +2640,8 @@
     <Content Include="Views\Products\CombosList.cshtml" />
     <Content Include="Views\Products\AddCombo.cshtml" />
     <Content Include="Views\Setting\BusinessSetting.cshtml" />
+    <Content Include="Views\Device\DeviceList.cshtml" />
+    <Content Include="Views\Device\AddDevice.cshtml" />
     <Content Include="Views\Products\ComboOptionListTable.cshtml" />
     <Content Include="Views\Products\AddComboOption.cshtml" />
   </ItemGroup>
