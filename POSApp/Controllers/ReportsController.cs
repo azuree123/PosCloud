@@ -59,7 +59,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            int[] transMasters = _unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId).Select(a => a.Id)
+            int[] transMasters = _unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId).Where(a=>a.TransDate>=dateFrom && a.TransDate <= dateTo).Select(a => a.Id)
                 .ToArray();
             List<TransDetailViewModel>transDetail=new List<TransDetailViewModel>();
             foreach (var transMaster in transMasters)
@@ -71,19 +71,17 @@ namespace POSApp.Controllers
                 tempTransDetailViewModel.ProductName = _unitOfWork.ProductRepository
                     .GetProductById(tempTransDetailViewModel.ProductId, tempTransDetailViewModel.StoreId).Name;
             }
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProductSales.rpt"));
-            rd.SetDataSource(transDetail);
+            string path = Server.MapPath("~/Content/Reports/");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
 
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
+            string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+            ExcelService.GenerateCrystalReport(transDetail, "ProductSalesReport", path, this.HttpContext.User.Identity.GetUserId(),_unitOfWork,(int)user.StoreId,details, Server.MapPath("~/Reports"));
 
 
-            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "application/vnd.ms-excel", "ProductSales.xls");
-           
+            return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateCategoriesSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
