@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using POSApp.Core;
+using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
+using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Controllers.WebApi
 {
@@ -17,20 +22,37 @@ namespace POSApp.Controllers.WebApi
             _unitOfWork = unitOfWork;
         }
         // GET: api/Devices
-        public IEnumerable<string> GetDevices(int storeId)
+        public async Task<IHttpActionResult> GetDevices(int storeId)
         {
-            //return _unitOfWork.;
+            return Ok(Mapper.Map<DeviceViewModel[]>(_unitOfWork.DeviceRepository.GetDevices(storeId)));
         }
 
         // GET: api/Devices/5
-        public string GetDevice(int id)
+        public async Task<IHttpActionResult> GetDevice(int id, int storeId)
         {
-            return "value";
+            return Ok(_unitOfWork.DeviceRepository.GetDeviceById(id, storeId));
         }
 
         // POST: api/Devices
-        public void AddDevice([FromBody]string value)
+        public async Task<IHttpActionResult> AddDevice([FromBody]SyncObject sync)
         {
+            try
+            {
+                List<Device> devices = System.Web.Helpers.Json.Decode<List<Device>>(sync.Object);
+                foreach (var device in devices)
+                {
+                    device.Code = device.Id.ToString();
+                    device.Synced = true;
+                    device.SyncedOn = DateTime.Now;
+                    _unitOfWork.DeviceRepository.AddDevice(device);
+                }
+                _unitOfWork.Complete();
+                return Ok("Success");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // PUT: api/Devices/5
