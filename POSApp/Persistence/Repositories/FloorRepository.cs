@@ -26,7 +26,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Floors.Find(id, storeid);
         }
-
+        public Floor GetFloorByFloorNumber(string floorNumber, int storeid)
+        {
+            return _context.Floors.FirstOrDefault(a=>a.FloorNumber==floorNumber && a.StoreId==storeid);
+        }
         public void AddFloor(Floor Floor)
         {
             if (!_context.Floors.Where(a => a.FloorNumber == Floor.FloorNumber && a.StoreId == Floor.StoreId).Any())
