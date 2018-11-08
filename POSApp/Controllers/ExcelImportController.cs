@@ -165,7 +165,6 @@ namespace POSApp.Controllers
             return View();
         }
 
-        [HttpPost]
         //public ActionResult CouponExcelImport(HttpPostedFileBase file)
         //{
             
@@ -546,10 +545,115 @@ namespace POSApp.Controllers
 
             return RedirectToAction("ProductCategoryGroupList", "Products");
         }
+        public ActionResult DeviceExcelImport()
+        {
+            ViewBag.edit = "DeviceExcelImport";
+            return View();
+        }
 
-      
+        [HttpPost]
+        public ActionResult DeviceExcelImport(HttpPostedFileBase file)
+        {
 
-     
+            DataTable dt = ImportService.GetExcelData(file);
+
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                Device NewModel = new Device();
+                if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                {
+                    NewModel.Name = dr["Name"].ToString();
+                    NewModel.License = dr["License"].ToString();
+                    NewModel.DeviceCode = dr["DeviceCode"].ToString();
+                    NewModel.AppVersion = dr["AppVersion"].ToString();
+                    NewModel.Address = dr["Address"].ToString();
+                   
+                    NewModel.Contact = dr["Contact"].ToString();
+                    NewModel.DownloadedDate = DateTime.Parse(dr["DownloadedDate"].ToString());
+                   
+                    NewModel.StoreId = (int)user.StoreId;
+                    _unitOfWork.DeviceRepository.AddDevice(NewModel);
+                }
+            }
+            _unitOfWork.Complete();
+
+
+            return RedirectToAction("DeviceList", "Device");
+        }
+        public ActionResult FloorExcelImport()
+        {
+            ViewBag.edit = "FloorExcelImport";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult FloorExcelImport(HttpPostedFileBase file)
+        {
+
+            DataTable dt = ImportService.GetExcelData(file);
+
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                Floor NewModel = new Floor();
+                if (!string.IsNullOrWhiteSpace(dr["FloorNumber"].ToString()))
+                {
+                    NewModel.FloorNumber = dr["FloorNumber"].ToString();
+                    
+
+                    NewModel.StoreId = (int)user.StoreId;
+                    _unitOfWork.FloorRepository.AddFloor(NewModel);
+                }
+            }
+            _unitOfWork.Complete();
+
+
+            return RedirectToAction("FloorList", "Setup");
+        }
+        public ActionResult DineTableExcelImport()
+        {
+            ViewBag.edit = "DineTableExcelImport";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult DineTableExcelImport(HttpPostedFileBase file)
+        {
+
+            DataTable dt = ImportService.GetExcelData(file);
+
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                DineTable NewModel = new DineTable();
+                if (!string.IsNullOrWhiteSpace(dr["DineTableNumber"].ToString()))
+                {
+                    NewModel.DineTableNumber = dr["DineTableNumber"].ToString();
+                    string floorNames = dr["FloorNumber"].ToString();
+                    Floor checkFloor = _unitOfWork.FloorRepository.GetFloorByFloorNumber(floorNames, (int)user.StoreId);
+                    if (checkFloor == null)
+                    {
+                        var data = new Floor {FloorNumber = floorNames, StoreId = (int) user.StoreId};
+                        _unitOfWork.FloorRepository.AddFloor(data);
+                        _unitOfWork.Complete();
+                        NewModel.FloorId = data.Id;
+                    }
+                    else
+                    {
+                        NewModel.FloorId = checkFloor.Id;
+                    }
+
+                    NewModel.StoreId = (int)user.StoreId;
+                    _unitOfWork.DineTableRepository.AddDineTable(NewModel);
+                }
+            }
+            _unitOfWork.Complete();
+
+
+            return RedirectToAction("DineTableList", "Setup");
+        }
         public ApplicationUserManager UserManager
         {
             get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }

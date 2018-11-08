@@ -13,5 +13,6 @@ namespace POSApp.Core.Repositories
         void AddFloor(Floor Floor);
         void UpdateFloor(int id, Floor Floor, int storeid);
         void DeleteFloor(int id, int storeid);
+        Floor GetFloorByFloorNumber(string floorNumber, int storeid);
     }
 }

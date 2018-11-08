@@ -357,6 +357,7 @@
     <Compile Include="Controllers\WebApi\EmployeesController.cs" />
     <Compile Include="Controllers\WebApi\ExpenseHeadsController.cs" />
     <Compile Include="Controllers\WebApi\ExpensesController.cs" />
+    <Compile Include="Controllers\WebApi\FloorController.cs" />
     <Compile Include="Controllers\WebApi\LocationsController.cs" />
     <Compile Include="Controllers\WebApi\ProductCategoriesController.cs" />
     <Compile Include="Controllers\WebApi\ProductCategoryGroupsController.cs" />
@@ -420,6 +421,10 @@
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
     <Compile Include="Core\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Migrations\201811080957063_Update-5.cs" />
+    <Compile Include="Migrations\201811080957063_Update-5.Designer.cs">
+      <DependentUpon>201811080957063_Update-5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\DeviceRepository.cs" />
     <Compile Include="Core\ViewModels\DineTableViewModel.cs" />
     <Compile Include="Core\ViewModels\DiscountViewModel.cs" />
@@ -2512,6 +2517,9 @@
     <Content Include="Content\ImportFormats\CustomerImport.xls" />
     <Content Include="Content\ImportFormats\CouponImport.xls" />
     <Content Include="Content\ImportFormats\DiscountImport.xls" />
+    <Content Include="Content\ImportFormats\DeviceImport.xls" />
+    <Content Include="Content\ImportFormats\FloorImport.xls" />
+    <Content Include="Content\ImportFormats\DineTableImport.xls" />
     <None Include="Properties\PublishProfiles\almuaibida.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -2658,6 +2666,9 @@
     <Content Include="Views\Device\AddDevice.cshtml" />
     <Content Include="Views\Products\ComboOptionListTable.cshtml" />
     <Content Include="Views\Products\AddComboOption.cshtml" />
+    <Content Include="Views\ExcelImport\DeviceExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\FloorExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\DineTableExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2696,6 +2707,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811071018060_update-3.resx">
       <DependentUpon>201811071018060_update-3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811080957063_Update-5.resx">
+      <DependentUpon>201811080957063_Update-5.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
