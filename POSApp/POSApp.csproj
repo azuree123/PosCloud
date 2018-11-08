@@ -2509,6 +2509,8 @@
     <Content Include="Content\ImportFormats\DeviceImport.xls" />
     <Content Include="Content\ImportFormats\FloorImport.xls" />
     <Content Include="Content\ImportFormats\DineTableImport.xls" />
+    <Content Include="Content\ImportFormats\ClientImport.xls" />
+    <Content Include="Content\ImportFormats\UnitImport.xls" />
     <None Include="Properties\PublishProfiles\almuaibida.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -2658,6 +2660,8 @@
     <Content Include="Views\ExcelImport\DeviceExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\FloorExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\DineTableExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ClientExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\UnitExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
