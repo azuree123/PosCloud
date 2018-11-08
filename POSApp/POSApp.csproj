@@ -347,6 +347,8 @@
     <Compile Include="Controllers\WebApi\CitiesController.cs" />
     <Compile Include="Controllers\WebApi\CustomersController.cs" />
     <Compile Include="Controllers\WebApi\DepartmentsController.cs" />
+    <Compile Include="Controllers\WebApi\DevicesController.cs" />
+    <Compile Include="Controllers\WebApi\DineTablesController.cs" />
     <Compile Include="Controllers\WebApi\DiscountsController.cs" />
     <Compile Include="Controllers\WebApi\EmployeesController.cs" />
     <Compile Include="Controllers\WebApi\ExpenseHeadsController.cs" />
@@ -355,6 +357,7 @@
     <Compile Include="Controllers\WebApi\ProductCategoriesController.cs" />
     <Compile Include="Controllers\WebApi\ProductCategoryGroupsController.cs" />
     <Compile Include="Controllers\WebApi\ProductsController.cs" />
+    <Compile Include="Controllers\WebApi\ProductSubsController.cs" />
     <Compile Include="Controllers\WebApi\PurchaseOrdersController.cs" />
     <Compile Include="Controllers\WebApi\SalesController.cs" />
     <Compile Include="Controllers\WebApi\StatesController.cs" />

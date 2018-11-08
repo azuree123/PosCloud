@@ -83,6 +83,9 @@ namespace POSApp
             CreateMap<DeviceViewModel, Device>();
             CreateMap<Device, DeviceViewModel>();
 
+
+            CreateMap<ProductDdlViewModel, Product>();
+            CreateMap<Product, ProductDdlViewModel>();
         }
     }
 }

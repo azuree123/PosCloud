@@ -24,7 +24,6 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<TransDetailViewModel> GetTransDetails(int orderid, int storeId)
         {
-            //return _context.PurchaseOrderDetail;
             return Mapper.Map<TransDetailViewModel[]>(_context.TransDetails.Include(a => a.Product)
                 .Where(o => o.TransMasterId == orderid)
                 .Where(a => a.StoreId == storeId));
