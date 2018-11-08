@@ -42,6 +42,11 @@ namespace POSApp.Controllers
             temp.TransMasterViewModel = Mapper.Map<TransMasterViewModel>(_unitOfWork.TransMasterRepository.GetTransMaster(id, (int) user.StoreId));
             temp.TransDetailViewModels = Mapper.Map<TransDetailViewModel[]>(
                 _unitOfWork.TransDetailRepository.GetTransDetails(temp.TransMasterViewModel.Id, (int) user.StoreId));
+            foreach (var tempTransDetailViewModel in temp.TransDetailViewModels)
+            {
+                tempTransDetailViewModel.ProductName = _unitOfWork.ProductRepository
+                    .GetProductById(tempTransDetailViewModel.ProductId, tempTransDetailViewModel.StoreId).Name;
+            }
             temp.BusinessPartnerViewModel =
                 Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(temp.TransMasterViewModel.BusinessPartnerId, (int)user.StoreId));
             temp.TotalAmount = (from a in temp.TransDetailViewModels
@@ -89,9 +94,14 @@ namespace POSApp.Controllers
                 po.TransCode = "INV-" + "C-" + TransId.ToString() + "-" + user.StoreId;
                 po.StoreId = user.StoreId;
                 var savePo = Mapper.Map<TransMaster>(po);
+               
+                IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a=>a.CreatedByUserId==userid && a.StoreId==user.StoreId);
+
+                savePo.TotalPrice = (from a in poItems
+                                     select a.Quantity * a.UnitPrice).Sum();
                 _unitOfWork.TransMasterRepository.AddTransMaster(savePo);
                 _unitOfWork.Complete();
-                IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a=>a.CreatedByUserId==userid && a.StoreId==user.StoreId);
+
                 foreach (var transDetailViewModel in poItems)
                 {
                     transDetailViewModel.TransMasterId = savePo.Id;
@@ -169,8 +179,8 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                ProductCreateViewModel product =
-                    Mapper.Map<ProductCreateViewModel>(
+                ProductDdlViewModel product =
+                    Mapper.Map<ProductDdlViewModel>(
                         _unitOfWork.ProductRepository.GetProductById(id, (int) user.StoreId));
                 return Json(product, JsonRequestBehavior.AllowGet);
             }

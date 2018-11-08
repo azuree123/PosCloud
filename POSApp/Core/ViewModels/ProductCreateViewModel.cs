@@ -121,4 +121,14 @@ namespace POSApp.Core.ViewModels
         public IEnumerable<ProductSubViewModel> ProductSubViewModels { get; set; }
 
     }
+
+    public class ProductDdlViewModel
+    {
+        public int? Id { get; set; }
+        public string Name { get; set; }
+        public double UnitPrice { get; set; }
+        public double CostPrice { get; set; }
+        public string Stock { get; set; }
+
+    }
 }

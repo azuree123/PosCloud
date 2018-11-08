@@ -346,6 +346,7 @@
     <Compile Include="Controllers\WebApi\CitiesController.cs" />
     <Compile Include="Controllers\WebApi\CustomersController.cs" />
     <Compile Include="Controllers\WebApi\DepartmentsController.cs" />
+    <Compile Include="Controllers\WebApi\DevicesController.cs" />
     <Compile Include="Controllers\WebApi\DiscountsController.cs" />
     <Compile Include="Controllers\WebApi\EmployeesController.cs" />
     <Compile Include="Controllers\WebApi\ExpenseHeadsController.cs" />
