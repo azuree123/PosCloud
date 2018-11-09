@@ -49,6 +49,8 @@ namespace POSApp.Persistence
         public IFloorRepository FloorRepository { get; private set; }
         public IDineTableRepository DineTableRepository { get; private set; }
         public IDeviceRepository DeviceRepository { get; private set; }
+        public IReportsRepository ReportsRepository { get; private set; }
+
         public UnitOfWork(PosDbContext context)
         {
             _context = context;
@@ -88,6 +90,7 @@ namespace POSApp.Persistence
             FloorRepository = new FloorRepository(context);
             DineTableRepository = new DineTableRepository(context);
             DeviceRepository = new DeviceRepository(context);
+            ReportsRepository = new ReportsRepository(context);
         }
 
         public void Complete()

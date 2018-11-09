@@ -59,18 +59,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            int[] transMasters = _unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId).Where(a=>a.TransDate>=dateFrom && a.TransDate <= dateTo).Select(a => a.Id)
-                .ToArray();
-            List<TransDetailViewModel>transDetail=new List<TransDetailViewModel>();
-            foreach (var transMaster in transMasters)
-            {
-                transDetail.AddRange(_unitOfWork.TransDetailRepository.GetTransDetails(transMaster,(int)user.StoreId));
-            }
-            foreach (var tempTransDetailViewModel in transDetail)
-            {
-                tempTransDetailViewModel.ProductName = _unitOfWork.ProductRepository
-                    .GetProductById(tempTransDetailViewModel.ProductId, tempTransDetailViewModel.StoreId).Name;
-            }
+            
             string path = Server.MapPath("~/Content/Reports/");
             if (!Directory.Exists(path))
             {
@@ -78,7 +67,9 @@ namespace POSApp.Controllers
             }
 
             string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-            ExcelService.GenerateCrystalReport(transDetail, "ProductSalesReport", path, this.HttpContext.User.Identity.GetUserId(),_unitOfWork,(int)user.StoreId,details, Server.MapPath("~/Reports"));
+            ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSalesData((int)user.StoreId,dateFrom,dateTo),
+                "ProductSalesReport", path, this.HttpContext.User.Identity.GetUserId(),_unitOfWork,
+                (int)user.StoreId,details, Server.MapPath("~/Reports"), "ProductSales.rpt");
 
 
             return RedirectToAction("MyReports");
@@ -86,7 +77,21 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateCategoriesSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            return View();
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+
+            string path = Server.MapPath("~/Content/Reports/");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+            ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCategoriesSalesData((int)user.StoreId, dateFrom, dateTo),
+                "CategoriesSalesReport", path, this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                (int)user.StoreId, details, Server.MapPath("~/Reports"), "CategoriesSales.rpt");
+
+            return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateProductSizeSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)

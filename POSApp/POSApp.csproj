@@ -408,6 +408,7 @@
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
     <Compile Include="Core\Repositories\IProductsSubRepository.cs" />
     <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
+    <Compile Include="Core\Repositories\IReportsRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventProductsRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventRepository.cs" />
     <Compile Include="Core\Repositories\IUnitRepository.cs" />
@@ -418,6 +419,7 @@
     <Compile Include="Core\Shared\Helper.cs" />
     <Compile Include="Core\Shared\PoHelper.cs" />
     <Compile Include="Core\ViewModels\BusinessPartnerViewModel.cs" />
+    <Compile Include="Core\ViewModels\CategoryReportViewModel.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\ClientViewModel.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
@@ -586,6 +588,7 @@
     <Compile Include="Persistence\Repositories\PurchaseOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\ReportsLogRepository.cs" />
+    <Compile Include="Persistence\Repositories\ReportsRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
@@ -599,6 +602,12 @@
     <Compile Include="Persistence\Repositories\UnitRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\CategoriesSales.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CategoriesSales.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\ProductSales.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2725,6 +2734,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811090813375_Update-6.resx">
       <DependentUpon>201811090813375_Update-6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\CategoriesSales.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CategoriesSales.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
