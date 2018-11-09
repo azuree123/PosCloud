@@ -58,7 +58,7 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 GraphViewModel graph=new GraphViewModel();
                 graph.Morris=new List<MorrisGraphViewModel>();
-                graph.Line=new List<LineGraphViewModel>();
+                graph.Line=new LineGraphViewModel();
                 int year = DateTime.Now.Date.Year;
                 int month = DateTime.Now.Date.Month;
                 for (int i = 0; i < 6; i++)
@@ -73,17 +73,19 @@ namespace POSApp.Controllers
                         .Where(a => a.Date >= dateFrom && a.Date < dateTo).Select(a => a.Amount).Sum();
                     graph.Morris.Add(morrisGraph);
                 }
-
+                graph.Line.data=new List<List<decimal>>();
+                List<decimal> list=new List<decimal>();
                 for (int i = 0; i < month; i++)
                 {
-                    LineGraphViewModel lineGraph=new LineGraphViewModel();
                     DateTime dateFrom = new DateTime(year, (month-i), 1);
-                    lineGraph.x = dateFrom.Date.ToString("MMM");
+                    string x = dateFrom.Date.ToString("MMM");
                     DateTime dateTo = dateFrom.AddMonths(1);
-                    lineGraph.y = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                    decimal y = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
                         .Where(a => a.Type == "INV" && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice).Sum();
-                    graph.Line.Add(lineGraph);
+                    list.Add(y);
                 }
+                    graph.Line.color = "#d2322d";
+                
                 return Json(graph, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
