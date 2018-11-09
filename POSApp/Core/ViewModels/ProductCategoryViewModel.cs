@@ -14,4 +14,9 @@ namespace POSApp.Core.ViewModels
         public string Code { get; set; }
 
     }
+    public class ProductCategoryDdlViewModel
+    {
+        public int? Id { get; set; }
+        public string Name { get; set; }
+    }
 }
