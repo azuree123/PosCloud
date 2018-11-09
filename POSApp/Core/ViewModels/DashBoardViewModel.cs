@@ -36,8 +36,15 @@ namespace POSApp.Core.ViewModels
     public class LineGraphViewModel
     {
         public string color { get; set; }
-        public List<List<decimal>> data { get; set; }
+        public List<LineData> data { get; set; }
     }
+
+    public class LineData
+    {
+        public string Month { get; set; }
+        public decimal Value { get; set; }
+    }
+    
 
     
 }

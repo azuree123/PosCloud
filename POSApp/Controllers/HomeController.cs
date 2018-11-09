@@ -73,8 +73,8 @@ namespace POSApp.Controllers
                         .Where(a => a.Date >= dateFrom && a.Date < dateTo).Select(a => a.Amount).Sum();
                     graph.Morris.Add(morrisGraph);
                 }
-                graph.Line.data=new List<List<decimal>>();
-                List<decimal> list=new List<decimal>();
+          
+               graph.Line.data=new List<LineData>();
                 for (int i = 0; i < month; i++)
                 {
                     DateTime dateFrom = new DateTime(year, (month-i), 1);
@@ -82,9 +82,9 @@ namespace POSApp.Controllers
                     DateTime dateTo = dateFrom.AddMonths(1);
                     decimal y = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
                         .Where(a => a.Type == "INV" && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice).Sum();
-                    list.Add(y);
+                    graph.Line.data.Add(new LineData{Month = x,Value = y});
                 }
-                    graph.Line.color = "#d2322d";
+                  
                 
                 return Json(graph, JsonRequestBehavior.AllowGet);
             }
