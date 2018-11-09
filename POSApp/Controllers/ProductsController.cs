@@ -339,7 +339,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return Json(Mapper.Map<ProductCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)).Where(a => a.Type == "Product"), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<ProductCategoryDdlViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

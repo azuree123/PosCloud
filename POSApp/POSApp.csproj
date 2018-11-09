@@ -429,6 +429,10 @@
     <Compile Include="Migrations\201811080957063_Update-5.Designer.cs">
       <DependentUpon>201811080957063_Update-5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811090813375_Update-6.cs" />
+    <Compile Include="Migrations\201811090813375_Update-6.Designer.cs">
+      <DependentUpon>201811090813375_Update-6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\DeviceRepository.cs" />
     <Compile Include="Core\ViewModels\DineTableViewModel.cs" />
     <Compile Include="Core\ViewModels\DiscountViewModel.cs" />
@@ -2718,6 +2722,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811080957063_Update-5.resx">
       <DependentUpon>201811080957063_Update-5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811090813375_Update-6.resx">
+      <DependentUpon>201811090813375_Update-6.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

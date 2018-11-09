@@ -22,7 +22,7 @@ namespace POSApp.Core.ViewModels
     public class GraphViewModel
     {
         public List<MorrisGraphViewModel> Morris { get; set; }
-        public List<LineGraphViewModel> Line { get; set; }
+        public LineGraphViewModel Line { get; set; }
 
     }
 
@@ -35,7 +35,9 @@ namespace POSApp.Core.ViewModels
 
     public class LineGraphViewModel
     {
-        public string x { get; set; }
-        public decimal y { get; set; }
+        public string color { get; set; }
+        public List<List<decimal>> data { get; set; }
     }
+
+    
 }
