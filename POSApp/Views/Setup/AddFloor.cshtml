@@ -42,9 +42,9 @@
                             @Html.HiddenFor(a => a.StoreId)
                             <div class="">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.FloorNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
+                                    @Html.Label("Floor Number", htmlAttributes: new { @class = "control-label" })
                                         @Html.EditorFor(model => model.FloorNumber, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.FloorNumber, "", new { @class = "text-danger" })
                                     </div>

@@ -149,7 +149,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             @Html.Label("Is Taxable?", htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "" } })
                                             @Html.ValidationMessageFor(model => model.IsTaxable, "", new { @class = "text-danger" })
                                         </div>
                                         <script>

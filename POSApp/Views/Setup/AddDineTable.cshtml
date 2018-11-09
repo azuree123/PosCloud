@@ -44,20 +44,20 @@
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
+                                    <div class="col-md-6">
                                 <div class="form-group">
                                     
-                                    <div class="col-md-8">
-                                        @Html.LabelFor(model => model.DineTableNumber, htmlAttributes: new { @class = "control-label " })
+                                        @Html.Label("DineTable Number", htmlAttributes: new { @class = "control-label " })
                                         @Html.EditorFor(model => model.DineTableNumber, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.DineTableNumber, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    @Html.LabelFor(model => model.FloorId, htmlAttributes: new { @class = "control-label " })
-                                    <div class="input-group">
+                                <div class="col-md-6">
+                                    @Html.Label("Select Floor", htmlAttributes: new { @class = "control-label " })
+                         
                                         @Html.DropDownListFor(model => model.FloorId, Model.FloorDdl, "Select a Floor", new { @class = "form-control", @required = "true" })
                                         @Html.ValidationMessageFor(model => model.FloorId, "", new { @class = "text-danger" })
-                                    </div>
+                               
                                 </div>
                                 
 

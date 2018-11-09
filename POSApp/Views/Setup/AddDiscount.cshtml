@@ -119,7 +119,7 @@
                                         Ddl.Add(new SelectListItem { Text = "Sun", Value = "Sun" });
 
                                     }
-                                    <div class="col-md-2">
+                                    <div class="col-md-4">
                                         @Html.LabelFor(model => model.Days, htmlAttributes: new { @class = "control-label" })
                                         @Html.DropDownListFor(model => model.tempDays, Ddl, new { @class = "form-control", @required = "true", @multiple = "multiple" })
                                         @Html.ValidationMessageFor(model => model.tempDays, "", new { @class = "text-danger" })
