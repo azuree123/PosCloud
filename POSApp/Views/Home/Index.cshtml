@@ -1,4 +1,5 @@
-﻿@{
+﻿@model POSApp.Core.ViewModels.DashBoardViewModel
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -69,7 +70,6 @@
                                         color: "#d2322d"
                                     }];
 
-                                    // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
 
                                 </script>
 
@@ -90,7 +90,6 @@
                                         color: "#d2322d"
                                     }];
 
-                                    // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
 
                                 </script>
 
@@ -111,25 +110,13 @@
                                         color: "#d2322d"
                                     }];
 
-                                    // See: assets/javascripts/dashboard/examples.dashboard.js for more settings.
 
                                 </script>
                             </div>
 
                         </div>
                     </div>
-                    @*<div class="col-md-4 text-center">
-                            <h2 class="panel-title mt-md">Sales Goal</h2>
-                            <div class="liquid-meter-wrapper liquid-meter-sm mt-lg">
-                                <div class="liquid-meter">
-                                    <meter min="0" max="100" value="35" id="meterSales"></meter>
-                                </div>
-                                <div class="liquid-meter-selector" id="meterSalesSel">
-                                    <a href="#" data-val="35" class="active">Monthly Goal</a>
-                                    <a href="#" data-val="28">Annual Goal</a>
-                                </div>
-                            </div>
-                        </div>*@
+                
                     <div class="col-md-6 ">
                         <h2 class="panel-title">Bar Chart</h2>
                         <!-- Morris: Bar -->
@@ -137,7 +124,7 @@
                         <script type="text/javascript">
 
                             var morrisBarData = [{
-                                y: '2004',
+                                c: '2004',
                                 a: 10,
                                 b: 30
                             }, {
@@ -182,7 +169,6 @@
                                 b: 8
                             }];
 
-                                                    // See: assets/javascripts/ui-elements/examples.charts.js for more settings.
 
                         </script>
 
@@ -207,12 +193,11 @@
                                 <div class="summary">
                                     <h4 class="title">Daily Sales</h4>
                                     <div class="info">
-                                        <strong class="amount">21,281</strong>
-                                        <a href="#" class="text-xs"> (view more)</a>
+                                        <strong class="amount">@string.Format("{0:N2}", Model.Sales)</strong>
+                                        @*<a href="#" class="text-xs"> (view more)</a>*@
                                     </div>
                                 </div>
-                                @*<div class="summary-footer">
-                                    </div>*@
+                            
                             </div>
                         </div>
                     </div>
@@ -231,12 +216,11 @@
                                 <div class="summary">
                                     <h4 class="title">Daily Expense</h4>
                                     <div class="info">
-                                        <strong class="amount">14,234</strong>
-                                        <a href="#" class="text-danger text-xs"> (view more)</a>
+                                        <strong class="amount">@string.Format("{0:N2}",Model.Expenses)</strong>
+                                        @*<a href="#" class="text-danger text-xs"> (view more)</a>*@
                                     </div>
                                 </div>
-                                @*<div class="summary-footer">
-                                    </div>*@
+                               
                             </div>
                         </div>
                     </div>
@@ -255,12 +239,11 @@
                                 <div class="summary">
                                     <h4 class="title">Today's Orders</h4>
                                     <div class="info">
-                                        <strong class="amount">38</strong>
-                                        <a href="#" class="text-xs" style="color:#337ab7"> (view more)</a>
+                                        <strong class="amount">@string.Format("{0:N2}", Model.Orders)</strong>
+                                        @*<a href="#" class="text-xs" style="color:#337ab7"> (view more)</a>*@
                                     </div>
                                 </div>
-                                @*<div class="summary-footer">
-                                    </div>*@
+                               
                             </div>
                         </div>
                     </div>
@@ -279,12 +262,11 @@
                                 <div class="summary">
                                     <h4 class="title">Total Refunds</h4>
                                     <div class="info">
-                                        <strong class="amount">0000</strong>
-                                        <a href="#" class="text-xs" style="color:#777777"> (view more)</a>
+                                        <strong class="amount">@string.Format("{0:N2}", Model.Refunds)</strong>
+                                        @*<a href="#" class="text-xs" style="color:#777777"> (view more)</a>*@
                                     </div>
                                 </div>
-                                @*<div class="summary-footer">
-                                    </div>*@
+                               
                             </div>
                         </div>
                     </div>
@@ -296,209 +278,25 @@
 <br />
 <br />
 
-@*<div class="row">
 
-      <div class="col-md-4 text-center">
-            <section class="panel">
-                <header class="panel-heading panel-heading-transparent">
-                  <div class="panel-actions">
-                            <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
-                            <a href="#" class="panel-action panel-action-dismiss" data-panel-dismiss></a>
-                        </div>
-
-                    <h2 class="panel-title text-left">Operations</h2>
-                </header>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped mb-none">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Operations</th>
-                                    <th>Status</th>
-                                    <th>Progress</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Chickent BarBQ</td>
-                                    <td><span class="label label-success">Completed</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                                100%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Pizza</td>
-                                    <td><span class="label label-success">Completed</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                                100%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Chicken Karahi</td>
-                                    <td><span class="label label-danger">Processing</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                60%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Chicken Karahi</td>
-                                    <td><span class="label label-danger">Processing</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                60%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Chicken Karahi</td>
-                                    <td><span class="label label-danger">Processing</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                60%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Chicken Karahi</td>
-                                    <td><span class="label label-danger">Processing</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                60%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Chicken Karahi</td>
-                                    <td><span class="label label-danger">Processing</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                60%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Chicken Karahi</td>
-                                    <td><span class="label label-danger">Processing</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                60%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Chicken Karahi</td>
-                                    <td><span class="label label-warning">Cancelled</span></td>
-                                    <td>
-                                        <div class="progress progress-sm progress-half-rounded m-none mt-xs light">
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-                                                0%
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-
-
-        <div class="col-md-4">
-            <section class="panel panel-transparent">
-                <header class="panel-heading">
-                    <div class="panel-actions">
-                        <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
-                        <a href="#" class="panel-action panel-action-dismiss" data-panel-dismiss></a>
-                    </div>
-
-                    <h2 class="panel-title">My Stats</h2>
-                </header>
-                <div class="panel-body">
-                    <section class="panel">
-                        <div class="panel-body" style="border: 1px solid #dddddd;border-bottom-width: 5px;">
-                            <div class="small-chart pull-right" id="sparklineBarDash"></div>
-
-                            <div class="h4 text-weight-bold mb-none">488</div>
-                            <p class="text-xs text-muted mb-none">Average Customers</p>
-                        </div>
-                    </section>
-
-
-
-
-
-
-
-                    <section class="panel">
-                        <div class="panel-body" style="border: 1px solid #dddddd;border-bottom-width: 5px;">
-                            <div class="circular-bar circular-bar-xs m-none mt-xs mr-md pull-right">
-                                <div class="circular-bar-chart" data-percent="45" data-plugin-options='{ "barColor": "#09ab5a", "delay": 300, "size": 50, "lineWidth": 4 }'>
-                                    <strong>Average</strong>
-                                    <label><span class="percent">45</span>%</label>
-                                </div>
-                            </div>
-                            <div class="h4 text-weight-bold mb-none">12</div>
-                            <p class="text-xs text-muted mb-none">Working Tasks</p>
-                        </div>
-                    </section>
-                    <section class="panel">
-                        <div class="panel-body" style="border: 1px solid #dddddd;border-bottom-width: 5px;">
-                            <div class="small-chart pull-right" id="sparklineLineDash"></div>
-                            <script type="text/javascript">
-                                var sparklineLineDashData = [15, 16, 17, 19, 10, 15, 13, 12, 12, 14, 16, 17];
-                            </script>
-                            <div class="h4 text-weight-bold mb-none">89</div>
-                            <p class="text-xs text-muted mb-none">Pending Tasks</p>
-                        </div>
-                    </section>
-                </div>
-            </section>
-        </div>
-
-
-    </div>*@
 @section scripts{
 @Scripts.Render("~/bundles/charts")
 
     <script>
 
-
+        $(document).ready(function() {
+            $.ajax({
+                url: "@Url.Action("GetGraphData","Home")",
+                type: "GET",
+                success: function (data) {
+                    changeMorrisData(data.Morris);
+                    changeLineGraphData(data.Line);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
 
 
     </script>

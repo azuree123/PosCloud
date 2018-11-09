@@ -3,7 +3,7 @@ Name: 			UI Elements / Charts - Examples
 Written by: 	Okler Themes - (http://www.okler.net)
 Theme Version: 	1.5.2
 */
-
+var morrisChart;
 (function($) {
 
 	'use strict';
@@ -37,21 +37,21 @@ Theme Version: 	1.5.2
 	/*
 	Morris: Bar
 	*/
-	Morris.Bar({
-		resize: true,
-		element: 'morrisBar',
-		data: morrisBarData,
-		xkey: 'y',
-		ykeys: ['a', 'b'],
-		labels: ['Sales', 'Expenses'],
-		hideHover: true,
-        barColors: ['#e0534e', '#08bb62']
+
+    morrisChart=Morris.Bar({
+        resize: true,
+        element: 'morrisBar',
+        data: morrisBarData,
+        xkey: 'y',
+        ykeys: ['a', 'b'],
+        labels: ['Sales', 'Expenses'],
+        hideHover: true,
+        barColors: ['#08bb62', '#e0534e']
     });
 
-
-	/*
-	Chartist: Bar Chart - Horizontal Chart
-	*/
+    /*
+    Chartist: Bar Chart - Horizontal Chart
+    */
     //(function () {
     //    new Chartist.Bar('#ChartistHorizontalChart', {
     //        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -69,39 +69,41 @@ Theme Version: 	1.5.2
     //        });
     //})();
 
-	/*
-	Morris: Area
-	*/
-	//Morris.Area({
-	//	resize: true,
-	//	element: 'morrisArea',
-	//	data: morrisAreaData,
-	//	xkey: 'y',
-	//	ykeys: ['a', 'b'],
-	//	labels: ['Series A', 'Series B'],
-	//	lineColors: ['#0088cc', '#2baab1'],
-	//	fillOpacity: 0.7,
-	//	hideHover: true
-	//});
+    /*
+    Morris: Area
+    */
+    //Morris.Area({
+    //	resize: true,
+    //	element: 'morrisArea',
+    //	data: morrisAreaData,
+    //	xkey: 'y',
+    //	ykeys: ['a', 'b'],
+    //	labels: ['Series A', 'Series B'],
+    //	lineColors: ['#0088cc', '#2baab1'],
+    //	fillOpacity: 0.7,
+    //	hideHover: true
+    //});
 
-	/*
-	Morris: Stacked
-	*/
-	//Morris.Bar({
-	//	resize: true,
-	//	element: 'morrisStacked',
-	//	data: morrisStackedData,
-	//	xkey: 'y',
-	//	ykeys: ['a', 'b'],
-	//	labels: ['Series A', 'Series B'],
-	//	barColors: ['#0088cc', '#2baab1'],
-	//	fillOpacity: 0.7,
-	//	smooth: false,
-	//	stacked: true,
-	//	hideHover: true
-	//});
+    /*
+    Morris: Stacked
+    */
+    //Morris.Bar({
+    //	resize: true,
+    //	element: 'morrisStacked',
+    //	data: morrisStackedData,
+    //	xkey: 'y',
+    //	ykeys: ['a', 'b'],
+    //	labels: ['Series A', 'Series B'],
+    //	barColors: ['#0088cc', '#2baab1'],
+    //	fillOpacity: 0.7,
+    //	smooth: false,
+    //	stacked: true,
+    //	hideHover: true
+    //});
 
-	
-	
 
 }).apply(this, [jQuery]);
+
+function changeMorrisData(data) {
+    morrisChart.setData(data);
+}

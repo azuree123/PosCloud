@@ -3,7 +3,7 @@ Name: 			Dashboard - Examples
 Written by: 	Okler Themes - (http://www.okler.net)
 Theme Version: 	1.5.2
 */
-
+var flotDashSales1;
 (function($) {
 
 	'use strict';
@@ -21,39 +21,6 @@ Theme Version: 	1.5.2
 
 	$('#salesSelectorWrapper').addClass('ready');
 
-    var flotDashBasicData = [{
-        data: [
-            [0, 170],
-            [1, 169],
-            [2, 173],
-            [3, 188],
-            [4, 147],
-            [5, 113],
-            [6, 128],
-            [7, 169],
-            [8, 173],
-            [9, 128],
-            [10, 128]
-        ],
-        label: "Series 1",
-        color: "#d8342fb3"
-    }, {
-        data: [
-            [0, 115],
-            [1, 124],
-            [2, 114],
-            [3, 121],
-            [4, 115],
-            [5, 83],
-            [6, 102],
-            [7, 148],
-            [8, 147],
-            [9, 103],
-            [10, 113]
-        ],
-        label: "Series 2",
-        color: "#0baa5aad"
-        }];
 
 
 
@@ -63,7 +30,7 @@ Theme Version: 	1.5.2
 	/*
 	Flot: Sales 1
 	*/
-	var flotDashSales1 = $.plot('#flotDashSales1', flotDashSales1Data, {
+	 flotDashSales1 = $.plot('#flotDashSales1', flotDashSales1Data, {
 		series: {
 			lines: {
 				show: true,
@@ -195,33 +162,33 @@ Theme Version: 	1.5.2
 	/*
 	Liquid Meter
 	*/
-	$('#meterSales').liquidMeter({
-		shape: 'circle',
-		color: '#0088cc',
-		background: '#F9F9F9',
-		fontSize: '24px',
-		fontWeight: '600',
-		stroke: '#F2F2F2',
-		textColor: '#333',
-		liquidOpacity: 0.9,
-		liquidPalette: ['#333'],
-		speed: 3000,
-		animate: !$.browser.mobile
-	});
+	//$('#meterSales').liquidMeter({
+	//	shape: 'circle',
+	//	color: '#0088cc',
+	//	background: '#F9F9F9',
+	//	fontSize: '24px',
+	//	fontWeight: '600',
+	//	stroke: '#F2F2F2',
+	//	textColor: '#333',
+	//	liquidOpacity: 0.9,
+	//	liquidPalette: ['#333'],
+	//	speed: 3000,
+	//	animate: !$.browser.mobile
+	//});
 
-	$('#meterSalesSel a').on('click', function( ev ) {
-		ev.preventDefault();
+	//$('#meterSalesSel a').on('click', function( ev ) {
+	//	ev.preventDefault();
 
-		var val = $(this).data("val"),
-			selector = $(this).parent(),
-			items = selector.find('a');
+	//	var val = $(this).data("val"),
+	//		selector = $(this).parent(),
+	//		items = selector.find('a');
 
-		items.removeClass('active');
-		$(this).addClass('active');
+	//	items.removeClass('active');
+	//	$(this).addClass('active');
 
-		// Update Meter Value
-		$('#meterSales').liquidMeter('set', val);
-	});
+	//	 Update Meter Value
+	//	$('#meterSales').liquidMeter('set', val);
+	//});
 
 	/*
 	Flot: Basic
@@ -231,76 +198,80 @@ Theme Version: 	1.5.2
 	/*
 	Flot: Real-Time
 	*/
-	(function() {
-		var data = [],
-			totalPoints = 300;
+//	(function() {
+//		var data = [],
+//			totalPoints = 300;
 
-		function getRandomData() {
+//		function getRandomData() {
 
-			if (data.length > 0)
-				data = data.slice(1);
+//			if (data.length > 0)
+//				data = data.slice(1);
 
-			// Do a random walk
-			while (data.length < totalPoints) {
+//			 Do a random walk
+//			while (data.length < totalPoints) {
 
-				var prev = data.length > 0 ? data[data.length - 1] : 50,
-					y = prev + Math.random() * 10 - 5;
+//				var prev = data.length > 0 ? data[data.length - 1] : 50,
+//					y = prev + Math.random() * 10 - 5;
 
-				if (y < 0) {
-					y = 0;
-				} else if (y > 100) {
-					y = 100;
-				}
+//				if (y < 0) {
+//					y = 0;
+//				} else if (y > 100) {
+//					y = 100;
+//				}
 
-				data.push(y);
-			}
+//				data.push(y);
+//			}
 
-			// Zip the generated y values with the x values
-			var res = [];
-			for (var i = 0; i < data.length; ++i) {
-				res.push([i, data[i]])
-			}
+//			 Zip the generated y values with the x values
+//			var res = [];
+//			for (var i = 0; i < data.length; ++i) {
+//				res.push([i, data[i]])
+//			}
 
-			return res;
-		}
-        /*
-Sparkline: Bar
-*/
+//			return res;
+//		}
+//        /*
+//Sparkline: Bar
+//*/
 
-        //var sparklineBarDashData = [5, 6, 7, 2, 0, 4, 2, 4, 2, 0, 4, 2, 4, 2, 0, 4];
-        //var sparklineBarDashOptions = {
-        //    type: 'bar',
-        //    width: '80',
-        //    height: '55',
-        //    barColor: '#d2322d99',
-        //    negBarColor: '#B20000'
-        //};
+//        var sparklineBarDashData = [5, 6, 7, 2, 0, 4, 2, 4, 2, 0, 4, 2, 4, 2, 0, 4];
+//        var sparklineBarDashOptions = {
+//            type: 'bar',
+//            width: '80',
+//            height: '55',
+//            barColor: '#d2322d99',
+//            negBarColor: '#B20000'
+//        };
 
-        //$("#sparklineBarDash").sparkline(sparklineBarDashData, sparklineBarDashOptions);
+//        $("#sparklineBarDash").sparkline(sparklineBarDashData, sparklineBarDashOptions);
 
-        ///*
-        //Sparkline: Line
-        //*/
-        //var sparklineLineDashOptions = {
-        //    type: 'line',
-        //    width: '80',
-        //    height: '55',
-        //    lineColor: '#d2322d',
+//        /*
+//        Sparkline: Line
+//        */
+//        var sparklineLineDashOptions = {
+//            type: 'line',
+//            width: '80',
+//            height: '55',
+//            lineColor: '#d2322d',
                
-        //};
+//        };
 
-        //$("#sparklineLineDash").sparkline(sparklineLineDashData, sparklineLineDashOptions);
+//        $("#sparklineLineDash").sparkline(sparklineLineDashData, sparklineLineDashOptions);
 
-        /*
-        Map
-        */
+//        /*
+//        Map
+//        */
      
 
         
 
 		
-	})();
+//	})();
 
 
 
 }).apply(this, [jQuery]);
+function changeLineGraphData(data) {
+    flotDashSales1.setData(data);
+    flotDashSales1.draw();
+}
