@@ -373,6 +373,9 @@
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\DiscountType.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\Enums\ModifierOptionEnum.cs" />
+    <Compile Include="Core\Enums\PaymentMethod.cs" />
+    <Compile Include="Core\Enums\TimedEventType.cs" />
     <Compile Include="Core\Models\AppCounter.cs" />
     <Compile Include="Core\Models\BusinessPartner.cs" />
     <Compile Include="Core\Models\Client.cs" />
@@ -418,6 +421,7 @@
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\ClientViewModel.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
+    <Compile Include="Core\ViewModels\DashBoardViewModel.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
     <Compile Include="Core\ViewModels\DeviceViewModel.cs" />
