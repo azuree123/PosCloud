@@ -14,11 +14,11 @@ namespace POSApp.Services
 {
     public static class ExcelService
     {
-        public static void GenerateCrystalReport<T>(List<T> dtList, string reportName, string filePath, string userId, IUnitOfWork unitOfWork, int storeId, string details, string crystalReportPath)
+        public static void GenerateCrystalReport<T>(List<T> dtList, string reportName, string filePath, string userId, IUnitOfWork unitOfWork, int storeId, string details, string crystalReportPath,string crystalReportName)
         {
             string fileName = reportName + "_" + userId + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".xls";
             ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(crystalReportPath, "ProductSales.rpt"));
+            rd.Load(Path.Combine(crystalReportPath, crystalReportName));
             rd.SetDataSource(dtList);
             rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.Excel, filePath + fileName);
             unitOfWork.ReportsLogRepository.AddReportsLog(new ReportsLog
