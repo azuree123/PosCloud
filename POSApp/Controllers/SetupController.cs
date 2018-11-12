@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.Persistence;
 
 namespace POSApp.Controllers
 {
@@ -15,6 +19,9 @@ namespace POSApp.Controllers
     public class SetupController : Controller
     {
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
+
+
         private IUnitOfWork _unitOfWork;
 
         public SetupController()
@@ -1502,15 +1509,104 @@ namespace POSApp.Controllers
                 _userManager = value;
             }
         }
-
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
         public ActionResult RolesList()
         {
-            return View();
+            return View(RoleManager.Roles);
         }
+    
 
         public ActionResult AddRole()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult AddRole(RoleViewModel role)
+        {
+            if (!ModelState.IsValid)
+            {
+            return View(role);
+            }
+            else
+            {
+                if (RoleManager.RoleExists(role.Name))
+                {
+                    ModelState.AddModelError("Role Already Exists","");
+                    return View(role);
+                }
+                else
+                {
+                    var userId = this.HttpContext.User.Identity.GetUserId();
+                    var user = UserManager.FindById(userId);
+
+                    RoleManager.Create(new ApplicationRole
+                    {
+                        Name = role.Name,StoreId = user.StoreId,CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now,
+                        CreatedById = userId,UpdatedById = userId
+                    });
+                }
+
+                return RedirectToAction("RolesList");
+            }
+        }
+        public ActionResult UpdateRole(string id)
+        {
+            var userId = this.HttpContext.User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+            return View("AddRole", RoleManager.Roles.Select(a=>new RoleViewModel{StoreId = a.StoreId,
+                Id = a.Id,Name = a.Name,CreatedBy = a.CreatedById,CreatedOn = a.CreatedOn}).FirstOrDefault(a=>a.StoreId==(int)user.StoreId && a.Id==id));
+        }
+        [HttpPost]
+        public ActionResult UpdateRole(string id,RoleViewModel role)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("AddRole",role);
+            }
+            else
+            {
+                if (RoleManager.RoleExists(role.Name))
+                {
+                    ModelState.AddModelError("Role Already Exists", "");
+                    return View("AddRole",role);
+                }
+                else
+                {
+                    var userId = this.HttpContext.User.Identity.GetUserId();
+                    var user = UserManager.FindById(userId);
+
+                    RoleManager.Update(new ApplicationRole
+                    {
+                        Id = id,
+                        Name = role.Name,
+                        StoreId = user.StoreId,
+                        CreatedOn = Convert.ToDateTime(role.CreatedOn),
+                        CreatedById = role.CreatedBy,
+                        UpdatedOn = DateTime.Now,
+                        UpdatedById = userId
+                    });
+                }
+
+                return RedirectToAction("RolesList");
+            }
+        }
+
+        public ActionResult DeleteRole(string id)
+        {
+            var userId = this.HttpContext.User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+            RoleManager.Delete(RoleManager.Roles.FirstOrDefault(a=>a.Id==id && a.StoreId==(int)user.StoreId));
+            return RedirectToAction("RolesList");
         }
     }
 }

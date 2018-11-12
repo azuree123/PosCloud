@@ -57,7 +57,6 @@ namespace POSApp.Persistence.Repositories
                 city.Synced = true;
                 city.SyncedOn = DateTime.Now;
             }
-
             _context.SaveChanges();
             return cities;
         }

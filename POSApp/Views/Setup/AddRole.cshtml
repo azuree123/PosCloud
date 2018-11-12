@@ -1,4 +1,5 @@
-﻿@{
+﻿@model POSApp.Core.ViewModels.RoleViewModel
+@{
     ViewBag.Title = "AddRole";
 }
 <style>
@@ -10,11 +11,13 @@
     .btn-group > .btn-group {
         width: 60%
     }
-    .multiselect, .dropdown-toggle{
-       width: 100%;
+
+    .multiselect, .dropdown-toggle {
+        width: 100%;
     }
-    .multiselect-container{
-        width:100%;
+
+    .multiselect-container {
+        width: 100%;
     }
 </style>
 
@@ -68,19 +71,13 @@
                                 </li>
                                 <li id="tranInfo">
                                     <a href="#authorities" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
-                                  Authorities
+                                        Authorities
 
                                     </a>
                                 </li>
                             </ul>
                             <hr />
-                            <div class="row mt-md">
-                                <div class="col-md-12">
-                                    <h4 class=" wb-color  text-center">Create New Role</h4>
-
-
-                                </div>
-                            </div>
+                            
                         </div>
 
                         <div class="tab-content col-md-8 col-xs-12 col-md-offset-2  p-xlg">
@@ -93,17 +90,21 @@
                                 <h4 class="mt-none mb-lg  text-weight-semibold ">Basic Data</h4>
                                 <div class="row">
                                     <div class="col-md-9 col-lg-offset-2">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Name <span class="text-danger">*</span>
-                                            </label>
-                                            <input type="text" class="form-control" required />
-                                    
+                                        @Html.HiddenFor(a => a.CreatedBy)
+                                        @Html.HiddenFor(a => a.CreatedOn)
+                                        @Html.HiddenFor(a => a.StoreId)
 
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
 
 
-                                  
+
                                     </div>
                                 </div>
 
@@ -111,23 +112,23 @@
                             </div>
                             <div id="authorities" class="tab-pane">
                                 <div class=" mb-lg" id="header-flex">
-                                    <h4 class="mt-xs  text-weight-semibold " >Authorities</h4>
-                                 
+                                    <h4 class="mt-xs  text-weight-semibold ">Authorities</h4>
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         @*<div class="form-group">
 
-                                                <input type="checkbox" class="form-control" style="display:inline;width:18%"/>
+                                                                                    <input type="checkbox" class="form-control" style="display:inline;width:18%"/>
 
-                                                <label class="control-label" style="display:inline;float:right;    margin: 5px 20px 0px 0px !important;
-        font-size: 16px;
-        margin-top: 5px;">
-                                                   Toggle All
-                                                </label>
-                                            </div>*@
+                                                                                    <label class="control-label" style="display:inline;float:right;    margin: 5px 20px 0px 0px !important;
+                                            font-size: 16px;
+                                            margin-top: 5px;">
+                                                                                       Toggle All
+                                                                                    </label>
+                                                                                </div>*@
                                         <div class="form-group">
-                                 
+
                                             <div class="col-md-9 col-lg-offset-2">
                                                 <div class="btn-group" style="display:block">
                                                     <select class="form-control" multiple="multiple" style="width:100%" data-plugin-multiselect data-plugin-options='{ "maxHeight": 200 }' data-multiselect-toggle-all="true" id="ms_example7">
@@ -140,7 +141,7 @@
                                                             <option value="Customers-tags-View">View</option>
                                                             <option value="Customers-tags-Manage">Manage</option>
                                                         </optgroup>
-                                                 
+
                                                         <optgroup label="inventory-items">
                                                             <option value="inventory-items-View">View</option>
                                                             <option value="inventory-items-Manage">Manage</option>
@@ -169,19 +170,19 @@
 
                                                             <option value="View-Cost">View Cost</option>
 
-                                                            </optgroup>
+                                                        </optgroup>
 
                                                     </select>
-                                                    <button id="ms_example7-toggle"  class="btn outline-success">Select All</button>
+                                                    <button id="ms_example7-toggle" class="btn outline-success">Select All</button>
                                                 </div>
                                             </div>
                                         </div>
 
 
                                     </div>
-                                    </div>
-
                                 </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -196,7 +197,7 @@
 {
     <script>
 
-      
+
         $('a.modalShow').on('click', function () {
             $.ajax({
                 url: this.href,

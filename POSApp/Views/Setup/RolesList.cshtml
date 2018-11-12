@@ -26,9 +26,10 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li class="current"><a  href="@Url.Action("RolesList","Setup")">Roles</a></li>
 
-        <li><a href="#">Users</a></li>
+            <li class="current"><a href="@Url.Action("RolesList","Setup")">Roles</a></li>
+            <li><a href="@Url.Action("UserList","User")">Users</a></li>
+
         </ul>
         <hr />
 
@@ -69,40 +70,28 @@
         <div class="table-responsive">
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
-                    <tr>
-                        <th width="5%">ID</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Linked Employees</th>
-
-                        <th>Created At</th>
-                        <th width="15%">Action</th>
-
-                    </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
                 </thead>
                 <tbody>
-
+                @{ int i = 1;}
+                @foreach (var role in Model)
+                {
                     <tr>
-                        <td>1</td>
-                        <td>Cashier</td>
-                        <td>App</td>
-                        <td>1</td>
-                        <td>15-oct-2017</td>
-                        <td>
+                        <td>@(i++)</td>
+                        <td>@role.Name</td>
+                        <td class="center">
                             <div class="btn-group">
-                                <a class="btn btn-default text-success btn-sm fa fa-edit modalShow" data-toggle="tooltip" title="Edit !"></a>
-                                <a class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
 
-
-
+                                @Html.ActionLink(" ", "AddRole", "Setup", new { id = @role.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                @Html.ActionLink(" ", "DeleteRole", "Setup", new { id = @role.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                             </div>
                         </td>
-
-                        @*<td>
-                                @Html.ActionLink(" ", "PreviewPurchaseOrder", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
-                            </td>*@
                     </tr>
-
+                }
                 </tbody>
             </table>
         </div>

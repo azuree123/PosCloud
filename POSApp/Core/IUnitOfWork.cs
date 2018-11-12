@@ -40,6 +40,7 @@ namespace POSApp.Core
         IFloorRepository FloorRepository { get; }
         IDineTableRepository DineTableRepository { get; }
         IDeviceRepository DeviceRepository { get; }
+        IUserRepository UserRepository { get; }
         void Complete();
     }
 }

@@ -347,6 +347,7 @@
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WebApi\CitiesController.cs" />
     <Compile Include="Controllers\WebApi\ClientsController.cs" />
     <Compile Include="Controllers\WebApi\CustomersController.cs" />
@@ -377,6 +378,7 @@
     <Compile Include="Core\Enums\PaymentMethod.cs" />
     <Compile Include="Core\Enums\TimedEventType.cs" />
     <Compile Include="Core\Models\AppCounter.cs" />
+    <Compile Include="Core\Models\ApplicationUserRole.cs" />
     <Compile Include="Core\Models\BusinessPartner.cs" />
     <Compile Include="Core\Models\Client.cs" />
     <Compile Include="Core\Models\Designation.cs" />
@@ -389,6 +391,8 @@
     <Compile Include="Core\Models\ProductCategoryGroup.cs" />
     <Compile Include="Core\Models\ProductsSub.cs" />
     <Compile Include="Core\Models\ReportsLog.cs" />
+    <Compile Include="Core\Models\SecurityObject.cs" />
+    <Compile Include="Core\Models\SecurityRight.cs" />
     <Compile Include="Core\Models\Store.cs" />
     <Compile Include="Core\Models\Tax.cs" />
     <Compile Include="Core\Models\TimedEvent.cs" />
@@ -415,6 +419,7 @@
     <Compile Include="Core\Repositories\ITaxRepository.cs" />
     <Compile Include="Core\Repositories\ITransDetailRepository.cs" />
     <Compile Include="Core\Repositories\ITransMasterRepository.cs" />
+    <Compile Include="Core\Repositories\IUserRepository.cs" />
     <Compile Include="Core\Shared\Helper.cs" />
     <Compile Include="Core\Shared\PoHelper.cs" />
     <Compile Include="Core\ViewModels\BusinessPartnerViewModel.cs" />
@@ -425,6 +430,8 @@
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
     <Compile Include="Core\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Core\ViewModels\RoleViewModel.cs" />
+    <Compile Include="Core\ViewModels\UserViewModel.cs" />
     <Compile Include="Migrations\201811080957063_Update-5.cs" />
     <Compile Include="Migrations\201811080957063_Update-5.Designer.cs">
       <DependentUpon>201811080957063_Update-5.cs</DependentUpon>
@@ -433,6 +440,11 @@
     <Compile Include="Migrations\201811090813375_Update-6.Designer.cs">
       <DependentUpon>201811090813375_Update-6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811120849218_Update-7.cs" />
+    <Compile Include="Migrations\201811120849218_Update-7.Designer.cs">
+      <DependentUpon>201811120849218_Update-7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\Repositories\DeviceRepository.cs" />
     <Compile Include="Core\ViewModels\DineTableViewModel.cs" />
     <Compile Include="Core\ViewModels\DiscountViewModel.cs" />
@@ -586,6 +598,7 @@
     <Compile Include="Persistence\Repositories\PurchaseOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\PurchaseOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\ReportsLogRepository.cs" />
+    <Compile Include="Persistence\Repositories\RoleRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
@@ -597,6 +610,7 @@
     <Compile Include="Persistence\Repositories\TransDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\TransMasterRepository.cs" />
     <Compile Include="Persistence\Repositories\UnitRepository.cs" />
+    <Compile Include="Persistence\Repositories\UserRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\ProductSales.cs">
@@ -2681,6 +2695,8 @@
     <Content Include="Views\ExcelImport\DineTableExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\ClientExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\UnitExcelImport.cshtml" />
+    <Content Include="Views\User\UserList.cshtml" />
+    <Content Include="Views\User\UpdateUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2689,6 +2705,7 @@
     <Folder Include="Images\Data\Product\" />
     <Folder Include="Images\Data\Service\" />
     <Folder Include="Views\Product\" />
+    <Folder Include="Views\Roles\" />
     <Folder Include="Views\Sales\" />
   </ItemGroup>
   <ItemGroup>
@@ -2725,6 +2742,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811090813375_Update-6.resx">
       <DependentUpon>201811090813375_Update-6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811120849218_Update-7.resx">
+      <DependentUpon>201811120849218_Update-7.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
