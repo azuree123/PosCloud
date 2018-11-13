@@ -79,5 +79,61 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("UserList", "User");
         }
+        public ActionResult SecurityObjectList()
+        {
+            return View(Mapper.Map<SecurityObjectViewModel[]>(_unitOfWork.SecurityObjectRepository.GetSecurityObjects()));
+        }
+
+        public ActionResult AddSecurityObject()
+        {
+            ViewBag.edit = "AddSecurityObject";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddSecurityObject(SecurityObjectViewModel securityObjectMv)
+        {
+            ViewBag.edit = "AddSecurityObject";
+            if (!ModelState.IsValid)
+            {
+                return View(securityObjectMv);
+            }
+            else
+            {
+               SecurityObject securityObject = Mapper.Map<SecurityObject>(securityObjectMv);
+                _unitOfWork.SecurityObjectRepository.AddSecurityObject(securityObject);
+                _unitOfWork.Complete();
+                return RedirectToAction("SecurityObjectList", "User");
+            }
+
+        }
+        public ActionResult UpdateSecurityObject(int id)
+        {
+            ViewBag.edit = "UpdateSecurityObject";
+            SecurityObjectViewModel securityObjectMv = Mapper.Map<SecurityObjectViewModel>(_unitOfWork.SecurityObjectRepository.GetSecurityObject(id));
+            return View("AddSecurityObject", securityObjectMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateSecurityObject(int id,SecurityObjectViewModel securityObjectMv)
+        {
+            ViewBag.edit = "UpdateSecurityObject";
+            if (!ModelState.IsValid)
+            {
+                return View("AddSecurityObject", securityObjectMv);
+            }
+            else
+            {
+               SecurityObject securityObject = Mapper.Map<SecurityObject>(securityObjectMv);
+                _unitOfWork.SecurityObjectRepository.UpdateSecurityObject(id, securityObject);
+                _unitOfWork.Complete();
+                return RedirectToAction("SecurityObjectList", "User");
+            }
+
+        }
+        public ActionResult DeleteSecurityObject(int id)
+        {
+            _unitOfWork.SecurityObjectRepository.DeleteSecurityObject(id);
+            _unitOfWork.Complete();
+            return RedirectToAction("SecurityObjectList", "User");
+        }
     }
 }

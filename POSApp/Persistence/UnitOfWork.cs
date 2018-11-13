@@ -50,6 +50,9 @@ namespace POSApp.Persistence
         public IDineTableRepository DineTableRepository { get; private set; }
         public IDeviceRepository DeviceRepository { get; private set; }
         public IReportsRepository ReportsRepository { get; private set; }
+        public ISecurityRightRepository SecurityRightRepository { get; private set; }
+        public ISecurityObjectRepository SecurityObjectRepository { get; private set; }
+
 
         public IUserRepository UserRepository { get; private set; }
         public UnitOfWork(PosDbContext context)
@@ -93,6 +96,8 @@ namespace POSApp.Persistence
             DeviceRepository = new DeviceRepository(context);
             ReportsRepository = new ReportsRepository(context);
             UserRepository = new UserRepository(context);
+            SecurityRightRepository=new SecurityRightRepository(context);
+            SecurityObjectRepository=new SecurityObjectRepository(context);
         }
 
         public void Complete()

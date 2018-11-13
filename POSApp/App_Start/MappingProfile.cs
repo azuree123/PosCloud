@@ -87,7 +87,13 @@ namespace POSApp
             CreateMap<ProductDdlViewModel, Product>();
             CreateMap<Product, ProductDdlViewModel>();
             CreateMap<UserViewModel, ApplicationUser>().ForMember(d => d.UserName, o => o.MapFrom(g => g.Name));
-            CreateMap<ApplicationUser, UserViewModel>().ForMember(d => d.Name, o => o.MapFrom(g => g.UserName)); 
+            CreateMap<ApplicationUser, UserViewModel>().ForMember(d => d.Name, o => o.MapFrom(g => g.UserName));
+
+            CreateMap<SecurityObjectViewModel, SecurityObject>();
+            CreateMap<SecurityObject, SecurityObjectViewModel>();
+
+            CreateMap<SecurityRightViewModel, SecurityRight>();
+            CreateMap<SecurityRight, SecurityRightViewModel>();
         }
     }
 }

@@ -55,6 +55,8 @@ namespace POSApp.Persistence
         public DbSet<Floor> Floors { get; set; }
         public DbSet<DineTable> DineTables { get; set; }
         public DbSet<Device> Devices { get; set; }
+        public DbSet<SecurityRight> SecurityRights { get; set; }
+        public DbSet<SecurityObject> SecurityObjects { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
             var objectContext = (this as IObjectContextAdapter).ObjectContext;
@@ -108,6 +110,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new DineTableEntityConfiguration());
             modelBuilder.Configurations.Add(new FloorEntityConfiguration());
             modelBuilder.Configurations.Add(new DeviceEntityConfiguration());
+            modelBuilder.Configurations.Add(new SecurityRightEntityConfiguration());
 
 
 

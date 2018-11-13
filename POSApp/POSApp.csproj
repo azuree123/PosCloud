@@ -413,6 +413,8 @@
     <Compile Include="Core\Repositories\IProductsSubRepository.cs" />
     <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
     <Compile Include="Core\Repositories\IReportsRepository.cs" />
+    <Compile Include="Core\Repositories\ISecurityObjectRepository.cs" />
+    <Compile Include="Core\Repositories\ISecurityRightRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventProductsRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventRepository.cs" />
     <Compile Include="Core\Repositories\IUnitRepository.cs" />
@@ -433,6 +435,8 @@
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
     <Compile Include="Core\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Core\ViewModels\RoleViewModel.cs" />
+    <Compile Include="Core\ViewModels\SecurityObjectViewModel.cs" />
+    <Compile Include="Core\ViewModels\SecurityRightViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
     <Compile Include="Migrations\201811080957063_Update-5.cs" />
     <Compile Include="Migrations\201811080957063_Update-5.Designer.cs">
@@ -447,6 +451,7 @@
       <DependentUpon>201811120849218_Update-7.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\SecurityRightEntityConfiguration.cs" />
     <Compile Include="Persistence\Repositories\DeviceRepository.cs" />
     <Compile Include="Core\ViewModels\DineTableViewModel.cs" />
     <Compile Include="Core\ViewModels\DiscountViewModel.cs" />
@@ -604,6 +609,8 @@
     <Compile Include="Persistence\Repositories\RoleRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\SaleOrderRepository.cs" />
+    <Compile Include="Persistence\Repositories\SecurityObjectRepository.cs" />
+    <Compile Include="Persistence\Repositories\SecurityRightRepository.cs" />
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
     <Compile Include="Persistence\Repositories\StoreRepository.cs" />
     <Compile Include="Persistence\Repositories\SupplierRepository.cs" />
@@ -2706,6 +2713,8 @@
     <Content Include="Views\ExcelImport\UnitExcelImport.cshtml" />
     <Content Include="Views\User\UserList.cshtml" />
     <Content Include="Views\User\UpdateUser.cshtml" />
+    <Content Include="Views\User\SecurityObjectList.cshtml" />
+    <Content Include="Views\User\AddSecurityObject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
