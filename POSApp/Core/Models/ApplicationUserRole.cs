@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -24,6 +25,9 @@ namespace POSApp.Core.Models
 
         [Column(TypeName = "DateTime2")]
         public DateTime UpdatedOn { get; set; }
+
+
+        public virtual ICollection<SecurityRight> SecurityRights { get; set; }
 
 
     }

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<POSApp.Core.ViewModels.SecurityObjectViewModel>
+@{
+    ViewBag.Title = "SecurityObjectList";
+}
+
+
+<!-- start: page -->
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
+            <li><a href="@Url.Action("RolesList","Setup")">Roles</a></li>
+            <li class="current"><a href="@Url.Action("UserList", "User")">Users</a></li>
+
+
+        </ul>
+        <hr />
+
+    </div>
+</div>
+<section class="panel">
+    <header class="panel-heading">
+        <div class="row">
+
+            <div class="" id="header-flex">
+                <h3 class="wb-color" style="flex-grow: 8"><b>SecurityObjects</b></h3>
+
+              
+                <a href="@Url.Action("AddSecurityObject", "User")" class="modalShow" style="flex-grow: 0.1">
+                    <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add SecurityObject</button>
+
+                </a>
+              
+            </div>
+        </div>
+
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+
+            <table class="table mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Module</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 1;}
+                    @foreach (var user in Model)
+                    {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@user.Name</td>
+                        <td>@user.Module</td>
+                        <td>@user.Type</td>
+
+                        <td class="center">
+                            <div class="btn-group">
+
+                                @Html.ActionLink(" ", "UpdateSecurityObject", "User", new { id = @user.SecurityObjectId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow  ", data_toggle = "tooltip", title = "Edit !" })
+                                @Html.ActionLink(" ", "DeleteSecurityObject", "User", new { id = @user.SecurityObjectId }, new { @class = "btn btn-default text-danger hidden  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').dataTable();
+
+        $('a.modalShow').on('click', function () {
+
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                }
+            });
+
+            return false;
+        });
+    </script>
+}
+
+
+
+

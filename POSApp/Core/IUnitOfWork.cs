@@ -41,6 +41,9 @@ namespace POSApp.Core
         IDineTableRepository DineTableRepository { get; }
         IDeviceRepository DeviceRepository { get; }
         IReportsRepository ReportsRepository { get; }
+        ISecurityObjectRepository SecurityObjectRepository { get; }
+        ISecurityRightRepository SecurityRightRepository { get; }
+
 
         IUserRepository UserRepository { get; }
         void Complete();
