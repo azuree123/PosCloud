@@ -40,7 +40,7 @@ namespace POSApp.Controllers
             ServiceCreateViewModel service = new ServiceCreateViewModel();
             service.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Service")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            service.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
+            service.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddService";
             return View(service);
@@ -97,7 +97,7 @@ namespace POSApp.Controllers
             ServiceCreateViewModel serviceVm = Mapper.Map<ServiceCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id,Convert.ToInt32(user.StoreId)));
             serviceVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Service")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            serviceVm.SupplierDdl = _unitOfWork.SupplierRepository.GetSuppliers()
+            serviceVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddService", serviceVm);
         }

@@ -24,9 +24,7 @@ namespace POSApp.Core.ViewModels
         public int CategoryId { get; set; }
 
         public string Duration { get; set; }
-        public string Available { get; set; }
-        [DisplayName("Supplier")]
-        public int? SupplierId { get; set; }
+        
         public double UnitPrice { get; set; }
         public double CostPrice { get; set; }
         public int ReOrderLevel { get; set; }
@@ -38,12 +36,17 @@ namespace POSApp.Core.ViewModels
         public string CreatedBy { get; set; }
         [DisplayName("Unit")]
         public int UnitId { get; set; }
+        [DisplayName("Section")]
+        public int? SectionId { get; set; }
+        public bool InventoryItem { get; set; }
+        public bool PurchaseItem { get; set; }
+        public bool FixedAssetItem { get; set; }
         public IEnumerable<SelectListItem> CategoryDdl { get; set; }
-        public IEnumerable<SelectListItem> SupplierDdl { get; set; }
         public IEnumerable<SelectListItem> UnitDdl { get; set; }
         public IEnumerable<SelectListItem> TaxDdl { get; set; }
+        public IEnumerable<SelectListItem> SectionDdl { get; set; }
 
-        
+
 
     }
     public class ProductSyncViewModel
@@ -62,11 +65,13 @@ namespace POSApp.Core.ViewModels
 
         [DisplayName("Category")]
         public int CategoryId { get; set; }
-
+        [DisplayName("Section")]
+        public int? SectionId { get; set; }
+        public bool InventoryItem { get; set; }
+        public bool PurchaseItem { get; set; }
+        public bool FixedAssetItem { get; set; }
         public string Duration { get; set; }
-        public string Available { get; set; }
-        [DisplayName("Supplier")]
-        public int SupplierId { get; set; }
+       
         public double UnitPrice { get; set; }
         public double CostPrice { get; set; }
         public int ReOrderLevel { get; set; }
@@ -93,6 +98,11 @@ namespace POSApp.Core.ViewModels
         public string ProductCode { get; set; }
         public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
         public string Size { get; set; }//MED, SML, LRG,XRG, Child,
+        [DisplayName("Section")]
+        public int? SectionId { get; set; }
+        public bool InventoryItem { get; set; }
+        public bool PurchaseItem { get; set; }
+        public bool FixedAssetItem { get; set; }
         [DisplayName("Tax")]
         public int? TaxId { get; set; }
         public bool IsTaxable { get; set; }
@@ -101,8 +111,6 @@ namespace POSApp.Core.ViewModels
         public int CategoryId { get; set; }
 
         public string Duration { get; set; }
-        public string Available { get; set; }
-        [DisplayName("Supplier")]
         public double UnitPrice { get; set; }
         public double CostPrice { get; set; }
         public int ReOrderLevel { get; set; }
@@ -117,6 +125,7 @@ namespace POSApp.Core.ViewModels
         public IEnumerable<SelectListItem> CategoryDdl { get; set; }
         public IEnumerable<SelectListItem> UnitDdl { get; set; }
         public IEnumerable<SelectListItem> TaxDdl { get; set; }
+        public IEnumerable<SelectListItem> SectionDdl { get; set; }
 
         public IEnumerable<ProductSubViewModel> ProductSubViewModels { get; set; }
 

@@ -69,10 +69,10 @@ namespace POSApp
             CreateMap<ModifierOption, ModifierOptionViewModel>();
             CreateMap<TimedEventViewModel, TimedEvent>().ForMember(a => a.Days, o => o.MapFrom(g => string.Join(",",g.Days)));
             CreateMap<TimedEvent, TimedEventViewModel>().ForMember(a=>a.BranchesDisplay,o=>o.MapFrom(g=>g.StoreId))
-                .ForMember(a => a.ProductsDisplay, o => o.MapFrom(g => string.Join(",",g.TimedEventProducts.Select(a=>a.ProductId).ToArray())))
+                .ForMember(a => a.ProductsDisplay, o => o.MapFrom(g => string.Join(",",g.TimedEventProducts.Select(a=>a.ProductCode).ToArray())))
                 .ForMember(a => a.DaysDisplay, o => o.MapFrom(g => g.Days))
                 .ForMember(a => a.Days, o => o.MapFrom(g => g.Days.Split(',')))
-                .ForMember(a => a.Products, o => o.MapFrom(g => g.TimedEventProducts.Select(a => a.ProductId).ToArray()));
+                .ForMember(a => a.Products, o => o.MapFrom(g => g.TimedEventProducts.Select(a => a.ProductCode).ToArray()));
             CreateMap<DineTableViewModel, DineTable>();
             CreateMap<DineTable, DineTableViewModel>();
             CreateMap<FloorViewModel, Floor>();
@@ -94,6 +94,17 @@ namespace POSApp
 
             CreateMap<SecurityRightViewModel, SecurityRight>();
             CreateMap<SecurityRight, SecurityRightViewModel>();
+
+            CreateMap<SectionViewModel, Section>();
+            CreateMap<Section, SectionViewModel>();
+
+            CreateMap<POSTerminalViewModel, POSTerminal>();
+            CreateMap<POSTerminal, POSTerminalViewModel>();
+
+            CreateMap<POSTerminal, POSTerminalListModelView>().ForMember(a=>a.Section,o=>o.MapFrom(g=>g.Section.Name))
+                .ForMember(a => a.POSTerminalId, o => o.MapFrom(g => g.POSTerminalId))
+                .ForMember(a => a.POSTerminalName, o => o.MapFrom(g => g.Name));
+
         }
     }
 }

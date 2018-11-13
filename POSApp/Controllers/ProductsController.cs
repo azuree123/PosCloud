@@ -41,12 +41,14 @@ namespace POSApp.Controllers
             ProductCreateViewModel product = new ProductCreateViewModel();
             product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a=>a.Type=="Product")
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
-            product.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)user.StoreId)
-                .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             product.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             product.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
+            product.ProductCode =  "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
             ViewBag.edit = "AddProduct";
            
             return View(product);
@@ -61,12 +63,12 @@ namespace POSApp.Controllers
             {
                 productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Product")
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-                productVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId)
-                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
                 return View(productVm);
             }
             else 
@@ -112,12 +114,12 @@ namespace POSApp.Controllers
             ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id,Convert.ToInt32(user.StoreId)));
             productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Product")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId)
-                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddProduct", productVm);
         }
         [HttpPost]
@@ -132,6 +134,8 @@ namespace POSApp.Controllers
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
                 return View("AddProduct", productVm);
             }
             else if (file != null && file.ContentLength > 0)
@@ -868,7 +872,82 @@ namespace POSApp.Controllers
             return View("ComboOptionListTable", Helper.TempComboOptions.Where(a => a.CreatedBy == userid).ToList());
 
         }
+        //Section
 
+        public ActionResult SectionList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.SectionRepository.GetSections((int)user.StoreId));
+        }
+        [HttpGet]
+        public ActionResult AddSection()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            SectionViewModel Section = new SectionViewModel();
+            ViewBag.edit = "AddSection";
+            return View(Section);
+        }
+        [HttpPost]
+        public ActionResult AddSection(SectionViewModel SectionMv)
+        {
+
+            ViewBag.edit = "AddSection";
+            if (!ModelState.IsValid)
+            {
+                return View(SectionMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Section Section = Mapper.Map<Section>(SectionMv);
+                Section.StoreId = (int)user.StoreId;
+                _unitOfWork.SectionRepository.AddSection(Section);
+                _unitOfWork.Complete();
+                return RedirectToAction("SectionList", "Products");
+            }
+
+        }
+        [HttpGet]
+        public ActionResult UpdateSection(int id)
+        {
+            ViewBag.edit = "UpdateSection";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            SectionViewModel SectionMv =
+                Mapper.Map<SectionViewModel>(_unitOfWork.SectionRepository.GetSectionById(id, (int)user.StoreId));
+            return View("AddSection", SectionMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateSection(int id, SectionViewModel SectionMv)
+        {
+            ViewBag.edit = "UpdateSate";
+            if (!ModelState.IsValid)
+            {
+                return View("AddSection", SectionMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Section Section = Mapper.Map<Section>(SectionMv);
+                _unitOfWork.SectionRepository.UpdateSection(id, Section, (int)user.StoreId);
+                _unitOfWork.Complete();
+                return RedirectToAction("SectionList", "Products");
+
+            }
+
+        }
+        public ActionResult DeleteSection(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.SectionRepository.DeleteSection(id, (int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("SectionList", "Products");
+        }
         public ApplicationUserManager UserManager
         {
             get

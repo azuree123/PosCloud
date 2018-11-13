@@ -8,7 +8,7 @@ namespace POSApp.Core.Models
 {
     public class TimedEventProducts
     {
-        public int ProductId { get; set; }
+        public string ProductCode { get; set; }
         [ForeignKey("ProductId")]
         public Product Product { get; set; }
         public int StoreId { get; set; }

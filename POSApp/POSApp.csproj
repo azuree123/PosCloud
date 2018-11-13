@@ -364,7 +364,6 @@
     <Compile Include="Controllers\WebApi\ProductCategoryGroupsController.cs" />
     <Compile Include="Controllers\WebApi\ProductsController.cs" />
     <Compile Include="Controllers\WebApi\ProductSubsController.cs" />
-    <Compile Include="Controllers\WebApi\PurchaseOrdersController.cs" />
     <Compile Include="Controllers\WebApi\SalesController.cs" />
     <Compile Include="Controllers\WebApi\StatesController.cs" />
     <Compile Include="Controllers\WebApi\SuppliersController.cs" />
@@ -388,9 +387,11 @@
     <Compile Include="Core\Models\Floor.cs" />
     <Compile Include="Core\Models\Modifier.cs" />
     <Compile Include="Core\Models\ModifierOption.cs" />
+    <Compile Include="Core\Models\POSTerminal.cs" />
     <Compile Include="Core\Models\ProductCategoryGroup.cs" />
     <Compile Include="Core\Models\ProductsSub.cs" />
     <Compile Include="Core\Models\ReportsLog.cs" />
+    <Compile Include="Core\Models\Section.cs" />
     <Compile Include="Core\Models\SecurityObject.cs" />
     <Compile Include="Core\Models\SecurityRight.cs" />
     <Compile Include="Core\Models\Store.cs" />
@@ -409,10 +410,12 @@
     <Compile Include="Core\Repositories\IFloorRepository.cs" />
     <Compile Include="Core\Repositories\IModifierOptionRepository.cs" />
     <Compile Include="Core\Repositories\IModifierRepository.cs" />
+    <Compile Include="Core\Repositories\IPOSTerminalRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
     <Compile Include="Core\Repositories\IProductsSubRepository.cs" />
     <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
     <Compile Include="Core\Repositories\IReportsRepository.cs" />
+    <Compile Include="Core\Repositories\ISectionRepository.cs" />
     <Compile Include="Core\Repositories\ISecurityObjectRepository.cs" />
     <Compile Include="Core\Repositories\ISecurityRightRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventProductsRepository.cs" />
@@ -434,27 +437,19 @@
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
     <Compile Include="Core\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Core\ViewModels\POSTerminalViewModel.cs" />
     <Compile Include="Core\ViewModels\RoleViewModel.cs" />
+    <Compile Include="Core\ViewModels\SectionViewModel.cs" />
     <Compile Include="Core\ViewModels\SecurityObjectViewModel.cs" />
     <Compile Include="Core\ViewModels\SecurityRightViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
-    <Compile Include="Migrations\201811080957063_Update-5.cs" />
-    <Compile Include="Migrations\201811080957063_Update-5.Designer.cs">
-      <DependentUpon>201811080957063_Update-5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811090813375_Update-6.cs" />
-    <Compile Include="Migrations\201811090813375_Update-6.Designer.cs">
-      <DependentUpon>201811090813375_Update-6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811120849218_Update-7.cs" />
-    <Compile Include="Migrations\201811120849218_Update-7.Designer.cs">
-      <DependentUpon>201811120849218_Update-7.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811130541438_Update-8.cs" />
-    <Compile Include="Migrations\201811130541438_Update-8.Designer.cs">
-      <DependentUpon>201811130541438_Update-8.cs</DependentUpon>
+    <Compile Include="Migrations\201811131244284_Update-1.cs" />
+    <Compile Include="Migrations\201811131244284_Update-1.Designer.cs">
+      <DependentUpon>201811131244284_Update-1.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\POSTerminalEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\SectionEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SecurityRightEntityConfiguration.cs" />
     <Compile Include="Persistence\Repositories\DeviceRepository.cs" />
     <Compile Include="Core\ViewModels\DineTableViewModel.cs" />
@@ -477,19 +472,13 @@
     <Compile Include="Core\Models\ApplicationUser.cs" />
     <Compile Include="Core\Models\AuditableEntity.cs" />
     <Compile Include="Core\Models\City.cs" />
-    <Compile Include="Core\Models\Customer.cs" />
     <Compile Include="Core\Models\Department.cs" />
     <Compile Include="Core\Models\Employee.cs" />
     <Compile Include="Core\Models\ExpenseHead.cs" />
     <Compile Include="Core\Models\Location.cs" />
-    <Compile Include="Core\Models\PurchaseOrderDetail.cs" />
     <Compile Include="Core\Models\Product.cs" />
     <Compile Include="Core\Models\ProductCategory.cs" />
-    <Compile Include="Core\Models\PurchaseOrder.cs" />
-    <Compile Include="Core\Models\SaleOrder.cs" />
-    <Compile Include="Core\Models\SaleOrderDetail.cs" />
     <Compile Include="Core\Models\State.cs" />
-    <Compile Include="Core\Models\Supplier.cs" />
     <Compile Include="Core\Models\Expense.cs" />
     <Compile Include="Core\Repositories\ICityRepository.cs" />
     <Compile Include="Core\Repositories\ICustomerRepository.cs" />
@@ -531,33 +520,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811060842196_Initial.cs" />
-    <Compile Include="Migrations\201811060842196_Initial.Designer.cs">
-      <DependentUpon>201811060842196_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811061032401_Initial3.cs" />
-    <Compile Include="Migrations\201811061032401_Initial3.Designer.cs">
-      <DependentUpon>201811061032401_Initial3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811070644034_Update-1.cs" />
-    <Compile Include="Migrations\201811070644034_Update-1.Designer.cs">
-      <DependentUpon>201811070644034_Update-1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811070946166_Update-2.cs" />
-    <Compile Include="Migrations\201811070946166_Update-2.Designer.cs">
-      <DependentUpon>201811070946166_Update-2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811071018060_update-3.cs" />
-    <Compile Include="Migrations\201811071018060_update-3.Designer.cs">
-      <DependentUpon>201811071018060_update-3.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationUserEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\BusinessPartnerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\CityEntityConfiguration.cs" />
-    <Compile Include="Persistence\EntityConfigurations\CustomerEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DepartmentEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DeviceEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DineTableEntityConfiguration.cs" />
@@ -572,14 +540,9 @@
     <Compile Include="Persistence\EntityConfigurations\ProductCategoryEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ProductEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ProductSubEntityConfiguration.cs" />
-    <Compile Include="Persistence\EntityConfigurations\PurchaseOrderDetailEntityConfiguration.cs" />
-    <Compile Include="Persistence\EntityConfigurations\PurchaseOrderEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ReportLogEntityConfiguration.cs" />
-    <Compile Include="Persistence\EntityConfigurations\SaleOrderDetailEntityConfiguration.cs" />
-    <Compile Include="Persistence\EntityConfigurations\SaleOrderEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\StateEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\StoreEntityConfiguration.cs" />
-    <Compile Include="Persistence\EntityConfigurations\SupplierEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TaxEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TimedEventEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TimedEventProductEntityConfiguration.cs" />
@@ -591,7 +554,6 @@
     <Compile Include="Persistence\Repositories\BusinessPartnerRepository.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
     <Compile Include="Persistence\Repositories\ClientRepository.cs" />
-    <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\DepartmentRepository.cs" />
     <Compile Include="Persistence\Repositories\DineTableRepository.cs" />
     <Compile Include="Persistence\Repositories\DiscountRepository.cs" />
@@ -602,22 +564,19 @@
     <Compile Include="Persistence\Repositories\LocationRepository.cs" />
     <Compile Include="Persistence\Repositories\ModifierOptionRepository.cs" />
     <Compile Include="Persistence\Repositories\ModifierRepository.cs" />
+    <Compile Include="Persistence\Repositories\POSTerminalRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryGroupRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductsSubRepository.cs" />
-    <Compile Include="Persistence\Repositories\PurchaseOrderDetailRepository.cs" />
-    <Compile Include="Persistence\Repositories\PurchaseOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\ReportsLogRepository.cs" />
     <Compile Include="Persistence\Repositories\ReportsRepository.cs" />
     <Compile Include="Persistence\Repositories\RoleRepository.cs" />
-    <Compile Include="Persistence\Repositories\SaleOrderDetailRepository.cs" />
-    <Compile Include="Persistence\Repositories\SaleOrderRepository.cs" />
+    <Compile Include="Persistence\Repositories\SectionRepository.cs" />
     <Compile Include="Persistence\Repositories\SecurityObjectRepository.cs" />
     <Compile Include="Persistence\Repositories\SecurityRightRepository.cs" />
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
     <Compile Include="Persistence\Repositories\StoreRepository.cs" />
-    <Compile Include="Persistence\Repositories\SupplierRepository.cs" />
     <Compile Include="Persistence\Repositories\TaxRepository.cs" />
     <Compile Include="Persistence\Repositories\TimedEventProductsRepository.cs" />
     <Compile Include="Persistence\Repositories\TimedEventRepository.cs" />
@@ -2719,6 +2678,10 @@
     <Content Include="Views\User\UpdateUser.cshtml" />
     <Content Include="Views\User\SecurityObjectList.cshtml" />
     <Content Include="Views\User\AddSecurityObject.cshtml" />
+    <Content Include="Views\Products\SectionList.cshtml" />
+    <Content Include="Views\Products\AddSection.cshtml" />
+    <Content Include="Views\Setup\POSTerminalList.cshtml" />
+    <Content Include="Views\Setup\AddPOSTerminal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2744,36 +2707,12 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811060842196_Initial.resx">
-      <DependentUpon>201811060842196_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811061032401_Initial3.resx">
-      <DependentUpon>201811061032401_Initial3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811070644034_Update-1.resx">
-      <DependentUpon>201811070644034_Update-1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811070946166_Update-2.resx">
-      <DependentUpon>201811070946166_Update-2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811071018060_update-3.resx">
-      <DependentUpon>201811071018060_update-3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811080957063_Update-5.resx">
-      <DependentUpon>201811080957063_Update-5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811090813375_Update-6.resx">
-      <DependentUpon>201811090813375_Update-6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811130541438_Update-8.resx">
-      <DependentUpon>201811130541438_Update-8.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811131244284_Update-1.resx">
+      <DependentUpon>201811131244284_Update-1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\CategoriesSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CategoriesSales.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811120849218_Update-7.resx">
-      <DependentUpon>201811120849218_Update-7.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

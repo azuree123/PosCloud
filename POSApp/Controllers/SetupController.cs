@@ -1127,7 +1127,7 @@ namespace POSApp.Controllers
             model.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int) user.StoreId)
                 .Select(a => new SelectListItem{Text = a.Name,Value = a.Id.ToString()});
             model.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
             model.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             return View(model);
@@ -1143,7 +1143,7 @@ namespace POSApp.Controllers
                 timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
                     .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
                 timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+                    .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
                 timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                     .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
                 return View(timeeventVm);
@@ -1165,13 +1165,13 @@ namespace POSApp.Controllers
 
                         foreach (var timeeventVmCategory in timeeventVm.Categories)
                         {
-                            int[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a=>a.StoreId==timeeventVmBranch)
-                                .Select(a => a.Id).ToArray();
+                            string[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a=>a.StoreId==timeeventVmBranch)
+                                .Select(a => a.ProductCode).ToArray();
                             foreach (var product in products)
                             {
                                 _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
                                 {
-                                    ProductId = product
+                                    ProductCode = product
                                     ,StoreId = timeeventVmBranch
                                     ,TimedEventId = data.Id
                                 });
@@ -1184,7 +1184,7 @@ namespace POSApp.Controllers
                         {
                             _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
                             {
-                                ProductId = product
+                                ProductCode = product
                                 ,
                                 StoreId = timeeventVmBranch
                                ,
@@ -1209,7 +1209,7 @@ namespace POSApp.Controllers
             timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
             timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             ViewBag.alert = "<script> $(document).ready(function() {$('#CategoriesArea').css('display', 'none');$('#BranchesArea').css('display', 'none');" +
@@ -1227,7 +1227,7 @@ namespace POSApp.Controllers
                 timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
                     .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
                 timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+                    .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
                 timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                     .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
                 return View("AddTimedEvent", timeeventVm);
@@ -1244,13 +1244,13 @@ namespace POSApp.Controllers
 
                     foreach (var timeeventVmCategory in timeeventVm.Categories)
                     {
-                        int[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a => a.StoreId == location.StoreId)
-                            .Select(a => a.Id).ToArray();
+                        string[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a => a.StoreId == location.StoreId)
+                            .Select(a => a.ProductCode).ToArray();
                         foreach (var product in products)
                         {
                             _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
                             {
-                                ProductId = product
+                                ProductCode = product
                                 ,
                                 StoreId = location.StoreId
                                 ,
@@ -1266,7 +1266,7 @@ namespace POSApp.Controllers
                     {
                         _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
                         {
-                            ProductId = product
+                            ProductCode = product
                             ,
                             StoreId = location.StoreId
                                 ,
@@ -1607,6 +1607,86 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userId);
             RoleManager.Delete(RoleManager.Roles.FirstOrDefault(a=>a.Id==id && a.StoreId==(int)user.StoreId));
             return RedirectToAction("RolesList");
+        }
+
+        //POSTerminal
+
+        public ActionResult POSTerminalList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(Mapper.Map<POSTerminalListModelView[]>(_unitOfWork.POSTerminalRepository.GetPOSTerminals((int)user.StoreId)));
+        }
+        public ActionResult AddPOSTerminal()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            POSTerminalViewModel POSTerminal = new POSTerminalViewModel();
+            POSTerminal.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            ViewBag.edit = "AddPOSTerminal";
+            return View(POSTerminal);
+        }
+
+        [HttpPost]
+        public ActionResult AddPOSTerminal(POSTerminalViewModel POSTerminalVm)
+        {
+            ViewBag.edit = "AddPOSTerminal";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!ModelState.IsValid)
+            {
+                POSTerminalVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+                return View(POSTerminalVm);
+            }
+            else
+            {
+                POSTerminalVm.StoreId = (int)user.StoreId;
+                POSTerminal POSTerminal = Mapper.Map<POSTerminal>(POSTerminalVm);
+                _unitOfWork.POSTerminalRepository.AddPOSTerminal(POSTerminal);
+                _unitOfWork.Complete();
+                return RedirectToAction("POSTerminalList", "Setup");
+            }
+
+        }
+
+        [HttpGet]
+        public ActionResult UpdatePOSTerminal(int id)
+        {
+            ViewBag.edit = "UpdatePOSTerminal";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            POSTerminalViewModel POSTerminalMv = Mapper.Map<POSTerminalViewModel>(_unitOfWork.POSTerminalRepository.GetPOSTerminalById(id, (int)user.StoreId));
+            POSTerminalMv.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            return View("AddPOSTerminal", POSTerminalMv);
+        }
+        [HttpPost]
+        public ActionResult UpdatePOSTerminal(int id, POSTerminalViewModel POSTerminalVm, int storeId)
+        {
+            ViewBag.edit = "UpdatePOSTerminal";
+            if (!ModelState.IsValid)
+            {
+                return View("AddPOSTerminal", POSTerminalVm);
+            }
+            else
+            {
+                POSTerminal POSTerminal = Mapper.Map<POSTerminal>(POSTerminalVm);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.POSTerminalRepository.UpdatePOSTerminal(id, POSTerminal, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                return RedirectToAction("POSTerminalList", "Setup");
+            }
+        }
+        public ActionResult DeletePOSTerminal(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.POSTerminalRepository.DeletePOSTerminal(id, (int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("POSTerminalList", "Setup");
         }
     }
 }

@@ -7,13 +7,13 @@ namespace POSApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class Update8 : IMigrationMetadata
+    public sealed partial class Update1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Update8));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Update1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201811130541438_Update-8"; }
+            get { return "201811131244284_Update-1"; }
         }
         
         string IMigrationMetadata.Source

@@ -20,6 +20,7 @@ namespace POSApp.Persistence.EntityConfigurations
             HasOptional(x => x.Employee).WithMany().HasForeignKey(x => new {x.EmployeeId}).WillCascadeOnDelete(false);
 
             HasOptional(x => x.Store).WithMany().HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
+            HasOptional(x => x.POSTerminal).WithMany(a=>a.ApplicationUsers).HasForeignKey(x => new {x.POSTerminalId ,x.StoreId }).WillCascadeOnDelete(false);
             //HasRequired(x => x.UpdatedBy).WithMany().HasForeignKey(x => new { x.UpdatedById}).WillCascadeOnDelete(true);
         }
     }

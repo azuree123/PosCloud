@@ -22,24 +22,24 @@ namespace POSApp.Persistence.Repositories
             return _context.TimedEventProducts.Where(a=>a.StoreId == storeId && a.TimedEventId==id).ToList();
         }
 
-        public TimedEventProducts GetTimedEventsById(int id, int storeId,int product)
+        public TimedEventProducts GetTimedEventsById(int id, int storeId,string product)
         {
-            return _context.TimedEventProducts.FirstOrDefault(a=>a.StoreId==storeId&&a.ProductId==product&&a.TimedEventId==id);
+            return _context.TimedEventProducts.FirstOrDefault(a=>a.StoreId==storeId&&a.ProductCode==product&&a.TimedEventId==id);
         }
 
         public void AddTimedEventProducts(TimedEventProducts tep)
         {
-            if (!_context.TimedEventProducts.Where(a => a.ProductId == tep.ProductId && a.StoreId == tep.StoreId && a.TimedEventId == tep.TimedEventId).Any())
+            if (!_context.TimedEventProducts.Where(a => a.ProductCode == tep.ProductCode && a.StoreId == tep.StoreId && a.TimedEventId == tep.TimedEventId).Any())
             {
                 _context.TimedEventProducts.Add(tep);
             }
         }
 
-        public void UpdateTimedEventProducts(int id,int timedEventId, TimedEventProducts tep ,int storeId)
+        public void UpdateTimedEventProducts(string id,int timedEventId, TimedEventProducts tep ,int storeId)
         {
-            if (tep.ProductId != id)
+            if (tep.ProductCode != id)
             {
-                tep.ProductId = id;
+                tep.ProductCode = id;
             }
             else { }
             if (tep.TimedEventId != timedEventId)

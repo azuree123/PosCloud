@@ -22,7 +22,7 @@ namespace POSApp.Persistence.EntityConfigurations
             HasRequired(x => x.Store).WithMany().HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
             HasMany(x => x.Products).WithMany(x => x.Modifiers).Map(a =>
             {
-                a.MapLeftKey("ProductId","ProductStoreId");
+                a.MapLeftKey("ProductCode", "ProductStoreCode");
                 a.MapRightKey("ModifierId", "ModifierStoreId");
                 a.ToTable("ProductModifiers", PosDbContext.DEFAULT_SCHEMA);
             });

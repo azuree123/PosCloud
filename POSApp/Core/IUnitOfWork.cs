@@ -43,9 +43,10 @@ namespace POSApp.Core
         IReportsRepository ReportsRepository { get; }
         ISecurityObjectRepository SecurityObjectRepository { get; }
         ISecurityRightRepository SecurityRightRepository { get; }
-
+        ISectionRepository SectionRepository { get; }
 
         IUserRepository UserRepository { get; }
+        IPOSTerminalRepository POSTerminalRepository { get; }
         void Complete();
     }
 }

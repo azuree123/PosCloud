@@ -11,14 +11,14 @@ namespace POSApp.Persistence.EntityConfigurations
         {
             ToTable("Products", PosDbContext.DEFAULT_SCHEMA);
             //******************************************************************************************* KEYS ********************
-            HasKey(x => new { x.Id, x.StoreId });
+            HasKey(x => new { x.ProductCode, x.StoreId });
             Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************
             Property(x => x.Name).HasColumnType("varchar").HasMaxLength(150).IsRequired();
             Property(x => x.Description).HasColumnType("varchar").HasMaxLength(300).IsOptional();
             Property(x => x.Barcode).HasColumnType("varchar").HasMaxLength(150).IsOptional();
-            Property(x => x.ProductCode).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+            Property(x => x.ProductCode).HasColumnType("varchar").HasMaxLength(150).IsRequired();
             Property(x => x.Image).HasColumnType("varbinary(MAX)").IsOptional();
             Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.Stock).HasColumnType("float").IsOptional();
@@ -27,6 +27,10 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Size).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.CostPrice).HasColumnType("float").IsRequired();
             Property(x => x.ReOrderLevel).HasColumnType("int").IsRequired();
+            Property(x => x.IsTaxable).HasColumnType("bit").IsRequired();
+            Property(x => x.InventoryItem).HasColumnType("bit").IsRequired();
+            Property(x => x.PurchaseItem).HasColumnType("bit").IsRequired();
+            Property(x => x.FixedAssetItem).HasColumnType("bit").IsRequired();
             Property(x => x.IsTaxable).HasColumnType("bit").IsRequired();
 
             //******************************************************************************************* Auditable ***************
@@ -40,7 +44,7 @@ namespace POSApp.Persistence.EntityConfigurations
             HasRequired(x => x.ProductCategory).WithMany(x => x.Products).HasForeignKey(x => new {x.CategoryId,x.StoreId}).WillCascadeOnDelete(true);
             HasOptional(x => x.Tax).WithMany(x => x.Products).HasForeignKey(x => new {x.TaxId,x.StoreId}).WillCascadeOnDelete(false);
             HasRequired(x => x.ProductUnit).WithMany(x => x.Products).HasForeignKey(x => new { x.UnitId, x.StoreId }).WillCascadeOnDelete(false);
-            
+            HasOptional(x => x.Section).WithMany(x => x.Products).HasForeignKey(x => new { x.SectionId, x.StoreId }).WillCascadeOnDelete(false);
             //HasMany(x => x.TimedEvents).WithMany(x => x.Products).Map(a =>
             //{
             //    a.MapLeftKey("TimedEventId","TimedEventStoreId");

@@ -8,11 +8,11 @@ namespace POSApp.Core.Models
 {
     public class ProductsSub:AuditableEntity
     {
-        public int ComboProductId { get; set; }
+        public string ComboProductCode { get; set; }
         public Product ComboProduct { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
-        public int ProductId { get; set; }
+        public string ProductCode { get; set; }
         public Product Product { get; set; }
         [DefaultValue(0)]
         public float Qty { get; set; }

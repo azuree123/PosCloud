@@ -14,7 +14,7 @@ namespace POSApp.Core.Models
 
         public int TransMasterId { get; set; }
         public TransMaster TransMaster { get; set; }
-        public int ProductId { get; set; }
+        public string ProductCode { get; set; }
         public Product Product { get; set; }
 
         [DefaultValue(0)]

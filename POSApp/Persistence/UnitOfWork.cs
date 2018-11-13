@@ -52,8 +52,8 @@ namespace POSApp.Persistence
         public IReportsRepository ReportsRepository { get; private set; }
         public ISecurityRightRepository SecurityRightRepository { get; private set; }
         public ISecurityObjectRepository SecurityObjectRepository { get; private set; }
-
-
+        public ISectionRepository SectionRepository { get; private set; }
+        public IPOSTerminalRepository POSTerminalRepository { get; private set; }
         public IUserRepository UserRepository { get; private set; }
         public UnitOfWork(PosDbContext context)
         {
@@ -65,13 +65,7 @@ namespace POSApp.Persistence
             EmployeeRepository = new EmployeeRepository(context);
             DepartmentRepository = new DepartmentRepository(context);
             //DesignationRepository = new DesignationRepository(context);
-            CustomerRepository = new CustomerRepository(context);
-            SupplierRepository = new SupplierRepository(context);
             LocationRepository = new LocationRepository(context);
-            SaleOrderRepository = new SaleOrderRepository(context);
-            SaleOrderDetailRepository = new SaleOrderDetailRepository(context);
-            PurchaseOrderRepository = new PurchaseOrderRepository(context);
-            PurchaseOrderDetailRepository = new PurchaseOrderDetailRepository(context);
             ExpenseRepository = new ExpenseRepository(context);
             ExpenseHeadRepository = new ExpenseHeadRepository(context);
             StoreRepository = new StoreRepository(context);
@@ -97,7 +91,8 @@ namespace POSApp.Persistence
             ReportsRepository = new ReportsRepository(context);
             UserRepository = new UserRepository(context);
             SecurityRightRepository=new SecurityRightRepository(context);
-            SecurityObjectRepository=new SecurityObjectRepository(context);
+            SectionRepository = new SectionRepository(context);
+            POSTerminalRepository = new POSTerminalRepository(context);
         }
 
         public void Complete()

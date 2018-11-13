@@ -23,14 +23,10 @@ namespace POSApp.Core.Models
         public virtual ICollection<TransMaster> TransMasters { get; set; }
         public virtual ICollection<TransDetail> TransDetails { get; set; }
 
-        public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
         public virtual ICollection<Expense> Expenses { get; set; }
         public virtual ICollection<ExpenseHead> ExpenseHeads { get; set; }
         public virtual ICollection<Product> Products { get; set; }
-        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
-        public virtual ICollection<SaleOrder> SaleOrders { get; set; }
-        public virtual ICollection<Supplier> Suppliers { get; set; }
         //public virtual ICollection<Coupon> Coupons { get; set; }
         public virtual ICollection<Tax> Taxes { get; set; }
         public virtual ICollection<Discount> Discounts { get; set; }

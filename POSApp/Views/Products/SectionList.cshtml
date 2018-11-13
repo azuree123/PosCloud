@@ -1,11 +1,13 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.UserViewModel>
+﻿
+
+@model IEnumerable<POSApp.Core.Models.Section>
+
 @{
-    ViewBag.Title = "UserList";
+    ViewBag.Title = "SectionList";
 }
 
-
 @*<header class="page-header">
-        <h2>Coupons</h2>
+        <h2>States</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -14,7 +16,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>Discount</span></li>
+                <li><span>State</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -26,9 +28,10 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li><a href="@Url.Action("RolesList","Setup")">Roles</a></li>
-            <li class="current"><a href="@Url.Action("UserList", "User")">Users</a></li>
-            <li ><a href="@Url.Action("SecurityObjectList", "User")">SecurityObjects</a></li>
+            <li><a class="hidden" href="@Url.Action("ServicesList","Services")">Services</a></li>
+            <li><a href="@Url.Action("ModifierList","Products")">Modifiers</a></li>
+            <li class="current"><a href="#">Sections</a></li>
+
 
 
         </ul>
@@ -41,17 +44,19 @@
         <div class="row">
             <div class="col-md-12">
 
-
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Users </b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Floors</b></h3>
 
 
 
-                    <a href="@Url.Action("Register","Account")">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New </button>
+                    <a href="@Url.Action("AddSection", "Products")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Section</button>
 
                     </a>
+                    @*<a href="@Url.Action("FloorExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
+                    </a>*@
 
                 </div>
 
@@ -62,36 +67,30 @@
             </div>
         </div>
 
-
         <h2 class="panel-title"></h2>
     </header>
     <div class="panel-body">
         <div class="table-responsive">
-
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        
+                        <th>Section</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var user in Model)
+                    @foreach (var s in Model)
                     {
                         <tr>
                             <td>@(i++)</td>
-                            <td>@user.Name</td>
-                            <td>@user.Email</td>
-                            
+                            <td>@s.Name</td>
                             <td class="center">
                                 <div class="btn-group">
 
-                                    @Html.ActionLink(" ", "UpdateUser", "User", new { id = @user.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow  ", data_toggle = "tooltip", title = "Edit !" })
-                                    @Html.ActionLink(" ", "DeleteUser", "User", new { id = @user.Id }, new { @class = "btn btn-default text-danger hidden  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    @Html.ActionLink(" ", "UpdateSection", "Products", new { id = @s.SectionId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "DeleteSection", "Products", new { id = @s.SectionId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                                 </div>
                             </td>
                         </tr>
@@ -101,6 +100,7 @@
         </div>
     </div>
 </section>
+
 
 
 

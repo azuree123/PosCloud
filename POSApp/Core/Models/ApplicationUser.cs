@@ -25,6 +25,8 @@ namespace POSApp.Core.Models
 
         public int? StoreId { get; set; }
         public Store Store { get; set; }
+        public int? POSTerminalId { get; set; }
+        public POSTerminal POSTerminal { get; set; }
 
         [Column(TypeName = "DateTime2")]
         public DateTime CreatedOn { get; set; }

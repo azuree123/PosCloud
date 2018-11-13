@@ -33,7 +33,7 @@ namespace POSApp.Core.ViewModels
         public string CreatedBy { get; set; }
 
         public int[] Categories { get; set; }
-        public int[] Products { get; set; }
+        public string[] Products { get; set; }
         public int[] Branches { get; set; }
 
         public string DaysDisplay { get; set; }

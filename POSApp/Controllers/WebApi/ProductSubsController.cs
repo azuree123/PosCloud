@@ -28,7 +28,7 @@ namespace POSApp.Controllers.WebApi
         }
 
         // GET: api/ProductSubs/5
-        public async Task<IHttpActionResult> GetProductSub(int id,int comboProductId, int storeId)
+        public async Task<IHttpActionResult> GetProductSub(string id, string comboProductId, int storeId)
         {
             return Ok(_unitOfWork.ProductsSubRepository.GetProductsSubById(id, comboProductId, storeId));
         }
@@ -41,7 +41,6 @@ namespace POSApp.Controllers.WebApi
                 List<ProductsSub> productSubs = System.Web.Helpers.Json.Decode<List<ProductsSub>>(sync.Object);
                 foreach (var productSub in productSubs)
                 {
-                    productSub.Code = productSub.ProductId.ToString();
                     productSub.Synced = true;
                     productSub.SyncedOn = DateTime.Now;
                     _unitOfWork.ProductsSubRepository.AddProductsSub(productSub);

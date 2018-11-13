@@ -21,22 +21,14 @@ namespace POSApp.Persistence
         }
         public DbSet<State> States { get; set; }
         public DbSet<City> Cities { get; set; }
-        public DbSet<Customer> Customers { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Location> Locations { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<ExpenseHead> ExpenseHeads { get; set; }
-        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
-        public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        public DbSet<SaleOrder> SaleOrders { get; set; }
-        public DbSet<SaleOrderDetail> SaleOrderDetails { get; set; }
-        //public DbSet<Designation> Designations { get; set; }
         public DbSet<Store> Stores { get; set; }
-        //public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Tax> Taxes { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<TransDetail> TransDetails { get; set; }
@@ -57,6 +49,8 @@ namespace POSApp.Persistence
         public DbSet<Device> Devices { get; set; }
         public DbSet<SecurityRight> SecurityRights { get; set; }
         public DbSet<SecurityObject> SecurityObjects { get; set; }
+        public DbSet<Section> Sections { get; set; }
+        public DbSet<POSTerminal> PosTerminals { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
             var objectContext = (this as IObjectContextAdapter).ObjectContext;
@@ -80,7 +74,6 @@ namespace POSApp.Persistence
 
             modelBuilder.Configurations.Add(new StateEntityConfiguration());
             modelBuilder.Configurations.Add(new CityEntityConfiguration());
-            modelBuilder.Configurations.Add(new CustomerEntityConfiguration());
             modelBuilder.Configurations.Add(new DepartmentEntityConfiguration());
             modelBuilder.Configurations.Add(new EmployeeEntityConfiguration());
             modelBuilder.Configurations.Add(new ExpenseEntityConfiguration());
@@ -88,11 +81,6 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new LocationEntityConfiguration());
             modelBuilder.Configurations.Add(new ProductCategoryEntityConfiguration());
             modelBuilder.Configurations.Add(new ProductEntityConfiguration());
-            modelBuilder.Configurations.Add(new PurchaseOrderDetailEntityConfiguration());
-            modelBuilder.Configurations.Add(new PurchaseOrderEntityConfiguration());
-            modelBuilder.Configurations.Add(new SaleOrderDetailEntityConfiguration());
-            modelBuilder.Configurations.Add(new SaleOrderEntityConfiguration());
-            modelBuilder.Configurations.Add(new SupplierEntityConfiguration());
             modelBuilder.Configurations.Add(new StoreEntityConfiguration());
             //modelBuilder.Configurations.Add(new CouponEntityConfiguration());
             modelBuilder.Configurations.Add(new TaxEntityConfiguration());
@@ -111,7 +99,8 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new FloorEntityConfiguration());
             modelBuilder.Configurations.Add(new DeviceEntityConfiguration());
             modelBuilder.Configurations.Add(new SecurityRightEntityConfiguration());
-
+            modelBuilder.Configurations.Add(new SectionEntityConfiguration());
+            modelBuilder.Configurations.Add(new POSTerminalEntityConfiguration());
 
 
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();

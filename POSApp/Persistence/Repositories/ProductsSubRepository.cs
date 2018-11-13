@@ -22,30 +22,30 @@ namespace POSApp.Persistence.Repositories
             return _context. ProductsSubs.Where(a => a.StoreId == storeid).ToList();
         }
 
-        public  ProductsSub GetProductsSubById(int id, int comboProductId, int storeid)
+        public  ProductsSub GetProductsSubById(string id, string comboProductId, int storeid)
         {
             return _context. ProductsSubs.Find(id,comboProductId ,storeid);
         }
 
         public void AddProductsSub( ProductsSub  productsSubs)
         {
-            if (!_context. ProductsSubs.Where(a => a.ProductId == productsSubs.ProductId && a.ComboProductId == productsSubs.ComboProductId && a.StoreId == productsSubs.StoreId).Any())
+            if (!_context. ProductsSubs.Where(a => a.ProductCode == productsSubs.ProductCode && a.ComboProductCode == productsSubs.ComboProductCode && a.StoreId == productsSubs.StoreId).Any())
             {
                 _context. ProductsSubs.Add(productsSubs);
             }
 
         }
 
-        public void UpdateProductsSub(int id, int comboProductId,  ProductsSub  productsSub, int storeid)
+        public void UpdateProductsSub(string id, string comboProductId,  ProductsSub  productsSub, int storeid)
         {
-            if ( productsSub.ProductId != id)
+            if ( productsSub.ProductCode != id)
             {
-                 productsSub.ProductId = id;
+                 productsSub.ProductCode = id;
             }
             else { }
-            if (productsSub.ComboProductId != comboProductId)
+            if (productsSub.ComboProductCode != comboProductId)
             {
-                productsSub.ComboProductId = comboProductId;
+                productsSub.ComboProductCode = comboProductId;
             }
             else { }
 
@@ -54,9 +54,9 @@ namespace POSApp.Persistence.Repositories
             _context.Entry( productsSub).State = EntityState.Modified;
         }
 
-        public void DeleteProductsSub(int id,int comboProductId, int storeid)
+        public void DeleteProductsSub(string id, string comboProductId, int storeid)
         {
-            var  productsSub = new  ProductsSub { ProductId = id,ComboProductId = comboProductId, StoreId = storeid };
+            var  productsSub = new  ProductsSub { ProductCode = id,ComboProductCode = comboProductId, StoreId = storeid };
             _context. ProductsSubs.Attach( productsSub);
             _context.Entry( productsSub).State = EntityState.Deleted;
         }
