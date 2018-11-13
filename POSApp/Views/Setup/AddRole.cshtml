@@ -19,6 +19,24 @@
     .multiselect-container {
         width: 100%;
     }
+    table > tbody > tr > td{
+        text-align:left;
+    }
+    .form-check {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .form-check-label {
+        margin-left: 10px;
+    }
+    .toggable {
+       margin-top:1.4rem !important;
+    }
+    .card .table th.table-fit, .card .table td.table-fit {
+        width: 1% !important;
+        white-space: nowrap;
+    }
+
 </style>
 
 
@@ -88,25 +106,196 @@
                             </div>
                             <div id="basicdata" class="tab-pane active">
                                 <h4 class="mt-none mb-lg  text-weight-semibold ">Basic Data</h4>
-                                <div class="row">
-                                    <div class="col-md-9 col-lg-offset-2">
-                                        @Html.HiddenFor(a => a.CreatedBy)
-                                        @Html.HiddenFor(a => a.CreatedOn)
-                                        @Html.HiddenFor(a => a.StoreId)
+                                @*<div class="row">
+            <div class="col-md-9 col-lg-offset-2">
+                @Html.HiddenFor(a => a.CreatedBy)
+                @Html.HiddenFor(a => a.CreatedOn)
+                @Html.HiddenFor(a => a.StoreId)
 
-                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>*@
+
+                                <div class="table-responsive">
+                                <table id="companyAuthorities" class="table text-left">
+                                    <thead>
+                                    <tr>
+                                        <th class="table-fit">
+                                        <div class="checkbox-holder">
+                                            <input type="checkbox" id="toggleAll" class="">
                                             </div>
-                                        </div>
-
-
-
-                                    </div>
+                                            </th> 
+                                        <th style="vertical-align: top !important;">
+                                        <label for="toggleAll" class="mt-1 mb-0">Toggle All</label>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td style="vertical-align: top !important;">
+                                     
+                                            <input type="checkbox" id="customers" class="toggable">
+                                       
+                                            </td> 
+                                        <td style="vertical-align: top !important;">
+                                        <h5 class="mt-1">
+                                            <label for="customers" class="mb-0">customers</label>
+                                            </h5>
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="view-customers" value="view-customers" class="form-check-input">
+                                            <label for="view-customers" class="form-check-label">View</label>
+                                            </div> <div class="form-check mb-2">
+                                            <input type="checkbox" id="manage-customers" value="manage-customers" class="form-check-input">
+                                            <label for="manage-customers" class="form-check-label">Manage</label>
+                                                 </div>
+                                            </td>
+                                        </tr>
+                                    <tr>
+                                        <td style="vertical-align: top !important;"><div class="checkbox-holder"><input type="checkbox" id="customers-tags" class="toggable"></div></td>
+                                        <td style="vertical-align: top !important;">
+                                        <h5 class="mt-1">
+                                            <label for="customers-tags" class="mb-0">customers-tags</label>
+                                            </h5> 
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="view-customers-tags" value="view-customers-tags" class="form-check-input">
+                                            <label for="view-customers-tags" class="form-check-label">View</label>
+                                            </div> 
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="manage-customers-tags" value="manage-customers-tags" class="form-check-input">
+                                            <label for="manage-customers-tags" class="form-check-label">Manage</label>
+                                            </div>
+                                            </td>
+                                        </tr> 
+                                    <tr>
+                                        <td style="vertical-align: top !important;">
+                                        <div class="checkbox-holder">
+                                            <input type="checkbox" id="inventory-items" class="toggable">
+                                            </div>
+                                            </td>
+                                        <td style="vertical-align: top !important;">
+                                        <h5 class="mt-1">
+                                            <label for="inventory-items" class="mb-0">inventory-items</label>
+                                            </h5>
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="view-inventory-items" value="view-inventory-items" class="form-check-input">
+                                            <label for="view-inventory-items" class="form-check-label">View</label>
+                                            </div> 
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="manage-inventory-items" value="manage-inventory-items" class="form-check-input"> 
+                                            <label for="manage-inventory-items" class="form-check-label">Manage</label>
+                                            </div>
+                                            </td>
+                                        </tr> 
+                                    <tr>
+                                        <td style="vertical-align: top !important;">
+                                        <div class="checkbox-holder">
+                                            <input type="checkbox" id="inventory-items-tags" class="toggable">
+                                            </div>
+                                            </td> 
+                                        <td style="vertical-align: top !important;">
+                                        <h5 class="mt-1">
+                                            <label for="inventory-items-tags" class="mb-0">inventory-items-tags</label>
+                                            </h5> 
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="view-inventory-items-tags" value="view-inventory-items-tags" class="form-check-input"> 
+                                            <label for="view-inventory-items-tags" class="form-check-label">View</label>
+                                            </div> 
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="manage-inventory-items-tags" value="manage-inventory-items-tags" class="form-check-input">
+                                            <label for="manage-inventory-items-tags" class="form-check-label">Manage</label>
+                                            </div>
+                                            </td>
+                                        </tr>
+                                    <tr>
+                                        <td style="vertical-align: top !important;">
+                                        <div class="checkbox-holder">
+                                            <input type="checkbox" id="suppliers" class="toggable">
+                                            </div>
+                                            </td> 
+                                        <td style="vertical-align: top !important;">
+                                        <h5 class="mt-1"><label for="suppliers" class="mb-0">suppliers</label></h5> 
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="view-suppliers" value="view-suppliers" class="form-check-input"> 
+                                            <label for="view-suppliers" class="form-check-label">View</label>
+                                            </div> 
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="manage-suppliers" value="manage-suppliers" class="form-check-input">
+                                            <label for="manage-suppliers" class="form-check-label">Manage</label>
+                                            </div>
+                                            </td>
+                                        </tr>
+                                    <tr>
+                                        <td style="vertical-align: top !important;"><div class="checkbox-holder">
+                                            <input type="checkbox" id="warehouses" class="toggable">
+                                               </div>
+                                            </td> 
+                                        <td style="vertical-align: top !important;">
+                                        <h5 class="mt-1"><label for="warehouses" class="mb-0">warehouses</label></h5>
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="view-warehouses" value="view-warehouses" class="form-check-input">
+                                            <label for="view-warehouses" class="form-check-label">View</label>
+                                            </div>
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="manage-warehouses" value="manage-warehouses" class="form-check-input">
+                                            <label for="manage-warehouses" class="form-check-label">Manage</label>
+                                            </div>
+                                            </td>
+                                        </tr> 
+                                    <tr>
+                                        <td style="vertical-align: top !important;">
+                                        <div class="checkbox-holder">
+                                            <input type="checkbox" id="app-user-roles" class="toggable">
+                                            </div>
+                                            </td> 
+                                        <td style="vertical-align: top !important;">
+                                        <h5 class="mt-1">
+                                            <label for="app-user-roles" class="mb-0">authorities.app-user-roles</label>
+                                            </h5>
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="view-app-user-roles" value="view-app-user-roles" class="form-check-input"> 
+                                            <label for="view-app-user-roles" class="form-check-label">view-app-user-roles</label>
+                                            </div>
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" id="manage-app-user-roles" value="manage-app-user-roles" class="form-check-input">
+                                            <label for="manage-app-user-roles" class="form-check-label">manage-app-user-roles</label>
+                                            </div>
+                                            </td>
+                                        </tr>
+                                    <tr>
+                                        <td>
+                                        <div class="checkbox-holder">
+                                            <input type="checkbox" id="restore-company-deleted-items" value="restore-company-deleted-items" class="toggable">
+                                            </div>
+                                            </td> 
+                                        <td>
+                                        <label for="restore-company-deleted-items" class="mb-0">Restore Company Data</label>
+                                            </td>
+                                        </tr>
+                                    <tr>
+                                        <td>
+                                        <div class="checkbox-holder">
+                                            <input type="checkbox" id="view-cost" value="view-cost" class="toggable">
+                                            </div>
+                                            </td> 
+                                        <td>
+                                        <label for="view-cost" class="mb-0">View Cost</label>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
+
+
 
 
                             </div>
