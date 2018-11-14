@@ -30,7 +30,7 @@ namespace POSApp.Persistence.Repositories
             foreach (var tempTransDetailViewModel in transDetail)
             {
                 tempTransDetailViewModel.ProductName = _context.Products.FirstOrDefault(a =>
-                    a.Id == tempTransDetailViewModel.ProductId && a.StoreId == tempTransDetailViewModel.StoreId).Name;
+                    a.ProductCode == tempTransDetailViewModel.ProductCode && a.StoreId == tempTransDetailViewModel.StoreId).Name;
             }
 
             return transDetail;
@@ -40,15 +40,27 @@ namespace POSApp.Persistence.Repositories
         public List<CategoryReportViewModel> GenerateCategoriesSalesData(int storeId, DateTime dateFrom, DateTime dateTo)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
-            var sql = @"select d.Name,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount,a.TransDate as Date from PosCloud.TransMaster as a 
+            var sql = @"select d.Name as CategoryName,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount,a.TransDate as Date from PosCloud.TransMaster as a 
             inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
-            inner join PosCloud.Products as c on b.ProductId=c.Id 
+            inner join PosCloud.Products as c on b.ProductCode=c.ProductCode 
             inner join PosCloud.ProductCategories as d on c.CategoryId=d.Id
             where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3
             group by d.Name,a.TransDate
                 ";
 
             return _context.Database.SqlQuery<CategoryReportViewModel>(sql, parameters.ToArray()).ToList();
+        }
+        public List<ProductSizeSaleViewModel> GenerateProductSizeWiseSalesData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var sql = @"select c.Name as ProductName,c.Size as Size,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount,a.TransDate as Date from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+            inner join PosCloud.Products as c on b.ProductCode=c.ProductCode 
+            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3
+            group by c.Name,c.Size,a.TransDate
+                ";
+
+            return _context.Database.SqlQuery<ProductSizeSaleViewModel>(sql, parameters.ToArray()).ToList();
         }
     }
 }

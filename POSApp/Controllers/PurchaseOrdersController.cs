@@ -40,12 +40,12 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             GeneratePurchaseOrderViewModel temp = new GeneratePurchaseOrderViewModel();
             temp.TransMasterViewModel = Mapper.Map<TransMasterViewModel>(_unitOfWork.TransMasterRepository.GetTransMaster(id, (int) user.StoreId));
-            temp.TransDetailViewModels = Mapper.Map<TransDetailViewModel[]>(
-                _unitOfWork.TransDetailRepository.GetTransDetails(temp.TransMasterViewModel.Id, (int) user.StoreId));
+            temp.TransDetailViewModels = 
+                _unitOfWork.TransDetailRepository.GetTransDetails(temp.TransMasterViewModel.Id, (int) user.StoreId);
             foreach (var tempTransDetailViewModel in temp.TransDetailViewModels)
             {
                 tempTransDetailViewModel.ProductName = _unitOfWork.ProductRepository
-                    .GetProductById(tempTransDetailViewModel.ProductId, tempTransDetailViewModel.StoreId).Name;
+                    .GetProductByCode(tempTransDetailViewModel.ProductCode, tempTransDetailViewModel.StoreId).Name;
             }
             temp.BusinessPartnerViewModel =
                 Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(temp.TransMasterViewModel.BusinessPartnerId, (int)user.StoreId));
@@ -139,7 +139,7 @@ namespace POSApp.Controllers
             PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductById(productId,(int)user.StoreId),quantity,cost,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
-        public ActionResult RemoveTransactionItem(int productId)
+        public ActionResult RemoveTransactionItem(string productId)
         {
             if (PoHelper.temptTransDetail == null)
             {

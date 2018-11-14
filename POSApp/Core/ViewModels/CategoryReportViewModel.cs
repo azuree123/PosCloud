@@ -8,7 +8,7 @@ namespace POSApp.Core.ViewModels
     public class CategoryReportViewModel
     {
         public string CategoryName { get; set; }
-        public double Qty { get; set; }
+        public int Qty { get; set; }
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }
     }

@@ -24,9 +24,14 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<TransDetailViewModel> GetTransDetails(int orderid, int storeId)
         {
-            return Mapper.Map<TransDetailViewModel[]>(_context.TransDetails.Include(a => a.Product)
-                .Where(o => o.TransMasterId == orderid)
-                .Where(a => a.StoreId == storeId));
+            List<TransDetail> details = _context.TransDetails.Include(a => a.Product)
+                .Where(a => a.TransMasterId == orderid && a.StoreId == storeId).ToList();
+            foreach (var transDetail in details)
+            {
+                transDetail.Product =
+                    _context.Products.FirstOrDefault(a => a.ProductCode == transDetail.ProductCode && a.StoreId == storeId);
+            }
+            return Mapper.Map<TransDetailViewModel[]>(details);
         }
         public IEnumerable<TransDetailViewModel> GetTransDetailsFiltered(int orderid, string query, int storeId)
         {

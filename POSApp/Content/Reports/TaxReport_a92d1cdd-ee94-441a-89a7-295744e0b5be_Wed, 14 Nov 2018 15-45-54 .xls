@@ -1,0 +1,5 @@
+<table cellspacing="0" rules="all" border="1" style="border-collapse:collapse;">
+	<tr>
+		<td>Id</td><td>Name</td><td>Rate</td><td>StoreId</td><td>CreatedOn</td><td>CreatedById</td><td>UpdatedById</td><td>UpdatedOn</td><td>Synced</td><td>SyncedOn</td><td>Code</td>
+	</tr>
+</table>

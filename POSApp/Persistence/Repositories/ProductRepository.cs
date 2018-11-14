@@ -28,7 +28,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Products.Include(a=>a.ComboProducts).FirstOrDefault(a=>a.Id==id&&a.StoreId==storeid);
         }
-
+        public Product GetProductByCode(string id, int storeid)
+        {
+            return _context.Products.Include(a => a.ComboProducts).FirstOrDefault(a => a.ProductCode == id && a.StoreId == storeid);
+        }
         public void AddProduct(Product product)
         {
             if (!_context.Products.Where(a => a.Name == product.Name && a.CategoryId==product.CategoryId && a.Type == product.Type && a.StoreId == product.StoreId).Any())

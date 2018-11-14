@@ -96,7 +96,22 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateProductSizeSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            return View();
+            
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+
+            string path = Server.MapPath("~/Content/Reports/");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+            ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeWiseSalesData((int)user.StoreId, dateFrom, dateTo),
+                "ProductSizeWiseSalesReport", path, this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductSizeWiseSales.rpt");
+
+            return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateComboSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
@@ -304,9 +319,9 @@ namespace POSApp.Controllers
 
         }
 
-        public ActionResult DeleteReport(int id)
+        public ActionResult DeleteReport(int id,int storeId)
         {
-            _unitOfWork.ReportsLogRepository.DeleteReportsLog(id);
+            _unitOfWork.ReportsLogRepository.DeleteReportsLog(id,storeId);
             _unitOfWork.Complete();
             return RedirectToAction("MyReports");
         }

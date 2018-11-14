@@ -104,7 +104,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new SectionEntityConfiguration());
             modelBuilder.Configurations.Add(new POSTerminalEntityConfiguration());
             modelBuilder.Configurations.Add(new ShiftEntityConfiguration());
-
+            modelBuilder.Configurations.Add(new TillOperationEntityConfiguration());
 
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);

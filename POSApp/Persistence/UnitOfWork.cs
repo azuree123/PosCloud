@@ -56,6 +56,7 @@ namespace POSApp.Persistence
         public IPOSTerminalRepository POSTerminalRepository { get; private set; }
         public IUserRepository UserRepository { get; private set; }
         public IShiftRepository ShiftRepository { get; private set; }
+        public ITillOperationRepository TillOperationRepository { get; private set; }
         public UnitOfWork(PosDbContext context)
         {
             _context = context;
@@ -94,7 +95,8 @@ namespace POSApp.Persistence
             SecurityRightRepository=new SecurityRightRepository(context);
             SectionRepository = new SectionRepository(context);
             POSTerminalRepository = new POSTerminalRepository(context);
-           ShiftRepository = new ShiftRepository(context);
+            ShiftRepository = new ShiftRepository(context);
+           TillOperationRepository = new TillOperationRepository(context);
         }
 
         public void Complete()

@@ -1765,5 +1765,22 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("ShiftList", "Setup");
         }
+
+        public ActionResult TillOperationList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.TillOperationRepository.GetTillOperations((int)user.StoreId));
+        }
+
+        [HttpGet]
+        public ActionResult AddTillOperation()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            TillOperationViewModel tillMv = new TillOperationViewModel();
+            ViewBag.edit = "AddTillOperation";
+            return View(tillMv);
+        }
     }
 }

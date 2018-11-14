@@ -41,9 +41,9 @@ namespace POSApp.Persistence.Repositories
             _context.Entry(ReportsLog).State = EntityState.Modified;
         }
 
-        public void DeleteReportsLog(int id)
+        public void DeleteReportsLog(int id,int storeId)
         {
-            var ReportsLog = new ReportsLog { Id = id };
+            var ReportsLog = new ReportsLog { Id = id,StoreId = storeId};
             _context.ReportsLogs.Attach(ReportsLog);
             _context.Entry(ReportsLog).State = EntityState.Deleted;
         }

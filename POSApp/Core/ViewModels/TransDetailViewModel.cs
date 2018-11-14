@@ -13,7 +13,7 @@ namespace POSApp.Core.ViewModels
 
         public int TransMasterId { get; set; }
 
-        public int ProductId { get; set; }
+        public string ProductCode { get; set; }
 
         public int Quantity { get; set; }
         public decimal Discount { get; set; }

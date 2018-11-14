@@ -422,6 +422,7 @@
     <Compile Include="Core\Repositories\ISecurityObjectRepository.cs" />
     <Compile Include="Core\Repositories\ISecurityRightRepository.cs" />
     <Compile Include="Core\Repositories\IShiftRepository.cs" />
+    <Compile Include="Core\Repositories\ITillOperationRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventProductsRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventRepository.cs" />
     <Compile Include="Core\Repositories\IUnitRepository.cs" />
@@ -442,15 +443,21 @@
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
     <Compile Include="Core\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Core\ViewModels\POSTerminalViewModel.cs" />
+    <Compile Include="Core\ViewModels\ProductSizeSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\RoleViewModel.cs" />
     <Compile Include="Core\ViewModels\SectionViewModel.cs" />
     <Compile Include="Core\ViewModels\SecurityObjectViewModel.cs" />
     <Compile Include="Core\ViewModels\SecurityRightViewModel.cs" />
     <Compile Include="Core\ViewModels\ShiftViewModel.cs" />
+    <Compile Include="Core\ViewModels\TillOperationViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
     <Compile Include="Migrations\201811131244284_Update-1.cs" />
     <Compile Include="Migrations\201811131244284_Update-1.Designer.cs">
       <DependentUpon>201811131244284_Update-1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811140904530_Update-2.cs" />
+    <Compile Include="Migrations\201811140904530_Update-2.Designer.cs">
+      <DependentUpon>201811140904530_Update-2.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\POSTerminalEntityConfiguration.cs" />
@@ -586,6 +593,7 @@
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
     <Compile Include="Persistence\Repositories\StoreRepository.cs" />
     <Compile Include="Persistence\Repositories\TaxRepository.cs" />
+    <Compile Include="Persistence\Repositories\TillOperationRepository.cs" />
     <Compile Include="Persistence\Repositories\TimedEventProductsRepository.cs" />
     <Compile Include="Persistence\Repositories\TimedEventRepository.cs" />
     <Compile Include="Persistence\Repositories\TransDetailRepository.cs" />
@@ -604,6 +612,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ProductSales.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\ProductSizeWiseSales.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductSizeWiseSales.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Services\ExcelService.cs" />
@@ -2720,6 +2734,9 @@
     <EmbeddedResource Include="Migrations\201811131244284_Update-1.resx">
       <DependentUpon>201811131244284_Update-1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811140904530_Update-2.resx">
+      <DependentUpon>201811140904530_Update-2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\CategoriesSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CategoriesSales.cs</LastGenOutput>
@@ -2727,6 +2744,10 @@
     <EmbeddedResource Include="Reports\ProductSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductSales.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProductSizeWiseSales.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProductSizeWiseSales.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
