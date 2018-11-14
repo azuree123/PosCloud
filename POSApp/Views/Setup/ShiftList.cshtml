@@ -1,8 +1,15 @@
 ﻿
+@using POSApp.Core.Models
 @model IEnumerable<POSApp.Core.Models.Shift>
 
 @{
     ViewBag.Title = "ShiftList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
 @*<header class="page-header">
@@ -49,7 +56,7 @@
             <li><a href="@Url.Action("DineTableList","Setup")">Dine Table</a></li>
             <li><a href="@Url.Action("FloorList","Setup")">Dine Table</a></li>
             <li><a href="@Url.Action("POSTerminalList","Setup")">Dine Table</a></li>
-            
+
             <li class="current"><a href="#">Shifts</a></li>
 
 
@@ -74,9 +81,9 @@
 
                     </a>
                     @*<a href="@Url.Action("FloorExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
-                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
-                    </a>*@
+                        </a>*@
 
                 </div>
 

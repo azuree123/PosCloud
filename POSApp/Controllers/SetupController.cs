@@ -12,6 +12,7 @@ using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
 using POSApp.Persistence;
+using System.Data.Entity.Validation;
 
 namespace POSApp.Controllers
 {
@@ -1711,20 +1712,56 @@ namespace POSApp.Controllers
         {
 
             ViewBag.edit = "AddShift";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(ShiftMv);
+                if (!ModelState.IsValid)
+                {
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Shift Shift = Mapper.Map<Shift>(ShiftMv);
+                    Shift.StoreId = Convert.ToInt32(user.StoreId);
+                    _unitOfWork.ShiftRepository.AddShift(Shift);
+                    _unitOfWork.Complete();
+                    TempData["Alert"]= new AlertModel("The advertisement added successfully", AlertType.Success);
+                    return RedirectToAction("ShiftList", "Setup");
+                    
+                }
+                
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Shift Shift = Mapper.Map<Shift>(ShiftMv);
-                Shift.StoreId = (int)user.StoreId;
-                _unitOfWork.ShiftRepository.AddShift(Shift);
-                _unitOfWork.Complete();
-                return RedirectToAction("ShiftList", "Setup");
+               
+                    foreach (var entityValidationError in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in entityValidationError.ValidationErrors)
+                        {
+                TempData["Alert"] = new AlertModel(validationError.PropertyName+" Error :"+validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+                
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException!=null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+
+                
+                
+               
+            }
+            
+
+            return RedirectToAction("ShiftList", "Setup");
 
         }
         [HttpGet]
@@ -1770,7 +1807,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TillOperationRepository.GetTillOperations((int)user.StoreId));
+            return View(_unitOfWork.TillOperationRepository.GetTillOperations((int)user.StoreId).Select(a => new TillOperationListModelView{ Id = a.Id, ShiftName = a.Shift.Name })); 
         }
 
         [HttpGet]
@@ -1779,8 +1816,71 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             TillOperationViewModel tillMv = new TillOperationViewModel();
+            tillMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddTillOperation";
             return View(tillMv);
         }
+        [HttpPost]
+
+        public ActionResult AddTillOperation(TillOperationViewModel tillMv)
+        {
+            ViewBag.edit = "AddTillOperation";
+            
+                if (!ModelState.IsValid)
+                {
+                    return View(tillMv);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    TillOperation to = Mapper.Map<TillOperation>(tillMv);
+                    to.StoreId = (int)user.StoreId;
+                    _unitOfWork.TillOperationRepository.AddTillOperation(to);
+                    _unitOfWork.Complete();
+                    return RedirectToAction("TillOperationList", "Setup");
+                }
+                
+            }
+        [HttpGet]
+        public ActionResult UpdateTillOperation(int id)
+        {
+            ViewBag.edit = "UpdateTillOperation";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            TillOperationViewModel tillVm = Mapper.Map<TillOperationViewModel>(_unitOfWork.TillOperationRepository.GetTillOperationsById(id, (int)user.StoreId));
+            return View("AddTillOperation",tillVm);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateTillOperation(int id,TillOperationViewModel tillVm)
+        {
+            ViewBag.edit = "UpdateShift";
+            if (!ModelState.IsValid)
+            {
+                return View("AddTillOperation",tillVm);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                TillOperation to = Mapper.Map<TillOperation>(tillVm);
+                _unitOfWork.TillOperationRepository.UpdateTillOperations(id, (int)user.StoreId,to);
+                _unitOfWork.Complete();
+                return RedirectToAction("TillOperationList", "Setup");
+            }
+            
+        }
+
+        public ActionResult DeleteTillOperation(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.TillOperationRepository.DeleteTillOperations(id,(int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("TillOperationList", "Setup");
+        }
+
     }
 }

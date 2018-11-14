@@ -14,5 +14,6 @@ namespace POSApp.Core.Repositories
         void AddTillOperation(TillOperation to);
         void UpdateTillOperations(int id, int storeId, TillOperation to);
         void DeleteTillOperations(int id, int storeId);
+        
     }
 }

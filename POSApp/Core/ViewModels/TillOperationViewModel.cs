@@ -24,4 +24,18 @@ namespace POSApp.Core.ViewModels
         public IEnumerable<SelectListItem> ShiftDdl { get; set; }
 
     }
+    public class TillOperationListModelView
+    {
+        public int? Id { get; set; }
+        public string ShiftName { get; set; }
+        public DateTime OperationDate { get; set; }
+        public string Remarks { get; set; }
+        public decimal OpeningAmount { get; set; }
+        public decimal SystemAmount { get; set; }
+        public decimal PhysicalAmount { get; set; }
+        public bool Status { get; set; }
+        public string TillOperationType { get; set; }//Open or Close
+        public int? StoreId { get; set; }
+       
+    }
 }
