@@ -208,7 +208,7 @@
                                                     <tr>
                                                         <th class="table-fit">
                                                             <div class="checkbox-holder">
-                                                                <input type="checkbox" id="toggleAll" class="toggable">
+                                                                <input type="checkbox" id="toggleAll"  class="toggable">
                                                             </div>
                                                         </th>
                                                         <th style="vertical-align: top !important;">
@@ -389,7 +389,10 @@
 @section scripts
 {
     <script>
-
+        $(':checkbox[class=toggable]').click(function() {
+            $(':checkbox[class=form-check-input]').prop('checked', this.checked);
+            $(':checkbox[class=toggable]').prop('checked', this.checked);
+        });
 
         $('a.modalShow').on('click', function () {
             $.ajax({

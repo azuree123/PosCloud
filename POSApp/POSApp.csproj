@@ -376,6 +376,7 @@
     <Compile Include="Core\Enums\Gender.cs" />
     <Compile Include="Core\Enums\ModifierOptionEnum.cs" />
     <Compile Include="Core\Enums\PaymentMethod.cs" />
+    <Compile Include="Core\Enums\Security.cs" />
     <Compile Include="Core\Enums\TimedEventType.cs" />
     <Compile Include="Core\Models\AlertModel.cs" />
     <Compile Include="Core\Models\AppCounter.cs" />
@@ -636,8 +637,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Services\ExcelService.cs" />
+    <Compile Include="Services\ExtensionMethods.cs" />
     <Compile Include="Services\ImportService.cs" />
     <Compile Include="Services\IUserInfoService.cs" />
+    <Compile Include="Services\SecurityFilter.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
