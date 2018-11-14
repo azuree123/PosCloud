@@ -46,7 +46,7 @@
             <li><a href="@Url.Action("TimedEventList","Setup")">Timed Event</a></li>
             <li><a href="@Url.Action("DineTableList","Setup")">Dine Table</a></li>
             <li><a href="@Url.Action("FloorList","Setup")">Floor</a></li>
-            <li><a href="@Url.Action("POSTerminalList","Setup")">Dine Table</a></li>
+            <li><a href="@Url.Action("POSTerminalList","Setup")">POS Terminal</a></li>
             <li><a href="@Url.Action("ShiftList","Setup")">Shifts</a></li>
         </ul>
         <hr />
@@ -111,7 +111,7 @@
                                 @*<td>@employee.DesignationId</td>*@
                                 <td>@employee.MobileNumber</td>
                                 <td>@employee.Commission</td>
-                                <td>@employee.JoinDate</td>
+                                <td>@employee.JoinDate.ToShortDateString()</td>
                                 <td class="center">
                                     <div class="btn-group">
 
