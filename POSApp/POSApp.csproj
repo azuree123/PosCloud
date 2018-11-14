@@ -365,6 +365,7 @@
     <Compile Include="Controllers\WebApi\ProductsController.cs" />
     <Compile Include="Controllers\WebApi\ProductSubsController.cs" />
     <Compile Include="Controllers\WebApi\SalesController.cs" />
+    <Compile Include="Controllers\WebApi\SectionsController.cs" />
     <Compile Include="Controllers\WebApi\StatesController.cs" />
     <Compile Include="Controllers\WebApi\SuppliersController.cs" />
     <Compile Include="Controllers\WebApi\TaxesController.cs" />

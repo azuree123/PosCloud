@@ -24,6 +24,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.ProductCategories.Find(id,storeid);
         }
+        public ProductCategory GetProductCategoryByCode(string code, int storeid)
+        {
+            return _context.ProductCategories.FirstOrDefault(a=>a.Code==code && a.StoreId==storeid);
+        }
 
         public void AddProductCategory(ProductCategory productCategory)
         {

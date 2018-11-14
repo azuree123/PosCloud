@@ -40,9 +40,17 @@ namespace POSApp.Controllers.WebApi
                 foreach (var product in products)
                 {
                     product.Code = product.Id.ToString();
+                    var catInfo =
+                        _unitOfWork.ProductCategoryRepository.GetProductCategoryByCode(product.CategoryId.ToString(),
+                            product.StoreId);
                     product.Synced = true;
                     product.SyncedOn = DateTime.Now;
+                    if (catInfo != null)
+                    {
+
+                    product.CategoryId = catInfo.Id;
                     _unitOfWork.ProductRepository.AddProduct(product);
+                    }
                 }
                 _unitOfWork.Complete();
                 return Ok("Success");
