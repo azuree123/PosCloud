@@ -14,5 +14,6 @@ namespace POSApp.Core.Repositories
         void UpdateSection(int id, Section Section, int storeid);
         void DeleteSection(int id, int storeid);
         Section GetSectionBySectionNumber(string SectionNumber, int storeid);
+        Section GetSectionByCode(string code, int storeid);
     }
 }

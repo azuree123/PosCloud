@@ -20,6 +20,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Taxes.FirstOrDefault(x => x.Id == id && x.StoreId==storeId);
         }
+        public Tax GetTaxByCode(string code, int storeId)
+        {
+            return _context.Taxes.FirstOrDefault(x => x.Code == code && x.StoreId == storeId);
+        }
         public IEnumerable<Tax> GetTaxes(int storeId)
         {
             //return _context.Tax;

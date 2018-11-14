@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -27,7 +28,8 @@ namespace POSApp.Core.Models
         public Store Store { get; set; }
         public int? POSTerminalId { get; set; }
         public POSTerminal POSTerminal { get; set; }
-
+        public int? ShiftId { get; set; }
+        public Shift Shift { get; set; }
         [Column(TypeName = "DateTime2")]
         public DateTime CreatedOn { get; set; }
         public string CreatedById { get; set; }
@@ -37,8 +39,7 @@ namespace POSApp.Core.Models
 
         [Column(TypeName = "DateTime2")]
         public DateTime UpdatedOn { get; set; }
-
-
+        public ICollection<TillOperation> TillOperations { get; set; }
     }
 
    

@@ -26,6 +26,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Sections.Find(id, storeid);
         }
+        public Section GetSectionByCode(string code, int storeid)
+        {
+            return _context.Sections.FirstOrDefault(a=>a.Code==code && a.StoreId== storeid);
+        }
         public Section GetSectionBySectionNumber(string SectionNumber, int storeid)
         {
             return _context.Sections.FirstOrDefault(a => a.Name == SectionNumber && a.StoreId == storeid);

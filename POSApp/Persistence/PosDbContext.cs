@@ -51,6 +51,8 @@ namespace POSApp.Persistence
         public DbSet<SecurityObject> SecurityObjects { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<POSTerminal> PosTerminals { get; set; }
+        public DbSet<Shift> Shifts { get; set; }
+        public DbSet<TillOperation> TillOperations { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
             var objectContext = (this as IObjectContextAdapter).ObjectContext;
@@ -101,6 +103,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new SecurityRightEntityConfiguration());
             modelBuilder.Configurations.Add(new SectionEntityConfiguration());
             modelBuilder.Configurations.Add(new POSTerminalEntityConfiguration());
+            modelBuilder.Configurations.Add(new ShiftEntityConfiguration());
 
 
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();

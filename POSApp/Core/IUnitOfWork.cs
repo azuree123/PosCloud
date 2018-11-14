@@ -47,6 +47,7 @@ namespace POSApp.Core
 
         IUserRepository UserRepository { get; }
         IPOSTerminalRepository POSTerminalRepository { get; }
+        IShiftRepository ShiftRepository { get; }
         void Complete();
     }
 }

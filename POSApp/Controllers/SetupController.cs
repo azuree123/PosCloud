@@ -1340,7 +1340,7 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateFloor(int id, FloorViewModel FloorMv)
         {
-            ViewBag.edit = "UpdateSate";
+            ViewBag.edit = "UpdateFloor";
             if (!ModelState.IsValid)
             {
                 return View("AddFloor", FloorMv);
@@ -1687,6 +1687,83 @@ namespace POSApp.Controllers
             _unitOfWork.POSTerminalRepository.DeletePOSTerminal(id, (int)user.StoreId);
             _unitOfWork.Complete();
             return RedirectToAction("POSTerminalList", "Setup");
+        }
+
+        //Shift
+
+        public ActionResult ShiftList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ShiftRepository.GetShifts((int)user.StoreId));
+        }
+        [HttpGet]
+        public ActionResult AddShift()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ShiftViewModel Shift = new ShiftViewModel();
+            ViewBag.edit = "AddShift";
+            return View(Shift);
+        }
+        [HttpPost]
+        public ActionResult AddShift(ShiftViewModel ShiftMv)
+        {
+
+            ViewBag.edit = "AddShift";
+            if (!ModelState.IsValid)
+            {
+                return View(ShiftMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Shift Shift = Mapper.Map<Shift>(ShiftMv);
+                Shift.StoreId = (int)user.StoreId;
+                _unitOfWork.ShiftRepository.AddShift(Shift);
+                _unitOfWork.Complete();
+                return RedirectToAction("ShiftList", "Setup");
+            }
+
+        }
+        [HttpGet]
+        public ActionResult UpdateShift(int id)
+        {
+            ViewBag.edit = "UpdateShift";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ShiftViewModel ShiftMv =
+                Mapper.Map<ShiftViewModel>(_unitOfWork.ShiftRepository.GetShiftById(id, (int)user.StoreId));
+            return View("AddShift", ShiftMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateShift(int id, ShiftViewModel ShiftMv)
+        {
+            ViewBag.edit = "UpdateShift";
+            if (!ModelState.IsValid)
+            {
+                return View("AddShift", ShiftMv);
+            }
+            else
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                Shift Shift = Mapper.Map<Shift>(ShiftMv);
+                _unitOfWork.ShiftRepository.UpdateShift(id, Shift, (int)user.StoreId);
+                _unitOfWork.Complete();
+                return RedirectToAction("ShiftList", "Setup");
+
+            }
+
+        }
+        public ActionResult DeleteShift(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _unitOfWork.ShiftRepository.DeleteShift(id, (int)user.StoreId);
+            _unitOfWork.Complete();
+            return RedirectToAction("ShiftList", "Setup");
         }
     }
 }

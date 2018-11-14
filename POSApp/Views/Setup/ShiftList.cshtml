@@ -1,11 +1,12 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.POSTerminalListModelView>
+﻿
+@model IEnumerable<POSApp.Core.Models.Shift>
 
 @{
-    ViewBag.Title = "POSTerminalList";
+    ViewBag.Title = "ShiftList";
 }
 
 @*<header class="page-header">
-        <h2>Cities</h2>
+        <h2>States</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -14,7 +15,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>Cities</span></li>
+                <li><span>State</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -40,17 +41,18 @@
             <li><a href="@Url.Action("DiscountList","Setup")">Discount</a></li>
             <li><a href="@Url.Action("TaxList","Setup")">Tax</a></li>
             <li><a href="@Url.Action("StateList","Setup")">State</a></li>
-            <li><a href="@Url.Action("CityList","Setup")">State</a></li>
 
-
+            <li><a href="@Url.Action("CityList","Setup")">City</a></li>
             <li><a href="@Url.Action("ClientList","Setup")">Client</a></li>
             <li><a href="@Url.Action("UnitList","Setup")">Unit</a></li>
             <li><a href="@Url.Action("TimedEventList","Setup")">Timed Event</a></li>
-            <li><a href="@Url.Action("DineTableList","Setup")">DineTable</a></li>
-            <li><a href="@Url.Action("FloorList","Setup")">Floor</a></li>
-            <li class="current"><a href="#">Terminal</a></li>
+            <li><a href="@Url.Action("DineTableList","Setup")">Dine Table</a></li>
+            <li><a href="@Url.Action("FloorList","Setup")">Dine Table</a></li>
+            <li><a href="@Url.Action("POSTerminalList","Setup")">Dine Table</a></li>
             
-            <li><a href="@Url.Action("ShiftList","Setup")">Dine Table</a></li>
+            <li class="current"><a href="#">Shifts</a></li>
+
+
 
         </ul>
         <hr />
@@ -60,19 +62,27 @@
 <section class="panel">
     <header class="panel-heading">
         <div class="row">
+            <div class="col-md-12">
 
-            <div class="" id="header-flex">
-                <h3 class="wb-color" style="flex-grow: 8"><b>Terminals</b></h3>
+                <div class="" id="header-flex">
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Shifts</b></h3>
 
 
-                <a href="@Url.Action("AddPOSTerminal", "Setup")" class="modalShow" style="flex-grow: 0.2">
-                    <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add POSTerminal</button>
 
-                </a>
-                @*<a href="@Url.Action("DineTableExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
-                    <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+                    <a href="@Url.Action("AddShift", "Setup")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Shift</button>
 
-                </a>*@
+                    </a>
+                    @*<a href="@Url.Action("FloorExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+                    </a>*@
+
+                </div>
+
+
+
+
 
             </div>
         </div>
@@ -85,27 +95,23 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Section</th>
+                        <th>Shift</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var terminal in Model)
+                    @foreach (var shift in Model)
                     {
                         <tr>
                             <td>@(i++)</td>
-                            <td>@terminal.POSTerminalName</td>
-                            <td>@terminal.Section</td>
+                            <td>@shift.Name</td>
                             <td class="center">
                                 <div class="btn-group">
 
-                                    @Html.ActionLink(" ", "UpdatePOSTerminal", "Setup", new { id = @terminal.POSTerminalId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-
-                                    @Html.ActionLink(" ", "DeletePOSTerminal", "Setup", new { id = @terminal.POSTerminalId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    @Html.ActionLink(" ", "UpdateShift", "Setup", new { id = @shift.ShiftId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "DeleteShift", "Setup", new { id = @shift.ShiftId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                                 </div>
-
                             </td>
                         </tr>
                     }
@@ -114,6 +120,7 @@
         </div>
     </div>
 </section>
+
 
 
 
@@ -140,5 +147,6 @@
         });
     </script>
 }
+
 
 

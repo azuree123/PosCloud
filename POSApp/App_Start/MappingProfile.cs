@@ -104,7 +104,8 @@ namespace POSApp
             CreateMap<POSTerminal, POSTerminalListModelView>().ForMember(a=>a.Section,o=>o.MapFrom(g=>g.Section.Name))
                 .ForMember(a => a.POSTerminalId, o => o.MapFrom(g => g.POSTerminalId))
                 .ForMember(a => a.POSTerminalName, o => o.MapFrom(g => g.Name));
-
+            CreateMap<ShiftViewModel, Shift>();
+            CreateMap<Shift, ShiftViewModel>();
         }
     }
 }

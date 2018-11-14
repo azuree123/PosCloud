@@ -395,8 +395,10 @@
     <Compile Include="Core\Models\Section.cs" />
     <Compile Include="Core\Models\SecurityObject.cs" />
     <Compile Include="Core\Models\SecurityRight.cs" />
+    <Compile Include="Core\Models\Shift.cs" />
     <Compile Include="Core\Models\Store.cs" />
     <Compile Include="Core\Models\Tax.cs" />
+    <Compile Include="Core\Models\TillOperation.cs" />
     <Compile Include="Core\Models\TimedEvent.cs" />
     <Compile Include="Core\Models\TimedEventProducts.cs" />
     <Compile Include="Core\Models\TransDetail.cs" />
@@ -419,6 +421,7 @@
     <Compile Include="Core\Repositories\ISectionRepository.cs" />
     <Compile Include="Core\Repositories\ISecurityObjectRepository.cs" />
     <Compile Include="Core\Repositories\ISecurityRightRepository.cs" />
+    <Compile Include="Core\Repositories\IShiftRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventProductsRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventRepository.cs" />
     <Compile Include="Core\Repositories\IUnitRepository.cs" />
@@ -443,6 +446,7 @@
     <Compile Include="Core\ViewModels\SectionViewModel.cs" />
     <Compile Include="Core\ViewModels\SecurityObjectViewModel.cs" />
     <Compile Include="Core\ViewModels\SecurityRightViewModel.cs" />
+    <Compile Include="Core\ViewModels\ShiftViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
     <Compile Include="Migrations\201811131244284_Update-1.cs" />
     <Compile Include="Migrations\201811131244284_Update-1.Designer.cs">
@@ -452,6 +456,8 @@
     <Compile Include="Persistence\EntityConfigurations\POSTerminalEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SectionEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SecurityRightEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ShiftEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\TillOperationEntityConfiguration.cs" />
     <Compile Include="Persistence\Repositories\DeviceRepository.cs" />
     <Compile Include="Core\ViewModels\DineTableViewModel.cs" />
     <Compile Include="Core\ViewModels\DiscountViewModel.cs" />
@@ -576,6 +582,7 @@
     <Compile Include="Persistence\Repositories\SectionRepository.cs" />
     <Compile Include="Persistence\Repositories\SecurityObjectRepository.cs" />
     <Compile Include="Persistence\Repositories\SecurityRightRepository.cs" />
+    <Compile Include="Persistence\Repositories\ShiftRepository.cs" />
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
     <Compile Include="Persistence\Repositories\StoreRepository.cs" />
     <Compile Include="Persistence\Repositories\TaxRepository.cs" />
@@ -2683,6 +2690,8 @@
     <Content Include="Views\Products\AddSection.cshtml" />
     <Content Include="Views\Setup\POSTerminalList.cshtml" />
     <Content Include="Views\Setup\AddPOSTerminal.cshtml" />
+    <Content Include="Views\Setup\ShiftList.cshtml" />
+    <Content Include="Views\Setup\AddShift.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

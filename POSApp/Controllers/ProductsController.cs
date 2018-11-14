@@ -31,7 +31,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>a.Type=="Product").ToList());
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).ToList());
         }
 
         public ActionResult AddProduct()

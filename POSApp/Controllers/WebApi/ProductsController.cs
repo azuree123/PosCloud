@@ -43,6 +43,28 @@ namespace POSApp.Controllers.WebApi
                     var catInfo =
                         _unitOfWork.ProductCategoryRepository.GetProductCategoryByCode(product.CategoryId.ToString(),
                             product.StoreId);
+                    var sectionInfo =
+                        _unitOfWork.SectionRepository.GetSectionByCode(product.SectionId.ToString(),
+                            product.StoreId);
+                    var taxInfo =
+                        _unitOfWork.TaxRepository.GetTaxByCode(product.TaxId.ToString(),
+                            product.StoreId);
+                    if (taxInfo != null)
+                    {
+                        product.TaxId = taxInfo.Id;
+                    }
+                    else
+                    {
+                        product.TaxId = null;
+                    }
+                    if (sectionInfo != null)
+                    {
+                        product.SectionId = sectionInfo.SectionId;
+                    }
+                    else
+                    {
+                        product.SectionId = null;
+                    }
                     product.Synced = true;
                     product.SyncedOn = DateTime.Now;
                     if (catInfo != null)
