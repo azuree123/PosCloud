@@ -490,9 +490,6 @@ namespace POSApp.Controllers
             {
                 modifieroptionVm.StoreId = user.StoreId;
                 Helper.AddToTempModifierOptions(modifieroptionVm,userid);
-                //ModifierOption modifieroption = Mapper.Map<ModifierOption>(modifieroptionVm);
-                //_unitOfWork.ModifierOptionRepository.AddModifierOption(modifieroption);
-                //_unitOfWork.Complete();
                 return View("ModifierOptionListTable", Helper.TempModifierOptions.Where(a => a.CreatedBy == userid).ToList());
             }
 
@@ -520,10 +517,7 @@ namespace POSApp.Controllers
 
             {
 
-                //ModifierOption modifieroption = Mapper.Map<ModifierOption>(modifieroptionVm);
                 
-                //_unitOfWork.ModifierOptionRepository.UpdateModifierOptions(id, Convert.ToInt32(user.StoreId), modifieroption);
-                //_unitOfWork.Complete();
                 return RedirectToAction("ModifierOptionList", "Products");
             }
 
@@ -539,7 +533,6 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             Helper.RemoveFromTempModifierOptions(name,(int)user.StoreId,userid);
-            //_unitOfWork.ModifierOptionRepository.DeleteModifierOptions(id, Convert.ToInt32(user.StoreId));
             //_unitOfWork.Complete();
             return View("ModifierOptionListTable", Helper.TempModifierOptions.Where(a => a.CreatedBy == userid).ToList());
 

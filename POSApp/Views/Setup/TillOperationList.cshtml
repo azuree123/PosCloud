@@ -1,12 +1,11 @@
-﻿
-@model IEnumerable<POSApp.Core.Models.Floor>
+﻿@model IEnumerable<POSApp.Core.ViewModels.TillOperationListModelView>
 
 @{
-    ViewBag.Title = "FloorList";
+    ViewBag.Title = "TillOperationList";
 }
 
 @*<header class="page-header">
-        <h2>States</h2>
+        <h2>Customers</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -15,7 +14,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>State</span></li>
+                <li><span>Customers</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -27,7 +26,7 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li><a href="@Url.Action("CustomerList","Setup")">Customer</a></li>
+            <li class="current"><a href="@Url.Action("CustomerList","Setup")">Customer</a></li>
             <li><a href="@Url.Action("EmployeeList","Setup")">Employee</a></li>
 
             <li><a href="@Url.Action("SupplierList","Setup")">Supplier</a></li>
@@ -41,18 +40,17 @@
             <li><a href="@Url.Action("DiscountList","Setup")">Discount</a></li>
             <li><a href="@Url.Action("TaxList","Setup")">Tax</a></li>
             <li><a href="@Url.Action("StateList","Setup")">State</a></li>
-
             <li><a href="@Url.Action("CityList","Setup")">City</a></li>
             <li><a href="@Url.Action("ClientList","Setup")">Client</a></li>
             <li><a href="@Url.Action("UnitList","Setup")">Unit</a></li>
             <li><a href="@Url.Action("TimedEventList","Setup")">Timed Event</a></li>
+            @*<li><a href="@Url.Action("RolesList","Setup")">Roles</a></li>*@
+
             <li><a href="@Url.Action("DineTableList","Setup")">Dine Table</a></li>
-            <li class="current"><a href="#">Floor</a></li>
+            <li><a href="@Url.Action("FloorList","Setup")">Floor</a></li>
             <li><a href="@Url.Action("POSTerminalList","Setup")">Dine Table</a></li>
             <li><a href="@Url.Action("ShiftList","Setup")">Shifts</a></li>
-
-
-
+            <li class="current"><a href="@Url.Action("TillOperationList","Setup")">TillOperation</a></li>
         </ul>
         <hr />
 
@@ -63,25 +61,22 @@
         <div class="row">
             <div class="col-md-12">
 
+
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Floors</b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>TillOperations</b></h3>
 
 
-
-                    <a href="@Url.Action("AddFloor", "Setup")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Floor</button>
+                    <a href="@Url.Action("AddTillOperation", "Setup")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add TillOperation</button>
 
                     </a>
-                    <a href="@Url.Action("FloorExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
+                    @*<a href="@Url.Action("CustomerExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
                         <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
-                    </a>
+                    </a*@>
+
 
                 </div>
-
-
-
-
 
             </div>
         </div>
@@ -94,26 +89,42 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Floor Number</th>
+                        <th>OperationDate</th>
+                        <th>OpeningAmount</th>
+                        <th>SystemAmount</th>
+                        <th>PhysicalAmount</th>
+
+                        <th>TillOperationType</th>
+                        <th>Shift</th>
+                        <th>Status</th>
                         <th>Action</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @{ int i = 1;}
-                    @foreach (var floor in Model)
+                    @foreach (var till in Model)
                     {
-                        <tr>
-                            <td>@(i++)</td>
-                            <td>@floor.FloorNumber</td>
-                            <td class="center">
-                                <div class="btn-group">
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@till.OperationDate</td>
+                        <td>@till.OpeningAmount</td>
+                        <td>@till.SystemAmount</td>
 
-                                    @Html.ActionLink(" ", "UpdateFloor", "Setup", new { id = @floor.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                    @Html.ActionLink(" ", "DeleteFloor", "Setup", new { id = @floor.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                                </div>
-                            </td>
-                        </tr>
+                        <td>@till.TillOperationType</td>
+                        <td>@till.ShiftName</td>
+                        <td>@till.Status</td>
+
+                        <td class="center">
+                            <div class="btn-group">
+
+                                @Html.ActionLink(" ", "UpdateTillOperation", "Setup", new { id = @till.Id, storeId = @till.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                @Html.ActionLink(" ", "DeleteTillOperation", "Setup", new { id = @till.Id, storeId = @till.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                            </div>
+                        </td>
+                    </tr>
                     }
+
                 </tbody>
             </table>
         </div>

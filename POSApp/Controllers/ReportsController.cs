@@ -116,7 +116,21 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateComboSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            return View();
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+
+            string path = Server.MapPath("~/Content/Reports/");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+            ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateComboSalesData((int)user.StoreId, dateFrom, dateTo),
+                "ComboSalesReport", path, this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                (int)user.StoreId, details, Server.MapPath("~/Reports"), "ComboSale.rpt");
+
+            return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateProductSizeByOrderTypeSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
@@ -141,7 +155,23 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateBranchSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            return View();
+            
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+
+                string path = Server.MapPath("~/Content/Reports/");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateBranchSalesData((int)user.StoreId, dateFrom, dateTo),
+                    "BranchSalesReport", path, this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "BranchWiseSale.rpt");
+
+                return RedirectToAction("MyReports");
+            
         }
         [HttpPost]
         public ActionResult GenerateBranchTimelySaleReport(DateTime dateFrom, DateTime dateTo, int branchId)

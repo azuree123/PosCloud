@@ -1,0 +1,11 @@
+﻿@using POSApp.Core.Models
+@model POSApp.Core.Models.AlertModel
+
+@if (Model != null)
+{
+    <div class="alert alert-dismissible @Model.CSSClass">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>@Model.Heading</strong> @Model.Message
+    </div>
+}
+
