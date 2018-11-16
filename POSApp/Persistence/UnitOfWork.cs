@@ -97,6 +97,7 @@ namespace POSApp.Persistence
             POSTerminalRepository = new POSTerminalRepository(context);
             ShiftRepository = new ShiftRepository(context);
            TillOperationRepository = new TillOperationRepository(context);
+            SecurityObjectRepository=new SecurityObjectRepository(context);
         }
 
         public void Complete()

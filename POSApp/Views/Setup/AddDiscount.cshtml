@@ -90,7 +90,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label " })
-                                            @Html.DropDownListFor(a => a.Type, new SelectList(Enum.GetValues(typeof(DiscountType))), "Select Gender", new { @class = "form-control" })
+                                            @Html.DropDownListFor(a => a.Type, new SelectList(Enum.GetValues(typeof(DiscountType))), "Select Discount Type", new { @class = "form-control" })
                                         </div>
 
                                         <div class="col-md-2">

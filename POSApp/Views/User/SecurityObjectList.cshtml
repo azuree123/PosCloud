@@ -63,7 +63,7 @@
                             <div class="btn-group">
 
                                 @Html.ActionLink(" ", "UpdateSecurityObject", "User", new { id = @user.SecurityObjectId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow  ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteSecurityObject", "User", new { id = @user.SecurityObjectId }, new { @class = "btn btn-default text-danger hidden  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "DeleteSecurityObject", "User", new { id = @user.SecurityObjectId }, new { @class = "btn btn-default text-danger   btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                             </div>
                         </td>
                     </tr>
