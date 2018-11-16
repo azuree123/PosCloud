@@ -1,5 +1,13 @@
-﻿@model IEnumerable<POSApp.Core.Models.Client>
-
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.Models.Client>
+@{
+    ViewBag.Title = "ClientList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
 <!-- start: page -->
 <div class="row mt-md">
     <div class="col-md-12">
@@ -39,7 +47,7 @@
             <div class="" id="header-flex">
                 <h3 class="wb-color" style="flex-grow: 8"><b>Clients</b></h3>
 
-              
+
                 <a href="@Url.Action("AddClient", "Setup")" class="modalShow" style="flex-grow: 0.1">
                     <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Client</button>
 
@@ -69,22 +77,22 @@
                     @{ int i = 1;}
                     @foreach (var client in Model)
                     {
-                    <tr>
-                        <td>@(i++)</td>
-                        <td>@client.Name</td>
-                        <td>@client.Address</td>
-                        <td>@client.Contact</td>
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@client.Name</td>
+                            <td>@client.Address</td>
+                            <td>@client.Contact</td>
 
-                        <td class="center">
-                            <div class="btn-group">
+                            <td class="center">
+                                <div class="btn-group">
 
-                                @Html.ActionLink(" ", "UpdateClient", "Setup", new { id = client.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "UpdateClient", "Setup", new { id = client.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
 
-                                @Html.ActionLink(" ", "DeleteClient", "Setup", new { id = client.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                            </div>
+                                    @Html.ActionLink(" ", "DeleteClient", "Setup", new { id = client.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                </div>
 
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>

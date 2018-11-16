@@ -194,21 +194,61 @@ namespace POSApp.Controllers
         public ActionResult AddDepartment(DepartmentViewModel departmentVm)
         {
             ViewBag.edit = "AddDepartment";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(departmentVm);
+                if (!ModelState.IsValid)
+                {
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                }
+                else
+                {
+                    Department department = Mapper.Map<Department>(departmentVm);
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    department.StoreId = (int)user.StoreId;
+                    _unitOfWork.DepartmentRepository.AddDepartment(department);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("Department Added Successfully",AlertType.Success);
+                    return RedirectToAction("DepartmentList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                Department department = Mapper.Map<Department>(departmentVm);
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                department.StoreId = (int)user.StoreId;
-                _unitOfWork.DepartmentRepository.AddDepartment(department);
-                _unitOfWork.Complete();
-                return RedirectToAction("DepartmentList","Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
-            
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+
+            return RedirectToAction("DepartmentList", "Setup");
+
+
         }
         [HttpGet]
         public ActionResult UpdateDepartment(int id)
@@ -224,28 +264,92 @@ namespace POSApp.Controllers
         public ActionResult UpdateDepartment(int id, DepartmentViewModel departmentVm)
         {
             ViewBag.edit = "UpdateDepartment";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddDepartment",departmentVm);
+                if (!ModelState.IsValid)
+                {
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                }
+                else
+                {
+                    Department department = Mapper.Map<Department>(departmentVm);
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    department.StoreId = (int)user.StoreId;
+                    _unitOfWork.DepartmentRepository.UpdateDepartment(id, department.StoreId, department);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The Department updated successfully", AlertType.Success);
+                    return RedirectToAction("DepartmentList", "Setup");
+                }
             }
-            else
+            catch (Exception e)
             {
-                Department department = Mapper.Map<Department>(departmentVm);
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                department.StoreId = (int)user.StoreId;
-                _unitOfWork.DepartmentRepository.UpdateDepartment(id, department.StoreId, department);
-                _unitOfWork.Complete();
-                return RedirectToAction("DepartmentList", "Setup");
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
             }
+
+            return RedirectToAction("DepartmentList", "Setup");
         }
         public ActionResult DeleteDepartment( int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.DepartmentRepository.DeleteDepartment(id,(int)user.StoreId);
-            _unitOfWork.Complete();
-            return RedirectToAction("DepartmentList","Setup");
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.DepartmentRepository.DeleteDepartment(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Department deleted successfully", AlertType.Error);
+                return RedirectToAction("DepartmentList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+
+            return RedirectToAction("DepartmentList", "Setup");
+
         }
 
         //public ActionResult DesignationList()
@@ -326,24 +430,63 @@ namespace POSApp.Controllers
         public ActionResult AddEmployee(EmployeeModelView employeeMv)
         {
             ViewBag.edit = "AddEmployee";
+            try
+            {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-            if (!ModelState.IsValid)
-            {
-                employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
-                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-                return View(employeeMv);
+                if (!ModelState.IsValid)
+                {
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                }
+                else
+                {
+                    employeeMv.StoreId = user.StoreId;
+                    Employee employee = Mapper.Map<Employee>(employeeMv);
+
+                    _unitOfWork.EmployeeRepository.AddEmployee(employee);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The employee added successfully", AlertType.Success);
+                    return RedirectToAction("EmployeeList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                employeeMv.StoreId = user.StoreId;
-                Employee employee = Mapper.Map<Employee>(employeeMv);
-               
-                _unitOfWork.EmployeeRepository.AddEmployee(employee);
-                _unitOfWork.Complete();
-                return RedirectToAction("EmployeeList","Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
-           
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+
+            return RedirectToAction("EmployeeList", "Setup");
+
+
+
         }
         [HttpGet]
         public ActionResult UpdateEmployee(int id)
@@ -361,26 +504,106 @@ namespace POSApp.Controllers
         public ActionResult UpdateEmployee(int id, EmployeeModelView employeeMv)
         {
             ViewBag.edit = "UpdateEmployee";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddEmployee",employeeMv);
+                if (!ModelState.IsValid)
+                {
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                }
+                else
+                {
+                    Employee employee = Mapper.Map<Employee>(employeeMv);
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    _unitOfWork.EmployeeRepository.UpdateEmployee(id, employee, Convert.ToInt32(user.StoreId));
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The employee updated successfully", AlertType.Success);
+                    return RedirectToAction("EmployeeList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                Employee employee = Mapper.Map<Employee>(employeeMv);
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                _unitOfWork.EmployeeRepository.UpdateEmployee(id,employee,Convert.ToInt32(user.StoreId));
-                _unitOfWork.Complete();
-                return RedirectToAction("EmployeeList","Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
-            
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+
+            return RedirectToAction("EmployeeList", "Setup");
+
+
         }
         public ActionResult DeleteEmployee(int id, int storeid)
         {
-            _unitOfWork.EmployeeRepository.DeleteEmployee(id, storeid);
-            _unitOfWork.Complete();
-            return RedirectToAction("EmployeeList","Setup");
+            try
+            {
+                _unitOfWork.EmployeeRepository.DeleteEmployee(id, storeid);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The employee deleted successfully", AlertType.Error);
+                return RedirectToAction("EmployeeList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+
+            return RedirectToAction("EmployeeList", "Setup");
+
         }
 
         public ActionResult CustomerList()
@@ -399,22 +622,63 @@ namespace POSApp.Controllers
         public ActionResult AddCustomer(CustomerModelView customerMv)
         {
             ViewBag.edit = "AddCustomer";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(customerMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    customerMv.StoreId = user.StoreId;
+                    BusinessPartner customer = Mapper.Map<BusinessPartner>(customerMv);
+                    customer.Type = "C";
+                    _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(customer);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The customer added successfully", AlertType.Success);
+                    return RedirectToAction("CustomerList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid= User.Identity.GetUserId();
-                var user =  UserManager.FindById(userid);
-                customerMv.StoreId = user.StoreId;
-                BusinessPartner customer = Mapper.Map<BusinessPartner>(customerMv);
-                customer.Type = "C";
-                _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(customer);
-                _unitOfWork.Complete();
-                return RedirectToAction("CustomerList","Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
-            
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("CustomerList", "Setup");
+
         }
         [HttpGet]
         public ActionResult UpdateCustomer(int id)
@@ -430,29 +694,114 @@ namespace POSApp.Controllers
         public ActionResult UpdateCustomer(int id, CustomerModelView customerMv)
         {
             ViewBag.edit = "UpdateCustomer";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddCustomer",customerMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. "+message, AlertType.Error);
+                }
+                else
+                {
+                    BusinessPartner customer = Mapper.Map<BusinessPartner>(customerMv);
+                    customer.Type = "C";
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id, Convert.ToInt32(user.StoreId), customer);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The customer updated successfully", AlertType.Success);
+                    return RedirectToAction("CustomerList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                BusinessPartner customer = Mapper.Map<BusinessPartner>(customerMv);
-                customer.Type = "C";
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id, Convert.ToInt32(user.StoreId), customer);
-                _unitOfWork.Complete();
-                return RedirectToAction("CustomerList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
-            
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+
+            return RedirectToAction("CustomerList", "Setup");
+
+
+
         }
         public ActionResult DeleteCustomer(int id, int storeid)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.BusinessPartnerRepository.DeleteBusinessPartner(id, Convert.ToInt32(user.StoreId));
-            _unitOfWork.Complete();
-            return RedirectToAction("CustomerList","Setup");
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.BusinessPartnerRepository.DeleteBusinessPartner(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The customer deleted successfully", AlertType.Success);
+                return RedirectToAction("CustomerList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+
+            return RedirectToAction("CustomerList", "Setup");
+
+
         }
 
         public ActionResult SupplierList()
@@ -471,24 +820,65 @@ namespace POSApp.Controllers
         public ActionResult AddSupplier(SupplierModelView supplierMv)
         {
             ViewBag.edit = "AddSupplier";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(supplierMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    supplierMv.StoreId = user.StoreId;
+
+                    BusinessPartner supplier = Mapper.Map<BusinessPartner>(supplierMv);
+                    supplier.Birthday = DateTime.Now;
+                    supplier.Type = "S";
+                    _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(supplier);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The supplier added successfully", AlertType.Success);
+                    return RedirectToAction("SupplierList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                supplierMv.StoreId = user.StoreId;
-               
-                BusinessPartner supplier = Mapper.Map<BusinessPartner>(supplierMv);
-                supplier.Birthday=DateTime.Now;
-                supplier.Type = "S";
-                _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(supplier);
-                _unitOfWork.Complete();
-                return RedirectToAction("SupplierList","Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
-            
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("SupplierList", "Setup");
+
         }
         [HttpGet]
         public ActionResult UpdateSupplier(int id)
@@ -504,30 +894,111 @@ namespace POSApp.Controllers
         public ActionResult UpdateSupplier(int id, SupplierModelView supplierVm)
         {
             ViewBag.edit = "UpdateSupplier";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddSupplier", supplierVm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+
+                {
+                    BusinessPartner supplier = Mapper.Map<BusinessPartner>(supplierVm);
+                    supplier.Type = "S";
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    supplier.Birthday = DateTime.Now;
+                    _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id, Convert.ToInt32(user.StoreId), supplier);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The supplier updated successfully", AlertType.Success);
+                    return RedirectToAction("SupplierList", "Setup");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
             }
 
-            {
-                BusinessPartner supplier = Mapper.Map<BusinessPartner>(supplierVm);
-                supplier.Type = "S";
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                supplier.Birthday = DateTime.Now;
-                _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id,Convert.ToInt32(user.StoreId),supplier);
-                _unitOfWork.Complete();
-                return RedirectToAction("SupplierList", "Setup");
-            }
-           
+            return RedirectToAction("SupplierList", "Setup");
+
+
         }
         public ActionResult DeleteSupplier(int id, int storeid)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.BusinessPartnerRepository.DeleteBusinessPartner(id, Convert.ToInt32(user.StoreId));
-            _unitOfWork.Complete();
-            return RedirectToAction("SupplierList","Setup");
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.BusinessPartnerRepository.DeleteBusinessPartner(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The supplier deleted successfully", AlertType.Success);
+                return RedirectToAction("SupplierList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("SupplierList", "Setup");
+
         }
 
         public ActionResult StateList()
@@ -544,18 +1015,60 @@ namespace POSApp.Controllers
         public ActionResult AddState(StateModelView stateMv)
         {
             ViewBag.edit = "AddState";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(stateMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    State state = Mapper.Map<State>(stateMv);
+                    _unitOfWork.StateRepository.AddState(state);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The state added successfully", AlertType.Success);
+                    return RedirectToAction("StateList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                State state = Mapper.Map<State>(stateMv);
-                _unitOfWork.StateRepository.AddState(state);
-                _unitOfWork.Complete();
-                return RedirectToAction("StateList","Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
-            
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("StateList", "Setup");
+
+
         }
         [HttpGet]
         public ActionResult UpdateState(int id)
@@ -568,25 +1081,106 @@ namespace POSApp.Controllers
         public ActionResult UpdateState(int id, StateModelView stateMv)
         {
             ViewBag.edit = "UpdateSate";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddState", stateMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    State state = Mapper.Map<State>(stateMv);
+                    _unitOfWork.StateRepository.UpdateState(id, state);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The state update successfully", AlertType.Success);
+                    return RedirectToAction("StateList", "Setup");
+
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                State state = Mapper.Map<State>(stateMv);
-                _unitOfWork.StateRepository.UpdateState(id,state);
-                _unitOfWork.Complete();
-                return RedirectToAction("StateList","Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
 
             }
-            
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("StateList", "Setup");
+
+
         }
         public ActionResult DeleteState(int id)
         {
-            _unitOfWork.StateRepository.DeleteState(id);
-            _unitOfWork.Complete();
-            return RedirectToAction("StateList","Setup");
+            try
+            {
+                _unitOfWork.StateRepository.DeleteState(id);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The state deleted successfully", AlertType.Success);
+                return RedirectToAction("StateList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("StateList", "Setup");
+
         }
         public ActionResult CityList(int stateId=0)
         {
@@ -609,18 +1203,60 @@ namespace POSApp.Controllers
         public ActionResult AddCity(CityModelView cityVm)
         {
             ViewBag.edit = "AddCity";
-            if (!ModelState.IsValid)
+            try
             {
-                return View( cityVm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    City city = Mapper.Map<City>(cityVm);
+                    _unitOfWork.CityRepository.AddCity(city);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The city added successfully", AlertType.Success);
+                    return RedirectToAction("CityList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                City city = Mapper.Map<City>(cityVm);
-                _unitOfWork.CityRepository.AddCity(city);
-                _unitOfWork.Complete();
-                return RedirectToAction("CityList","Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
-            
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("CityList", "Setup");
+
+
         }
        
         [HttpGet]
@@ -636,23 +1272,104 @@ namespace POSApp.Controllers
         public ActionResult UpdateCity(int id, CityModelView cityVm)
         {
             ViewBag.edit = "UpdateCity";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddCity", cityVm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    City city = Mapper.Map<City>(cityVm);
+                    _unitOfWork.CityRepository.UpdateCity(id, city);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The city updated successfully", AlertType.Success);
+                    return RedirectToAction("CityList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                City city = Mapper.Map<City>(cityVm);
-                _unitOfWork.CityRepository.UpdateCity(id,city);
-                _unitOfWork.Complete();
-                return RedirectToAction("CityList", "Setup");
-            }          
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("CityList", "Setup");
+
         }
         public ActionResult DeleteCity(int id)
         {
-            _unitOfWork.CityRepository.DeleteCity(id);
-            _unitOfWork.Complete();
-            return RedirectToAction("CityList","Setup");
+            try
+            {
+                _unitOfWork.CityRepository.DeleteCity(id);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The city deleted successfully", AlertType.Success);
+                return RedirectToAction("CityList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("CityList", "Setup");
+
         }
 
         public ActionResult LocationList()
@@ -805,20 +1522,62 @@ namespace POSApp.Controllers
         {
 
             ViewBag.edit = "AddTax";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(taxMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Tax tax = Mapper.Map<Tax>(taxMv);
+                    tax.StoreId = (int)user.StoreId;
+                    _unitOfWork.TaxRepository.AddTax(tax);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The tax added successfully", AlertType.Success);
+                    return RedirectToAction("TaxList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Tax tax = Mapper.Map<Tax>(taxMv);
-                tax.StoreId = (int)user.StoreId;
-                _unitOfWork.TaxRepository.AddTax(tax);
-                _unitOfWork.Complete();
-                return RedirectToAction("TaxList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("TaxList", "Setup");
+
 
         }
         [HttpGet]
@@ -836,28 +1595,109 @@ namespace POSApp.Controllers
         {
 
             ViewBag.edit = "UpdateTax";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddTax", taxMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Tax tax = Mapper.Map<Tax>(taxMv);
+                    _unitOfWork.TaxRepository.UpdateTax(id, tax, (int)user.StoreId);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The tax added successfully", AlertType.Success);
+                    return RedirectToAction("TaxList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Tax tax = Mapper.Map<Tax>(taxMv);
-                _unitOfWork.TaxRepository.UpdateTax(id, tax, (int)user.StoreId);
-                _unitOfWork.Complete();
-                return RedirectToAction("TaxList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("TaxList", "Setup");
+
 
         }
         public ActionResult DeleteTax(int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.TaxRepository.DeleteTax(id, (int)user.StoreId);
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TaxRepository.DeleteTax(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The tax deleted successfully", AlertType.Success);
+                return RedirectToAction("TaxList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("TaxList", "Setup");
+
         }
 
         //public ActionResult CouponList()
@@ -948,20 +1788,63 @@ namespace POSApp.Controllers
         public ActionResult AddUnit(UnitViewModel unitMv)
         {
             ViewBag.edit = "AddUnit";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(unitMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Unit location = Mapper.Map<Unit>(unitMv);
+                    location.StoreId = (int)user.StoreId;
+                    _unitOfWork.UnitRepository.AddUnit(location);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The unit added successfully", AlertType.Success);
+                    return RedirectToAction("UnitList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Unit location = Mapper.Map<Unit>(unitMv);
-                location.StoreId = (int)user.StoreId;
-                _unitOfWork.UnitRepository.AddUnit(location);
-                _unitOfWork.Complete();
-                return RedirectToAction("UnitList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("UnitList", "Setup");
+
+
 
         }
         [HttpGet]
@@ -978,28 +1861,110 @@ namespace POSApp.Controllers
         public ActionResult UpdateUnit(int id, UnitViewModel unitMv)
         {
             ViewBag.edit = "UpdateUnit";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddUnit", unitMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Unit location = Mapper.Map<Unit>(unitMv);
+                    _unitOfWork.UnitRepository.UpdateUnit(id, location, (int)user.StoreId);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The unit updated successfully", AlertType.Success);
+                    return RedirectToAction("UnitList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Unit location = Mapper.Map<Unit>(unitMv);
-                _unitOfWork.UnitRepository.UpdateUnit(id, location, (int)user.StoreId);
-                _unitOfWork.Complete();
-                return RedirectToAction("UnitList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("UnitList", "Setup");
+
 
         }
         public ActionResult DeleteUnit(int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.UnitRepository.DeleteUnit(id, (int)user.StoreId);
-            _unitOfWork.Complete();
-            return RedirectToAction("UnitList", "Setup");
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.UnitRepository.DeleteUnit(id, (int)user.StoreId);
+                TempData["Alert"] = new AlertModel("The unit deleted successfully", AlertType.Success);
+                _unitOfWork.Complete();
+                return RedirectToAction("UnitList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("CustomerList", "Setup");
+
+
         }
         public ActionResult ClientList()
         {
@@ -1017,40 +1982,82 @@ namespace POSApp.Controllers
         public ActionResult AddClient(ClientViewModel clientMv, HttpPostedFileBase file)
         {
             ViewBag.edit = "AddClient";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(clientMv);
-            }
-            else
-            {
-                if (file != null && file.ContentLength > 0)
+                if (!ModelState.IsValid)
                 {
-
-                    try
-                    {
-                        string path = Server.MapPath("~/Images/Data/" + file.FileName);
-                        if (System.IO.File.Exists(path))
-                        {
-                            ViewBag.Message = "Image Already Exists!";
-                          
-                        }
-                        else
-                        {
-                            file.SaveAs(path);
-                        }
-                            clientMv.Image = "/Images/Data/" + file.FileName;
-                    }
-                    catch (Exception e)
-                    {
-                        ViewBag.Message = "ERROR:" + e.Message.ToString();
-                    }
-
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
                 }
-                
-                _unitOfWork.ClientRepository.AddClient(Mapper.Map<Client>(clientMv));
-                _unitOfWork.Complete();
-                return RedirectToAction("ClientList", "Setup");
+                else
+                {
+                    if (file != null && file.ContentLength > 0)
+                    {
+
+                        try
+                        {
+                            string path = Server.MapPath("~/Images/Data/" + file.FileName);
+                            if (System.IO.File.Exists(path))
+                            {
+                                ViewBag.Message = "Image Already Exists!";
+
+                            }
+                            else
+                            {
+                                file.SaveAs(path);
+                            }
+                            clientMv.Image = "/Images/Data/" + file.FileName;
+                        }
+                        catch (Exception e)
+                        {
+                            ViewBag.Message = "ERROR:" + e.Message.ToString();
+                        }
+
+                    }
+
+                    _unitOfWork.ClientRepository.AddClient(Mapper.Map<Client>(clientMv));
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The client added successfully", AlertType.Success);
+                    return RedirectToAction("ClientList", "Setup");
+                }
             }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("ClientList", "Setup");
+
 
         }
         [HttpGet]
@@ -1066,48 +2073,129 @@ namespace POSApp.Controllers
         public ActionResult UpdateClient(int id, ClientViewModel clientMv, HttpPostedFileBase file)
         {
             ViewBag.edit = "UpdateClient";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddClient", clientMv);
-            }
-            else
-            {
-                if (file != null && file.ContentLength > 0)
+                if (!ModelState.IsValid)
                 {
-
-                    try
-                    {
-                        string path = Server.MapPath("~/Images/Data/" + file.FileName);
-                        if (System.IO.File.Exists(path))
-                        {
-                            ViewBag.Message = "Image Already Exists!";
-
-                        }
-                        else
-                        {
-                            file.SaveAs(path);
-                        }
-                        clientMv.Image = "/Images/Data/" + file.FileName;
-                    }
-                    catch (Exception e)
-                    {
-                        ViewBag.Message = "ERROR:" + e.Message.ToString();
-                    }
-
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
                 }
-                _unitOfWork.ClientRepository.UpdateClient(id, Mapper.Map<Client>(clientMv));
-                _unitOfWork.Complete();
-                return RedirectToAction("ClientList", "Setup");
+                else
+                {
+                    if (file != null && file.ContentLength > 0)
+                    {
+
+                        try
+                        {
+                            string path = Server.MapPath("~/Images/Data/" + file.FileName);
+                            if (System.IO.File.Exists(path))
+                            {
+                                ViewBag.Message = "Image Already Exists!";
+
+                            }
+                            else
+                            {
+                                file.SaveAs(path);
+                            }
+                            clientMv.Image = "/Images/Data/" + file.FileName;
+                        }
+                        catch (Exception e)
+                        {
+                            ViewBag.Message = "ERROR:" + e.Message.ToString();
+                        }
+
+                    }
+                    _unitOfWork.ClientRepository.UpdateClient(id, Mapper.Map<Client>(clientMv));
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The client updated successfully", AlertType.Success);
+                    return RedirectToAction("ClientList", "Setup");
+                }
             }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("ClientList", "Setup");
+
 
         }
         public ActionResult DeleteClient(int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.ClientRepository.DeleteClient(id);
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ClientRepository.DeleteClient(id);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The client deleted successfully", AlertType.Success);
+                return RedirectToAction("ClientList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("ClientList", "Setup");
+
         }
 
         //TimedEvents
@@ -1312,20 +2400,62 @@ namespace POSApp.Controllers
         {
             
             ViewBag.edit = "AddFloor";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(FloorMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Floor floor = Mapper.Map<Floor>(FloorMv);
+                    floor.StoreId = (int)user.StoreId;
+                    _unitOfWork.FloorRepository.AddFloor(floor);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The floor added successfully", AlertType.Success);
+                    return RedirectToAction("FloorList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Floor floor = Mapper.Map<Floor>(FloorMv);
-                floor.StoreId = (int)user.StoreId;
-                _unitOfWork.FloorRepository.AddFloor(floor);
-                _unitOfWork.Complete();
-                return RedirectToAction("FloorList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("FloorList", "Setup");
+
 
         }
         [HttpGet]
@@ -1342,29 +2472,110 @@ namespace POSApp.Controllers
         public ActionResult UpdateFloor(int id, FloorViewModel FloorMv)
         {
             ViewBag.edit = "UpdateFloor";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddFloor", FloorMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Floor floor = Mapper.Map<Floor>(FloorMv);
+                    _unitOfWork.FloorRepository.UpdateFloor(id, floor, (int)user.StoreId);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The floor updated successfully", AlertType.Success);
+                    return RedirectToAction("FloorList", "Setup");
+
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Floor floor = Mapper.Map<Floor>(FloorMv);
-                _unitOfWork.FloorRepository.UpdateFloor(id, floor, (int)user.StoreId);
-                _unitOfWork.Complete();
-                return RedirectToAction("FloorList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
 
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("FloorList", "Setup");
+
 
         }
         public ActionResult DeleteFloor(int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.FloorRepository.DeleteFloor(id,(int)user.StoreId);
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.FloorRepository.DeleteFloor(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The floor deleted successfully", AlertType.Success);
+                return RedirectToAction("FloorList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("FloorList", "Setup");
+
         }
 
         //DineTale
@@ -1390,22 +2601,63 @@ namespace POSApp.Controllers
         public ActionResult AddDineTable(DineTableViewModel DineTableVm)
         {
             ViewBag.edit = "AddDineTable";
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            if (!ModelState.IsValid)
+            try
             {
-                DineTableVm.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int) user.StoreId)
-                    .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.FloorNumber}).AsEnumerable();
-                return View(DineTableVm);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    DineTableVm.StoreId = (int)user.StoreId;
+                    DineTable DineTable = Mapper.Map<DineTable>(DineTableVm);
+                    _unitOfWork.DineTableRepository.AddDineTable(DineTable);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The dine table added successfully", AlertType.Success);
+                    return RedirectToAction("DineTableList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                DineTableVm.StoreId = (int)user.StoreId;
-                DineTable DineTable = Mapper.Map<DineTable>(DineTableVm);
-                _unitOfWork.DineTableRepository.AddDineTable(DineTable);
-                _unitOfWork.Complete();
-                return RedirectToAction("DineTableList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("DineTableList", "Setup");
+
+
 
         }
 
@@ -1424,27 +2676,111 @@ namespace POSApp.Controllers
         public ActionResult UpdateDineTable(int id, DineTableViewModel DineTableVm,int storeId)
         {
             ViewBag.edit = "UpdateDineTable";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddDineTable", DineTableVm);
+                if (!ModelState.IsValid)
+                {
+
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    DineTable DineTable = Mapper.Map<DineTable>(DineTableVm);
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    _unitOfWork.DineTableRepository.UpdateDineTable(id, DineTable, Convert.ToInt32(user.StoreId));
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The dine table updated successfully", AlertType.Success);
+                    return RedirectToAction("DineTableList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                DineTable DineTable = Mapper.Map<DineTable>(DineTableVm);
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                _unitOfWork.DineTableRepository.UpdateDineTable(id, DineTable, Convert.ToInt32(user.StoreId));
-                _unitOfWork.Complete();
-                return RedirectToAction("DineTableList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("DineTableList", "Setup");
+
+
         }
         public ActionResult DeleteDineTable(int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.DineTableRepository.DeleteDineTable(id,(int)user.StoreId);
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.DineTableRepository.DeleteDineTable(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The dine table deleted successfully", AlertType.Success);
+                return RedirectToAction("DineTableList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("DineTableList", "Setup");
+
+
         }
         public JsonResult GetDepartmentDdl()
         {
@@ -1726,7 +3062,7 @@ namespace POSApp.Controllers
                     Shift.StoreId = Convert.ToInt32(user.StoreId);
                     _unitOfWork.ShiftRepository.AddShift(Shift);
                     _unitOfWork.Complete();
-                    TempData["Alert"]= new AlertModel("The advertisement added successfully", AlertType.Success);
+                    TempData["Alert"]= new AlertModel("The Shift added successfully", AlertType.Success);
                     return RedirectToAction("ShiftList", "Setup");
                     
                 }
@@ -1778,28 +3114,92 @@ namespace POSApp.Controllers
         public ActionResult UpdateShift(int id, ShiftViewModel ShiftMv)
         {
             ViewBag.edit = "UpdateShift";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddShift", ShiftMv);
+                if (!ModelState.IsValid)
+                {
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Shift Shift = Mapper.Map<Shift>(ShiftMv);
+                    _unitOfWork.ShiftRepository.UpdateShift(id, Shift, (int)user.StoreId);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The Shift Updated successfully", AlertType.Success);
+                    return RedirectToAction("ShiftList", "Setup");
+
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+
+            }
+            return RedirectToAction("ShiftList", "Setup");
+
+
+        }
+
+        public ActionResult DeleteShift(int id)
+        {
+            try
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                Shift Shift = Mapper.Map<Shift>(ShiftMv);
-                _unitOfWork.ShiftRepository.UpdateShift(id, Shift, (int)user.StoreId);
+                _unitOfWork.ShiftRepository.DeleteShift(id, (int) user.StoreId);
                 _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Shift Deleted successfully", AlertType.Success);
                 return RedirectToAction("ShiftList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] =
+                            new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage,
+                                AlertType.Error);
+
+                    }
+                }
+
 
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
 
-        }
-        public ActionResult DeleteShift(int id)
-        {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.ShiftRepository.DeleteShift(id, (int)user.StoreId);
-            _unitOfWork.Complete();
+               
+
+            }
             return RedirectToAction("ShiftList", "Setup");
         }
 

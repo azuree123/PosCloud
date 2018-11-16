@@ -1,10 +1,16 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.CustomerModelView>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.ViewModels.CustomerModelView>
 
 @{
     ViewBag.Title = "CustomerList";
-}
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 
-    @*<header class="page-header">
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
+@*<header class="page-header">
         <h2>Customers</h2>
 
         <div class="right-wrapper pull-right">
@@ -22,7 +28,7 @@
         </div>
     </header>*@
 
-    <!-- start: page -->
+<!-- start: page -->
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
@@ -55,35 +61,35 @@
 
     </div>
 </div>
-    <section class="panel">
-        <header class="panel-heading">
-            <div class="row">
-                <div class="col-md-12">
-   
-                   
-                        <div class="" id="header-flex">
-                            <h3 class="wb-color" style="flex-grow: 8"><b>Customers</b></h3>
-  
-   
-                            <a href="@Url.Action("AddCustomer", "Setup")" class="modalShow" style="flex-grow: 0.2" >
-                                <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Customer</button>
+<section class="panel">
+    <header class="panel-heading">
+        <div class="row">
+            <div class="col-md-12">
 
-                            </a>
-                            <a href="@Url.Action("CustomerExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
-                                <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
-                            </a>
+                <div class="" id="header-flex">
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Customers</b></h3>
 
-                 
-                        </div>
-               
+
+                    <a href="@Url.Action("AddCustomer", "Setup")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Customer</button>
+
+                    </a>
+                    <a href="@Url.Action("CustomerExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+                    </a>
+
+
                 </div>
-            </div>
 
-            <h2 class="panel-title"></h2>
-        </header>
-        <div class="panel-body">
-             <div class="table-responsive">
+            </div>
+        </div>
+
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
@@ -96,7 +102,7 @@
 
                     </tr>
                 </thead>
-                <tbody >
+                <tbody>
                     @{ int i = 1;}
                     @foreach (var cus in Model)
                     {
@@ -109,18 +115,18 @@
                             <td class="center">
                                 <div class="btn-group">
 
-                                @Html.ActionLink(" ", "UpdateCustomer", "Setup", new { id = cus.Id, storeId = cus.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteCustomer", "Setup", new { id = cus.Id, storeId = cus.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    @Html.ActionLink(" ", "UpdateCustomer", "Setup", new { id = cus.Id, storeId = cus.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "DeleteCustomer", "Setup", new { id = cus.Id, storeId = cus.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                                 </div>
                             </td>
                         </tr>
                     }
-                  
+
                 </tbody>
             </table>
-                 </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
 

@@ -1,9 +1,15 @@
-﻿@model IEnumerable<POSApp.Core.Models.Employee>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.Models.Employee>
 
 @{
     ViewBag.Title = "EmployeeList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
 
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
     @*<header class="page-header">
         <h2>Employees</h2>
 

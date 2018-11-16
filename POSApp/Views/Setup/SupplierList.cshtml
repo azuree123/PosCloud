@@ -1,10 +1,15 @@
 ﻿
+@using POSApp.Core.Models
 @model IEnumerable<POSApp.Core.ViewModels.SupplierModelView>
 
 @{
     ViewBag.Title = "SupplierList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
-
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
     @*<header class="page-header">
         <h2>Suppliers</h2>
 
