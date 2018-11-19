@@ -18,16 +18,21 @@ namespace POSApp.Core.ViewModels
         [DefaultValue(0)]
         public double Value { get; set; }
         [DataType(DataType.Date)]
+        [DisplayName("From Date")]
         public DateTime FromDate { get; set; }
         [DataType(DataType.Date)]
+        [DisplayName("To Date")]
         public DateTime ToDate { get; set; }
         [DataType(DataType.Time)]
+        [DisplayName("From Hour")]
         public TimeSpan FromHour { get; set; }
         [DataType(DataType.Time)]
+        [DisplayName("To Hour")]
         public TimeSpan ToHour { get; set; }
         [DefaultValue(0)]
         public string[] Days { get; set; }
         [DefaultValue(false)]
+        [DisplayName("Is Active")]
         public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }

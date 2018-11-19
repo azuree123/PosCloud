@@ -13,12 +13,15 @@ namespace POSApp.Core.ViewModels
         public string Name { get; set; }
         public string Email { get; set; }
         public string Gender { get; set; }
+        [DisplayName("Mobile Number")]
         public string MobileNumber { get; set; }
         public double Salary { get; set; }
         public double Commission { get; set; }
         [DisplayName("Department")]
         public int DepartmentId { get; set; }
         [DataType(DataType.Date)]
+        [DisplayName("Join Date")]
+       
         public DateTime JoinDate { get; set; }
         public bool Booking { get; set; }
         public DateTime? CreatedOn { get; set; }

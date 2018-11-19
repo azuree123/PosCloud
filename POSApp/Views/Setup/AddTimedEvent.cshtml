@@ -71,22 +71,26 @@
                                         <input type="hidden" id="date1" value="@Model.FromDate" />
                                         <input type="hidden" id="date2" value="@Model.ToDate" />
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-3">
+                                        </div>
+                                    </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
                                             @Html.LabelFor(model => model.FromHour, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.FromHour, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.FromHour, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             @Html.LabelFor(model => model.ToHour, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.ToHour, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.ToHour, "", new { @class = "text-danger" })
@@ -107,7 +111,7 @@
 
                                     }
                                     <input type="hidden" id="daysDispaly" value="@Model.DaysDisplay"/>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         @Html.LabelFor(model => model.Days, htmlAttributes: new { @class = "control-label" })
                                         @Html.DropDownListFor(model => model.Days, Ddl, new { @class = "form-control", @required = "true", @multiple = "multiple" })
                                         @Html.ValidationMessageFor(model => model.Days, "", new { @class = "text-danger" })
