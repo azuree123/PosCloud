@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace POSApp.Core.ViewModels
 {
@@ -8,8 +10,11 @@ namespace POSApp.Core.ViewModels
         public int? StoreId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+        [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }
+        [DisplayName("Contact Person")]
         public string ContactPerson { get; set; }
+        [DisplayName("CP Mobile Number")]
         public string CpMobileNumber { get; set; }
         public string Address { get; set; }
         //public string Company { get; set; }

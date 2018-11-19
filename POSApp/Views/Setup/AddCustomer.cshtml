@@ -5,6 +5,8 @@
     Layout = null;
 }
 
+
+
 <div id="ordine" class="modal fade" role="dialog">
     @{ string s = ViewBag.edit;}
 
@@ -69,10 +71,13 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                            @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control unstyled" } })
+                                            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
                                         </div>
+
+
+                                
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
@@ -88,10 +93,11 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+                                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
+                                            @Html.TextAreaFor(model => model.Address, new {  @class = "form-control" , @rows = "3" })
+                                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                         </div>
+
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label" })
                                             @Html.TextAreaFor(model => model.Note, new { @class = "form-control", @cols = "8", @rows = "3" })

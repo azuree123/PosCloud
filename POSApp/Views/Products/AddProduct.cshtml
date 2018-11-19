@@ -119,7 +119,7 @@
                                 </div>
                                         <div class="row">
                                             <div class="form-group">
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label" })
                                                     @Html.DropDownListFor(model => model.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
                                                     @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
@@ -136,23 +136,23 @@
                                 
                                 <div class="row">
                                     <div class="form-group">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             @Html.Label("Inventory Item", htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.InventoryItem, new { htmlAttributes = new { @class = "" } })
                                             @Html.ValidationMessageFor(model => model.InventoryItem, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             @Html.Label("Purchase Item", htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.PurchaseItem, new { htmlAttributes = new { @class = "" } })
                                             @Html.ValidationMessageFor(model => model.PurchaseItem, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             @Html.Label("FixedAsset Item", htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.FixedAssetItem, new { htmlAttributes = new { @class = "" } })
                                             @Html.ValidationMessageFor(model => model.FixedAssetItem, "", new { @class = "text-danger" })
                                         </div>
                                         
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             @Html.Label("Is Taxable?", htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "" } })
                                             @Html.ValidationMessageFor(model => model.IsTaxable, "", new { @class = "text-danger" })

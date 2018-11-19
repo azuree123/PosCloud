@@ -85,7 +85,7 @@
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.IsTaxable, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.IsTaxable, new {htmlAttributes = new {@class = "form-control"} })
+                                            @Html.EditorFor(model => model.IsTaxable, new {htmlAttributes = new {@class = ""} })
                                             @Html.ValidationMessageFor(model => model.IsTaxable, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
