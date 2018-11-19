@@ -1,9 +1,14 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.TillOperationListModelView>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.ViewModels.TillOperationListModelView>
 
 @{
     ViewBag.Title = "TillOperationList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
-
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
 @*<header class="page-header">
         <h2>Customers</h2>
 
@@ -26,7 +31,7 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li class="current"><a href="@Url.Action("CustomerList","Setup")">Customer</a></li>
+            <li class=""><a href="@Url.Action("CustomerList","Setup")">Customer</a></li>
             <li><a href="@Url.Action("EmployeeList","Setup")">Employee</a></li>
 
             <li><a href="@Url.Action("SupplierList","Setup")">Supplier</a></li>
@@ -63,7 +68,7 @@
 
 
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>TillOperations</b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Till Operations</b></h3>
 
 
                     <a href="@Url.Action("AddTillOperation", "Setup")" class="modalShow" style="flex-grow: 0.2">
@@ -73,7 +78,7 @@
                     @*<a href="@Url.Action("CustomerExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
                         <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
-                    </a*@>
+                    </a*@
 
 
                 </div>
@@ -93,7 +98,6 @@
                         <th>OpeningAmount</th>
                         <th>SystemAmount</th>
                         <th>PhysicalAmount</th>
-
                         <th>TillOperationType</th>
                         <th>Shift</th>
                         <th>Status</th>

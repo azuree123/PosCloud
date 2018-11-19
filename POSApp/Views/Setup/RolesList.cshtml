@@ -1,8 +1,13 @@
-﻿
+﻿@using POSApp.Core.Models
+
 @{
     ViewBag.Title = "RolesList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
-
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
 @*<header class="page-header">
         <h2>PurchaseOrders</h2>
 
@@ -87,7 +92,7 @@
                         <td class="center">
                             <div class="btn-group">
 
-                                @Html.ActionLink(" ", "AddRole", "Setup", new { id = @role.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                @Html.ActionLink(" ", "AddRole", "Setup", new { id = @role.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit ", data_toggle = "tooltip", title = "Edit !" })
                                 @Html.ActionLink(" ", "DeleteRole", "Setup", new { id = @role.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                             </div>
                         </td>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -54,30 +55,113 @@ namespace POSApp.Controllers
         {
            
             ViewBag.edit = "UpdateUser";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(userMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    ApplicationUser discount = Mapper.Map<ApplicationUser>(userMv);
+                    _unitOfWork.UserRepository.UpdateUser(id, discount, (int)user.StoreId);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The user updated successfully", AlertType.Success);
+                    return RedirectToAction("UserList", "User");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                ApplicationUser discount = Mapper.Map<ApplicationUser>(userMv);
-                _unitOfWork.UserRepository.UpdateUser(id, discount, (int)user.StoreId);
-                _unitOfWork.Complete();
-                return RedirectToAction("UserList", "User");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("UserList", "User");
+
+
 
         }
         public ActionResult DeleteUser(string id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            string[] roles = UserManager.GetRoles(id).ToArray();
-            UserManager.RemoveFromRoles(id, roles);
-            _unitOfWork.UserRepository.DeleteUser(id, (int)user.StoreId);
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                string[] roles = UserManager.GetRoles(id).ToArray();
+                UserManager.RemoveFromRoles(id, roles);
+                _unitOfWork.UserRepository.DeleteUser(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The user deleted successfully", AlertType.Success);
+                return RedirectToAction("UserList", "User");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("UserList", "User");
+
+
         }
         public ActionResult SecurityObjectList()
         {
@@ -93,17 +177,60 @@ namespace POSApp.Controllers
         public ActionResult AddSecurityObject(SecurityObjectViewModel securityObjectMv)
         {
             ViewBag.edit = "AddSecurityObject";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(securityObjectMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    SecurityObject securityObject = Mapper.Map<SecurityObject>(securityObjectMv);
+                    _unitOfWork.SecurityObjectRepository.AddSecurityObject(securityObject);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The security object added successfully", AlertType.Success);
+                    return RedirectToAction("SecurityObjectList", "User");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-               SecurityObject securityObject = Mapper.Map<SecurityObject>(securityObjectMv);
-                _unitOfWork.SecurityObjectRepository.AddSecurityObject(securityObject);
-                _unitOfWork.Complete();
-                return RedirectToAction("SecurityObjectList", "User");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("SecurityObjectList", "User");
+
+
 
         }
         public ActionResult UpdateSecurityObject(int id)
@@ -116,24 +243,105 @@ namespace POSApp.Controllers
         public ActionResult UpdateSecurityObject(int id,SecurityObjectViewModel securityObjectMv)
         {
             ViewBag.edit = "UpdateSecurityObject";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddSecurityObject", securityObjectMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    SecurityObject securityObject = Mapper.Map<SecurityObject>(securityObjectMv);
+                    _unitOfWork.SecurityObjectRepository.UpdateSecurityObject(id, securityObject);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The security object updated successfully", AlertType.Success);
+                    return RedirectToAction("SecurityObjectList", "User");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-               SecurityObject securityObject = Mapper.Map<SecurityObject>(securityObjectMv);
-                _unitOfWork.SecurityObjectRepository.UpdateSecurityObject(id, securityObject);
-                _unitOfWork.Complete();
-                return RedirectToAction("SecurityObjectList", "User");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("SecurityObjectList", "User");
+
 
         }
         public ActionResult DeleteSecurityObject(int id)
         {
-            _unitOfWork.SecurityObjectRepository.DeleteSecurityObject(id);
-            _unitOfWork.Complete();
-            return RedirectToAction("SecurityObjectList", "User");
+            try
+            {
+                _unitOfWork.SecurityObjectRepository.DeleteSecurityObject(id);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The security object deleted successfully", AlertType.Success);
+                return RedirectToAction("SecurityObjectList", "User");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("DineTableList", "Setup");
+
         }
     }
 }

@@ -2225,66 +2225,104 @@ namespace POSApp.Controllers
         public ActionResult AddTimedEvent(TimedEventViewModel timeeventVm)
         {
             ViewBag.edit = "AddTimedEvent";
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            if (!ModelState.IsValid)
+            try
             {
-                timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
-                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-                timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                    .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
-                timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
-                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-                return View(timeeventVm);
-            }
-            else
-            {
-               
-                TimedEvent time = Mapper.Map<TimedEvent>(timeeventVm);
-              
-                foreach (var timeeventVmBranch in timeeventVm.Branches)
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
                 {
 
-                    var data = time;
-                    data.StoreId = timeeventVmBranch;
-                    _unitOfWork.TimedEventRepository.AddTimedEvent(data);
-                    _unitOfWork.Complete();
-                    if (timeeventVm.Categories!=null)
+                    TimedEvent time = Mapper.Map<TimedEvent>(timeeventVm);
+
+                    foreach (var timeeventVmBranch in timeeventVm.Branches)
                     {
 
-                        foreach (var timeeventVmCategory in timeeventVm.Categories)
+                        var data = time;
+                        data.StoreId = timeeventVmBranch;
+                        _unitOfWork.TimedEventRepository.AddTimedEvent(data);
+                        _unitOfWork.Complete();
+                        if (timeeventVm.Categories != null)
                         {
-                            string[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a=>a.StoreId==timeeventVmBranch)
-                                .Select(a => a.ProductCode).ToArray();
-                            foreach (var product in products)
+
+                            foreach (var timeeventVmCategory in timeeventVm.Categories)
+                            {
+                                string[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a => a.StoreId == timeeventVmBranch)
+                                    .Select(a => a.ProductCode).ToArray();
+                                foreach (var product in products)
+                                {
+                                    _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
+                                    {
+                                        ProductCode = product
+                                        ,
+                                        StoreId = timeeventVmBranch
+                                        ,
+                                        TimedEventId = data.Id
+                                    });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (var product in timeeventVm.Products)
                             {
                                 _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
                                 {
                                     ProductCode = product
-                                    ,StoreId = timeeventVmBranch
-                                    ,TimedEventId = data.Id
+                                    ,
+                                    StoreId = timeeventVmBranch
+                                   ,
+                                    TimedEventId = data.Id
                                 });
                             }
                         }
+                        _unitOfWork.Complete();
+                    }
+                    TempData["Alert"] = new AlertModel("The timed event added successfully", AlertType.Success);
+                    return RedirectToAction("TimedEventList", "Setup");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
                     }
                     else
                     {
-                        foreach (var product in timeeventVm.Products)
-                        {
-                            _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
-                            {
-                                ProductCode = product
-                                ,
-                                StoreId = timeeventVmBranch
-                               ,
-                                TimedEventId = data.Id
-                            });
-                        }
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
-                    _unitOfWork.Complete();
-                }
-                return RedirectToAction("TimedEventList", "Setup");
             }
+
+            return RedirectToAction("TimedEventList", "Setup");
+
 
         }
         [HttpGet]
@@ -2309,73 +2347,149 @@ namespace POSApp.Controllers
         public ActionResult UpdateTimedEvent(int id, TimedEventViewModel timeeventVm)
         {
             ViewBag.edit = "UpdateTimedEvent";
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            if (!ModelState.IsValid)
+            try
             {
-                timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
-                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-                timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                    .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
-                timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
-                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-                return View("AddTimedEvent", timeeventVm);
-            }
-            else
-            {
-               
-                TimedEvent location = Mapper.Map<TimedEvent>(timeeventVm);
-                _unitOfWork.TimedEventRepository.UpdateTimedEvent(id, location, (int)user.StoreId);
-                _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id,location.StoreId);
-                _unitOfWork.Complete();
-                if (timeeventVm.Categories != null)
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
                 {
 
-                    foreach (var timeeventVmCategory in timeeventVm.Categories)
+                    TimedEvent location = Mapper.Map<TimedEvent>(timeeventVm);
+                    _unitOfWork.TimedEventRepository.UpdateTimedEvent(id, location, (int)user.StoreId);
+                    _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id, location.StoreId);
+                    _unitOfWork.Complete();
+                    if (timeeventVm.Categories != null)
                     {
-                        string[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a => a.StoreId == location.StoreId)
-                            .Select(a => a.ProductCode).ToArray();
-                        foreach (var product in products)
+
+                        foreach (var timeeventVmCategory in timeeventVm.Categories)
+                        {
+                            string[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a => a.StoreId == location.StoreId)
+                                .Select(a => a.ProductCode).ToArray();
+                            foreach (var product in products)
+                            {
+                                _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
+                                {
+                                    ProductCode = product
+                                    ,
+                                    StoreId = location.StoreId
+                                    ,
+
+                                    TimedEventId = location.Id
+                                });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var product in timeeventVm.Products)
                         {
                             _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
                             {
                                 ProductCode = product
                                 ,
                                 StoreId = location.StoreId
-                                ,
-                               
+                                    ,
                                 TimedEventId = location.Id
                             });
                         }
                     }
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The timed event updated successfully", AlertType.Success);
+                    return RedirectToAction("TimedEventList", "Setup");
                 }
-                else
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
                 {
-                    foreach (var product in timeeventVm.Products)
+                    foreach (var validationError in entityValidationError.ValidationErrors)
                     {
-                        _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
-                        {
-                            ProductCode = product
-                            ,
-                            StoreId = location.StoreId
-                                ,
-                           TimedEventId = location.Id
-                        });
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
                     }
                 }
-                _unitOfWork.Complete();
-                return RedirectToAction("TimedEventList", "Setup");
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("TimedEventList", "Setup");
+
+
 
         }
         
         public ActionResult DeleteTimedEvent(int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.TimedEventRepository.DeleteTimedEvent(id, (int)user.StoreId);
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TimedEventRepository.DeleteTimedEvent(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The timed event deleted successfully", AlertType.Success);
+                return RedirectToAction("TimedEventList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("TimedEventList", "Setup");
+
         }
 
         //Floor
@@ -2870,31 +2984,76 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddRole(RoleViewModel role)
         {
-            if (!ModelState.IsValid)
+            try
             {
-            return View(role);
-            }
-            else
-            {
-                if (RoleManager.RoleExists(role.Name))
+                if (!ModelState.IsValid)
                 {
-                    ModelState.AddModelError("Role Already Exists","");
-                    return View(role);
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
                 }
                 else
                 {
-                    var userId = this.HttpContext.User.Identity.GetUserId();
-                    var user = UserManager.FindById(userId);
-
-                    RoleManager.Create(new ApplicationRole
+                    if (RoleManager.RoleExists(role.Name))
                     {
-                        Name = role.Name,StoreId = user.StoreId,CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now,
-                        CreatedById = userId,UpdatedById = userId
-                    });
+                        ModelState.AddModelError("Role Already Exists", "");
+                        return View(role);
+                    }
+                    else
+                    {
+                        var userId = this.HttpContext.User.Identity.GetUserId();
+                        var user = UserManager.FindById(userId);
+
+                        RoleManager.Create(new ApplicationRole
+                        {
+                            Name = role.Name,
+                            StoreId = user.StoreId,
+                            CreatedOn = DateTime.Now,
+                            UpdatedOn = DateTime.Now,
+                            CreatedById = userId,
+                            UpdatedById = userId
+                        });
+                    }
+                    TempData["Alert"] = new AlertModel("The role added successfully", AlertType.Success);
+                    return RedirectToAction("RolesList");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
                 }
 
-                return RedirectToAction("RolesList");
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("RolesList", "Setup");
+
         }
         public ActionResult UpdateRole(string id)
         {
@@ -2906,44 +3065,125 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateRole(string id,RoleViewModel role)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddRole",role);
-            }
-            else
-            {
-                if (RoleManager.RoleExists(role.Name))
+                if (!ModelState.IsValid)
                 {
-                    ModelState.AddModelError("Role Already Exists", "");
-                    return View("AddRole",role);
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
                 }
                 else
                 {
-                    var userId = this.HttpContext.User.Identity.GetUserId();
-                    var user = UserManager.FindById(userId);
-
-                    RoleManager.Update(new ApplicationRole
+                    if (RoleManager.RoleExists(role.Name))
                     {
-                        Id = id,
-                        Name = role.Name,
-                        StoreId = user.StoreId,
-                        CreatedOn = Convert.ToDateTime(role.CreatedOn),
-                        CreatedById = role.CreatedBy,
-                        UpdatedOn = DateTime.Now,
-                        UpdatedById = userId
-                    });
+                        ModelState.AddModelError("Role Already Exists", "");
+                        return View("AddRole", role);
+                    }
+                    else
+                    {
+                        var userId = this.HttpContext.User.Identity.GetUserId();
+                        var user = UserManager.FindById(userId);
+
+                        RoleManager.Update(new ApplicationRole
+                        {
+                            Id = id,
+                            Name = role.Name,
+                            StoreId = user.StoreId,
+                            CreatedOn = Convert.ToDateTime(role.CreatedOn),
+                            CreatedById = role.CreatedBy,
+                            UpdatedOn = DateTime.Now,
+                            UpdatedById = userId
+                        });
+                    }
+                    TempData["Alert"] = new AlertModel("The role updated successfully", AlertType.Success);
+                    return RedirectToAction("RolesList");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
                 }
 
-                return RedirectToAction("RolesList");
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("RolesList", "Setup");
+
         }
 
         public ActionResult DeleteRole(string id)
         {
-            var userId = this.HttpContext.User.Identity.GetUserId();
-            var user = UserManager.FindById(userId);
-            RoleManager.Delete(RoleManager.Roles.FirstOrDefault(a=>a.Id==id && a.StoreId==(int)user.StoreId));
-            return RedirectToAction("RolesList");
+            try
+            {
+                var userId = this.HttpContext.User.Identity.GetUserId();
+                var user = UserManager.FindById(userId);
+                RoleManager.Delete(RoleManager.Roles.FirstOrDefault(a => a.Id == id && a.StoreId == (int)user.StoreId));
+                TempData["Alert"] = new AlertModel("The role deleted successfully", AlertType.Success);
+                return RedirectToAction("RolesList");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("RolesList", "Setup");
+
+
         }
 
         //POSTerminal
@@ -2969,22 +3209,62 @@ namespace POSApp.Controllers
         public ActionResult AddPOSTerminal(POSTerminalViewModel POSTerminalVm)
         {
             ViewBag.edit = "AddPOSTerminal";
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            if (!ModelState.IsValid)
+            try
             {
-                POSTerminalVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
-                    .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-                return View(POSTerminalVm);
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    POSTerminalVm.StoreId = (int)user.StoreId;
+                    POSTerminal POSTerminal = Mapper.Map<POSTerminal>(POSTerminalVm);
+                    _unitOfWork.POSTerminalRepository.AddPOSTerminal(POSTerminal);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The posterminal added successfully", AlertType.Success);
+                    return RedirectToAction("POSTerminalList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                POSTerminalVm.StoreId = (int)user.StoreId;
-                POSTerminal POSTerminal = Mapper.Map<POSTerminal>(POSTerminalVm);
-                _unitOfWork.POSTerminalRepository.AddPOSTerminal(POSTerminal);
-                _unitOfWork.Complete();
-                return RedirectToAction("POSTerminalList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("POSTerminalList", "Setup");
+
 
         }
 
@@ -3003,27 +3283,109 @@ namespace POSApp.Controllers
         public ActionResult UpdatePOSTerminal(int id, POSTerminalViewModel POSTerminalVm, int storeId)
         {
             ViewBag.edit = "UpdatePOSTerminal";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddPOSTerminal", POSTerminalVm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    POSTerminal POSTerminal = Mapper.Map<POSTerminal>(POSTerminalVm);
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    _unitOfWork.POSTerminalRepository.UpdatePOSTerminal(id, POSTerminal, Convert.ToInt32(user.StoreId));
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The posterminal updated successfully", AlertType.Success);
+                    return RedirectToAction("POSTerminalList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                POSTerminal POSTerminal = Mapper.Map<POSTerminal>(POSTerminalVm);
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                _unitOfWork.POSTerminalRepository.UpdatePOSTerminal(id, POSTerminal, Convert.ToInt32(user.StoreId));
-                _unitOfWork.Complete();
-                return RedirectToAction("POSTerminalList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("POSTerminalList", "Setup");
+
         }
         public ActionResult DeletePOSTerminal(int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.POSTerminalRepository.DeletePOSTerminal(id, (int)user.StoreId);
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.POSTerminalRepository.DeletePOSTerminal(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The posterminal deleted successfully", AlertType.Success);
+                return RedirectToAction("POSTerminalList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("POSTerminalList", "Setup");
+
+
         }
 
         //Shift
@@ -3070,34 +3432,39 @@ namespace POSApp.Controllers
             }
             catch (DbEntityValidationException ex)
             {
-               
-                    foreach (var entityValidationError in ex.EntityValidationErrors)
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
                     {
-                        foreach (var validationError in entityValidationError.ValidationErrors)
-                        {
-                TempData["Alert"] = new AlertModel(validationError.PropertyName+" Error :"+validationError.ErrorMessage, AlertType.Error);
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
 
                     }
                 }
-                
+
 
             }
             catch (Exception e)
             {
                 TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
-                if (e.InnerException!=null)
+                if (e.InnerException != null)
                     if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
                     {
-                TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
                     }
+                    else
+                    {
 
-                
-                
-               
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
             }
-            
 
             return RedirectToAction("ShiftList", "Setup");
+
 
         }
         [HttpGet]
@@ -3152,10 +3519,19 @@ namespace POSApp.Controllers
                 if (e.InnerException != null)
                     if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
                     {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
-
             }
+
             return RedirectToAction("ShiftList", "Setup");
 
 
@@ -3179,9 +3555,7 @@ namespace POSApp.Controllers
                 {
                     foreach (var validationError in entityValidationError.ValidationErrors)
                     {
-                        TempData["Alert"] =
-                            new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage,
-                                AlertType.Error);
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
 
                     }
                 }
@@ -3194,11 +3568,17 @@ namespace POSApp.Controllers
                 if (e.InnerException != null)
                     if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
                     {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
-
-               
-
             }
             return RedirectToAction("ShiftList", "Setup");
         }
@@ -3226,10 +3606,14 @@ namespace POSApp.Controllers
         public ActionResult AddTillOperation(TillOperationViewModel tillMv)
         {
             ViewBag.edit = "AddTillOperation";
-            
+            try
+            {
                 if (!ModelState.IsValid)
                 {
-                    return View(tillMv);
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
                 }
                 else
                 {
@@ -3239,10 +3623,47 @@ namespace POSApp.Controllers
                     to.StoreId = (int)user.StoreId;
                     _unitOfWork.TillOperationRepository.AddTillOperation(to);
                     _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The tillOperation updated successfully", AlertType.Success);
                     return RedirectToAction("TillOperationList", "Setup");
                 }
-                
             }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("TillOperationList", "Setup");
+
+
+        }
         [HttpGet]
         public ActionResult UpdateTillOperation(int id)
         {
@@ -3257,29 +3678,110 @@ namespace POSApp.Controllers
         public ActionResult UpdateTillOperation(int id,TillOperationViewModel tillVm)
         {
             ViewBag.edit = "UpdateShift";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddTillOperation",tillVm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    TillOperation to = Mapper.Map<TillOperation>(tillVm);
+                    _unitOfWork.TillOperationRepository.UpdateTillOperations(id, (int)user.StoreId, to);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The tilloperation updated successfully", AlertType.Success);
+                    return RedirectToAction("TillOperationList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                TillOperation to = Mapper.Map<TillOperation>(tillVm);
-                _unitOfWork.TillOperationRepository.UpdateTillOperations(id, (int)user.StoreId,to);
-                _unitOfWork.Complete();
-                return RedirectToAction("TillOperationList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
-            
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("TillOperationList", "Setup");
+
+
         }
 
         public ActionResult DeleteTillOperation(int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.TillOperationRepository.DeleteTillOperations(id,(int)user.StoreId);
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TillOperationRepository.DeleteTillOperations(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The tilloperation updated successfully", AlertType.Success);
+                return RedirectToAction("TillOperationList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("TillOperationList", "Setup");
+
         }
 
     }

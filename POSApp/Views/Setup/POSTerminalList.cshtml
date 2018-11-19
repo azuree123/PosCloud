@@ -1,9 +1,14 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.POSTerminalListModelView>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.ViewModels.POSTerminalListModelView>
 
 @{
     ViewBag.Title = "POSTerminalList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
-
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
 @*<header class="page-header">
         <h2>Cities</h2>
 
