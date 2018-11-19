@@ -78,7 +78,7 @@
                     <div class="tab-content col-md-8 col-xs-12 col-md-offset-2  p-xlg">
                         <div class="row mb-xlg">
                             <div class="col-md-12">
-                                <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:17px"><i class="fa fa-save  pr-md"></i> Save</button>
+                                <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:17px" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> Save</button>
                             </div>
                         </div>
                         <div id="basicdata" class="tab-pane active">
@@ -183,7 +183,27 @@
 <div id="ModalData"></div>
 @section scripts
 {
+
     <script>
+        var tablefill = false;
+        function CheckData() {
+           
+            var rowCount = $('#datatable-default >tbody >tr').length;
+            if (tablefill && rowCount >= 1) {
+               
+                return true;
+            }
+            new PNotify({
+                title: 'Modifier Options Cannot Be Empty',
+                text:  'Please Enter Atleast 1 Modifier Option.',
+                type: 'error'
+            });
+            $('#modifierOption').click();
+            return false;
+        }
+        function ChangeTableFill() {
+            tablefill = true;
+        }
 
         $('a.modalShow').on('click', function () {
             $.ajax({

@@ -10,7 +10,7 @@
     @using (Ajax.BeginForm("AddTransactionItem", "PurchaseOrders", new AjaxOptions
     {
         HttpMethod = "POST",
-        UpdateTargetId = "AjaxUpdate",OnSuccess = "$('#ordine').modal('hide');"
+        UpdateTargetId = "AjaxUpdate",OnSuccess = "$('#ordine').modal('hide');ChangeTableFill();"
     }, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
