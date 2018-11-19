@@ -1,8 +1,13 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.SecurityObjectViewModel>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.ViewModels.SecurityObjectViewModel>
 @{
     ViewBag.Title = "SecurityObjectList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
-
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
 
 <!-- start: page -->
 <div class="row mt-md">
@@ -10,7 +15,7 @@
         <ul class="snip1189">
             <li><a href="@Url.Action("RolesList","Setup")">Roles</a></li>
             <li ><a href="@Url.Action("UserList", "User")">Users</a></li>
-            <li class="current"><a href="@Url.Action("SecurityObjectList", "User")">SecurityObjects</a></li>
+            <li class="current"><a href="@Url.Action("SecurityObjectList", "User")">Security Objects</a></li>
 
 
         </ul>
@@ -23,7 +28,7 @@
         <div class="row">
 
             <div class="" id="header-flex">
-                <h3 class="wb-color" style="flex-grow: 8"><b>SecurityObjects</b></h3>
+                <h3 class="wb-color" style="flex-grow: 8"><b>Security Objects</b></h3>
 
               
                 <a href="@Url.Action("AddSecurityObject", "User")" class="modalShow" style="flex-grow: 0.1">
