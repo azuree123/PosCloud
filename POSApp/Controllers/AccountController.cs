@@ -8,6 +8,7 @@ using Microsoft.Owin.Security;
 using POSApp.Core.Models;
 using POSApp.Models;
 using POSApp;
+using POSApp.Core;
 
 namespace POSApp.Controllers
 {
@@ -16,15 +17,18 @@ namespace POSApp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IUnitOfWork _unitOfWork;
 
-        public AccountController()
+        public AccountController(IUnitOfWork unitOfWork)
         {
+            _unitOfWork = unitOfWork;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,IUnitOfWork unitOfWork )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _unitOfWork = unitOfWork;
         }
 
         public ApplicationSignInManager SignInManager
@@ -151,7 +155,8 @@ namespace POSApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                int storeId = _unitOfWork.StoreRepository.GetStores().Select(a => a.Id).FirstOrDefault();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StoreId = storeId};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

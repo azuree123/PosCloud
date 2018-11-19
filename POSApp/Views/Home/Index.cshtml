@@ -42,12 +42,13 @@
                     <div class="col-md-6">
                         <div class="chart-data-selector" id="salesSelectorWrapper">
                             <h2>
-                                Sales:
+                                Monthly Sales:
                                 <strong>
                                     <select class="form-control" id="salesSelector">
-                                        <option value="Cosmic 1" selected>Cosmic 1</option>
-                                        <option value="Cosmic 2">Cosmic 2</option>
-                                        <option value="Cosmic 3">Cosmic 3</option>
+                                        @foreach (var s in Model.StoreDatas)
+                                        {
+                                            <option value="Cosmic 1" >@s.StoreName</option>
+                                        }
                                     </select>
                                 </strong>
                             </h2>
@@ -118,7 +119,7 @@
                     </div>
                 
                     <div class="col-md-6 ">
-                        <h2 class="panel-title">Bar Chart</h2>
+                        <h2 class="panel-title">Yearly Sales Vs Expenses</h2>
                         <!-- Morris: Bar -->
                         <div class="chart  pt-sm" id="morrisBar" style="height:392px"></div>
                         <script type="text/javascript">

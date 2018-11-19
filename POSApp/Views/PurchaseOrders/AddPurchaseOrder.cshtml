@@ -59,7 +59,7 @@
                             </a>
                                 </li>
                                 <li id="tranInfo">
-                            <a href="#transactionitems" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');" >
+                            <a href="#transactionitems" id="transact" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');" >
                                     Transaction Items
 
                             </a>
@@ -194,11 +194,11 @@
                 return true;
             }
             new PNotify({
-                title: 'Modifier Options Cannot Be Empty',
-                text:  'Please Enter Atleast 1 Modifier Option.',
+                title: 'Transaction Items Cannot Be Empty',
+                text:  'Please Enter Atleast 1 Transaction Item.',
                 type: 'error'
             });
-            $('#modifierOption').click();
+            $('#transact').click();
             return false;
         }
         function ChangeTableFill() {

@@ -72,10 +72,10 @@
                                     <div class="form-group">
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control unstyled" } })
+                                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control unstyled",@required="true" } })
                                             @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
                                         </div>
-
+                                        <input type="hidden" id="birthday_date" value="@Model.Birthday"/>
 
                                 
                                         <div class="col-md-4">
@@ -119,3 +119,15 @@
 </div>
 
 
+
+    <script>
+        $(document).ready(function () {
+            var date = $('#birthday_date').val();
+            if (date !== '1/1/0001 12:00:00 AM' && date!=='') {
+                var displayDate = new Date(date);
+                displayDate.setDate(displayDate.getDate()+1);
+                document.getElementById("@Html.IdFor(a=>a.Birthday)").valueAsDate = displayDate;
+            }
+        });
+
+    </script>

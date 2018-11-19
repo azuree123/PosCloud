@@ -37,6 +37,10 @@ namespace POSApp.Controllers
            
             model.Expenses = _unitOfWork.ExpenseRepository.GetExpenses((int)user.StoreId)
                 .Where(a =>  a.Date == today).Select(a => a.Amount).Sum();
+            model.StoreDatas = _unitOfWork.StoreRepository.GetStores().Select(a => new StoreData
+            {
+                StoreId = a.Id, StoreName = a.Name
+            }).ToList();
             return View(model);
         }
 

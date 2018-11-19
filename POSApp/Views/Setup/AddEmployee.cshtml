@@ -101,6 +101,7 @@
                                             @Html.EditorFor(model => model.JoinDate, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.JoinDate, "", new { @class = "text-danger" })
                                         </div>
+                                        <input type="hidden" id="join_date" value="@Model.JoinDate"/>
                                     </div>
                                 </div>
                             </div>
@@ -116,6 +117,16 @@
     }
     <div id="ModalData1"></div>
     <script>
+        $(document).ready(function () {
+            var date = $('#join_date').val();
+            if (date !== '1/1/0001 12:00:00 AM' && date!=='') {
+                var displayDate = new Date(date);
+                displayDate.setDate(displayDate.getDate()+1);
+                document.getElementById("@Html.IdFor(a=>a.JoinDate)").valueAsDate = displayDate;
+            }
+        });
+
+
         function UpdateDdlDepartment() {
             $.ajax({
                 url: "@Url.Action("GetDepartmentDdl","Setup")",
@@ -128,12 +139,12 @@
                     $.each(result, function (index, value) {
                         $dropdown.append($("<option />").val(value.Id).text(value.Name));
                     });
-                 
+
                 }
             });
-           
+
         }
-       
+
         $('a.modalShow1').on('click', function () {
 
 

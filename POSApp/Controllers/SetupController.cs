@@ -616,7 +616,7 @@ namespace POSApp.Controllers
         public ActionResult AddCustomer()
         {
             ViewBag.edit = "AddCustomer";          
-            return View();
+            return View(new CustomerModelView());
         }
         [HttpPost]
         public ActionResult AddCustomer(CustomerModelView customerMv)
@@ -1441,7 +1441,7 @@ namespace POSApp.Controllers
         public ActionResult AddDiscount()
         {
             ViewBag.edit = "AddDiscount";
-            return View();
+            return View(new DiscountViewModel());
         }
         [HttpPost]
         public ActionResult AddDiscount(DiscountViewModel dicountMv)

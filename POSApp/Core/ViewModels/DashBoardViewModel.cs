@@ -17,6 +17,14 @@ namespace POSApp.Core.ViewModels
         [DefaultValue(0)]
         public decimal Refunds { get; set; }
 
+        public List<StoreData> StoreDatas { get; set; }
+
+    }
+
+    public class StoreData
+    {
+        public int StoreId { get; set; }
+        public string StoreName { get; set; }
     }
 
     public class GraphViewModel

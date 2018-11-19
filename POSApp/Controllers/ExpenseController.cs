@@ -250,21 +250,63 @@ namespace POSApp.Controllers
         public ActionResult AddExpenseHeadPartial(ExpenseHeadViewModel expenseheadvm)
         {
             ViewBag.edit = "AddExpenseHeadPartial";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(expenseheadvm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    expenseheadvm.StoreId = user.StoreId;
+                    ExpenseHead expensehead = Mapper.Map<ExpenseHead>(expenseheadvm);
+                    _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expensehead);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The Expense added successfully", AlertType.Success);
+                    return PartialView("Error");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
 
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                expenseheadvm.StoreId = user.StoreId;
-                ExpenseHead expensehead = Mapper.Map<ExpenseHead>(expenseheadvm);
-                _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expensehead);
-                _unitOfWork.Complete();
-                return PartialView("Error");
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return PartialView("Error");
+
 
         }
 
