@@ -3621,6 +3621,7 @@ namespace POSApp.Controllers
                     var user = UserManager.FindById(userid);
                     TillOperation to = Mapper.Map<TillOperation>(tillMv);
                     to.StoreId = (int)user.StoreId;
+                    to.ApplicationUserId = userid;
                     _unitOfWork.TillOperationRepository.AddTillOperation(to);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The tillOperation updated successfully", AlertType.Success);

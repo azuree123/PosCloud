@@ -1,10 +1,17 @@
-﻿@model IEnumerable<POSApp.Core.Models.ExpenseHead>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.Models.ExpenseHead>
 
 @{
     ViewBag.Title = "ExpenseHeadList";
+
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
-    @*<header class="page-header">
+@*<header class="page-header">
         <h2>ExpenseHeads</h2>
 
         <div class="right-wrapper pull-right">
@@ -22,66 +29,66 @@
         </div>
     </header>*@
 
-    <!-- start: page -->
-    <section class="panel">
-        <header class="panel-heading">
-            <div class="row">
-                <div class="col-md-12">
-              
-                    <div class="" id="header-flex">
-                        <h3 class="wb-color" style="flex-grow: 8"><b>Expense Heads </b></h3>
-                        <a href="@Url.Action("ExpenseHeadExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+<!-- start: page -->
+<section class="panel">
+    <header class="panel-heading">
+        <div class="row">
+            <div class="col-md-12">
 
-                        </a>
-                        <a href="@Url.Action("AddExpenseHead", "Expense")" class="modalShow" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Expense Head</button>
+                <div class="" id="header-flex">
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Expense Heads </b></h3>
+                    <a href="@Url.Action("ExpenseHeadExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
-                        </a>
-                        <a href="@Url.Action("ExpenseList","Expense")" style="flex-grow: 0">
-                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Expense List</button>
+                    </a>
+                    <a href="@Url.Action("AddExpenseHead", "Expense")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Expense Head</button>
 
-                        </a>
-                    </div>
+                    </a>
+                    <a href="@Url.Action("ExpenseList","Expense")" style="flex-grow: 0">
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Expense List</button>
+
+                    </a>
                 </div>
             </div>
+        </div>
 
-            <h2 class="panel-title"></h2>
-        </header>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <table class="table mb-none" style="width:100%" id="datatable-default">
-                    <thead>
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Details</th>
+                        <th>Action</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 1;}
+                    @foreach (var expenseHead in Model)
+                    {
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Details</th>
-                            <th>Action</th>
+                            <td>@(i++)</td>
+                            <td>@expenseHead.Name</td>
+                            <td>@expenseHead.Details</td>
+                            <td>
+                                <div class="btn-group">
 
-
+                                    @Html.ActionLink(" ", "UpdateExpenseHead", "Expense", new { id = @expenseHead.Id, storId = @expenseHead.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "DeleteExpenseHead", "Expense", new { id = @expenseHead.Id, storeId = @expenseHead.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @{ int i = 1;}
-                        @foreach (var expenseHead in Model)
-                        {
-                            <tr>
-                                <td>@(i++)</td>
-                                <td>@expenseHead.Name</td>
-                                <td>@expenseHead.Details</td>
-                                <td>
-                                    <div class="btn-group">
-
-                                        @Html.ActionLink(" ", "UpdateExpenseHead", "Expense", new { id = @expenseHead.Id, storId = @expenseHead.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                        @Html.ActionLink(" ", "DeleteExpenseHead", "Expense", new { id = @expenseHead.Id, storeId = @expenseHead.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                </div>
-            </div>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </section>
 
 

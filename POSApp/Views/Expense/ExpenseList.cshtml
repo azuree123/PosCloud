@@ -1,16 +1,16 @@
-﻿
-@{
-    ViewBag.Title = "ExpenseList";
-}
-
+﻿@using POSApp.Core.Models
 @model IEnumerable<POSApp.Core.Models.Expense>
 
 @{
 
     ViewBag.Title = "ExpenseList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
-
-    @*<header class="page-header">
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
+@*<header class="page-header">
         <h2>Expenses</h2>
 
         <div class="right-wrapper pull-right">
@@ -28,80 +28,80 @@
         </div>
     </header>*@
 
-    <!-- start: page -->
-    <section class="panel">
-        <header class="panel-heading">
-            <div class="row">
-                <div class="col-md-12">
-           
-                    <div class="" id="header-flex">
-                        <h3 class="wb-color" style="flex-grow: 8"><b>Expense  </b></h3>
-                        <a href="@Url.Action("ExpenseExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+<!-- start: page -->
+<section class="panel">
+    <header class="panel-heading">
+        <div class="row">
+            <div class="col-md-12">
 
-                        </a>
-                        <a href="@Url.Action("AddExpense", "Expense")" class="modalShow" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Expense</button>
+                <div class="" id="header-flex">
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Expense  </b></h3>
+                    <a href="@Url.Action("ExpenseExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
-                        </a>
-                        <a href="@Url.Action("ExpenseHeadList","Expense")" style="flex-grow: 0">
-                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Expense Head List</button>
+                    </a>
+                    <a href="@Url.Action("AddExpense", "Expense")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Expense</button>
 
-                        </a>
-                    </div>
+                    </a>
+                    <a href="@Url.Action("ExpenseHeadList","Expense")" style="flex-grow: 0">
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Expense Head List</button>
+
+                    </a>
                 </div>
             </div>
+        </div>
 
-            <h2 class="panel-title"></h2>
-        </header>
-        <div class="panel-body">
-            <div class="table-responsive">
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
 
             <table class="table mb-none" style="width: 100%" id="datatable-default">
                 <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Expense Head</th>
-                    <th>Employee</th>
-                    <th>Amount</th>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Action</th>
+                    <tr>
+                        <th>ID</th>
+                        <th>Expense Head</th>
+                        <th>Employee</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Action</th>
 
 
-                </tr>
+                    </tr>
                 </thead>
                 <tbody>
-                @{ int i = 1;}
-                @foreach (var expense in Model)
-                {
-                    <tr>
-                        <td>@(i++)</td>
-                        <td>@expense.ExpenseHead.Name</td>
-                        <td>@expense.EmployeeId</td>
-                        <td>@expense.Amount</td>
-                        <td>@expense.Description</td>
-                        <td>@expense.Date</td>
-                        <td class="center">
-                            <div class="btn-group">
+                    @{ int i = 1;}
+                    @foreach (var expense in Model)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@expense.ExpenseHead.Name</td>
+                            <td>@expense.EmployeeId</td>
+                            <td>@expense.Amount</td>
+                            <td>@expense.Description</td>
+                            <td>@expense.Date</td>
+                            <td class="center">
+                                <div class="btn-group">
 
-                                @*<a class="btn btn-default text-success btn-sm fa fa-download" href="#" data-toggle="tooltip" title="Download !"></a>
-        <a href="#" class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>*@
+                                    @*<a class="btn btn-default text-success btn-sm fa fa-download" href="#" data-toggle="tooltip" title="Download !"></a>
+                                        <a href="#" class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>*@
 
-                                @Html.ActionLink(" ", "UpdateExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    @Html.ActionLink(" ", "UpdateExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "DeleteExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
 
-                            </div>
+                                </div>
 
-                        </td>
-     
-                    </tr>
-                }
+                            </td>
+
+                        </tr>
+                    }
                 </tbody>
             </table>
-            </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
 

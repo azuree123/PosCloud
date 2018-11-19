@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace POSApp.Core.ViewModels
 {
@@ -12,6 +15,8 @@ namespace POSApp.Core.ViewModels
         public int? StoreId { get; set; }
         public string ApplicationUserId { get; set; }
         public int? ShiftId { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayName("Operation Date")]
         public DateTime OperationDate { get; set; }
         public string Remarks { get; set; }
         public decimal OpeningAmount { get; set; }

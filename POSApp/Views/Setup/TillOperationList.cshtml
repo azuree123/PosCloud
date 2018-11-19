@@ -55,7 +55,8 @@
             <li><a href="@Url.Action("FloorList","Setup")">Floor</a></li>
             <li><a href="@Url.Action("POSTerminalList","Setup")">POS Terminal</a></li>
             <li><a href="@Url.Action("ShiftList","Setup")">Shifts</a></li>
-            <li class="current"><a href="@Url.Action("TillOperationList","Setup")">TillOperation</a></li>
+            
+            <li class="current"><a href="@Url.Action("TillOperationList","Setup")">Till Operation</a></li>
         </ul>
         <hr />
 
@@ -71,10 +72,10 @@
                     <h3 class="wb-color" style="flex-grow: 8"><b>Till Operations</b></h3>
 
 
-                    <a href="@Url.Action("AddTillOperation", "Setup")" class="modalShow" style="flex-grow: 0.2">
+                    @*<a href="@Url.Action("AddTillOperation", "Setup")" class="modalShow" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add TillOperation</button>
 
-                    </a>
+                    </a>*@
                     @*<a href="@Url.Action("CustomerExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
                         <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
@@ -99,6 +100,7 @@
                         <th>SystemAmount</th>
                         <th>PhysicalAmount</th>
                         <th>TillOperationType</th>
+                        sss
                         <th>Shift</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -114,7 +116,7 @@
                         <td>@till.OperationDate</td>
                         <td>@till.OpeningAmount</td>
                         <td>@till.SystemAmount</td>
-
+                        
                         <td>@till.TillOperationType</td>
                         <td>@till.ShiftName</td>
                         <td>@till.Status</td>

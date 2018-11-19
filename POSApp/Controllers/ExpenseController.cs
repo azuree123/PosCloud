@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -47,26 +48,65 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddExpense(ExpenseViewModel expenseVm)
         {
+            ViewBag.edit = "AddDevice";
+            try
+            {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-            if (!ModelState.IsValid)
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+
+                }
+                else
+                {
+                    expenseVm.StoreId = user.StoreId;
+                    Expense expense = Mapper.Map<Expense>(expenseVm);
+                    _unitOfWork.ExpenseRepository.AddExpense(expense);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The expense added successfully", AlertType.Success);
+                    return RedirectToAction("ExpenseList");
+                }
+            }
+            catch (DbEntityValidationException ex)
             {
-                expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-                expenseVm.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
-                    .AsEnumerable();
-                ViewBag.edit = "AddExpense";
-                return View(expenseVm);
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
 
             }
-            else
+            catch (Exception e)
             {
-                expenseVm.StoreId = user.StoreId;
-                Expense expense = Mapper.Map<Expense>(expenseVm);
-                _unitOfWork.ExpenseRepository.AddExpense(expense);
-                _unitOfWork.Complete();
-                return RedirectToAction("ExpenseList");
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
             }
-           
+
+            return RedirectToAction("ExpenseList", "Expense");
+
+
         }
         public ActionResult UpdateExpense(int id)
         {
@@ -82,34 +122,113 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateExpense(int id,ExpenseViewModel expenseVm)
         {
+            ViewBag.edit = "UpdateExpense";
+            try
+            {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-            if (!ModelState.IsValid)
+                if (!ModelState.IsValid)
+                {
+
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+
+                }
+                else
+                {
+                    Expense expense = Mapper.Map<Expense>(expenseVm);
+                    _unitOfWork.ExpenseRepository.UpdateExpense(id, expense, Convert.ToInt32(user.StoreId));
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The expense updated successfully", AlertType.Success);
+                    return RedirectToAction("ExpenseList");
+                }
+            }
+            catch (DbEntityValidationException ex)
             {
 
-                expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-                expenseVm.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
-                    .AsEnumerable();
-                ViewBag.edit = "UpdateExpense";
-                return View("AddExpense", expenseVm);
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
 
             }
-            else
+            catch (Exception e)
             {
-                Expense expense = Mapper.Map<Expense>(expenseVm);
-                _unitOfWork.ExpenseRepository.UpdateExpense(id,expense, Convert.ToInt32(user.StoreId));
-                _unitOfWork.Complete();
-                return RedirectToAction("ExpenseList");
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
             }
+
+            return RedirectToAction("ExpenseList", "Expense");
+           
+            
 
         }
         public ActionResult DeleteExpense(int id, int storeid)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.ExpenseRepository.DeleteExpense(id, Convert.ToInt32(user.StoreId));
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ExpenseRepository.DeleteExpense(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The expense deleted successfully", AlertType.Success);
+                return RedirectToAction("ExpenseList", "Expense");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("ExpenseList", "Expense");
+
         }
 
         public ActionResult ExpenseHeadList()

@@ -1,10 +1,15 @@
 ﻿
+@using POSApp.Core.Models
 @model IEnumerable<POSApp.Core.Models.Device>
 
 @{
     ViewBag.Title = "DeviceList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
-
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
 @*<header class="page-header">
         <h2>States</h2>
 
@@ -25,18 +30,18 @@
 
 <!-- start: page -->
 @*<div class="row mt-md">
-    <div class="col-md-12">
-        <ul class="snip1189">
-            
-          
+        <div class="col-md-12">
+            <ul class="snip1189">
 
 
 
-        </ul>
-       
 
-    </div>
-</div>*@
+
+            </ul>
+
+
+        </div>
+    </div>*@
 <section class="panel">
     <header class="panel-heading">
         <div class="row">
@@ -52,9 +57,9 @@
 
                     </a>
                     <a href="@Url.Action("DeviceExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
-                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
-                        </a>
+                    </a>
 
                 </div>
 
@@ -86,22 +91,22 @@
                     @{ int i = 1;}
                     @foreach (var device in Model)
                     {
-                    <tr>
-                        <td>@(i++)</td>
-                        <td>@device.Name</td>
-                        <td>@device.License</td>
-                        <td>@device.DeviceCode</td>
-                        <td>@device.AppVersion</td>
-                        <td>@device.DownloadedDate</td>
-                        <td>@device.Address</td>
-                        <td class="center">
-                            <div class="btn-group">
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@device.Name</td>
+                            <td>@device.License</td>
+                            <td>@device.DeviceCode</td>
+                            <td>@device.AppVersion</td>
+                            <td>@device.DownloadedDate</td>
+                            <td>@device.Address</td>
+                            <td class="center">
+                                <div class="btn-group">
 
-                                @Html.ActionLink(" ", "UpdateDevice", "Device", new { id = @device.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteDevice", "Device", new { id = @device.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                            </div>
-                        </td>
-                    </tr>
+                                    @Html.ActionLink(" ", "UpdateDevice", "Device", new { id = @device.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "DeleteDevice", "Device", new { id = @device.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                </div>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
