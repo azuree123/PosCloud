@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -36,17 +37,59 @@ namespace POSApp.Controllers
         public ActionResult AddStore(StoreViewModel storeVm)
         {
             ViewBag.edit = "AddStore";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(storeVm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    Store store = Mapper.Map<Store>(storeVm);
+                    _unitOfWork.StoreRepository.AddStore(store);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The Store added successfully", AlertType.Success);
+                    return RedirectToAction("StoresList", "Store");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                Store store = Mapper.Map<Store>(storeVm);
-                _unitOfWork.StoreRepository.AddStore(store);
-                _unitOfWork.Complete();
-                return RedirectToAction("StoresList", "Store");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("StoresList", "Store");
+
 
         }
         [HttpGet]
@@ -60,25 +103,106 @@ namespace POSApp.Controllers
         public ActionResult UpdateStore(int id, StoreViewModel storeVm)
         {
             ViewBag.edit = "UpdateStore";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddStore", storeVm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    Store store = Mapper.Map<Store>(storeVm);
+                    _unitOfWork.StoreRepository.UpdateStore(id, store);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The Store updated successfully", AlertType.Success);
+                    return RedirectToAction("StoresList", "Store");
+
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                Store store = Mapper.Map<Store>(storeVm);
-                _unitOfWork.StoreRepository.UpdateStore(id, store);
-                _unitOfWork.Complete();
-                return RedirectToAction("StoresList", "Store");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
 
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("StoresList", "Store");
+
 
         }
         public ActionResult DeleteStore(int id)
         {
-            _unitOfWork.StoreRepository.DeleteStore(id);
-            _unitOfWork.Complete();
+            try
+            {
+                _unitOfWork.StoreRepository.DeleteStore(id);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Store deleted successfully", AlertType.Success);
+                return RedirectToAction("StoresList", "Store");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("StoresList", "Store");
+
         }
     }
 }
