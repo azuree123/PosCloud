@@ -2979,7 +2979,16 @@ namespace POSApp.Controllers
 
         public ActionResult AddRole()
         {
-            return View();
+            RoleViewModel role=new RoleViewModel();
+            role.RoleSecurityRightViewModels = _unitOfWork.SecurityObjectRepository.GetSecurityObjects().Select(a=>new RoleSecurityRightViewModel
+            {
+                Manage = false,
+                Module = a.Module,
+                SecurityObject = a.Name,
+                SecurityObjectId = a.SecurityObjectId
+              ,View = true
+            }).ToList();
+            return View(role);
         }
         [HttpPost]
         public ActionResult AddRole(RoleViewModel role)
