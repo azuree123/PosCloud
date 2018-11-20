@@ -89,12 +89,12 @@ namespace POSApp.Controllers
             return RedirectToAction("ServicesList", "Services");
         }
 
-        public ActionResult UpdateService(int id)
+        public ActionResult UpdateService(string id)
         {
             ViewBag.edit = "UpdateService";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            ServiceCreateViewModel serviceVm = Mapper.Map<ServiceCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id,Convert.ToInt32(user.StoreId)));
+            ServiceCreateViewModel serviceVm = Mapper.Map<ServiceCreateViewModel>(_unitOfWork.ProductRepository.GetProductByCode(id,Convert.ToInt32(user.StoreId)));
             serviceVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Service")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             serviceVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)user.StoreId)
@@ -102,7 +102,7 @@ namespace POSApp.Controllers
             return View("AddService", serviceVm);
         }
         [HttpPost]
-        public ActionResult UpdateService(int id, ServiceCreateViewModel serviceVm, HttpPostedFileBase file)
+        public ActionResult UpdateService(string id, ServiceCreateViewModel serviceVm, HttpPostedFileBase file)
         {
             ViewBag.edit = "UpdateService";
             if (!ModelState.IsValid)
@@ -145,7 +145,7 @@ namespace POSApp.Controllers
             }
 
         }
-        public ActionResult DeleteService(int id,int storeid)
+        public ActionResult DeleteService(string id,int storeid)
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);

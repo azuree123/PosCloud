@@ -23,6 +23,10 @@ namespace POSApp.Core.Models
         public string Days { get; set; }
         [DefaultValue(false)]
         public bool IsActive { get; set; }
+        [DefaultValue(false)]
+        public bool IsPercentage { get; set; }
+        [DefaultValue(false)]
+        public bool IsTaxable { get; set; }
 
         public ICollection<TimedEventProducts> TimedEventProducts { get; set; }
 

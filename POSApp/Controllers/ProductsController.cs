@@ -141,12 +141,12 @@ namespace POSApp.Controllers
 
 
         }
-        public ActionResult UpdateProduct(int id)
+        public ActionResult UpdateProduct(string id)
         {
             ViewBag.edit = "UpdateProduct";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductById(id,Convert.ToInt32(user.StoreId)));
+            ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductByCode(id,Convert.ToInt32(user.StoreId)));
             productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Product")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
@@ -158,7 +158,7 @@ namespace POSApp.Controllers
             return View("AddProduct", productVm);
         }
         [HttpPost]
-        public ActionResult UpdateProduct(int id, ProductCreateViewModel productVm,HttpPostedFileBase file)
+        public ActionResult UpdateProduct(string id, ProductCreateViewModel productVm,HttpPostedFileBase file)
         {
             ViewBag.edit = "UpdateProduct";
             try
@@ -232,7 +232,7 @@ namespace POSApp.Controllers
 
 
         }
-        public ActionResult DeleteProduct(int id, int storeid)
+        public ActionResult DeleteProduct(string id, int storeid)
         {
             try
             {
@@ -261,6 +261,7 @@ namespace POSApp.Controllers
             {
                 TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
                 if (e.InnerException != null)
+                {
                     if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
                     {
                         if (e.InnerException.InnerException != null)
@@ -273,6 +274,12 @@ namespace POSApp.Controllers
                     {
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                     }
             }
 
@@ -786,7 +793,11 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             product.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddCombo";
+            int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
+            product.ProductCode = "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
 
             return View(product);
         }
@@ -805,6 +816,8 @@ namespace POSApp.Controllers
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int) user.StoreId)
+                    .Select(a => new SelectListItem {Value = a.SectionId.ToString(), Text = a.Name}).AsEnumerable();
                 return View(productVm);
             }
             else
@@ -857,6 +870,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             //foreach (var modifierVmModifierOptionViewModel in productVm)
             //{
             //    Helper.AddToTempModifierOptions(modifierVmModifierOptionViewModel, userid);
@@ -864,7 +879,7 @@ namespace POSApp.Controllers
             return View("AddCombo", productVm);
         }
         [HttpPost]
-        public ActionResult UpdateCombo(int id, ComboViewModel productVm, HttpPostedFileBase file)
+        public ActionResult UpdateCombo(string id, ComboViewModel productVm, HttpPostedFileBase file)
         {
             ViewBag.edit = "UpdateCombo";
             var userid = User.Identity.GetUserId();
@@ -877,6 +892,8 @@ namespace POSApp.Controllers
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                 productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
                     .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                    .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
                 return View("AddCombo", productVm);
             }
             else if (file != null && file.ContentLength > 0)
@@ -902,7 +919,7 @@ namespace POSApp.Controllers
             }
 
         }
-        public ActionResult DeleteCombo(int id, int storeid)
+        public ActionResult DeleteCombo(string id, int storeid)
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);

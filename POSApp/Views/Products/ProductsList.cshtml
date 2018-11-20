@@ -117,8 +117,8 @@
                                 <td class="center">
                                     <div class="btn-group">
 
-                                    @Html.ActionLink(" ", "UpdateProduct", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                    @Html.ActionLink(" ", "DeleteProduct", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    @Html.ActionLink(" ", "UpdateProduct", "Products", new { id = @product.ProductCode, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "DeleteProduct", "Products", new { id = @product.ProductCode, storeId = @product.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                                     </div>
                                 </td>
                             </tr>

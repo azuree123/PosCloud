@@ -1446,23 +1446,66 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddDiscount(DiscountViewModel dicountMv)
         {
-            dicountMv.Days = string.Join(",", dicountMv.tempDays);
             ViewBag.edit = "AddDiscount";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(dicountMv);
+                dicountMv.Days = string.Join(",", dicountMv.tempDays);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+
+                    Discount discount = Mapper.Map<Discount>(dicountMv);
+                    discount.StoreId = (int)user.StoreId;
+                    _unitOfWork.DiscountRepository.AddDiscount(discount);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The discount added successfully", AlertType.Success);
+                    return RedirectToAction("DiscountList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                
-                Discount discount = Mapper.Map<Discount>(dicountMv);
-                discount.StoreId = (int)user.StoreId;
-                _unitOfWork.DiscountRepository.AddDiscount(discount);
-                _unitOfWork.Complete();
-                return RedirectToAction("DiscountList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("DiscountList", "Setup");
+
+
 
         }
         [HttpGet]
@@ -1479,30 +1522,111 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateDiscount(int id, DiscountViewModel discountMv)
         {
-            discountMv.Days = string.Join(",", discountMv.tempDays);
             ViewBag.edit = "UpdateDiscount";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddDiscount", discountMv);
+                discountMv.Days = string.Join(",", discountMv.tempDays);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Discount discount = Mapper.Map<Discount>(discountMv);
+                    _unitOfWork.DiscountRepository.UpdateDiscount(id, discount, (int)user.StoreId);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The discount updated successfully", AlertType.Success);
+                    return RedirectToAction("DiscountList", "Setup");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Discount discount = Mapper.Map<Discount>(discountMv);
-                _unitOfWork.DiscountRepository.UpdateDiscount(id, discount, (int)user.StoreId);
-                _unitOfWork.Complete();
-                return RedirectToAction("DiscountList", "Setup");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("DiscountList", "Setup");
+
 
         }
         public ActionResult DeleteDiscount(int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.DiscountRepository.DeleteDiscount(id, (int)user.StoreId);
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.DiscountRepository.DeleteDiscount(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The discount deleted successfully", AlertType.Success);
+                return RedirectToAction("DiscountList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("DiscountList", "Setup");
+
         }
 
         public ActionResult TaxList()
@@ -2209,7 +2333,7 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddTimedEvent()
         {
-            ViewBag.edit = "AddTimedEvent";
+            ViewBag.edit = "AddDiscount/TimedEvent";
             TimedEventViewModel model=new TimedEventViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -2224,7 +2348,7 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddTimedEvent(TimedEventViewModel timeeventVm)
         {
-            ViewBag.edit = "AddTimedEvent";
+            ViewBag.edit = "AddDiscount/TimedEvent";
             try
             {
                 var userid = User.Identity.GetUserId();
@@ -2328,7 +2452,7 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateTimedEvent(int id)
         {
-            ViewBag.edit = "UpdateTimedEvent";
+            ViewBag.edit = "UpdateDiscount/TimedEvent";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             TimedEventViewModel timeeventVm =
@@ -2346,7 +2470,7 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateTimedEvent(int id, TimedEventViewModel timeeventVm)
         {
-            ViewBag.edit = "UpdateTimedEvent";
+            ViewBag.edit = "UpdateDiscount/TimedEvent";
             try
             {
                 var userid = User.Identity.GetUserId();

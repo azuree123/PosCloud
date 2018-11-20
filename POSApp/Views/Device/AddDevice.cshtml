@@ -1,4 +1,5 @@
 ﻿
+@using Newtonsoft.Json
 @model POSApp.Core.ViewModels.DeviceViewModel
 
 @{
@@ -48,7 +49,7 @@
                                    
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label " })
-                                            @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control"}})
+                                            @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control", @Required = true}})
                                             @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
                                         </div>
                                         <div class="col-md-6">
@@ -63,7 +64,7 @@
                                     
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.DeviceCode, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @class = "form-control", @Required = true } })
                                             @Html.ValidationMessageFor(model => model.DeviceCode, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-6">
@@ -78,9 +79,10 @@
                                     <div class="form-group">
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.DownloadedDate, htmlAttributes: new { @class = "control-label " })
-                                            @Html.EditorFor(model => model.DownloadedDate, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.DownloadedDate, new { htmlAttributes = new { @class = "form-control", @Required = true } })
                                             @Html.ValidationMessageFor(model => model.DownloadedDate, "", new { @class = "text-danger" })
                                         </div>
+                                        <input type="hidden" id="download_date" value="@Model.DownloadedDate"/>
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label " })
                                             @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
@@ -133,7 +135,17 @@
         </div>
     }
 </div>
+<script>
+    $(document).ready(function () {
+        var date = $('#download_date').val();
+        if (date !== '1/1/0001 12:00:00 AM' && date!=='') {
+            var displayDate = new Date(date);
+            displayDate.setDate(displayDate.getDate()+1);
+            document.getElementById("@Html.IdFor(a=>a.DownloadedDate)").valueAsDate = displayDate;
+        }
+    });
 
+</script>
 
 
 

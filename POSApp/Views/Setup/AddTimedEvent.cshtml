@@ -111,20 +111,31 @@
 
                                     }
                                     <input type="hidden" id="daysDispaly" value="@Model.DaysDisplay"/>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         @Html.LabelFor(model => model.Days, htmlAttributes: new { @class = "control-label" })
                                         @Html.DropDownListFor(model => model.Days, Ddl, new { @class = "form-control", @required = "true", @multiple = "multiple" })
                                         @Html.ValidationMessageFor(model => model.Days, "", new { @class = "text-danger" })
                                         <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Days)');"  />
                                         Select All
                                     </div>
-                                    <div class="col-md-4">
-                                        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-                                        <div class="">
-                                            @Html.EditorFor(model => model.IsActive,new {@class="form-control"})
-                                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                    
+                                       
+                                        <div class="col-md-3">
+                                            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.IsActive, new {@class = "form-control"})
+                                            @Html.ValidationMessageFor(model => model.IsActive, "", new {@class = "text-danger"})
                                         </div>
-                                    </div>
+                                        <div class="col-md-3">
+                                            @Html.LabelFor(model => model.IsTaxable, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "" } })
+                                            @Html.ValidationMessageFor(model => model.IsTaxable, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-3">
+                                            @Html.LabelFor(model => model.IsPercentage, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.IsPercentage, new { htmlAttributes = new { @class = "" } })
+                                            @Html.ValidationMessageFor(model => model.IsPercentage, "", new { @class = "text-danger" })
+                                        </div>
+                                    
                                 </div>
                                 
                                 <hr />

@@ -28,6 +28,8 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.ToHour).HasColumnType("time").IsRequired();
             Property(x => x.Days).HasColumnType("varchar").HasMaxLength(100).IsOptional();
             Property(x => x.IsActive).HasColumnType("bit").IsRequired();
+            Property(x => x.IsPercentage).HasColumnType("bit").IsRequired();
+            Property(x => x.IsTaxable).HasColumnType("bit").IsRequired();
 
 
 

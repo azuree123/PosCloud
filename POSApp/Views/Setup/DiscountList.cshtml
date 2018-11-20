@@ -1,6 +1,12 @@
-﻿@model IEnumerable<POSApp.Core.Models.Discount>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.Models.Discount>
 @{
     ViewBag.Title = "DiscountList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
 
@@ -37,7 +43,7 @@
 
             @*<li><a href="@Url.Action("CouponList","Setup")">Coupon</a></li>*@
 
-            <li class="current"><a href="#">Discount</a></li>
+            <li class="current hidden"><a href="#">Discount</a></li>
             <li><a href="@Url.Action("TaxList","Setup")">Tax</a></li>
             <li><a href="@Url.Action("StateList","Setup")">State</a></li>
             <li><a href="@Url.Action("CityList","Setup")">City</a></li>

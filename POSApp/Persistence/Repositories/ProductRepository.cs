@@ -40,16 +40,16 @@ namespace POSApp.Persistence.Repositories
             }
         }
 
-        public void UpdateProduct(int id, int storeid,Product product)
+        public void UpdateProduct(string id, int storeid,Product product)
         {
             product.StoreId = storeid;
             _context.Products.Attach(product);
             _context.Entry(product).State = EntityState.Modified;
         }
 
-        public void DeleteProduct(int id, int storeid)
+        public void DeleteProduct(string id, int storeid)
         {
-            var product = new Product { Id = id, StoreId = storeid};
+            var product = new Product { ProductCode = id, StoreId = storeid};
             _context.Products.Attach(product);
             _context.Entry(product).State = EntityState.Deleted;
         }

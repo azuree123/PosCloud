@@ -34,6 +34,12 @@ namespace POSApp.Core.ViewModels
         [DefaultValue(false)]
         [DisplayName("Is Active")]
         public bool IsActive { get; set; }
+        [DefaultValue(false)]
+        [DisplayName("Is Percentage")]
+        public bool IsPercentage { get; set; }
+        [DefaultValue(false)]
+        [DisplayName("Is Taxable")]
+        public bool IsTaxable { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
 
