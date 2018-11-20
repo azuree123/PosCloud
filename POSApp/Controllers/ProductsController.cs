@@ -326,7 +326,6 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 productcategoryvm.StoreId = user.StoreId;
                 ProductCategory productcategory = Mapper.Map<ProductCategory>(productcategoryvm);
-                productcategory.Type = "Product";
                 _unitOfWork.ProductCategoryRepository.AddProductCategory(productcategory);
                 _unitOfWork.Complete();
                 return PartialView("Error");
@@ -378,7 +377,6 @@ namespace POSApp.Controllers
             {
                 
                 productCategory.StoreId = user.StoreId;
-                productCategory.Type = "Product";
                 ProductCategory category = Mapper.Map<ProductCategory>(productCategory);
                 _unitOfWork.ProductCategoryRepository.AddProductCategory(category);
                 _unitOfWork.Complete();
@@ -435,7 +433,6 @@ namespace POSApp.Controllers
 
             }
             {
-                productCategoryVm.Type = "Product";
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 ProductCategory category = Mapper.Map<ProductCategory>(productCategoryVm);
@@ -797,6 +794,7 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddCombo";
             int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
+         
             product.ProductCode = "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
 
             return View(product);
@@ -842,6 +840,7 @@ namespace POSApp.Controllers
                 Product product = Mapper.Map<Product>(productVm);
                 product.Type = "Combo";
                 _unitOfWork.ProductRepository.AddProduct(product);
+                int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
                 _unitOfWork.Complete();
                 return RedirectToAction("CombosList", "Products");
             }

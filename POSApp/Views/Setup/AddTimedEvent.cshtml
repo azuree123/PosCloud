@@ -21,13 +21,13 @@
                     @if (s.Contains("Add"))
                     {
                         <h4 class="modal-title">
-                            Add Timed Event
+                            Add Discount/ Timed Event
                         </h4>
                     }
                     else
                     {
                         <h4 class="modal-title">
-                            Edit Timed Event
+                            Edit Discount/ Timed Event
                         </h4>
                     }
 
@@ -63,6 +63,7 @@
                                             @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
                                         </div>
+                                       
                                     </div>
                                 </div>
 
@@ -80,6 +81,11 @@
                                             @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.DiscountCode, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.DiscountCode, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.DiscountCode, "", new { @class = "text-danger" })
                                         </div>
                                         </div>
                                     </div>

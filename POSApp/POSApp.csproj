@@ -467,6 +467,10 @@
     <Compile Include="Migrations\201811201015146_update3.Designer.cs">
       <DependentUpon>201811201015146_update3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811201122170_update4.cs" />
+    <Compile Include="Migrations\201811201122170_update4.Designer.cs">
+      <DependentUpon>201811201122170_update4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\POSTerminalEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SectionEntityConfiguration.cs" />
@@ -2764,6 +2768,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811201015146_update3.resx">
       <DependentUpon>201811201015146_update3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811201122170_update4.resx">
+      <DependentUpon>201811201122170_update4.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -30,6 +30,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.IsActive).HasColumnType("bit").IsRequired();
             Property(x => x.IsPercentage).HasColumnType("bit").IsRequired();
             Property(x => x.IsTaxable).HasColumnType("bit").IsRequired();
+            Property(x => x.DiscountCode).HasColumnType("varchar").HasMaxLength(7).IsRequired();
 
 
 

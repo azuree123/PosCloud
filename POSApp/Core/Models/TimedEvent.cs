@@ -13,6 +13,7 @@ namespace POSApp.Core.Models
         public Store Store { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
+        public string DiscountCode { get; set; }
         [DefaultValue(0)]
         public float Value { get; set; }
         public DateTime FromDate { get; set; }

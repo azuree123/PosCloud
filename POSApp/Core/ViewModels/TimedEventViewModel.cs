@@ -40,6 +40,9 @@ namespace POSApp.Core.ViewModels
         [DefaultValue(false)]
         [DisplayName("Is Taxable")]
         public bool IsTaxable { get; set; }
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 7)]
+        [DisplayName("Discount Code")]
+        public string DiscountCode { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
 
