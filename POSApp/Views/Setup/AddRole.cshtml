@@ -142,66 +142,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        @*<div class="form-group">
-
-                                                <input type="checkbox" class="form-control" style="display:inline;width:18%"/>
-
-                                                <label class="control-label" style="display:inline;float:right;    margin: 5px 20px 0px 0px !important;
-        font-size: 16px;
-        margin-top: 5px;">
-                                                   Toggle All
-                                                </label>
-                                            </div>*@
-                                        @*<div class="form-group">
-
-            <div class="col-md-9 col-lg-offset-2">
-                <div class="btn-group" style="display:block">
-                    <select class="form-control" multiple="multiple" style="width:100%" data-plugin-multiselect data-plugin-options='{ "maxHeight": 200 }' data-multiselect-toggle-all="true" id="ms_example7">
-                        <optgroup label="Customers">
-                            <option value="View">View</option>
-                            <option value="Manage">Manage</option>
-
-                        </optgroup>
-                        <optgroup label="Customers-tags">
-                            <option value="Customers-tags-View">View</option>
-                            <option value="Customers-tags-Manage">Manage</option>
-                        </optgroup>
-
-                        <optgroup label="inventory-items">
-                            <option value="inventory-items-View">View</option>
-                            <option value="inventory-items-Manage">Manage</option>
-                        </optgroup>
-                        <optgroup label="inventory-items-tags">
-                            <option value="inventory-items-tags-View">View</option>
-                            <option value="inventory-items-tags-Manage">Manage</option>
-                        </optgroup>
-                        <optgroup label="suppliers">
-                            <option value="suppliers-View">View</option>
-                            <option value="suppliers-Manage">Manage</option>
-                        </optgroup>
-                        <optgroup label="warehouses">
-                            <option value="warehouses-View">View</option>
-                            <option value="warehouses-Manage">Manage</option>
-                        </optgroup>
-                        <optgroup label="authorities.app-user-roles">
-                            <option value="view-app-user-roles">view-app-user-roles</option>
-                            <option value="manage-app-user-roles">manage-app-user-roles</option>
-                        </optgroup>
-
-                        <optgroup label="More">
-                            <option value="Restore-Company-Data">Restore Company Data</option>
-
-
-
-                            <option value="View-Cost">View Cost</option>
-
-                        </optgroup>
-
-                    </select>
-                    <button id="ms_example7-toggle" class="btn outline-success">Select All</button>
-                </div>
-            </div>
-        </div>*@
+              
                                         <div class="table-responsive">
                                             <table id="companyAuthorities" class="table text-left">
                                                 <thead>
@@ -217,157 +158,40 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td style="vertical-align: top !important;">
+                                                    @{
+                                                        int j = 0;
+                                                    }
+                                                    @foreach (var module in Model.RoleSecurityRightViewModels)
+                                                    {
+                                                        @Html.HiddenFor(a => a.RoleSecurityRightViewModels[j].Module)
+                                                        @Html.HiddenFor(a => a.RoleSecurityRightViewModels[j].SecurityObject)
+                                                        @Html.HiddenFor(a => a.RoleSecurityRightViewModels[j].SecurityObjectId)
 
-                                                            <input type="checkbox" id="customers" class="toggable">
+                                                        <tr>
+                                                            <td style="vertical-align: top !important;">
 
-                                                        </td>
-                                                        <td style="vertical-align: top !important;">
-                                                            <h5 class="">
-                                                                <label for="customers" class="mb-0">customers</label>
-                                                            </h5>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="view-customers" value="view-customers" class="form-check-input">
-                                                                <label for="view-customers" class="form-check-label">View</label>
-                                                            </div> <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="manage-customers" value="manage-customers" class="form-check-input">
-                                                                <label for="manage-customers" class="form-check-label">Manage</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="vertical-align: top !important;"><div class="checkbox-holder"><input type="checkbox" id="customers-tags" class="toggable"></div></td>
-                                                        <td style="vertical-align: top !important;">
-                                                            <h5 class="">
-                                                                <label for="customers-tags" class="mb-0">customers-tags</label>
-                                                            </h5>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="view-customers-tags" value="view-customers-tags" class="form-check-input">
-                                                                <label for="view-customers-tags" class="form-check-label">View</label>
-                                                            </div>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="manage-customers-tags" value="manage-customers-tags" class="form-check-input">
-                                                                <label for="manage-customers-tags" class="form-check-label">Manage</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="vertical-align: top !important;">
-                                                            <div class="checkbox-holder">
-                                                                <input type="checkbox" id="inventory-items" class="toggable">
-                                                            </div>
-                                                        </td>
-                                                        <td style="vertical-align: top !important;">
-                                                            <h5 class="">
-                                                                <label for="inventory-items" class="mb-0">inventory-items</label>
-                                                            </h5>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="view-inventory-items" value="view-inventory-items" class="form-check-input">
-                                                                <label for="view-inventory-items" class="form-check-label">View</label>
-                                                            </div>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="manage-inventory-items" value="manage-inventory-items" class="form-check-input">
-                                                                <label for="manage-inventory-items" class="form-check-label">Manage</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="vertical-align: top !important;">
-                                                            <div class="checkbox-holder">
-                                                                <input type="checkbox" id="inventory-items-tags" class="toggable">
-                                                            </div>
-                                                        </td>
-                                                        <td style="vertical-align: top !important;">
-                                                            <h5 class="">
-                                                                <label for="inventory-items-tags" class="mb-0">inventory-items-tags</label>
-                                                            </h5>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="view-inventory-items-tags" value="view-inventory-items-tags" class="form-check-input">
-                                                                <label for="view-inventory-items-tags" class="form-check-label">View</label>
-                                                            </div>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="manage-inventory-items-tags" value="manage-inventory-items-tags" class="form-check-input">
-                                                                <label for="manage-inventory-items-tags" class="form-check-label">Manage</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="vertical-align: top !important;">
-                                                            <div class="checkbox-holder">
-                                                                <input type="checkbox" id="suppliers" class="toggable">
-                                                            </div>
-                                                        </td>
-                                                        <td style="vertical-align: top !important;">
-                                                            <h5 class=""><label for="suppliers" class="mb-0">suppliers</label></h5>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="view-suppliers" value="view-suppliers" class="form-check-input">
-                                                                <label for="view-suppliers" class="form-check-label">View</label>
-                                                            </div>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="manage-suppliers" value="manage-suppliers" class="form-check-input">
-                                                                <label for="manage-suppliers" class="form-check-label">Manage</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="vertical-align: top !important;">
-                                                            <div class="checkbox-holder">
-                                                                <input type="checkbox" id="warehouses" class="toggable">
-                                                            </div>
-                                                        </td>
-                                                        <td style="vertical-align: top !important;">
-                                                            <h5 class=""><label for="warehouses" class="mb-0">warehouses</label></h5>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="view-warehouses" value="view-warehouses" class="form-check-input">
-                                                                <label for="view-warehouses" class="form-check-label">View</label>
-                                                            </div>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="manage-warehouses" value="manage-warehouses" class="form-check-input">
-                                                                <label for="manage-warehouses" class="form-check-label">Manage</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="vertical-align: top !important;">
-                                                            <div class="checkbox-holder">
-                                                                <input type="checkbox" id="app-user-roles" class="toggable">
-                                                            </div>
-                                                        </td>
-                                                        <td style="vertical-align: top !important;">
-                                                            <h5 class="">
-                                                                <label for="app-user-roles" class="mb-0">authorities.app-user-roles</label>
-                                                            </h5>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="view-app-user-roles" value="view-app-user-roles" class="form-check-input">
-                                                                <label for="view-app-user-roles" class="form-check-label">view-app-user-roles</label>
-                                                            </div>
-                                                            <div class="form-check mb-xs">
-                                                                <input type="checkbox" id="manage-app-user-roles" value="manage-app-user-roles" class="form-check-input">
-                                                                <label for="manage-app-user-roles" class="form-check-label">manage-app-user-roles</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="checkbox-holder">
-                                                                <input type="checkbox" id="restore-company-deleted-items" value="restore-company-deleted-items" class="toggable">
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <label for="restore-company-deleted-items" class="mt-sm">Restore Company Data</label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="checkbox-holder">
-                                                                <input type="checkbox" id="view-cost" value="view-cost" class="toggable">
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <label for="view-cost" class="mt-sm">View Cost</label>
-                                                        </td>
-                                                    </tr>
+                                                                <input type="checkbox" id="customers" class="toggable">
+
+                                                            </td>
+                                                            <td style="vertical-align: top !important;">
+                                                                <h5 class="">
+                                                                    <label for="customers" class="mb-0">@module.SecurityObject</label>
+                                                                </h5>
+                                                                <div class="form-check mb-xs">
+                                                                    @Html.CheckBoxFor(a => a.RoleSecurityRightViewModels[j].View,new {@class="form-check-input"})
+                                                                    @*<input type="checkbox" id="view-customers" value="view-customers" class="form-check-input">*@
+                                                                    <label for="view-customers" class="form-check-label">View</label>
+                                                                </div>
+                                                                <div class="form-check mb-xs">
+                                                                    @Html.CheckBoxFor(a => a.RoleSecurityRightViewModels[j].Manage, new { @class = "form-check-input" })
+                                                                    @*<input type="checkbox" id="manage-customers" value="manage-customers" class="form-check-input">*@
+                                                                    <label for="manage-customers" class="form-check-label">Manage</label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+
+
                                                 </tbody>
                                             </table>
                                         </div>

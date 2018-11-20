@@ -1,8 +1,13 @@
-﻿@model POSApp.Core.ViewModels.DashBoardViewModel
+﻿@using POSApp.Core.Models
+@model POSApp.Core.ViewModels.DashBoardViewModel
 @{
     ViewBag.Title = "Home Page";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
-
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
 <style>
     .multiselect-container > li > a > label {
         text-align: center;

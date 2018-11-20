@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
+using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
 
 namespace POSApp.Controllers
@@ -22,26 +24,63 @@ namespace POSApp.Controllers
         }
         public ActionResult Index()
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            DateTime today=DateTime.Now.Date;
-            DashBoardViewModel model=new DashBoardViewModel();
-            if (_unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
-                .Where(a => a.Type == "INV" && a.TransDate == today).Any())
+            try
             {
-            model.Orders = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
-                .Where(a => a.Type == "INV" && a.TransDate == today).ToList().Count();
-                model.Sales = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
-                    .Where(a => a.Type == "INV" && a.TransDate == today).Select(a => a.TotalPrice).Sum();
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                DateTime today = DateTime.Now.Date;
+                DashBoardViewModel model = new DashBoardViewModel();
+                if (_unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
+                    .Where(a => a.Type == "INV" && a.TransDate == today).Any())
+                {
+                    model.Orders = _unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
+                        .Where(a => a.Type == "INV" && a.TransDate == today).ToList().Count();
+                    model.Sales = _unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
+                        .Where(a => a.Type == "INV" && a.TransDate == today).Select(a => a.TotalPrice).Sum();
+                }
+
+                model.Expenses = _unitOfWork.ExpenseRepository.GetExpenses((int) user.StoreId)
+                    .Where(a => a.Date == today).Select(a => a.Amount).Sum();
+                model.StoreDatas = _unitOfWork.StoreRepository.GetStores().Select(a => new StoreData
+                {
+                    StoreId = a.Id, StoreName = a.Name
+                }).ToList();
+                return View(model);
             }
-           
-            model.Expenses = _unitOfWork.ExpenseRepository.GetExpenses((int)user.StoreId)
-                .Where(a =>  a.Date == today).Select(a => a.Amount).Sum();
-            model.StoreDatas = _unitOfWork.StoreRepository.GetStores().Select(a => new StoreData
+            catch (DbEntityValidationException ex)
             {
-                StoreId = a.Id, StoreName = a.Name
-            }).ToList();
-            return View(model);
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return View(new DashBoardViewModel());
         }
 
         public ActionResult About()

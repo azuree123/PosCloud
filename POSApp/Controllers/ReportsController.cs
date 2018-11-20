@@ -59,16 +59,9 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            
-            string path = Server.MapPath("~/Content/Reports/");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
             string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
             ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSalesData((int)user.StoreId,dateFrom,dateTo),
-                "ProductSalesReport", path, this.HttpContext.User.Identity.GetUserId(),_unitOfWork,
+                "ProductSalesReport", this.HttpContext.User.Identity.GetUserId(),_unitOfWork,
                 (int)user.StoreId,details, Server.MapPath("~/Reports"), "ProductSales.rpt");
 
 
@@ -80,15 +73,11 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
 
-            string path = Server.MapPath("~/Content/Reports/");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+           
 
             string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
             ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCategoriesSalesData((int)user.StoreId, dateFrom, dateTo),
-                "CategoriesSalesReport", path, this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                "CategoriesSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "CategoriesSales.rpt");
 
             return RedirectToAction("MyReports");
@@ -99,16 +88,9 @@ namespace POSApp.Controllers
             
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-
-            string path = Server.MapPath("~/Content/Reports/");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
             string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
             ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeWiseSalesData((int)user.StoreId, dateFrom, dateTo),
-                "ProductSizeWiseSalesReport", path, this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                "ProductSizeWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductSizeWiseSales.rpt");
 
             return RedirectToAction("MyReports");
@@ -118,16 +100,9 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-
-            string path = Server.MapPath("~/Content/Reports/");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
             string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
             ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateComboSalesData((int)user.StoreId, dateFrom, dateTo),
-                "ComboSalesReport", path, this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                "ComboSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "ComboSale.rpt");
 
             return RedirectToAction("MyReports");
@@ -158,16 +133,9 @@ namespace POSApp.Controllers
             
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-
-                string path = Server.MapPath("~/Content/Reports/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
                 ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateBranchSalesData((int)user.StoreId, dateFrom, dateTo),
-                    "BranchSalesReport", path, this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    "BranchSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "BranchWiseSale.rpt");
 
                 return RedirectToAction("MyReports");

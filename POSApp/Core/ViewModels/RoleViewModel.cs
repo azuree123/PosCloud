@@ -12,5 +12,16 @@ namespace POSApp.Core.ViewModels
         public int? StoreId { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
+        public List<RoleSecurityRightViewModel> RoleSecurityRightViewModels { get; set; }
+    }
+
+    public class RoleSecurityRightViewModel
+    {
+        public int SecurityObjectId { get; set; }
+        public string SecurityObject { get; set; }
+        public string Module { get; set; }
+        public bool Manage { get; set; }
+        public bool View { get; set; }
+
     }
 }
