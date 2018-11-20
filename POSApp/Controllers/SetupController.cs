@@ -3137,8 +3137,7 @@ namespace POSApp.Controllers
                     {
                         var userId = this.HttpContext.User.Identity.GetUserId();
                         var user = UserManager.FindById(userId);
-
-                        RoleManager.Create(new ApplicationRole
+                        var roleAdd = new ApplicationRole
                         {
                             Name = role.Name,
                             StoreId = user.StoreId,
@@ -3146,7 +3145,20 @@ namespace POSApp.Controllers
                             UpdatedOn = DateTime.Now,
                             CreatedById = userId,
                             UpdatedById = userId
-                        });
+                        };
+                        RoleManager.Create(roleAdd);
+                        foreach (var roleRoleSecurityRightViewModel in role.RoleSecurityRightViewModels)
+                        {
+                            _unitOfWork.SecurityRightRepository.AddSecurityRight(new SecurityRight
+                            {
+                                IdentityUserRoleId = roleAdd.Id,
+                                Manage = roleRoleSecurityRightViewModel.Manage,
+                                SecurityObjectId = roleRoleSecurityRightViewModel.SecurityObjectId,
+                                View = roleRoleSecurityRightViewModel.View,
+                                StoreId = (int)user.StoreId
+                            });
+                        }
+                        _unitOfWork.Complete();
                     }
                     TempData["Alert"] = new AlertModel("The role added successfully", AlertType.Success);
                     return RedirectToAction("RolesList");
