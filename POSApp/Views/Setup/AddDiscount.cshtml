@@ -49,7 +49,7 @@
                                     <div class="form-group">
 
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1" })
                                             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
@@ -60,7 +60,7 @@
 
 
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.DiscountCode, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.DiscountCode, htmlAttributes: new { @class = "control-label required1" })
                                             @Html.EditorFor(model => model.DiscountCode, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                             @Html.ValidationMessageFor(model => model.DiscountCode, "", new { @class = "text-danger" })
                                         </div>
@@ -68,7 +68,7 @@
 
 
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label required1" })
                                             @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                             @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
                                         </div>
@@ -79,20 +79,20 @@
 
 
                                         <div class="col-md-2">
-                                            @Html.LabelFor(model => model.ValidFrom, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.ValidFrom, htmlAttributes: new { @class = "control-label required1" })
                                             @Html.EditorFor(model => model.ValidFrom, new { htmlAttributes = new { @class = "form-control unstyled", @required = "true" } })
                                             @Html.ValidationMessageFor(model => model.ValidFrom, "", new { @class = "text-danger" })
                                         </div>
                                         <input type="hidden" id="ValidFrom_date" value="@Model.ValidFrom" />
                                         <div class="col-md-2">
-                                            @Html.LabelFor(model => model.ValidTill, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.ValidTill, htmlAttributes: new { @class = "control-label required1" })
                                             @Html.EditorFor(model => model.ValidTill, new { htmlAttributes = new { @class = "form-control unstyled", @required = "true" } })
                                             @Html.ValidationMessageFor(model => model.ValidTill, "", new { @class = "text-danger" })
                                         </div>
                                         <input type="hidden" id="ValidTill_date" value="@Model.ValidTill" />
 
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label " })
+                                            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label required1 " })
                                             @Html.DropDownListFor(a => a.Type, new SelectList(Enum.GetValues(typeof(DiscountType))), "Select Discount Type", new { @class = "form-control" })
                                         </div>
 
