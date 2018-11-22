@@ -72,7 +72,6 @@
                         <th width="5%">ID</th>
                         <th width="15%">Name</th>
                         <th width="15%">Barcode</th>
-                        
                         <th width="30%">Action</th>
 
                     </tr>
@@ -87,7 +86,7 @@
                             <td>@modifier.Barcode</td>
                             
 
-                            <td>
+                            
                                 <td class="center">
                                     <div class="btn-group">
 
@@ -95,7 +94,7 @@
                                         @Html.ActionLink(" ", "DeleteModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                                     </div>
                                 </td>
-                            </td>
+                            
                         </tr>
                     }
                 </tbody>

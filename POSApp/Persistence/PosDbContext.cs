@@ -4,10 +4,13 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using POSApp.Core.Models;
 using POSApp.Persistence.EntityConfigurations;
+using RedirectToRouteResult = System.Web.Http.Results.RedirectToRouteResult;
 
 namespace POSApp.Persistence
 {
@@ -55,8 +58,11 @@ namespace POSApp.Persistence
         public DbSet<TillOperation> TillOperations { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
-            var objectContext = (this as IObjectContextAdapter).ObjectContext;
-            objectContext.CommandTimeout = Timeout;
+          
+                var objectContext = (this as IObjectContextAdapter).ObjectContext;
+                objectContext.CommandTimeout = Timeout;
+           
+           
         }
         public static PosDbContext Create()
         {

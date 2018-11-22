@@ -17229,6 +17229,10 @@ div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTable
 /*input[type="checkbox"]{
     width:7%;
 }*/
+/*.required1 {
+    content: "*";
+    color: red;
+}*/
 
 
 @media only screen and (max-width: 600px) {
