@@ -15,5 +15,6 @@ namespace POSApp.Core.ViewModels.Sync
     public class SyncObject
     {
         public string Object { get; set; }
+        public string Status { get; set; }
     }
 }

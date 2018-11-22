@@ -46,12 +46,14 @@ namespace POSApp.Controllers.WebApi
                     _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(productCategoryGroup);
                 }
                 _unitOfWork.Complete();
-                return Ok("Success");
+                //int s = 1;
+                //sync.Status = "Success";
+                return Ok(1);
             }
             catch (Exception e)
             {
-                return Ok("Error");
-                throw;
+                //sync.Status = "Error";
+                return Ok(0);
             }
         }
 
