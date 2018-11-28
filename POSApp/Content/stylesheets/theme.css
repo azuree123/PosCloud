@@ -6363,7 +6363,8 @@ html.ie11 .scroll-to-top {
 }
 
 .panel-featured-left {
-	border: 1px solid #33353F;
+    border: 1px solid #33353F;
+    border-left: 7px solid;
 }
 
 .panel-featured-primary {
@@ -12463,6 +12464,7 @@ ul.simple-bullet-list li.orange:before {
 .widget-summary .summary {
 	min-height: 65px;
 	word-break: break-all;
+
 }
 
 .widget-summary .summary .title {
