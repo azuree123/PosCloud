@@ -12455,14 +12455,9 @@ ul.simple-bullet-list li.orange:before {
 
 .widget-summary .summary-icon {
 	margin-right: 15px;
-	font-size: 3.2rem;
-	width: 50px;
-	height: 50px;
+
 	line-height: 50px;
-	text-align: center;
-	color: #fff;
-	-webkit-border-radius: 55px;
-	border-radius: 55px;
+
 }
 
 .widget-summary .summary {
