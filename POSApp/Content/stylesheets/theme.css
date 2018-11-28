@@ -12472,7 +12472,7 @@ ul.simple-bullet-list li.orange:before {
 	font-size: 1.3rem;
 	line-height: 2.2rem;
 	color: #333;
-	font-weight: 500;
+	font-weight: bold;
 }
 
 .widget-summary .summary .info {
