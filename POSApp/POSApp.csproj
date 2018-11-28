@@ -831,9 +831,13 @@
     <Content Include="Content\images\device.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\icon.png" />
+    <Content Include="Content\images\icons\expenceicon.png" />
     <Content Include="Content\images\icons\images.png" />
     <Content Include="Content\images\icons\ORDER4.jpg" />
+    <Content Include="Content\images\icons\ordericon.png" />
     <Content Include="Content\images\icons\refund.png" />
+    <Content Include="Content\images\icons\refundicon.png" />
+    <Content Include="Content\images\icons\saleicon.png" />
     <Content Include="Content\images\invoice-41.png" />
     <Content Include="Content\images\invoice-411.png" />
     <Content Include="Content\images\jstree-dark.png" />
