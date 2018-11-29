@@ -65,6 +65,10 @@
                             <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Product</button>
 
                         </a>
+                        <a href="@Url.Action("ProductCategoryGroupList","Products")" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Product Category Group List</button>
+
+                        </a>
                         <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
                             <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Category List</button>
 
@@ -117,7 +121,7 @@
                                 <td class="center">
                                     <div class="btn-group">
 
-                                    @Html.ActionLink(" ", "UpdateProduct", "Products", new { id = @product.ProductCode, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "UpdateProduct", "Products", new { productId = @product.ProductCode, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
                                     @Html.ActionLink(" ", "DeleteProduct", "Products", new { id = @product.ProductCode, storeId = @product.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                                     </div>
                                 </td>

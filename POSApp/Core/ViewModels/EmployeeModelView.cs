@@ -14,6 +14,7 @@ namespace POSApp.Core.ViewModels
         public string Email { get; set; }
         public string Gender { get; set; }
         [DisplayName("Mobile Number")]
+        [RegularExpression(@"^\(?([0-9]{4})\)?[-. ]?([0-9]{7})$", ErrorMessage = "Entered phone format like (03211234567)")]
         public string MobileNumber { get; set; }
         public double Salary { get; set; }
         public double Commission { get; set; }

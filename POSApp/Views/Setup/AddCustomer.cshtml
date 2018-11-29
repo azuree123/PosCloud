@@ -97,12 +97,6 @@
                                             @Html.TextAreaFor(model => model.Address, new {  @class = "form-control" , @rows = "3" })
                                             @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                         </div>
-
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label" })
-                                            @Html.TextAreaFor(model => model.Note, new { @class = "form-control", @cols = "8", @rows = "3" })
-                                            @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
-                                        </div>
                                     </div>
                                 </div>
                             </div>

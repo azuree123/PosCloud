@@ -151,7 +151,10 @@
                 type: 'GET',
                 cache: false,
                 success: function (result) {
+                    if (!$('#ordine').is(':visible')) {
+
                     $('#ModalData').html(result).find('#ordine').modal('show');
+                    }
                 }
             });
 

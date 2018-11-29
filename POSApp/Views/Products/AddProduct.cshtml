@@ -36,13 +36,13 @@
                     <div class="panel panel-bd lobidrag">
 
                         <div class="panel-body">
-
                             @Html.HiddenFor(a => a.Id)
                             @Html.HiddenFor(a => a.ProductCode)
                             @Html.HiddenFor(a => a.CreatedBy)
                             @Html.HiddenFor(a => a.CreatedOn)
                             @Html.HiddenFor(a => a.Image)
                             @Html.HiddenFor(a => a.StoreId)
+                           
                             <div class="">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="row">
@@ -98,7 +98,7 @@
 
                                 <div class="row">
                                     <div class="form-group">
-                                        
+
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label" })
@@ -117,23 +117,23 @@
                                         </div>
                                     </div>
                                 </div>
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label" })
-                                                    @Html.DropDownListFor(model => model.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                    @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
-                                                </div>
-                                                <div class="col-md-4">
-                                                    @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label" })
-                                                    <input type="file" name="file" id="file" />
-                                                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label" })
+                                            @Html.DropDownListFor(model => model.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                            @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
                                         </div>
-                                       
-                                    
-                                
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label" })
+                                            <input type="file" name="file" id="file" />
+                                            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-2">
@@ -151,7 +151,7 @@
                                             @Html.EditorFor(model => model.FixedAssetItem, new { htmlAttributes = new { @class = "" } })
                                             @Html.ValidationMessageFor(model => model.FixedAssetItem, "", new { @class = "text-danger" })
                                         </div>
-                                        
+
                                         <div class="col-md-2">
                                             @Html.Label("Is Taxable?", htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "" } })
@@ -168,8 +168,8 @@
                                                 });
                                         </script>
                                         <div class="col-md-4" style="display: none" id="taxDdl">
-                                            @Html.LabelFor(a=>a.TaxId, htmlAttributes: new { @class = "control-label" })
-                                            @Html.DropDownListFor(model => model.TaxId,Model.TaxDdl,"Select an Option", new {  @class = "form-control"  })
+                                            @Html.LabelFor(a => a.TaxId, htmlAttributes: new { @class = "control-label" })
+                                            @Html.DropDownListFor(model => model.TaxId, Model.TaxDdl, "Select an Option", new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.TaxId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>

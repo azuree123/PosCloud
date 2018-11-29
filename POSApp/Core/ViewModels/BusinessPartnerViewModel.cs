@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -11,6 +12,8 @@ namespace POSApp.Core.ViewModels
         public int StoreId { get; set; }
 
         public string Name { get; set; }
+
+        [RegularExpression(@"^\(?([0-9]{4})\)?[-. ]?([0-9]{7})$", ErrorMessage = "Entered phone format like (03211234567)")]
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }

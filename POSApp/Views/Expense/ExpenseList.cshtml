@@ -81,7 +81,7 @@
                             <td>@expense.EmployeeId</td>
                             <td>@expense.Amount</td>
                             <td>@expense.Description</td>
-                            <td>@expense.Date</td>
+                            <td>@expense.Date.ToShortDateString()</td>
                             <td class="center">
                                 <div class="btn-group">
 
@@ -113,19 +113,25 @@
     <script>
         $('#datatable-default').dataTable();
 
-        $('a.modalShow').on('click', function () {
+        $('a.modalShow').on('click',
+            function() {
+               
+                $.ajax({
+                    url: this.href,
+                    type: 'GET',
+                    cache: false,
+                    success: function (result) {
 
-            $.ajax({
-                url: this.href,
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('#ModalData').html(result).find('#ordine').modal('show');
-                }
+                        debugger;
+                        if (!$('#ordine').is(':visible')) {
+
+                            $('#ModalData').html(result).find('#ordine').modal('show');
+                        }
+                    }
+                });
+
+                return false;
             });
-
-            return false;
-        });
     </script>
 }
 

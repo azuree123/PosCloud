@@ -141,12 +141,12 @@ namespace POSApp.Controllers
 
 
         }
-        public ActionResult UpdateProduct(string id)
+        public ActionResult UpdateProduct(string productId)
         {
             ViewBag.edit = "UpdateProduct";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductByCode(id,Convert.ToInt32(user.StoreId)));
+            ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductByCode(productId, Convert.ToInt32(user.StoreId)));
             productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Product")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
@@ -158,7 +158,7 @@ namespace POSApp.Controllers
             return View("AddProduct", productVm);
         }
         [HttpPost]
-        public ActionResult UpdateProduct(string id, ProductCreateViewModel productVm,HttpPostedFileBase file)
+        public ActionResult UpdateProduct(string productId, ProductCreateViewModel productVm,HttpPostedFileBase file)
         {
             ViewBag.edit = "UpdateProduct";
             try
@@ -172,9 +172,10 @@ namespace POSApp.Controllers
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
                 }
-                else if (file != null && file.ContentLength > 0)
+                else 
                 {
-                    try
+                    if (file != null && file.ContentLength > 0)
+                        try
                     {
                         productVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
                         file.InputStream.Read(productVm.Image, 0, file.ContentLength);
@@ -184,16 +185,15 @@ namespace POSApp.Controllers
                     {
                         ViewBag.Message = "ERROR:" + e.Message.ToString();
                     }
-                }
 
-                {
                     Product product = Mapper.Map<Product>(productVm);
                     product.Type = "Product";
-                    _unitOfWork.ProductRepository.UpdateProduct(id, Convert.ToInt32(user.StoreId), product);
+                    _unitOfWork.ProductRepository.UpdateProduct(product.ProductCode, Convert.ToInt32(user.StoreId), product);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The product updated successfully", AlertType.Success);
                     return RedirectToAction("ProductsList", "Products");
                 }
+                
             }
             catch (DbEntityValidationException ex)
             {
