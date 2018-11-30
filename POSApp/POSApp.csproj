@@ -2742,6 +2742,7 @@
     <Content Include="Views\Setup\AddTillOperation.cshtml" />
     <Content Include="Views\Shared\_AlertView.cshtml" />
     <Content Include="Views\Setup\TillOperationList.cshtml" />
+    <Content Include="Views\Shared\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

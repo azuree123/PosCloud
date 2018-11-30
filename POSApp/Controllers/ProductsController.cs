@@ -328,7 +328,7 @@ namespace POSApp.Controllers
                 ProductCategory productcategory = Mapper.Map<ProductCategory>(productcategoryvm);
                 _unitOfWork.ProductCategoryRepository.AddProductCategory(productcategory);
                 _unitOfWork.Complete();
-                return PartialView("Error");
+                return PartialView("Test");
             }
 
         }
@@ -494,7 +494,7 @@ namespace POSApp.Controllers
                
                 _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(ProductCategoryGroup);
                 _unitOfWork.Complete();
-                return PartialView("Error");
+                return PartialView("Test");
             }
 
         }

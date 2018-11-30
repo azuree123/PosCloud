@@ -62,7 +62,7 @@ namespace POSApp.Controllers
                 department.StoreId = (int) user.StoreId;
                 _unitOfWork.DepartmentRepository.AddDepartment(department);
                 _unitOfWork.Complete();
-                return PartialView("Error");
+                return PartialView("Test");
             }
 
         }
@@ -86,7 +86,7 @@ namespace POSApp.Controllers
         //        Designation designation = Mapper.Map<Designation>(designationVm);
         //        _unitOfWork.DesignationRepository.AddDesignation(designation);
         //        _unitOfWork.Complete();
-        //        return PartialView("Error");
+        //        return PartialView("Test");
         //    }
 
         //}
@@ -112,7 +112,7 @@ namespace POSApp.Controllers
                 State state = Mapper.Map<State>(statevm);
                 _unitOfWork.StateRepository.AddState(state);
                 _unitOfWork.Complete();
-                return PartialView("Error");
+                return PartialView("Test");
             }
 
         }
@@ -144,7 +144,7 @@ namespace POSApp.Controllers
                 supplier.Birthday=DateTime.Now;
                 _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(supplier);
                 _unitOfWork.Complete();
-                return PartialView("Error");
+                return PartialView("Test");
             }
 
         }
@@ -173,7 +173,7 @@ namespace POSApp.Controllers
         //        Employee employee = Mapper.Map<Employee>(employeevm);
         //        _unitOfWork.EmployeeRepository.AddEmployee(employee);
         //        _unitOfWork.Complete();
-        //        return PartialView("Error");
+        //        return PartialView("Test");
         //    }
 
         //}

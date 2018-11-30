@@ -269,7 +269,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expensehead);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Expense added successfully", AlertType.Success);
-                    return PartialView("Error");
+                    return PartialView("Test");
                 }
             }
             catch (DbEntityValidationException ex)
@@ -305,7 +305,7 @@ namespace POSApp.Controllers
                     }
             }
 
-            return PartialView("Error");
+            return PartialView("Test");
 
 
         }

@@ -175,7 +175,7 @@ namespace POSApp.Controllers
                 productcategory.Type = "Service";
                 _unitOfWork.ProductCategoryRepository.AddProductCategory(productcategory);
                 _unitOfWork.Complete();
-                return PartialView("Error");
+                return PartialView("Test");
             }
 
         }
