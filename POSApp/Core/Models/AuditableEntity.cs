@@ -27,5 +27,7 @@ namespace POSApp.Core.Models
         public DateTime? SyncedOn { get; set; }
 
         public string Code { get; set; }
+        [DefaultValue(true)]
+        public bool IsActive { get; set; }
     }
 }

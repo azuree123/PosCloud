@@ -780,6 +780,7 @@ namespace POSApp.Controllers
 
         public ActionResult AddCombo()
         {
+            
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ComboViewModel product = new ComboViewModel();
@@ -803,47 +804,81 @@ namespace POSApp.Controllers
         public ActionResult AddCombo(ComboViewModel productVm, HttpPostedFileBase file)
         {
             ViewBag.edit = "AddCombo";
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            if (!ModelState.IsValid)
+            try
             {
-                productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo")
-                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-               
-                productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
-                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-                productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
-                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-                productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int) user.StoreId)
-                    .Select(a => new SelectListItem {Value = a.SectionId.ToString(), Text = a.Name}).AsEnumerable();
-                return View(productVm);
-            }
-            else
-            if (file != null && file.ContentLength > 0)
-            {
-
-                try
-                {
                 
-                    productVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
-                    file.InputStream.Read(productVm.Image, 0, file.ContentLength);
-                }
-                catch (Exception e)
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                if (!ModelState.IsValid)
                 {
-                    ViewBag.Message = "ERROR:" + e.Message.ToString();
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
                 }
+                else
+                if (file != null && file.ContentLength > 0)
+                {
 
+                    try
+                    {
+
+                        productVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
+                        file.InputStream.Read(productVm.Image, 0, file.ContentLength);
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.Message = "ERROR:" + e.Message.ToString();
+                    }
+
+                }
+                {
+
+                    productVm.StoreId = user.StoreId;
+                    Product product = Mapper.Map<Product>(productVm);
+                    product.Type = "Combo";
+                    _unitOfWork.ProductRepository.AddProduct(product);
+                    int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The combo added successfully", AlertType.Success);
+                    return RedirectToAction("CombosList", "Products");
+                }
             }
+            catch (DbEntityValidationException ex)
             {
 
-                productVm.StoreId = user.StoreId;
-                Product product = Mapper.Map<Product>(productVm);
-                product.Type = "Combo";
-                _unitOfWork.ProductRepository.AddProduct(product);
-                int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
-                _unitOfWork.Complete();
-                return RedirectToAction("CombosList", "Products");
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("CombosList", "Products");
+
 
         }
         public ActionResult UpdateCombo(int id)
@@ -881,50 +916,123 @@ namespace POSApp.Controllers
         public ActionResult UpdateCombo(string id, ComboViewModel productVm, HttpPostedFileBase file)
         {
             ViewBag.edit = "UpdateCombo";
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            if (!ModelState.IsValid)
+            try
             {
-                productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo")
-                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-                productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
-                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-                productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
-                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-                productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
-                    .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-                return View("AddCombo", productVm);
-            }
-            else if (file != null && file.ContentLength > 0)
-            {
-                try
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                if (!ModelState.IsValid)
                 {
-                    productVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
-                    file.InputStream.Read(productVm.Image, 0, file.ContentLength);
-
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
                 }
-                catch (Exception e)
+                else if (file != null && file.ContentLength > 0)
                 {
-                    ViewBag.Message = "ERROR:" + e.Message.ToString();
+                    try
+                    {
+                        productVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
+                        file.InputStream.Read(productVm.Image, 0, file.ContentLength);
+
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.Message = "ERROR:" + e.Message.ToString();
+                    }
+                }
+
+                {
+                    Product product = Mapper.Map<Product>(productVm);
+                    product.Type = "Combo";
+                    _unitOfWork.ProductRepository.UpdateProduct(id, Convert.ToInt32(user.StoreId), product);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The combo updated successfully", AlertType.Success);
+                    return RedirectToAction("CombosList", "Products");
                 }
             }
-
+            catch (DbEntityValidationException ex)
             {
-                Product product = Mapper.Map<Product>(productVm);
-                product.Type = "Combo";
-                _unitOfWork.ProductRepository.UpdateProduct(id, Convert.ToInt32(user.StoreId), product);
-                _unitOfWork.Complete();
-                return RedirectToAction("CombosList", "Products");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("CombosList", "Products");
+
 
         }
         public ActionResult DeleteCombo(string id, int storeid)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.ProductRepository.DeleteProduct(id, Convert.ToInt32(user.StoreId));
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ProductRepository.DeleteProduct(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The combo added successfully", AlertType.Success);
+                return RedirectToAction("CombosList", "Products");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("CombosList", "Products");
+
         }
         public ActionResult AddComboOption()
         {

@@ -10,6 +10,7 @@ using POSApp.Core.ViewModels;
 
 namespace POSApp.Controllers
 {
+    [Authorize]
     public class StoreController : Controller
     {
         private IUnitOfWork _unitOfWork;

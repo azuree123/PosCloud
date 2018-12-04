@@ -37,8 +37,11 @@ namespace POSApp.Persistence.Repositories
 
         public void UpdateClient(int id, Client client)
         {
+
             _context.Clients.Attach(client);
             _context.Entry(client).State = EntityState.Modified;
+
+           
         }
 
         public void DeleteClient(int id)

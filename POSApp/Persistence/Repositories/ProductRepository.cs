@@ -18,11 +18,11 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<Product> GetAllProducts(int storeId)
         {
-            return _context.Products.Include(a=>a.ProductCategory).Where(a=>a.StoreId==storeId).ToList();
+            return _context.Products.Include(a=>a.ProductCategory).Where(a=>a.StoreId==storeId && a.IsActive).ToList();
         }
         public IEnumerable<Product> GetProducts(int productCategoryId)
         {
-            return _context.Products.Where(a => a.CategoryId == productCategoryId).ToList();
+            return _context.Products.Where(a => a.CategoryId == productCategoryId && a.IsActive).ToList();
         }
         public Product GetProductById(int id, int storeid)
         {
@@ -49,9 +49,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteProduct(string id, int storeid)
         {
-            var product = new Product { ProductCode = id, StoreId = storeid};
+            var product = _context.Products.FirstOrDefault(a=>a.ProductCode==id && a.StoreId==storeid);
+            product.IsActive = false;
             _context.Products.Attach(product);
-            _context.Entry(product).State = EntityState.Deleted;
+            _context.Entry(product).State = EntityState.Modified;
         }
         public IEnumerable<Product> GetApiProducts()
         {

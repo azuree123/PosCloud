@@ -19,10 +19,14 @@ namespace POSApp.Core.ViewModels
         [DisplayName("Operation Date")]
         public DateTime OperationDate { get; set; }
         public string Remarks { get; set; }
+        [DisplayName("Opening Amount")]
         public decimal OpeningAmount { get; set; }
+        [DisplayName("System Amount")]
         public decimal SystemAmount { get; set; }
+        [DisplayName("Physical Amount")]
         public decimal PhysicalAmount { get; set; }
         public bool Status { get; set; }
+        [DisplayName("TillOperation Type")]
         public string TillOperationType { get; set; }//Open or Close
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
@@ -32,10 +36,14 @@ namespace POSApp.Core.ViewModels
     public class TillOperationListModelView
     {
         public int? Id { get; set; }
+        [DisplayName("Shift Name")]
         public string ShiftName { get; set; }
+        [DisplayName("Operation Date")]
         public DateTime OperationDate { get; set; }
         public string Remarks { get; set; }
+        [DisplayName("Opening Amount")]
         public decimal OpeningAmount { get; set; }
+        [DisplayName("System Amount")]
         public decimal SystemAmount { get; set; }
         public decimal PhysicalAmount { get; set; }
         public bool Status { get; set; }
