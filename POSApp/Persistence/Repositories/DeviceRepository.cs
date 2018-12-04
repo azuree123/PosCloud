@@ -22,7 +22,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Device> GetDevices(int storeid)
         {
-            return _context.Devices.Where(a => a.StoreId == storeid).ToList();
+            return _context.Devices.Where(a => a.StoreId == storeid && a.IsActive).ToList();
         }
 
         public Device GetDeviceById(int id, int storeid)
@@ -54,9 +54,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteDevice(int id, int storeid)
         {
-            var Device = new Device { Id = id, StoreId = storeid };
-            _context.Devices.Attach(Device);
-            _context.Entry(Device).State = EntityState.Deleted;
+            var device = _context.Devices.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
+            device.IsActive = false;
+            _context.Devices.Attach(device);
+            _context.Entry(device).State = EntityState.Modified;
         }
     }
 }

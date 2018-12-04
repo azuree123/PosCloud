@@ -32,6 +32,7 @@ namespace POSApp.Core.Models
         public Shift Shift { get; set; }
         [Column(TypeName = "DateTime2")]
         public DateTime CreatedOn { get; set; }
+        public bool IsActive { get; set; }
         public string CreatedById { get; set; }
         //public ApplicationUser CreatedBy { get; set; }
         public string UpdatedById { get; set; }

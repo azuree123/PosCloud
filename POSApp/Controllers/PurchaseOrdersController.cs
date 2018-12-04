@@ -13,6 +13,7 @@ using POSApp.Core.ViewModels;
 
 namespace POSApp.Controllers
 {
+    [Authorize]
     public class PurchaseOrdersController : Controller
     {
         private IUnitOfWork _unitOfWork;

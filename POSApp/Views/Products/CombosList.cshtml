@@ -1,6 +1,12 @@
-﻿@model IEnumerable<POSApp.Core.Models.Product>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.Models.Product>
 @{
     ViewBag.Title = "ProductsList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
 <!-- start: page -->
@@ -23,8 +29,8 @@
             <div class="col-md-12">
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>Combos</b></h3>
-                   
-                   
+
+
 
                     <a href="@Url.Action("AddCombo", "Products")" class="" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Combo</button>

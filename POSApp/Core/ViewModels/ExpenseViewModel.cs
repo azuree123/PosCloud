@@ -27,4 +27,6 @@ namespace POSApp.Core.ViewModels
         public IEnumerable<SelectListItem> ExpHeadDdl { get; set; }
 
     }
+
+   
 }

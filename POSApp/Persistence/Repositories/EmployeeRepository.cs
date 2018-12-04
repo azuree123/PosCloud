@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Employee> GetEmployees(int storeId)
         {
-            return _context.Employees.Where(a=>a.StoreId == storeId).ToList();
+            return _context.Employees.Where(a=>a.StoreId == storeId && a.IsActive).ToList();
         }
 
         public Employee GetEmployeeById(int id,int storeid)
@@ -50,9 +50,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteEmployee(int id, int storeid)
         {
-            var employee = new Employee {Id = id, StoreId = storeid};
+            var employee = _context.Employees.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
+            employee.IsActive = false;
             _context.Employees.Attach(employee);
-            _context.Entry(employee).State = EntityState.Deleted;
+            _context.Entry(employee).State = EntityState.Modified;
         }
         public IEnumerable<Employee> GetApiEmployees()
         {

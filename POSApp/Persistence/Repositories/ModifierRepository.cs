@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Modifier> GetModifiers(int storeId)
         {
-            return _context.Modifiers.Where(x => x.StoreId == storeId).ToList();
+            return _context.Modifiers.Where(x => x.StoreId == storeId && x.IsActive).ToList();
         }
 
         public Modifier GetModifierById(int id, int storeId)
@@ -44,9 +44,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteModifier(int id, int storeId)
         {
-           Modifier modifier=new Modifier{Id = id,StoreId = storeId};
+            var modifier = _context.Modifiers.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            modifier.IsActive = false;
             _context.Modifiers.Attach(modifier);
-            _context.Entry(modifier).State = EntityState.Deleted;
+            _context.Entry(modifier).State = EntityState.Modified;
         }
     }
 }

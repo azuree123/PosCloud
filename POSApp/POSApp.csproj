@@ -471,6 +471,18 @@
     <Compile Include="Migrations\201811201122170_update4.Designer.cs">
       <DependentUpon>201811201122170_update4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812041135224_IsActive-Added.cs" />
+    <Compile Include="Migrations\201812041135224_IsActive-Added.Designer.cs">
+      <DependentUpon>201812041135224_IsActive-Added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812041227246_int-5.cs" />
+    <Compile Include="Migrations\201812041227246_int-5.Designer.cs">
+      <DependentUpon>201812041227246_int-5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812041239215_int-6.cs" />
+    <Compile Include="Migrations\201812041239215_int-6.Designer.cs">
+      <DependentUpon>201812041239215_int-6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\POSTerminalEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SectionEntityConfiguration.cs" />
@@ -2779,6 +2791,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811201122170_update4.resx">
       <DependentUpon>201811201122170_update4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812041135224_IsActive-Added.resx">
+      <DependentUpon>201812041135224_IsActive-Added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812041227246_int-5.resx">
+      <DependentUpon>201812041227246_int-5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812041239215_int-6.resx">
+      <DependentUpon>201812041239215_int-6.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

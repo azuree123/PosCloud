@@ -63,7 +63,7 @@
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.OpeningAmount, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.OpeningAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.OpeningAmount, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                             @Html.ValidationMessageFor(model => model.OpeningAmount, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -73,12 +73,12 @@
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.SystemAmount, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.SystemAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.SystemAmount, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                             @Html.ValidationMessageFor(model => model.SystemAmount, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.PhysicalAmount, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.PhysicalAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.PhysicalAmount, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                             @Html.ValidationMessageFor(model => model.PhysicalAmount, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">

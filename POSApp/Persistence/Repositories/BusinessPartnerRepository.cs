@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
         }
         public BusinessPartner GetBusinessPartner(int id, int StoreId)
         {
-            return _context.BusinessPartners.FirstOrDefault(x => x.Id == id && x.StoreId == StoreId);
+            return _context.BusinessPartners.FirstOrDefault(x => x.Id == id && x.StoreId == StoreId && x.IsActive);
         }
         public IEnumerable<BusinessPartner> GetBusinessPartners(string type, int StoreId)
         {
@@ -84,12 +84,16 @@ namespace POSApp.Persistence.Repositories
         public void DeleteBusinessPartner(int id, int StoreId)
         {
             var dept = _context.BusinessPartners.FirstOrDefault(a => a.Id == id && a.StoreId == StoreId);
-            _context.BusinessPartners.Remove(dept);
+            dept.IsActive = false;
+            _context.BusinessPartners.Attach(dept);
+            _context.Entry(dept).State = EntityState.Modified;
+            
         }
         public void AddBusinessPartner(BusinessPartner item)
         {
             if (!_context.BusinessPartners.Where(a => a.Name == item.Name && a.Type == item.Type && a.StoreId==item.StoreId && a.Email==item.Email).Any())
             {
+             
             _context.BusinessPartners.Add(item);
             }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,7 @@ using POSApp.Core.ViewModels;
 
 namespace POSApp.Controllers
 {
+    [Authorize]
     public class ExpenseController : Controller
     {
         private ApplicationUserManager _userManager;
@@ -31,14 +33,14 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ExpenseRepository.GetExpenses((int)user.StoreId));
+            return View( _unitOfWork.ExpenseRepository.GetExpenses((int)user.StoreId));
         }
         public ActionResult AddExpense()
         {
             ExpenseViewModel expense=new ExpenseViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            expense.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem{Value = a.Id.ToString(),Text = a.Name}).AsEnumerable();
+            expense.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem{Text = a.Name, Value = a.Id.ToString()}).AsEnumerable();
             expense.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem {Text = a.Name,Value = a.Id.ToString()})
                 .AsEnumerable();
             ViewBag.edit = "AddExpense";
@@ -48,7 +50,7 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddExpense(ExpenseViewModel expenseVm)
         {
-            ViewBag.edit = "AddDevice";
+            ViewBag.edit = "AddExpense";
             try
             {
                 var userid = User.Identity.GetUserId();

@@ -49,9 +49,11 @@ namespace POSApp.Core.ViewModels
         public int[] Categories { get; set; }
         public string[] Products { get; set; }
         public int[] Branches { get; set; }
-
+        [DisplayName("Days Display")]
         public string DaysDisplay { get; set; }
+        [DisplayName("Products Display")]
         public string ProductsDisplay { get; set; }
+        [DisplayName("Branches Display")]
         public string BranchesDisplay { get; set; }
 
 

@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
         }
         public ProductCategoryGroup GetProductCategoryGroup(int id,int storeId)
         {
-            return _context.ProductCategoryGroups.FirstOrDefault(x => x.Id == id && x.StoreId==storeId);
+            return _context.ProductCategoryGroups.FirstOrDefault(x => x.Id == id && x.StoreId==storeId && x.IsActive);
         }
         public IEnumerable<ProductCategoryGroupViewModel> GetProductCategoryGroups(int storeId)
         {
@@ -65,8 +65,10 @@ namespace POSApp.Persistence.Repositories
         }
         public void DeleteProductCategoryGroup(int id, int storeId)
         {
-            var dept = _context.ProductCategoryGroups.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            _context.ProductCategoryGroups.Remove(dept);
+            var productCategorygroup = _context.ProductCategoryGroups.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            productCategorygroup.IsActive = false;
+            _context.ProductCategoryGroups.Attach(productCategorygroup);
+            _context.Entry(productCategorygroup).State = EntityState.Modified;
         }
         public void AddProductCategoryGroup(ProductCategoryGroup optcategory)
         {

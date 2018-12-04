@@ -20,7 +20,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<POSTerminal> GetPOSTerminals(int storeid)
         {
-            return _context.PosTerminals.Where(a => a.StoreId == storeid).Include(f => f.Section).ToList();
+            return _context.PosTerminals.Where(a => a.StoreId == storeid && a.IsActive).Include(f => f.Section).ToList();
         }
 
         public POSTerminal GetPOSTerminalById(int id, int storeid)
@@ -52,9 +52,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeletePOSTerminal(int id, int storeid)
         {
-            var POSTerminal = new POSTerminal { POSTerminalId = id, StoreId = storeid };
-            _context.PosTerminals.Attach(POSTerminal);
-            _context.Entry(POSTerminal).State = EntityState.Deleted;
+            var posTerminal = _context.PosTerminals.FirstOrDefault(a => a.POSTerminalId == id && a.StoreId == storeid);
+            posTerminal.IsActive = false;
+            _context.PosTerminals.Attach(posTerminal);
+            _context.Entry(posTerminal).State = EntityState.Modified;
         }
     }
 }

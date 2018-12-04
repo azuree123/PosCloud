@@ -24,7 +24,7 @@ namespace POSApp.Persistence.Repositories
         {
             //return _context.Discount;
             return _context.Discounts
-                .Where(a => a.StoreId == storeId)
+                .Where(a => a.StoreId == storeId && a.IsActive)
                 .ToList();
         }
 
@@ -58,9 +58,10 @@ namespace POSApp.Persistence.Repositories
         }
         public void DeleteDiscount(int id, int storeId)
         {
-            var discounted = new Discount { Id = id, StoreId = storeId };
-            _context.Discounts.Attach(discounted);
-            _context.Entry(discounted).State = EntityState.Deleted;
+            var discount = _context.Discounts.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            discount.IsActive = false;
+            _context.Discounts.Attach(discount);
+            _context.Entry(discount).State = EntityState.Modified;
         }
         public void AddDiscount(Discount optcategory)
         {

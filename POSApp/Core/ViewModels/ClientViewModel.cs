@@ -9,6 +9,7 @@ namespace POSApp.Core.ViewModels
     public class ClientViewModel
     {
         public int? Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public string Address { get; set; }
         [RegularExpression(@"^\(?([0-9]{4})\)?[-. ]?([0-9]{7})$", ErrorMessage = "Entered phone format like (03211234567)")]

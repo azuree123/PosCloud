@@ -13,6 +13,7 @@ using POSApp.Core.ViewModels;
 
 namespace POSApp.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private ApplicationUserManager _userManager;

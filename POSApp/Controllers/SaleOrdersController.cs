@@ -9,6 +9,7 @@ using System.Linq.Dynamic;
 
 namespace POSApp.Controllers
 {
+    [Authorize]
     public class SaleOrdersController : Controller
     {
         private ApplicationUserManager _userManager;

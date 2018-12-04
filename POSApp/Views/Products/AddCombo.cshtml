@@ -15,8 +15,8 @@
 
 <!-- start: page -->
 <div class="container-fluid">
-
-    @using (Html.BeginForm())
+@{ string s = ViewBag.edit;}
+    @using (Html.BeginForm(s,"Products",FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <div class="row mt-lg">
 
@@ -111,17 +111,17 @@
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control", @Required = true } })
                                             @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Attribute, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control", @Required = true } })
                                             @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Size, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Size, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.Size, new { htmlAttributes = new { @class = "form-control", @Required = true } })
                                             @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
