@@ -9,6 +9,7 @@ using CrystalDecisions.CrystalReports.Engine;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
+using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
 using POSApp.Services;
 
@@ -57,19 +58,45 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateProductSaleReport(DateTime dateFrom,DateTime dateTo,int branchId)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-            ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSalesData((int)user.StoreId,dateFrom,dateTo),
-                "ProductSalesReport", this.HttpContext.User.Identity.GetUserId(),_unitOfWork,
-                (int)user.StoreId,details, Server.MapPath("~/Reports"), "ProductSales.rpt");
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSalesData((int)user.StoreId, dateFrom, dateTo),
+                    "ProductSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductSales.rpt");
 
 
+             
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
             return RedirectToAction("MyReports");
+
         }
         [HttpPost]
         public ActionResult GenerateCategoriesSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
+            try
+            {
+
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
 
@@ -80,30 +107,92 @@ namespace POSApp.Controllers
                 "CategoriesSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "CategoriesSales.rpt");
 
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
             return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateProductSizeSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            
+            try
+            {
+
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
             ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                 "ProductSizeWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductSizeWiseSales.rpt");
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
 
             return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateComboSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
+            try
+            {
+
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
             ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateComboSalesData((int)user.StoreId, dateFrom, dateTo),
                 "ComboSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "ComboSale.rpt");
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
 
             return RedirectToAction("MyReports");
         }
@@ -130,13 +219,34 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateBranchSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            
+            try
+            {
+
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
                 ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateBranchSalesData((int)user.StoreId, dateFrom, dateTo),
                     "BranchSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "BranchWiseSale.rpt");
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
 
                 return RedirectToAction("MyReports");
             
@@ -319,13 +429,38 @@ namespace POSApp.Controllers
 
         public ActionResult DeleteReport(int id,int storeId)
         {
+            try
+            {
+
             _unitOfWork.ReportsLogRepository.DeleteReportsLog(id,storeId);
             _unitOfWork.Complete();
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
             return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateTaxReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
+            try
+            {
+
             string path = Server.MapPath("~/Content/Reports/");
             if (!Directory.Exists(path))
             {
@@ -336,6 +471,25 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ExcelService.GenerateExcelSheet(ExcelService.ToDataTable(_unitOfWork.TaxRepository.GetTaxes(branchId)), "TaxReport", path, this.HttpContext.User.Identity.GetUserId(),_unitOfWork,(int)user.StoreId,details);
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
             return RedirectToAction("MyReports");
 
         }

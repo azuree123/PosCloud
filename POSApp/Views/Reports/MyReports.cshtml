@@ -1,6 +1,14 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.ReportLogViewModel>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.ViewModels.ReportLogViewModel>
 @{
-    ViewBag.Title = "MyReports";
+                /**/
+
+                ViewBag.Title = "MyReports";
+                AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
 <style>
@@ -49,7 +57,7 @@
                 <table class="table " style="width:100%" id="datatable-default">
                     <thead>
                         <tr>
-                          
+
                             <th width="20%">Name</th>
                             <th width="">Details</th>
                             <th width="20%">Created at</th>
@@ -61,45 +69,45 @@
                         @foreach (var item in Model)
                         {
 
-                        <tr class="">
+                            <tr class="">
 
-                            <td>
-                                @item.Name
-                            </td>
-                            <td>
-                                @{
-                                    if (item.Details.Contains(","))
-                                    {
-                                        string[] arr = item.Details.Split(',');
-                                        foreach (var s in arr)
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td>
+                                    @{
+                                        if (item.Details.Contains(","))
                                         {
-                                            <span class="badge mr-sm">@s</span>
-                                            <span class="badge mr-sm">@s</span>
-                                            <span class="badge mr-sm">@s</span>
+                                            string[] arr = item.Details.Split(',');
+                                            foreach (var s in arr)
+                                            {
+                                                <span class="badge mr-sm">@s</span>
+                                                <span class="badge mr-sm">@s</span>
+                                                <span class="badge mr-sm">@s</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="badge mr-sm">@item.Details</span>
+
                                         }
                                     }
-                                    else
-                                    {
-                                        <span class="badge mr-sm">@item.Details</span>
-
-                                    }
-                                }
 
 
-                            </td>
-                            <td>@Convert.ToDateTime(item.CreatedOn).ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
-                            <td>        <span class="label label-success mr-sm">@item.Status </span></td>
-                            <td class="center">
-                                <div class="btn-group">
-                                    @*<a class="btn btn-default btn-sm fa fa-eye" data-toggle="tooltip" title="Preview !"></a>*@
-                                    <a class="btn btn-default text-success btn-sm fa fa-download" href="~/Content/Reports/@item.Path"  data-toggle="tooltip" title="Download !"></a>
-                                    <a href="@Url.Action("DeleteReport",new{id=@item.Id,storeId=@item.StoreId})" class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
-                                </div>
+                                </td>
+                                <td>@Convert.ToDateTime(item.CreatedOn).ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
+                                <td>        <span class="label label-success mr-sm">@item.Status </span></td>
+                                <td class="center">
+                                    <div class="btn-group">
+                                        @*<a class="btn btn-default btn-sm fa fa-eye" data-toggle="tooltip" title="Preview !"></a>*@
+                                        <a class="btn btn-default text-success btn-sm fa fa-download" href="~/Content/Reports/@item.Path" data-toggle="tooltip" title="Download !"></a>
+                                        <a href="@Url.Action("DeleteReport",new{id=@item.Id,storeId=@item.StoreId})" class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
+                                    </div>
 
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         }
-                  
+
 
 
 
