@@ -93,6 +93,7 @@ namespace POSApp.Persistence.Repositories
         {
             if (!_context.BusinessPartners.Where(a => a.Name == item.Name && a.Type == item.Type && a.StoreId==item.StoreId && a.Email==item.Email).Any())
             {
+             
             _context.BusinessPartners.Add(item);
             }
 

@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<DineTable> GetDineTables(int storeid)
         {
-            return _context.DineTables.Where(a => a.StoreId == storeid).Include(f => f.Floor).ToList();
+            return _context.DineTables.Where(a => a.StoreId == storeid && a.IsActive).Include(f => f.Floor).ToList();
         }
 
         public DineTable GetDineTableById(int id, int storeid)
@@ -51,9 +51,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteDineTable(int id, int storeid)
         {
-            var DineTable = new DineTable { Id = id, StoreId = storeid };
-            _context.DineTables.Attach(DineTable);
-            _context.Entry(DineTable).State = EntityState.Deleted;
+            var dinetable = _context.DineTables.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
+            dinetable.IsActive = false;
+            _context.DineTables.Attach(dinetable);
+            _context.Entry(dinetable).State = EntityState.Modified;
         }
     }
 }

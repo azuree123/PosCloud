@@ -21,7 +21,7 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<City> GetCities(int stateId)
         {
-            return _context.Cities.Where(a => a.StateId == stateId).Include(a => a.State).ToList();
+            return _context.Cities.Where(a => a.StateId == stateId && a.IsActive).Include(a => a.State).ToList();
         }
 
         public City GetCity(int id)
@@ -33,7 +33,8 @@ namespace POSApp.Persistence.Repositories
         {
             if (!_context.Cities.Where(a => a.Name == city.Name && a.StateId == city.StateId).Any())
             {
-            _context.Cities.Add(city);
+               
+                _context.Cities.Add(city);
             }
         }
 
@@ -45,9 +46,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteCity(int id)
         {
-            var city=new City{Id = id};
+            var city = _context.Cities.FirstOrDefault(a => a.Id == id);
+            city.IsActive = false;
             _context.Cities.Attach(city);
-            _context.Entry(city).State = EntityState.Deleted;
+            _context.Entry(city).State = EntityState.Modified;
         }
         public IEnumerable<City> GetApiCities()
         {

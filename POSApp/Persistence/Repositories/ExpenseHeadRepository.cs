@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<ExpenseHead> GetExpenseHeads(int storeId)
         {
-            return _context.ExpenseHeads.Where(a=>a.StoreId == storeId).ToList();
+            return _context.ExpenseHeads.Where(a=>a.StoreId == storeId && a.IsActive).ToList();
         }
 
         public ExpenseHead GetExpenseHeadById(int id, int storeid)
@@ -43,9 +43,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteExpenseHead(int id, int storeid)
         {
-            var expenseHeads = new ExpenseHead { Id = id,StoreId = storeid};
-            _context.ExpenseHeads.Attach(expenseHeads);
-            _context.Entry(expenseHeads).State = EntityState.Deleted;
+            var expenseHead = _context.ExpenseHeads.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
+            expenseHead.IsActive = false;
+            _context.ExpenseHeads.Attach(expenseHead);
+            _context.Entry(expenseHead).State = EntityState.Modified;
         }
         public IEnumerable<ExpenseHead> GetApiExpenseHeads()
         {

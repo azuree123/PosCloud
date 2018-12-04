@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<Client> GetClients()
         {
-            return _context.Clients.ToList();
+            return _context.Clients.Where(a=>a.IsActive).ToList();
         }
         
 
@@ -46,9 +46,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteClient(int id)
         {
-            var client = new Client { Id = id };
+            var client = _context.Clients.FirstOrDefault(a => a.Id == id);
+            client.IsActive = false;
             _context.Clients.Attach(client);
-            _context.Entry(client).State = EntityState.Deleted;
+            _context.Entry(client).State = EntityState.Modified;
         }
        
     }

@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Floor> GetFloors(int storeid)
         {
-            return _context.Floors.Where(a => a.StoreId == storeid).ToList();
+            return _context.Floors.Where(a => a.StoreId == storeid && a.IsActive).ToList();
         }
 
         public Floor GetFloorById(int id, int storeid)
@@ -54,9 +54,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteFloor(int id, int storeid)
         {
-            var Floor = new Floor { Id = id, StoreId = storeid };
-            _context.Floors.Attach(Floor);
-            _context.Entry(Floor).State = EntityState.Deleted;
+            var floor = _context.Floors.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
+            floor.IsActive = false;
+            _context.Floors.Attach(floor);
+            _context.Entry(floor).State = EntityState.Modified;
         }
     }
 }

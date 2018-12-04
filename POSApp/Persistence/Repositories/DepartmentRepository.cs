@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Department> GetDepartments(int storeId)
         {
-            return _context.Departments.Where(a=>a.StoreId==storeId).ToList();
+            return _context.Departments.Where(a=>a.StoreId==storeId && a.IsActive).ToList();
         }
 
         public Department GetDepartmentById(int id, int storeId)
@@ -43,9 +43,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteDepartment(int id, int storeId)
         {
-            var department = new Department { Id = id,StoreId = storeId};
+            var department = _context.Departments.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            department.IsActive = false;
             _context.Departments.Attach(department);
-            _context.Entry(department).State = EntityState.Deleted;
+            _context.Entry(department).State = EntityState.Modified;
         }
         public IEnumerable<Department> GetApiDepartments()
         {
