@@ -20,7 +20,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Shift> GetShifts(int storeid)
         {
-            return _context.Shifts.Where(a => a.StoreId == storeid).ToList();
+            return _context.Shifts.Where(a => a.StoreId == storeid && a.IsActive).ToList();
         }
 
         public Shift GetShiftById(int id, int storeid)
@@ -52,9 +52,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteShift(int id, int storeid)
         {
-            var Shift = new Shift { ShiftId = id, StoreId = storeid };
-            _context.Shifts.Attach(Shift);
-            _context.Entry(Shift).State = EntityState.Deleted;
+            var shift = _context.Shifts.FirstOrDefault(a => a.ShiftId == id && a.StoreId == storeid);
+            shift.IsActive = false;
+            _context.Shifts.Attach(shift);
+            _context.Entry(shift).State = EntityState.Modified;
         }
     
 }

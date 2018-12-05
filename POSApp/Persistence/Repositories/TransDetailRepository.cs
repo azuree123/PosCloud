@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 using POSApp.Core.ViewModels;
+using EntityState = System.Data.Entity.EntityState;
 
 namespace POSApp.Persistence.Repositories
 {
@@ -20,7 +21,7 @@ namespace POSApp.Persistence.Repositories
         }
         public TransDetail GetTransDetail(int id, int storeId)
         {
-            return _context.TransDetails.FirstOrDefault(x => x.Id == id && x.StoreId == storeId);
+            return _context.TransDetails.FirstOrDefault(x => x.Id == id && x.StoreId == storeId && x.IsActive);
         }
         public IEnumerable<TransDetailViewModel> GetTransDetails(int orderid, int storeId)
         {
@@ -63,8 +64,10 @@ namespace POSApp.Persistence.Repositories
         //}
         public void DeleteTransDetail(int id, int storeId)
         {
-            var dept = _context.TransDetails.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            _context.TransDetails.Remove(dept);
+            var transDetails = _context.TransDetails.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            transDetails.IsActive = false;
+            _context.TransDetails.Attach(transDetails);
+            _context.Entry(transDetails).State = EntityState.Modified;
         }
         public void AddTransDetail(TransDetail transdetail)
         {

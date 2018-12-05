@@ -28,7 +28,7 @@ namespace POSApp.Persistence.Repositories
         {
             //return _context.Tax;
             return _context.Taxes
-                .Where(a => a.StoreId == storeId)
+                .Where(a => a.StoreId == storeId && a.IsActive)
                 .ToList();
         }
 
@@ -62,9 +62,10 @@ namespace POSApp.Persistence.Repositories
         }
         public void DeleteTax(int id, int storeId)
         {
-            var tax = new Tax { Id = id, StoreId = storeId };
+            var tax = _context.Taxes.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            tax.IsActive = false;
             _context.Taxes.Attach(tax);
-            _context.Entry(tax).State = EntityState.Deleted;
+            _context.Entry(tax).State = EntityState.Modified;
         }
         public void AddTax(Tax optcategory)
         {

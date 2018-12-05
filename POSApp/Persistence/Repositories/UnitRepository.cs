@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Unit> GetUnit(int storeid)
         {
-            return _context.Units.Where(a => a.StoreId == storeid).ToList();
+            return _context.Units.Where(a => a.StoreId == storeid && a.IsActive).ToList();
         }
 
         public Unit GetUnitById(int id, int storeid)
@@ -51,9 +51,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteUnit(int id,int storeId)
         {
-            var unit = new Unit {Id = id,StoreId = storeId};
+            var unit = _context.Units.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            unit.IsActive = false;
             _context.Units.Attach(unit);
-            _context.Entry(unit).State = EntityState.Deleted;
+            _context.Entry(unit).State = EntityState.Modified;
         }
         
     }

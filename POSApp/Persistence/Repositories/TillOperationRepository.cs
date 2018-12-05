@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<TillOperation> GetTillOperations(int storeId)
         {
-            return _context.TillOperations.Where(x => x.StoreId == storeId).ToList();
+            return _context.TillOperations.Where(x => x.StoreId == storeId && x.IsActive).ToList();
         }
 
         public TillOperation GetTillOperationsById(int id, int storeId)
@@ -44,9 +44,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteTillOperations(int id, int storeId)
         {
-            TillOperation to = new TillOperation { Id = id, StoreId = storeId };
-            _context.TillOperations.Attach(to);
-            _context.Entry(to).State = EntityState.Deleted;
+            var tillOperation = _context.TillOperations.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            tillOperation.IsActive = false;
+            _context.TillOperations.Attach(tillOperation);
+            _context.Entry(tillOperation).State = EntityState.Modified;
         }
     }
 }

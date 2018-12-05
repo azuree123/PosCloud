@@ -17,7 +17,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<State> GetStates()
         {
-            return _context.States.ToList();
+            return _context.States.Where(a=>a.IsActive).ToList();
         }
 
         public State GetStateById(int id)
@@ -46,9 +46,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteState(int id)
         {
-            var state = new State {Id = id};
+            var state = _context.States.FirstOrDefault(a => a.Id == id);
+            state.IsActive = false;
             _context.States.Attach(state);
-            _context.Entry(state).State = EntityState.Deleted;
+            _context.Entry(state).State = EntityState.Modified;
         }
         public IEnumerable<State> GetApiStates()
         {

@@ -20,7 +20,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Store> GetStores()
         {
-            return _context.Stores.ToList();
+            return _context.Stores.Where(a=>a.IsActive).ToList();
         }
 
         public Store GetStoreById(int id)
@@ -53,9 +53,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteStore(int id)
         {
-            var store = new Store {Id = id};
+            var store = _context.Stores.FirstOrDefault(a => a.Id == id);
+            store.IsActive = false;
             _context.Stores.Attach(store);
-            _context.Entry(store).State = EntityState.Deleted;
+            _context.Entry(store).State = EntityState.Modified;
         }
     }
 }

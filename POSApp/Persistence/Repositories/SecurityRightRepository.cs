@@ -43,6 +43,8 @@ namespace POSApp.Persistence.Repositories
             var SecurityRight = new SecurityRight { IdentityUserRoleId = id, StoreId = storeid,SecurityObjectId = objectId};
             _context.SecurityRights.Attach(SecurityRight);
             _context.Entry(SecurityRight).State = EntityState.Deleted;
+
+            
         }
         
     }

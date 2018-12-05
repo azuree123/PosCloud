@@ -5,7 +5,7 @@ using System.Web;
 
 namespace POSApp.Core.Models
 {
-    public class TillOperation
+    public class TillOperation:AuditableEntity
     {
         public int Id { get; set; }
         public int StoreId { get; set; }

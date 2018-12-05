@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<SecurityObject> GetSecurityObjects()
         {
-            return _context.SecurityObjects.ToList();
+            return _context.SecurityObjects.Where(a=>a.IsActive).ToList();
         }
 
         public SecurityObject GetSecurityObject(int id)
@@ -42,9 +42,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteSecurityObject(int id)
         {
-            var SecurityObject = new SecurityObject { SecurityObjectId = id };
-            _context.SecurityObjects.Attach(SecurityObject);
-            _context.Entry(SecurityObject).State = EntityState.Deleted;
+            var securityObject = _context.SecurityObjects.FirstOrDefault(a => a.SecurityObjectId == id);
+            securityObject.IsActive = false;
+            _context.SecurityObjects.Attach(securityObject);
+            _context.Entry(securityObject).State = EntityState.Modified;
         }
     
     }

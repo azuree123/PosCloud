@@ -348,40 +348,77 @@ namespace POSApp.Controllers
         public ActionResult AddProductCategory(ProductCategoryViewModel productCategory, HttpPostedFileBase file)
         {
             ViewBag.edit = "AddProductCategory";
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            if (!ModelState.IsValid)
+            try
             {
-                ViewBag.ddl = _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId).Select(a => new SelectListItem
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                if (!ModelState.IsValid)
                 {
-                    Text = a.Name,
-                    Value = a.Name
-                });
-                return View(productCategory);
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error); ;
+                }
+                else
+                if (file != null && file.ContentLength > 0)
+                {
+
+                    try
+                    {
+                        productCategory.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
+                        file.InputStream.Read(productCategory.Image, 0, file.ContentLength);
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.Message = "ERROR:" + e.Message.ToString();
+                    }
+
+                }
+                {
+
+                    productCategory.StoreId = user.StoreId;
+                    ProductCategory category = Mapper.Map<ProductCategory>(productCategory);
+                    _unitOfWork.ProductCategoryRepository.AddProductCategory(category);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The product category added successfully", AlertType.Success);
+                    return RedirectToAction("ProductCategoryList");
+                }
             }
-            else
-            if (file != null && file.ContentLength > 0)
+            catch (DbEntityValidationException ex)
             {
 
-                try
+                foreach (var entityValidationError in ex.EntityValidationErrors)
                 {
-                    productCategory.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
-                    file.InputStream.Read(productCategory.Image, 0, file.ContentLength);
-                }
-                catch (Exception e)
-                {
-                    ViewBag.Message = "ERROR:" + e.Message.ToString();
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
                 }
 
+
             }
+            catch (Exception e)
             {
-                
-                productCategory.StoreId = user.StoreId;
-                ProductCategory category = Mapper.Map<ProductCategory>(productCategory);
-                _unitOfWork.ProductCategoryRepository.AddProductCategory(category);
-                _unitOfWork.Complete();
-                return RedirectToAction("ProductCategoryList");
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
             }
+
+            return RedirectToAction("ProductCategoryList");
+
         }
         public ActionResult UpdateProductCategory(int id)
         {
@@ -401,54 +438,127 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateProductCategory(int id, ProductCategoryViewModel productCategoryVm, HttpPostedFileBase file)
         {
-            
-            if (!ModelState.IsValid)
+            ViewBag.edit = "UpdateProductCategory";
+           
+            try
             {
-                ViewBag.edit = "UpdateProductCategory";
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-      
-                ViewBag.ddl = _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId).Select(a => new SelectListItem
+                if (!ModelState.IsValid)
                 {
-                    Text = a.Name,
-                    Value = a.Name
-                });
-                ProductCategoryViewModel product =
-                    Mapper.Map<ProductCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id,Convert.ToInt32(user.StoreId)));
-                return View("AddProductCategory", product);
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                if (file != null && file.ContentLength > 0)
+                {
+
+                    try
+                    {
+                        productCategoryVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
+                        file.InputStream.Read(productCategoryVm.Image, 0, file.ContentLength);
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.Message = "ERROR:" + e.Message.ToString();
+                    }
+
+                }
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    ProductCategory category = Mapper.Map<ProductCategory>(productCategoryVm);
+                    _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id, Convert.ToInt32(user.StoreId), category);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The product category updated successfully", AlertType.Success);
+                    return RedirectToAction("ProductCategoryList");
+                }
             }
-            else
-            if (file != null && file.ContentLength > 0)
+            catch (DbEntityValidationException ex)
             {
 
-                try
+                foreach (var entityValidationError in ex.EntityValidationErrors)
                 {
-                    productCategoryVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
-                    file.InputStream.Read(productCategoryVm.Image, 0, file.ContentLength);
-                }
-                catch (Exception e)
-                {
-                    ViewBag.Message = "ERROR:" + e.Message.ToString();
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
                 }
 
+
             }
+            catch (Exception e)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                ProductCategory category = Mapper.Map<ProductCategory>(productCategoryVm);
-                _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id,Convert.ToInt32(user.StoreId),category);
-                _unitOfWork.Complete();
-                return RedirectToAction("ProductCategoryList");
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
             }
+
+            return RedirectToAction("ProductCategoryList");
+
+
         }
 
         public ActionResult DeleteProductCategory(int id, int storeid)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id,Convert.ToInt32(user.StoreId));
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The product category deleted successfully", AlertType.Success);
+                return RedirectToAction("ProductCategoryList", "Products");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("ProductCategoryList", "Products");
+
+
         }
 
         public JsonResult GetProductCategoryDdl()
@@ -508,22 +618,64 @@ namespace POSApp.Controllers
         public ActionResult AddProductCategoryGroup(ProductCategoryGroupViewModel productCategoryGroup)
         {
             ViewBag.edit = "AddProductCategoryGroup";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(productCategoryGroup);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    productCategoryGroup.StoreId = (int)user.StoreId;
+
+                    ProductCategoryGroup category = Mapper.Map<ProductCategoryGroup>(productCategoryGroup);
+                    _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(category);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The product category group added successfully", AlertType.Success);
+                    return RedirectToAction("ProductCategoryGroupList");
+                }
             }
-            else
-           
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                productCategoryGroup.StoreId =(int) user.StoreId;
-               
-                ProductCategoryGroup category = Mapper.Map<ProductCategoryGroup>(productCategoryGroup);
-                _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(category);
-                _unitOfWork.Complete();
-                return RedirectToAction("ProductCategoryGroupList");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("ProductCategoryGroupList");
+
         }
         public ActionResult UpdateProductCategoryGroup(int id)
         {
@@ -537,35 +689,112 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateProductCategoryGroup(int id, ProductCategoryGroupViewModel productCategoryGroupVm)
         {
+            ViewBag.edit = "UpdateProductCategoryGroup";
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
 
-            if (!ModelState.IsValid)
-            {
-                ViewBag.edit = "UpdateProductCategoryGroup";
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                ProductCategoryGroupViewModel product =
-                    Mapper.Map<ProductCategoryGroupViewModel>(_unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroup(id, (int)user.StoreId));
-                return View("AddProductCategoryGroup", product);
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    ProductCategoryGroup category = Mapper.Map<ProductCategoryGroup>(productCategoryGroupVm);
+                    _unitOfWork.ProductCategoryGroupRepository.UpdateProductCategoryGroup(id, Convert.ToInt32(user.StoreId), category);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The product category group updated successfully", AlertType.Success);
+                    return RedirectToAction("ProductCategoryGroupList");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                ProductCategoryGroup category = Mapper.Map<ProductCategoryGroup>(productCategoryGroupVm);
-                _unitOfWork.ProductCategoryGroupRepository.UpdateProductCategoryGroup(id, Convert.ToInt32(user.StoreId), category);
-                _unitOfWork.Complete();
-                return RedirectToAction("ProductCategoryGroupList");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("ProductCategoryGroupList");
+
+
         }
 
         public ActionResult DeleteProductCategoryGroup(int id, int storeid)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.ProductCategoryGroupRepository.DeleteProductCategoryGroup(id, Convert.ToInt32(user.StoreId));
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ProductCategoryGroupRepository.DeleteProductCategoryGroup(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The product category group deleted successfully", AlertType.Success);
+                return RedirectToAction("ProductCategoryGroupList", "Products");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("ProductCategoryGroupList", "Products");
+
         }
 
         //ModifierOption
@@ -675,6 +904,7 @@ namespace POSApp.Controllers
         public ActionResult AddModifier()
         {
             ViewBag.edit = "AddModifier";
+            
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             if (Helper.TempModifierOptions != null)
@@ -688,28 +918,70 @@ namespace POSApp.Controllers
         public ActionResult AddModifier(ModifierViewModel modifierVm)
         {
             ViewBag.edit = "AddModifier";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(modifierVm);
-            }
-            else
-            {
-                Modifier modifier = Mapper.Map<Modifier>(modifierVm);
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                modifier.StoreId = (int)user.StoreId;
-                var mod = modifier;
-                _unitOfWork.ModifierRepository.AddModifier(mod);
-                _unitOfWork.Complete();
-                foreach (var modifierOptionViewModel in Helper.TempModifierOptions.Where(a=>a.CreatedBy==userid))
+                if (!ModelState.IsValid)
                 {
-                    modifierOptionViewModel.ModifierId = mod.Id;
-                    _unitOfWork.ModifierOptionRepository.AddModifierOption(Mapper.Map<ModifierOption>(modifierOptionViewModel));
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
                 }
-                _unitOfWork.Complete();
-                Helper.EmptyTempModifierOptions(user.Id, (int)user.StoreId);
-                return RedirectToAction("ModifierList", "Products");
+                else
+                {
+                    Modifier modifier = Mapper.Map<Modifier>(modifierVm);
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    modifier.StoreId = (int)user.StoreId;
+                    var mod = modifier;
+                    _unitOfWork.ModifierRepository.AddModifier(mod);
+                    _unitOfWork.Complete();
+                    foreach (var modifierOptionViewModel in Helper.TempModifierOptions.Where(a => a.CreatedBy == userid))
+                    {
+                        modifierOptionViewModel.ModifierId = mod.Id;
+                        _unitOfWork.ModifierOptionRepository.AddModifierOption(Mapper.Map<ModifierOption>(modifierOptionViewModel));
+                    }
+                    _unitOfWork.Complete();
+                    Helper.EmptyTempModifierOptions(user.Id, (int)user.StoreId);
+                    TempData["Alert"] = new AlertModel("The modifier added successfully", AlertType.Success);
+                    return RedirectToAction("ModifierList", "Products");
+                }
+
             }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("ModifierList", "Products");
 
         }
         [HttpGet]
@@ -740,35 +1012,117 @@ namespace POSApp.Controllers
         public ActionResult UpdateModifier(int id, ModifierViewModel modifierVm)
         {
             ViewBag.edit = "UpdateModifier";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddModifier", modifierVm);
-            }
-            else
-            {
-                Modifier modifier = Mapper.Map<Modifier>(modifierVm);
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                modifier.StoreId = (int)user.StoreId;
-                _unitOfWork.ModifierRepository.UpdateModifier(id, modifier.StoreId, modifier);
-                _unitOfWork.ModifierOptionRepository.DeleteModifierOptionsByModifierId(modifier.Id,modifier.StoreId);
-                _unitOfWork.Complete();
-                foreach (var modifierOptionViewModel in Helper.TempModifierOptions.Where(a => a.CreatedBy == userid))
+                if (!ModelState.IsValid)
                 {
-                    modifierOptionViewModel.ModifierId = modifier.Id;
-                    _unitOfWork.ModifierOptionRepository.AddModifierOption(Mapper.Map<ModifierOption>(modifierOptionViewModel));
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
                 }
-                _unitOfWork.Complete();
-                return RedirectToAction("ModifierList", "Products");
+                else
+                {
+                    Modifier modifier = Mapper.Map<Modifier>(modifierVm);
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    modifier.StoreId = (int)user.StoreId;
+                    _unitOfWork.ModifierRepository.UpdateModifier(id, modifier.StoreId, modifier);
+                    _unitOfWork.ModifierOptionRepository.DeleteModifierOptionsByModifierId(modifier.Id, modifier.StoreId);
+                    _unitOfWork.Complete();
+                    foreach (var modifierOptionViewModel in Helper.TempModifierOptions.Where(a => a.CreatedBy == userid))
+                    {
+                        modifierOptionViewModel.ModifierId = modifier.Id;
+                        _unitOfWork.ModifierOptionRepository.AddModifierOption(Mapper.Map<ModifierOption>(modifierOptionViewModel));
+                    }
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The modifier updated successfully", AlertType.Success);
+                    return RedirectToAction("ModifierList", "Products");
+                }
             }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("ModifierList", "Products");
+
+
         }
         public ActionResult DeleteModifier(int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.ModifierRepository.DeleteModifier(id, (int)user.StoreId);
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ModifierRepository.DeleteModifier(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                return RedirectToAction("ModifierList", "Products");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("ModifierList", "Products");
+
+
         }
 
         public ActionResult CombosList()
@@ -1121,20 +1475,62 @@ namespace POSApp.Controllers
         {
 
             ViewBag.edit = "AddSection";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(SectionMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Section Section = Mapper.Map<Section>(SectionMv);
+                    Section.StoreId = (int)user.StoreId;
+                    _unitOfWork.SectionRepository.AddSection(Section);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The section added successfully", AlertType.Success);
+                    return RedirectToAction("SectionList", "Products");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Section Section = Mapper.Map<Section>(SectionMv);
-                Section.StoreId = (int)user.StoreId;
-                _unitOfWork.SectionRepository.AddSection(Section);
-                _unitOfWork.Complete();
-                return RedirectToAction("SectionList", "Products");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("SectionList", "Products");
+
 
         }
         [HttpGet]
@@ -1151,29 +1547,109 @@ namespace POSApp.Controllers
         public ActionResult UpdateSection(int id, SectionViewModel SectionMv)
         {
             ViewBag.edit = "UpdateSate";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddSection", SectionMv);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Section Section = Mapper.Map<Section>(SectionMv);
+                    _unitOfWork.SectionRepository.UpdateSection(id, Section, (int)user.StoreId);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The section updated successfully", AlertType.Success);
+                    return RedirectToAction("SectionList", "Products");
+
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Section Section = Mapper.Map<Section>(SectionMv);
-                _unitOfWork.SectionRepository.UpdateSection(id, Section, (int)user.StoreId);
-                _unitOfWork.Complete();
-                return RedirectToAction("SectionList", "Products");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
 
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("SectionList", "Products");
+
 
         }
         public ActionResult DeleteSection(int id)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.SectionRepository.DeleteSection(id, (int)user.StoreId);
-            _unitOfWork.Complete();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.SectionRepository.DeleteSection(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The section deleted successfully", AlertType.Success);
+                return RedirectToAction("SectionList", "Products");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
             return RedirectToAction("SectionList", "Products");
+
+
         }
         public ApplicationUserManager UserManager
         {

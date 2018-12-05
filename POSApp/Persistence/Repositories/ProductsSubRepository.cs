@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable< ProductsSub> GetProductsSubs(int storeid)
         {
-            return _context. ProductsSubs.Where(a => a.StoreId == storeid).ToList();
+            return _context. ProductsSubs.Where(a => a.StoreId == storeid && a.IsActive).ToList();
         }
 
         public  ProductsSub GetProductsSubById(string id, string comboProductId, int storeid)
@@ -56,9 +56,11 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteProductsSub(string id, string comboProductId, int storeid)
         {
-            var  productsSub = new  ProductsSub { ProductCode = id,ComboProductCode = comboProductId, StoreId = storeid };
-            _context. ProductsSubs.Attach( productsSub);
-            _context.Entry( productsSub).State = EntityState.Deleted;
+            
+            var productSub = _context.ProductsSubs.FirstOrDefault(a => a.ProductCode == id && a.ComboProductCode == comboProductId  && a.StoreId == storeid);
+            productSub.IsActive = false;
+            _context.ProductsSubs.Attach(productSub);
+            _context.Entry(productSub).State = EntityState.Modified;
         }
         public IEnumerable< ProductsSub> GetApiProductsSubs()
         {

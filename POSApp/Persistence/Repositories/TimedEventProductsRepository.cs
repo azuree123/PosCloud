@@ -59,6 +59,7 @@ namespace POSApp.Persistence.Repositories
                 .Where(a => a.StoreId == storeId && a.TimedEventId == id).ToList();
             foreach (var timedEventProductse in products)
             {
+                
                 _context.TimedEventProducts.Remove(timedEventProductse);
             }
           

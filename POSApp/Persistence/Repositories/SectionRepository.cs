@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Section> GetSections(int storeid)
         {
-            return _context.Sections.Where(a => a.StoreId == storeid).ToList();
+            return _context.Sections.Where(a => a.StoreId == storeid && a.IsActive).ToList();
         }
 
         public Section GetSectionById(int id, int storeid)
@@ -58,9 +58,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteSection(int id, int storeid)
         {
-            var Section = new Section { SectionId = id, StoreId = storeid };
-            _context.Sections.Attach(Section);
-            _context.Entry(Section).State = EntityState.Deleted;
+            var section = _context.Sections.FirstOrDefault(a => a.SectionId == id && a.StoreId == storeid);
+            section.IsActive = false;
+            _context.Sections.Attach(section);
+            _context.Entry(section).State = EntityState.Modified;
         }
     }
 }

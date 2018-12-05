@@ -29,7 +29,7 @@ namespace POSApp.Persistence.Repositories
         {
             //return _context.PurchaseOrder;
             return _context.TransMasters.Include(a=>a.BusinessPartner)
-                .Where(a => a.StoreId == storeId)
+                .Where(a => a.StoreId == storeId && a.IsActive)
                 ;
         }
         public IEnumerable<InvoiceViewModel> GetInvoice(int id, int storeId)
@@ -67,8 +67,10 @@ namespace POSApp.Persistence.Repositories
        
         public void DeleteTransMaster(int id, int storeId)
         {
-            var dept = _context.TransMasters.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            _context.TransMasters.Remove(dept);
+            var transMaster = _context.TransMasters.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            transMaster.IsActive = false;
+            _context.TransMasters.Attach(transMaster);
+            _context.Entry(transMaster).State = EntityState.Modified;
         }
         public void AddTransMaster(TransMaster optcategory)
         {

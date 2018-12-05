@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<TimedEvent> GetTimedEvents(int storeid)
         {
-            return _context.TimedEvents.Include(a => a.TimedEventProducts).Where(a => a.StoreId == storeid).ToList();
+            return _context.TimedEvents.Include(a => a.TimedEventProducts).Where(a => a.StoreId == storeid && a.IsActive).ToList();
         }
 
         public TimedEvent GetTimedEventById(int id, int storeid)
@@ -51,9 +51,10 @@ namespace POSApp.Persistence.Repositories
 
         public void DeleteTimedEvent(int id, int storeid)
         {
-            var timedEvent = new TimedEvent { Id = id, StoreId = storeid };
+            var timedEvent = _context.TimedEvents.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
+            timedEvent.IsActive = false;
             _context.TimedEvents.Attach(timedEvent);
-            _context.Entry(timedEvent).State = EntityState.Deleted;
+            _context.Entry(timedEvent).State = EntityState.Modified;
         }
         public IEnumerable<TimedEvent> GetApiTimedEvents()
         {
