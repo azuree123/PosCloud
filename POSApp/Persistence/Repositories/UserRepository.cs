@@ -22,7 +22,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<ApplicationUser> GetUsers(int storeid)
         {
-            return _context.Users.Where(a => a.StoreId == storeid && a.IsActive).ToList();
+            return _context.Users.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
 
         public ApplicationUser GetUserById(string id, int storeid)
@@ -44,8 +44,8 @@ namespace POSApp.Persistence.Repositories
         public void DeleteUser(string id, int storeid)
         {
            
-            var user = new ApplicationUser { Id = id, StoreId = storeid };
-            user.IsActive = false;
+            var user = _context.Users.FirstOrDefault(a=>a.Id==id && a.StoreId==storeid);
+            user.IsDisabled = true;
             _context.Users.Attach(user);
             _context.Entry(user).State = EntityState.Modified;
         }

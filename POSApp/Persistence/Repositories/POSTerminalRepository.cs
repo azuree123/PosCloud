@@ -30,9 +30,24 @@ namespace POSApp.Persistence.Repositories
 
         public void AddPOSTerminal(POSTerminal POSTerminal)
         {
-            if (!_context.PosTerminals.Where(a => a.Name == POSTerminal.Name && a.StoreId == POSTerminal.StoreId && a.SectionId == POSTerminal.SectionId).Any())
+            var inDb = _context.PosTerminals.FirstOrDefault(a =>
+                a.Name == POSTerminal.Name && a.StoreId == POSTerminal.StoreId && a.SectionId == POSTerminal.SectionId);
+            if (inDb == null)
             {
                 _context.PosTerminals.Add(POSTerminal);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    POSTerminal.POSTerminalId = inDb.POSTerminalId;
+                    _context.Entry(inDb).CurrentValues.SetValues(POSTerminal);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }

@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<TillOperation> GetTillOperations(int storeId)
         {
-            return _context.TillOperations.Where(x => x.StoreId == storeId && x.IsActive).ToList();
+            return _context.TillOperations.Where(x => x.StoreId == storeId && !x.IsDisabled).ToList();
         }
 
         public TillOperation GetTillOperationsById(int id, int storeId)
@@ -29,9 +29,25 @@ namespace POSApp.Persistence.Repositories
 
         public void AddTillOperation(TillOperation to)
         {
-            if (!_context.TillOperations.Where(a => a.ApplicationUserId == to.ApplicationUserId && a.OperationDate == to.OperationDate && a.StoreId == to.StoreId).Any())
+            var inDb = _context.TillOperations.FirstOrDefault(a =>
+                a.ApplicationUserId == to.ApplicationUserId && a.OperationDate == to.OperationDate &&
+                a.StoreId == to.StoreId);
+            if (inDb == null)
             {
                 _context.TillOperations.Add(to);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    to.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(to);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
         }
 
@@ -45,7 +61,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteTillOperations(int id, int storeId)
         {
             var tillOperation = _context.TillOperations.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            tillOperation.IsActive = false;
+            tillOperation.IsDisabled = true;
             _context.TillOperations.Attach(tillOperation);
             _context.Entry(tillOperation).State = EntityState.Modified;
         }

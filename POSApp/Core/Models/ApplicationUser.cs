@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -23,7 +25,7 @@ namespace POSApp.Core.Models
 
         public int? EmployeeId { get; set; }
         public Employee Employee { get; set; }
-
+        
         public int? StoreId { get; set; }
         public Store Store { get; set; }
         public int? POSTerminalId { get; set; }
@@ -32,7 +34,7 @@ namespace POSApp.Core.Models
         public Shift Shift { get; set; }
         [Column(TypeName = "DateTime2")]
         public DateTime CreatedOn { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsDisabled { get; set; }
         public string CreatedById { get; set; }
         //public ApplicationUser CreatedBy { get; set; }
         public string UpdatedById { get; set; }

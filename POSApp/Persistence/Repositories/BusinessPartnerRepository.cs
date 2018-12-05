@@ -19,14 +19,14 @@ namespace POSApp.Persistence.Repositories
         }
         public BusinessPartner GetBusinessPartner(int id, int StoreId)
         {
-            return _context.BusinessPartners.FirstOrDefault(x => x.Id == id && x.StoreId == StoreId && x.IsActive);
+            return _context.BusinessPartners.FirstOrDefault(x => x.Id == id && x.StoreId == StoreId && !x.IsDisabled);
         }
         public IEnumerable<BusinessPartner> GetBusinessPartners(string type, int StoreId)
         {
             //return _context.Customers;
             return _context.BusinessPartners
 
-                .Where(u => u.StoreId == StoreId && u.Type == type);
+                .Where(u => u.StoreId == StoreId && u.Type == type && !u.IsDisabled);
 
         }
         public IEnumerable<BusinessPartnerViewModel> GetBusinessPartnersFiltered(string type, string query, int StoreId)
@@ -84,17 +84,31 @@ namespace POSApp.Persistence.Repositories
         public void DeleteBusinessPartner(int id, int StoreId)
         {
             var dept = _context.BusinessPartners.FirstOrDefault(a => a.Id == id && a.StoreId == StoreId);
-            dept.IsActive = false;
+            dept.IsDisabled = true;
             _context.BusinessPartners.Attach(dept);
             _context.Entry(dept).State = EntityState.Modified;
             
         }
         public void AddBusinessPartner(BusinessPartner item)
         {
-            if (!_context.BusinessPartners.Where(a => a.Name == item.Name && a.Type == item.Type && a.StoreId==item.StoreId && a.Email==item.Email).Any())
+            var inDb = _context.BusinessPartners.FirstOrDefault(a =>
+                a.Name == item.Name && a.Type == item.Type && a.StoreId == item.StoreId && a.Email == item.Email);
+            if (inDb==null)
             {
-             
             _context.BusinessPartners.Add(item);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                item.Id = inDb.Id;
+                _context.Entry(inDb).CurrentValues.SetValues(item);
+                _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }

@@ -100,6 +100,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("DeviceList", "Device");
@@ -169,9 +173,12 @@ namespace POSApp.Controllers
                     }
                     else
                     {
-
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("DeviceList", "Device");
@@ -221,6 +228,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("DeviceList", "Device");

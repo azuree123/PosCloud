@@ -21,7 +21,7 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<City> GetCities(int stateId)
         {
-            return _context.Cities.Where(a => a.StateId == stateId && a.IsActive).Include(a => a.State).ToList();
+            return _context.Cities.Where(a => a.StateId == stateId && !a.IsDisabled).Include(a => a.State).ToList();
         }
 
         public City GetCity(int id)
@@ -31,10 +31,23 @@ namespace POSApp.Persistence.Repositories
 
         public void AddCity(City city)
         {
-            if (!_context.Cities.Where(a => a.Name == city.Name && a.StateId == city.StateId).Any())
+            var inDb = _context.Cities.FirstOrDefault(a => a.Name == city.Name && a.StateId == city.StateId);
+            if (inDb == null)
             {
-               
                 _context.Cities.Add(city);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    city.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(city);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
         }
 
@@ -47,7 +60,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteCity(int id)
         {
             var city = _context.Cities.FirstOrDefault(a => a.Id == id);
-            city.IsActive = false;
+            city.IsDisabled = true;
             _context.Cities.Attach(city);
             _context.Entry(city).State = EntityState.Modified;
         }

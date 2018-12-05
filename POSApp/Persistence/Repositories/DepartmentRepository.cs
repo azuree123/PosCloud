@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Department> GetDepartments(int storeId)
         {
-            return _context.Departments.Where(a=>a.StoreId==storeId && a.IsActive).ToList();
+            return _context.Departments.Where(a=>a.StoreId==storeId && !a.IsDisabled).ToList();
         }
 
         public Department GetDepartmentById(int id, int storeId)
@@ -28,9 +28,24 @@ namespace POSApp.Persistence.Repositories
 
         public void AddDepartment(Department department)
         {
-            if (!_context.Departments.Where(a => a.Name == department.Name && a.StoreId == department.StoreId).Any())
+            var inDb = _context.Departments.FirstOrDefault(a =>
+                a.Name == department.Name && a.StoreId == department.StoreId);
+            if (inDb == null)
             {
-            _context.Departments.Add(department);
+                _context.Departments.Add(department);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    department.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(department);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
         }
 
@@ -44,7 +59,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteDepartment(int id, int storeId)
         {
             var department = _context.Departments.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            department.IsActive = false;
+            department.IsDisabled = true;
             _context.Departments.Attach(department);
             _context.Entry(department).State = EntityState.Modified;
         }

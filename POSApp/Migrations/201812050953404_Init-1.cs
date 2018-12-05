@@ -3,7 +3,7 @@ namespace POSApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Update1 : DbMigration
+    public partial class Init1 : DbMigration
     {
         public override void Up()
         {
@@ -46,6 +46,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -69,6 +70,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -94,6 +96,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -114,6 +117,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Floors", t => new { t.FloorId, t.StoreId })
@@ -134,6 +138,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -162,6 +167,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -182,6 +188,7 @@ namespace POSApp.Migrations
                         JoinDate = c.DateTime(),
                         DepartmentId = c.Int(nullable: false),
                         Address = c.String(maxLength: 150, unicode: false),
+                        Image = c.Binary(),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         CreatedById = c.String(),
                         UpdatedById = c.String(),
@@ -189,6 +196,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Departments", t => new { t.DepartmentId, t.StoreId })
@@ -209,6 +217,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -232,6 +241,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Employees", t => new { t.EmployeeId, t.StoreId }, cascadeDelete: true)
@@ -255,6 +265,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -289,6 +300,14 @@ namespace POSApp.Migrations
                         StoreId = c.Int(nullable: false),
                         Name = c.String(nullable: false, maxLength: 150, unicode: false),
                         Barcode = c.String(maxLength: 150, unicode: false),
+                        CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        CreatedById = c.String(),
+                        UpdatedById = c.String(),
+                        UpdatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        Synced = c.Boolean(nullable: false),
+                        SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
+                        Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                         Store_Id = c.Int(),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
@@ -330,6 +349,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.ProductCode, t.StoreId })
                 .ForeignKey("PosCloud.ProductCategories", t => new { t.CategoryId, t.StoreId }, cascadeDelete: true)
@@ -357,6 +377,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.ComboProductCode, t.StoreId, t.ProductCode })
                 .ForeignKey("PosCloud.Products", t => new { t.ComboProductCode, t.StoreId })
@@ -381,6 +402,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -401,6 +423,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -420,6 +443,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.SectionId, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -432,8 +456,8 @@ namespace POSApp.Migrations
                         POSTerminalId = c.Int(nullable: false, identity: true),
                         StoreId = c.Int(nullable: false),
                         Name = c.String(nullable: false, maxLength: 150, unicode: false),
-                        IsActive = c.Boolean(),
                         SectionId = c.Int(),
+                        IsActive = c.Boolean(),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         CreatedById = c.String(),
                         UpdatedById = c.String(),
@@ -441,6 +465,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.POSTerminalId, t.StoreId })
                 .ForeignKey("PosCloud.Sections", t => new { t.SectionId, t.StoreId })
@@ -455,7 +480,9 @@ namespace POSApp.Migrations
                         EmployeeId = c.Int(),
                         StoreId = c.Int(),
                         POSTerminalId = c.Int(),
+                        ShiftId = c.Int(),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        IsDisabled = c.Boolean(nullable: false),
                         CreatedById = c.String(),
                         UpdatedById = c.String(),
                         UpdatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
@@ -476,8 +503,10 @@ namespace POSApp.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("PosCloud.Employees", t => new { t.Employee_Id, t.Employee_StoreId })
                 .ForeignKey("PosCloud.POSTerminals", t => new { t.POSTerminalId, t.StoreId })
+                .ForeignKey("PosCloud.Shifts", t => new { t.ShiftId, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
                 .Index(t => new { t.POSTerminalId, t.StoreId })
+                .Index(t => new { t.ShiftId, t.StoreId })
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex")
                 .Index(t => new { t.Employee_Id, t.Employee_StoreId });
             
@@ -520,6 +549,57 @@ namespace POSApp.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "PosCloud.Shifts",
+                c => new
+                    {
+                        ShiftId = c.Int(nullable: false, identity: true),
+                        StoreId = c.Int(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 10, unicode: false),
+                        CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        CreatedById = c.String(),
+                        UpdatedById = c.String(),
+                        UpdatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        Synced = c.Boolean(nullable: false),
+                        SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
+                        Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.ShiftId, t.StoreId })
+                .ForeignKey("PosCloud.Stores", t => t.StoreId)
+                .Index(t => t.StoreId);
+            
+            CreateTable(
+                "PosCloud.TillOperations",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        StoreId = c.Int(nullable: false),
+                        OperationDate = c.DateTime(nullable: false),
+                        Remarks = c.String(maxLength: 150, unicode: false),
+                        OpeningAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        SystemAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        PhysicalAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ApplicationUserId = c.String(nullable: false, maxLength: 128),
+                        ShiftId = c.Int(),
+                        Status = c.Boolean(),
+                        TillOperationType = c.String(maxLength: 150, unicode: false),
+                        CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        CreatedById = c.String(),
+                        UpdatedById = c.String(),
+                        UpdatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        Synced = c.Boolean(nullable: false),
+                        SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
+                        Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Id, t.StoreId })
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUserId)
+                .ForeignKey("PosCloud.Shifts", t => new { t.ShiftId, t.StoreId })
+                .ForeignKey("PosCloud.Stores", t => t.StoreId)
+                .Index(t => new { t.ShiftId, t.StoreId })
+                .Index(t => t.ApplicationUserId);
+            
+            CreateTable(
                 "PosCloud.Taxes",
                 c => new
                     {
@@ -534,6 +614,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -562,6 +643,7 @@ namespace POSApp.Migrations
                         StoreId = c.Int(nullable: false),
                         Name = c.String(nullable: false, maxLength: 150),
                         Type = c.String(nullable: false, maxLength: 150, unicode: false),
+                        DiscountCode = c.String(nullable: false, maxLength: 7, unicode: false),
                         Value = c.Double(nullable: false),
                         FromDate = c.DateTime(nullable: false, storeType: "date"),
                         ToDate = c.DateTime(nullable: false, storeType: "date"),
@@ -569,6 +651,8 @@ namespace POSApp.Migrations
                         ToHour = c.Time(nullable: false, precision: 7),
                         Days = c.String(maxLength: 100, unicode: false),
                         IsActive = c.Boolean(nullable: false),
+                        IsPercentage = c.Boolean(nullable: false),
+                        IsTaxable = c.Boolean(nullable: false),
                         CreatedOn = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                         CreatedById = c.String(),
                         UpdatedById = c.String(),
@@ -576,6 +660,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -599,6 +684,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                         Store_Id = c.Int(),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
@@ -635,6 +721,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.BusinessPartners", t => new { t.BusinessPartnerId, t.StoreId })
@@ -661,6 +748,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Id, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -717,6 +805,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.SecurityObjectId);
             
@@ -734,6 +823,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("PosCloud.States", t => t.StateId)
@@ -752,6 +842,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -772,6 +863,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -790,6 +882,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(maxLength: 150, unicode: false),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -807,6 +900,7 @@ namespace POSApp.Migrations
                         Synced = c.Boolean(nullable: false),
                         SyncedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                         Code = c.String(),
+                        IsDisabled = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
@@ -866,6 +960,11 @@ namespace POSApp.Migrations
             DropForeignKey("PosCloud.POSTerminals", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.POSTerminals", new[] { "SectionId", "StoreId" }, "PosCloud.Sections");
             DropForeignKey("dbo.AspNetUsers", "StoreId", "PosCloud.Stores");
+            DropForeignKey("PosCloud.TillOperations", "StoreId", "PosCloud.Stores");
+            DropForeignKey("PosCloud.TillOperations", new[] { "ShiftId", "StoreId" }, "PosCloud.Shifts");
+            DropForeignKey("PosCloud.TillOperations", "ApplicationUserId", "dbo.AspNetUsers");
+            DropForeignKey("PosCloud.Shifts", "StoreId", "PosCloud.Stores");
+            DropForeignKey("dbo.AspNetUsers", new[] { "ShiftId", "StoreId" }, "PosCloud.Shifts");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUsers", new[] { "POSTerminalId", "StoreId" }, "PosCloud.POSTerminals");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
@@ -910,12 +1009,16 @@ namespace POSApp.Migrations
             DropIndex("PosCloud.TimedEventProducts", new[] { "TimedEventId", "StoreId" });
             DropIndex("PosCloud.TimedEventProducts", new[] { "ProductCode", "StoreId" });
             DropIndex("PosCloud.Taxes", new[] { "StoreId" });
+            DropIndex("PosCloud.TillOperations", new[] { "ApplicationUserId" });
+            DropIndex("PosCloud.TillOperations", new[] { "ShiftId", "StoreId" });
+            DropIndex("PosCloud.Shifts", new[] { "StoreId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", new[] { "Employee_Id", "Employee_StoreId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.AspNetUsers", new[] { "ShiftId", "StoreId" });
             DropIndex("dbo.AspNetUsers", new[] { "POSTerminalId", "StoreId" });
             DropIndex("PosCloud.POSTerminals", new[] { "SectionId", "StoreId" });
             DropIndex("PosCloud.Sections", new[] { "StoreId" });
@@ -956,6 +1059,8 @@ namespace POSApp.Migrations
             DropTable("PosCloud.TimedEvents");
             DropTable("PosCloud.TimedEventProducts");
             DropTable("PosCloud.Taxes");
+            DropTable("PosCloud.TillOperations");
+            DropTable("PosCloud.Shifts");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");

@@ -21,7 +21,7 @@ namespace POSApp.Persistence.Repositories
         }
         public TransDetail GetTransDetail(int id, int storeId)
         {
-            return _context.TransDetails.FirstOrDefault(x => x.Id == id && x.StoreId == storeId && x.IsActive);
+            return _context.TransDetails.FirstOrDefault(x => x.Id == id && x.StoreId == storeId && !x.IsDisabled);
         }
         public IEnumerable<TransDetailViewModel> GetTransDetails(int orderid, int storeId)
         {
@@ -65,7 +65,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteTransDetail(int id, int storeId)
         {
             var transDetails = _context.TransDetails.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            transDetails.IsActive = false;
+            transDetails.IsDisabled = true;
             _context.TransDetails.Attach(transDetails);
             _context.Entry(transDetails).State = EntityState.Modified;
         }

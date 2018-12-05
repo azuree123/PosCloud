@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace POSApp.Core.Models
@@ -27,7 +28,6 @@ namespace POSApp.Core.Models
         public DateTime? SyncedOn { get; set; }
 
         public string Code { get; set; }
-        [DefaultValue(true)]
-        public bool IsActive { get; set; }
+        public bool IsDisabled { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace POSApp.Persistence.Repositories
         {
             //return _context.Tax;
             return _context.Taxes
-                .Where(a => a.StoreId == storeId && a.IsActive)
+                .Where(a => a.StoreId == storeId && !a.IsDisabled)
                 .ToList();
         }
 
@@ -63,15 +63,29 @@ namespace POSApp.Persistence.Repositories
         public void DeleteTax(int id, int storeId)
         {
             var tax = _context.Taxes.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            tax.IsActive = false;
+            tax.IsDisabled = true;
             _context.Taxes.Attach(tax);
             _context.Entry(tax).State = EntityState.Modified;
         }
         public void AddTax(Tax optcategory)
         {
-            if (!_context.Taxes.Where(a => a.Name == optcategory.Name && a.StoreId==optcategory.StoreId).Any())
+            var inDb = _context.Taxes.FirstOrDefault(a => a.Name == optcategory.Name && a.StoreId == optcategory.StoreId);
+            if (inDb == null)
             {
-            _context.Taxes.Add(optcategory);
+                _context.Taxes.Add(optcategory);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    optcategory.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(optcategory);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }

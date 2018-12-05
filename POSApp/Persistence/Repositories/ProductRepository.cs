@@ -18,11 +18,11 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<Product> GetAllProducts(int storeId)
         {
-            return _context.Products.Include(a=>a.ProductCategory).Where(a=>a.StoreId==storeId && a.IsActive).ToList();
+            return _context.Products.Include(a=>a.ProductCategory).Where(a=>a.StoreId==storeId && !a.IsDisabled).ToList();
         }
         public IEnumerable<Product> GetProducts(int productCategoryId)
         {
-            return _context.Products.Where(a => a.CategoryId == productCategoryId && a.IsActive).ToList();
+            return _context.Products.Where(a => a.CategoryId == productCategoryId && !a.IsDisabled).ToList();
         }
         public Product GetProductById(int id, int storeid)
         {
@@ -34,9 +34,25 @@ namespace POSApp.Persistence.Repositories
         }
         public void AddProduct(Product product)
         {
-            if (!_context.Products.Where(a => a.Name == product.Name && a.CategoryId==product.CategoryId && a.Type == product.Type && a.StoreId == product.StoreId).Any())
+            var inDb = _context.Products.FirstOrDefault(a =>
+                a.Name == product.Name && a.CategoryId == product.CategoryId && a.Type == product.Type &&
+                a.StoreId == product.StoreId);
+            if (inDb == null)
             {
-            _context.Products.Add(product);
+                _context.Products.Add(product);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    product.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(product);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
         }
 
@@ -50,7 +66,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteProduct(string id, int storeid)
         {
             var product = _context.Products.FirstOrDefault(a=>a.ProductCode==id && a.StoreId==storeid);
-            product.IsActive = false;
+            product.IsDisabled = true;
             _context.Products.Attach(product);
             _context.Entry(product).State = EntityState.Modified;
         }

@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<DineTable> GetDineTables(int storeid)
         {
-            return _context.DineTables.Where(a => a.StoreId == storeid && a.IsActive).Include(f => f.Floor).ToList();
+            return _context.DineTables.Where(a => a.StoreId == storeid && !a.IsDisabled).Include(f => f.Floor).ToList();
         }
 
         public DineTable GetDineTableById(int id, int storeid)
@@ -29,9 +29,25 @@ namespace POSApp.Persistence.Repositories
 
         public void AddDineTable(DineTable DineTable)
         {
-            if (!_context.DineTables.Where(a => a.DineTableNumber == DineTable.DineTableNumber && a.StoreId == DineTable.StoreId && a.FloorId == DineTable.FloorId).Any())
+            var inDb = _context.DineTables.FirstOrDefault(a =>
+                a.DineTableNumber == DineTable.DineTableNumber && a.StoreId == DineTable.StoreId &&
+                a.FloorId == DineTable.FloorId);
+            if (inDb == null)
             {
                 _context.DineTables.Add(DineTable);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    DineTable.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(DineTable);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }
@@ -52,7 +68,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteDineTable(int id, int storeid)
         {
             var dinetable = _context.DineTables.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
-            dinetable.IsActive = false;
+            dinetable.IsDisabled = true;
             _context.DineTables.Attach(dinetable);
             _context.Entry(dinetable).State = EntityState.Modified;
         }

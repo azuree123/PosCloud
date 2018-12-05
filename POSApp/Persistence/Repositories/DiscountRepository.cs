@@ -65,9 +65,23 @@ namespace POSApp.Persistence.Repositories
         }
         public void AddDiscount(Discount optcategory)
         {
-            if (!_context.Discounts.Where(a => a.Name == optcategory.Name && a.StoreId == optcategory.StoreId).Any())
+            var inDb = _context.Discounts.FirstOrDefault(a => a.Name == optcategory.Name && a.StoreId == optcategory.StoreId);
+            if (inDb == null)
             {
-            _context.Discounts.Add(optcategory);
+                _context.Discounts.Add(optcategory);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    optcategory.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(optcategory);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }

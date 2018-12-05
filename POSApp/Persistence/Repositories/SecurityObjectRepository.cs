@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<SecurityObject> GetSecurityObjects()
         {
-            return _context.SecurityObjects.Where(a=>a.IsActive).ToList();
+            return _context.SecurityObjects.Where(a=> !a.IsDisabled).ToList();
         }
 
         public SecurityObject GetSecurityObject(int id)
@@ -28,9 +28,23 @@ namespace POSApp.Persistence.Repositories
 
         public void AddSecurityObject(SecurityObject SecurityObject)
         {
-            if (!_context.SecurityObjects.Where(a => a.Name == SecurityObject.Name).Any())
+            var inDb = _context.SecurityObjects.FirstOrDefault(a => a.Name == SecurityObject.Name);
+            if (inDb == null)
             {
                 _context.SecurityObjects.Add(SecurityObject);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    SecurityObject.SecurityObjectId = inDb.SecurityObjectId;
+                    _context.Entry(inDb).CurrentValues.SetValues(SecurityObject);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
         }
 
@@ -43,7 +57,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteSecurityObject(int id)
         {
             var securityObject = _context.SecurityObjects.FirstOrDefault(a => a.SecurityObjectId == id);
-            securityObject.IsActive = false;
+            securityObject.IsDisabled = true;
             _context.SecurityObjects.Attach(securityObject);
             _context.Entry(securityObject).State = EntityState.Modified;
         }

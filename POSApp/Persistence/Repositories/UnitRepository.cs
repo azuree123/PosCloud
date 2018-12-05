@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Unit> GetUnit(int storeid)
         {
-            return _context.Units.Where(a => a.StoreId == storeid && a.IsActive).ToList();
+            return _context.Units.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
 
         public Unit GetUnitById(int id, int storeid)
@@ -29,9 +29,23 @@ namespace POSApp.Persistence.Repositories
 
         public void AddUnit(Unit unit)
         {
-            if (!_context.Units.Where(a => a.Name == unit.Name && a.StoreId == unit.StoreId).Any())
+            var inDb = _context.Units.FirstOrDefault(a => a.Name == unit.Name && a.StoreId == unit.StoreId);
+            if (inDb == null)
             {
-            _context.Units.Add(unit);
+                _context.Units.Add(unit);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    unit.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(unit);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
         }
 
@@ -52,7 +66,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteUnit(int id,int storeId)
         {
             var unit = _context.Units.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            unit.IsActive = false;
+            unit.IsDisabled = true;
             _context.Units.Attach(unit);
             _context.Entry(unit).State = EntityState.Modified;
         }

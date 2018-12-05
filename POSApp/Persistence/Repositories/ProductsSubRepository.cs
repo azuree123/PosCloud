@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable< ProductsSub> GetProductsSubs(int storeid)
         {
-            return _context. ProductsSubs.Where(a => a.StoreId == storeid && a.IsActive).ToList();
+            return _context. ProductsSubs.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
 
         public  ProductsSub GetProductsSubById(string id, string comboProductId, int storeid)
@@ -29,9 +29,25 @@ namespace POSApp.Persistence.Repositories
 
         public void AddProductsSub( ProductsSub  productsSubs)
         {
-            if (!_context. ProductsSubs.Where(a => a.ProductCode == productsSubs.ProductCode && a.ComboProductCode == productsSubs.ComboProductCode && a.StoreId == productsSubs.StoreId).Any())
+            var inDb = _context.ProductsSubs.FirstOrDefault(a =>
+                a.ProductCode == productsSubs.ProductCode && a.ComboProductCode == productsSubs.ComboProductCode &&
+                a.StoreId == productsSubs.StoreId);
+            if (inDb == null)
             {
-                _context. ProductsSubs.Add(productsSubs);
+                _context.ProductsSubs.Add(productsSubs);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    productsSubs.ComboProductCode = inDb.ComboProductCode;
+                    _context.Entry(inDb).CurrentValues.SetValues(productsSubs);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }
@@ -58,7 +74,7 @@ namespace POSApp.Persistence.Repositories
         {
             
             var productSub = _context.ProductsSubs.FirstOrDefault(a => a.ProductCode == id && a.ComboProductCode == comboProductId  && a.StoreId == storeid);
-            productSub.IsActive = false;
+            productSub.IsDisabled = true;
             _context.ProductsSubs.Attach(productSub);
             _context.Entry(productSub).State = EntityState.Modified;
         }

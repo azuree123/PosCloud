@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<ProductCategory> GetProductCategories(int storeId)
         {
-            return _context.ProductCategories.Where(a=>a.StoreId==storeId && a.IsActive).ToList();
+            return _context.ProductCategories.Where(a=>a.StoreId==storeId && !a.IsDisabled).ToList();
         }
         public ProductCategory GetProductCategoryById(int id, int storeid)
         {
@@ -31,9 +31,25 @@ namespace POSApp.Persistence.Repositories
 
         public void AddProductCategory(ProductCategory productCategory)
         {
-            if (!_context.ProductCategories.Where(a => a.Name == productCategory.Name && a.Type== productCategory.Type && a.StoreId == productCategory.StoreId).Any())
+            var inDb = _context.ProductCategories.FirstOrDefault(a =>
+                a.Name == productCategory.Name && a.Type == productCategory.Type &&
+                a.StoreId == productCategory.StoreId);
+            if (inDb == null)
             {
-            _context.ProductCategories.Add(productCategory);
+                _context.ProductCategories.Add(productCategory);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    productCategory.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(productCategory);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
         }
 
@@ -47,7 +63,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteProductCategory(int id,int storeid)
         {
             var productCategory = _context.ProductCategories.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
-            productCategory.IsActive = false;
+            productCategory.IsDisabled = true;
             _context.ProductCategories.Attach(productCategory);
             _context.Entry(productCategory).State = EntityState.Modified;
         }

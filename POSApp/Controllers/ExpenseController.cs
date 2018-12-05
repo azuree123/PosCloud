@@ -104,6 +104,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ExpenseList", "Expense");
@@ -178,6 +182,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ExpenseList", "Expense");
@@ -227,6 +235,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ExpenseList", "Expense");
@@ -305,6 +317,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return PartialView("Test");
@@ -327,15 +343,6 @@ namespace POSApp.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
-
         public ActionResult AddExpenseHead()
         {
             ViewBag.edit = "AddExpenseHead";
@@ -345,20 +352,66 @@ namespace POSApp.Controllers
         public ActionResult AddExpenseHead(ExpenseHeadViewModel expenseHeadVm)
         {
             ViewBag.edit = "AddExpenseHead";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(expenseHeadVm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    expenseHeadVm.StoreId = user.StoreId;
+                    ExpenseHead expenseHead = Mapper.Map<ExpenseHead>(expenseHeadVm);
+                    _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expenseHead);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The Expense head added successfully", AlertType.Success);
+                    return RedirectToAction("ExpenseHeadList");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                expenseHeadVm.StoreId = user.StoreId;
-                ExpenseHead expenseHead = Mapper.Map<ExpenseHead>(expenseHeadVm);
-                _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expenseHead);
-                _unitOfWork.Complete();
-                return RedirectToAction("ExpenseHeadList");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("ExpenseHeadList");
+
         }
         public ActionResult UpdateExpenseHead(int id)
         {
@@ -373,27 +426,116 @@ namespace POSApp.Controllers
         public ActionResult UpdateExpenseHead(int id,ExpenseHeadViewModel expenseHeadVm)
         {
             ViewBag.edit = "UpdateExpenseHead";
-            if (!ModelState.IsValid)
+            try
             {
-                return View("AddExpenseHead", expenseHeadVm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    ExpenseHead expenseHead = Mapper.Map<ExpenseHead>(expenseHeadVm);
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    _unitOfWork.ExpenseHeadRepository.UpdateExpenseHead(id, Convert.ToInt32(user.StoreId), expenseHead);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The Expense head updated successfully", AlertType.Success);
+                    return RedirectToAction("ExpenseHeadList");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                ExpenseHead expenseHead = Mapper.Map<ExpenseHead>(expenseHeadVm);
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                _unitOfWork.ExpenseHeadRepository.UpdateExpenseHead(id,Convert.ToInt32(user.StoreId),expenseHead);
-                _unitOfWork.Complete();
-                return RedirectToAction("ExpenseHeadList");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("ExpenseHeadList");
+
         }
         public ActionResult DeleteExpenseHead(int id, int storeid)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            _unitOfWork.ExpenseHeadRepository.DeleteExpenseHead(id, Convert.ToInt32(user.StoreId));
-            _unitOfWork.Complete();
-            return RedirectToAction("ExpenseHeadList","Expense");
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ExpenseHeadRepository.DeleteExpenseHead(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Expense head deleted successfully", AlertType.Success);
+                return RedirectToAction("ExpenseHeadList", "Expense");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("ExpenseHeadList");
+
         }
         public ApplicationUserManager UserManager
         {

@@ -29,6 +29,7 @@ namespace POSApp.Persistence.Repositories
 
         public void AddTimedEventProducts(TimedEventProducts tep)
         {
+            
             if (!_context.TimedEventProducts.Where(a => a.ProductCode == tep.ProductCode && a.StoreId == tep.StoreId && a.TimedEventId == tep.TimedEventId).Any())
             {
                 _context.TimedEventProducts.Add(tep);

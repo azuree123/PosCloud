@@ -455,33 +455,9 @@
     <Compile Include="Core\ViewModels\ShiftViewModel.cs" />
     <Compile Include="Core\ViewModels\TillOperationViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
-    <Compile Include="Migrations\201811131244284_Update-1.cs" />
-    <Compile Include="Migrations\201811131244284_Update-1.Designer.cs">
-      <DependentUpon>201811131244284_Update-1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811140904530_Update-2.cs" />
-    <Compile Include="Migrations\201811140904530_Update-2.Designer.cs">
-      <DependentUpon>201811140904530_Update-2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811201015146_update3.cs" />
-    <Compile Include="Migrations\201811201015146_update3.Designer.cs">
-      <DependentUpon>201811201015146_update3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811201122170_update4.cs" />
-    <Compile Include="Migrations\201811201122170_update4.Designer.cs">
-      <DependentUpon>201811201122170_update4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812041135224_IsActive-Added.cs" />
-    <Compile Include="Migrations\201812041135224_IsActive-Added.Designer.cs">
-      <DependentUpon>201812041135224_IsActive-Added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812041227246_int-5.cs" />
-    <Compile Include="Migrations\201812041227246_int-5.Designer.cs">
-      <DependentUpon>201812041227246_int-5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812041239215_int-6.cs" />
-    <Compile Include="Migrations\201812041239215_int-6.Designer.cs">
-      <DependentUpon>201812041239215_int-6.cs</DependentUpon>
+    <Compile Include="Migrations\201812050953404_Init-1.cs" />
+    <Compile Include="Migrations\201812050953404_Init-1.Designer.cs">
+      <DependentUpon>201812050953404_Init-1.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\POSTerminalEntityConfiguration.cs" />
@@ -2780,26 +2756,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811131244284_Update-1.resx">
-      <DependentUpon>201811131244284_Update-1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811140904530_Update-2.resx">
-      <DependentUpon>201811140904530_Update-2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811201015146_update3.resx">
-      <DependentUpon>201811201015146_update3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811201122170_update4.resx">
-      <DependentUpon>201811201122170_update4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812041135224_IsActive-Added.resx">
-      <DependentUpon>201812041135224_IsActive-Added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812041227246_int-5.resx">
-      <DependentUpon>201812041227246_int-5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812041239215_int-6.resx">
-      <DependentUpon>201812041239215_int-6.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812050953404_Init-1.resx">
+      <DependentUpon>201812050953404_Init-1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

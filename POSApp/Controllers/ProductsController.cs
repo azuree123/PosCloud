@@ -135,6 +135,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ProductsList", "Products");
@@ -225,7 +229,10 @@ namespace POSApp.Controllers
                     {
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
-                    }
+                    }else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ProductsList", "Products");
@@ -281,6 +288,7 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                     }
+
             }
 
             return RedirectToAction("ProductsList", "Products");
@@ -415,6 +423,11 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ProductCategoryList");
@@ -505,6 +518,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ProductCategoryList");
@@ -554,6 +571,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ProductCategoryList", "Products");
@@ -672,6 +693,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ProductCategoryGroupList");
@@ -742,6 +767,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ProductCategoryGroupList");
@@ -791,6 +820,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ProductCategoryGroupList", "Products");
@@ -979,6 +1012,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ModifierList", "Products");
@@ -1071,6 +1108,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ModifierList", "Products");
@@ -1118,6 +1159,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("ModifierList", "Products");
@@ -1229,6 +1274,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("CombosList", "Products");
@@ -1335,6 +1384,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("CombosList", "Products");
@@ -1383,6 +1436,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("CombosList", "Products");
@@ -1527,6 +1584,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("SectionList", "Products");
@@ -1599,6 +1660,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("SectionList", "Products");
@@ -1645,6 +1710,10 @@ namespace POSApp.Controllers
 
                         TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
                     }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
             }
 
             return RedirectToAction("SectionList", "Products");

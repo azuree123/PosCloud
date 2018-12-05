@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Expense> GetExpenses(int storeId)
         {
-            return _context.Expenses.Where(a=>a.StoreId==storeId && a.IsActive).ToList();
+            return _context.Expenses.Where(a=>a.StoreId==storeId && !a.IsDisabled).ToList();
         }
 
         public Expense GetExpenseById(int id, int storeid)
@@ -28,7 +28,9 @@ namespace POSApp.Persistence.Repositories
 
         public void AddExpense(Expense expense)
         {
-            _context.Expenses.Add(expense);
+            
+                _context.Expenses.Add(expense);
+            
         }
 
         public void UpdateExpense(int id, Expense expense,int storeid)
@@ -41,7 +43,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteExpense(int id, int storeid)
         {
             var expense = _context.Expenses.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
-            expense.IsActive = false;
+            expense.IsDisabled = true;
             _context.Expenses.Attach(expense);
             _context.Entry(expense).State = EntityState.Modified;
         }

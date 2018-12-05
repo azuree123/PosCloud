@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Section> GetSections(int storeid)
         {
-            return _context.Sections.Where(a => a.StoreId == storeid && a.IsActive).ToList();
+            return _context.Sections.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
 
         public Section GetSectionById(int id, int storeid)
@@ -36,9 +36,23 @@ namespace POSApp.Persistence.Repositories
         }
         public void AddSection(Section Section)
         {
-            if (!_context.Sections.Where(a => a.Name == Section.Name && a.StoreId == Section.StoreId).Any())
+            var inDb = _context.Sections.FirstOrDefault(a => a.Name == Section.Name && a.StoreId == Section.StoreId);
+            if (inDb == null)
             {
                 _context.Sections.Add(Section);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    Section.SectionId = inDb.SectionId;
+                    _context.Entry(inDb).CurrentValues.SetValues(Section);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }
@@ -59,7 +73,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteSection(int id, int storeid)
         {
             var section = _context.Sections.FirstOrDefault(a => a.SectionId == id && a.StoreId == storeid);
-            section.IsActive = false;
+            section.IsDisabled = true;
             _context.Sections.Attach(section);
             _context.Entry(section).State = EntityState.Modified;
         }

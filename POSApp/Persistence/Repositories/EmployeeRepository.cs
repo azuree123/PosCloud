@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Employee> GetEmployees(int storeId)
         {
-            return _context.Employees.Where(a=>a.StoreId == storeId && a.IsActive).ToList();
+            return _context.Employees.Where(a=>a.StoreId == storeId && !a.IsDisabled).ToList();
         }
 
         public Employee GetEmployeeById(int id,int storeid)
@@ -28,9 +28,25 @@ namespace POSApp.Persistence.Repositories
 
         public void AddEmployee(Employee employee)
         {
-            if (!_context.Employees.Where(a => a.Name == employee.Name && a.StoreId == employee.StoreId && a.DepartmentId==employee.DepartmentId && a.Email==employee.Email).Any())
+            var inDb = _context.Employees.FirstOrDefault(a =>
+                a.Name == employee.Name && a.StoreId == employee.StoreId && a.DepartmentId == employee.DepartmentId &&
+                a.Email == employee.Email);
+            if (inDb == null)
             {
-            _context.Employees.Add(employee);
+                _context.Employees.Add(employee);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    employee.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(employee);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }
@@ -51,7 +67,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteEmployee(int id, int storeid)
         {
             var employee = _context.Employees.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
-            employee.IsActive = false;
+            employee.IsDisabled = true;
             _context.Employees.Attach(employee);
             _context.Entry(employee).State = EntityState.Modified;
         }

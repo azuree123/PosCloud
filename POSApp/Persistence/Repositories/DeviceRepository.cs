@@ -22,7 +22,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Device> GetDevices(int storeid)
         {
-            return _context.Devices.Where(a => a.StoreId == storeid && a.IsActive).ToList();
+            return _context.Devices.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
 
         public Device GetDeviceById(int id, int storeid)
@@ -32,9 +32,23 @@ namespace POSApp.Persistence.Repositories
 
         public void AddDevice(Device Device)
         {
-            if (!_context.Devices.Where(a => a.Name == Device.Name && a.StoreId == Device.StoreId).Any())
+            var inDb = _context.Devices.FirstOrDefault(a => a.Name == Device.Name && a.StoreId == Device.StoreId);
+            if (inDb == null)
             {
                 _context.Devices.Add(Device);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    Device.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(Device);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }
@@ -55,7 +69,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteDevice(int id, int storeid)
         {
             var device = _context.Devices.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
-            device.IsActive = false;
+            device.IsDisabled = true;
             _context.Devices.Attach(device);
             _context.Entry(device).State = EntityState.Modified;
         }

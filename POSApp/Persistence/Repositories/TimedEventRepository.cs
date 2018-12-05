@@ -29,9 +29,23 @@ namespace POSApp.Persistence.Repositories
 
         public void AddTimedEvent(TimedEvent TimedEvent)
         {
-            if (!_context.TimedEvents.Where(a => a.Name == TimedEvent.Name && a.StoreId == TimedEvent.StoreId).Any())
+            var inDb = _context.TimedEvents.FirstOrDefault(a => a.Name == TimedEvent.Name && a.StoreId == TimedEvent.StoreId);
+            if (inDb == null)
             {
                 _context.TimedEvents.Add(TimedEvent);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    TimedEvent.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(TimedEvent);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }

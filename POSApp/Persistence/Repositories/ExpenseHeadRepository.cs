@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<ExpenseHead> GetExpenseHeads(int storeId)
         {
-            return _context.ExpenseHeads.Where(a=>a.StoreId == storeId && a.IsActive).ToList();
+            return _context.ExpenseHeads.Where(a=>a.StoreId == storeId && !a.IsDisabled).ToList();
         }
 
         public ExpenseHead GetExpenseHeadById(int id, int storeid)
@@ -28,9 +28,24 @@ namespace POSApp.Persistence.Repositories
 
         public void AddExpenseHead(ExpenseHead expenseHeads)
         {
-            if (!_context.ExpenseHeads.Where(a => a.Name == expenseHeads.Name && a.StoreId == expenseHeads.StoreId).Any())
+            var inDb = _context.ExpenseHeads.FirstOrDefault(
+                a => a.Name == expenseHeads.Name && a.StoreId == expenseHeads.StoreId);
+            if (inDb == null)
             {
-            _context.ExpenseHeads.Add(expenseHeads);
+                _context.ExpenseHeads.Add(expenseHeads);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    expenseHeads.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(expenseHeads);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
         }
 
@@ -44,7 +59,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteExpenseHead(int id, int storeid)
         {
             var expenseHead = _context.ExpenseHeads.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
-            expenseHead.IsActive = false;
+            expenseHead.IsDisabled = true;
             _context.ExpenseHeads.Attach(expenseHead);
             _context.Entry(expenseHead).State = EntityState.Modified;
         }

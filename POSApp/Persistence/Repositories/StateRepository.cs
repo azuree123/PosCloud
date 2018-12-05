@@ -17,7 +17,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<State> GetStates()
         {
-            return _context.States.Where(a=>a.IsActive).ToList();
+            return _context.States.Where(a=> !a.IsDisabled).ToList();
         }
 
         public State GetStateById(int id)
@@ -27,9 +27,23 @@ namespace POSApp.Persistence.Repositories
 
         public void AddState(State state)
         {
-            if (!_context.States.Where(a => a.Name == state.Name).Any())
+            var inDb = _context.States.FirstOrDefault(a => a.Name == state.Name);
+            if (inDb == null)
             {
-            _context.States.Add(state);
+                _context.States.Add(state);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    state.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(state);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
         }
 
@@ -47,7 +61,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteState(int id)
         {
             var state = _context.States.FirstOrDefault(a => a.Id == id);
-            state.IsActive = false;
+            state.IsDisabled = true;
             _context.States.Attach(state);
             _context.Entry(state).State = EntityState.Modified;
         }

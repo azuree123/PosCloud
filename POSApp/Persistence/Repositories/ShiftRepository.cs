@@ -20,7 +20,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Shift> GetShifts(int storeid)
         {
-            return _context.Shifts.Where(a => a.StoreId == storeid && a.IsActive).ToList();
+            return _context.Shifts.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
 
         public Shift GetShiftById(int id, int storeid)
@@ -30,9 +30,23 @@ namespace POSApp.Persistence.Repositories
        
         public void AddShift(Shift Shift)
         {
-            if (!_context.Shifts.Where(a => a.Name == Shift.Name && a.StoreId == Shift.StoreId).Any())
+            var inDb = _context.Shifts.FirstOrDefault(a => a.Name == Shift.Name && a.StoreId == Shift.StoreId);
+            if (inDb == null)
             {
                 _context.Shifts.Add(Shift);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    Shift.ShiftId = inDb.ShiftId;
+                    _context.Entry(inDb).CurrentValues.SetValues(Shift);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }
@@ -53,7 +67,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteShift(int id, int storeid)
         {
             var shift = _context.Shifts.FirstOrDefault(a => a.ShiftId == id && a.StoreId == storeid);
-            shift.IsActive = false;
+            shift.IsDisabled = true;
             _context.Shifts.Attach(shift);
             _context.Entry(shift).State = EntityState.Modified;
         }

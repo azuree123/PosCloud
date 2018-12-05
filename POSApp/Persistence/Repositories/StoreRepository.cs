@@ -20,7 +20,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Store> GetStores()
         {
-            return _context.Stores.Where(a=>a.IsActive).ToList();
+            return _context.Stores.Where(a=> !a.IsDisabled).ToList();
         }
 
         public Store GetStoreById(int id)
@@ -30,9 +30,23 @@ namespace POSApp.Persistence.Repositories
 
         public void AddStore(Store store)
         {
-            if (!_context.Stores.Where(a => a.Name == store.Name ).Any())
+            var inDb = _context.Stores.FirstOrDefault(a => a.Name == store.Name);
+            if (inDb == null)
             {
-            _context.Stores.Add(store);
+                _context.Stores.Add(store);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    store.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(store);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
         }
 
@@ -54,7 +68,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteStore(int id)
         {
             var store = _context.Stores.FirstOrDefault(a => a.Id == id);
-            store.IsActive = false;
+            store.IsDisabled = true;
             _context.Stores.Attach(store);
             _context.Entry(store).State = EntityState.Modified;
         }

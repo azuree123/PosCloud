@@ -15,11 +15,11 @@ namespace POSApp.Core.Models
         public Store Store { get; set; }
 
         public string Name { get; set; }
-        public bool IsActive { get; set; }
 
         public int? SectionId { get; set; }
         public Section Section { get; set; }
 
+        public bool IsActive { get; set; }
 
         // public ApplicationUser ApplicationUser { get; set; }
 

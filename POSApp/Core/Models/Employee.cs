@@ -25,6 +25,8 @@ namespace POSApp.Core.Models
         public string Address { get; set; }
         public virtual ICollection<Expense> Expenses { get; set; }
 
+        public byte[] Image { get; set; }
+
     }
 
 }

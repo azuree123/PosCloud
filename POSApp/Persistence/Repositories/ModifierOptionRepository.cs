@@ -28,7 +28,8 @@ namespace POSApp.Persistence.Repositories
         }
 
         public void AddModifierOption(ModifierOption mo)
-        {
+        { 
+
             if (!_context.ModifierOptions.Where(a => a.Name == mo.Name && a.StoreId == mo.StoreId).Any())
             {
                 _context.ModifierOptions.Add(mo);

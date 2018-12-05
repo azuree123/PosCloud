@@ -50,9 +50,13 @@
                                 Monthly Sales:
                                 <strong>
                                     <select class="form-control" id="salesSelector">
-                                        @foreach (var s in Model.StoreDatas)
+                                        @if (Model.StoreDatas != null)
                                         {
-                                            <option value="Cosmic 1" >@s.StoreName</option>
+
+                                        foreach (var s in Model.StoreDatas)
+                                        {
+                                            <option value="Cosmic 1">@s.StoreName</option>
+                                        }
                                         }
                                     </select>
                                 </strong>

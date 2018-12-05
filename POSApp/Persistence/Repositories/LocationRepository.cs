@@ -18,7 +18,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Location> GetLocations()
         {
-            return _context.Locations.Where(a=>a.IsActive).ToList();
+            return _context.Locations.Where(a=> !a.IsDisabled).ToList();
         }
 
         public Location GetLocationById(int id)
@@ -40,7 +40,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteLocation(int id)
         {
             var location = _context.Locations.FirstOrDefault(a => a.Id == id );
-            location.IsActive = false;
+            location.IsDisabled = true;
             _context.Locations.Attach(location);
             _context.Entry(location).State = EntityState.Modified;
         }

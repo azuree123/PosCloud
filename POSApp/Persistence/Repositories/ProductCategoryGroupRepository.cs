@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
         }
         public ProductCategoryGroup GetProductCategoryGroup(int id,int storeId)
         {
-            return _context.ProductCategoryGroups.FirstOrDefault(x => x.Id == id && x.StoreId==storeId && x.IsActive);
+            return _context.ProductCategoryGroups.FirstOrDefault(x => x.Id == id && x.StoreId==storeId && !x.IsDisabled);
         }
         public IEnumerable<ProductCategoryGroupViewModel> GetProductCategoryGroups(int storeId)
         {
@@ -66,15 +66,30 @@ namespace POSApp.Persistence.Repositories
         public void DeleteProductCategoryGroup(int id, int storeId)
         {
             var productCategorygroup = _context.ProductCategoryGroups.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            productCategorygroup.IsActive = false;
+            productCategorygroup.IsDisabled = true;
             _context.ProductCategoryGroups.Attach(productCategorygroup);
             _context.Entry(productCategorygroup).State = EntityState.Modified;
         }
         public void AddProductCategoryGroup(ProductCategoryGroup optcategory)
         {
-            if (!_context.ProductCategoryGroups.Where(a => a.Name == optcategory.Name && a.StoreId == optcategory.StoreId).Any())
+            var inDb = _context.ProductCategoryGroups.FirstOrDefault(a =>
+                a.Name == optcategory.Name && a.StoreId == optcategory.StoreId);
+            if (inDb == null)
             {
-            _context.ProductCategoryGroups.Add(optcategory);
+                _context.ProductCategoryGroups.Add(optcategory);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    optcategory.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(optcategory);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
             }
 
         }
