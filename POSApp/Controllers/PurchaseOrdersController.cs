@@ -126,7 +126,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Select(a=>new SelectListItem{Text = a.Name,Value = a.Id.ToString()}));
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>(a.PurchaseItem||a.InventoryItem)).Select(a=>new SelectListItem{Text = a.Name,Value = a.Id.ToString()}));
         }
         [HttpPost]
         public ActionResult AddTransactionItem(int productId,int quantity,decimal cost)

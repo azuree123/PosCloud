@@ -17,7 +17,7 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<City> GetCities()
         {
-            return _context.Cities.Include(a=>a.State).ToList();
+            return _context.Cities.Include(a=>a.State).Where(a=> !a.IsDisabled).ToList();
         }
         public IEnumerable<City> GetCities(int stateId)
         {

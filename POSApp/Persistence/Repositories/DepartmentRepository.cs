@@ -23,7 +23,7 @@ namespace POSApp.Persistence.Repositories
 
         public Department GetDepartmentById(int id, int storeId)
         {
-            return _context.Departments.Where(a=>a.Id==id && a.StoreId==storeId).ToList().FirstOrDefault();
+            return _context.Departments.Where(a=>a.Id==id && a.StoreId==storeId && !a.IsDisabled).ToList().FirstOrDefault();
         }
 
         public void AddDepartment(Department department)

@@ -15,7 +15,7 @@ namespace POSApp.Core.ViewModels
         public int ExpenseHeadId { get; set; }
         [DisplayName("Select Employee")]
         public int EmployeeId { get; set; }
-        [Range(1, 100, ErrorMessage = "Ammount must be between $1 and $100")]
+        [Range(1,10000000000000000000, ErrorMessage = "Ammount must be between $1 and $100")]
         public double Amount { get; set; }
         public string Description { get; set; }
         [DataType(DataType.Date)]

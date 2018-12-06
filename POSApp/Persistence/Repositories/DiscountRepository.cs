@@ -24,7 +24,7 @@ namespace POSApp.Persistence.Repositories
         {
             //return _context.Discount;
             return _context.Discounts
-                .Where(a => a.StoreId == storeId && a.IsActive)
+                .Where(a => a.StoreId == storeId && !a.IsDisabled)
                 .ToList();
         }
 

@@ -2453,7 +2453,7 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddTimedEvent()
         {
-            ViewBag.edit = "AddDiscount/TimedEvent";
+            ViewBag.edit = "AddTimedEvent";
             TimedEventViewModel model=new TimedEventViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -2468,7 +2468,7 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddTimedEvent(TimedEventViewModel timeeventVm)
         {
-            ViewBag.edit = "AddDiscount/TimedEvent";
+            ViewBag.edit = "AddTimedEvent";
             try
             {
                 var userid = User.Identity.GetUserId();
@@ -2576,7 +2576,7 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateTimedEvent(int id)
         {
-            ViewBag.edit = "UpdateDiscount/TimedEvent";
+            ViewBag.edit = "UpdateTimedEvent";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             TimedEventViewModel timeeventVm =
@@ -2594,7 +2594,7 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateTimedEvent(int id, TimedEventViewModel timeeventVm)
         {
-            ViewBag.edit = "UpdateDiscount/TimedEvent";
+            ViewBag.edit = "UpdateTimedEvent";
             try
             {
                 var userid = User.Identity.GetUserId();

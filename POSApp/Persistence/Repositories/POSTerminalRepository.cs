@@ -20,7 +20,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<POSTerminal> GetPOSTerminals(int storeid)
         {
-            return _context.PosTerminals.Where(a => a.StoreId == storeid && a.IsActive).Include(f => f.Section).ToList();
+            return _context.PosTerminals.Where(a => a.StoreId == storeid && !a.IsDisabled).Include(f => f.Section).ToList();
         }
 
         public POSTerminal GetPOSTerminalById(int id, int storeid)

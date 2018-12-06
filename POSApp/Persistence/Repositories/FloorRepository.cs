@@ -28,7 +28,7 @@ namespace POSApp.Persistence.Repositories
         }
         public Floor GetFloorByFloorNumber(string floorNumber, int storeid)
         {
-            return _context.Floors.FirstOrDefault(a=>a.FloorNumber==floorNumber && a.StoreId==storeid);
+            return _context.Floors.FirstOrDefault(a=>a.FloorNumber==floorNumber && a.StoreId==storeid && !a.IsDisabled);
         }
         public void AddFloor(Floor Floor)
         {
