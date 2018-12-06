@@ -2731,6 +2731,7 @@
     <Content Include="Views\Shared\_AlertView.cshtml" />
     <Content Include="Views\Setup\TillOperationList.cshtml" />
     <Content Include="Views\Shared\Test.cshtml" />
+    <Content Include="Views\Products\AddSectionPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

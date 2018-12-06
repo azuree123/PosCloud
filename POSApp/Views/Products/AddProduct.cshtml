@@ -42,7 +42,7 @@
                             @Html.HiddenFor(a => a.CreatedOn)
                             @Html.HiddenFor(a => a.Image)
                             @Html.HiddenFor(a => a.StoreId)
-                           
+
                             <div class="">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="row">
@@ -121,7 +121,12 @@
                                     <div class="form-group">
                                         <div class="col-md-4">
                                             @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label" })
-                                            @Html.DropDownListFor(model => model.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                <span class="input-group-addon" style="   ">
+                                                    <a href="@Url.Action("AddSectionPartial","Products")" class="modalShow3">   <i class="fa fa-plus "></i></a>
+                                                </span>
+                                            </div>
                                             @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
@@ -188,9 +193,10 @@
     }
 
     <div id="ModalData1"></div>
+    <div id="ModalData2"></div>
 
     <script>
-     
+
         function UpdateDdlCategory() {
             $.ajax({
                 url: "@Url.Action("GetProductCategoryDdl", "Products")",
@@ -229,7 +235,35 @@
 
             return false;
         });
+        function UpdateDdlSection() {
+            $.ajax({
+                url: "@Url.Action("GetSectionDdl", "Products")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.SectionId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
 
+                }
+            });
+        }
+        $('a.modalShow3').on('click', function () {
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#ModalData2').html(result).find('#ordine3').modal('show');
+                }
+            });
+
+            return false;
+        });
+        $('#datatable-default').dataTable();
     </script>
 </div>
 

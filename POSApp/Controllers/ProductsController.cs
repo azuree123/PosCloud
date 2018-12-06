@@ -1513,7 +1513,93 @@ namespace POSApp.Controllers
 
         }
         //Section
+        public ActionResult AddSectionPartial()
+        {
+            ViewBag.edit = "AddSectionPartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddSectionPartial(SectionViewModel sectionVm)
+        {
+            ViewBag.edit = "AddSectionPartial";
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
 
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    sectionVm.StoreId = (int)user.StoreId;
+                    Section section = Mapper.Map<Section>(sectionVm);
+                    _unitOfWork.SectionRepository.AddSection(section);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The section added successfully", AlertType.Success);
+                    return PartialView("Test");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return PartialView("Test");
+
+
+        }
+
+        public JsonResult GetSectionDdl()
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<SectionViewModel[]>(_unitOfWork.SectionRepository.GetSections((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
         public ActionResult SectionList()
         {
             var userid = User.Identity.GetUserId();
