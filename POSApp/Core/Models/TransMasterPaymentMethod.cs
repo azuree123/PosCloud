@@ -12,5 +12,7 @@ namespace POSApp.Core.Models
         public double Amount { get; set; }
         public int TransMasterId { get; set; }
         public TransMaster TransMaster { get; set; }
+        public int StoreId { get; set; }
+        public Store Store { get; set; }
     }
 }

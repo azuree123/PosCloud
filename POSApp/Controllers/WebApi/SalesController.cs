@@ -56,6 +56,13 @@ namespace POSApp.Controllers.WebApi
                         saleOrderDetail.TransMasterId = saleOrderAdd.Id;
                         _unitOfWork.TransDetailRepository.AddTransDetail(saleOrderDetail);
                     }
+                    foreach (var method in salesViewModel.TransMasterPaymentMethods)
+                    {
+                        method.Code = salesViewModel.TransMaster.Id.ToString();
+                        method.TransMasterId = saleOrderAdd.Id;
+                        method.StoreId = salesViewModel.TransMaster.StoreId;
+                        _unitOfWork.TransMasterPaymentMethodRepository.AddTransMasterPaymentMethod(method);
+                    }
                 }
               
                 _unitOfWork.Complete();

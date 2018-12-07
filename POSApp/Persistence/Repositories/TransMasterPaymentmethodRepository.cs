@@ -16,38 +16,42 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
-        public IEnumerable<TransMasterPaymentMethod> GetPaymentMethods()
+
+        public IEnumerable<TransMasterPaymentMethod> GetTransMasterPaymentMethods(int storeid)
         {
-            return _context.TransMasterPaymentMethods.Include(a => a.TransMaster).Where(a => !a.IsDisabled).ToList();
-        }
-        public IEnumerable<TransMasterPaymentMethod> GetPaymentMethods(int transMasterId)
-        {
-            return _context.TransMasterPaymentMethods.Where(a => a.TransMasterId == transMasterId && !a.IsDisabled).Include(a => a.TransMaster).ToList();
+            return _context.TransMasterPaymentMethods.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
 
-        public TransMasterPaymentMethod GetTransMasterPaymentMethod(int id)
+        public TransMasterPaymentMethod GetTransMasterPaymentMethodById(int id, int storeid)
         {
-            return _context.TransMasterPaymentMethods.Find(id);
+            return _context.TransMasterPaymentMethods.Find(id, storeid);
         }
 
-        public void AddTransMasterPaymentMethod(TransMasterPaymentMethod transMasterPaymentMethod)
+        public void AddTransMasterPaymentMethod(TransMasterPaymentMethod TransMasterPaymentMethod)
         {
-                _context.TransMasterPaymentMethods.Add(transMasterPaymentMethod);
+            
+                _context.TransMasterPaymentMethods.Add(TransMasterPaymentMethod);
         }
 
-        public void UpdateTransMasterPaymentMethod(int id, TransMasterPaymentMethod transMasterPaymentMethod)
+        public void UpdateTransMasterPaymentMethod(int id, TransMasterPaymentMethod TransMasterPaymentMethod, int storeid)
         {
-            _context.TransMasterPaymentMethods.Attach(transMasterPaymentMethod);
-            _context.Entry(transMasterPaymentMethod).State = EntityState.Modified;
+            if (TransMasterPaymentMethod.Id != id)
+            {
+                TransMasterPaymentMethod.Id = id;
+            }
+            else { }
+
+            TransMasterPaymentMethod.StoreId = storeid;
+            _context.TransMasterPaymentMethods.Attach(TransMasterPaymentMethod);
+            _context.Entry(TransMasterPaymentMethod).State = EntityState.Modified;
         }
 
-        public void DeleteTransMasterPaymentMethod(int id)
+        public void DeleteTransMasterPaymentMethod(int id, int storeid)
         {
-            var transMasterPaymentMethod = _context.TransMasterPaymentMethods.FirstOrDefault(a => a.Id == id);
-            transMasterPaymentMethod.IsDisabled = true;
-            _context.TransMasterPaymentMethods.Attach(transMasterPaymentMethod);
-            _context.Entry(transMasterPaymentMethod).State = EntityState.Modified;
+            var dinetable = _context.TransMasterPaymentMethods.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
+            dinetable.IsDisabled = true;
+            _context.TransMasterPaymentMethods.Attach(dinetable);
+            _context.Entry(dinetable).State = EntityState.Modified;
         }
-       
     }
 }

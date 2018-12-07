@@ -14,11 +14,11 @@ namespace POSApp.Persistence.EntityConfigurations
         {
             ToTable("TransMasterPaymentMethods", PosDbContext.DEFAULT_SCHEMA);
 
-            HasKey(a => a.Id);
+            HasKey(a => new{a.Id,a.StoreId});
             Property(a => a.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.Method).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.Amount).HasColumnType("float").IsRequired();
-            HasRequired(x=>x.TransMaster).WithMany(x=>x.TransMasterPaymentMethods).HasForeignKey(x=>x.TransMasterId).WillCascadeOnDelete(false);
+            HasRequired(x=>x.TransMaster).WithMany(x=>x.TransMasterPaymentMethods).HasForeignKey(x=>new {x.TransMasterId,x.StoreId}).WillCascadeOnDelete(false);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TransMasterPaymentMethodRepository.GetPaymentMethods());
+            return View(_unitOfWork.TransMasterPaymentMethodRepository.GetTransMasterPaymentMethods((int)user.StoreId));
         }
         [HttpGet]
         public ActionResult AddTransMasterPaymentMethod()
@@ -117,7 +117,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             TransMasterPaymentMethodViewModel TransMasterPaymentMethodMv =
-                Mapper.Map<TransMasterPaymentMethodViewModel>(_unitOfWork.TransMasterPaymentMethodRepository.GetTransMasterPaymentMethod(id));
+                Mapper.Map<TransMasterPaymentMethodViewModel>(_unitOfWork.TransMasterPaymentMethodRepository.GetTransMasterPaymentMethodById(id, (int)user.StoreId));
             return View("AddTransMasterPaymentMethod", TransMasterPaymentMethodMv);
         }
         [HttpPost]
@@ -138,7 +138,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     TransMasterPaymentMethod TransMasterPaymentMethod = Mapper.Map<TransMasterPaymentMethod>(TransMasterPaymentMethodMv);
-                    _unitOfWork.TransMasterPaymentMethodRepository.UpdateTransMasterPaymentMethod(id, TransMasterPaymentMethod);
+                    _unitOfWork.TransMasterPaymentMethodRepository.UpdateTransMasterPaymentMethod(id, TransMasterPaymentMethod, (int)user.StoreId);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The transMasterPaymentMethod updated successfully", AlertType.Success);
                     return RedirectToAction("TransMasterPaymentMethodList", "TransMasterPaymentMethod");
@@ -192,7 +192,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.TransMasterPaymentMethodRepository.DeleteTransMasterPaymentMethod(id);
+                _unitOfWork.TransMasterPaymentMethodRepository.DeleteTransMasterPaymentMethod(id, (int)user.StoreId);
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The transMasterPaymentMethod deleted successfully", AlertType.Success);
                 return RedirectToAction("TransMasterPaymentMethodList", "TransMasterPaymentMethod");

@@ -10,6 +10,8 @@ namespace POSApp.Core.ViewModels.Sync
     {
         public TransMaster TransMaster { get; set; }
         public List<TransDetail> TransDetailsList { get; set; }
+        public List<TransMasterPaymentMethod> TransMasterPaymentMethods { get; set; }
+
 
     }
     public class SyncObject

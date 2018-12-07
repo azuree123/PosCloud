@@ -8,11 +8,10 @@ namespace POSApp.Core.Repositories
 {
     public interface ITransMasterPaymentMethodRepository
     {
-        IEnumerable<TransMasterPaymentMethod> GetPaymentMethods();
-        IEnumerable<TransMasterPaymentMethod> GetPaymentMethods(int transMasterId);
-        TransMasterPaymentMethod GetTransMasterPaymentMethod(int id);
-        void AddTransMasterPaymentMethod(TransMasterPaymentMethod transMasterPaymentMethod);
-        void UpdateTransMasterPaymentMethod(int id, TransMasterPaymentMethod transMasterPaymentMethod);
-        void DeleteTransMasterPaymentMethod(int id);
+        IEnumerable<TransMasterPaymentMethod> GetTransMasterPaymentMethods(int storeid);
+        TransMasterPaymentMethod GetTransMasterPaymentMethodById(int id, int storeid);
+        void AddTransMasterPaymentMethod(TransMasterPaymentMethod TransMasterPaymentMethod);
+        void UpdateTransMasterPaymentMethod(int id, TransMasterPaymentMethod TransMasterPaymentMethod, int storeid);
+        void DeleteTransMasterPaymentMethod(int id, int storeid);
     }
 }

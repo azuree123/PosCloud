@@ -470,6 +470,10 @@
     <Compile Include="Migrations\201812070829131_PasswordEncrypt.Designer.cs">
       <DependentUpon>201812070829131_PasswordEncrypt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812071146280_new-1.cs" />
+    <Compile Include="Migrations\201812071146280_new-1.Designer.cs">
+      <DependentUpon>201812071146280_new-1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\POSTerminalEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SectionEntityConfiguration.cs" />
@@ -2777,6 +2781,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812070829131_PasswordEncrypt.resx">
       <DependentUpon>201812070829131_PasswordEncrypt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812071146280_new-1.resx">
+      <DependentUpon>201812071146280_new-1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
