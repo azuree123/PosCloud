@@ -22,7 +22,7 @@ namespace POSApp.Core.Models
         }
 
         // public int StoreId { get; set; }
-
+        public string PasswordEncrypt { get; set; }
         public int? EmployeeId { get; set; }
         public Employee Employee { get; set; }
         

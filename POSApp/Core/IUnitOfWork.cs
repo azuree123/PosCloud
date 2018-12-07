@@ -49,6 +49,7 @@ namespace POSApp.Core
         IPOSTerminalRepository POSTerminalRepository { get; }
         IShiftRepository ShiftRepository { get; }
         ITillOperationRepository TillOperationRepository { get; }
+        ITransMasterPaymentMethodRepository TransMasterPaymentMethodRepository { get; }
         void Complete();
     }
 }

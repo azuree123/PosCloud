@@ -41,5 +41,6 @@ namespace POSApp.Core.Models
         public int? OrderTime { get; set; }//in minutes
 
         public ICollection<TransDetail> TransDetails { get; set; }
+        public ICollection<TransMasterPaymentMethod> TransMasterPaymentMethods { get; set; }
     }
 }

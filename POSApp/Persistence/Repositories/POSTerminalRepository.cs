@@ -72,5 +72,17 @@ namespace POSApp.Persistence.Repositories
             _context.PosTerminals.Attach(posTerminal);
             _context.Entry(posTerminal).State = EntityState.Modified;
         }
+        public IEnumerable<POSTerminal> GetPosTerminals()
+        {
+            IEnumerable<POSTerminal> posTerminals = _context.PosTerminals.Where(a => !a.Synced).ToList();
+            foreach (var posTerminal in posTerminals)
+            {
+                posTerminal.Synced = true;
+                posTerminal.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return posTerminals;
+        }
     }
 }

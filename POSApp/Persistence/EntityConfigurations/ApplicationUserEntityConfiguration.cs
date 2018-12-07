@@ -16,7 +16,7 @@ namespace POSApp.Persistence.EntityConfigurations
             //Property(x => x.Id)
             //    .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************
-            // Property(x => x.Name).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();;
+            Property(x => x.PasswordEncrypt).HasColumnType("varchar").HasMaxLength(150).IsOptional(); 
             HasOptional(x => x.Employee).WithMany().HasForeignKey(x => new {x.EmployeeId}).WillCascadeOnDelete(false);
 
             HasOptional(x => x.Store).WithMany().HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);

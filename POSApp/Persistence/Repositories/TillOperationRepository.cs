@@ -65,5 +65,17 @@ namespace POSApp.Persistence.Repositories
             _context.TillOperations.Attach(tillOperation);
             _context.Entry(tillOperation).State = EntityState.Modified;
         }
+        public IEnumerable<TillOperation> GetApiTillOperations()
+        {
+            IEnumerable<TillOperation> tillOperations = _context.TillOperations.Where(a => !a.Synced).ToList();
+            foreach (var tillOperation in tillOperations)
+            {
+                tillOperation.Synced = true;
+                tillOperation.SyncedOn = DateTime.Now;
+            }
+
+            _context.SaveChanges();
+            return tillOperations;
+        }
     }
 }

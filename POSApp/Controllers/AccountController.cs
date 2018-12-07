@@ -9,6 +9,7 @@ using POSApp.Core.Models;
 using POSApp.Models;
 using POSApp;
 using POSApp.Core;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
@@ -156,7 +157,7 @@ namespace POSApp.Controllers
             if (ModelState.IsValid)
             {
                 int storeId = _unitOfWork.StoreRepository.GetStores().Select(a => a.Id).FirstOrDefault();
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StoreId = storeId};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StoreId = storeId,PasswordEncrypt = Security.EncryptString(model.Password, "E546C8DF278CD5931069B522E695D4F2") };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

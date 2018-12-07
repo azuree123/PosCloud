@@ -3,6 +3,8 @@ using System.Linq;
 using AutoMapper;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.Models;
+using POSApp.Services;
 
 namespace POSApp
 {
@@ -110,6 +112,15 @@ namespace POSApp
 
             CreateMap<TillOperationViewModel, TillOperation>();
             CreateMap<TillOperation, TillOperationViewModel>();
+
+
+
+            CreateMap<RegisterListViewModel, ApplicationUser>();
+            CreateMap<ApplicationUser, RegisterListViewModel>().ForMember(a=>a.Email,o=>o.MapFrom(g=>g.Email))
+                .ForMember(a => a.UserId, o => o.MapFrom(g => g.Id)).ForMember(a => a.UserName, o => o.MapFrom(g => g.UserName))
+                .ForMember(a => a.UserPassword, o => o.MapFrom(g => Security.DecryptString(g.PasswordEncrypt,g.Email)));
+            CreateMap<TransMasterPaymentMethodViewModel, TransMasterPaymentMethod>();
+            CreateMap<TransMasterPaymentMethod, TransMasterPaymentMethodViewModel>();
         }
     }
 }

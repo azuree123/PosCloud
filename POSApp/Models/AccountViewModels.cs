@@ -92,6 +92,14 @@ namespace POSApp.Models
         public string Address { get; set; }
     }
 
+    public class RegisterListViewModel
+    {
+        public string UserId { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string UserPassword { get; set; }
+    }
+
     public class ResetPasswordViewModel
     {
         [Required]
