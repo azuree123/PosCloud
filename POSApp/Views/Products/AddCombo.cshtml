@@ -199,7 +199,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if (Model != null)
+                                                    @if (Model.ProductSubViewModels != null)
                                                     {
 
                                                         if (Model.ProductSubViewModels.Count() > 0)
@@ -211,18 +211,17 @@
                                                                     <td>@(number++)</td>
                                                                     <td>@modelModifierOptionViewModel.ProductName</td>
                                                                     <td>@modelModifierOptionViewModel.Qty</td>
-                                                                    <td>
-                                                                        @*<a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@modelModifierOptionViewModel.Name.ToString()')" data-toggle="tooltip" title="Edit !"></a>
-                                                                        @Ajax.ActionLink(" ", "DeleteComboOption", "Products", new {name = @modelModifierOptionViewModel.Name, storeId = @modelModifierOptionViewModel.StoreId}, new AjaxOptions
-                                                                        {
-                                                                            HttpMethod = "GET",
-                                                                            UpdateTargetId = "AjaxUpdate"
-                                                                        }, new
-                                                                        {
-                                                                            @onclick = "return confirm('Are you sure?')",
-                                                                            @class = "btn btn-danger btn-sm fa fa-trash-o",
-                                                                            @style = "color: #ffffff;"
-                                                                        })*@
+                                                                    <td class="center">
+                                                                        <div class="btn-group">
+                                                                            <a href="#" class = "btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@modelModifierOptionViewModel.ProductCode.ToString()','@modelModifierOptionViewModel.StoreId.ToString()')"  data-toggle = "tooltip" title = "Edit !"></a>
+                                                                            @Ajax.ActionLink(" ", "DeleteComboOption", "Products", new { productId = modelModifierOptionViewModel.ProductCode, storeId = modelModifierOptionViewModel.StoreId }, new AjaxOptions { HttpMethod = "GET",
+                                                                                UpdateTargetId = "AjaxUpdate"
+                                                                            },new{
+                                                                                @onclick = "return confirm('Are you sure?')",
+                                                                                @class = "btn btn-danger btn-sm fa fa-trash-o",
+                                                                                @style = "color: #ffffff;"
+                                                                            })
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             }

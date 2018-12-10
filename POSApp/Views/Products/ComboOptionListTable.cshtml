@@ -35,8 +35,8 @@
 
                         <td class="center">
                             <div class="btn-group">
-                                <a href="#" class = "btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@modifieroption.ProductId.ToString()','@modifieroption.StoreId.ToString()')"  data-toggle = "tooltip" title = "Edit !"></a>
-                                @Ajax.ActionLink(" ", "DeleteComboOption", "Products", new { productId = @modifieroption.ProductId, storeId = @modifieroption.StoreId }, new AjaxOptions { HttpMethod = "GET",
+                                <a href="#" class = "btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@modifieroption.ProductCode.ToString()','@modifieroption.StoreId.ToString()')"  data-toggle = "tooltip" title = "Edit !"></a>
+                                @Ajax.ActionLink(" ", "DeleteComboOption", "Products", new { productId = @modifieroption.ProductCode, storeId = @modifieroption.StoreId }, new AjaxOptions { HttpMethod = "GET",
                                     UpdateTargetId = "AjaxUpdate"
                                 },new{
                                     @onclick = "return confirm('Are you sure?')",

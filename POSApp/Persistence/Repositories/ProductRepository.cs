@@ -26,11 +26,11 @@ namespace POSApp.Persistence.Repositories
         }
         public Product GetProductById(int id, int storeid)
         {
-            return _context.Products.Include(a=>a.ComboProducts).FirstOrDefault(a=>a.Id==id&&a.StoreId==storeid);
+            return _context.Products.Include(a=>a.ComboProducts.Where(o=>!o.IsDisabled)).FirstOrDefault(a=>a.Id==id&&a.StoreId==storeid);
         }
         public Product GetProductByCode(string id, int storeid)
         {
-            return _context.Products.Include(a => a.ComboProducts).FirstOrDefault(a => a.ProductCode == id && a.StoreId == storeid);
+            return _context.Products.Include(a => a.ComboProducts.Where(o => !o.IsDisabled)).FirstOrDefault(a => a.ProductCode == id && a.StoreId == storeid);
         }
         public void AddProduct(Product product)
         {
@@ -46,6 +46,7 @@ namespace POSApp.Persistence.Repositories
                 if (inDb.IsDisabled)
                 {
                     product.Id = inDb.Id;
+                    product.ProductCode = inDb.ProductCode;
                     _context.Entry(inDb).CurrentValues.SetValues(product);
                     _context.Entry(inDb).State = EntityState.Modified;
                 }

@@ -121,6 +121,10 @@ namespace POSApp
                 .ForMember(a => a.UserPassword, o => o.MapFrom(g => Security.DecryptString(g.PasswordEncrypt,g.Email)));
             CreateMap<TransMasterPaymentMethodViewModel, TransMasterPaymentMethod>();
             CreateMap<TransMasterPaymentMethod, TransMasterPaymentMethodViewModel>();
+
+
+            CreateMap<ProductsSub, ProductSubViewModel>();
+            CreateMap<ProductSubViewModel, ProductsSub>();
         }
     }
 }

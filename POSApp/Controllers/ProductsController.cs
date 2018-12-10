@@ -32,7 +32,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).ToList());
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>a.Type!="Combo").ToList());
         }
 
         public ActionResult AddProduct()
@@ -1185,6 +1185,16 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ComboViewModel product = new ComboViewModel();
+            if (Helper.TempComboOptions == null)
+            {
+                Helper.TempComboOptions = new List<ProductSubViewModel>();
+
+            }
+            if (Helper.TempComboOptions != null)
+            {
+
+                Helper.EmptyTempComboOptions(user.Id, (int)user.StoreId);
+            }
             product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
            
@@ -1236,10 +1246,19 @@ namespace POSApp.Controllers
                 {
 
                     productVm.StoreId = user.StoreId;
-                    Product product = Mapper.Map<Product>(productVm);
+                    var product = Mapper.Map<Product>(productVm);
                     product.Type = "Combo";
                     _unitOfWork.ProductRepository.AddProduct(product);
                     int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
+                    
+                    foreach (var productSubViewModel in Helper.TempComboOptions.Where(a=>a.CreatedBy==userid))
+                    {
+                        productSubViewModel.StoreId = product.StoreId;
+                        productSubViewModel.ComboProductCode = product.ProductCode;
+                        var subProduct = Mapper.Map<ProductsSub>(productSubViewModel);
+                        _unitOfWork.ProductsSubRepository.AddProductsSub(subProduct);
+
+                    }
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The combo added successfully", AlertType.Success);
                     return RedirectToAction("CombosList", "Products");
@@ -1311,10 +1330,15 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-            //foreach (var modifierVmModifierOptionViewModel in productVm.ProductSubViewModels)
-            //{
-            //    Helper.AddToTempModifierOptions(modifierVmModifierOptionViewModel, userid);
-            //}
+            productVm.ProductSubViewModels = Mapper.Map<ProductSubViewModel[]>(
+                _unitOfWork.ProductsSubRepository.GetProductsSubs(productVm.ProductCode, (int) productVm.StoreId));
+            foreach (var modifierVmModifierOptionViewModel in productVm.ProductSubViewModels)
+            {
+                modifierVmModifierOptionViewModel.ProductName = _unitOfWork.ProductRepository
+                    .GetProductByCode(modifierVmModifierOptionViewModel.ProductCode,
+                        modifierVmModifierOptionViewModel.StoreId).Name;
+                Helper.AddToTempComboOptions(modifierVmModifierOptionViewModel, userid);
+            }
             return View("AddCombo", productVm);
         }
         [HttpPost]
@@ -1350,6 +1374,18 @@ namespace POSApp.Controllers
                     Product product = Mapper.Map<Product>(productVm);
                     product.Type = "Combo";
                     _unitOfWork.ProductRepository.UpdateProduct(id, Convert.ToInt32(user.StoreId), product);
+                    List<ProductsSub> productsSubs = _unitOfWork.ProductsSubRepository.GetProductsSubs(product.ProductCode,product.StoreId).ToList();
+                    foreach (var productsSub in productsSubs)
+                    {
+                        _unitOfWork.ProductsSubRepository.DeleteProductsSub(productsSub.ProductCode,productsSub.ComboProductCode,productsSub.StoreId);
+                    }
+                    foreach (var productSubViewModel in Helper.TempComboOptions.Where(a => a.CreatedBy == userid))
+                    {
+                        productSubViewModel.StoreId = product.StoreId;
+                        productSubViewModel.ComboProductCode = product.ProductCode;
+                        _unitOfWork.ProductsSubRepository.AddProductsSub(Mapper.Map<ProductsSub>(productSubViewModel));
+
+                    }
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The combo updated successfully", AlertType.Success);
                     return RedirectToAction("CombosList", "Products");
@@ -1454,7 +1490,7 @@ namespace POSApp.Controllers
             ProductSubViewModel Combooption = new ProductSubViewModel();
             ViewBag.edit = "AddComboOption";
             Combooption.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int) user.StoreId)
-                .Select(a => new SelectListItem {Text = a.Name, Value = a.Id.ToString()}).ToList();
+                .Select(a => new SelectListItem {Text = a.Name, Value = a.ProductCode.ToString()}).ToList();
             return View(Combooption);
         }
         [HttpPost]
@@ -1470,7 +1506,7 @@ namespace POSApp.Controllers
             if (!ModelState.IsValid)
             {
                 CombooptionVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                    .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).ToList();
+                    .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode.ToString() }).ToList();
                 return View(CombooptionVm);
             }
             else
@@ -1485,18 +1521,18 @@ namespace POSApp.Controllers
             }
 
         }
-        public ActionResult UpdateComboOption(int productId,int storeId)
+        public ActionResult UpdateComboOption(string productId,int storeId)
         {
             ViewBag.edit = "AddComboOption";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            ProductSubViewModel CombooptionVm = Helper.TempComboOptions.FirstOrDefault(a => a.ProductId == productId && a.CreatedBy == userid);
+            ProductSubViewModel CombooptionVm = Helper.TempComboOptions.FirstOrDefault(a => a.ProductCode == productId && a.CreatedBy == userid);
             CombooptionVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).ToList();
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode }).ToList();
             return View("AddComboOption", CombooptionVm);
         }
         
-        public ActionResult DeleteComboOption(int productId, int storeid)
+        public ActionResult DeleteComboOption(string productId, int storeid)
         {
             if (Helper.TempComboOptions == null)
             {

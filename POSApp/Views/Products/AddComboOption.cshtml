@@ -38,14 +38,14 @@
                             <div class="">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="row">
-                                    @Html.TextBoxFor(model => model.ProductName, new  { @style = "display:none;" })
+                                    @Html.TextBoxFor(model => model.ProductName, new  { @style = "display:none;",@id="productName" })
 
 
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.ProductId, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.DropDownListFor(model => model.ProductId, Model.ProductDdl, "Select an Option", new { @class = "form-control", @required = true })
-                                            @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+                                            @Html.LabelFor(model => model.ProductCode, htmlAttributes: new { @class = "control-label required1" })
+                                            @Html.DropDownListFor(model => model.ProductCode, Model.ProductDdl, "Select an Option", new { @class = "form-control", @required = true,@id="productCode" })
+                                            @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
 
                                         </div>
                                     </div>
@@ -77,8 +77,10 @@
 
 
 <script>
-    $('#@Html.IdFor(a=>a.ProductId)').on("change", function () {
-        $('#@Html.IdFor(a=>a.ProductName)').val($("#@Html.IdFor(a => a.ProductId) option:selected").text());
+    $('#productCode').on("change", function () {
+        /**/
+        $('#productName').val($("#productCode option:selected").text());
+    /**/
 
-    })
+})
 </script>

@@ -9,10 +9,10 @@ namespace POSApp.Core.ViewModels
 {
     public class ProductSubViewModel
     {
-        public int ComboProductId { get; set; }
+        public string ComboProductCode { get; set; }
         public int StoreId { get; set; }
         [DisplayName("Product")]
-        public int ProductId { get; set; }
+        public string ProductCode { get; set; }
         [DisplayName("Quantity")]
         public float Qty { get; set; }
         public DateTime? CreatedOn { get; set; }

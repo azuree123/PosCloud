@@ -15,7 +15,7 @@ namespace POSApp.Core.Shared
         {
 
             ProductSubViewModel checkTrans = TempComboOptions
-                .Where(a => a.ProductId == ComboOptionViewModel.ProductId  && a.CreatedBy == userId).ToList()
+                .Where(a => a.ProductCode == ComboOptionViewModel.ProductCode && a.CreatedBy == userId).ToList()
                 .FirstOrDefault();
             ComboOptionViewModel.CreatedBy = userId;
             if (checkTrans != null)
@@ -30,10 +30,10 @@ namespace POSApp.Core.Shared
             }
 
         }
-        public static void RemoveFromTempComboOptions(int product, int storeId, string userId)
+        public static void RemoveFromTempComboOptions(string product, int storeId, string userId)
         {
             ProductSubViewModel transDetail = TempComboOptions
-                .Where(a => a.ProductId == product && a.CreatedBy == userId && a.StoreId == storeId).ToList().FirstOrDefault();
+                .Where(a => a.ProductCode == product && a.CreatedBy == userId && a.StoreId == storeId).ToList().FirstOrDefault();
             TempComboOptions.Remove(transDetail);
         }
         public static void EmptyTempComboOptions(string userId, int storeId)

@@ -2827,7 +2827,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50631</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50631/</IISUrl>
+          <IISUrl>http://localhost:59631/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

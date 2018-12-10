@@ -21,6 +21,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context. ProductsSubs.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
+        public IEnumerable<ProductsSub> GetProductsSubs(string productCode,int storeid)
+        {
+            return _context.ProductsSubs.Where(a => a.StoreId == storeid && !a.IsDisabled &&a.ComboProductCode==productCode).ToList();
+        }
 
         public  ProductsSub GetProductsSubById(string id, string comboProductId, int storeid)
         {
