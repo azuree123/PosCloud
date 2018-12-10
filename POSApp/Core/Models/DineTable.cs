@@ -14,6 +14,7 @@ namespace POSApp.Core.Models
         public string DineTableNumber { get; set; }
         public int FloorId { get; set; }
         public Floor Floor { get; set; }
+        public virtual ICollection<TransMaster> TransMasters { get; set; }
        
     }
 }

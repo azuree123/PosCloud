@@ -24,7 +24,9 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.TransCode).HasColumnType("varchar").HasMaxLength(25).IsOptional();
             Property(x => x.TransRef).HasColumnType("varchar").HasMaxLength(25).IsOptional();
             Property(x => x.TransStatus).HasColumnType("varchar").HasMaxLength(25).IsOptional();
-
+            Property(x => x.DeliveryType).HasColumnType("varchar").HasMaxLength(25).IsOptional();
+            Property(x => x.Address).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+            Property(x => x.ContactNumber).HasColumnType("varchar").HasMaxLength(25).IsOptional();
             Property(x => x.Type).HasColumnType("char").HasMaxLength(3).IsOptional();
             Property(x => x.CreatedOn).IsOptional();
             Property(x => x.UpdatedOn).IsOptional();
@@ -35,7 +37,7 @@ namespace POSApp.Persistence.EntityConfigurations
 
             HasRequired(x => x.Store).WithMany(x => x.TransMasters).HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
             HasRequired(x => x.BusinessPartner).WithMany(x => x.TransMasters).HasForeignKey(x => new { x.BusinessPartnerId, x.StoreId }).WillCascadeOnDelete(false);
-            HasOptional(x => x.DineTable).WithMany().HasForeignKey(x => new { x.DineTableId, x.StoreId }).WillCascadeOnDelete(false);
+            HasOptional(x => x.DineTable).WithMany(c=>c.TransMasters).HasForeignKey(x => new { x.DineTableId, x.StoreId }).WillCascadeOnDelete(false);
 
 
         }

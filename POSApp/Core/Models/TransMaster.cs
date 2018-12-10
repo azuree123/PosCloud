@@ -16,6 +16,9 @@ namespace POSApp.Core.Models
 
         public string Type { get; set; }  //INV or PRI
         public string TransCode { get; set; }
+        public string DeliveryType { get; set; }
+        public string Address { get; set; }
+        public string ContactNumber { get; set; }
 
         public int BusinessPartnerId { get; set; }
         public BusinessPartner BusinessPartner { get; set; }
