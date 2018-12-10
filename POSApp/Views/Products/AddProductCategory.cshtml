@@ -89,7 +89,7 @@
                     $dropdown.empty();
                     $dropdown.append($("<option />").val('').text("Select an Option"));
                     $.each(result, function (index, value) {
-                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                        $dropdown.append($("<option />").val(value.Name).text(value.Name));
                     });
 
                 }

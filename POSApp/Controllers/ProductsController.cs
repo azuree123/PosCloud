@@ -1311,7 +1311,7 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-            //foreach (var modifierVmModifierOptionViewModel in productVm)
+            //foreach (var modifierVmModifierOptionViewModel in productVm.ProductSubViewModels)
             //{
             //    Helper.AddToTempModifierOptions(modifierVmModifierOptionViewModel, userid);
             //}
