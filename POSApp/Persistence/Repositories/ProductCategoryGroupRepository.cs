@@ -28,6 +28,7 @@ namespace POSApp.Persistence.Repositories
             return _context.ProductCategoryGroups
                 
                 .Where(a => a.StoreId == storeId)
+                .Where(g => g.IsDisabled==false)
                 .Select(a => new ProductCategoryGroupViewModel { Id = a.Id, Name = a.Name, StoreId = a.StoreId })
                 .ToList();
         }
