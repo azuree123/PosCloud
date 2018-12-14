@@ -49,12 +49,12 @@
                                     <div class="form-group">
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "Enter Name" } })
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Barcode" } })
                                             @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
                                         </div>
 
@@ -102,17 +102,17 @@
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "Enter Stock" } })
                                             @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Attribute, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "Enter Attribute" } })
                                             @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Size, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Size, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.EditorFor(model => model.Size, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "Enter Size" } })
                                             @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
