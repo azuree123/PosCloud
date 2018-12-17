@@ -393,6 +393,7 @@
     <Compile Include="Core\Models\Discount.cs" />
     <Compile Include="Core\Models\Floor.cs" />
     <Compile Include="Core\Models\Modifier.cs" />
+    <Compile Include="Core\Models\ModifierLinkProduct.cs" />
     <Compile Include="Core\Models\ModifierOption.cs" />
     <Compile Include="Core\Models\POSTerminal.cs" />
     <Compile Include="Core\Models\ProductCategoryGroup.cs" />
@@ -418,6 +419,7 @@
     <Compile Include="Core\Repositories\IDineTableRepository.cs" />
     <Compile Include="Core\Repositories\IDiscountRepository.cs" />
     <Compile Include="Core\Repositories\IFloorRepository.cs" />
+    <Compile Include="Core\Repositories\IModifierLinkProductRepository.cs" />
     <Compile Include="Core\Repositories\IModifierOptionRepository.cs" />
     <Compile Include="Core\Repositories\IModifierRepository.cs" />
     <Compile Include="Core\Repositories\IPOSTerminalRepository.cs" />
@@ -452,6 +454,7 @@
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
     <Compile Include="Core\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Core\ViewModels\ModifierLinkProductViewModel.cs" />
     <Compile Include="Core\ViewModels\POSTerminalViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductSizeSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\RoleViewModel.cs" />
@@ -478,7 +481,12 @@
     <Compile Include="Migrations\201812140705177_new-2.Designer.cs">
       <DependentUpon>201812140705177_new-2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812171236591_ModifierLinkProducts.cs" />
+    <Compile Include="Migrations\201812171236591_ModifierLinkProducts.Designer.cs">
+      <DependentUpon>201812171236591_ModifierLinkProducts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ModifierLinkProductEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\POSTerminalEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SectionEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SecurityRightEntityConfiguration.cs" />
@@ -596,6 +604,7 @@
     <Compile Include="Persistence\Repositories\ExpenseRepository.cs" />
     <Compile Include="Persistence\Repositories\FloorRepository.cs" />
     <Compile Include="Persistence\Repositories\LocationRepository.cs" />
+    <Compile Include="Persistence\Repositories\ModifierLinkProductRepository.cs" />
     <Compile Include="Persistence\Repositories\ModifierOptionRepository.cs" />
     <Compile Include="Persistence\Repositories\ModifierRepository.cs" />
     <Compile Include="Persistence\Repositories\POSTerminalRepository.cs" />
@@ -2588,6 +2597,8 @@
     <Content Include="Content\ImportFormats\DineTableImport.xls" />
     <Content Include="Content\ImportFormats\ClientImport.xls" />
     <Content Include="Content\ImportFormats\UnitImport.xls" />
+    <Content Include="Content\ImportFormats\SectionImport.xls" />
+    <Content Include="Content\ImportFormats\ShiftImport.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -2754,6 +2765,8 @@
     <Content Include="Views\Setup\TillOperationList.cshtml" />
     <Content Include="Views\Shared\Test.cshtml" />
     <Content Include="Views\Products\AddSectionPartial.cshtml" />
+    <Content Include="Views\ExcelImport\SectionExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\ShiftExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2791,6 +2804,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812140705177_new-2.resx">
       <DependentUpon>201812140705177_new-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812171236591_ModifierLinkProducts.resx">
+      <DependentUpon>201812171236591_ModifierLinkProducts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

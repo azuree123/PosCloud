@@ -42,6 +42,9 @@ namespace POSApp.Core.Models
         public virtual ICollection<DineTable> DineTables { get; set; }
         public virtual ICollection<Device> Devices { get; set; }
         public virtual ICollection<SecurityRight> SecurityRights { get; set; }
+        public virtual ICollection<ModifierLinkProduct> ProductsLink { get; set; }
+        public virtual ICollection<ModifierLinkProduct> ModifiersLink { get; set; }
+
 
 
 

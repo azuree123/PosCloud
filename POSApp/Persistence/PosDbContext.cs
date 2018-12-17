@@ -57,6 +57,7 @@ namespace POSApp.Persistence
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<TillOperation> TillOperations { get; set; }
         public DbSet<TransMasterPaymentMethod> TransMasterPaymentMethods { get; set; }
+        public DbSet<ModifierLinkProduct> ModifierLinkProducts { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
           
@@ -113,7 +114,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new ShiftEntityConfiguration());
             modelBuilder.Configurations.Add(new TillOperationEntityConfiguration());
             modelBuilder.Configurations.Add(new TransMasterPaymentMethodEntityConfiguration());
-
+            modelBuilder.Configurations.Add(new ModifierLinkProductEntityConfiguration());
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);
 

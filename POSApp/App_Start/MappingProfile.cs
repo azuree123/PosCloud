@@ -125,6 +125,8 @@ namespace POSApp
 
             CreateMap<ProductsSub, ProductSubViewModel>();
             CreateMap<ProductSubViewModel, ProductsSub>();
+            CreateMap<ModifierLinkProduct, ModifierLinkProductViewModel>();
+            CreateMap<ModifierLinkProductViewModel, ModifierLinkProduct>();
         }
     }
 }

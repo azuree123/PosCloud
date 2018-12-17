@@ -48,6 +48,7 @@ namespace POSApp.Core.Models
         public virtual ICollection<ProductsSub> ComboProducts { get; set; }
 
         public virtual ICollection<TimedEventProducts> TimedEventProducts { get; set; }
+        public ICollection<ModifierLinkProduct> ModifierLinkProducts { get; set; }
        
     }
 }

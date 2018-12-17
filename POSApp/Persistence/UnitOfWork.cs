@@ -58,6 +58,7 @@ namespace POSApp.Persistence
         public IShiftRepository ShiftRepository { get; private set; }
         public ITillOperationRepository TillOperationRepository { get; private set; }
         public ITransMasterPaymentMethodRepository TransMasterPaymentMethodRepository { get; private set; }
+        public IModifierLinkProductRepository ModifierLinkProductRepository { get; private set; }
         public UnitOfWork(PosDbContext context)
         {
             _context = context;
@@ -100,6 +101,7 @@ namespace POSApp.Persistence
            TillOperationRepository = new TillOperationRepository(context);
             SecurityObjectRepository=new SecurityObjectRepository(context);
             TransMasterPaymentMethodRepository = new TransMasterPaymentMethodRepository(context);
+            ModifierLinkProductRepository = new ModifierLinkProductRepository(context);
         }
 
         public void Complete()

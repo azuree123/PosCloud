@@ -47,8 +47,8 @@
             <li><a href="@Url.Action("StateList","Setup")">State</a></li>
             <li><a href="@Url.Action("CityList","Setup")">City</a></li>
             <li><a href="@Url.Action("ClientList","Setup")">Client</a></li>
-            <li><a href="@Url.Action("UnitList","Setup")">Client</a></li>
-
+            <li><a href="@Url.Action("UnitList","Setup")">Unit</a></li>
+            
             <li class="current"><a href="#">Discount</a></li>
             <li><a href="@Url.Action("DineTableList","Setup")">Dine Table</a></li>
             <li><a href="@Url.Action("FloorList","Setup")">Floor</a></li>
@@ -126,8 +126,8 @@
                         <td class="center">
                             <div class="btn-group">
 
-                                @Html.ActionLink(" ", "UpdateTimedEvent", "Setup", new { id = @timedevent.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteTimedEvent", "Setup", new { id = @timedevent.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "UpdateTimedEvent", "Setup", new { id = @timedevent.Id }, new { @class = "btn btn-default text-success btn-xs fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                @Html.ActionLink(" ", "DeleteTimedEvent", "Setup", new { id = @timedevent.Id }, new { @class = "btn btn-default text-danger  btn-xs fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                             </div>
                         </td>
                     </tr>

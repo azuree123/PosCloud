@@ -319,7 +319,7 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 _unitOfWork.DepartmentRepository.DeleteDepartment(id, (int)user.StoreId);
                 _unitOfWork.Complete();
-                TempData["Alert"] = new AlertModel("The Department deleted successfully", AlertType.Error);
+                TempData["Alert"] = new AlertModel("The Department deleted successfully", AlertType.Success);
                 return RedirectToAction("DepartmentList", "Setup");
             }
             catch (DbEntityValidationException ex)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.Entity.Validation;
 using System.Data.OleDb;
 using System.IO;
 using System.Linq;
@@ -43,23 +44,63 @@ namespace POSApp.Controllers
         public ActionResult StateExcelImport(HttpPostedFileBase file)
         {
             
-            DataTable dt = ImportService.GetExcelData(file);
 
             //var userid = User.Identity.GetUserId();
             //var user = UserManager.FindById(userid);
-            foreach (DataRow dr in dt.Rows)
+            try
+            {
+            DataTable dt = ImportService.GetExcelData(file);
+                foreach (DataRow dr in dt.Rows)
                 {
                     State NewModel = new State();
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
                     {
-                    NewModel.Name = dr["Name"].ToString();
-                    _unitOfWork.StateRepository.AddState(NewModel);
+                        NewModel.Name = dr["Name"].ToString();
+                        _unitOfWork.StateRepository.AddState(NewModel);
                     }
                 }
                 _unitOfWork.Complete();
-
-            
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
                 return RedirectToAction("StateList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("StateList", "Setup");
         }
         [HttpGet]
         public ActionResult CityExcelImport()
@@ -71,11 +112,13 @@ namespace POSApp.Controllers
         public ActionResult CityExcelImport(HttpPostedFileBase file)
         {
             
-            DataTable dt = ImportService.GetExcelData(file);
 
             //var userid = User.Identity.GetUserId();
             //var user = UserManager.FindById(userid);
-            foreach (DataRow dr in dt.Rows)
+            try
+            {
+            DataTable dt = ImportService.GetExcelData(file);
+                foreach (DataRow dr in dt.Rows)
                 {
                     City NewModel = new City();
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
@@ -86,8 +129,48 @@ namespace POSApp.Controllers
                     }
                 }
                 _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("CityList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-            
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+
+
             return RedirectToAction("CityList", "Setup");
         }
 
@@ -101,6 +184,8 @@ namespace POSApp.Controllers
         public ActionResult TaxExcelImport(HttpPostedFileBase file)
         {
             
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
@@ -117,8 +202,48 @@ namespace POSApp.Controllers
                     }
                 }
                 _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("TaxList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-            
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+
+
             return RedirectToAction("TaxList", "Setup");
         }
 
@@ -132,6 +257,8 @@ namespace POSApp.Controllers
         public ActionResult DiscountExcelImport(HttpPostedFileBase file)
         {
             
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
@@ -146,18 +273,55 @@ namespace POSApp.Controllers
                         NewModel.IsTaxable = Convert.ToBoolean(dr["IsTaxable"].ToString());
                         NewModel.Type = dr["Type"].ToString();
                         NewModel.DiscountCode = dr["DiscountCode"].ToString();
-                        NewModel.Value = decimal.Parse(dr["Value"].ToString()) ;
+                        NewModel.Value = decimal.Parse(dr["Value"].ToString());
                         NewModel.Days = dr["Days"].ToString();
                         NewModel.ValidFrom = DateTime.Parse(dr["ValidFrom"].ToString());
                         NewModel.ValidTill = DateTime.Parse(dr["ValidTill"].ToString());
                         NewModel.IsActive = bool.Parse(dr["IsActive"].ToString());
-                    NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)user.StoreId;
                         _unitOfWork.DiscountRepository.AddDiscount(NewModel);
                     }
                 }
                 _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("DiscountList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-            
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
             return RedirectToAction("DiscountList", "Setup");
         }
         public ActionResult CouponExcelImport()
@@ -205,6 +369,8 @@ namespace POSApp.Controllers
         public ActionResult CustomerExcelImport(HttpPostedFileBase file)
         {
             
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
@@ -224,8 +390,45 @@ namespace POSApp.Controllers
                     }
                 }
                 _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("CustomerList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-            
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
             return RedirectToAction("CustomerList", "Setup");
         }
 
@@ -239,23 +442,62 @@ namespace POSApp.Controllers
         public ActionResult DepartmentExcelImport(HttpPostedFileBase file)
         {
             
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            foreach (DataRow dr in dt.Rows)
+                foreach (DataRow dr in dt.Rows)
                 {
                     Department NewModel = new Department();
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
                     {
                         NewModel.Name = dr["Name"].ToString();
-                        NewModel.StoreId = (int) user.StoreId;
+                        NewModel.StoreId = (int)user.StoreId;
                         _unitOfWork.DepartmentRepository.AddDepartment(NewModel);
                     }
                 }
                 _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("DepartmentList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-            
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
             return RedirectToAction("DepartmentList", "Setup");
         }
 
@@ -270,6 +512,8 @@ namespace POSApp.Controllers
         public ActionResult EmployeeExcelImport(HttpPostedFileBase file)
         {
             
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
@@ -291,8 +535,45 @@ namespace POSApp.Controllers
                     }
                 }
                 _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("EmployeeList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-            
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
             return RedirectToAction("EmployeeList", "Setup");
         }
 
@@ -308,6 +589,8 @@ namespace POSApp.Controllers
         public ActionResult ExpenseExcelImport(HttpPostedFileBase file)
         {
             
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
@@ -326,8 +609,45 @@ namespace POSApp.Controllers
                     }
                 }
                 _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("ExpenseList", "Expense");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-            
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
             return RedirectToAction("ExpenseList", "Expense");
         }
 
@@ -343,6 +663,8 @@ namespace POSApp.Controllers
         public ActionResult ExpenseHeadExcelImport(HttpPostedFileBase file)
         {
             
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
@@ -356,11 +678,49 @@ namespace POSApp.Controllers
                         NewModel.Details = dr["Details"].ToString();
                         NewModel.StoreId = (int)user.StoreId;
                         _unitOfWork.ExpenseHeadRepository.AddExpenseHead(NewModel);
+                        _unitOfWork.Complete();
+                        TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                        return RedirectToAction("ExpenseHeadList", "Expense");
                     }
                 }
-                _unitOfWork.Complete();
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-            
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
             return RedirectToAction("ExpenseHeadList", "Expense");
         }
 
@@ -376,11 +736,13 @@ namespace POSApp.Controllers
         public ActionResult StoreExcelImport(HttpPostedFileBase file)
         {
             
-            DataTable dt = ImportService.GetExcelData(file);
 
             //var userid = User.Identity.GetUserId();
             //var user = UserManager.FindById(userid);
-            foreach (DataRow dr in dt.Rows)
+            try
+            {
+            DataTable dt = ImportService.GetExcelData(file);
+                foreach (DataRow dr in dt.Rows)
                 {
                     Store NewModel = new Store();
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
@@ -392,8 +754,45 @@ namespace POSApp.Controllers
                     }
                 }
                 _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("StoresList", "Store");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-            
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
             return RedirectToAction("StoresList", "Store");
         }
 
@@ -409,6 +808,8 @@ namespace POSApp.Controllers
         public ActionResult SupplierExcelImport(HttpPostedFileBase file)
         {
             
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
@@ -424,13 +825,50 @@ namespace POSApp.Controllers
                         NewModel.CpMobileNumber = dr["CpMobileNumber"].ToString();
                         NewModel.StoreId = (int)user.StoreId;
                         NewModel.Type = "S";
-                        NewModel.Birthday=DateTime.Now;
+                        NewModel.Birthday = DateTime.Now;
                         _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(NewModel);
                     }
                 }
                 _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("SupplierList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-            
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
             return RedirectToAction("SupplierList", "Setup");
         }
 
@@ -446,6 +884,8 @@ namespace POSApp.Controllers
         public ActionResult ProductExcelImport(HttpPostedFileBase file)
         {
                 
+            try
+            {
              DataTable dt= ImportService.GetExcelData(file);
 
                 var userid = User.Identity.GetUserId();
@@ -462,9 +902,9 @@ namespace POSApp.Controllers
                         NewModel.Size = dr["Size"].ToString();
                         if (!string.IsNullOrEmpty(dr["TaxId"].ToString()))
                         {
-                        NewModel.TaxId =Int32.Parse(dr["TaxId"].ToString());
+                            NewModel.TaxId = Int32.Parse(dr["TaxId"].ToString());
                         }
-                        NewModel.UnitPrice =double.Parse(dr["UnitPrice"].ToString());
+                        NewModel.UnitPrice = double.Parse(dr["UnitPrice"].ToString());
                         NewModel.CostPrice = double.Parse(dr["CostPrice"].ToString());
                         NewModel.Stock = double.Parse(dr["Stock"].ToString());
                         NewModel.ReOrderLevel = Int32.Parse(dr["ReOrderLevel"].ToString());
@@ -477,8 +917,45 @@ namespace POSApp.Controllers
                     }
                 }
                 _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("ProductsList", "Products");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-            
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
             return RedirectToAction("ProductsList", "Products");
         }
 
@@ -494,24 +971,63 @@ namespace POSApp.Controllers
         public ActionResult ProductCategoryExcelImport(HttpPostedFileBase file)
         {
 
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            foreach (DataRow dr in dt.Rows)
-            {
-                ProductCategory NewModel = new ProductCategory();
-                if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                foreach (DataRow dr in dt.Rows)
                 {
-                    NewModel.Name = dr["Name"].ToString();
-                    NewModel.Type = dr["Type"].ToString();
-                    NewModel.StoreId = (int) user.StoreId;
-                    _unitOfWork.ProductCategoryRepository.AddProductCategory(NewModel);
+                    ProductCategory NewModel = new ProductCategory();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        NewModel.Type = dr["Type"].ToString();
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.ProductCategoryRepository.AddProductCategory(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("ProductCategoryList", "Products");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                 }
             }
-            _unitOfWork.Complete();
-
-
             return RedirectToAction("ProductCategoryList", "Products");
         }
 
@@ -527,23 +1043,62 @@ namespace POSApp.Controllers
         public ActionResult ProductCategoryGroupExcelImport(HttpPostedFileBase file)
         {
 
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            foreach (DataRow dr in dt.Rows)
-            {
-                ProductCategoryGroup NewModel = new ProductCategoryGroup();
-                if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                foreach (DataRow dr in dt.Rows)
                 {
-                    NewModel.Name = dr["Name"].ToString();
-                    NewModel.StoreId = (int)user.StoreId;
-                    _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(NewModel);
+                    ProductCategoryGroup NewModel = new ProductCategoryGroup();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("ProductCategoryGroupList", "Products");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                 }
             }
-            _unitOfWork.Complete();
-
-
             return RedirectToAction("ProductCategoryGroupList", "Products");
         }
         public ActionResult DeviceExcelImport()
@@ -556,31 +1111,70 @@ namespace POSApp.Controllers
         public ActionResult DeviceExcelImport(HttpPostedFileBase file)
         {
 
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            foreach (DataRow dr in dt.Rows)
-            {
-                Device NewModel = new Device();
-                if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                foreach (DataRow dr in dt.Rows)
                 {
-                    NewModel.Name = dr["Name"].ToString();
-                    NewModel.License = dr["License"].ToString();
-                    NewModel.DeviceCode = dr["DeviceCode"].ToString();
-                    NewModel.AppVersion = dr["AppVersion"].ToString();
-                    NewModel.Address = dr["Address"].ToString();
-                   
-                    NewModel.Contact = dr["Contact"].ToString();
-                    NewModel.DownloadedDate = DateTime.Parse(dr["DownloadedDate"].ToString());
-                   
-                    NewModel.StoreId = (int)user.StoreId;
-                    _unitOfWork.DeviceRepository.AddDevice(NewModel);
+                    Device NewModel = new Device();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        NewModel.License = dr["License"].ToString();
+                        NewModel.DeviceCode = dr["DeviceCode"].ToString();
+                        NewModel.AppVersion = dr["AppVersion"].ToString();
+                        NewModel.Address = dr["Address"].ToString();
+
+                        NewModel.Contact = dr["Contact"].ToString();
+                        NewModel.DownloadedDate = DateTime.Parse(dr["DownloadedDate"].ToString());
+
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.DeviceRepository.AddDevice(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("DeviceList", "Device");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                 }
             }
-            _unitOfWork.Complete();
-
-
             return RedirectToAction("DeviceList", "Device");
         }
         public ActionResult FloorExcelImport()
@@ -592,25 +1186,64 @@ namespace POSApp.Controllers
         public ActionResult FloorExcelImport(HttpPostedFileBase file)
         {
 
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            foreach (DataRow dr in dt.Rows)
-            {
-                Floor NewModel = new Floor();
-                if (!string.IsNullOrWhiteSpace(dr["FloorNumber"].ToString()))
+                foreach (DataRow dr in dt.Rows)
                 {
-                    NewModel.FloorNumber = dr["FloorNumber"].ToString();
-                    
+                    Floor NewModel = new Floor();
+                    if (!string.IsNullOrWhiteSpace(dr["FloorNumber"].ToString()))
+                    {
+                        NewModel.FloorNumber = dr["FloorNumber"].ToString();
 
-                    NewModel.StoreId = (int)user.StoreId;
-                    _unitOfWork.FloorRepository.AddFloor(NewModel);
+
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.FloorRepository.AddFloor(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("FloorList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                 }
             }
-            _unitOfWork.Complete();
-
-
             return RedirectToAction("FloorList", "Setup");
         }
         public ActionResult DineTableExcelImport()
@@ -622,37 +1255,76 @@ namespace POSApp.Controllers
         public ActionResult DineTableExcelImport(HttpPostedFileBase file)
         {
 
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            foreach (DataRow dr in dt.Rows)
-            {
-                DineTable NewModel = new DineTable();
-                if (!string.IsNullOrWhiteSpace(dr["DineTableNumber"].ToString()))
+                foreach (DataRow dr in dt.Rows)
                 {
-                    NewModel.DineTableNumber = dr["DineTableNumber"].ToString();
-                    string floorNames = dr["FloorNumber"].ToString();
-                    Floor checkFloor = _unitOfWork.FloorRepository.GetFloorByFloorNumber(floorNames, (int)user.StoreId);
-                    if (checkFloor == null)
+                    DineTable NewModel = new DineTable();
+                    if (!string.IsNullOrWhiteSpace(dr["DineTableNumber"].ToString()))
                     {
-                        var data = new Floor {FloorNumber = floorNames, StoreId = (int) user.StoreId};
-                        _unitOfWork.FloorRepository.AddFloor(data);
-                        _unitOfWork.Complete();
-                        NewModel.FloorId = data.Id;
+                        NewModel.DineTableNumber = dr["DineTableNumber"].ToString();
+                        string floorNames = dr["FloorNumber"].ToString();
+                        Floor checkFloor = _unitOfWork.FloorRepository.GetFloorByFloorNumber(floorNames, (int)user.StoreId);
+                        if (checkFloor == null)
+                        {
+                            var data = new Floor { FloorNumber = floorNames, StoreId = (int)user.StoreId };
+                            _unitOfWork.FloorRepository.AddFloor(data);
+                            _unitOfWork.Complete();
+                            NewModel.FloorId = data.Id;
+                        }
+                        else
+                        {
+                            NewModel.FloorId = checkFloor.Id;
+                        }
+
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.DineTableRepository.AddDineTable(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("DineTableList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
                     }
                     else
                     {
-                        NewModel.FloorId = checkFloor.Id;
-                    }
 
-                    NewModel.StoreId = (int)user.StoreId;
-                    _unitOfWork.DineTableRepository.AddDineTable(NewModel);
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                 }
             }
-            _unitOfWork.Complete();
-
-
             return RedirectToAction("DineTableList", "Setup");
         }
         public ActionResult ClientExcelImport()
@@ -665,24 +1337,63 @@ namespace POSApp.Controllers
         public ActionResult ClientExcelImport(HttpPostedFileBase file)
         {
 
-            DataTable dt = ImportService.GetExcelData(file);
 
             //var userid = User.Identity.GetUserId();
             //var user = UserManager.FindById(userid);
-            foreach (DataRow dr in dt.Rows)
+            try
             {
-                Client NewModel = new Client();
-                if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+            DataTable dt = ImportService.GetExcelData(file);
+                foreach (DataRow dr in dt.Rows)
                 {
-                    NewModel.Name = dr["Name"].ToString();
-                    NewModel.Address = dr["Address"].ToString();
-                    NewModel.Contact = dr["Contact"].ToString();
-                    _unitOfWork.ClientRepository.AddClient(NewModel);
+                    Client NewModel = new Client();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        NewModel.Address = dr["Address"].ToString();
+                        NewModel.Contact = dr["Contact"].ToString();
+                        _unitOfWork.ClientRepository.AddClient(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("ClientList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                 }
             }
-            _unitOfWork.Complete();
-
-
             return RedirectToAction("ClientList", "Setup");
         }
         public ActionResult UnitExcelImport()
@@ -695,25 +1406,202 @@ namespace POSApp.Controllers
         public ActionResult UnitExcelImport(HttpPostedFileBase file)
         {
 
+            try
+            {
             DataTable dt = ImportService.GetExcelData(file);
 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            foreach (DataRow dr in dt.Rows)
-            {
-                Unit NewModel = new Unit();
-                if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                foreach (DataRow dr in dt.Rows)
                 {
-                    NewModel.Name = dr["Name"].ToString();
-                    NewModel.UnitCode = dr["UnitCode"].ToString();
-                    NewModel.StoreId = (int)user.StoreId;
-                    _unitOfWork.UnitRepository.AddUnit(NewModel);
+                    Unit NewModel = new Unit();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        NewModel.UnitCode = dr["UnitCode"].ToString();
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.UnitRepository.AddUnit(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("UnitList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                 }
             }
-            _unitOfWork.Complete();
-
-
             return RedirectToAction("UnitList", "Setup");
+        }
+        public ActionResult SectionExcelImport()
+        {
+            ViewBag.edit = "SectionExcelImport";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SectionExcelImport(HttpPostedFileBase file)
+        {
+
+            try
+            {
+                DataTable dt = ImportService.GetExcelData(file);
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Section NewModel = new Section();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.SectionRepository.AddSection(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("SectionList", "Products");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+            return RedirectToAction("SectionList", "Products");
+        }
+
+        public ActionResult ShiftExcelImport()
+        {
+            ViewBag.edit = "ShiftExcelImport";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ShiftExcelImport(HttpPostedFileBase file)
+        {
+
+            try
+            {
+                DataTable dt = ImportService.GetExcelData(file);
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Shift NewModel = new Shift();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.ShiftRepository.AddShift(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("ShiftList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+            return RedirectToAction("ShiftList", "Setup");
         }
         public ApplicationUserManager UserManager
         {
