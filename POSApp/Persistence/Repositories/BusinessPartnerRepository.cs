@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
         }
         public BusinessPartner GetBusinessPartner(int id, int StoreId)
         {
-            return _context.BusinessPartners.FirstOrDefault(x => x.Id == id && x.StoreId == StoreId && !x.IsDisabled);
+            return _context.BusinessPartners.FirstOrDefault(x => x.Id == id && x.StoreId == StoreId );
         }
         public IEnumerable<BusinessPartner> GetBusinessPartners(string type, int StoreId)
         {

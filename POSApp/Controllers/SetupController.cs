@@ -654,6 +654,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    
                 }
                 else
                 {
@@ -2194,7 +2195,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("CustomerList", "Setup");
+            return RedirectToAction("UnitList", "Setup");
 
 
         }
