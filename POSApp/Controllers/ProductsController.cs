@@ -933,7 +933,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ModifierRepository.GetModifiers((int)user.StoreId));
+            return View(Mapper.Map<ModifierListViewModel[]>(_unitOfWork.ModifierRepository.GetModifiers((int)user.StoreId)));
         }
         [HttpGet]
         public ActionResult AddModifier()
@@ -1172,6 +1172,241 @@ namespace POSApp.Controllers
 
         }
 
+        //Modifier Link Product
+        //public ActionResult ModifierLinkProductList()
+        //{
+        //    var userid = User.Identity.GetUserId();
+        //    var user = UserManager.FindById(userid);
+        //    return View(_unitOfWork.ModifierLinkProductRepository.GetModifierLinkProducts());
+        //}
+        [HttpGet]
+        public ActionResult AddModifierLinkProduct(int modifierId)
+        {
+            ModifierLinkProductViewModel ModifierLinkProduct = new ModifierLinkProductViewModel();
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ModifierLinkProduct.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
+            ModifierLinkProduct.ModifierId = modifierId;
+            if (_unitOfWork.ModifierLinkProductRepository.GetModifierLinkProducts(modifierId, (int) user.StoreId)
+                .Select(a => a.ProductCode).Any())
+            {
+                ModifierLinkProduct.ProductsDisplay = string.Join(",",
+                    _unitOfWork.ModifierLinkProductRepository.GetModifierLinkProducts(modifierId, (int) user.StoreId)
+                        .Select(a => a.ProductCode));
+            }
+            ViewBag.edit = "AddModifierLinkProduct";
+            return View(ModifierLinkProduct);
+        }
+        [HttpPost]
+        public ActionResult AddModifierLinkProduct(ModifierLinkProductViewModel ModifierLinkProductMv)
+        {
+
+            ViewBag.edit = "AddModifierLinkProduct";
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    if (_unitOfWork.ModifierLinkProductRepository.GetModifierLinkProducts(ModifierLinkProductMv.ModifierId, (int)user.StoreId)
+                        .Select(a => a.ProductCode).Any())
+                    {
+                        _unitOfWork.ModifierLinkProductRepository.DeleteModifierLinkProducts(
+                            ModifierLinkProductMv.ModifierId, (int) user.StoreId);
+                        _unitOfWork.Complete();
+                    }
+                    
+                    foreach (var product in ModifierLinkProductMv.Products)
+                    {
+                    ModifierLinkProduct ModifierLinkProduct = Mapper.Map<ModifierLinkProduct>(ModifierLinkProductMv);
+                        ModifierLinkProduct.ProductCode = product;
+                        ModifierLinkProduct.ModifierStoreId = (int) user.StoreId;
+                        ModifierLinkProduct.ProductStoreId = (int) user.StoreId;
+                    _unitOfWork.ModifierLinkProductRepository.AddModifierLinkProducts(ModifierLinkProduct);
+                    }
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The modifierLinkProduct added successfully", AlertType.Success);
+                    return RedirectToAction("ModifierList", "Products");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("ModifierList", "Products");
+
+
+        }
+        //[HttpGet]
+        //public ActionResult UpdateModifierLinkProduct(string productCode, int modifierId)
+        //{
+        //    ViewBag.edit = "UpdateModifierLinkProduct";
+        //    var userid = User.Identity.GetUserId();
+        //    var user = UserManager.FindById(userid);
+        //    ModifierLinkProductViewModel ModifierLinkProductMv =
+        //        Mapper.Map<ModifierLinkProductViewModel>(_unitOfWork.ModifierLinkProductRepository.GetModifierLinkProductById(productCode,modifierId));
+        //    return View("AddModifierLinkProduct", ModifierLinkProductMv);
+        //}
+        //[HttpPost]
+        //public ActionResult UpdateModifierLinkProduct(int modifierId, ModifierLinkProductViewModel ModifierLinkProductMv,string productCode)
+        //{
+        //    ViewBag.edit = "UpdateModifierLinkProduct";
+        //    try
+        //    {
+        //        if (!ModelState.IsValid)
+        //        {
+        //            var message = string.Join(" | ", ModelState.Values
+        //                .SelectMany(v => v.Errors)
+        //                .Select(e => e.ErrorMessage));
+        //            TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+        //        }
+        //        else
+        //        {
+        //            var userid = User.Identity.GetUserId();
+        //            var user = UserManager.FindById(userid);
+        //            ModifierLinkProduct ModifierLinkProduct = Mapper.Map<ModifierLinkProduct>(ModifierLinkProductMv);
+        //            _unitOfWork.ModifierLinkProductRepository.UpdateModifierLinkProducts(productCode, modifierId, ModifierLinkProduct);
+        //            _unitOfWork.Complete();
+        //            TempData["Alert"] = new AlertModel("The modifierLinkProduct updated successfully", AlertType.Success);
+        //            return RedirectToAction("ModifierLinkProductList", "Products");
+
+        //        }
+        //    }
+        //    catch (DbEntityValidationException ex)
+        //    {
+
+        //        foreach (var entityValidationError in ex.EntityValidationErrors)
+        //        {
+        //            foreach (var validationError in entityValidationError.ValidationErrors)
+        //            {
+        //                TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+        //            }
+        //        }
+
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+        //        if (e.InnerException != null)
+        //            if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+        //            {
+        //                if (e.InnerException.InnerException != null)
+        //                    if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+        //                    {
+        //                        TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+        //                    }
+        //            }
+        //            else
+        //            {
+        //                TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+        //            }
+        //        else
+        //        {
+        //            TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+        //        }
+        //    }
+
+        //    return RedirectToAction("ModifierLinkProductList", "Products");
+
+
+
+        //}
+        //public ActionResult DeleteModifierLinkProduct(int id)
+        //{
+        //    try
+        //    {
+        //        var userid = User.Identity.GetUserId();
+        //        var user = UserManager.FindById(userid);
+        //        _unitOfWork.ModifierLinkProductRepository.DeleteModifierLinkProducts(id);
+        //        _unitOfWork.Complete();
+        //        TempData["Alert"] = new AlertModel("The modifierLinkProduct deleted successfully", AlertType.Success);
+        //        return RedirectToAction("ModifierLinkProductList", "Products");
+        //    }
+        //    catch (DbEntityValidationException ex)
+        //    {
+
+        //        foreach (var entityValidationError in ex.EntityValidationErrors)
+        //        {
+        //            foreach (var validationError in entityValidationError.ValidationErrors)
+        //            {
+        //                TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+        //            }
+        //        }
+
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+        //        if (e.InnerException != null)
+        //            if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+        //            {
+        //                if (e.InnerException.InnerException != null)
+        //                    if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+        //                    {
+        //                        TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+        //                    }
+        //            }
+        //            else
+        //            {
+
+        //                TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+        //            }
+        //        else
+        //        {
+        //            TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+        //        }
+        //    }
+
+        //    return RedirectToAction("ModifierLinkProductList", "Products");
+
+
+        //}
+        //Combos
         public ActionResult CombosList()
         {
             var userid = User.Identity.GetUserId();

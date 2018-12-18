@@ -1,8 +1,15 @@
-﻿@model IEnumerable<POSApp.Core.Models.Modifier>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.ViewModels.ModifierListViewModel>
 
 @{
     ViewBag.Title = "ModifierOptionList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
+
 
 @*<header class="page-header">
         <h2>PurchaseOrders</h2>
@@ -47,7 +54,7 @@
                     <h3 class="wb-color" style="flex-grow: 8"><b>Modifiers</b></h3>
 
                     <a href="@Url.Action("AddModifier","Products")" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Modifier Option</button>
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Modifier </button>
 
                     </a>
 
@@ -72,6 +79,9 @@
                         <th width="5%">ID</th>
                         <th width="15%">Name</th>
                         <th width="15%">Barcode</th>
+                        <th width="15%">Modifer Options</th>
+                        <th width="15%">Products Linked</th>
+
                         <th width="30%">Action</th>
 
                     </tr>
@@ -80,22 +90,26 @@
                     @{ int i = 1;}
                     @foreach (var modifier in Model)
                     {
-                        <tr>
-                            <td>@(i++)</td>
-                            <td>@modifier.Name</td>
-                            <td>@modifier.Barcode</td>
-                            
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@modifier.Name</td>
+                        <td>@modifier.Barcode</td>
+                        <td>@modifier.ModifierOptions Options</td>
+                        <td>@modifier.LinkedProducts Products</td>
 
-                            
-                                <td class="center">
-                                    <div class="btn-group">
 
-                                        @Html.ActionLink(" ", "UpdateModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = "Edit !" })
-                                        @Html.ActionLink(" ", "DeleteModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                                    </div>
-                                </td>
-                            
-                        </tr>
+
+                        <td class="center">
+                            <div class="btn-group">
+
+                                @Html.ActionLink(" ", "UpdateModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = "Edit !" })
+                                @Html.ActionLink(" ", "DeleteModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "AddModifierLinkProduct", "Products", new { modifierId = @modifier.Id }, new { @class = "btn btn-default text-success  btn-sm fa fa-plus modalShow", data_toggle = "tooltip", title = "Link Modifier Products !" })
+
+                            </div>
+                        </td>
+
+                    </tr>
                     }
                 </tbody>
             </table>

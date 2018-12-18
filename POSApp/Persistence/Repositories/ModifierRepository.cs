@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Modifier> GetModifiers(int storeId)
         {
-            return _context.Modifiers.Where(x => x.StoreId == storeId && !x.IsDisabled).ToList();
+            return _context.Modifiers.Include(a=>a.ModifierLinkProducts).Include(a=>a.ModifierOptions).Where(x => x.StoreId == storeId && !x.IsDisabled).ToList();
         }
 
         public Modifier GetModifierById(int id, int storeId)

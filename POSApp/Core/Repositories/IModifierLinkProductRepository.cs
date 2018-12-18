@@ -9,10 +9,10 @@ namespace POSApp.Core.Repositories
 {
    public interface IModifierLinkProductRepository
    {
-       IEnumerable<ModifierLinkProduct> GetModifierLinkProducts(string ProductCode, int ModifierId);
+       IEnumerable<ModifierLinkProduct> GetModifierLinkProducts(int modifierId, int storeId);
        ModifierLinkProduct GetModifierLinkProductById(string ProductCode, int ModifierId);
        void AddModifierLinkProducts(ModifierLinkProduct tep);
        void UpdateModifierLinkProducts(string id, int ModifierId, ModifierLinkProduct tep);
-       void DeleteModifierLinkProducts(int id);
+       void DeleteModifierLinkProducts(int modifierId, int storeId);
    }
 }

@@ -1,0 +1,152 @@
+﻿
+@using POSApp.Core.Enums
+@model POSApp.Core.ViewModels.ModifierLinkProductViewModel
+
+@{
+    Layout = null;
+    @Styles.Render("~/Content/css")
+}   @Scripts.Render("~/bundles/vendor")
+
+<div id="ordine" class="modal fade" role="dialog">
+    @{ string s = ViewBag.edit;}
+
+    @using (Html.BeginForm(s, "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog modal-sm">
+            <!-- Modal content-->
+            <div class="modal-content ">
+                <div class="modal-header modalheader">
+                    <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+
+                    @if (s.Contains("Add"))
+                    {
+                        <h4 class="modal-title">
+                            Add Modifier Link Product
+                        </h4>
+                    }
+                    else
+                    {
+                        <h4 class="modal-title">
+                            Edit Modifier Link Product
+                        </h4>
+                    }
+
+
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-bd lobidrag">
+
+                        <div class="panel-body">
+
+                            @Html.HiddenFor(a => a.ModifierId)
+                            @Html.HiddenFor(a => a.CreatedBy)
+                            @Html.HiddenFor(a => a.CreatedOn)
+                            @Html.HiddenFor(a => a.ModifierStoreId)
+                            @Html.HiddenFor(a => a.ProductStoreId)
+                            <div class="row">
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <input type="hidden" id="productsDispaly" value="@Model.ProductsDisplay" />
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.ProductCode, htmlAttributes: new { @class = "control-label" })
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.Products, Model.ProductDDl, null, new { @class = "form-control", @required = "true", @multiple = "multiple" })
+                                        @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
+                                        
+                                        <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Products)');" />
+                                        Select All
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-lg btnPro">Save</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+<script>
+
+
+    $("#@Html.IdFor(a=>a.Products)").select2();
+    
+
+    function Select_All(a, b) {
+        if (a){
+            $("#"+b+" > option").prop("selected","selected");
+            $("#" + b +"").trigger("change");
+        }else{
+            $("#" + b +"").val("");
+            $("#" + b +"").trigger("change");
+        }
+    }
+
+    $(document).ready(function () {
+
+
+        
+        selectedValues = $('#productsDispaly').val().split(',');
+        $('#@Html.IdFor(a=>a.Products)').val(selectedValues).trigger("change");
+        
+
+
+        
+        
+
+            
+    });
+
+</script>
+
+@Html.Raw(ViewBag.alert)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddModifierLinkProduct</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+    }
+
+</body>
+</html>

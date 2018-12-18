@@ -349,6 +349,7 @@
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\TransMasterPaymentMethodController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WebApi\ModifiersController.cs" />
     <Compile Include="Controllers\WebApi\UsersController.cs" />
     <Compile Include="Controllers\WebApi\CitiesController.cs" />
     <Compile Include="Controllers\WebApi\ClientsController.cs" />
@@ -2767,6 +2768,8 @@
     <Content Include="Views\Products\AddSectionPartial.cshtml" />
     <Content Include="Views\ExcelImport\SectionExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\ShiftExcelImport.cshtml" />
+    <Content Include="Views\Products\ModifierLinkProductList.cshtml" />
+    <Content Include="Views\Products\AddModifierLinkProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

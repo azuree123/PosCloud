@@ -127,6 +127,12 @@ namespace POSApp
             CreateMap<ProductSubViewModel, ProductsSub>();
             CreateMap<ModifierLinkProduct, ModifierLinkProductViewModel>();
             CreateMap<ModifierLinkProductViewModel, ModifierLinkProduct>();
+
+
+
+            CreateMap<Modifier, ModifierListViewModel>().ForMember(a => a.LinkedProducts,
+                    g => g.MapFrom(o => o.ModifierLinkProducts.Count))
+                .ForMember(a => a.ModifierOptions, g => g.MapFrom(o => o.ModifierOptions.Count));
         }
     }
 }

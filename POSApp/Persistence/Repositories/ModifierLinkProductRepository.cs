@@ -17,9 +17,9 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<ModifierLinkProduct> GetModifierLinkProducts(string ProductCode, int ModifierId)
+        public IEnumerable<ModifierLinkProduct> GetModifierLinkProducts(int modifierId,int storeId)
         {
-            return _context.ModifierLinkProducts.Where(a => a.ProductCode == ProductCode && a.ModifierId == ModifierId).ToList();
+            return _context.ModifierLinkProducts.Where(a=>a.ModifierId==modifierId && a.ModifierStoreId==storeId).ToList();
         }
 
         public ModifierLinkProduct GetModifierLinkProductById(string ProductCode, int ModifierId)
@@ -54,10 +54,10 @@ namespace POSApp.Persistence.Repositories
             _context.ModifierLinkProducts.Attach(tep);
             _context.Entry(tep).State = EntityState.Modified;
         }
-        public void DeleteModifierLinkProducts(int id)
+        public void DeleteModifierLinkProducts(int modifierId, int storeId)
         {
             List<ModifierLinkProduct> products = _context.ModifierLinkProducts
-                .Where(a=> a.ModifierId == id).ToList();
+                .Where(a=> a.ModifierId == modifierId && a.ModifierStoreId==storeId).ToList();
             foreach (var timedEventProducts in products)
             {
 
