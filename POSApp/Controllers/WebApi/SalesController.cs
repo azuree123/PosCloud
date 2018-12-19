@@ -52,9 +52,16 @@ namespace POSApp.Controllers.WebApi
                     _unitOfWork.Complete();
                     foreach (var saleOrderDetail in salesViewModel.TransDetailsList)
                     {
-                        saleOrderDetail.Code = salesViewModel.TransMaster.Id.ToString();
-                        saleOrderDetail.TransMasterId = saleOrderAdd.Id;
-                        _unitOfWork.TransDetailRepository.AddTransDetail(saleOrderDetail);
+                        saleOrderDetail.TransDetail.Code = salesViewModel.TransMaster.Id.ToString();
+                        saleOrderDetail.TransDetail.TransMasterId = saleOrderAdd.Id;
+                        _unitOfWork.TransDetailRepository.AddTransDetail(saleOrderDetail.TransDetail);
+                        _unitOfWork.Complete();
+                        foreach (var modifierTransDetail in saleOrderDetail.ModifierTransDetails)
+                        {
+                            modifierTransDetail.Code = modifierTransDetail.Id.ToString();
+                            modifierTransDetail.TransDetailId = saleOrderDetail.TransDetail.Id;
+                            _unitOfWork.ModifierTransDetailRepository.AddModifierTransDetail(modifierTransDetail);
+                        }
                     }
                     foreach (var method in salesViewModel.TransMasterPaymentMethods)
                     {

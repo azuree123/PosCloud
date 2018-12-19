@@ -21,5 +21,6 @@ namespace POSApp.Core.Models
         public bool IsTaxable { get; set; }
         public int ModifierId { get; set; }
         public virtual Modifier Modifier { get; set; }
+        public virtual ICollection<ModifierTransDetail> ModifierTransDetail { get; set; }
     }
 }

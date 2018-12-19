@@ -396,6 +396,7 @@
     <Compile Include="Core\Models\Modifier.cs" />
     <Compile Include="Core\Models\ModifierLinkProduct.cs" />
     <Compile Include="Core\Models\ModifierOption.cs" />
+    <Compile Include="Core\Models\ModifierTransDetail.cs" />
     <Compile Include="Core\Models\POSTerminal.cs" />
     <Compile Include="Core\Models\ProductCategoryGroup.cs" />
     <Compile Include="Core\Models\ProductsSub.cs" />
@@ -423,6 +424,7 @@
     <Compile Include="Core\Repositories\IModifierLinkProductRepository.cs" />
     <Compile Include="Core\Repositories\IModifierOptionRepository.cs" />
     <Compile Include="Core\Repositories\IModifierRepository.cs" />
+    <Compile Include="Core\Repositories\IModifierTransDetailRepository.cs" />
     <Compile Include="Core\Repositories\IPOSTerminalRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
     <Compile Include="Core\Repositories\IProductsSubRepository.cs" />
@@ -456,6 +458,7 @@
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
     <Compile Include="Core\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Core\ViewModels\ModifierLinkProductViewModel.cs" />
+    <Compile Include="Core\ViewModels\ModifierTransDetailViewModel.cs" />
     <Compile Include="Core\ViewModels\POSTerminalViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductSizeSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\RoleViewModel.cs" />
@@ -486,8 +489,13 @@
     <Compile Include="Migrations\201812171236591_ModifierLinkProducts.Designer.cs">
       <DependentUpon>201812171236591_ModifierLinkProducts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812190714236_modifier-trans.cs" />
+    <Compile Include="Migrations\201812190714236_modifier-trans.Designer.cs">
+      <DependentUpon>201812190714236_modifier-trans.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ModifierLinkProductEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ModifierTransDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\POSTerminalEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SectionEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SecurityRightEntityConfiguration.cs" />
@@ -608,6 +616,7 @@
     <Compile Include="Persistence\Repositories\ModifierLinkProductRepository.cs" />
     <Compile Include="Persistence\Repositories\ModifierOptionRepository.cs" />
     <Compile Include="Persistence\Repositories\ModifierRepository.cs" />
+    <Compile Include="Persistence\Repositories\ModifierTransDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\POSTerminalRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryGroupRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductCategoryRepository.cs" />
@@ -2810,6 +2819,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812171236591_ModifierLinkProducts.resx">
       <DependentUpon>201812171236591_ModifierLinkProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812190714236_modifier-trans.resx">
+      <DependentUpon>201812190714236_modifier-trans.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

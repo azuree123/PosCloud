@@ -133,6 +133,8 @@ namespace POSApp
             CreateMap<Modifier, ModifierListViewModel>().ForMember(a => a.LinkedProducts,
                     g => g.MapFrom(o => o.ModifierLinkProducts.Count))
                 .ForMember(a => a.ModifierOptions, g => g.MapFrom(o => o.ModifierOptions.Count));
+            CreateMap<ModifierTransDetail, ModifierTransDetailViewModel>();
+            CreateMap<ModifierTransDetailViewModel, ModifierTransDetail>();
         }
     }
 }

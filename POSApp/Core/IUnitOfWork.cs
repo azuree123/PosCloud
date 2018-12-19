@@ -51,6 +51,7 @@ namespace POSApp.Core
         ITillOperationRepository TillOperationRepository { get; }
         ITransMasterPaymentMethodRepository TransMasterPaymentMethodRepository { get; }
         IModifierLinkProductRepository ModifierLinkProductRepository { get; }
+        IModifierTransDetailRepository ModifierTransDetailRepository { get; }
         void Complete();
     }
 }

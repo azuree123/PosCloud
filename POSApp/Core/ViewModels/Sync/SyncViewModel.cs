@@ -9,8 +9,15 @@ namespace POSApp.Core.ViewModels.Sync
     public class SalesViewModel
     {
         public TransMaster TransMaster { get; set; }
-        public List<TransDetail> TransDetailsList { get; set; }
+        public List<TransDetailViewModel> TransDetailsList { get; set; }
         public List<TransMasterPaymentMethod> TransMasterPaymentMethods { get; set; }
+
+
+    }
+    public class TransDetailViewModel
+    {
+        public TransDetail TransDetail { get; set; }
+        public List<ModifierTransDetail> ModifierTransDetails { get; set; }
 
 
     }

@@ -6,23 +6,18 @@ using System.Web;
 
 namespace POSApp.Core.Models
 {
-    public class TransDetail:AuditableEntity
+    public class ModifierTransDetail:AuditableEntity
     {
         public int Id { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
-
-        public int TransMasterId { get; set; }
-        public TransMaster TransMaster { get; set; }
-        public string ProductCode { get; set; }
-        public Product Product { get; set; }
-
+        public int TransDetailId { get; set; }
+        public TransDetail TransDetail { get; set; }
         [DefaultValue(0)]
         public int Quantity { get; set; }
         [DefaultValue(0)]
         public decimal UnitPrice { get; set; }
-        [DefaultValue(0)]
-        public decimal Discount { get; set; }
-        public virtual ICollection<ModifierTransDetail> ModifierTransDetail { get; set; }
+        public int ModifierOptionId { get; set; }
+        public ModifierOption ModifierOption { get; set; }
     }
 }
