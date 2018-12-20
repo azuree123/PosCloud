@@ -66,7 +66,7 @@ namespace POSApp.Persistence.Repositories
         public void DeleteTimedEvent(int id, int storeid)
         {
             var timedEvent = _context.TimedEvents.FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
-            timedEvent.IsActive = false;
+            timedEvent.IsDisabled = true;
             _context.TimedEvents.Attach(timedEvent);
             _context.Entry(timedEvent).State = EntityState.Modified;
         }

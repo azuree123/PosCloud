@@ -878,6 +878,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ModifierOptionViewModel modifieroptionVm = Helper.TempModifierOptions.FirstOrDefault(a=>a.Name==name && a.CreatedBy==userid);
+            ViewBag.com = "<script>$('#nameDis').attr('readonly', true);</script>";
             return View("AddModifierOption", modifieroptionVm);
         }
         [HttpPost]
@@ -894,8 +895,12 @@ namespace POSApp.Controllers
             
 
             {
-
                 
+                ModifierOption modifierOption = Mapper.Map<ModifierOption>(modifieroptionVm);
+                _unitOfWork.ModifierOptionRepository.UpdateModifierOptions(id, Convert.ToInt32(user.StoreId), modifierOption);
+                _unitOfWork.Complete();
+                
+
                 return RedirectToAction("ModifierOptionList", "Products");
             }
 
@@ -1764,6 +1769,7 @@ namespace POSApp.Controllers
             ProductSubViewModel CombooptionVm = Helper.TempComboOptions.FirstOrDefault(a => a.ProductCode == productId && a.CreatedBy == userid);
             CombooptionVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode }).ToList();
+            ViewBag.com = "<script>$('#productCode').css('pointer-events','none');</script>";
             return View("AddComboOption", CombooptionVm);
         }
         

@@ -7,7 +7,7 @@
 
 <div id="ordine" class="modal fade" role="dialog">
 
-
+    @{ string s = ViewBag.edit;}
     @using (Ajax.BeginForm("AddModifierOption", "Products", new AjaxOptions
     {
         HttpMethod = "POST",
@@ -23,10 +23,18 @@
 
                     <button type="button" class="close modalheader" data-dismiss="modal">×</button>
 
-                    <h4 class="modal-title">
-                        Add Options
-                    </h4>
-
+                    @if (s.Contains("Add"))
+                    {
+                        <h4 class="modal-title">
+                            Add Modifier Option
+                        </h4>
+                    }
+                    else
+                    {
+                        <h4 class="modal-title">
+                            Edit Modifier Option
+                        </h4>
+                    }
 
 
                 </div>
@@ -46,15 +54,15 @@
                                     <div class="col-md-8  col-md-offset-2">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true,@id="nameDis" } })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.CostType, htmlAttributes: new { @class = "control-label" })
-                                            @Html.DropDownListFor(model => model.CostType, new SelectList(Enum.GetValues(typeof(CostType))), "Select an Option", new   {@class = "form-control", @required = true  })
-                                            @Html.ValidationMessageFor(model => model.CostType, "", new {@class = "text-danger"})
+                                            @Html.DropDownListFor(model => model.CostType, new SelectList(Enum.GetValues(typeof(CostType))), "Select an Option", new { @class = "form-control", @required = true })
+                                            @Html.ValidationMessageFor(model => model.CostType, "", new { @class = "text-danger" })
 
                                         </div>
                                     </div>
@@ -78,16 +86,16 @@
                                     <div class="col-md-8 col-md-offset-2" id="costDisply" style="display: none">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Cost, new {htmlAttributes = new {@class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.Cost, "", new {@class = "text-danger"})
-                                            </div>
+                                            @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
 
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.IsTaxable, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.IsTaxable, new {htmlAttributes = new {@class = ""} })
-                                            @Html.ValidationMessageFor(model => model.IsTaxable, "", new {@class = "text-danger"})
+                                            @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "" } })
+                                            @Html.ValidationMessageFor(model => model.IsTaxable, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -95,8 +103,8 @@
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Price, new {htmlAttributes = new {@class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.Price, "", new {@class = "text-danger"})
+                                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -118,4 +126,4 @@
     }
 </div>
 
-
+@Html.Raw(ViewBag.com)
