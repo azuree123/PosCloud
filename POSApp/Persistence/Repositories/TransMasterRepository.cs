@@ -8,6 +8,8 @@ using AutoMapper;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 using POSApp.Core.ViewModels;
+using POSApp.Core.ViewModels.Sync;
+using TransDetailViewModel = POSApp.Core.ViewModels.Sync.TransDetailViewModel;
 
 namespace POSApp.Persistence.Repositories
 {
@@ -83,6 +85,17 @@ namespace POSApp.Persistence.Repositories
             return Mapper.Map<TransMasterViewModel[]>(_context.TransMasters
                 .Where(a => a.StoreId == storeId).Include(a=>a.BusinessPartner)).AsQueryable();
 
+        }
+
+        public SalesViewModel GetInvoiceById(int id, int storeId)
+        {
+            SalesViewModel salesViewModel=new SalesViewModel();
+            salesViewModel.TransMaster = _context.TransMasters.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            salesViewModel.TransMaster.TransDetails = _context.TransDetails.Include(a => a.ModifierTransDetail)
+                .Where(a => a.TransMasterId == id).ToList();
+            salesViewModel.TransMaster.TransMasterPaymentMethods =
+                _context.TransMasterPaymentMethods.Where(a => a.TransMasterId == id).ToList();
+            return salesViewModel;
         }
 
     }

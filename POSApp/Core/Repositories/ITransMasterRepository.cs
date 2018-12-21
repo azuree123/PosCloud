@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Core.Repositories
 {
@@ -19,5 +20,6 @@ namespace POSApp.Core.Repositories
         void DeleteTransMaster(int id, int storeId);
         void AddTransMaster(TransMaster transmaster);
         IQueryable<TransMasterViewModel> GetTransMastersQuery(int storeId);
+        SalesViewModel GetInvoiceById(int id, int storeId);
     }
 }

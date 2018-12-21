@@ -24,7 +24,7 @@ namespace POSApp.Controllers.WebApi
         // GET: api/Sync
         public SalesViewModel Get()
         {
-            return null;
+            return _unitOfWork.TransMasterRepository.GetInvoiceById(4,3);
         }
 
         // GET: api/Sync/5
@@ -50,35 +50,37 @@ namespace POSApp.Controllers.WebApi
                     var saleOrderAdd = saleOrder;
                     _unitOfWork.TransMasterRepository.AddTransMaster(saleOrder);
                     _unitOfWork.Complete();
-                    foreach (var saleOrderDetail in salesViewModel.TransDetailsList)
-                    {
-                        saleOrderDetail.TransDetail.Code = salesViewModel.TransMaster.Id.ToString();
-                        saleOrderDetail.TransDetail.TransMasterId = saleOrderAdd.Id;
-                        _unitOfWork.TransDetailRepository.AddTransDetail(saleOrderDetail.TransDetail);
-                        _unitOfWork.Complete();
-                        foreach (var modifierTransDetail in saleOrderDetail.ModifierTransDetails)
-                        {
-                            modifierTransDetail.Code = modifierTransDetail.Id.ToString();
-                            modifierTransDetail.TransDetailId = saleOrderDetail.TransDetail.Id;
-                            _unitOfWork.ModifierTransDetailRepository.AddModifierTransDetail(modifierTransDetail);
-                        }
-                    }
-                    foreach (var method in salesViewModel.TransMasterPaymentMethods)
-                    {
-                        method.Code = salesViewModel.TransMaster.Id.ToString();
-                        method.TransMasterId = saleOrderAdd.Id;
-                        method.StoreId = salesViewModel.TransMaster.StoreId;
-                        _unitOfWork.TransMasterPaymentMethodRepository.AddTransMasterPaymentMethod(method);
-                    }
+                    //foreach (var saleOrderDetail in saleOrder.TransDetails)
+                    //{
+                    //    saleOrderDetail.Code = salesViewModel.TransMaster.Id.ToString();
+                    //    saleOrderDetail.TransMasterId = saleOrderAdd.Id;
+                    //    saleOrderDetail.StoreId= salesViewModel.TransMaster.StoreId;
+                    //    _unitOfWork.TransDetailRepository.AddTransDetail(saleOrderDetail);
+                    //    _unitOfWork.Complete();
+                    //    foreach (var modifierTransDetail in saleOrderDetail.ModifierTransDetail)
+                    //    {
+                    //        modifierTransDetail.Code = modifierTransDetail.Id.ToString();
+                    //        modifierTransDetail.TransDetailId = saleOrderDetail.Id;
+                    //        modifierTransDetail.StoreId = salesViewModel.TransMaster.StoreId;
+                    //        _unitOfWork.ModifierTransDetailRepository.AddModifierTransDetail(modifierTransDetail);
+                    //    }
+                    //}
+                    //foreach (var method in saleOrder.TransMasterPaymentMethods)
+                    //{
+                    //    method.Code = salesViewModel.TransMaster.Id.ToString();
+                    //    method.TransMasterId = saleOrderAdd.Id;
+                    //    method.StoreId = salesViewModel.TransMaster.StoreId;
+                    //    _unitOfWork.TransMasterPaymentMethodRepository.AddTransMasterPaymentMethod(method);
+                    //}
                 }
               
                 _unitOfWork.Complete();
-                return Ok("Success");
+                return Ok(1);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                
+                return Ok(0);
                 throw;
             }
         }
