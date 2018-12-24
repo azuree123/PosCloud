@@ -98,6 +98,7 @@
         }
         $('a.modalShow1').on('click', function () {
 
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
 
             $.ajax({
                 url: this.href,
@@ -105,6 +106,8 @@
                 cache: false,
                 success: function (result) {
                     $('#ModalData2').html(result).find('#ordine3').modal('show');
+                    $.unblockUI();
+
                     //newWin = window.open("", "", "width=800, height=600");
                     //    var query = " <" +"script> $('#AddDepartment').click();</"+"script>";
                     //    newWin.document.write(result + query);

@@ -145,6 +145,7 @@
         $('#datatable-default').dataTable();
 
         $('a.modalShow').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
 
             $.ajax({
                 url: this.href,
@@ -152,6 +153,8 @@
                 cache: false,
                 success: function (result) {
                     $('#ModalData').html(result).find('#ordine').modal('show');
+                    $.unblockUI();
+
                 }
             });
 

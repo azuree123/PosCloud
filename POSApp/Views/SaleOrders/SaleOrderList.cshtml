@@ -98,7 +98,7 @@
             ]
         });
         function DisplayDetails(a) {
-
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
             $.ajax({
                 url: "@Url.Action("SaleOrderDetailList","SaleOrders")",
                 data: { saleOrderId:a},
@@ -106,6 +106,7 @@
                 cache: false,
                 success: function (result) {
                     $('#ModalData').html(result).find('#ordine').modal('show');
+            $.unblockUI();
                 }
             });
 

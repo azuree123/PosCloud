@@ -469,9 +469,29 @@
     <Compile Include="Core\ViewModels\TillOperationViewModel.cs" />
     <Compile Include="Core\ViewModels\TransMasterPaymentMethodViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
-    <Compile Include="Migrations\201812221637568_Init-1.cs" />
-    <Compile Include="Migrations\201812221637568_Init-1.Designer.cs">
-      <DependentUpon>201812221637568_Init-1.cs</DependentUpon>
+    <Compile Include="Migrations\201812050953404_Init-1.cs" />
+    <Compile Include="Migrations\201812050953404_Init-1.Designer.cs">
+      <DependentUpon>201812050953404_Init-1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812070829131_PasswordEncrypt.cs" />
+    <Compile Include="Migrations\201812070829131_PasswordEncrypt.Designer.cs">
+      <DependentUpon>201812070829131_PasswordEncrypt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812071146280_new-1.cs" />
+    <Compile Include="Migrations\201812071146280_new-1.Designer.cs">
+      <DependentUpon>201812071146280_new-1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812140705177_new-2.cs" />
+    <Compile Include="Migrations\201812140705177_new-2.Designer.cs">
+      <DependentUpon>201812140705177_new-2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812171236591_ModifierLinkProducts.cs" />
+    <Compile Include="Migrations\201812171236591_ModifierLinkProducts.Designer.cs">
+      <DependentUpon>201812171236591_ModifierLinkProducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812190714236_modifier-trans.cs" />
+    <Compile Include="Migrations\201812190714236_modifier-trans.Designer.cs">
+      <DependentUpon>201812190714236_modifier-trans.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
@@ -2786,8 +2806,23 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201812221637568_Init-1.resx">
-      <DependentUpon>201812221637568_Init-1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812050953404_Init-1.resx">
+      <DependentUpon>201812050953404_Init-1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812070829131_PasswordEncrypt.resx">
+      <DependentUpon>201812070829131_PasswordEncrypt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812071146280_new-1.resx">
+      <DependentUpon>201812071146280_new-1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812140705177_new-2.resx">
+      <DependentUpon>201812140705177_new-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812171236591_ModifierLinkProducts.resx">
+      <DependentUpon>201812171236591_ModifierLinkProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812190714236_modifier-trans.resx">
+      <DependentUpon>201812190714236_modifier-trans.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
