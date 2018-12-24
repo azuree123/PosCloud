@@ -113,25 +113,20 @@
     <script>
         $('#datatable-default').dataTable();
 
-        $('a.modalShow').on('click',
-            function() {
-               
-                $.ajax({
-                    url: this.href,
-                    type: 'GET',
-                    cache: false,
-                    success: function (result) {
-
-                        debugger;
-                        if (!$('#ordine').is(':visible')) {
-
-                            $('#ModalData').html(result).find('#ordine').modal('show');
-                        }
-                    }
-                });
-
-                return false;
+        $('a.modalShow').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
             });
+
+            return false;
+        });
     </script>
 }
 
