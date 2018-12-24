@@ -83,7 +83,7 @@ namespace POSApp.Persistence.Repositories
         {
             //return _context.PurchaseOrder;
             return Mapper.Map<TransMasterViewModel[]>(_context.TransMasters
-                .Where(a => a.StoreId == storeId).Include(a=>a.BusinessPartner)).AsQueryable();
+                .Where(a => a.StoreId == storeId).Include(a=>a.BusinessPartner).Include(a=>a.TransMasterPaymentMethods)).AsQueryable();
 
         }
 

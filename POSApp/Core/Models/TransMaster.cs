@@ -25,7 +25,6 @@ namespace POSApp.Core.Models
 
         [DataType(DataType.DateTime)]
         public DateTime TransDate { get; set; }
-        [DataType(DataType.DateTime)]
 
         public string TransRef { get; set; }
         public string TransStatus { get; set; }
@@ -40,9 +39,11 @@ namespace POSApp.Core.Models
 
         public int? DineTableId { get; set; }
         public DineTable DineTable { get; set; }
-
         public int? OrderTime { get; set; }//in minutes
-
+        public int? DiscountId { get; set; }
+        public virtual  TimedEvent TimedEvent { get; set; }
+        [DefaultValue(0)]
+        public decimal Discount { get; set; }
         public ICollection<TransDetail> TransDetails { get; set; }
         public ICollection<TransMasterPaymentMethod> TransMasterPaymentMethods { get; set; }
     }

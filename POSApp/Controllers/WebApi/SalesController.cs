@@ -43,9 +43,10 @@ namespace POSApp.Controllers.WebApi
                 foreach (var salesViewModel in salesView)
                 {
                     TransMaster saleOrder = salesViewModel.TransMaster;
-                    int bId = _unitOfWork.BusinessPartnerRepository
-                        .GetBusinessPartners("C", saleOrder.StoreId).Select(a=>a.Id).FirstOrDefault();
-                    saleOrder.BusinessPartnerId = bId;
+                    //saleOrder.DiscountId = saleOrder.DiscountId == 0 ? null : saleOrder.DiscountId;
+                    //int bId = _unitOfWork.BusinessPartnerRepository
+                    //    .GetBusinessPartners("C", saleOrder.StoreId).Select(a=>a.Id).FirstOrDefault();
+                    //saleOrder.BusinessPartnerId = bId;
                     saleOrder.Code = saleOrder.Id.ToString();
                     var saleOrderAdd = saleOrder;
                     _unitOfWork.TransMasterRepository.AddTransMaster(saleOrder);

@@ -21,6 +21,10 @@ namespace POSApp.Core.Models
         public int Quantity { get; set; }
         [DefaultValue(0)]
         public decimal UnitPrice { get; set; }
+
+        public int? DiscountId { get; set; }
+        public virtual TimedEvent TimedEvent { get; set; }
+
         [DefaultValue(0)]
         public decimal Discount { get; set; }
         public virtual ICollection<ModifierTransDetail> ModifierTransDetail { get; set; }

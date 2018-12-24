@@ -91,17 +91,34 @@ var options = {
 }).apply(this, [jQuery]);
 function changeLineGraphData(dataGet) {
     var data2 = [];
-    $.each(dataGet.data,
+    $.each(dataGet[0].data,
         function(index, value) {
             data2.push([value.Month, value.Value]);
         });
+    var data3 = [];
+    $.each(dataGet[1].data,
+        function (index, value) {
+            data3.push([value.Month, value.Value]);
+        });
+    var data4 = [];
+    $.each(dataGet[2].data,
+        function (index, value) {
+            data4.push([value.Month, value.Value]);
+        });
     var s = [
+         {
+            data: data3,
+            color: "#0aaa5a"
+        },
+        {
+            data: data4,
+            color: "#bbb"
+        },
         {
             data: data2,
             color: "#d2322d"
         }
     ];
-   
     $.plot('#flotDashSales1', s, options);
 
 

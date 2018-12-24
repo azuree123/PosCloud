@@ -60,8 +60,11 @@ namespace POSApp
             CreateMap<Product, ProductSyncViewModel>().ForMember(d => d.Image, o => o.MapFrom(g => Convert.ToBase64String(g.Image)));
             CreateMap<TransMaster, TransMasterViewModel>().ForMember(d => d.TransDate, o => o.MapFrom(g => g.TransDate.ToString("yyyy-MMM-dd ddd")))
                 .ForMember(d => d.TransTime, o => o.MapFrom(g => g.TransDate.ToShortTimeString()))
+                .ForMember(d => d.PaymentMethod, o => o.MapFrom(g =>string.Join(",", g.TransMasterPaymentMethods.Select(a => a.Method + " (" + a.Amount + ")")) ))
                 .ForMember(d => d.BusinessPartnerName, o => o.MapFrom(g => g.BusinessPartner.Name));
             CreateMap<TransDetail, TransDetailViewModel>()
+                .ForMember(d => d.Modifiers, o => o.MapFrom(g => string.Join(",",g.ModifierTransDetail.Select(a=>a.ModifierOption.Name+" ("+a.UnitPrice+") x "+a.Quantity))))
+                .ForMember(d => d.ModifiersPrice, o => o.MapFrom(g => g.ModifierTransDetail.Sum(a =>a.UnitPrice*a.Quantity)))
                 .ForMember(d => d.ProductName, o => o.MapFrom(g => g.Product.Name));
             CreateMap<TransMasterViewModel, TransMaster>();
             CreateMap<TransDetailViewModel, TransDetail>();

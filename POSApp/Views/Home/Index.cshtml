@@ -308,6 +308,7 @@
                 url: "@Url.Action("GetGraphData","Home")",
                 type: "GET",
                 success: function (data) {
+                    
                     changeMorrisData(data.Morris);
                     changeLineGraphData(data.Line);
                    

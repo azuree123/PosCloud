@@ -24,22 +24,24 @@
                 </div>
                 <div class="modal-body">
                     <div class="panel panel-bd lobidrag">
-
+                        <h4 class="center ">Products</h4>
+                        <hr/>
                         <div class="panel-body">
 
                           
                             <table class="table mb-none" style="width:100%" id="datatable-default">
                                 <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Product</th>
-                                        <th>Qty</th>
-                                        <th>Price</th>
-                                        <th>Discount</th>
-                                        
-                                        <th>Total</th>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Product</th>
+                                    <th>Modifiers</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Discount</th>
 
-                                    </tr>
+                                    <th>Total</th>
+
+                                </tr>
                                 </thead>
                                 <tbody>
                                 @{ int i = 1;}
@@ -48,6 +50,7 @@
                                     <tr>
                                         <td>@(i++)</td>
                                         <td>@saleOrder.ProductName</td>
+                                        <td>@saleOrder.Modifiers</td>
                                         <td>@saleOrder.Quantity</td>
                                         <td>@saleOrder.UnitPrice</td>
                                         <td>@saleOrder.Discount</td>
@@ -55,7 +58,7 @@
                                      
                         
                                         <td>
-                                            @((saleOrder.UnitPrice * saleOrder.Quantity)-Convert.ToDecimal(saleOrder.Discount))
+                                            @(((saleOrder.UnitPrice + saleOrder.ModifiersPrice) * saleOrder.Quantity)-Convert.ToDecimal(saleOrder.Discount))
                                         </td>
                                     </tr>
                                 }
@@ -64,6 +67,8 @@
 
                         </div>
                     </div>
+                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -493,6 +493,10 @@
     <Compile Include="Migrations\201812190714236_modifier-trans.Designer.cs">
       <DependentUpon>201812190714236_modifier-trans.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812240645213_DiscountinTrans.cs" />
+    <Compile Include="Migrations\201812240645213_DiscountinTrans.Designer.cs">
+      <DependentUpon>201812240645213_DiscountinTrans.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ModifierLinkProductEntityConfiguration.cs" />
@@ -2823,6 +2827,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812190714236_modifier-trans.resx">
       <DependentUpon>201812190714236_modifier-trans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812240645213_DiscountinTrans.resx">
+      <DependentUpon>201812240645213_DiscountinTrans.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

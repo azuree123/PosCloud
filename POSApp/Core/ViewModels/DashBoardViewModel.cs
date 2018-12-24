@@ -30,7 +30,7 @@ namespace POSApp.Core.ViewModels
     public class GraphViewModel
     {
         public List<MorrisGraphViewModel> Morris { get; set; }
-        public LineGraphViewModel Line { get; set; }
+        public List<LineGraphViewModel> Line { get; set; }
 
     }
 

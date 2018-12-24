@@ -30,6 +30,9 @@ namespace POSApp.Core.Models
         public bool IsTaxable { get; set; }
 
         public ICollection<TimedEventProducts> TimedEventProducts { get; set; }
+        public ICollection<TransDetail> TransDetails { get; set; }
+        public ICollection<TransMaster> TransMasters { get; set; }
+
 
     }
 }

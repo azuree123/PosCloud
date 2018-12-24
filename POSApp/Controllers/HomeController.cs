@@ -105,7 +105,7 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 GraphViewModel graph=new GraphViewModel();
                 graph.Morris=new List<MorrisGraphViewModel>();
-                graph.Line=new LineGraphViewModel();
+                graph.Line=new List<LineGraphViewModel>();
                 int year = DateTime.Now.Date.Year;
                 int month = DateTime.Now.Date.Month;
                 for (int i = 0; i < 6; i++)
@@ -120,8 +120,9 @@ namespace POSApp.Controllers
                         .Where(a => a.Date >= dateFrom && a.Date < dateTo).Select(a => a.Amount).Sum();
                     graph.Morris.Add(morrisGraph);
                 }
-          
-               graph.Line.data=new List<LineData>();
+
+                LineGraphViewModel data = new LineGraphViewModel();
+                data.data=new List<LineData>();
                 for (int i = 0; i < month; i++)
                 {
                     DateTime dateFrom = new DateTime(year, (month-i), 1);
@@ -129,10 +130,38 @@ namespace POSApp.Controllers
                     DateTime dateTo = dateFrom.AddMonths(1);
                     decimal y = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
                         .Where(a => a.Type == "INV" && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice).Sum();
-                    graph.Line.data.Add(new LineData{Month = x,Value = y});
+                    data.data.Add(new LineData{Month = x,Value = y});
                 }
-                  
-                
+                graph.Line.Add(data);
+
+                 data = new LineGraphViewModel();
+                data.data = new List<LineData>();
+                 month = DateTime.Now.Date.Month;
+                for (int i = 0; i < month; i++)
+                {
+                    DateTime dateFrom = new DateTime(year, (month - i), 1);
+                    string x = dateFrom.Date.ToString("MMM");
+                    DateTime dateTo = dateFrom.AddMonths(1);
+                    decimal y = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                        .Where(a => a.Type == "PRI" && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice).Sum();
+                    data.data.Add(new LineData { Month = x, Value = y });
+                }
+                graph.Line.Add(data);
+
+                data = new LineGraphViewModel();
+                data.data = new List<LineData>();
+                 month = DateTime.Now.Date.Month;
+                for (int i = 0; i < month; i++)
+                {
+                    DateTime dateFrom = new DateTime(year, (month - i), 1);
+                    string x = dateFrom.Date.ToString("MMM");
+                    DateTime dateTo = dateFrom.AddMonths(1);
+                    decimal y = (decimal)_unitOfWork.ExpenseRepository.GetExpenses((int)user.StoreId)
+                        .Where(a =>  a.Date >= dateFrom && a.Date < dateTo).Select(a => a.Amount).Sum();
+                    data.data.Add(new LineData { Month = x, Value = y });
+                }
+                graph.Line.Add(data);
+
                 return Json(graph, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
