@@ -3925,7 +3925,12 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TillOperationRepository.GetTillOperations((int)user.StoreId).Select(a => new TillOperationListModelView{ Id = a.Id, ShiftName = a.Shift.Name })); 
+            return View(_unitOfWork.TillOperationRepository.GetTillOperations((int)user.StoreId).Select(a => new TillOperationListModelView
+            {
+                Id = a.Id, ShiftName = a.Shift.Name,OpeningAmount = a.OpeningAmount,OperationDate = a.OperationDate
+               ,PhysicalAmount = a.PhysicalAmount,Remarks = a.Remarks,Status = a.Status,SystemAmount = a.SystemAmount,
+                TillOperationType = a.TillOperationType
+            })); 
         }
 
         [HttpGet]
