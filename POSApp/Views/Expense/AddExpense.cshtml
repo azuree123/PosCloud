@@ -49,7 +49,7 @@
                                             <div class="input-group">
                                                 @Html.DropDownListFor(model => model.ExpenseHeadId, Model.ExpHeadDdl, "Select an Option", new { @class = "form-control", @required = true })
                                                 <span class="input-group-addon" style="   ">
-                                                    <a href="@Url.Action("AddExpenseHeadPartial","Expense")" class="modalShow1">   <i class="fa fa-plus "></i></a>
+                                                    <a href="@Url.Action("AddExpenseHeadPartial","Expense")" class="modalShow1" id="#arrButtonIds">   <i class="fa fa-plus "></i></a>
                                                 </span>
                                                 @Html.ValidationMessageFor(model => model.ExpenseHeadId, "", new { @class = "text-danger" })
                                             </div>
@@ -143,6 +143,7 @@
                 document.getElementById("@Html.IdFor(a=>a.Date)").valueAsDate = displayDate;
             }
         });
+     
     </script>
 </div>
 

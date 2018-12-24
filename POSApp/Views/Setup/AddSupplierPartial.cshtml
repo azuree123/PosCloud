@@ -56,14 +56,14 @@
 
                             <div class="col-md-4">
                                 @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = true, @pattern = @"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" } })
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                             </div>
 
 
                             <div class="col-md-4">
                                 @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @pattern = @"^\(?([0-9]{4})\)?[-. ]?([0-9]{7})$" } })
                                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="col-md-4">
                                 @Html.LabelFor(model => model.CpMobileNumber, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.CpMobileNumber, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                @Html.EditorFor(model => model.CpMobileNumber, new { htmlAttributes = new { @class = "form-control", @required = true, @pattern = @"^\(?([0-9]{4})\)?[-. ]?([0-9]{7})$" } })
                                 @Html.ValidationMessageFor(model => model.CpMobileNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
