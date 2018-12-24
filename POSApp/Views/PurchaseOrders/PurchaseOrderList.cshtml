@@ -36,7 +36,7 @@
 
 
                         <a href="@Url.Action("AddPurchaseOrder","PurchaseOrders")" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds" ><i class="fa fa-plus pr-sm"></i>Add Purchase Order</button>
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Purchase Order</button>
 
                         </a>
                         @*<a href="@Url.Action("GenerateReceipt","PurchaseOrders")">
@@ -116,19 +116,6 @@
 
             return false;
         });
-        // Using that prm reference, hook _initializeRequest
-        Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(InitializeRequestBuchung);
-
-        // Abfangen von Mehrfachklicks auf Buttons für asynchrone Postbacks im Updatepanel
-        function InitializeRequestBuchung(sender, args) {
-            var arrButtonIds = ["ButtonInsert", "ButtonUpdate"];
-
-            // Get a reference to the PageRequestManager.
-            var prm = Sys.WebForms.PageRequestManager.getInstance();
-            if (prm.get_isInAsyncPostBack() & jQuery.inArray(args.get_postBackElement().id, arrButtonIds) > -1) {
-                args.set_cancel(true);
-            }
-        }  
     </script>
 }
 
