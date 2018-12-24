@@ -92,7 +92,7 @@
                                             <div class="input-group">
                                             @Html.DropDownListFor(a => a.BusinessPartnerId, Model.SupplierDdl, "Select an Option", new { @class = "form-control", @required = "true" })
                                                 <span class="input-group-addon" style="   ">
-                                                    <a href="@Url.Action("AddSupplierPartial","Setup")" class="modalShow1">   <i class="fa fa-plus "></i></a>
+                                                    <a href="@Url.Action("AddSupplierPartial","Setup")" class="modalShow1" id="#arrButtonIds">   <i class="fa fa-plus "></i></a>
                                                 </span>
                                                 </div>
                                         </div>
@@ -126,7 +126,7 @@
                                 <div class=" mb-lg" id="header-flex">
                                     <h4 class="mt-xs   text-weight-semibold " style="flex-grow: 8">Transaction Items</h4>
                                     <a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
-                                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New</button>
+                                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm" id="#arrButtonIds"></i>Add New</button>
 
                                     </a>
                                 </div>
@@ -253,7 +253,19 @@
             return false;
         });
         $('#datatable-default').dataTable();
+        // Using that prm reference, hook _initializeRequest
+        Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(InitializeRequestBuchung);
 
+        // Abfangen von Mehrfachklicks auf Buttons für asynchrone Postbacks im Updatepanel
+        function InitializeRequestBuchung(sender, args) {
+            var arrButtonIds = ["ButtonInsert", "ButtonUpdate"];
+
+            // Get a reference to the PageRequestManager.
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+            if (prm.get_isInAsyncPostBack() & jQuery.inArray(args.get_postBackElement().id, arrButtonIds) > -1) {
+                args.set_cancel(true);
+            }
+        }  
     </script>
 }
 

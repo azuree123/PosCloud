@@ -24,7 +24,7 @@ namespace POSApp.Controllers.WebApi
         // GET: api/SuppliersSync
         public async Task<IHttpActionResult> GetSuppliers(int storeId)
         {
-            return Ok(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("C", storeId)));
+            return Ok(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", storeId)));
         }
 
         // GET: api/SuppliersSync/5

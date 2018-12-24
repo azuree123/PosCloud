@@ -57,20 +57,20 @@
             <span class="fa fa-2x fa-plus-circle"></span>
         </a>*@
                         <a href="@Url.Action("ProductExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+                            <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
                         </a>
 
                         <a href="@Url.Action("AddProduct", "Products")" class="modalShow" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Product</button>
+                            <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Add Product</button>
 
                         </a>
                         <a href="@Url.Action("ProductCategoryGroupList","Products")" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Product Category Group List</button>
+                            <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Product Category Group List</button>
 
                         </a>
                         <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
-                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Category List</button>
+                            <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Category List</button>
 
                         </a>
                     </div>
@@ -157,6 +157,19 @@
 
             return false;
         });
+        // Using that prm reference, hook _initializeRequest
+        Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(InitializeRequestBuchung);
+
+        // Abfangen von Mehrfachklicks auf Buttons für asynchrone Postbacks im Updatepanel
+        function InitializeRequestBuchung(sender, args) {
+            var arrButtonIds = ["ButtonInsert", "ButtonUpdate"];
+
+            // Get a reference to the PageRequestManager.
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+            if (prm.get_isInAsyncPostBack() & jQuery.inArray(args.get_postBackElement().id, arrButtonIds) > -1) {
+                args.set_cancel(true);
+            }
+        }
     </script>
 }
 

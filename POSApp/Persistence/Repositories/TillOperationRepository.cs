@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<TillOperation> GetTillOperations(int storeId)
         {
-            return _context.TillOperations.Where(x => x.StoreId == storeId && !x.IsDisabled).ToList();
+            return _context.TillOperations.Include(a=>a.Shift).Where(x => x.StoreId == storeId && !x.IsDisabled).ToList();
         }
 
         public TillOperation GetTillOperationsById(int id, int storeId)
