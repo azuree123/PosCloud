@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 using POSApp.Core.ViewModels;
+using POSApp.Models;
+using POSApp.Services;
 
 namespace POSApp.Persistence.Repositories
 {
@@ -49,5 +51,21 @@ namespace POSApp.Persistence.Repositories
             _context.Users.Attach(user);
             _context.Entry(user).State = EntityState.Modified;
         }
+            public IEnumerable<RegisterListViewModel> GetApiUsers(int storeid)
+            {
+                var list= _context.Users.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
+                List<RegisterListViewModel> send=new List<RegisterListViewModel>();
+                foreach (var registerListViewModel in list)
+                {
+                    RegisterListViewModel model=new RegisterListViewModel();
+                    model.UserName = registerListViewModel.UserName;
+                    model.Email = registerListViewModel.Email;
+                    model.UserId = registerListViewModel.Id;
+                    model.UserPassword = Security.DecryptString(registerListViewModel.PasswordEncrypt,
+                        "E546C8DF278CD5931069B522E695D4F2");
+                    send.Add(model);
+                }
+                return send;
+            }
     }
 }

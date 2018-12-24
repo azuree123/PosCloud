@@ -50,6 +50,11 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
             product.ProductCode =  "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ProductsList");
+            }
             ViewBag.edit = "AddProduct";
            
             return View(product);
@@ -149,6 +154,11 @@ namespace POSApp.Controllers
         }
         public ActionResult UpdateProduct(string productId)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ProductsList");
+            }
             ViewBag.edit = "UpdateProduct";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -305,6 +315,11 @@ namespace POSApp.Controllers
         }
         public ActionResult AddProductCategoryPartial()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ProductCategoryList");
+            }
             ViewBag.edit = "AddProductCategoryPartial";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -318,6 +333,7 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddProductCategoryPartial(ProductCategoryViewModel productcategoryvm)
         {
+           
             ViewBag.edit = "AddProductCategoryPartial";
             if (!ModelState.IsValid)
             {
@@ -345,6 +361,11 @@ namespace POSApp.Controllers
 
         public ActionResult AddProductCategory()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ProductCategoryList");
+            }
             ViewBag.edit = "AddProductCategory";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -437,6 +458,11 @@ namespace POSApp.Controllers
         }
         public ActionResult UpdateProductCategory(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ProductCategoryList");
+            }
             ViewBag.edit = "UpdateProductCategory";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -607,6 +633,11 @@ namespace POSApp.Controllers
         }
         public ActionResult AddProductCategoryGroupPartial()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ProductCategoryGroupList");
+            }
             ViewBag.edit = "AddProductCategoryGroupPartial";
             return View();
         }
@@ -634,6 +665,11 @@ namespace POSApp.Controllers
 
         public ActionResult AddProductCategoryGroup()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ProductCategoryGroupList");
+            }
             ViewBag.edit = "AddProductCategoryGroup";
             return View();
         }
@@ -706,6 +742,11 @@ namespace POSApp.Controllers
         }
         public ActionResult UpdateProductCategoryGroup(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ProductCategoryGroupList");
+            }
             ViewBag.edit = "UpdateProductCategoryGroup";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -845,6 +886,11 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ModifierOptionViewModel modifieroption = new ModifierOptionViewModel();
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ModifierOptionList");
+            }
             ViewBag.edit = "AddModifierOption";
            
             return View(modifieroption);
@@ -874,6 +920,11 @@ namespace POSApp.Controllers
         }
         public ActionResult UpdateModifierOption(string name)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ModifierOptionList");
+            }
             ViewBag.edit = "AddModifierOption";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -943,6 +994,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddModifier()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ModifierList");
+            }
             ViewBag.edit = "AddModifier";
             
             var userid = User.Identity.GetUserId();
@@ -1031,6 +1087,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateModifier(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ModifierList");
+            }
             ViewBag.edit = "UpdateModifier";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -1200,6 +1261,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ModifierLinkProductRepository.GetModifierLinkProducts(modifierId, (int) user.StoreId)
                         .Select(a => a.ProductCode));
             }
+            
             ViewBag.edit = "AddModifierLinkProduct";
             return View(ModifierLinkProduct);
         }
@@ -1444,6 +1506,11 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("CombosList");
+            }
             ViewBag.edit = "AddCombo";
             int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
          
@@ -1547,6 +1614,11 @@ namespace POSApp.Controllers
         }
         public ActionResult UpdateCombo(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("CombosList");
+            }
             ViewBag.edit = "UpdateCombo";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -1728,6 +1800,11 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ProductSubViewModel Combooption = new ProductSubViewModel();
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("CombosList");
+            }
             ViewBag.edit = "AddComboOption";
             Combooption.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int) user.StoreId)
                 .Select(a => new SelectListItem {Text = a.Name, Value = a.ProductCode.ToString()}).ToList();
@@ -1763,6 +1840,11 @@ namespace POSApp.Controllers
         }
         public ActionResult UpdateComboOption(string productId,int storeId)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("CombosList");
+            }
             ViewBag.edit = "AddComboOption";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -1792,6 +1874,11 @@ namespace POSApp.Controllers
         //Section
         public ActionResult AddSectionPartial()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("SectionList");
+            }
             ViewBag.edit = "AddSectionPartial";
             return View();
         }
@@ -1886,6 +1973,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddSection()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("SectionList");
+            }
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             SectionViewModel Section = new SectionViewModel();
@@ -1962,6 +2054,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateSection(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("SectionList");
+            }
             ViewBag.edit = "UpdateSection";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);

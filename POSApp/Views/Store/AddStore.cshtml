@@ -4,7 +4,7 @@
     Layout = null;
 }
 
-<div id="ordine" class="modal fade" role="dialog">
+<div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     @{ string s = ViewBag.edit;}
 
     @using (Html.BeginForm(s, "Store", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -60,7 +60,7 @@
 
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.Contact, htmlAttributes: new { @class = "control-label required1 " })
-                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "Enter Contact" } })
+                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "05046251398",@pattern = @"^\(?([0-9]{4})\)?[-. ]?([0-9]{7})$" } })
                                             @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-6">

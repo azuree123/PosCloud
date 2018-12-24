@@ -43,8 +43,16 @@ namespace POSApp.Controllers
         }
         public ActionResult AddDepartmentPartial()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (isAjax)
+            {
             ViewBag.edit = "AddDepartmentPartial";
             return View();
+            }
+            else
+            {
+                return RedirectToAction("DepartmentList");
+            }
         }
         [HttpPost]
         public ActionResult AddDepartmentPartial(DepartmentViewModel departmentVm)
@@ -70,6 +78,7 @@ namespace POSApp.Controllers
 
         public ActionResult AddDesignationPartial()
         {
+          
             ViewBag.edit = "AddDesignationPartial";
             return View();
         }
@@ -96,6 +105,11 @@ namespace POSApp.Controllers
 
         public ActionResult AddStatePartial()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("StateList");
+            }
             ViewBag.edit = "AddStatePartial";
             return View();
         }
@@ -122,6 +136,11 @@ namespace POSApp.Controllers
 
         public ActionResult AddSupplierPartial()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("SupplierList");
+            }
             ViewBag.edit = "AddSupplierPartial";
             return View();
         }
@@ -187,6 +206,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddDepartment()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("DepartmentList");
+            }
             ViewBag.edit = "AddDepartment";
             return View();
         }
@@ -257,6 +281,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateDepartment(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("DepartmentList");
+            }
             ViewBag.edit = "UpdateDepartment";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -429,6 +458,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddEmployee()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("EmployeeList");
+            }
             EmployeeModelView employee = new EmployeeModelView();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -507,6 +541,13 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateEmployee(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("EmployeeList");
+            }
+            
+            
             ViewBag.edit = "UpdateEmployee";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -632,6 +673,7 @@ namespace POSApp.Controllers
 
         public ActionResult CustomerList()
         {
+
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<CustomerModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("C",(int)user.StoreId)));
@@ -639,6 +681,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddCustomer()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("CustomerList");
+            }
             ViewBag.edit = "AddCustomer";          
             return View(new CustomerModelView());
         }
@@ -712,6 +759,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateCustomer(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("CustomerList");
+            }
             ViewBag.edit = "UpdateCustomer";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -843,6 +895,7 @@ namespace POSApp.Controllers
 
         public ActionResult SupplierList()
         {
+        
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId)));
@@ -850,6 +903,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddSupplier()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("SupplierList");
+            }
             ViewBag.edit = "AddSupplier";
             return View();
         }
@@ -924,6 +982,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateSupplier(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("SupplierList");
+            }
             ViewBag.edit = "UpdateSupplier";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -1057,6 +1120,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddState()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("StateList");
+            }
             ViewBag.edit = "AddState";
             return View();
         }
@@ -1126,6 +1194,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateState(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("StateList");
+            }
             ViewBag.edit = "UpdateState";
             StateModelView sateMv = Mapper.Map<StateModelView>(_unitOfWork.StateRepository.GetStateById(id));
             return View("AddState",sateMv);
@@ -1245,6 +1318,7 @@ namespace POSApp.Controllers
         }
         public ActionResult CityList(int stateId=0)
         {
+
             if (stateId == 0)
             {
                 return View(_unitOfWork.CityRepository.GetCities().Select(a=>new CityListModelView{Id = a.Id,Name = a.Name,StateName = a.State.Name}));
@@ -1253,6 +1327,11 @@ namespace POSApp.Controllers
         }
         public ActionResult AddCity()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("CityList");
+            }
             CityModelView city = new CityModelView();
             city.StateDdl = _unitOfWork.StateRepository.GetStates()
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
@@ -1326,8 +1405,13 @@ namespace POSApp.Controllers
        
         [HttpGet]
         public ActionResult UpdateCity(int id)
-        { 
-        ViewBag.edit = "UpdateCity";
+        {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("CityList");
+            }
+            ViewBag.edit = "UpdateCity";
             CityModelView cityMv = Mapper.Map<CityModelView>(_unitOfWork.CityRepository.GetCity(id));
             cityMv.StateDdl = _unitOfWork.StateRepository.GetStates()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
@@ -1452,6 +1536,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddLocation()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("LocationList");
+            }
             ViewBag.edit = "AddLocation";
             return View();
         }
@@ -1475,6 +1564,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateLocation(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("LocationList");
+            }
             ViewBag.edit = "UpdateLocation";
             LocationModelView locationMv =
                 Mapper.Map<LocationModelView>(_unitOfWork.LocationRepository.GetLocationById(id));
@@ -1513,6 +1607,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddDiscount()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("TimedEventList");
+            }
             ViewBag.edit = "AddDiscount";
             return View(new DiscountViewModel());
         }
@@ -1588,6 +1687,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateDiscount(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("TimedEventList");
+            }
             ViewBag.edit = "UpdateDiscount";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -1723,6 +1827,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddTax()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("TaxList");
+            }
             ViewBag.edit = "AddTax";
             return View();
         }
@@ -1796,6 +1905,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateTax(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("TaxList");
+            }
             ViewBag.edit = "UpdateTax";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -2002,6 +2116,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddUnit()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("UnitList");
+            }
             ViewBag.edit = "AddUnit";
             return View();
         }
@@ -2075,6 +2194,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateUnit(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("UnitList");
+            }
             ViewBag.edit = "UpdateUnit";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -2208,6 +2332,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddClient()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ClientList");
+            }
             ViewBag.edit = "AddClient";
             return View();
         }
@@ -2300,6 +2429,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateClient(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ClientList");
+            }
             ViewBag.edit = "UpdateClient";
 
             ClientViewModel clientMv =
@@ -2454,6 +2588,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddTimedEvent()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("TimedEventList");
+            }
             ViewBag.edit = "AddTimedEvent";
             TimedEventViewModel model=new TimedEventViewModel();
             var userid = User.Identity.GetUserId();
@@ -2577,6 +2716,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateTimedEvent(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("TimedEventList");
+            }
             ViewBag.edit = "UpdateTimedEvent";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -2611,24 +2755,33 @@ namespace POSApp.Controllers
                 {
 
                     TimedEvent location = Mapper.Map<TimedEvent>(timeeventVm);
-                    _unitOfWork.TimedEventRepository.UpdateTimedEvent(id, location, (int)user.StoreId);
-                    _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id, location.StoreId);
-                    _unitOfWork.Complete();
+                    _unitOfWork.TimedEventRepository.UpdateTimedEvent(id, location, (int) user.StoreId);
+
+
+
                     if (timeeventVm.Categories != null)
                     {
+                        if (timeeventVm.Categories.Length > 0)
+                        {
+                            _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id,
+                                location.StoreId);
+                            _unitOfWork.Complete();
+                        }
+                        else
+                        {
+                        }
 
                         foreach (var timeeventVmCategory in timeeventVm.Categories)
                         {
-                            string[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory).Where(a => a.StoreId == location.StoreId)
+                            string[] products = _unitOfWork.ProductRepository.GetProducts(timeeventVmCategory)
+                                .Where(a => a.StoreId == location.StoreId)
                                 .Select(a => a.ProductCode).ToArray();
                             foreach (var product in products)
                             {
                                 _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
                                 {
-                                    ProductCode = product
-                                    ,
-                                    StoreId = location.StoreId
-                                    ,
+                                    ProductCode = product,
+                                    StoreId = location.StoreId,
 
                                     TimedEventId = location.Id
                                 });
@@ -2637,20 +2790,32 @@ namespace POSApp.Controllers
                     }
                     else
                     {
+                        if (timeeventVm.Products.Length > 0)
+                        {
+                            _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id,
+                                location.StoreId);
+                            _unitOfWork.Complete();
+                        }
+                        else
+                        {
+                        }
+
                         foreach (var product in timeeventVm.Products)
                         {
                             _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
                             {
-                                ProductCode = product
-                                ,
-                                StoreId = location.StoreId
-                                    ,
+                                ProductCode = product,
+                                StoreId = location.StoreId,
                                 TimedEventId = location.Id
                             });
                         }
                     }
+
                     _unitOfWork.Complete();
-                    TempData["Alert"] = new AlertModel("The timed event updated successfully", AlertType.Success);
+
+
+
+                TempData["Alert"] = new AlertModel("The timed event updated successfully", AlertType.Success);
                     return RedirectToAction("TimedEventList", "Setup");
                 }
             }
@@ -2763,6 +2928,11 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             FloorViewModel floor = new FloorViewModel();
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("FloorList");
+            }
             ViewBag.edit = "AddFloor";
             return View(floor);
         }
@@ -2836,6 +3006,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateFloor(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("FloorList");
+            }
             ViewBag.edit = "UpdateFloor";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -2976,6 +3151,11 @@ namespace POSApp.Controllers
             DineTableViewModel dinetable  = new DineTableViewModel();
             dinetable.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FloorNumber }).AsEnumerable();
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("DineTableList");
+            }
             ViewBag.edit = "AddDineTable";
             return View(dinetable);
         }
@@ -3051,6 +3231,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateDineTable(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("DineTableList");
+            }
             ViewBag.edit = "UpdateDineTable";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -3515,6 +3700,11 @@ namespace POSApp.Controllers
             POSTerminalViewModel POSTerminal = new POSTerminalViewModel();
             POSTerminal.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("POSTerminalList");
+            }
             ViewBag.edit = "AddPOSTerminal";
             return View(POSTerminal);
         }
@@ -3589,6 +3779,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdatePOSTerminal(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("POSTerminalList");
+            }
             ViewBag.edit = "UpdatePOSTerminal";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -3728,6 +3923,11 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ShiftViewModel Shift = new ShiftViewModel();
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ShiftList");
+            }
             ViewBag.edit = "AddShift";
             return View(Shift);
         }
@@ -3800,6 +4000,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateShift(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ShiftList");
+            }
             ViewBag.edit = "UpdateShift";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);

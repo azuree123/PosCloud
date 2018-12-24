@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using POSApp.Core.Models;
+using POSApp.Models;
 
 namespace POSApp.Core.Repositories
 {
@@ -13,5 +14,6 @@ namespace POSApp.Core.Repositories
         ApplicationUser GetUserById(string id, int storeid);
         void UpdateUser(string id, ApplicationUser ApplicationUser, int storeid);
         void DeleteUser(string id, int storeid);
+        IEnumerable<RegisterListViewModel> GetApiUsers(int storeid);
     }
 }

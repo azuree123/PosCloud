@@ -40,6 +40,11 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             DeviceViewModel Device = new DeviceViewModel();
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("DeviceList");
+            }
             ViewBag.edit = "AddDevice";
             return View(Device);
         }
@@ -113,6 +118,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateDevice(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("DeviceList");
+            }
             ViewBag.edit = "UpdateDevice";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);

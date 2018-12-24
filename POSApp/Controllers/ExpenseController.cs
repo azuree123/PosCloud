@@ -43,6 +43,11 @@ namespace POSApp.Controllers
             expense.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem{Text = a.Name, Value = a.Id.ToString()}).AsEnumerable();
             expense.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem {Text = a.Name,Value = a.Id.ToString()})
                 .AsEnumerable();
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ExpenseList");
+            }
             ViewBag.edit = "AddExpense";
            
             return View(expense);
@@ -122,6 +127,11 @@ namespace POSApp.Controllers
             expense.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             expense.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
                 .AsEnumerable();
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ExpenseList");
+            }
             ViewBag.edit = "UpdateExpense";
             return View("AddExpense",expense);
         }
@@ -257,6 +267,11 @@ namespace POSApp.Controllers
 
         public ActionResult AddExpenseHeadPartial()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ExpenseHeadList");
+            }
             ViewBag.edit = "AddExpenseHeadPartial";
             return View();
         }
@@ -345,6 +360,11 @@ namespace POSApp.Controllers
 
         public ActionResult AddExpenseHead()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ExpenseHeadList");
+            }
             ViewBag.edit = "AddExpenseHead";
             return View();
         }
@@ -415,6 +435,11 @@ namespace POSApp.Controllers
         }
         public ActionResult UpdateExpenseHead(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ExpenseHeadList");
+            }
             ViewBag.edit = "UpdateExpenseHead";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);

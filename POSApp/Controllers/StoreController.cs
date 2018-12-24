@@ -31,6 +31,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddStore()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("StoresList");
+            }
             ViewBag.edit = "AddStore";
             return View();
         }
@@ -100,6 +105,11 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateStore(int id)
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("StoresList");
+            }
             ViewBag.edit = "UpdateStore";
             StoreViewModel storeVm = Mapper.Map<StoreViewModel>(_unitOfWork.StoreRepository.GetStoreById(id));
             return View("AddStore", storeVm);

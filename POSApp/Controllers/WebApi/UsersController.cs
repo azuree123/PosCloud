@@ -27,7 +27,7 @@ namespace POSApp.Controllers.WebApi
         // GET: api/Users
         public async Task<IHttpActionResult> GetUsers(int storeId)
         {
-            return Ok(Mapper.Map<RegisterListViewModel[]>(_unitOfWork.UserRepository.GetUsers(storeId)));
+            return Ok(_unitOfWork.UserRepository.GetApiUsers(storeId));
         }
 
         // GET: api/Users/5

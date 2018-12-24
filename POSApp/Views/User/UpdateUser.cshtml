@@ -10,7 +10,7 @@
     @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
-<div id="ordine" class="modal fade" role="dialog">
+<div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     @{ string s = ViewBag.edit;}
 
     @using (Html.BeginForm(s, "User", FormMethod.Post, new { enctype = "multipart/form-data" }))

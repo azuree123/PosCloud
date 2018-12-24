@@ -5,7 +5,7 @@
     Layout = null;
 }
 
-<div id="ordine" class="modal fade" role="dialog">
+<div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     @{ string s = ViewBag.edit;}
 
     @using (Html.BeginForm(s, "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -123,17 +123,30 @@
                                             @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label" })
                                             <div class="input-group">
                                                 @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                <span class="input-group-addon" style="   ">
+                                                <span class="input-group-addon" >
                                                     <a href="@Url.Action("AddSectionPartial","Products")" class="modalShow3">   <i class="fa fa-plus "></i></a>
                                                 </span>
                                             </div>
                                             @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
                                         </div>
+                                       
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label" })
                                             <input type="file" name="file" id="file" />
                                             @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                                           
                                         </div>
+                                        @if (Model.Image != null)
+                                        {
+                                            <div class="col-md-4">
+                                                @{
+
+                                                    var base64 = Convert.ToBase64String(Model.Image);
+                                                    var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                                                }
+                                                <img src='@imgsrc' width="69px" height="58px" />
+                                            </div>
+                                        } 
                                     </div>
                                 </div>
 
@@ -194,9 +207,9 @@
 
     <div id="ModalData1"></div>
     <div id="ModalData2"></div>
-
+ 
     <script>
-
+        var fired = false;
         function UpdateDdlCategory() {
             $.ajax({
                 url: "@Url.Action("GetProductCategoryDdl", "Products")",
@@ -214,20 +227,29 @@
             });
 
         }
-        $('a.modalShow1').on('click', function () {
+        $('a.modalShow1').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
-            $.ajax({
-                url: this.href,
-                type: 'GET',
-                success: function(result) {
-                    $('#ModalData1').html(result);
-                    $('#ordine2').modal('show');
-                    $.unblockUI();
-                }
-            });
+            if (!fired) {
+                //mark as fired
+                fired = true;
+                $.ajax({
+                    url: this.href,
+                    type: 'GET',
+                    success: function (result) {
+                        $('#ModalData1').html(result);
+                        $('#ordine2').modal('show');
+                        $.unblockUI();
+                        fired = false;
+                    }
+                });
+            }
+            else {}
 
             return false;
         });
+        
         function UpdateDdlSection() {
             $.ajax({
                 url: "@Url.Action("GetSectionDdl", "Products")",
@@ -244,20 +266,31 @@
                 }
             });
         }
-        $('a.modalShow3').on('click', function () {
+
+        
+
+        $('a.modalShow3').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
-            $.ajax({
-                url: this.href,
-                type: 'GET',
-                success: function(result) {
-                    $('#ModalData2').html(result);
-                    $('#ordine3').modal('show');
-                    $.unblockUI();
-                }
-            });
+            if (!fired) {
+                //mark as fired
+                fired = true;
+                $.ajax({
+                    url: this.href,
+                    type: 'GET',
+                    success: function (result) {
+                        $('#ModalData2').html(result);
+                        $('#ordine3').modal('show');
+                        $.unblockUI();
+                        fired = false;
+                    }
+                });
+            } else {}
 
             return false;
         });
+      
         $('#datatable-default').dataTable();
     </script>
 </div>
