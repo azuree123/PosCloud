@@ -215,21 +215,14 @@
 
         }
         $('a.modalShow1').on('click', function () {
-
-
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('#ModalData1').html(result).find('#ordine2').modal('show');
-                    //newWin = window.open("", "", "width=800, height=600");
-                    //    var query = " <" +"script> $('#AddDepartment').click();</"+"script>";
-                    //    newWin.document.write(result + query);
-
-                    //    if (newWin.closed) {
-                    //        alert("Closed");
-                    //    }
+                success: function(result) {
+                    $('#ModalData1').html(result);
+                    $('#ordine2').modal('show');
+                    $.unblockUI();
                 }
             });
 
@@ -252,12 +245,14 @@
             });
         }
         $('a.modalShow3').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('#ModalData2').html(result).find('#ordine3').modal('show');
+                success: function(result) {
+                    $('#ModalData2').html(result);
+                    $('#ordine3').modal('show');
+                    $.unblockUI();
                 }
             });
 

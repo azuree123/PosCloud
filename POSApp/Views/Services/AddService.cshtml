@@ -183,21 +183,14 @@
 
         }
         $('a.modalShow1').on('click', function () {
-
-
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('#ModalData1').html(result).find('#ordine2').modal('show');
-                    //newWin = window.open("", "", "width=800, height=600");
-                    //    var query = " <" +"script> $('#AddDepartment').click();</"+"script>";
-                    //    newWin.document.write(result + query);
-
-                    //    if (newWin.closed) {
-                    //        alert("Closed");
-                    //    }
+                success: function(result) {
+                    $('#ModalData1').html(result);
+                    $('#ordine2').modal('show');
+                    $.unblockUI();
                 }
             });
 

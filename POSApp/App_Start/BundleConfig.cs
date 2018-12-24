@@ -9,7 +9,8 @@ namespace POSApp
         {
             BundleTable.EnableOptimizations = false;
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Content/vendor/jquery/jquery.js"));
+                        "~/Content/vendor/jquery/jquery.js",
+                "~/Scripts/blockUI.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*",
@@ -23,7 +24,7 @@ namespace POSApp
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Content/vendor/bootstrap/js/bootstrap.js",
                       "~/Scripts/respond.js"));
-
+            
             bundles.Add(new ScriptBundle("~/bundles/vendor").Include(
                         //"~/Content/vendor/jquery/jquery.js",
                         "~/Content/vendor/jquery-browser-mobile/jquery.browser.mobile.js",

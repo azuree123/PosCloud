@@ -37,15 +37,15 @@
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>Expense  </b></h3>
                     <a href="@Url.Action("ExpenseExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
                     </a>
                     <a href="@Url.Action("AddExpense", "Expense")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Add Expense</button>
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Expense</button>
 
                     </a>
                     <a href="@Url.Action("ExpenseHeadList","Expense")" style="flex-grow: 0">
-                        <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Expense Head List</button>
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Expense Head List</button>
 
                     </a>
                 </div>
@@ -113,36 +113,20 @@
     <script>
         $('#datatable-default').dataTable();
 
-        $('a.modalShow').on('click',
-            function() {
-               
-                $.ajax({
-                    url: this.href,
-                    type: 'GET',
-                    cache: false,
-                    success: function (result) {
-                        if (!$('#ordine').is(':visible')) {
-
-                            $('#ModalData').html(result).find('#ordine').modal('show');
-                        }
-                    }
-                });
-
-                return false;
+        $('a.modalShow').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
             });
-        // Using that prm reference, hook _initializeRequest
-        Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(InitializeRequestBuchung);
 
-        // Abfangen von Mehrfachklicks auf Buttons für asynchrone Postbacks im Updatepanel
-        function InitializeRequestBuchung(sender, args) {
-            var arrButtonIds = ["ButtonInsert", "ButtonUpdate"];
-
-            // Get a reference to the PageRequestManager.
-            var prm = Sys.WebForms.PageRequestManager.getInstance();
-            if (prm.get_isInAsyncPostBack() & jQuery.inArray(args.get_postBackElement().id, arrButtonIds) > -1) {
-                args.set_cancel(true);
-            }
-        }  
+            return false;
+        });
     </script>
 }
 
