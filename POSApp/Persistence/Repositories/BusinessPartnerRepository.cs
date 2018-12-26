@@ -45,7 +45,7 @@ namespace POSApp.Persistence.Repositories
                     Email = p.Email,
                     PhoneNumber = p.PhoneNumber
                     ,
-                    Birthday = p.Birthday,
+                    Birthday = Convert.ToDateTime(p.Birthday),
                     Note = p.Remarks
                 });
         }
@@ -63,7 +63,7 @@ namespace POSApp.Persistence.Repositories
                  Email = p.Email,
                  PhoneNumber = p.PhoneNumber
                     ,
-                 Birthday = p.Birthday,
+                 Birthday = Convert.ToDateTime(p.Birthday),
                  Note = p.Remarks
              });
         }

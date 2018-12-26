@@ -29,7 +29,7 @@ namespace POSApp.Core.Models
       
         public string ContactPerson { get; set; }
         public string CpMobileNumber { get; set; }
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
         public string Remarks { get; set; }
 
         

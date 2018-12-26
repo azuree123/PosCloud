@@ -47,11 +47,11 @@ namespace POSApp.Controllers.WebApi
                     _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(customer);
                 }
                 _unitOfWork.Complete();
-                return Ok("Success");
+                return Ok(1);
             }
             catch (Exception e)
             {
-                return Ok("Error");
+                return Ok(0);
                 throw;
             }
         }
