@@ -273,6 +273,7 @@
 <div id="ModalData"></div>
 @section scripts
 {
+   
     <script>
         $("#@Html.IdFor(a=>a.IsTaxable)").on("change",
             function() {
@@ -308,8 +309,8 @@
                 return true;
             }
             new PNotify({
-                title: 'Modifier Options Cannot Be Empty',
-                text:  'Please Enter Atleast 1 Modifier Option.',
+                title: 'Combo Products Cannot Be Empty',
+                text:  'Please Enter Atleast 1 Combo Products.',
                 type: 'error'
             });
             $('#modifierOption').click();
@@ -336,6 +337,7 @@
         }
 
         $('#datatable-default').dataTable();
+        @Html.Raw(ViewBag.js)
     </script>
 }
 

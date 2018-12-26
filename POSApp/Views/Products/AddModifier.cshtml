@@ -177,10 +177,10 @@
 <div id="ModalData"></div>
 @section scripts
 {
+   
     <script>
         var tablefill = false;
         function CheckData() {
-           
             var rowCount = $('#datatable-default >tbody >tr').length;
             if (tablefill && rowCount >= 1) {
                
@@ -230,6 +230,7 @@
         });
         $('#datatable-default').dataTable();
     </script>
+    @Html.Raw(ViewBag.js)
 }
 
 

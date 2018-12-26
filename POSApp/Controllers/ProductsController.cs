@@ -886,11 +886,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ModifierOptionViewModel modifieroption = new ModifierOptionViewModel();
-            var isAjax = Request.IsAjaxRequest();
-            if (!isAjax)
-            {
-                return RedirectToAction("ModifierOptionList");
-            }
+
             ViewBag.edit = "AddModifierOption";
            
             return View(modifieroption);
@@ -920,11 +916,7 @@ namespace POSApp.Controllers
         }
         public ActionResult UpdateModifierOption(string name)
         {
-            var isAjax = Request.IsAjaxRequest();
-            if (!isAjax)
-            {
-                return RedirectToAction("ModifierOptionList");
-            }
+            
             ViewBag.edit = "AddModifierOption";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -994,11 +986,7 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult AddModifier()
         {
-            var isAjax = Request.IsAjaxRequest();
-            if (!isAjax)
-            {
-                return RedirectToAction("ModifierList");
-            }
+        
             ViewBag.edit = "AddModifier";
             
             var userid = User.Identity.GetUserId();
@@ -1087,11 +1075,7 @@ namespace POSApp.Controllers
         [HttpGet]
         public ActionResult UpdateModifier(int id)
         {
-            var isAjax = Request.IsAjaxRequest();
-            if (!isAjax)
-            {
-                return RedirectToAction("ModifierList");
-            }
+         
             ViewBag.edit = "UpdateModifier";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -1111,6 +1095,8 @@ namespace POSApp.Controllers
             {
                 Helper.AddToTempModifierOptions(modifierVmModifierOptionViewModel,userid);
             }
+
+            ViewBag.js = "<script>ChangeTableFill();</script>";
             return View("AddModifier", modifierVm);
         }
         [HttpPost]
@@ -1133,8 +1119,8 @@ namespace POSApp.Controllers
                     var user = UserManager.FindById(userid);
                     modifier.StoreId = (int)user.StoreId;
                     _unitOfWork.ModifierRepository.UpdateModifier(id, modifier.StoreId, modifier);
-                    _unitOfWork.ModifierOptionRepository.DeleteModifierOptionsByModifierId(modifier.Id, modifier.StoreId);
                     _unitOfWork.Complete();
+                    _unitOfWork.ModifierOptionRepository.DeleteModifierOptionsByModifierId(modifier.Id, modifier.StoreId);
                     foreach (var modifierOptionViewModel in Helper.TempModifierOptions.Where(a => a.CreatedBy == userid))
                     {
                         modifierOptionViewModel.ModifierId = modifier.Id;
@@ -1506,11 +1492,7 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-            var isAjax = Request.IsAjaxRequest();
-            if (!isAjax)
-            {
-                return RedirectToAction("CombosList");
-            }
+            
             ViewBag.edit = "AddCombo";
             int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
          
@@ -1614,11 +1596,7 @@ namespace POSApp.Controllers
         }
         public ActionResult UpdateCombo(int id)
         {
-            var isAjax = Request.IsAjaxRequest();
-            if (!isAjax)
-            {
-                return RedirectToAction("CombosList");
-            }
+          
             ViewBag.edit = "UpdateCombo";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
@@ -1651,6 +1629,8 @@ namespace POSApp.Controllers
                         modifierVmModifierOptionViewModel.StoreId).Name;
                 Helper.AddToTempComboOptions(modifierVmModifierOptionViewModel, userid);
             }
+
+            ViewBag.js = "<script>ChangeTableFill();</script>";
             return View("AddCombo", productVm);
         }
         [HttpPost]
@@ -1686,6 +1666,7 @@ namespace POSApp.Controllers
                     Product product = Mapper.Map<Product>(productVm);
                     product.Type = "Combo";
                     _unitOfWork.ProductRepository.UpdateProduct(id, Convert.ToInt32(user.StoreId), product);
+                    _unitOfWork.Complete();
                     List<ProductsSub> productsSubs = _unitOfWork.ProductsSubRepository.GetProductsSubs(product.ProductCode,product.StoreId).ToList();
                     foreach (var productsSub in productsSubs)
                     {
@@ -1800,11 +1781,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ProductSubViewModel Combooption = new ProductSubViewModel();
-            var isAjax = Request.IsAjaxRequest();
-            if (!isAjax)
-            {
-                return RedirectToAction("CombosList");
-            }
+            
             ViewBag.edit = "AddComboOption";
             Combooption.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int) user.StoreId)
                 .Select(a => new SelectListItem {Text = a.Name, Value = a.ProductCode.ToString()}).ToList();
@@ -1840,11 +1817,7 @@ namespace POSApp.Controllers
         }
         public ActionResult UpdateComboOption(string productId,int storeId)
         {
-            var isAjax = Request.IsAjaxRequest();
-            if (!isAjax)
-            {
-                return RedirectToAction("CombosList");
-            }
+            
             ViewBag.edit = "AddComboOption";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
