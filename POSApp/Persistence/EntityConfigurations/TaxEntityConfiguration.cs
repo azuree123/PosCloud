@@ -22,6 +22,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Name).HasColumnType("varchar").IsRequired().HasMaxLength(150);
             Property(x => x.Rate).HasColumnType("float").IsRequired();
             Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
+            Property(x => x.IsPercentage).HasColumnType("bit").IsOptional();
 
             // *******************************************************************************************RELATIONS*****************
             HasRequired(x => x.Store).WithMany(x => x.Taxes).HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);

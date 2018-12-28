@@ -67,9 +67,17 @@
                                             </div>
 
                                         </div>
-                                    
+                                <div class="row">
 
+                                    <div class="form-group">
+                                        <div class="col-md-8 col-md-offset-2">
+                                            @Html.LabelFor(model => model.IsPercentage, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.IsPercentage, new {@class = "form-control"})
+                                            @Html.ValidationMessageFor(model => model.IsPercentage, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
 
+                                </div>
 
                             </div>
 

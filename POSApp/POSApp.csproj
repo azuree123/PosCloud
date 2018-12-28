@@ -350,6 +350,7 @@
     <Compile Include="Controllers\TransMasterPaymentMethodController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WebApi\ModifiersController.cs" />
+    <Compile Include="Controllers\WebApi\PurchaseController.cs" />
     <Compile Include="Controllers\WebApi\UsersController.cs" />
     <Compile Include="Controllers\WebApi\CitiesController.cs" />
     <Compile Include="Controllers\WebApi\ClientsController.cs" />
@@ -496,6 +497,10 @@
     <Compile Include="Migrations\201812240645213_DiscountinTrans.cs" />
     <Compile Include="Migrations\201812240645213_DiscountinTrans.Designer.cs">
       <DependentUpon>201812240645213_DiscountinTrans.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812280726109_Tax-Ip.cs" />
+    <Compile Include="Migrations\201812280726109_Tax-Ip.Designer.cs">
+      <DependentUpon>201812280726109_Tax-Ip.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
@@ -2830,6 +2835,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812240645213_DiscountinTrans.resx">
       <DependentUpon>201812240645213_DiscountinTrans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812280726109_Tax-Ip.resx">
+      <DependentUpon>201812280726109_Tax-Ip.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

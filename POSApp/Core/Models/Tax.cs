@@ -12,6 +12,8 @@ namespace POSApp.Core.Models
         public string Name { get; set; }
         [DefaultValue(0)]
         public double Rate { get; set; }
+        [DefaultValue(0)]
+        public bool? IsPercentage { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
         public virtual ICollection<Product> Products { get; set; }

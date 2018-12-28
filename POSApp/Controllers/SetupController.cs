@@ -2757,7 +2757,8 @@ namespace POSApp.Controllers
                     TimedEvent location = Mapper.Map<TimedEvent>(timeeventVm);
                     _unitOfWork.TimedEventRepository.UpdateTimedEvent(id, location, (int) user.StoreId);
 
-
+                    _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id,
+                        location.StoreId);
 
                     if (timeeventVm.Categories != null)
                     {
@@ -2790,25 +2791,30 @@ namespace POSApp.Controllers
                     }
                     else
                     {
-                        if (timeeventVm.Products.Length > 0)
+                        if (timeeventVm.Products != null)
                         {
-                            _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id,
-                                location.StoreId);
-                            _unitOfWork.Complete();
-                        }
-                        else
-                        {
-                        }
-
-                        foreach (var product in timeeventVm.Products)
-                        {
-                            _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
+                            if (timeeventVm.Products.Length > 0)
                             {
-                                ProductCode = product,
-                                StoreId = location.StoreId,
-                                TimedEventId = location.Id
-                            });
+                                _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id,
+                                    location.StoreId);
+                                _unitOfWork.Complete();
+                            }
+                            else
+                            {
+                            }
+
+                            foreach (var product in timeeventVm.Products)
+                            {
+                                _unitOfWork.TimedEventProductsRepository.AddTimedEventProducts(new TimedEventProducts
+                                {
+                                    ProductCode = product,
+                                    StoreId = location.StoreId,
+                                    TimedEventId = location.Id
+                                });
+                            }
                         }
+                        else { }
+                           
                     }
 
                     _unitOfWork.Complete();
