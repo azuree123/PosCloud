@@ -5,10 +5,16 @@
     Layout = null;
 }
 
-<div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+<div id="ordine2" class="modal fade" role="dialog">
     @{ string s = ViewBag.edit;}
+    @using (Ajax.BeginForm(s, "Setup", new AjaxOptions
+    {
+        HttpMethod = "Post",
+        OnSuccess = "$('#ordine2').modal('hide');UpdateproductDdl();"
+        ,
+        UpdateTargetId = "ordine2"
+    }, new { enctype = "multipart/form-data" }))
 
-    @using (Html.BeginForm(s, "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="modal-dialog modal-lg">
@@ -207,7 +213,6 @@
 
     <div id="ModalData1"></div>
     <div id="ModalData2"></div>
-    <div id="ModalData3"></div>
 
     <script>
         var fired = false;
@@ -281,7 +286,7 @@
                     url: this.href,
                     type: 'GET',
                     success: function (result) {
-                        $('#ModalData3').html(result);
+                        $('#ModalData2').html(result);
                         $('#ordine3').modal('show');
                         $.unblockUI();
                         fired = false;
@@ -299,11 +304,11 @@
 
 
 
-           
-
-        
 
 
-    
+
+
+
+
 
 

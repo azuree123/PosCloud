@@ -92,7 +92,7 @@ namespace POSApp.Controllers
             {
                
                 int TransId = _unitOfWork.AppCountersRepository.GetId("Invoice");
-                po.TransCode = "INV-" + "C-" + TransId.ToString() + "-" + user.StoreId;
+                po.TransCode = "PRI-" + "C-" + TransId.ToString() + "-" + user.StoreId;
                 po.StoreId = user.StoreId;
                 var savePo = Mapper.Map<TransMaster>(po);
                
@@ -110,6 +110,8 @@ namespace POSApp.Controllers
                 }
                 _unitOfWork.Complete();
                 temp.TransMasterViewModel = po;
+                temp.TransMasterViewModel.TransDate = Convert.ToDateTime(savePo.TransDate).ToString("dd-MMM-yyyy");
+                temp.TransMasterViewModel.TransTime = Convert.ToDateTime(savePo.TransDate).ToShortTimeString();
                 temp.BusinessPartnerViewModel =
                     Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(po.BusinessPartnerId, (int) user.StoreId));
                 temp.TransDetailViewModels = poItems;

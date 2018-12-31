@@ -1,4 +1,4 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.TransDetailViewModel>
+﻿@model POSApp.Core.Models.TransMaster
 @{
     Layout = null;
 }
@@ -14,60 +14,84 @@
                     <button type="button" class="close" data-dismiss="modal">×</button>
 
 
-                        <h4 class="modal-title">
+                        @*<h4 class="modal-title">
                             Sale Order Detail
-                        </h4>
+                        </h4>*@
                   
                    
 
 
                 </div>
                 <div class="modal-body">
+                    @*<div class="panel panel-bd lobidrag">
+                        <h4 class="center ">Detail</h4>
+                        <hr />
+                        <div class="panel-body">
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <h4><strong class="text-danger">Date:</strong></h4> @Model.TransDate
+                                            <h4><strong class="text-danger">Customer Name:</strong></h4> @Model.BusinessPartner.Name
+
+
+
+</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>*@
                     <div class="panel panel-bd lobidrag">
                         <h4 class="center ">Products</h4>
-                        <hr/>
+                        <hr />
                         <div class="panel-body">
+                            <div class="panel">
+                                <div class="panel-body">
+                                  
+                                </div>
+                            </div>
 
-                          
-                            <table class="table mb-none" style="width:100%" id="datatable-default">
+                            <table class="table mb-none" style="width: 100%" id="datatable-default">
                                 <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Product</th>
-                                    <th>Modifiers</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>Discount</th>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Product</th>
+                                        <th>Modifiers</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                        <th>Discount</th>
 
-                                    <th>Total</th>
+                                        <th>Total</th>
 
-                                </tr>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                @{ int i = 1;}
-                                @foreach (var saleOrder in Model)
-                                {
-                                    <tr>
-                                        <td>@(i++)</td>
-                                        <td>@saleOrder.ProductName</td>
-                                        <td>@saleOrder.Modifiers</td>
-                                        <td>@saleOrder.Quantity</td>
-                                        <td>@saleOrder.UnitPrice</td>
-                                        <td>@saleOrder.Discount</td>
-                                        
-                                     
-                        
-                                        <td>
-                                            @(((saleOrder.UnitPrice + saleOrder.ModifiersPrice) * saleOrder.Quantity)-Convert.ToDecimal(saleOrder.Discount))
-                                        </td>
-                                    </tr>
-                                }
+                                    @{ int i = 1;}
+                                    @foreach (var saleOrder in Model.TransDetails)
+                                    {
+                                        <tr>
+                                            <td>@(i++)</td>
+                                            <td>@saleOrder.Product.Name</td>
+                                            <td>@saleOrder.ModifierTransDetail.Count</td>
+                                            <td>@saleOrder.Quantity</td>
+                                            <td>@saleOrder.UnitPrice</td>
+                                            <td>@saleOrder.Discount</td>
+
+
+
+                                            <td>
+                                                @(((saleOrder.UnitPrice + saleOrder.ModifierTransDetail.Sum(a => a.UnitPrice * a.Quantity)) * saleOrder.Quantity) - Convert.ToDecimal(saleOrder.Discount))
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
 
                         </div>
                     </div>
-                    
+
 
                 </div>
                 <div class="modal-footer">

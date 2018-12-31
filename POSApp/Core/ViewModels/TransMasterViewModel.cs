@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -36,5 +37,6 @@ namespace POSApp.Core.ViewModels
         [DefaultValue(0)]
         public decimal Discount { get; set; }
     }
+  
 
 }

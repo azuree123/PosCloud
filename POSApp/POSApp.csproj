@@ -2789,6 +2789,9 @@
     <Content Include="Views\ExcelImport\ShiftExcelImport.cshtml" />
     <Content Include="Views\Products\ModifierLinkProductList.cshtml" />
     <Content Include="Views\Products\AddModifierLinkProduct.cshtml" />
+    <Content Include="Views\Products\AddProductPartial.cshtml" />
+    <Content Include="Views\Setup\AddFloorPartial.cshtml" />
+    <Content Include="Views\Setup\AddUnitPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -62,7 +62,7 @@
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control",@required="true" } })
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control",@required="true", autofocus = "" } })
                                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -199,7 +199,8 @@
         }
 
         function ShowUpdate(a) {
-            
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+
             $.ajax({
                 url: "@Url.Action("UpdateModifierOption","Products")",
                 data: {name:a},
@@ -207,6 +208,8 @@
                 cache: false,
                 success: function (result) {
                     $('#ModalData').html(result).find('#ordine').modal('show');
+                    $.unblockUI();
+
                 }
             });
 
@@ -223,6 +226,8 @@
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();
+                   
+
                 }
             });
 

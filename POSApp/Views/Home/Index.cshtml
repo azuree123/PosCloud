@@ -53,10 +53,10 @@
                                         @if (Model.StoreDatas != null)
                                         {
 
-                                        foreach (var s in Model.StoreDatas)
-                                        {
-                                            <option value="Cosmic 1">@s.StoreName</option>
-                                        }
+                                            foreach (var s in Model.StoreDatas)
+                                            {
+                                                <option value="Cosmic 1">@s.StoreName</option>
+                                            }
                                         }
                                     </select>
                                 </strong>
@@ -130,7 +130,7 @@
                             </span>
                         </div>
                     </div>
-                
+
                     <div class="col-md-6 ">
                         <h2 class="panel-title">Yearly Sales vs Expenses</h2>
                         <!-- Morris: Bar -->
@@ -138,136 +138,146 @@
                         <script type="text/javascript">
 
                             var morrisBarData = [
-                            //    {
-                            //    c: '2004',
-                            //    a: 10,
-                            //    b: 30
-                            //}, {
-                            //    y: '2005',
-                            //    a: 100,
-                            //    b: 25
-                            //}, {
-                            //    y: '2006',
-                            //    a: 60,
-                            //    b: 25
-                            //}, {
-                            //    y: '2007',
-                            //    a: 75,
-                            //    b: 35
-                            //}, {
-                            //    y: '2008',
-                            //    a: 90,
-                            //    b: 20
-                            //}, {
-                            //    y: '2009',
-                            //    a: 75,
-                            //    b: 15
-                            //}, {
-                            //    y: '2010',
-                            //    a: 50,
-                            //    b: 10
-                            //}, {
-                            //    y: '2011',
-                            //    a: 75,
-                            //    b: 25
-                            //}, {
-                            //    y: '2012',
-                            //    a: 30,
-                            //    b: 10
-                            //}, {
-                            //    y: '2013',
-                            //    a: 75,
-                            //    b: 5
-                            //}, {
-                            //    y: '2014',
-                            //    a: 60,
-                            //    b: 8
-                            //    }
+                                //    {
+                                //    c: '2004',
+                                //    a: 10,
+                                //    b: 30
+                                //}, {
+                                //    y: '2005',
+                                //    a: 100,
+                                //    b: 25
+                                //}, {
+                                //    y: '2006',
+                                //    a: 60,
+                                //    b: 25
+                                //}, {
+                                //    y: '2007',
+                                //    a: 75,
+                                //    b: 35
+                                //}, {
+                                //    y: '2008',
+                                //    a: 90,
+                                //    b: 20
+                                //}, {
+                                //    y: '2009',
+                                //    a: 75,
+                                //    b: 15
+                                //}, {
+                                //    y: '2010',
+                                //    a: 50,
+                                //    b: 10
+                                //}, {
+                                //    y: '2011',
+                                //    a: 75,
+                                //    b: 25
+                                //}, {
+                                //    y: '2012',
+                                //    a: 30,
+                                //    b: 10
+                                //}, {
+                                //    y: '2013',
+                                //    a: 75,
+                                //    b: 5
+                                //}, {
+                                //    y: '2014',
+                                //    a: 60,
+                                //    b: 8
+                                //    }
                             ];
 
 
                         </script>
-                       
+
                     </div>
 
                 </div>
             </div>
         </section>
     </div>
-    <div class="col-md-6 col-lg-12 col-xl-6">
-        <div class="row">
-            <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
-                <section class="panel panel-featured-left panel-featured-primary">
-                    <div class="panel-body">
-                        <div class="widget-summary">
-                            <div class="widget-summary-col widget-summary-col-icon">
-                                <div class="summary-icon">
-                                    <img src="~/Content/images/icons/saleicon.png" />
+    
+        <div class="col-md-6 col-lg-12 col-xl-6">
+            <div class="row">
+                <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
+                    <section class="panel panel-featured-left panel-featured-primary">
+                        <a href="@Url.Action("SaleOrderList","SaleOrders")">
+                            <div class="panel-body">
+                                <div class="widget-summary">
+                                    <div class="widget-summary-col widget-summary-col-icon">
+                                        <div class="summary-icon">
+                                            <img src="~/Content/images/icons/saleicon.png" />
 
 
 
-                                </div>
-                            </div>
-                            <div class="widget-summary-col">
-                                <div class="summary">
-                                    <h4 class="title">Daily Sales</h4>
-                                    <div class="info">
-                                        <strong class="amount">@string.Format("{0:N2}", Model.Sales)</strong>
-                                        @*<a href="#" class="text-xs"> (view more)</a>*@
+                                        </div>
                                     </div>
+
+                                    <div class="widget-summary-col">
+                                        <div class="summary">
+                                            <h4 class="title">Daily Sales</h4>
+                                            <div class="info">
+                                                <strong class="amount">@string.Format("{0:N2}", Model.Sales)</strong>
+                                                @*<a href="#" class="text-xs"> (view more)</a>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+
                                 </div>
-                            
                             </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
+                        </a>
+                    </section>
+                </div>
+   
             <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
                 <section class="panel panel-featured-left panel-featured-secondary">
+                    <a href="@Url.Action("ExpenseList","Expense")">
                     <div class="panel-body">
                         <div class="widget-summary">
                             <div class="widget-summary-col widget-summary-col-icon">
                                 <div class="summary-icon">
-                                    <img src="~/Content/images/icons/expenceicon.png" />
-                                 
+                                    <img src="~/Content/images/icons/expenceicon.png"/>
+
                                 </div>
                             </div>
                             <div class="widget-summary-col">
                                 <div class="summary">
                                     <h4 class="title">Daily Expense</h4>
                                     <div class="info">
-                                        <strong class="amount">@string.Format("{0:N2}",Model.Expenses)</strong>
+                                        <strong class="amount">@string.Format("{0:N2}", Model.Expenses)</strong>
                                         @*<a href="#" class="text-danger text-xs"> (view more)</a>*@
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
+                    </a>
                 </section>
             </div>
             <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
                 <section class="panel panel-featured-left panel-featured-tertiary">
-                    <div class="panel-body">
-                        <div class="widget-summary">
-                            <div class="widget-summary-col widget-summary-col-icon">
-                                <div class="summary-icon">
-                                    <img src="~/Content/images/icons/ordericon.png" />
-                              
-                                </div>
-                            </div>
-                            <div class="widget-summary-col">
-                                <div class="summary">
-                                    <h4 class="title">Today's Orders</h4>
-                                    <div class="info">
-                                        <strong class="amount">@string.Format("{0:N2}", Model.Orders)</strong>
-                                        @*<a href="#" class="text-xs" style="color:#337ab7"> (view more)</a>*@
+                    <a href="@Url.Action("SaleOrderList","SaleOrders")">
+                        <div class="panel-body">
+                            <div class="widget-summary">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon">
+                                        <img src="~/Content/images/icons/ordericon.png" />
+
                                     </div>
                                 </div>
-                               
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Today's Orders</h4>
+                                        <div class="info">
+                                            <strong class="amount">@string.Format("{0:N2}", Model.Orders)</strong>
+                                            @*<a href="#" class="text-xs" style="color:#337ab7"> (view more)</a>*@
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </section>
             </div>
             <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">

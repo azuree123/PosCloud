@@ -1,4 +1,5 @@
-﻿@using Newtonsoft.Json
+﻿@using System.Web.UI.WebControls
+@using Newtonsoft.Json
 @using POSApp.Core.Enums
 @model POSApp.Core.ViewModels.ModifierOptionViewModel
 @{
@@ -53,9 +54,9 @@
 
                                     <div class="col-md-8  col-md-offset-2">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true,@id="nameDis" } })
-                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label"})
+                                            @Html.TextBoxFor(model => model.Name, new {@class = "form-control", @required = true, @id = "nameDis", @placeholder = "Enter Name"})
+                                            @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-md-offset-2">
@@ -67,12 +68,14 @@
                                         </div>
                                     </div>
                                     <script>
-                                        $(document).ready(function(){
+                                        $(document).ready(function () {
+                                           
                                             if($("#@Html.IdFor(a=>a.CostType)").val()==="Fixed") {
-                                            $("#costDisply").show();
-                                        } else {
-                                            $("#costDisply").hide();
-                                        }
+                                                $("#costDisply").show();
+                                            } else {
+                                                $("#costDisply").hide();
+                                            }
+
                                         });
                                         $("#@Html.IdFor(a=>a.CostType)").on("change",
                                             function() {
@@ -125,5 +128,11 @@
         </div>
     }
 </div>
+<script>
+    $(document).ready(function () {
+        $('#nameDis').focus();
+    });
+   
+</script>
 
 @Html.Raw(ViewBag.com)

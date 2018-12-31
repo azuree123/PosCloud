@@ -168,41 +168,6 @@ namespace POSApp.Controllers
 
         }
 
-
-
-
-        //public ActionResult AddEmployeePartial()
-        //{
-        //    ViewBag.edit = "AddEmployeePartial";
-        //    return View();
-        //}
-        //[HttpPost]
-        //public ActionResult AddEmployeePartial(EmployeeModelView employeevm)
-        //{
-        //    ViewBag.edit = "AddEmployeePartial";
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(employeevm);
-        //    }
-        //    else
-        //    {
-        //        var userid = User.Identity.GetUserId();
-        //        var user = UserManager.FindById(userid);
-        //        employeevm.StoreId = user.StoreId;
-        //        Employee employee = Mapper.Map<Employee>(employeevm);
-        //        _unitOfWork.EmployeeRepository.AddEmployee(employee);
-        //        _unitOfWork.Complete();
-        //        return PartialView("Test");
-        //    }
-
-        //}
-
-
-
-
-
-
-
         [HttpGet]
         public ActionResult AddDepartment()
         {
@@ -454,7 +419,105 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View("EmployeeList", _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId));
         }
+        //Add partial
+        [HttpGet]
+        public ActionResult AddEmployeePartial()
+        {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("EmployeeList");
+            }
+            EmployeeModelView employee = new EmployeeModelView();
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
 
+            ViewBag.edit = "AddEmployeePartial";
+            return View(employee);
+        }
+        [HttpPost]
+        public ActionResult AddEmployeePartial(EmployeeModelView employeeMv)
+        {
+            ViewBag.edit = "AddEmployeePartial";
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                if (!ModelState.IsValid)
+                {
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                }
+                else
+                {
+                    employeeMv.StoreId = user.StoreId;
+                    Employee employee = Mapper.Map<Employee>(employeeMv);
+
+                    _unitOfWork.EmployeeRepository.AddEmployee(employee);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The employee added successfully", AlertType.Success);
+                    return PartialView("Test");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+
+            return PartialView("Test");
+
+
+
+        }
+        public JsonResult GetEmployeeDdl()
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<EmployeeModelView[]>(_unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        //Add Employee
         [HttpGet]
         public ActionResult AddEmployee()
         {
@@ -2113,6 +2176,102 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.UnitRepository.GetUnit((int)user.StoreId));
         }
+        //Unit Partial
+        [HttpGet]
+        public ActionResult AddUnitPartial()
+        {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("UnitList");
+            }
+            ViewBag.edit = "AddUnitPartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddUnitPartial(UnitViewModel unitMv)
+        {
+            ViewBag.edit = "AddUnitPartial";
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Unit location = Mapper.Map<Unit>(unitMv);
+                    location.StoreId = (int)user.StoreId;
+                    _unitOfWork.UnitRepository.AddUnit(location);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The unit added successfully", AlertType.Success);
+                    return PartialView("Test");
+
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return PartialView("Test");
+
+
+
+
+        }
+        public JsonResult GetUnitDdl()
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<UnitViewModel[]>(_unitOfWork.UnitRepository.GetUnit((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        //Add unit
         [HttpGet]
         public ActionResult AddUnit()
         {
@@ -2928,6 +3087,89 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.FloorRepository.GetFloors((int)user.StoreId));
         }
+        //Floor Partial
+        [HttpGet]
+        public ActionResult AddFloorPartial()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            FloorViewModel floor = new FloorViewModel();
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("FloorList");
+            }
+            ViewBag.edit = "AddFloor";
+            return View(floor);
+        }
+        [HttpPost]
+        public ActionResult AddFloorPartial(FloorViewModel FloorMv)
+        {
+
+            ViewBag.edit = "AddFloor";
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Floor floor = Mapper.Map<Floor>(FloorMv);
+                    floor.StoreId = (int)user.StoreId;
+                    _unitOfWork.FloorRepository.AddFloor(floor);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The floor added successfully", AlertType.Success);
+                    return PartialView("Test");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return PartialView("Test");
+
+
+        }
+        //Add Floor
         [HttpGet]
         public ActionResult AddFloor()
         {
@@ -3399,6 +3641,20 @@ namespace POSApp.Controllers
             try
             {
                 return Json(Mapper.Map<StateModelView[]>(_unitOfWork.StateRepository.GetStates()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        public JsonResult GetFloorDdl()
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<FloorViewModel[]>(_unitOfWork.FloorRepository.GetFloors((int)user.StoreId)), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

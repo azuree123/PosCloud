@@ -23,16 +23,23 @@ namespace POSApp.Persistence.Repositories
         }
         public TransMaster GetTransMaster(int id, int storeId)
         {
-            return _context.TransMasters
+         var data= _context.TransMasters.Include(a => a.BusinessPartner).Include(a=>a.DineTable).Include(a=>a.TimedEvent)
+                .Include(a=>a.TransDetails).Include(a=>a.TransMasterPaymentMethods)
                 .FirstOrDefault(x => x.Id == id && x.StoreId == storeId);
+            foreach (var dataTransDetail in data.TransDetails)
+            {
+                dataTransDetail.Product = _context.Products.FirstOrDefault(a =>
+                    a.ProductCode == dataTransDetail.ProductCode && a.StoreId == dataTransDetail.StoreId);
+            }
 
+            return data;
         }
         public IEnumerable<TransMaster> GetTransMasters(int storeId)
         {
             //return _context.PurchaseOrder;
             return _context.TransMasters.Include(a=>a.BusinessPartner)
-                .Where(a => a.StoreId == storeId && !a.IsDisabled)
-                ;
+                .Where(a => a.StoreId == storeId && !a.IsDisabled);
+
         }
         public IEnumerable<InvoiceViewModel> GetInvoice(int id, int storeId)
         {

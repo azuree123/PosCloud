@@ -28,4 +28,5 @@ namespace POSApp.Core.ViewModels
         public decimal ModifiersPrice { get; set; }
 
     }
+ 
 }

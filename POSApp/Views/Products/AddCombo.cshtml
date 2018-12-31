@@ -69,19 +69,42 @@
                                             
                                             <div class="col-md-4">
                                                 @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1" })
-                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "true", autofocus = "" } })
                                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                             </div>
                                             <div class="col-md-4">
+                                                @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label" })
+                                                <div class="input-group">
+                                                    @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+
+                                                    <span class="input-group-addon" style="   ">
+                                                        <a href="@Url.Action("AddProductCategoryPartial","Products")" class="modalShow1"><i class="fa fa-plus "></i></a>
+                                                    </span>
+
+                                                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                                                </div>
+
+                                            </div>
+                                            @*<div class="col-md-4">
                                                     @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label" })
                                                     @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDdl, "Select an Option", new {@class = "form-control", @required = "true"})
                                                     @Html.ValidationMessageFor(model => model.CategoryId, "", new {@class = "text-danger"})
-                                            </div>
+                                            </div>*@
                                             <div class="col-md-4">
+                                                @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label" })
+                                                <div class="input-group">
+                                                    @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                    <span class="input-group-addon">
+                                                        <a href="@Url.Action("AddSectionPartial","Products")" class="modalShow2">   <i class="fa fa-plus "></i></a>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
+                                            </div>
+                                            @*<div class="col-md-4">
                                                 @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label" })
                                                 @Html.DropDownListFor(model => model.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
                                                 @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
-                                            </div>
+                                            </div>*@
                                         </div>
                                     </div>
                                 <div class="row">
@@ -271,10 +294,44 @@
 
 
 <div id="ModalData"></div>
+
 @section scripts
 {
    
     <script>
+        function UpdateDdlCategory() {
+            $.ajax({
+                url: "@Url.Action("GetProductCategoryDdl", "Products")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.CategoryId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+
+                }
+            });
+
+        }
+        function UpdateDdlSection() {
+            $.ajax({
+                url: "@Url.Action("GetSectionDdl", "Products")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.SectionId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+
+                }
+            });
+        }
         $("#@Html.IdFor(a=>a.IsTaxable)").on("change",
             function() {
                 if(document.getElementById('@Html.IdFor(a=>a.IsTaxable)').checked) {
@@ -335,7 +392,34 @@
             return false;
 
         }
+        $('a.modalShow1').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function (result) {
+                    $('#ModalData').html(result);
+                    $('#ordine2').modal('show');
+                    $.unblockUI();
+                }
+            });
 
+            return false;
+        });
+        $('a.modalShow2').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function (result) {
+                    $('#ModalData').html(result);
+                    $('#ordine3').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
         $('#datatable-default').dataTable();
         @Html.Raw(ViewBag.js)
     </script>

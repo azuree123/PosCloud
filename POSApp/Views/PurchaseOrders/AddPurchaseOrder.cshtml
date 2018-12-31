@@ -102,7 +102,9 @@
                                             <label class="control-label">  Purchase order Date</label>
 
                                             <div class="input-group">
-                                                @Html.TextBoxFor(a => a.TransDate, new { @class = "form-control unstyled", @data_plugin_datepicker = "true", @required = "true" })
+                                                @*@Html.TextBoxFor(a => a.TransDate, new { @class = "form-control unstyled", @data_plugin_datepicker = "true", @required = "true" })*@
+                                                @Html.TextBoxFor(a => a.TransDate, new { @class = "form-control unstyled", @required = "true",@type= "datetime-local" })
+
                                                 @*<input type="text" data-plugin-datepicker="true" class="form-control unstyled">*@
                                                 <span class="input-group-addon">
                                                     <i onclick="$('#@Html.IdFor(a=>a.TransDate)').focus();" class="fa fa-calendar"></i>
@@ -191,7 +193,16 @@
 {
 
     <script>
-      
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+        $(document).ready(function () {
+            d = new Date();
+            document.getElementById("@Html.IdFor(a=>a.TransDate)").defaultValue = d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + zeroPadded(d.getHours()) + ":" + zeroPadded(d.getMinutes()) + ":" + zeroPadded(d.getSeconds());
+        });
         function UpdateDdlSupplier() {
             $.ajax({
                 url: "@Url.Action("GetSupplierDdl", "Setup")",
@@ -269,7 +280,7 @@
             if (prm.get_isInAsyncPostBack() & jQuery.inArray(args.get_postBackElement().id, arrButtonIds) > -1) {
                 args.set_cancel(true);
             }
-        }  
+        }
     </script>
 }
 

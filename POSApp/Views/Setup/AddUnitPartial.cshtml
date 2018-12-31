@@ -1,4 +1,4 @@
-﻿@model POSApp.Core.ViewModels.ExpenseHeadViewModel
+﻿@model POSApp.Core.ViewModels.UnitViewModel
 
 @{
     Layout = null;
@@ -7,10 +7,10 @@
 <div id="ordine2" class="modal fade" role="dialog">
     @{ string s = ViewBag.edit;}
 
-    @using (Ajax.BeginForm(s, "Expense", new AjaxOptions
+    @using (Ajax.BeginForm(s, "Setup", new AjaxOptions
     {
         HttpMethod = "Post",
-        OnSuccess = "UpdateDdlExpenseHead();$('#ordine2').modal('hide');"
+        OnSuccess = "UpdateDdlUnit();$('#ordine2').modal('hide');"
        ,
         UpdateTargetId = "ordine2"
     }, new { enctype = "multipart/form-data" }))
@@ -25,13 +25,13 @@
                     @if (s.Contains("Add"))
                     {
                         <h4 class="modal-title">
-                            Add Expense Head
+                            Add Unit
                         </h4>
                     }
                     else
                     {
                         <h4 class="modal-title">
-                            Edit Expense Head
+                            Edit Unit
                         </h4>
                     }
 
@@ -49,14 +49,19 @@
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="form-group">
                                     <div class="col-md-6">
-                                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label " })
-                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true, autofocus = "" } })
-                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1 ", autofocus = "" })
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", @required = "true" } })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
+
                                     <div class="col-md-6">
-                                        @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label" })
-                                        @Html.TextAreaFor(model => model.Details, new { @class = "form-control", @cols = "8", @rows = "3" })
-                                        @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.UnitCode, htmlAttributes: new { @class = "control-label required1 " })
+                                            @Html.EditorFor(model => model.UnitCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Unit Code", @required = "true" } })
+                                            @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
 

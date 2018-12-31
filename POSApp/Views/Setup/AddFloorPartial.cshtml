@@ -1,18 +1,18 @@
-﻿@model POSApp.Core.ViewModels.SectionViewModel
+﻿@model POSApp.Core.ViewModels.FloorViewModel
 
 @{
     Layout = null;
 }
 
-<div id="ordine3" class="modal fade" role="dialog">
+<div id="ordine2" class="modal fade" role="dialog">
     @{ string s = ViewBag.edit;}
 
-    @using (Ajax.BeginForm(s, "Products", new AjaxOptions
+    @using (Ajax.BeginForm("AddFloorPartial", "Setup", new AjaxOptions
     {
         HttpMethod = "Post",
-        OnSuccess = "UpdateDdlSection();$('#ordine3').modal('hide');"
+        OnSuccess = "UpdateDdlFloor();$('#ordine2').modal('hide');"
        ,
-        UpdateTargetId = "ordine3"
+        UpdateTargetId = "ordine2"
     }, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
@@ -20,18 +20,18 @@
             <!-- Modal content-->
             <div class="modal-content ">
                 <div class="modal-header modalheader">
-                    <button type="button" class="close modalheader" onclick="$('#ordine3').modal('hide');">×</button>
+                    <button type="button" class="close modalheader" onclick="$('#ordine2').modal('hide');">×</button>
 
                     @if (s.Contains("Add"))
                     {
                         <h4 class="modal-title">
-                            Add Section
+                            Add Floor
                         </h4>
                     }
                     else
                     {
                         <h4 class="modal-title">
-                            Edit Section
+                            Edit Floor
                         </h4>
                     }
 
@@ -42,35 +42,35 @@
 
                         <div class="panel-body">
 
-                            @Html.HiddenFor(a => a.SectionId)
+                            @Html.HiddenFor(a => a.Id)
                             @Html.HiddenFor(a => a.CreatedBy)
                             @Html.HiddenFor(a => a.CreatedOn)
-                            @Html.HiddenFor(a => a.StoreId)
                             <div class="">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <div class="col-md-8 col-md-offset-2">
-                                    <div class="form-group">
-                                        @Html.Label("Section Name", htmlAttributes: new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true, autofocus = "" } })
-                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        @Html.LabelFor(model => model.FloorNumber, htmlAttributes: new { @class = "control-label " })
+                                        @Html.EditorFor(model => model.FloorNumber, new { htmlAttributes = new { @class = "form-control", @required = true, autofocus = "" } })
+                                        @Html.ValidationMessageFor(model => model.FloorNumber, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+
+
+
+
                             </div>
+
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                    <button type="button" class="btn btn-default btn-lg btnPro1" onclick="$('#ordine3').modal('hide');"><span class="fa fa-close"></span>Close</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" onclick="$('#ordine2').modal('hide');"><span class="fa fa-close"></span>Close</button>
                 </div>
             </div>
         </div>
     }
 </div>
-   
-
-
-
 
 
 

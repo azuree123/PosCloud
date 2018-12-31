@@ -34,7 +34,139 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>a.Type!="Combo").ToList());
         }
+        //Product Partial
+        public ActionResult AddProductPartial()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ProductCreateViewModel product = new ProductCreateViewModel();
+            product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type != "Combo")
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            product.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            product.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
+            product.ProductCode = "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ProductsList");
+            }
+            ViewBag.edit = "AddProductPartial";
 
+            return View(product);
+        }
+        [HttpPost]
+        public ActionResult AddProductPartial(ProductCreateViewModel productVm, HttpPostedFileBase file)
+        {
+            ViewBag.edit = "AddProductPartial";
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                if (file != null && file.ContentLength > 0)
+                {
+
+                    try
+                    {
+                        //string path = Server.MapPath("~/Images/Data/Product/" + file.FileName);
+                        //if (System.IO.File.Exists(path))
+                        //{
+                        //    ViewBag.Message = "Image Already Exists!";
+                        //}
+                        //else
+                        //{
+                        //    file.SaveAs(path);
+                        //}
+                        productVm.Image = new byte[file.ContentLength]; // file1 to store image in binary formate  
+                        file.InputStream.Read(productVm.Image, 0, file.ContentLength);
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.Message = "ERROR:" + e.Message.ToString();
+                    }
+
+                }
+                {
+
+                    productVm.StoreId = user.StoreId;
+                    Product product = Mapper.Map<Product>(productVm);
+                    int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
+                    product.ProductCode = "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
+                    product.Type = "Product";
+                    _unitOfWork.ProductRepository.AddProduct(product);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The product added successfully", AlertType.Success);
+                    return PartialView("Test");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return PartialView("Test");
+
+
+        }
+        public JsonResult GetProductDdl()
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<ProductCreateViewModel[]>(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        //Add Product
         public ActionResult AddProduct()
         {
             var userid = User.Identity.GetUserId();

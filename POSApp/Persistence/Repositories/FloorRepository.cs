@@ -32,10 +32,27 @@ namespace POSApp.Persistence.Repositories
         }
         public void AddFloor(Floor Floor)
         {
-            if (!_context.Floors.Where(a => a.FloorNumber == Floor.FloorNumber && a.StoreId == Floor.StoreId).Any())
+            var inDb = _context.Floors.FirstOrDefault(a =>
+                a.FloorNumber == Floor.FloorNumber && a.StoreId == Floor.StoreId);
+            if (inDb == null)
             {
                 _context.Floors.Add(Floor);
+
             }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    Floor.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(Floor);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+           
 
         }
 

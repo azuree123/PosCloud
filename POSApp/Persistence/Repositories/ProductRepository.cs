@@ -35,7 +35,7 @@ namespace POSApp.Persistence.Repositories
         public void AddProduct(Product product)
         {
             var inDb = _context.Products.FirstOrDefault(a =>
-                a.Name == product.Name && a.CategoryId == product.CategoryId && a.Type == product.Type &&
+                a.Name == product.Name && a.Size == product.Size && a.CategoryId == product.CategoryId && a.Type == product.Type &&
                 a.StoreId == product.StoreId);
             if (inDb == null)
             {
