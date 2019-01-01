@@ -49,18 +49,20 @@
                                             <div class="input-group">
                                                 @Html.DropDownListFor(model => model.ExpenseHeadId, Model.ExpHeadDdl, "Select an Option", new { @class = "form-control", @required = true, autofocus = "" })
                                                 <span class="input-group-addon" style="   ">
-                                                    <a href="@Url.Action("AddExpenseHeadPartial","Expense")" class="modalShow1" id="#arrButtonIds">   <i class="fa fa-plus "></i></a>
+                                                    <a href="@Url.Action("AddExpenseHeadPartial","Expense")" class="modalShow2" id="#arrButtonIds">   <i class="fa fa-plus "></i></a>
                                                 </span>
                                                 @Html.ValidationMessageFor(model => model.ExpenseHeadId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label" })
-                                         
+                                            @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label required1" })
+                                            <div class="input-group">
                                                 @Html.DropDownListFor(model => model.EmployeeId, Model.EmpDdl, "Select an Option", new { @class = "form-control", @required = true })
-                                          
+                                                <span class="input-group-addon" style="   ">
+                                                    <a href="@Url.Action("AddEmployeePartial","Setup")" class="modalShow5" id="#arrButtonIds">   <i class="fa fa-plus "></i></a>
+                                                </span>
                                                 @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
-                                       
+                                            </div>
                                         </div>
 
                                     </div>
@@ -103,6 +105,7 @@
     }
 
     <div id="ModalData1"></div>
+    <div id="ModalData2"></div>
     <script>
         function UpdateDdlExpenseHead() {
             $.ajax({
@@ -121,8 +124,38 @@
             });
 
         }
-        $('a.modalShow1').on('click', function () {
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+        function UpdateDdlEmployee() {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDdl", "Setup")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.EmployeeId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+
+                }
+            });
+
+        }
+        $('a.modalShow5').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData2').html(result).find("#ordine5").modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('a.modalShow2').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
                 type: 'GET',
@@ -137,13 +170,16 @@
         });
         $(document).ready(function () {
             var date = $('#expense_date').val();
-            if (date !== '1/1/0001 12:00:00 AM' && date!=='') {
+            if (date !== '1/1/0001 12:00:00 AM' && date !== '') {
                 var displayDate = new Date(date);
-                displayDate.setDate(displayDate.getDate()+1);
+                displayDate.setDate(displayDate.getDate() + 1);
                 document.getElementById("@Html.IdFor(a=>a.Date)").valueAsDate = displayDate;
+            } else {
+                document.getElementById("@Html.IdFor(a=>a.Date)").valueAsDate = new Date();
+
             }
         });
-     
+
     </script>
 </div>
 

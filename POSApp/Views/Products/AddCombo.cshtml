@@ -111,7 +111,12 @@
                                     <div class="form-group ">
                                         <div class="col-md-4">
                                             @Html.LabelFor(a => a.UnitId, htmlAttributes: new { @class = "control-label" })
-                                            @Html.DropDownListFor(model => model.UnitId, Model.UnitDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(a => a.UnitId, Model.UnitDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                <span class="input-group-addon">
+                                                    <a href="@Url.Action("AddUnitPartial","Setup")" class="modalShow4">   <i class="fa fa-plus "></i></a>
+                                                </span>
+                                            </div>
                                             @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
@@ -332,6 +337,23 @@
                 }
             });
         }
+        function UpdateDdlUnit() {
+            $.ajax({
+                url: "@Url.Action("GetUnitDdl", "Setup")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.UnitId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+
+                }
+            });
+
+        }
         $("#@Html.IdFor(a=>a.IsTaxable)").on("change",
             function() {
                 if(document.getElementById('@Html.IdFor(a=>a.IsTaxable)').checked) {
@@ -350,6 +372,20 @@
                 success: function(result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('a.modalShow4').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine2').modal('show');
                     $.unblockUI();
                 }
             });

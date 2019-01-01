@@ -37,6 +37,7 @@ namespace POSApp.Persistence.Repositories
                     modifierTransDetail.ModifierOption = _context.ModifierOptions.FirstOrDefault(a =>
                         a.Id == modifierTransDetail.ModifierOptionId && a.StoreId == modifierTransDetail.StoreId);
                 }
+               
             }
             return Mapper.Map<TransDetailViewModel[]>(details);
         }

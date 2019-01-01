@@ -21,7 +21,7 @@ namespace POSApp.Core.Models
         public string ContactNumber { get; set; }
 
         public int BusinessPartnerId { get; set; }
-        public BusinessPartner BusinessPartner { get; set; }
+        public BusinessPartner BusinessPartner { get; set; } 
 
         [DataType(DataType.DateTime)]
         public DateTime TransDate { get; set; }
@@ -41,7 +41,7 @@ namespace POSApp.Core.Models
         public DineTable DineTable { get; set; }
         public int? OrderTime { get; set; }//in minutes
         public int? DiscountId { get; set; }
-        public virtual  TimedEvent TimedEvent { get; set; }
+        public virtual TimedEvent TimedEvent { get; set; } 
         [DefaultValue(0)]
         public decimal Discount { get; set; }
         public ICollection<TransDetail> TransDetails { get; set; }
