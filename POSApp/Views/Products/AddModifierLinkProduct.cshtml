@@ -49,7 +49,7 @@
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <input type="hidden" id="productsDispaly" value="@Model.ProductsDisplay" />
                                 <div class="col-md-12">
-                                    @Html.LabelFor(model => model.ProductCode, htmlAttributes: new { @class = "control-label" })
+                                    @Html.LabelFor(model => model.ProductCode, htmlAttributes: new { @class = "control-label required1" })
                                     <div class="">
                                         @Html.DropDownListFor(model => model.Products, Model.ProductDDl, null, new { @class = "form-control", @required = "true", @multiple = "multiple" })
                                         @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })

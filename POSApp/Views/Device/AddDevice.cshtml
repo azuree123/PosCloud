@@ -48,12 +48,12 @@
                                     <div class="form-group">
                                    
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label " })
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1 " })
                                             @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control", @Required = true, @placeholder = "Enter Name", autofocus = "" } })
                                             @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
                                         </div>
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.License, htmlAttributes: new { @class = "control-label " })
+                                            @Html.LabelFor(model => model.License, htmlAttributes: new { @class = "control-label required1 " })
                                             @Html.EditorFor(model => model.License, new {htmlAttributes = new {@class = "form-control", @Required = true, @placeholder = "Enter License" } })
                                             @Html.ValidationMessageFor(model => model.License, "", new {@class = "text-danger"})
                                         </div>
@@ -63,12 +63,12 @@
                                     <div class="form-group">
                                     
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.DeviceCode, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.DeviceCode, htmlAttributes: new { @class = "control-label required1" })
                                             @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @class = "form-control", @Required = true, @placeholder = "Enter Device Code" } })
                                             @Html.ValidationMessageFor(model => model.DeviceCode, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.AppVersion, htmlAttributes: new { @class = "control-label " })
+                                            @Html.LabelFor(model => model.AppVersion, htmlAttributes: new { @class = "control-label required1 " })
                                             @Html.EditorFor(model => model.AppVersion, new { htmlAttributes = new { @class = "form-control", @Required = true, @placeholder = "Enter App Version" } })
                                             @Html.ValidationMessageFor(model => model.AppVersion, "", new { @class = "text-danger" })
                                         </div>
@@ -78,13 +78,13 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.DownloadedDate, htmlAttributes: new { @class = "control-label " })
+                                            @Html.LabelFor(model => model.DownloadedDate, htmlAttributes: new { @class = "control-label required1 " })
                                             @Html.EditorFor(model => model.DownloadedDate, new { htmlAttributes = new { @class = "form-control", @Required = true } })
                                             @Html.ValidationMessageFor(model => model.DownloadedDate, "", new { @class = "text-danger" })
                                         </div>
                                         <input type="hidden" id="download_date" value="@Model.DownloadedDate"/>
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label " })
+                                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label required1 " })
                                             @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @Required = true, @placeholder = "Enter Address" } })
                                             @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                         </div>
@@ -95,7 +95,7 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.Contact, htmlAttributes: new { @class = "control-label " })
+                                            @Html.LabelFor(model => model.Contact, htmlAttributes: new { @class = "control-label required1 " })
                                             @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @Required = true, @placeholder = "Enter Contact No." } })
                                             @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
                                         </div>
@@ -142,6 +142,9 @@
             var displayDate = new Date(date);
             displayDate.setDate(displayDate.getDate()+1);
             document.getElementById("@Html.IdFor(a=>a.DownloadedDate)").valueAsDate = displayDate;
+        }else {
+            document.getElementById("@Html.IdFor(a=>a.DownloadedDate)").valueAsDate = new Date();
+
         }
     });
 

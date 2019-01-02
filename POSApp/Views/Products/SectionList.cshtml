@@ -1,11 +1,16 @@
 ﻿
 
+@using POSApp.Core.Models
 @model IEnumerable<POSApp.Core.Models.Section>
 
 @{
     ViewBag.Title = "SectionList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
-
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
 @*<header class="page-header">
         <h2>States</h2>
 

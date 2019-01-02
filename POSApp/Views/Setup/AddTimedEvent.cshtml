@@ -118,7 +118,7 @@
                                     }
                                     <input type="hidden" id="daysDispaly" value="@Model.DaysDisplay"/>
                                     <div class="col-md-3">
-                                        @Html.LabelFor(model => model.Days, htmlAttributes: new { @class = "control-label" })
+                                        @Html.LabelFor(model => model.Days, htmlAttributes: new { @class = "control-label required1" })
                                         @Html.DropDownListFor(model => model.Days, Ddl, new { @class = "form-control", @required = "true", @multiple = "multiple" })
                                         @Html.ValidationMessageFor(model => model.Days, "", new { @class = "text-danger" })
                                         <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Days)');"  />

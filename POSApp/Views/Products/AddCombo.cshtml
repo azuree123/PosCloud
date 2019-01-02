@@ -91,7 +91,7 @@
                                                     @Html.ValidationMessageFor(model => model.CategoryId, "", new {@class = "text-danger"})
                                             </div>*@
                                             <div class="col-md-4">
-                                                @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label" })
+                                                @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label required1" })
                                                 <div class="input-group">
                                                     @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
                                                     <span class="input-group-addon">
@@ -110,7 +110,7 @@
                                 <div class="row">
                                     <div class="form-group ">
                                         <div class="col-md-4">
-                                            @Html.LabelFor(a => a.UnitId, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(a => a.UnitId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
                                                 @Html.DropDownListFor(a => a.UnitId, Model.UnitDdl, "Select an Option", new { @class = "form-control", @required = "true" })
                                                 <span class="input-group-addon">
@@ -138,7 +138,7 @@
 
 
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label required1" })
                                             @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control", @Required = true } })
                                             @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
                                         </div>
