@@ -97,8 +97,8 @@
                                             @Html.ValidationMessageFor(model => model.Commission, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.JoinDate, htmlAttributes: new { @class = "control-label required1", @required = "true" })
-                                            @Html.EditorFor(model => model.JoinDate, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.LabelFor(model => model.JoinDate, htmlAttributes: new { @class = "control-label required1" })
+                                            @Html.EditorFor(model => model.JoinDate, new { htmlAttributes = new { @class = "form-control unstyled", @required = true } })
                                             @Html.ValidationMessageFor(model => model.JoinDate, "", new { @class = "text-danger" })
                                         </div>
                                         <input type="hidden" id="join_date" value="@Model.JoinDate"/>

@@ -74,12 +74,12 @@
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control unstyled", @required = true } })
                                             @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control unstyled", @required = true } })
                                             @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
