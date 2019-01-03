@@ -51,7 +51,13 @@
 
 
 </style>
+<div class="mt-md">
+    <input type='button' id='btnP'class="btn outline-success btn-sm" value='Print' onclick='printDiv();'>
+    <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")" style="flex-grow: 0">
+        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Purchase Order List</button>
 
+    </a>
+</div>
 
     <div class="container" id="DivIdToPrint">
 
@@ -208,7 +214,7 @@
 
 
 
-<input type='button' id='btnP' value='Print' onclick='printDiv();'>
+
 <script>
     function printDiv() 
     {

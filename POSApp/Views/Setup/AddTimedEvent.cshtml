@@ -60,7 +60,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
                                         </div>
                                        
@@ -237,16 +237,20 @@
         if (date !== '1/1/0001 12:00:00 AM') {
             temp = new Date(date);
             temp.setDate(temp.getDate() + 1);
-            if(date)
+            if (date)
                 document.getElementById('@Html.IdFor(a=>a.FromDate)').valueAsDate = temp;
+        } else {
+            document.getElementById('@Html.IdFor(a=>a.FromDate)').valueAsDate = new Date();
         }
 
             date = document.getElementById('date2').value;
         if (date !== '1/1/0001 12:00:00 AM') {
             temp = new Date(date);
             temp.setDate(temp.getDate() + 1);
-            if(date)
+            if (date)
                 document.getElementById('@Html.IdFor(a=>a.ToDate)').valueAsDate = temp;
+        } else {
+            document.getElementById('@Html.IdFor(a=>a.ToDate)').valueAsDate = new Date();
         }
     });
   

@@ -90,13 +90,13 @@
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
                                         </div>
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -108,7 +108,7 @@
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "Enter Stock" } })
+                                            @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @type = "number",@class = "form-control", @required = true, @placeholder = "Enter Stock" } })
                                             @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">

@@ -77,7 +77,7 @@
                                         <input type="hidden" id="expense_date" value="@Model.Date" />
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-12">
