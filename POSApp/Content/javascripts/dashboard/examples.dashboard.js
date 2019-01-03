@@ -38,7 +38,7 @@ var options = {
     },
     tooltip: true,
     tooltipOpts: {
-        content: '%x: %y',
+        content: 'Amount: %y',
         shifts: {
             x: -30,
             y: 25

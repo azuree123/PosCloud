@@ -123,9 +123,9 @@ namespace POSApp.Controllers
 
                 LineGraphViewModel data = new LineGraphViewModel();
                 data.data=new List<LineData>();
-                for (int i = 0; i < month; i++)
+                for (int i = 1; i <= 12; i++)
                 {
-                    DateTime dateFrom = new DateTime(year, (month-i), 1);
+                    DateTime dateFrom =  new DateTime(year, i, 1);
                     string x = dateFrom.Date.ToString("MMM");
                     DateTime dateTo = dateFrom.AddMonths(1);
                     decimal y = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
@@ -137,9 +137,9 @@ namespace POSApp.Controllers
                  data = new LineGraphViewModel();
                 data.data = new List<LineData>();
                  month = DateTime.Now.Date.Month;
-                for (int i = 0; i < month; i++)
+                for (int i = 1; i <= 12; i++)
                 {
-                    DateTime dateFrom = new DateTime(year, (month - i), 1);
+                    DateTime dateFrom = new DateTime(year, i, 1);
                     string x = dateFrom.Date.ToString("MMM");
                     DateTime dateTo = dateFrom.AddMonths(1);
                     decimal y = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
@@ -151,9 +151,9 @@ namespace POSApp.Controllers
                 data = new LineGraphViewModel();
                 data.data = new List<LineData>();
                  month = DateTime.Now.Date.Month;
-                for (int i = 0; i < month; i++)
+                for (int i = 1; i <= 12; i++)
                 {
-                    DateTime dateFrom = new DateTime(year, (month - i), 1);
+                    DateTime dateFrom = new DateTime(year, i, 1);
                     string x = dateFrom.Date.ToString("MMM");
                     DateTime dateTo = dateFrom.AddMonths(1);
                     decimal y = (decimal)_unitOfWork.ExpenseRepository.GetExpenses((int)user.StoreId)

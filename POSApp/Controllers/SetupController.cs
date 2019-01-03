@@ -986,6 +986,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(supplierMv);
                 }
                 else
                 {
@@ -999,7 +1000,7 @@ namespace POSApp.Controllers
                     _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(supplier);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The supplier added successfully", AlertType.Success);
-                    return RedirectToAction("SupplierList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -1039,7 +1040,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("SupplierList", "Setup");
+            return View(supplierMv);
 
         }
         [HttpGet]
@@ -1069,6 +1070,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddSupplier", supplierVm);
                 }
 
                 {
@@ -1080,7 +1082,7 @@ namespace POSApp.Controllers
                     _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id, Convert.ToInt32(user.StoreId), supplier);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The supplier updated successfully", AlertType.Success);
-                    return RedirectToAction("SupplierList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -1120,7 +1122,8 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("SupplierList", "Setup");
+            return View("AddSupplier", supplierVm);
+
 
 
         }

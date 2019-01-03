@@ -1,6 +1,7 @@
 ﻿
 
 @{
+    
     ViewBag.Title = "SaleOrderList";
 }
 
@@ -32,6 +33,7 @@
                                 <th>Time</th>
                                 <th>Amount</th>
                                 <th>PaymentMethod</th>
+                                
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -44,6 +46,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                
                                 <td></td>
                             </tr>
 
@@ -83,37 +86,27 @@
                 "search": ""
             }, 
             "columns": [
-                { "data": "TransCode", "name": "Code", "autoWidth": true },
-                { "data": "BusinessPartnerName", "name": "Customer", "autoWidth": true },
+                { "data": "TransCode", "name": "TransCode", "autoWidth": true },
+                { "data": "BusinessPartnerName", "name": "BusinessPartnerName", "autoWidth": true },
                 
-                { "data": "TransDate", "name": "Date", "autoWidth": true }
-                , { "data": "TransTime", "name": "Time", "autoWidth": true },
-                { "data": "TotalPrice", "name": "Amount", "autoWidth": true },
+                { "data": "TransDate", "name": "TransDate", "autoWidth": true }
+                , { "data": "TransTime", "name": "TransTime", "autoWidth": true },
+                { "data": "TotalPrice", "name": "TotalPrice", "autoWidth": true },
                 { "data": "PaymentMethod", "name": "PaymentMethod", "autoWidth": true },
-                { "data": "TransStatus", "name": "Status", "autoWidth": true },
+                
+                { "data": "TransStatus", "name": "TransStatus", "autoWidth": true },
                    
                 {
                     "data": "Id", "autoWidth": true, render: function (data, type, full, meta) {
-                        return '<span data-toggle="tooltip" title="Preview !"   class=" btn btn-default text-default btn-sm fa fa-eye  modalShow2"   onclick="DisplayDetails(' + data +')"  ></span>';
+                        return '<span data-toggle="tooltip" title="Preview !"   class=" btn btn-default text-default btn-sm fa fa-eye  "   onclick="DisplayDetails(' + data +')"  ></span>';
                     }
                 }
 
             ]
         });
         function DisplayDetails(a) {
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
-            $.ajax({
-                url: "@Url.Action("SaleOrderDetailList","SaleOrders")",
-                data: { saleOrderId:a},
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('#ModalData').html(result).find('#ordine').modal('show');
-            $.unblockUI();
-                }
-            });
+            window.location.href = "/SaleOrders/SaleOrderDetailList?saleOrderId="+a;
 
-            return false;
         }
 
        

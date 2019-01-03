@@ -54,7 +54,7 @@
                         <div class="col-md-12 text-center  col-xs-12 mb-xlg">
                             <ul class=" snip1189 ">
                                 <li class="mt-xs  current" id="basicInfo">
-                                    <a href="#basicdata" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
+                                    <a href="#basicdata"  id="basic" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
                                         Basic Data
                                     </a>
                                 </li>
@@ -223,10 +223,21 @@
         function CheckData() {
 
             var rowCount = $('#datatable-default >tbody >tr').length;
-            if (tablefill && rowCount >= 1) {
+            var supplier = $('#@Html.IdFor(a=>a.BusinessPartnerId)').val();
+            if (tablefill && rowCount >= 1 && supplier !== '') {
 
                 return true;
-            }
+            } else if (supplier === '') {
+                $('#basic').click();
+                new PNotify({
+                    title: 'Supplier Not Selected',
+                    text: 'Please Select Supplier.',
+                    type: 'error'
+                });
+                $('#@Html.IdFor(a=>a.BusinessPartnerId)').focus();
+                return false;
+            } else {
+
             new PNotify({
                 title: 'Transaction Items Cannot Be Empty',
                 text: 'Please Enter Atleast 1 Transaction Item.',
@@ -234,6 +245,7 @@
             });
             $('#transact').click();
             return false;
+            }
         }
         function ChangeTableFill() {
             tablefill = true;
