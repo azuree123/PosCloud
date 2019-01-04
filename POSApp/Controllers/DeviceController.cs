@@ -61,6 +61,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(DeviceMv);
                 }
                 else
                 {
@@ -71,7 +72,7 @@ namespace POSApp.Controllers
                     _unitOfWork.DeviceRepository.AddDevice(Device);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The device added successfully", AlertType.Success);
-                    return RedirectToAction("DeviceList", "Device");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -111,7 +112,8 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("DeviceList", "Device");
+            return View(DeviceMv);
+
 
 
         }
@@ -142,6 +144,8 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddDevice", DeviceMv);
+
                 }
                 else
                 {
@@ -151,7 +155,7 @@ namespace POSApp.Controllers
                     _unitOfWork.DeviceRepository.UpdateDevice(id, Device, (int)user.StoreId);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The device updated successfully", AlertType.Success);
-                    return RedirectToAction("DeviceList", "Device");
+                    return null;
 
                 }
             }
@@ -190,8 +194,8 @@ namespace POSApp.Controllers
                     TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                 }
             }
+            return View("AddDevice", DeviceMv);
 
-            return RedirectToAction("DeviceList", "Device");
 
 
 

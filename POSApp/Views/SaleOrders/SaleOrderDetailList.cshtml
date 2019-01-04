@@ -80,16 +80,17 @@
 
                             <table class="table table-responsive mb-none" style="width: 100%" id="datatable-default">
                                 <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Product</th>
-                                    <th>Modifiers</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>Discount</th>
-                                    <th>Total</th>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Product</th>
+                                        <th>Modifiers</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                        
+                                        <th>Discount</th>
+                                        <th>Total</th>
 
-                                </tr>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                 @{ int i = 1;}
@@ -98,9 +99,11 @@
                                     <tr>
                                         <td>@(i++)</td>
                                         <td>@saleOrder.Product.Name</td>
-                                        <td>@saleOrder.ModifierTransDetail.Count</td>
+                                        <td>@saleOrder.ModifierTransDetail.Count
+                                            </td>
                                         <td>@saleOrder.Quantity</td>
                                         <td>@saleOrder.UnitPrice</td>
+                                        
                                         <td>@saleOrder.Discount</td>
 
                                         <td>

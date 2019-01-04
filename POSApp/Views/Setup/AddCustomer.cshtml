@@ -1,8 +1,10 @@
 ﻿@using POSApp.Core.Enums
+@using POSApp.Core.Models
 @model POSApp.Core.ViewModels.CustomerModelView
 
 @{
     Layout = null;
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
 
 
@@ -10,105 +12,113 @@
 <div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     @{ string s = ViewBag.edit;}
 
-    @using (Html.BeginForm(s, "Setup", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Ajax.BeginForm(s, "Setup", null, new AjaxOptions
     {
-        @Html.AntiForgeryToken()
-        <div class="modal-dialog modal-lg">
-            <!-- Modal content-->
-            <div class="modal-content ">
-                <div class="modal-header modalheader">
-                    <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+        HttpMethod = "POST",
+        OnSuccess = "CreateAssetSuccess"
+    },
+        new { enctype = "multipart/form-data" }))
+    {
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content ">
+            <div class="modal-header modalheader">
+                <button type="button" class="close modalheader" data-dismiss="modal">×</button>
 
-                    @if (s.Contains("Add"))
-                    {
-                        <h4 class="modal-title">
-                            Add Customer
-                        </h4>
-                    }
-                    else
-                    {
-                        <h4 class="modal-title">
-                            Edit Customer
-                        </h4>
-                    }
-
-
-                </div>
-                <div class="modal-body">
-                    <div class="panel panel-bd lobidrag">
-
-                        <div class="panel-body">
-
-                            @Html.HiddenFor(a => a.Id)
-                            @Html.HiddenFor(a => a.CreatedBy)
-                            @Html.HiddenFor(a => a.CreatedOn)
-                            @Html.HiddenFor(a => a.StoreId)
-                            <div class="">
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <div class="row">
-                                    <div class="form-group">
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", @required = true, autofocus = "" } })
-                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                        </div>
+                @if (s.Contains("Add"))
+                {
+                    <h4 class="modal-title">
+                        Add Customer
+                    </h4>
+                }
+                else
+                {
+                    <h4 class="modal-title">
+                        Edit Customer
+                    </h4>
+                }
 
 
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "abc@example.com", @required = true, @pattern = @"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" } })
-                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                                        </div>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-bd lobidrag">
+
+                    <div class="panel-body">
+                        @if (alertModel != null)
+                        {
+                            @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+                        }
+                        @Html.HiddenFor(a => a.Id)
+                        @Html.HiddenFor(a => a.CreatedBy)
+                        @Html.HiddenFor(a => a.CreatedOn)
+                        @Html.HiddenFor(a => a.StoreId)
+                        <div class="">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1" })
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", @required = true, autofocus = "" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
 
 
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "050xxxxxxx", @required = "required",@pattern= @"^\(?([0-9]{3})\)?[-. ]?([0-9]{7})$" } })
-                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
-                                        </div>
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label required1" })
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "abc@example.com", @required = true, @pattern = @"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" } })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label required1" })
+                                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "050xxxxxxx", @required = "required", @pattern = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{7})$" } })
+                                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group">
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control unstyled",@required="true" } })
-                                            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
-                                        </div>
-                                        <input type="hidden" id="birthday_date" value="@Model.Birthday"/>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label required1" })
+                                        @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control unstyled", @required = "true" } })
+                                        @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+                                    </div>
+                                    <input type="hidden" id="birthday_date" value="@Model.Birthday" />
 
-                                
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter State" } })
-                                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter City" } })
-                                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                                        </div>
+
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter State" } })
+                                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter City" } })
+                                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group">
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
-                                            @Html.TextAreaFor(model => model.Address, new {  @class = "form-control" , @rows = "3", @placeholder = "Enter Address" })
-                                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-                                        </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
+                                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @rows = "3", @placeholder = "Enter Address" })
+                                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer modalFooter">
-                    <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal"><span class="fa fa-close"></span>Close</button>
-                </div>
+            </div>
+            <div class="modal-footer modalFooter">
+                <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
+                <button type="button" class="btn btn-default btn-lg btnPro1"  onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>Close</button>
             </div>
         </div>
+    </div>
     }
 </div>
 

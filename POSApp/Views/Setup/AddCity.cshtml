@@ -1,13 +1,20 @@
-﻿@model POSApp.Core.ViewModels.CityModelView
+﻿@using POSApp.Core.Models
+@model POSApp.Core.ViewModels.CityModelView
 
 @{
     Layout = null;
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
 
 <div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     @{ string s = ViewBag.edit;}
 
-    @using (Html.BeginForm(s, "Setup", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Ajax.BeginForm(s, "Setup", null, new AjaxOptions
+    {
+        HttpMethod = "Post",
+        OnSuccess = "CreateAssetSuccess"
+    }
+        , new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="modal-dialog modal-md">
@@ -35,7 +42,10 @@
                     <div class="panel panel-bd lobidrag">
 
                         <div class="panel-body">
-
+                            @if (alertModel != null)
+                            {
+                                @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+                            }
                             @Html.HiddenFor(a => a.Id)
                             @Html.HiddenFor(a => a.CreatedBy)
                             @Html.HiddenFor(a => a.CreatedOn)
@@ -69,7 +79,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal"><span class="fa fa-close"></span>Close</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal" *@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>Close</button>
                 </div>
             </div>
         </div>
@@ -95,9 +105,9 @@
             });
 
         }
-    
+
         $('a.modalShow1').on('click', function () {
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
                 type: 'GET',

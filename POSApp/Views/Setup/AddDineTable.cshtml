@@ -1,12 +1,19 @@
-﻿@model POSApp.Core.ViewModels.DineTableViewModel
+﻿@using POSApp.Core.Models
+@model POSApp.Core.ViewModels.DineTableViewModel
 
 @{
     Layout = null;
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
 <div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     @{ string s = ViewBag.edit;}
 
-    @using (Html.BeginForm(s, "Setup", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Ajax.BeginForm(s, "Setup", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "CreateAssetSuccess"
+    }
+        , new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="modal-dialog modal-md">
@@ -34,7 +41,10 @@
                     <div class="panel panel-bd lobidrag">
 
                         <div class="panel-body">
-
+                            @if (alertModel != null)
+                            {
+                                @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+                            }
                             @Html.HiddenFor(a => a.Id)
                             @Html.HiddenFor(a => a.CreatedBy)
                             @Html.HiddenFor(a => a.CreatedOn)
@@ -55,14 +65,14 @@
                                 <div class="col-md-6">
                                     @Html.LabelFor(model => model.FloorId, htmlAttributes: new { @class = "control-label required1" })
                                     <div class="input-group">
-                                        @Html.DropDownListFor(model => model.FloorId, Model.FloorDdl, "Select an Option", new {@class = "form-control", @required = true, autofocus = ""})
+                                        @Html.DropDownListFor(model => model.FloorId, Model.FloorDdl, "Select an Option", new { @class = "form-control", @required = true, autofocus = "" })
                                         <span class="input-group-addon" style="">
                                             <a href="@Url.Action("AddFloorPartial", "Setup")" class="modalShow2" id="#arrButtonIds"> <i class="fa fa-plus "></i></a>
                                         </span>
-                                        @Html.ValidationMessageFor(model => model.FloorId, "", new {@class = "text-danger"})
+                                        @Html.ValidationMessageFor(model => model.FloorId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                    @*<div class="col-md-6">
+                                @*<div class="col-md-6">
                 @Html.Label("Select Floor", htmlAttributes: new { @class = "control-label required1 " })
 
                     @Html.DropDownListFor(model => model.FloorId, Model.FloorDdl, "Select a Floor", new { @class = "form-control", @required = "true" })
@@ -71,12 +81,12 @@
             </div>*@
 
 
-                                </div>
                             </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                        <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal"><span class="fa fa-close"></span>Close</button>
+                        <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal"*@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>Close</button>
                     </div>
                 </div>
             </div>

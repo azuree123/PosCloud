@@ -55,6 +55,8 @@ namespace POSApp.Core.ViewModels
         public string ProductsDisplay { get; set; }
         [DisplayName("Branches Display")]
         public string BranchesDisplay { get; set; }
+        public string CategoriesDisplay { get; set; }
+
 
 
         public IEnumerable<SelectListItem> CatDdl { get; set; }

@@ -27,6 +27,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.DeliveryType).HasColumnType("varchar").HasMaxLength(25).IsOptional();
             Property(x => x.Address).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.ContactNumber).HasColumnType("varchar").HasMaxLength(25).IsOptional();
+            Property(x => x.Tax).HasColumnType("decimal").IsRequired();
             Property(x => x.Type).HasColumnType("char").HasMaxLength(3).IsOptional();
             Property(x => x.CreatedOn).IsOptional();
             Property(x => x.UpdatedOn).IsOptional();

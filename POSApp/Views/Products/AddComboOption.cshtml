@@ -53,7 +53,7 @@
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = "true" } })
+                                            @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @type = "number", @min = "1", @class = "form-control", @required = "true" } })
                                             @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
                                         </div>
                                     </div>

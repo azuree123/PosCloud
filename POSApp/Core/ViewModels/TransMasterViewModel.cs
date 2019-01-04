@@ -32,6 +32,8 @@ namespace POSApp.Core.ViewModels
         [DisplayName("BusinessPartner Name")]
         public string BusinessPartnerName { get; set; }
         public string Code { get; set; }
+        [DefaultValue(0)]
+        public decimal Tax { get; set; }
         public IEnumerable<SelectListItem> SupplierDdl { get; set; }
         public int? DiscountId { get; set; }
         [DefaultValue(0)]

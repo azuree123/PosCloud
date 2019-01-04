@@ -56,17 +56,21 @@ namespace POSApp.Controllers
         public ActionResult AddExpense(ExpenseViewModel expenseVm)
         {
             ViewBag.edit = "AddExpense";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+            expenseVm.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
+                .AsEnumerable();
             try
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 if (!ModelState.IsValid)
                 {
                     var message = string.Join(" | ", ModelState.Values
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
-
+                    return View(expenseVm);
                 }
                 else
                 {
@@ -75,7 +79,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ExpenseRepository.AddExpense(expense);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The expense added successfully", AlertType.Success);
-                    return RedirectToAction("ExpenseList");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -115,7 +119,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ExpenseList", "Expense");
+            return View(expenseVm);
 
 
         }
@@ -138,11 +142,15 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateExpense(int id,ExpenseViewModel expenseVm)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "UpdateExpense";
+            expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+            expenseVm.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
+                .AsEnumerable();
             try
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+               
                 if (!ModelState.IsValid)
                 {
 
@@ -150,7 +158,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
-
+                    return View("AddExpense", expenseVm);
                 }
                 else
                 {
@@ -158,7 +166,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ExpenseRepository.UpdateExpense(id, expense, Convert.ToInt32(user.StoreId));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The expense updated successfully", AlertType.Success);
-                    return RedirectToAction("ExpenseList");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -198,7 +206,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ExpenseList", "Expense");
+            return View("AddExpense",expenseVm);
            
             
 
@@ -380,6 +388,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(expenseHeadVm);
                 }
                 else
                 {
@@ -390,7 +399,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expenseHead);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Expense head added successfully", AlertType.Success);
-                    return RedirectToAction("ExpenseHeadList");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -430,7 +439,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ExpenseHeadList");
+            return View(expenseHeadVm);
 
         }
         public ActionResult UpdateExpenseHead(int id)
@@ -459,6 +468,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddExpenseHead",expenseHeadVm);
                 }
                 else
                 {
@@ -468,7 +478,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ExpenseHeadRepository.UpdateExpenseHead(id, Convert.ToInt32(user.StoreId), expenseHead);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Expense head updated successfully", AlertType.Success);
-                    return RedirectToAction("ExpenseHeadList");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -508,7 +518,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ExpenseHeadList");
+            return View("AddExpenseHead",expenseHeadVm);
 
         }
         public ActionResult DeleteExpenseHead(int id, int storeid)

@@ -188,6 +188,7 @@ namespace POSApp.Controllers
                 if (!ModelState.IsValid)
                 {
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                    return View(departmentVm);
                 }
                 else
                 {
@@ -198,7 +199,7 @@ namespace POSApp.Controllers
                     _unitOfWork.DepartmentRepository.AddDepartment(department);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("Department Added Successfully",AlertType.Success);
-                    return RedirectToAction("DepartmentList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -239,7 +240,7 @@ namespace POSApp.Controllers
             }
 
 
-            return RedirectToAction("DepartmentList", "Setup");
+            return View(departmentVm);
 
 
         }
@@ -267,6 +268,7 @@ namespace POSApp.Controllers
                 if (!ModelState.IsValid)
                 {
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                    return View("AddDepartment", departmentVm);
                 }
                 else
                 {
@@ -277,7 +279,7 @@ namespace POSApp.Controllers
                     _unitOfWork.DepartmentRepository.UpdateDepartment(id, department.StoreId, department);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Department updated successfully", AlertType.Success);
-                    return RedirectToAction("DepartmentList", "Setup");
+                    return null;
                 }
             }
             catch (Exception e)
@@ -303,7 +305,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("DepartmentList", "Setup");
+            return View("AddDepartment", departmentVm);
         }
         public ActionResult DeleteDepartment( int id)
         {
@@ -538,14 +540,18 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddEmployee(EmployeeModelView employeeMv)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "AddEmployee";
+            employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 if (!ModelState.IsValid)
                 {
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                    return View(employeeMv);
                 }
                 else
                 {
@@ -555,7 +561,7 @@ namespace POSApp.Controllers
                     _unitOfWork.EmployeeRepository.AddEmployee(employee);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The employee added successfully", AlertType.Success);
-                    return RedirectToAction("EmployeeList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -596,7 +602,7 @@ namespace POSApp.Controllers
             }
 
 
-            return RedirectToAction("EmployeeList", "Setup");
+            return View(employeeMv);
 
 
 
@@ -623,22 +629,26 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateEmployee(int id, EmployeeModelView employeeMv)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "UpdateEmployee";
+            employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
                 if (!ModelState.IsValid)
                 {
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                    return View("AddEmployee", employeeMv);
                 }
                 else
                 {
                     Employee employee = Mapper.Map<Employee>(employeeMv);
-                    var userid = User.Identity.GetUserId();
-                    var user = UserManager.FindById(userid);
+                   
                     _unitOfWork.EmployeeRepository.UpdateEmployee(id, employee, Convert.ToInt32(user.StoreId));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The employee updated successfully", AlertType.Success);
-                    return RedirectToAction("EmployeeList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -679,7 +689,7 @@ namespace POSApp.Controllers
             }
 
 
-            return RedirectToAction("EmployeeList", "Setup");
+            return View("AddEmployee", employeeMv);
 
 
         }
@@ -689,7 +699,7 @@ namespace POSApp.Controllers
             {
                 _unitOfWork.EmployeeRepository.DeleteEmployee(id, storeid);
                 _unitOfWork.Complete();
-                TempData["Alert"] = new AlertModel("The employee deleted successfully", AlertType.Error);
+                TempData["Alert"] = new AlertModel("The employee deleted successfully", AlertType.Success);
                 return RedirectToAction("EmployeeList", "Setup");
             }
             catch (DbEntityValidationException ex)
@@ -764,7 +774,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
-                    
+                    return View(customerMv);
                 }
                 else
                 {
@@ -776,7 +786,7 @@ namespace POSApp.Controllers
                     _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(customer);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The customer added successfully", AlertType.Success);
-                    return RedirectToAction("CustomerList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -816,7 +826,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("CustomerList", "Setup");
+            return View(customerMv);
 
         }
         [HttpGet]
@@ -846,6 +856,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. "+message, AlertType.Error);
+                    return View("AddCustomer", customerMv);
                 }
                 else
                 {
@@ -856,7 +867,7 @@ namespace POSApp.Controllers
                     _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id, Convert.ToInt32(user.StoreId), customer);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The customer updated successfully", AlertType.Success);
-                    return RedirectToAction("CustomerList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -897,7 +908,7 @@ namespace POSApp.Controllers
             }
 
 
-            return RedirectToAction("CustomerList", "Setup");
+            return View("AddCustomer", customerMv);
 
 
 
@@ -1206,6 +1217,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(stateMv);
                 }
                 else
                 {
@@ -1213,7 +1225,7 @@ namespace POSApp.Controllers
                     _unitOfWork.StateRepository.AddState(state);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The state added successfully", AlertType.Success);
-                    return RedirectToAction("StateList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -1253,7 +1265,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("StateList", "Setup");
+            return View(stateMv);
 
 
         }
@@ -1281,6 +1293,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddState", stateMv);
                 }
                 else
                 {
@@ -1288,7 +1301,7 @@ namespace POSApp.Controllers
                     _unitOfWork.StateRepository.UpdateState(id, state);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The state update successfully", AlertType.Success);
-                    return RedirectToAction("StateList", "Setup");
+                    return null;
 
                 }
             }
@@ -1329,7 +1342,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("StateList", "Setup");
+            return View("AddState", stateMv);
 
 
         }
@@ -1409,6 +1422,8 @@ namespace POSApp.Controllers
         public ActionResult AddCity(CityModelView cityVm)
         {
             ViewBag.edit = "AddCity";
+            cityVm.StateDdl = _unitOfWork.StateRepository.GetStates()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
                 if (!ModelState.IsValid)
@@ -1417,6 +1432,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(cityVm);
                 }
                 else
                 {
@@ -1424,7 +1440,7 @@ namespace POSApp.Controllers
                     _unitOfWork.CityRepository.AddCity(city);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The city added successfully", AlertType.Success);
-                    return RedirectToAction("CityList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -1464,7 +1480,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("CityList", "Setup");
+            return View(cityVm);
 
 
         }
@@ -1487,6 +1503,8 @@ namespace POSApp.Controllers
         public ActionResult UpdateCity(int id, CityModelView cityVm)
         {
             ViewBag.edit = "UpdateCity";
+            cityVm.StateDdl = _unitOfWork.StateRepository.GetStates()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
                 if (!ModelState.IsValid)
@@ -1495,6 +1513,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddCity", cityVm);
                 }
                 else
                 {
@@ -1502,7 +1521,7 @@ namespace POSApp.Controllers
                     _unitOfWork.CityRepository.UpdateCity(id, city);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The city updated successfully", AlertType.Success);
-                    return RedirectToAction("CityList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -1542,7 +1561,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("CityList", "Setup");
+            return View("AddCity", cityVm);
 
         }
         public ActionResult DeleteCity(int id)
@@ -1914,6 +1933,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(taxMv);
                 }
                 else
                 {
@@ -1924,7 +1944,7 @@ namespace POSApp.Controllers
                     _unitOfWork.TaxRepository.AddTax(tax);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The tax added successfully", AlertType.Success);
-                    return RedirectToAction("TaxList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -1964,7 +1984,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("TaxList", "Setup");
+            return View(taxMv);
 
 
         }
@@ -1996,6 +2016,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddTax",taxMv);
                 }
                 else
                 {
@@ -2005,7 +2026,7 @@ namespace POSApp.Controllers
                     _unitOfWork.TaxRepository.UpdateTax(id, tax, (int)user.StoreId);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The tax added successfully", AlertType.Success);
-                    return RedirectToAction("TaxList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -2045,7 +2066,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("TaxList", "Setup");
+            return View("AddTax", taxMv);
 
 
         }
@@ -2298,6 +2319,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(unitMv);
                 }
                 else
                 {
@@ -2308,7 +2330,7 @@ namespace POSApp.Controllers
                     _unitOfWork.UnitRepository.AddUnit(location);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The unit added successfully", AlertType.Success);
-                    return RedirectToAction("UnitList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -2348,7 +2370,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("UnitList", "Setup");
+            return View(unitMv);
 
 
 
@@ -2380,6 +2402,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddUnit",unitMv);
                 }
                 else
                 {
@@ -2389,7 +2412,7 @@ namespace POSApp.Controllers
                     _unitOfWork.UnitRepository.UpdateUnit(id, location, (int)user.StoreId);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The unit updated successfully", AlertType.Success);
-                    return RedirectToAction("UnitList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -2429,7 +2452,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("UnitList", "Setup");
+            return View("AddUnit", unitMv);
 
 
         }
@@ -2514,6 +2537,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(clientMv);
                 }
                 else
                 {
@@ -2544,7 +2568,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ClientRepository.AddClient(Mapper.Map<Client>(clientMv));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The client added successfully", AlertType.Success);
-                    return RedirectToAction("ClientList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -2584,7 +2608,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ClientList", "Setup");
+            return View(clientMv);
 
 
         }
@@ -2614,6 +2638,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddClient", clientMv);
                 }
                 else
                 {
@@ -2643,7 +2668,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ClientRepository.UpdateClient(id, Mapper.Map<Client>(clientMv));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The client updated successfully", AlertType.Success);
-                    return RedirectToAction("ClientList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -2683,7 +2708,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ClientList", "Setup");
+            return View("AddClient", clientMv);
 
 
         }
@@ -2770,17 +2795,31 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddTimedEvent(TimedEventViewModel timeeventVm)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
+            timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             ViewBag.edit = "AddTimedEvent";
             try
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 if (!ModelState.IsValid)
                 {
+                    timeeventVm.ProductsDisplay = string.Join(",", timeeventVm.Products);
+                    timeeventVm.DaysDisplay = string.Join(",", timeeventVm.Days);
+                    timeeventVm.BranchesDisplay = string.Join(",", timeeventVm.Branches);
+                    timeeventVm.CategoriesDisplay = string.Join(",", timeeventVm.Categories);
+
+
                     var message = string.Join(" | ", ModelState.Values
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(timeeventVm);
                 }
                 else
                 {
@@ -2831,7 +2870,7 @@ namespace POSApp.Controllers
                         _unitOfWork.Complete();
                     }
                     TempData["Alert"] = new AlertModel("The timed event added successfully", AlertType.Success);
-                    return RedirectToAction("TimedEventList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -2870,8 +2909,11 @@ namespace POSApp.Controllers
                     TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                 }
             }
-
-            return RedirectToAction("TimedEventList", "Setup");
+            timeeventVm.ProductsDisplay = string.Join(",", timeeventVm.Products);
+            timeeventVm.DaysDisplay = string.Join(",", timeeventVm.Days);
+            timeeventVm.BranchesDisplay = string.Join(",", timeeventVm.Branches);
+            timeeventVm.CategoriesDisplay = string.Join(",", timeeventVm.Categories);
+            return View(timeeventVm);
 
 
         }
@@ -2901,17 +2943,30 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateTimedEvent(int id, TimedEventViewModel timeeventVm)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
+            timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
+                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             ViewBag.edit = "UpdateTimedEvent";
             try
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 if (!ModelState.IsValid)
                 {
+                    timeeventVm.ProductsDisplay = string.Join(",", timeeventVm.Products);
+                    timeeventVm.DaysDisplay = string.Join(",", timeeventVm.Days);
+                    timeeventVm.BranchesDisplay = string.Join(",", timeeventVm.Branches);
+                    timeeventVm.CategoriesDisplay = string.Join(",", timeeventVm.Categories);
+
                     var message = string.Join(" | ", ModelState.Values
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddTimedEvent", timeeventVm);
                 }
                 else
                 {
@@ -2984,7 +3039,7 @@ namespace POSApp.Controllers
 
 
                 TempData["Alert"] = new AlertModel("The timed event updated successfully", AlertType.Success);
-                    return RedirectToAction("TimedEventList", "Setup");
+                    return View("AddTimedEvent", timeeventVm);
                 }
             }
             catch (DbEntityValidationException ex)
@@ -3024,7 +3079,13 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("TimedEventList", "Setup");
+
+            timeeventVm.ProductsDisplay =
+                string.Join(",", timeeventVm.Products ?? new string[0]);
+            timeeventVm.DaysDisplay = string.Join(",", timeeventVm.Days);
+            timeeventVm.BranchesDisplay = string.Join(",", timeeventVm.Branches);
+            timeeventVm.CategoriesDisplay = string.Join(",", timeeventVm.Categories ?? new int[0]);
+            return View("AddTimedEvent", timeeventVm);
 
 
 
@@ -3200,6 +3261,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(FloorMv);
                 }
                 else
                 {
@@ -3210,7 +3272,7 @@ namespace POSApp.Controllers
                     _unitOfWork.FloorRepository.AddFloor(floor);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The floor added successfully", AlertType.Success);
-                    return RedirectToAction("FloorList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -3250,7 +3312,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("FloorList", "Setup");
+            return View(FloorMv);
 
 
         }
@@ -3281,6 +3343,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddFloor",FloorMv);
                 }
                 else
                 {
@@ -3290,7 +3353,7 @@ namespace POSApp.Controllers
                     _unitOfWork.FloorRepository.UpdateFloor(id, floor, (int)user.StoreId);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The floor updated successfully", AlertType.Success);
-                    return RedirectToAction("FloorList", "Setup");
+                    return null;
 
                 }
             }
@@ -3331,7 +3394,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("FloorList", "Setup");
+            return View("AddFloor", FloorMv);
 
 
         }
@@ -3414,17 +3477,21 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddDineTable(DineTableViewModel DineTableVm)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "AddDineTable";
+            DineTableVm.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FloorNumber }).AsEnumerable();
             try
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 if (!ModelState.IsValid)
                 {
                     var message = string.Join(" | ", ModelState.Values
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(DineTableVm);
                 }
                 else
                 {
@@ -3433,7 +3500,7 @@ namespace POSApp.Controllers
                     _unitOfWork.DineTableRepository.AddDineTable(DineTable);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The dine table added successfully", AlertType.Success);
-                    return RedirectToAction("DineTableList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -3473,7 +3540,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("DineTableList", "Setup");
+            return View(DineTableVm);
 
 
 
@@ -3498,6 +3565,10 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateDineTable(int id, DineTableViewModel DineTableVm,int storeId)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            DineTableVm.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FloorNumber }).AsEnumerable();
             ViewBag.edit = "UpdateDineTable";
             try
             {
@@ -3508,16 +3579,16 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddDineTable", DineTableVm);
                 }
                 else
                 {
                     DineTable DineTable = Mapper.Map<DineTable>(DineTableVm);
-                    var userid = User.Identity.GetUserId();
-                    var user = UserManager.FindById(userid);
+                   
                     _unitOfWork.DineTableRepository.UpdateDineTable(id, DineTable, Convert.ToInt32(user.StoreId));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The dine table updated successfully", AlertType.Success);
-                    return RedirectToAction("DineTableList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -3557,7 +3628,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("DineTableList", "Setup");
+            return View("AddDineTable", DineTableVm);
 
 
         }
@@ -3977,17 +4048,21 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddPOSTerminal(POSTerminalViewModel POSTerminalVm)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "AddPOSTerminal";
+            POSTerminalVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                ;
                 if (!ModelState.IsValid)
                 {
                     var message = string.Join(" | ", ModelState.Values
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(POSTerminalVm);
                 }
                 else
                 {
@@ -3996,7 +4071,7 @@ namespace POSApp.Controllers
                     _unitOfWork.POSTerminalRepository.AddPOSTerminal(POSTerminal);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The posterminal added successfully", AlertType.Success);
-                    return RedirectToAction("POSTerminalList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -4036,7 +4111,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("POSTerminalList", "Setup");
+            return View(POSTerminalVm);
 
 
         }
@@ -4060,7 +4135,11 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdatePOSTerminal(int id, POSTerminalViewModel POSTerminalVm, int storeId)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "UpdatePOSTerminal";
+            POSTerminalVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
                 if (!ModelState.IsValid)
@@ -4069,16 +4148,16 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddPOSTerminal", POSTerminalVm);
                 }
                 else
                 {
                     POSTerminal POSTerminal = Mapper.Map<POSTerminal>(POSTerminalVm);
-                    var userid = User.Identity.GetUserId();
-                    var user = UserManager.FindById(userid);
+                    
                     _unitOfWork.POSTerminalRepository.UpdatePOSTerminal(id, POSTerminal, Convert.ToInt32(user.StoreId));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The posterminal updated successfully", AlertType.Success);
-                    return RedirectToAction("POSTerminalList", "Setup");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -4118,7 +4197,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("POSTerminalList", "Setup");
+            return View("AddPOSTerminal", POSTerminalVm);
 
         }
         public ActionResult DeletePOSTerminal(int id)
@@ -4206,6 +4285,7 @@ namespace POSApp.Controllers
                 if (!ModelState.IsValid)
                 {
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                    return View(ShiftMv);
                 }
                 else
                 {
@@ -4216,8 +4296,8 @@ namespace POSApp.Controllers
                     _unitOfWork.ShiftRepository.AddShift(Shift);
                     _unitOfWork.Complete();
                     TempData["Alert"]= new AlertModel("The Shift added successfully", AlertType.Success);
-                    return RedirectToAction("ShiftList", "Setup");
-                    
+                    return null;
+
                 }
                 
             }
@@ -4258,7 +4338,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ShiftList", "Setup");
+            return View(ShiftMv);
 
 
         }
@@ -4286,6 +4366,7 @@ namespace POSApp.Controllers
                 if (!ModelState.IsValid)
                 {
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                    return View("AddShift", ShiftMv);
                 }
                 else
                 {
@@ -4295,7 +4376,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ShiftRepository.UpdateShift(id, Shift, (int)user.StoreId);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Shift Updated successfully", AlertType.Success);
-                    return RedirectToAction("ShiftList", "Setup");
+                    return null;
 
                 }
             }
@@ -4336,7 +4417,8 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ShiftList", "Setup");
+            return View("AddShift", ShiftMv);
+
 
 
         }

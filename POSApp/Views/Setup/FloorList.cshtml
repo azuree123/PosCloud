@@ -150,6 +150,16 @@
 
             return false;
         });
+        function CreateAssetSuccess(data) {
+            if (data !== '') {
+                $('#ordine').modal('hide');
+                $('#ModalData').html(data);
+                $('#ordine').modal('show');
+
+                return;
+            }
+            location.reload();
+        }
     </script>
 }
 

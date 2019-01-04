@@ -39,6 +39,18 @@ a:active {
 	min-height: 100vh;
 	width: 100%;
 }
+/*.nav > li:active {
+    background-color: #f7d9d9 !important;
+    border: 2px solid #a3151f !important;
+}
+.nav > li:visited {
+    background-color: #f7d9d9 !important;
+    border: 2px solid #a3151f !important;
+}
+.nav > li:focus {
+    background-color: #f7d9d9 !important;
+    border: 2px solid #a3151f !important;
+}*/
 
 /* Layout Base - Header */
 .header {
@@ -17232,6 +17244,7 @@ div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTable
     padding-left: 5px;
     color: red;
 }
+
 
 
 

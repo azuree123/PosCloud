@@ -23,6 +23,8 @@ namespace POSApp.Core.ViewModels
         public string CreatedByUserId { get; set; }
         [DisplayName("Product Name")]
         public string ProductName { get; set; }
+        [DefaultValue(0)]
+        public decimal Tax { get; set; }
         public int? DiscountId { get; set; }
         public string Modifiers { get; set; }
         public decimal ModifiersPrice { get; set; }

@@ -1,14 +1,21 @@
 ﻿@using POSApp.Core.Enums
+@using POSApp.Core.Models
 @model POSApp.Core.ViewModels.ProductCreateViewModel
 
 @{
     Layout = null;
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
 
 <div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     @{ string s = ViewBag.edit;}
 
-    @using (Html.BeginForm(s, "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Ajax.BeginForm(s, "Products", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "CreateAssetSuccess"
+    }
+        , new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="modal-dialog modal-lg">
@@ -36,6 +43,10 @@
                     <div class="panel panel-bd lobidrag">
 
                         <div class="panel-body">
+                            @if (alertModel != null)
+                            {
+                                @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+                            }
                             @Html.HiddenFor(a => a.Id)
                             @Html.HiddenFor(a => a.ProductCode)
                             @Html.HiddenFor(a => a.CreatedBy)
@@ -64,8 +75,8 @@
                                             <div class="input-group">
                                                 @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDdl, "Select an Option", new { @class = "form-control", @required = "true" })
 
-                                                <span class="input-group-addon" style="   ">
-                                                    <a href="@Url.Action("AddProductCategoryPartial","Products")" class="modalShow1"><i class="fa fa-plus "></i></a>
+                                                <span class="input-group-addon" style="">
+                                                    <a href="@Url.Action("AddProductCategoryPartial", "Products")" class="modalShow1"><i class="fa fa-plus "></i></a>
                                                 </span>
 
                                                 @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
@@ -82,7 +93,7 @@
                                             <div class="input-group">
                                                 @Html.DropDownListFor(a => a.UnitId, Model.UnitDdl, "Select an Option", new { @class = "form-control", @required = "true" })
                                                 <span class="input-group-addon">
-                                                    <a href="@Url.Action("AddUnitPartial","Setup")" class="modalShow4">   <i class="fa fa-plus "></i></a>
+                                                    <a href="@Url.Action("AddUnitPartial", "Setup")" class="modalShow4"> <i class="fa fa-plus "></i></a>
                                                 </span>
                                             </div>
                                             @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
@@ -129,7 +140,7 @@
                                             <div class="input-group">
                                                 @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
                                                 <span class="input-group-addon">
-                                                    <a href="@Url.Action("AddSectionPartial","Products")" class="modalShow3">   <i class="fa fa-plus "></i></a>
+                                                    <a href="@Url.Action("AddSectionPartial", "Products")" class="modalShow3"> <i class="fa fa-plus "></i></a>
                                                 </span>
                                             </div>
                                             @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
@@ -181,9 +192,10 @@
                                             @Html.ValidationMessageFor(model => model.IsTaxable, "", new { @class = "text-danger" })
                                         </div>
                                         <script>
-                                            $("#@Html.IdFor(a=>a.IsTaxable)").on("change",
+                                            $("#@Html.IdFor(a => a.IsTaxable)").on("change",
                                                 function() {
-                                                    if(document.getElementById('@Html.IdFor(a=>a.IsTaxable)').checked) {
+                                                    if (document.getElementById('@Html.IdFor(a => a.IsTaxable)')
+                                                        .checked) {
                                                         $("#taxDdl").show();
                                                     } else {
                                                         $("#taxDdl").hide();
@@ -204,7 +216,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal"><span class="fa fa-close"></span>Close</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal"*@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>Close</button>
                 </div>
             </div>
         </div>

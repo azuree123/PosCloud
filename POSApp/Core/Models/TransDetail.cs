@@ -11,7 +11,8 @@ namespace POSApp.Core.Models
         public int Id { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
-
+        [DefaultValue(0)]
+        public decimal Tax { get; set; }
         public int TransMasterId { get; set; }
         public TransMaster TransMaster { get; set; }
         public string ProductCode { get; set; }

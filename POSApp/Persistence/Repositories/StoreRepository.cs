@@ -30,7 +30,7 @@ namespace POSApp.Persistence.Repositories
 
         public void AddStore(Store store)
         {
-            var inDb = _context.Stores.FirstOrDefault(a => a.Name == store.Name);
+            var inDb = _context.Stores.FirstOrDefault(a => a.Name == store.Name && a.Address == store.Address && a.City == store.City && a.State == store.State);
             if (inDb == null)
             {
                 _context.Stores.Add(store);

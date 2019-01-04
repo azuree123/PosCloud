@@ -1,12 +1,19 @@
-﻿@model POSApp.Core.ViewModels.ProductCategoryViewModel
+﻿@using POSApp.Core.Models
+@model POSApp.Core.ViewModels.ProductCategoryViewModel
 
 @{
     Layout = null;
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
 <div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     @{ string s = ViewBag.edit;}
 
-    @using (Html.BeginForm(s, "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Ajax.BeginForm(s, "Products", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "CreateAssetSuccess"
+    }
+        , new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="modal-dialog modal-md">
@@ -32,7 +39,10 @@
                     <div class="panel panel-bd lobidrag">
 
                         <div class="panel-body">
-
+                            @if (alertModel != null)
+                            {
+                                @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+                            }
                             @Html.HiddenFor(a => a.Id)
                             @Html.HiddenFor(a => a.CreatedBy)
                             @Html.HiddenFor(a => a.CreatedOn)
@@ -55,7 +65,7 @@
                                     <div class="col-md-6">
                                         @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label required1" })
                                         <div class="input-group">
-                                            @Html.DropDownListFor(model => model.Type, (IEnumerable<SelectListItem>)ViewBag.ddl, "Select an Option", new  { @id="TypeDdl", @class = "form-control", @required = true  })
+                                            @Html.DropDownListFor(model => model.Type, (IEnumerable<SelectListItem>)ViewBag.ddl, "Select an Option", new { @id = "TypeDdl", @class = "form-control", @required = true })
                                             <span class="input-group-addon" style="   ">
                                                 <a href="@Url.Action("AddProductCategoryGroupPartial","Products")" class="modalShow1"><i class="fa fa-plus "></i></a>
                                             </span>
@@ -70,7 +80,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default btn-lg btnPro">Save</button>
-                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal"*@  onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );">Close</button>
                 </div>
             </div>
         </div>

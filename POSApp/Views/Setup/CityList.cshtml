@@ -5,9 +5,9 @@
     ViewBag.Title = "CityList";
     AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
-@if (alertModel != null)
+@if(alertModel != null)
 {
-    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+        @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
     @*<header class="page-header">
@@ -145,6 +145,16 @@
 
             return false;
         });
+        function CreateAssetSuccess(data) {
+            if (data !== '') {
+                $('#ordine').modal('hide');
+                $('#ModalData').html(data);
+                $('#ordine').modal('show');
+
+                return;
+            }
+            location.reload();
+        }
     </script>
 }
 

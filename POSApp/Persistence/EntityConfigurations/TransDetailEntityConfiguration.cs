@@ -20,6 +20,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************
+            Property(x => x.Tax).HasColumnType("decimal").IsRequired();
 
             Property(x => x.Discount).HasColumnType("decimal").IsOptional();
 

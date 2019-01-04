@@ -29,8 +29,8 @@ namespace POSApp.Persistence.Repositories
         public void AddEmployee(Employee employee)
         {
             var inDb = _context.Employees.FirstOrDefault(a =>
-                a.Name == employee.Name && a.StoreId == employee.StoreId && a.DepartmentId == employee.DepartmentId &&
-                a.Email == employee.Email);
+                a.Email == employee.Email && a.StoreId == employee.StoreId
+                );
             if (inDb == null)
             {
                 _context.Employees.Add(employee);

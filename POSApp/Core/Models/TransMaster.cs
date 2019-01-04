@@ -25,7 +25,8 @@ namespace POSApp.Core.Models
 
         [DataType(DataType.DateTime)]
         public DateTime TransDate { get; set; }
-
+        [DefaultValue(0)]
+        public decimal Tax { get; set; }
         public string TransRef { get; set; }
         public string TransStatus { get; set; }
 

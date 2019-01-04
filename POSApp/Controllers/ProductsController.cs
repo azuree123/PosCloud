@@ -194,17 +194,27 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddProduct(ProductCreateViewModel productVm, HttpPostedFileBase file)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "AddProduct";
+            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type != "Combo")
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 if (!ModelState.IsValid)
                 {
                     var message = string.Join(" | ", ModelState.Values
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(productVm);
                 }
                 else
                 if (file != null && file.ContentLength > 0)
@@ -240,7 +250,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ProductRepository.AddProduct(product);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The product added successfully", AlertType.Success);
-                    return RedirectToAction("ProductsList", "Products");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -280,7 +290,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ProductsList", "Products");
+            return View(productVm);
 
 
         }
@@ -308,17 +318,27 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateProduct(string productId, ProductCreateViewModel productVm,HttpPostedFileBase file)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "UpdateProduct";
+            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type != "Combo")
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 if (!ModelState.IsValid)
                 {
                     var message = string.Join(" | ", ModelState.Values
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddProduct",productVm);
                 }
                 else 
                 {
@@ -339,7 +359,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ProductRepository.UpdateProduct(product.ProductCode, Convert.ToInt32(user.StoreId), product);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The product updated successfully", AlertType.Success);
-                    return RedirectToAction("ProductsList", "Products");
+                    return null;
                 }
                 
             }
@@ -379,7 +399,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ProductsList", "Products");
+            return View("AddProduct",productVm);
 
 
         }
@@ -510,17 +530,24 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddProductCategory(ProductCategoryViewModel productCategory, HttpPostedFileBase file)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "AddProductCategory";
+            ViewBag.ddl = _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId).Select(a => new SelectListItem
+            {
+                Text = a.Name,
+                Value = a.Name
+            });
             try
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 if (!ModelState.IsValid)
                 {
                     var message = string.Join(" | ", ModelState.Values
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
-                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error); ;
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(productCategory);
                 }
                 else
                 if (file != null && file.ContentLength > 0)
@@ -544,7 +571,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ProductCategoryRepository.AddProductCategory(category);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The product category added successfully", AlertType.Success);
-                    return RedirectToAction("ProductCategoryList");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -585,7 +612,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ProductCategoryList");
+            return View(productCategory);
 
         }
         public ActionResult UpdateProductCategory(int id)
@@ -611,8 +638,14 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdateProductCategory(int id, ProductCategoryViewModel productCategoryVm, HttpPostedFileBase file)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "UpdateProductCategory";
-           
+            ViewBag.ddl = _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId).Select(a => new SelectListItem
+            {
+                Text = a.Name,
+                Value = a.Name
+            });
             try
             {
                 if (!ModelState.IsValid)
@@ -621,6 +654,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddProductCategory", productCategoryVm);
                 }
                 else
                 if (file != null && file.ContentLength > 0)
@@ -638,13 +672,12 @@ namespace POSApp.Controllers
 
                 }
                 {
-                    var userid = User.Identity.GetUserId();
-                    var user = UserManager.FindById(userid);
+                    
                     ProductCategory category = Mapper.Map<ProductCategory>(productCategoryVm);
                     _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id, Convert.ToInt32(user.StoreId), category);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The product category updated successfully", AlertType.Success);
-                    return RedirectToAction("ProductCategoryList");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -684,7 +717,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ProductCategoryList");
+            return View("AddProductCategory",productCategoryVm);
 
 
         }
@@ -817,6 +850,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(productCategoryGroup);
                 }
                 else
 
@@ -829,7 +863,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(category);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The product category group added successfully", AlertType.Success);
-                    return RedirectToAction("ProductCategoryGroupList");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -869,7 +903,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ProductCategoryGroupList");
+            return View(productCategoryGroup);
 
         }
         public ActionResult UpdateProductCategoryGroup(int id)
@@ -898,6 +932,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddProductCategoryGroup",productCategoryGroupVm);
                 }
                 else
                 {
@@ -908,7 +943,7 @@ namespace POSApp.Controllers
                     _unitOfWork.ProductCategoryGroupRepository.UpdateProductCategoryGroup(id, Convert.ToInt32(user.StoreId), category);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The product category group updated successfully", AlertType.Success);
-                    return RedirectToAction("ProductCategoryGroupList");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -948,7 +983,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("ProductCategoryGroupList");
+            return View("AddProductCategoryGroup", productCategoryGroupVm);
 
 
         }
@@ -1647,6 +1682,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(productVm);
                 }
                 else
                 if (file != null && file.ContentLength > 0)
@@ -1722,7 +1758,8 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("CombosList", "Products");
+            return View(productVm);
+
 
 
         }
@@ -1779,6 +1816,8 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddCombo", productVm);
+
                 }
                 else if (file != null && file.ContentLength > 0)
                 {
@@ -1853,7 +1892,8 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("CombosList", "Products");
+            return View("AddCombo", productVm);
+
 
 
         }

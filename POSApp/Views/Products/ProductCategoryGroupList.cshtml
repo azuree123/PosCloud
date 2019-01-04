@@ -1,5 +1,12 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.ProductCategoryGroupViewModel>
-
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.ViewModels.ProductCategoryGroupViewModel>
+@{
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
 
 <div class="row mt-md">
     <div class="col-md-12">
@@ -101,6 +108,16 @@
 
             return false;
         });
+        function CreateAssetSuccess(data) {
+            if (data !== '') {
+                $('#ordine').modal('hide');
+                $('#ModalData').html(data);
+                $('#ordine').modal('show');
+
+                return;
+            }
+            location.reload();
+        }
     </script>
 }
 

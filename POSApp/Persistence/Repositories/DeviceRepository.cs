@@ -32,7 +32,7 @@ namespace POSApp.Persistence.Repositories
 
         public void AddDevice(Device Device)
         {
-            var inDb = _context.Devices.FirstOrDefault(a => a.Name == Device.Name && a.StoreId == Device.StoreId);
+            var inDb = _context.Devices.FirstOrDefault(a => a.DeviceCode == Device.DeviceCode && a.StoreId == Device.StoreId);
             if (inDb == null)
             {
                 _context.Devices.Add(Device);

@@ -51,6 +51,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(storeVm);
                 }
                 else
                 {
@@ -58,7 +59,7 @@ namespace POSApp.Controllers
                     _unitOfWork.StoreRepository.AddStore(store);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Store added successfully", AlertType.Success);
-                    return RedirectToAction("StoresList", "Store");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -98,7 +99,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("StoresList", "Store");
+            return View(storeVm);
 
 
         }
@@ -126,6 +127,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddStore",storeVm);
                 }
                 else
                 {
@@ -133,7 +135,7 @@ namespace POSApp.Controllers
                     _unitOfWork.StoreRepository.UpdateStore(id, store);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Store updated successfully", AlertType.Success);
-                    return RedirectToAction("StoresList", "Store");
+                    return null;
 
                 }
             }
@@ -174,7 +176,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("StoresList", "Store");
+            return View("AddStore", storeVm);
 
 
         }
