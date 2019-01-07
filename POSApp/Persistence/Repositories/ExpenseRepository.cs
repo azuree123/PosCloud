@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
@@ -21,6 +22,10 @@ namespace POSApp.Persistence.Repositories
             return _context.Expenses.Where(a=>a.StoreId==storeId && !a.IsDisabled).ToList();
         }
 
+        public IEnumerable<Expense> GetExpensesByDate(int stroreId)
+        {
+            return _context.Expenses.Where(a => a.Date == DateTime.Today && a.StoreId == stroreId && !a.IsDisabled).ToList();
+        }
         public Expense GetExpenseById(int id, int storeid)
         {
             return _context.Expenses.Find(id,storeid);

@@ -35,6 +35,13 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View( _unitOfWork.ExpenseRepository.GetExpenses((int)user.StoreId));
         }
+
+        public ActionResult DailyExpenseList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ExpenseRepository.GetExpensesByDate((int)user.StoreId));
+        }
         public ActionResult AddExpense()
         {
             ExpenseViewModel expense=new ExpenseViewModel();

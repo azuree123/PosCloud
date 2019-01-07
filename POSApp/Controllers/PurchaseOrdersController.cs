@@ -34,7 +34,12 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "PRI")));
         }
-
+        public ActionResult DailyPurchaseOrderList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMastersByDate((int)user.StoreId).Where(a => a.Type == "PRI")));
+        }
         public ActionResult PreviewPurchaseOrder(int id)
         {
             var userid = User.Identity.GetUserId();

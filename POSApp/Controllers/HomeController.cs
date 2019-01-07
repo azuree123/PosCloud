@@ -31,14 +31,17 @@ namespace POSApp.Controllers
                 DateTime today = DateTime.Now.Date;
                 DashBoardViewModel model = new DashBoardViewModel();
                 if (_unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
-                    .Where(a => a.Type == "INV" && a.TransDate == today).Any())
+                    .Where(a => a.Type == "INV" && a.TransDate >= today).Any())
                 {
-                    model.Orders = _unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
-                        .Where(a => a.Type == "INV" && a.TransDate == today).ToList().Count();
                     model.Sales = _unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
-                        .Where(a => a.Type == "INV" && a.TransDate == today).Select(a => a.TotalPrice).Sum();
+                        .Where(a => a.Type == "INV" && a.TransDate >= today).Select(a => a.TotalPrice).Sum();
                 }
-
+                if (_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                    .Where(a => a.Type == "PRI" && a.TransDate >= today).Any())
+                {
+                    model.PurchaseOrders = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                        .Where(a => a.Type == "PRI" && a.TransDate >= today).Select(a => a.TotalPrice).Sum();
+                }
                 model.Expenses = _unitOfWork.ExpenseRepository.GetExpenses((int) user.StoreId)
                     .Where(a => a.Date == today).Select(a => a.Amount).Sum();
                 model.StoreDatas = _unitOfWork.StoreRepository.GetStores().Select(a => new StoreData

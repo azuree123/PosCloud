@@ -199,7 +199,7 @@
             <div class="row">
                 <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
                     <section class="panel panel-featured-left panel-featured-primary">
-                        <a href="@Url.Action("SaleOrderList","SaleOrders")">
+                        <a href="@Url.Action("DailySales","SaleOrders")">
                             <div class="panel-body">
                                 <div class="widget-summary">
                                     <div class="widget-summary-col widget-summary-col-icon">
@@ -230,7 +230,7 @@
    
             <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
                 <section class="panel panel-featured-left panel-featured-secondary">
-                    <a href="@Url.Action("ExpenseList","Expense")">
+                    <a href="@Url.Action("DailyExpenseList","Expense")">
                     <div class="panel-body">
                         <div class="widget-summary">
                             <div class="widget-summary-col widget-summary-col-icon">
@@ -256,7 +256,7 @@
             </div>
             <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
                 <section class="panel panel-featured-left panel-featured-tertiary">
-                    <a href="@Url.Action("SaleOrderList","SaleOrders")">
+                    <a href="@Url.Action("DailyPurchaseOrderList","PurchaseOrders")">
                         <div class="panel-body">
                             <div class="widget-summary">
                                 <div class="widget-summary-col widget-summary-col-icon">
@@ -267,9 +267,9 @@
                                 </div>
                                 <div class="widget-summary-col">
                                     <div class="summary">
-                                        <h4 class="title">Today's Orders</h4>
+                                        <h4 class="title">Daily purchases</h4>
                                         <div class="info">
-                                            <strong class="amount">@string.Format("{0:N2}", Model.Orders)</strong>
+                                            <strong class="amount">@string.Format("{0:N2}", Model.PurchaseOrders)</strong>
                                             @*<a href="#" class="text-xs" style="color:#337ab7"> (view more)</a>*@
                                         </div>
                                     </div>

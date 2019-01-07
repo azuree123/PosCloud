@@ -20,6 +20,7 @@ namespace POSApp.Core.Repositories
         void DeleteTransMaster(int id, int storeId);
         void AddTransMaster(TransMaster transmaster);
         IQueryable<TransMasterViewModel> GetTransMastersQuery(int storeId);
+        IEnumerable<TransMaster> GetTransMastersByDate(int storeId);
         SalesViewModel GetInvoiceById(int id, int storeId);
     }
 }

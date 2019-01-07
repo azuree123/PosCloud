@@ -1,0 +1,124 @@
+﻿
+
+@{
+
+    ViewBag.Title = "DailySales";
+}
+
+
+
+<!-- start: page -->
+<section class="panel">
+    <header class="panel-heading">
+        <div class="panel-actions">
+
+
+
+        </div>
+
+        <h2 class="panel-title">
+            <h3 class="wb-color"><b>Daily Sale Orders</b></h3>
+        </h2>
+    </header>
+    <div class="panel-body">
+        <div class="">
+
+            <div class="table-responsive">
+                <table class="table mb-none " id="datatable-default">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Tax</th>
+                            <th>Amount</th>
+                            <th>PaymentMethod</th>
+
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').DataTable({
+
+            "processing": true, // for show progress bar lBfrtip
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once,
+            "lengthMenu": [[50, 100, 200], [50, 100, 200]],
+
+            "ajax": {
+
+                "url": "@Url.Action("GetDailySaleOrdersData", "SaleOrders")",
+                "type": "POST",
+                "datatype": "json"
+            }, "language": {
+                "search": "Search: ",
+                "searchPlaceholder": "Search..."
+            }, "search": {
+                "search": ""
+            },
+            "columns": [
+                { "data": "TransCode", "name": "TransCode", "autoWidth": true },
+                { "data": "BusinessPartnerName", "name": "BusinessPartnerName", "autoWidth": true },
+
+                { "data": "TransDate", "name": "TransDate", "autoWidth": true }
+                , { "data": "TransTime", "name": "TransTime", "autoWidth": true },
+                { "data": "Tax", "name": "Tax", "autoWidth": true },
+                { "data": "TotalPrice", "name": "TotalPrice", "autoWidth": true },
+                { "data": "PaymentMethod", "name": "PaymentMethod", "autoWidth": true },
+
+                { "data": "TransStatus", "name": "TransStatus", "autoWidth": true },
+
+                {
+                    "data": "Id", "autoWidth": true, render: function (data, type, full, meta) {
+                        return '<span data-toggle="tooltip" title="Preview !"   class=" btn btn-default text-default btn-sm fa fa-eye  "   onclick="DisplayDetails(' + data +')"  ></span>';
+                    }
+                }
+
+            ]
+        });
+        function DisplayDetails(a) {
+            window.location.href = "/SaleOrders/SaleOrderDetailList?saleOrderId="+a;
+
+        }
+
+
+
+
+
+    </script>
+}
+
+
+
+
+

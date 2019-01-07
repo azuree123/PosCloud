@@ -13,7 +13,7 @@ namespace POSApp.Core.ViewModels
         [DefaultValue(0)]
         public double Expenses { get; set; }
         [DefaultValue(0)]
-        public int Orders { get; set; }
+        public decimal PurchaseOrders { get; set; }
         [DefaultValue(0)]
         public decimal Refunds { get; set; }
 

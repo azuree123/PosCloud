@@ -3,7 +3,7 @@
 
 @{
 
-    ViewBag.Title = "ExpenseList";
+    ViewBag.Title = "DailyExpenseList";
     AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
 @if (alertModel != null)
@@ -31,27 +31,6 @@
 <!-- start: page -->
 <section class="panel">
     <header class="panel-heading">
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Expense  </b></h3>
-                    <a href="@Url.Action("ExpenseExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
-
-                    </a>
-                    <a href="@Url.Action("AddExpense", "Expense")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Expense</button>
-
-                    </a>
-                    <a href="@Url.Action("ExpenseHeadList","Expense")" style="flex-grow: 0">
-                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Expense Head List</button>
-
-                    </a>
-                </div>
-            </div>
-        </div>
-
         <h2 class="panel-title"></h2>
     </header>
     <div class="panel-body">
@@ -78,7 +57,7 @@
                         <tr>
                             <td>@(i++)</td>
                             <td>@expense.ExpenseHead.Name</td>
-                            <td>@expense.Employee.Name</td>
+                            <td>@expense.EmployeeId</td>
                             <td>@expense.Amount</td>
                             <td>@expense.Description</td>
                             <td>@expense.Date.ToShortDateString()</td>
@@ -114,7 +93,7 @@
         $('#datatable-default').dataTable();
 
         $('a.modalShow').on('click', function () {
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
                 type: 'GET',

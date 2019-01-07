@@ -2801,6 +2801,9 @@
     <Content Include="Views\Setup\AddFloorPartial.cshtml" />
     <Content Include="Views\Setup\AddUnitPartial.cshtml" />
     <Content Include="Views\Setup\AddEmployeePartial.cshtml" />
+    <Content Include="Views\Expense\DailyExpenseList.cshtml" />
+    <Content Include="Views\PurchaseOrders\DailyPurchaseOrderList.cshtml" />
+    <Content Include="Views\SaleOrders\DailySales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

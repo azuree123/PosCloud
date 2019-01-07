@@ -41,6 +41,13 @@ namespace POSApp.Persistence.Repositories
                 .Where(a => a.StoreId == storeId && !a.IsDisabled);
 
         }
+        public IEnumerable<TransMaster> GetTransMastersByDate(int storeId)
+        {
+            //return _context.PurchaseOrder;
+            return _context.TransMasters.Include(a => a.BusinessPartner)
+                .Where(a => a.StoreId == storeId && a.TransDate == DateTime.Now && !a.IsDisabled);
+
+        }
         public IEnumerable<InvoiceViewModel> GetInvoice(int id, int storeId)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", id), new SqlParameter("@p2", storeId) };
@@ -93,7 +100,14 @@ namespace POSApp.Persistence.Repositories
                 .Where(a => a.StoreId == storeId).Include(a=>a.BusinessPartner).Include(a=>a.TransMasterPaymentMethods)).AsQueryable();
 
         }
+        public IQueryable<TransMasterViewModel> GetDailyTransMastersQuery(int storeId)
+        {
+            DateTime today = DateTime.Now;
+            //return _context.PurchaseOrder;
+            return Mapper.Map<TransMasterViewModel[]>(_context.TransMasters
+                .Where(a => a.StoreId == storeId && a.TransDate >= today).Include(a => a.BusinessPartner).Include(a => a.TransMasterPaymentMethods)).AsQueryable();
 
+        }
         public SalesViewModel GetInvoiceById(int id, int storeId)
         {
             SalesViewModel salesViewModel=new SalesViewModel();
