@@ -4648,7 +4648,7 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 _unitOfWork.TillOperationRepository.DeleteTillOperations(id, (int)user.StoreId);
                 _unitOfWork.Complete();
-                TempData["Alert"] = new AlertModel("The tilloperation updated successfully", AlertType.Success);
+                TempData["Alert"] = new AlertModel("The tilloperation deleted successfully", AlertType.Success);
                 return RedirectToAction("TillOperationList", "Setup");
             }
             catch (DbEntityValidationException ex)
