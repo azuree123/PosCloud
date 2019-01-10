@@ -105,7 +105,7 @@ namespace POSApp.Persistence.Repositories
             DateTime today = DateTime.Now;
             //return _context.PurchaseOrder;
             return Mapper.Map<TransMasterViewModel[]>(_context.TransMasters
-                .Where(a => a.StoreId == storeId && a.TransDate >= today).Include(a => a.BusinessPartner).Include(a => a.TransMasterPaymentMethods)).AsQueryable();
+                .Where(a => a.StoreId == storeId && a.TransDate >= DateTime.Today).Include(a => a.BusinessPartner).Include(a => a.TransMasterPaymentMethods)).AsQueryable();
 
         }
         public SalesViewModel GetInvoiceById(int id, int storeId)

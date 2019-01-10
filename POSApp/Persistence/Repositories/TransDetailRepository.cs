@@ -23,6 +23,7 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.TransDetails.FirstOrDefault(x => x.Id == id && x.StoreId == storeId && !x.IsDisabled);
         }
+        
         public IEnumerable<TransDetailViewModel> GetTransDetails(int orderid, int storeId)
         {
             List<TransDetail> details = _context.TransDetails.Include(a => a.Product).Include(a=>a.ModifierTransDetail)
@@ -41,6 +42,7 @@ namespace POSApp.Persistence.Repositories
             }
             return Mapper.Map<TransDetailViewModel[]>(details);
         }
+       
         public IEnumerable<TransDetailViewModel> GetTransDetailsFiltered(int orderid, string query, int storeId)
         {
             //return _context.PurchaseOrderDetail;

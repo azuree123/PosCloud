@@ -117,7 +117,7 @@ namespace POSApp.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
                 int recordsFiltered = 0;
-                var v = _unitOfWork.TransMasterRepository.GetTransMastersQuery((int)user.StoreId);
+                var v = _unitOfWork.TransMasterRepository.GetDailyTransMastersQuery((int)user.StoreId);
                 v = v.Where(a => a.Type == "INV");
                 recordsTotal = v.Count();
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))

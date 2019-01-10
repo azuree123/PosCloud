@@ -21,6 +21,7 @@ namespace POSApp.Core.Repositories
         void AddTransMaster(TransMaster transmaster);
         IQueryable<TransMasterViewModel> GetTransMastersQuery(int storeId);
         IEnumerable<TransMaster> GetTransMastersByDate(int storeId);
+        IQueryable<TransMasterViewModel> GetDailyTransMastersQuery(int storeId);
         SalesViewModel GetInvoiceById(int id, int storeId);
     }
 }
