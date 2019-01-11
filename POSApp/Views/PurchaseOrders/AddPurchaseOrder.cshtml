@@ -78,7 +78,11 @@
                         <div class="tab-content col-md-8 col-xs-12 col-md-offset-2  p-xlg">
                             <div class="row mb-xlg">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:17px" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> Save</button>
+                                    <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> Save</button>
+                                    <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")" style="float:right">
+                                        <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>PurchaseOrder List</button>
+
+                                    </a>
                                 </div>
                             </div>
                             <div id="basicdata" class="tab-pane active">

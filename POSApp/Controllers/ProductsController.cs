@@ -48,6 +48,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            product.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
             int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
             product.ProductCode = "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
             var isAjax = Request.IsAjaxRequest();
@@ -180,6 +182,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            product.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
             int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
             product.ProductCode =  "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
             var isAjax = Request.IsAjaxRequest();
@@ -205,6 +209,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
                 
@@ -313,6 +319,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddProduct", productVm);
         }
         [HttpPost]
@@ -329,6 +337,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
                 
@@ -1659,7 +1669,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-            
+            product.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddCombo";
             int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
          
@@ -1789,6 +1800,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
             productVm.ProductSubViewModels = Mapper.Map<ProductSubViewModel[]>(
                 _unitOfWork.ProductsSubRepository.GetProductsSubs(productVm.ProductCode, (int) productVm.StoreId));
             foreach (var modifierVmModifierOptionViewModel in productVm.ProductSubViewModels)

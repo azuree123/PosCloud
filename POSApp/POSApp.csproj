@@ -406,6 +406,7 @@
     <Compile Include="Core\Models\SecurityObject.cs" />
     <Compile Include="Core\Models\SecurityRight.cs" />
     <Compile Include="Core\Models\Shift.cs" />
+    <Compile Include="Core\Models\Size.cs" />
     <Compile Include="Core\Models\Store.cs" />
     <Compile Include="Core\Models\Tax.cs" />
     <Compile Include="Core\Models\TillOperation.cs" />
@@ -435,6 +436,7 @@
     <Compile Include="Core\Repositories\ISecurityObjectRepository.cs" />
     <Compile Include="Core\Repositories\ISecurityRightRepository.cs" />
     <Compile Include="Core\Repositories\IShiftRepository.cs" />
+    <Compile Include="Core\Repositories\ISizeRepository.cs" />
     <Compile Include="Core\Repositories\ITillOperationRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventProductsRepository.cs" />
     <Compile Include="Core\Repositories\ITimedEventRepository.cs" />
@@ -467,6 +469,7 @@
     <Compile Include="Core\ViewModels\SecurityObjectViewModel.cs" />
     <Compile Include="Core\ViewModels\SecurityRightViewModel.cs" />
     <Compile Include="Core\ViewModels\ShiftViewModel.cs" />
+    <Compile Include="Core\ViewModels\SizeViewModel.cs" />
     <Compile Include="Core\ViewModels\TillOperationViewModel.cs" />
     <Compile Include="Core\ViewModels\TransMasterPaymentMethodViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
@@ -510,6 +513,10 @@
     <Compile Include="Migrations\201901041102368_Tax-Added-Fix.Designer.cs">
       <DependentUpon>201901041102368_Tax-Added-Fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901110929290_Sizes.cs" />
+    <Compile Include="Migrations\201901110929290_Sizes.Designer.cs">
+      <DependentUpon>201901110929290_Sizes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ModifierLinkProductEntityConfiguration.cs" />
@@ -518,6 +525,7 @@
     <Compile Include="Persistence\EntityConfigurations\SectionEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SecurityRightEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ShiftEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\SizeEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TillOperationEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransMasterPaymentMethodEntityConfiguration.cs" />
     <Compile Include="Persistence\Repositories\DeviceRepository.cs" />
@@ -646,6 +654,7 @@
     <Compile Include="Persistence\Repositories\SecurityObjectRepository.cs" />
     <Compile Include="Persistence\Repositories\SecurityRightRepository.cs" />
     <Compile Include="Persistence\Repositories\ShiftRepository.cs" />
+    <Compile Include="Persistence\Repositories\SizeRepository.cs" />
     <Compile Include="Persistence\Repositories\StateRepository.cs" />
     <Compile Include="Persistence\Repositories\StoreRepository.cs" />
     <Compile Include="Persistence\Repositories\TaxRepository.cs" />
@@ -2883,6 +2892,7 @@
     <Content Include="wp-includes\js\wp-embed.min5010.js" />
     <Content Include="wp-includes\wlwmanifest.xml" />
     <Content Include="wp-json\index.html" />
+    <Content Include="Content\ImportFormats\SizeImport.xls" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -3256,6 +3266,10 @@
     <Content Include="wp-content\vendor\bootstrap\css\bootstrap.css.map" />
     <Content Include="wp-content\vendor\bootstrap\css\bootstrap.min.css.map" />
     <Content Include="Views\SaleOrders\GetDailySaleOrdersData.cshtml" />
+    <Content Include="Views\Setup\SizeList.cshtml" />
+    <Content Include="Views\Setup\AddSizePartial.cshtml" />
+    <Content Include="Views\Setup\AddSize.cshtml" />
+    <Content Include="Views\ExcelImport\SizeExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3311,6 +3325,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901041102368_Tax-Added-Fix.resx">
       <DependentUpon>201901041102368_Tax-Added-Fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901110929290_Sizes.resx">
+      <DependentUpon>201901110929290_Sizes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

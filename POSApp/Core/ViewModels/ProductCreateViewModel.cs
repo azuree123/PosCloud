@@ -45,7 +45,7 @@ namespace POSApp.Core.ViewModels
         public IEnumerable<SelectListItem> UnitDdl { get; set; }
         public IEnumerable<SelectListItem> TaxDdl { get; set; }
         public IEnumerable<SelectListItem> SectionDdl { get; set; }
-
+        public IEnumerable<SelectListItem> SizeDdl { get; set; }
 
 
     }
@@ -58,6 +58,7 @@ namespace POSApp.Core.ViewModels
         public string Type { get; set; }
         public string ProductCode { get; set; }
         public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
+        [DisplayName("Size")]
         public string Size { get; set; }//MED, SML, LRG,XRG, Child,
         [DisplayName("Tax")]
         public int? TaxId { get; set; }
@@ -126,7 +127,7 @@ namespace POSApp.Core.ViewModels
         public IEnumerable<SelectListItem> UnitDdl { get; set; }
         public IEnumerable<SelectListItem> TaxDdl { get; set; }
         public IEnumerable<SelectListItem> SectionDdl { get; set; }
-
+        public IEnumerable<SelectListItem> SizeDdl { get; set; }
         public IEnumerable<ProductSubViewModel> ProductSubViewModels { get; set; }
 
     }

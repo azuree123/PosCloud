@@ -1603,6 +1603,76 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("ShiftList", "Setup");
         }
+        public ActionResult SizeExcelImport()
+        {
+            ViewBag.edit = "SizeExcelImport";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SizeExcelImport(HttpPostedFileBase file)
+        {
+
+            try
+            {
+                DataTable dt = ImportService.GetExcelData(file);
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Size NewModel = new Size();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+
+
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.SizeRepository.AddSize(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("SizeList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+            return RedirectToAction("SizeList", "Setup");
+        }
+
         public ApplicationUserManager UserManager
         {
             get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }

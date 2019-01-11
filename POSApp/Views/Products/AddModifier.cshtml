@@ -52,7 +52,11 @@
                                 <div class="col-md-12">
                               
 
-                                    <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:17px" onclick="return CheckData();"><span class="fa fa-save mr-md"></span> Save</button>
+                                    <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><span class="fa fa-save mr-md"></span> Save</button>
+                                    <a href="@Url.Action("ModifierList","Products")" style="float:right">
+                                        <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Modifier List</button>
+
+                                    </a>
                                 </div>
                             </div>
                             <div id="basicdata" class="tab-pane active">

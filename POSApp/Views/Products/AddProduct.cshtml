@@ -127,9 +127,14 @@
                                             @Html.ValidationMessageFor(model => model.Attribute, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Size, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Size, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "Enter Size" } })
-                                            @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+                                            @Html.Label("Size", htmlAttributes: new { @class = "control-label required1" })
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(a => a.Size, Model.SizeDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                <span class="input-group-addon">
+                                                    <a href="@Url.Action("AddSizePartial", "Setup")" class="modalShow5"> <i class="fa fa-plus "></i></a>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -167,28 +172,32 @@
                                 </div>
 
 
+                                <hr/>
+                                <div class="row">
+                                    <div class="form-group">
+
+                                        @Html.Label("Inventory Item", htmlAttributes: new { @class = "control-label col-xs-2" })
+                                        @Html.EditorFor(model => model.InventoryItem, new { htmlAttributes = new { @class = " col-xs-2" } })
+                                        @Html.ValidationMessageFor(model => model.InventoryItem, "", new { @class = "text-danger" })
+
+                                        <div class="">
+                                            @Html.Label("Purchase Item", htmlAttributes: new { @class = "control-label col-xs-2" })
+                                            @Html.EditorFor(model => model.PurchaseItem, new { htmlAttributes = new { @class = "col-xs-2" } })
+                                            @Html.ValidationMessageFor(model => model.PurchaseItem, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="">
+                                            @Html.Label("FixedAsset Item", htmlAttributes: new { @class = "control-label col-xs-2" })
+                                            @Html.EditorFor(model => model.FixedAssetItem, new { htmlAttributes = new { @class = "col-xs-2" } })
+                                            @Html.ValidationMessageFor(model => model.FixedAssetItem, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="form-group">
-                                        <div class="col-md-2">
-                                            @Html.Label("Inventory Item", htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.InventoryItem, new { htmlAttributes = new { @class = "" } })
-                                            @Html.ValidationMessageFor(model => model.InventoryItem, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-2">
-                                            @Html.Label("Purchase Item", htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.PurchaseItem, new { htmlAttributes = new { @class = "" } })
-                                            @Html.ValidationMessageFor(model => model.PurchaseItem, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-2">
-                                            @Html.Label("FixedAsset Item", htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.FixedAssetItem, new { htmlAttributes = new { @class = "" } })
-                                            @Html.ValidationMessageFor(model => model.FixedAssetItem, "", new { @class = "text-danger" })
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            @Html.Label("Is Taxable?", htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "" } })
+                                        <div class="">
+                                            @Html.Label("Is Taxable?", htmlAttributes: new { @class = "control-label col-xs-2" })
+                                            @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "col-xs-2" } })
                                             @Html.ValidationMessageFor(model => model.IsTaxable, "", new { @class = "text-danger" })
                                         </div>
                                         <script>
@@ -342,6 +351,43 @@
                     }
                 });
             } else {}
+
+            return false;
+        });
+        function UpdateDdlSize() {
+            $.ajax({
+                url: "@Url.Action("GetSizeDdl", "Setup")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.Size)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Name).text(value.Name));
+                    });
+
+                }
+            });
+        }
+        $('a.modalShow5').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            if (!fired) {
+                //mark as fired
+                fired = true;
+                $.ajax({
+                    url: this.href,
+                    type: 'GET',
+                    success: function (result) {
+                        $('#ModalData2').html(result);
+                        $('#ordine2').modal('show');
+                        $.unblockUI();
+                        fired = false;
+                    }
+                });
+            } else { }
 
             return false;
         });

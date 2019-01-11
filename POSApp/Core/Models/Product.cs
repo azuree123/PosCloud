@@ -36,7 +36,7 @@ namespace POSApp.Core.Models
         public Unit ProductUnit { get; set; }
         public int? SectionId { get; set; }
         public Section Section { get; set; }
-
+        
         public bool InventoryItem { get; set; }
         public bool PurchaseItem { get; set; }
         public bool FixedAssetItem { get; set; }
@@ -49,6 +49,6 @@ namespace POSApp.Core.Models
 
         public virtual ICollection<TimedEventProducts> TimedEventProducts { get; set; }
         public ICollection<ModifierLinkProduct> ModifierLinkProducts { get; set; }
-       
+        
     }
 }

@@ -59,6 +59,7 @@ namespace POSApp.Persistence
         public DbSet<TransMasterPaymentMethod> TransMasterPaymentMethods { get; set; }
         public DbSet<ModifierLinkProduct> ModifierLinkProducts { get; set; }
         public DbSet<ModifierTransDetail> ModifierTransDetails { get; set; }
+        public DbSet<Size> Sizes { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
           
@@ -117,7 +118,9 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new TransMasterPaymentMethodEntityConfiguration());
             modelBuilder.Configurations.Add(new ModifierLinkProductEntityConfiguration());
             modelBuilder.Configurations.Add(new ModifierTransDetailEntityConfiguration());
+            modelBuilder.Configurations.Add(new SizeEntityConfiguration());
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            
             base.OnModelCreating(modelBuilder);
 
         }
