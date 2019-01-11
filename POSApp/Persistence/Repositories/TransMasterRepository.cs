@@ -43,9 +43,10 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<TransMaster> GetTransMastersByDate(int storeId)
         {
+            DateTime next = DateTime.Today.AddDays(1);
             //return _context.PurchaseOrder;
             return _context.TransMasters.Include(a => a.BusinessPartner)
-                .Where(a => a.StoreId == storeId && a.TransDate == DateTime.Now && !a.IsDisabled);
+                .Where(a => a.StoreId == storeId && a.TransDate >= DateTime.Today && a.TransDate< next && !a.IsDisabled);
 
         }
         public IEnumerable<InvoiceViewModel> GetInvoice(int id, int storeId)
