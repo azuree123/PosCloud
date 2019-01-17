@@ -147,7 +147,7 @@
     <script>
         $('#datatable-default').dataTable();
 
-        $('a.modalShow').on('click', function () {
+        $('#datatable-default').on('click','a.modalShow', function () {
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
 
             $.ajax({
@@ -163,6 +163,20 @@
 
             return false;
         });
+        $('a.modalShow').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
         function CreateAssetSuccess(data) {
             if (data !== '') {
                 $('#ordine').modal('hide');
@@ -173,8 +187,7 @@
             }
             location.reload();
         }
-        // Using that prm reference, hook _initializeRequest
-        Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(InitializeRequestBuchung);
+      
 
         // Abfangen von Mehrfachklicks auf Buttons für asynchrone Postbacks im Updatepanel
         function InitializeRequestBuchung(sender, args) {

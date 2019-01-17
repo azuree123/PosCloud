@@ -185,6 +185,20 @@
     <script>
         $('#datatable-default').dataTable();
 
+        $('#datatable-default').on('click','a.modalShow', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
         $('a.modalShow').on('click', function () {
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
             $.ajax({

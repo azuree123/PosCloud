@@ -8,9 +8,9 @@
     @using (Ajax.BeginForm("AddEmployeePartial", "Setup", new AjaxOptions
     {
         HttpMethod = "Post",
-        OnSuccess = "$('#ordine').modal('hide');UpdateproductDdl();"
+        OnSuccess = "$('#ordine5').modal('hide');UpdateDdlEmployee();"
         ,
-        UpdateTargetId = "ordine"
+        UpdateTargetId = "ordine5"
     }, new { enctype = "multipart/form-data" }))
 
 
@@ -23,11 +23,11 @@
                 <div class="modal-header modalheader">
                     <button type="button" class="close modalheader" data-dismiss="modal">×</button>
 
-                  
-                        <h4 class="modal-title">
-                            Add Employee
-                        </h4>
-                   
+
+                    <h4 class="modal-title">
+                        Add Employee
+                    </h4>
+
 
 
                 </div>
@@ -50,12 +50,12 @@
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "abc@gmail.com", @required = true, @pattern = @"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" } })
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "abc@abc.com", @required = true, @pattern = @"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" } })
                                             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.MobileNumber, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.MobileNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "05046251398", @pattern = @"^\(?([0-9]{4})\)?[-. ]?([0-9]{7})$" } })
+                                            @Html.EditorFor(model => model.MobileNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "050xxxxxxx", @pattern = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{7})$" } })
                                             @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -67,10 +67,14 @@
                                             @Html.DropDownListFor(a => a.Gender, new SelectList(Enum.GetValues(typeof(Gender))), "Select Gender", new { @class = "form-control" })
                                         </div>
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @class = "control-label " })
-                                                @Html.DropDownListFor(model => model.DepartmentId, Model.DepartmentDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                               
+                                            @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @class = "control-label required1" })
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(model => model.DepartmentId, Model.DepartmentDdl, "Select an Option", new { @class = "form-control", @required = true, })
+                                                <span class="input-group-addon" style="">
+                                                    <a href="@Url.Action("AddDepartmentPartial", "Setup")" class="modalShow1" id="#arrButtonIds"> <i class="fa fa-plus "></i></a>
+                                                </span>
                                                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
 
                                     </div>
@@ -107,7 +111,8 @@
             </div>
         </div>
     }
-    <div id="ModalData1"></div>
+    <div id="ModalData11"></div>
+    
     <script>
         $(document).ready(function () {
             var date = $('#join_date').val();
@@ -147,8 +152,8 @@
                 url: this.href,
                 type: 'GET',
                 success: function(result) {
-                    $('#ModalData1').html(result);
-                    $('#ordine2').modal('show');
+                    $('#ModalData11').html(result).find('#ordine2').modal('show');
+
                     $.unblockUI();
                 }
             });

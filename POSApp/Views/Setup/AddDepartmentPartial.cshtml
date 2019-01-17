@@ -9,7 +9,7 @@
     @using (Ajax.BeginForm(s, "Setup", new AjaxOptions
     {
         HttpMethod = "Post",
-        OnSuccess = "UpdateDdlDepartment();$('#ordine2').modal('hide');"
+        OnSuccess = "$('#ordine2').modal('hide').UpdateDdlDepartment();"
        ,
         UpdateTargetId="ordine2"
     }, new { enctype = "multipart/form-data" }))

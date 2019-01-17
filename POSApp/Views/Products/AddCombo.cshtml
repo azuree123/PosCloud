@@ -413,8 +413,9 @@
                     url: this.href,
                     type: 'GET',
                     success: function (result) {
-                        $('#ModalData2').html(result);
-                        $('#ordine2').modal('show');
+                        $('#ModalData').html('');
+                        $('#ModalData2').html(result).find('#ordine2').modal('show');
+                        
                         $.unblockUI();
                         
                     }
@@ -423,14 +424,32 @@
 
             return false;
         });
-        $('a.modalShow').on('click', function () {
+        $('#datatable-default').on('click','a.modalShow', function () {
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
-                    $('#ModalData').html(result);
-                    $('#ordine').modal('show');
+                success: function (result) {
+                    $('#ModalData2').html('');
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                    
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('a.modalShow').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function (result) {
+                    $('#ModalData2').html('');
+                    
+
+                    $('#ModalData').html(result).find('#ordine').modal('show');
+                    
                     $.unblockUI();
                 }
             });
@@ -442,9 +461,12 @@
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
-                    $('#ModalData').html(result);
-                    $('#ordine2').modal('show');
+                success: function (result) {
+                    $('#ModalData2').html('');
+                    
+
+                    $('#ModalData').html(result).find('#ordine2').modal('show');
+                    
                     $.unblockUI();
                 }
             });
@@ -493,8 +515,10 @@
                 url: this.href,
                 type: 'GET',
                 success: function (result) {
-                    $('#ModalData').html(result);
-                    $('#ordine2').modal('show');
+                    $('#ModalData2').html('');
+
+                    $('#ModalData').html(result).find('#ordine2').modal('show');
+                    
                     $.unblockUI();
                 }
             });
@@ -507,8 +531,10 @@
                 url: this.href,
                 type: 'GET',
                 success: function (result) {
-                    $('#ModalData').html(result);
-                    $('#ordine3').modal('show');
+                    $('#ModalData2').html('');
+                   
+                    $('#ModalData').html(result).find('#ordine3').modal('show');
+                    
                     $.unblockUI();
                 }
             });
