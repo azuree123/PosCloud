@@ -517,6 +517,14 @@
     <Compile Include="Migrations\201901110929290_Sizes.Designer.cs">
       <DependentUpon>201901110929290_Sizes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901180611159_Session.cs" />
+    <Compile Include="Migrations\201901180611159_Session.Designer.cs">
+      <DependentUpon>201901180611159_Session.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901180627558_Sessionid.cs" />
+    <Compile Include="Migrations\201901180627558_Sessionid.Designer.cs">
+      <DependentUpon>201901180627558_Sessionid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ModifierLinkProductEntityConfiguration.cs" />
@@ -3328,6 +3336,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901110929290_Sizes.resx">
       <DependentUpon>201901110929290_Sizes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901180611159_Session.resx">
+      <DependentUpon>201901180611159_Session.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901180627558_Sessionid.resx">
+      <DependentUpon>201901180627558_Sessionid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
