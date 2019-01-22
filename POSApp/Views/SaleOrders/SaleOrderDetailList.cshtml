@@ -25,13 +25,15 @@
                                     <h5><strong class="text-danger">Sale Id:</strong></h5>
                                     <h5><strong class="text-danger">Date & Time:</strong></h5>
                                     <h5><strong class="text-danger">Order Type: </strong></h5>
-                                    
+                                    <h5><strong class="text-danger">Payment Method: </strong></h5>
+                                    <h5><strong class="text-danger">Invoice Total: </strong></h5>
+
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-4 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
                                     <h5>@Model.BusinessPartner.Name</h5>
                                     <h5>@Model.TransCode</h5>
                                     <h5>@Model.TransDate</h5>
-                                    
+
                                     @{
                                         string s = "";
                                         if (@Model.DeliveryType == "Dine In")
@@ -69,8 +71,14 @@
 
                                         <h5><b class="text-success">@Model.DeliveryType</b> @s </h5>
 
-                                        
+
                                     }
+                                    @foreach (var method in Model.TransMasterPaymentMethods)
+                                    {
+                                        <h5>@method.Method</h5>
+                                    }
+
+                                    <h5>@(Model.TotalPrice)</h5>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +113,8 @@
                                         <td>@(i++)</td>
                                         <td>@saleOrder.Product.Name</td>
                                         <td>
-                                            @saleOrder.ModifierTransDetail.Count
+                                            @saleOrder.ModifierTransDetail.Count 
+                                            @string.Join(",",saleOrder.ModifierTransDetail.Select(a=>a.ModifierOption+" x "+a.Quantity+" ("+a.UnitPrice+")").ToArray())
                                         </td>
                                         <td>@saleOrder.Quantity</td>
                                         <td>@saleOrder.UnitPrice</td>
@@ -114,7 +123,7 @@
                                         <td>@saleOrder.Discount</td>
                                         
                                         <td>
-                                            @(((saleOrder.UnitPrice + saleOrder.ModifierTransDetail.Sum(a => a.UnitPrice * a.Quantity)) * saleOrder.Quantity) - Convert.ToDecimal(saleOrder.Discount))
+                                            @(((saleOrder.UnitPrice + saleOrder.Tax + saleOrder.ModifierTransDetail.Sum(a => a.UnitPrice * a.Quantity)) * saleOrder.Quantity) - Convert.ToDecimal(saleOrder.Discount))
                                         </td>
                                     </tr>
                                 }

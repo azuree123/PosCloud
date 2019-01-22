@@ -63,6 +63,7 @@ namespace POSApp.Persistence.Repositories
                     model.UserId = registerListViewModel.Id;
                     model.UserPassword = Security.DecryptString(registerListViewModel.PasswordEncrypt,
                         "E546C8DF278CD5931069B522E695D4F2");
+                    model.EmployeeId = registerListViewModel.EmployeeId;
                     send.Add(model);
                 }
                 return send;

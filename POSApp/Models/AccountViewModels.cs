@@ -98,6 +98,7 @@ namespace POSApp.Models
         public string UserName { get; set; }
         public string Email { get; set; }
         public string UserPassword { get; set; }
+        public int? EmployeeId { get; set; }
     }
 
     public class ResetPasswordViewModel

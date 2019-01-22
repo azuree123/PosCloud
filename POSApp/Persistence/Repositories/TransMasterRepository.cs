@@ -24,13 +24,11 @@ namespace POSApp.Persistence.Repositories
         public TransMaster GetTransMaster(int id, int storeId)
         {
          var data= _context.TransMasters.Include(a => a.BusinessPartner).Include(a=>a.DineTable).Include(a=>a.TimedEvent)
-                .Include(a=>a.TransDetails).Include(a=>a.TransMasterPaymentMethods)
+                .Include(a=>a.TransDetails).Include(a=>a.TransDetails.Select(c=>c.Product)).Include(a => a.TransDetails.Select(c => c.ModifierTransDetail))
+             .Include(a => a.TransDetails.Select(c => c.ModifierTransDetail.Select(f=>f.ModifierOption)))
+            .Include(a=>a.TransMasterPaymentMethods)
                 .FirstOrDefault(x => x.Id == id && x.StoreId == storeId);
-            foreach (var dataTransDetail in data.TransDetails)
-            {
-                dataTransDetail.Product = _context.Products.FirstOrDefault(a =>
-                    a.ProductCode == dataTransDetail.ProductCode && a.StoreId == dataTransDetail.StoreId);
-            }
+           
 
             return data;
         }
