@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
+using POSApp.Core.ViewModels;
 using EntityState = System.Data.Entity.EntityState;
 
 namespace POSApp.Persistence.Repositories
@@ -31,6 +33,13 @@ namespace POSApp.Persistence.Repositories
         public Product GetProductByCode(string id, int storeid)
         {
             return _context.Products.Include(a => a.ComboProducts.Where(o => !o.IsDisabled)).FirstOrDefault(a => a.ProductCode == id && a.StoreId == storeid);
+        }
+        public IQueryable<ProductDtViewModel> GetProductsQuery(int storeId)
+        {
+            //return _context.PurchaseOrder;
+            return Mapper.Map<ProductDtViewModel[]>(_context.Products
+                .Where(a => a.StoreId == storeId && !a.IsDisabled)).AsQueryable();
+
         }
         public void AddProduct(Product product)
         {

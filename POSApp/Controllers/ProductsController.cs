@@ -11,6 +11,7 @@ using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.Shared;
 using POSApp.Core.ViewModels;
+using System.Linq.Dynamic;
 
 namespace POSApp.Controllers
 {
@@ -30,9 +31,51 @@ namespace POSApp.Controllers
         // GET: Products
         public ActionResult ProductsList()
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>a.Type!="Combo").ToList());
+          
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GetProductsData()
+        {
+            try
+            {
+                var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                var start = Request.Form.GetValues("start").FirstOrDefault();
+                var length = Request.Form.GetValues("length").FirstOrDefault();
+                //Find Order Column
+                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                var searchColumn = Request.Form.GetValues("search[value]").FirstOrDefault();
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                int recordsFiltered = 0;
+                var v = _unitOfWork.ProductRepository.GetProductsQuery((int)user.StoreId).Where(a => a.Type != "Combo");
+                
+                recordsTotal = v.Count();
+                if (!(string.IsNullOrWhiteSpace(searchColumn)))
+                {
+
+                    v = v.Where(a => a.ProductCode.Contains(searchColumn) || a.Name.Contains(searchColumn) || a.Size.Contains(searchColumn));
+                }
+                //SORT
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                }
+                recordsFiltered = v.Count();
+
+
+                var data = v.Skip(skip).Take(pageSize).ToList();
+                return Json(new { draw = draw, recordsFiltered = recordsFiltered, recordsTotal = recordsTotal, data = data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
         //Product Partial
         public ActionResult AddProductPartial()
@@ -413,7 +456,7 @@ namespace POSApp.Controllers
 
 
         }
-        public ActionResult DeleteProduct(string id, int storeid)
+        public ActionResult DeleteProduct(string id)
         {
             try
             {

@@ -1,5 +1,4 @@
 ﻿@using POSApp.Core.Models
-@model IEnumerable<POSApp.Core.Models.Product>
 @{
     ViewBag.Title = "ProductsList";
     AlertModel alertModel = (AlertModel)TempData["Alert"];
@@ -10,11 +9,11 @@
 }
 
 <style>
-    tbody > tr > td{
-        vertical-align:middle !important;
+    tbody > tr > td {
+        vertical-align: middle !important;
     }
 </style>
-    @*<header class="page-header">
+@*<header class="page-header">
         <h2>Products</h2>
 
         <div class="right-wrapper pull-right">
@@ -32,9 +31,9 @@
         </div>
     </header>*@
 
-    <!-- start: page -->
+<!-- start: page -->
 
-<div class="row mt-md" >
+<div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
             <li class="current"><a href="#">Products</a></li>
@@ -47,95 +46,63 @@
 
         </ul>
         <hr />
-      
+
     </div>
 </div>
-    <section class="panel">
-        <header class="panel-heading">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="" id="header-flex">
-                        <h3 class="wb-color" style="flex-grow: 8"><b>Products</b></h3>
-                        @*<a href="@Url.Action("AddProduct", "Products")" class="modalShow">
-            <span class="fa fa-2x fa-plus-circle"></span>
-        </a>*@
-                        <a href="@Url.Action("ProductExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+<section class="panel">
+    <header class="panel-heading">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="" id="header-flex">
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Products</b></h3>
+                    @*<a href="@Url.Action("AddProduct", "Products")" class="modalShow">
+                            <span class="fa fa-2x fa-plus-circle"></span>
+                        </a>*@
+                    <a href="@Url.Action("ProductExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Import Data</button>
 
-                        </a>
+                    </a>
 
-                        <a href="@Url.Action("AddProduct", "Products")" class="modalShow" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Add Product</button>
+                    <a href="@Url.Action("AddProduct", "Products")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Add Product</button>
 
-                        </a>
-                        <a href="@Url.Action("ProductCategoryGroupList","Products")" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Product Category Group List</button>
+                    </a>
+                    <a href="@Url.Action("ProductCategoryGroupList","Products")" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Product Category Group List</button>
 
-                        </a>
-                        <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
-                            <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Category List</button>
+                    </a>
+                    <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
+                        <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Category List</button>
 
-                        </a>
-                    </div>
+                    </a>
                 </div>
             </div>
+        </div>
 
-            <h2 class="panel-title"></h2>
-        </header>
-        <div class="panel-body">
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
 
-            <div class="table-responsive">
-                <table class="table mb-none" style="width:100%" id="datatable-default">
-                    <thead>
-                        <tr>
-                            <th width="10%">ID</th>
-                            <th width="20%">Name</th>
-                            <th width="20%">Attribute</th>
-                            <th width="10%">Size</th>
-                            <th width="10%">Price</th>
-                            <th width="20%">Image</th>
-                            <th width="10%">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{ int i = 1;}
-                        @foreach (var product in Model)
-                        {
-                            <tr class="">
-                                <td>@(i++)</td>
-                                <td>
-                                    @product.Name
-                                </td>
-                                <td>
-                                    @product.Attribute
-                                </td>
-                                <td>
-                                    @product.Size
-                                </td>
-                                <td>@product.UnitPrice</td>
-                                <td width="6%" class="p-none">
-                                    @if(product.Image != null) {  
-                                        var base64 = Convert.ToBase64String(product.Image);  
-                                        var imgsrc = string.Format("data:image/jpg;base64,{0}", base64); 
-                                        <img src = '@imgsrc'  width="69px" height="58px" /> 
-                                    }  
-                                    
-                                </td>
-                                <td class="center">
-                                    <div class="btn-group">
-
-                                    @Html.ActionLink(" ", "UpdateProduct", "Products", new { productId = @product.ProductCode, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                    @Html.ActionLink(" ", "DeleteProduct", "Products", new { id = @product.ProductCode, storeId = @product.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                                    </div>
-                                </td>
-                            </tr>
-                        }
+        <div class="table-responsive">
+            <table class="table mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                    <tr>
+                        <th width="10%">ID</th>
+                        <th width="20%">Name</th>
+                        <th width="20%">Attribute</th>
+                        <th width="10%">Size</th>
+                        <th width="10%">Price</th>
+                        <th width="10%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  
 
 
-                    </tbody>
-                </table>
-                </div>
-            </div>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </section>
 
 
@@ -145,30 +112,30 @@
 @section scripts
 {
     <script>
-        $('#datatable-default').dataTable();
+        //$('#datatable-default').dataTable();
 
-        $('#datatable-default').on('click','a.modalShow', function () {
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+        //$('#datatable-default').on('click', 'a.modalShow', function () {
+        //    $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
 
-            $.ajax({
-                url: this.href,
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('#ModalData').html(result).find('#ordine').modal('show');
-                    $.unblockUI();
+        //    $.ajax({
+        //        url: this.href,
+        //        type: 'GET',
+        //        cache: false,
+        //        success: function (result) {
+        //            $('#ModalData').html(result).find('#ordine').modal('show');
+        //            $.unblockUI();
 
-                }
-            });
+        //        }
+        //    });
 
-            return false;
-        });
+        //    return false;
+        //});
         $('a.modalShow').on('click', function () {
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();
@@ -187,7 +154,7 @@
             }
             location.reload();
         }
-      
+
 
         // Abfangen von Mehrfachklicks auf Buttons für asynchrone Postbacks im Updatepanel
         function InitializeRequestBuchung(sender, args) {
@@ -200,5 +167,71 @@
             }
         }
     </script>
+
+        <script>
+        $('#datatable-default').DataTable({
+
+            "processing": true, // for show progress bar lBfrtip
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once,
+            "lengthMenu": [[50, 100, 200], [50, 100, 200]],
+
+            "ajax": {
+
+                "url": "@Url.Action("GetProductsData", "Products")",
+                "type": "POST",
+                "datatype": "json"
+            }, "language": {
+                "search": "Search: ",
+                "searchPlaceholder": "Search..."
+            }, "search": {
+                "search": ""
+            },
+            "columns": [
+                { "data": "Id", "name": "ID", "autoWidth": true },
+                { "data": "Name", "name": "Name", "autoWidth": true },
+                { "data": "Attribute", "name": "Attribute", "autoWidth": true },
+
+                { "data": "Size", "name": "Size", "autoWidth": true }
+                , { "data": "UnitPrice", "name": "Price", "autoWidth": true },
+               
+
+                {
+                    "data": "ProductCode", "autoWidth": true, render: function (data, type, full, meta) {
+                        return '<span data-toggle="tooltip" title="Edit !"   class=" btn outline-success text-default btn-sm fa fa-edit  "   onclick="UpdateProduct(' + "'" + data + "'" + ')"  ></span>' +
+                            '<span data-toggle="tooltip" title="Delete !"   class=" btn outline-danger text-default btn-sm fa fa-remove  "   onclick="DeleteProduct(' + "'" + data + "'" + ')"  ></span>';
+                    }
+                }
+
+            ]
+        });
+            function UpdateProduct(a) {
+             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: "@Url.Action("UpdateProduct","Products")",
+                data: { productId:a},
+                type: 'GET',
+                success: function (result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+
+            }
+            function DeleteProduct(a) {
+                window.location.href = "/Products/DeleteProduct?id="+a;
+
+        }
+
+
+
+
+
+        </script>
+  
 }
 

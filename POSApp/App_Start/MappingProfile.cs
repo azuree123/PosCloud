@@ -14,6 +14,8 @@ namespace POSApp
         {
             CreateMap<ProductCreateViewModel,Product>();
             CreateMap<Product, ProductCreateViewModel>();
+            CreateMap<ProductDtViewModel, Product>();
+            CreateMap<Product, ProductDtViewModel>();
             CreateMap<ProductCategoryViewModel, ProductCategory>();
             CreateMap<ProductCategory, ProductCategoryViewModel>();
             CreateMap<DepartmentViewModel, Department>();

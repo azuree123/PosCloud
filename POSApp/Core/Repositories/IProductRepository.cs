@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 
 namespace POSApp.Core.Repositories
 {
@@ -13,5 +15,6 @@ namespace POSApp.Core.Repositories
        void DeleteProduct(string id,int storeid);
        IEnumerable<Product> GetApiProducts();
        Product GetProductByCode(string id, int storeid);
+       IQueryable<ProductDtViewModel> GetProductsQuery(int storeId);
    }
 }

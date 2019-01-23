@@ -64,7 +64,7 @@
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label required1" })
+                                            @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Barcode" } })
                                             @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
                                         </div>
@@ -99,7 +99,7 @@
                                             @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label required1" })
+                                            @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
                                         </div>

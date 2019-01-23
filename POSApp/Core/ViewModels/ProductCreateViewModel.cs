@@ -49,6 +49,48 @@ namespace POSApp.Core.ViewModels
 
 
     }
+    public class ProductDtViewModel
+    {
+        public int? Id { get; set; }
+        public string Name { get; set; }
+        public int? StoreId { get; set; }
+        public string Description { get; set; }
+        public string Type { get; set; }
+        public string ProductCode { get; set; }
+        public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
+        public string Size { get; set; }//MED, SML, LRG,XRG, Child,
+        [DisplayName("Tax")]
+        public int? TaxId { get; set; }
+        public bool IsTaxable { get; set; }
+
+        [DisplayName("Category")]
+        public int CategoryId { get; set; }
+
+        public string Duration { get; set; }
+
+        public double UnitPrice { get; set; }
+        public double CostPrice { get; set; }
+        public int ReOrderLevel { get; set; }
+
+        public string Stock { get; set; }
+        public string Barcode { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
+        [DisplayName("Unit")]
+        public int UnitId { get; set; }
+        [DisplayName("Section")]
+        public int? SectionId { get; set; }
+        public bool InventoryItem { get; set; }
+        public bool PurchaseItem { get; set; }
+        public bool FixedAssetItem { get; set; }
+        public IEnumerable<SelectListItem> CategoryDdl { get; set; }
+        public IEnumerable<SelectListItem> UnitDdl { get; set; }
+        public IEnumerable<SelectListItem> TaxDdl { get; set; }
+        public IEnumerable<SelectListItem> SectionDdl { get; set; }
+        public IEnumerable<SelectListItem> SizeDdl { get; set; }
+
+
+    }
     public class ProductSyncViewModel
     {
         public int? Id { get; set; }
