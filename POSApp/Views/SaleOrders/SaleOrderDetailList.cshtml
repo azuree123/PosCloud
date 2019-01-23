@@ -123,7 +123,7 @@
                                         <td>@saleOrder.Discount</td>
                                         
                                         <td>
-                                            @(((saleOrder.UnitPrice + saleOrder.Tax + saleOrder.ModifierTransDetail.Sum(a => a.UnitPrice * a.Quantity)) * saleOrder.Quantity) - Convert.ToDecimal(saleOrder.Discount))
+                                            @(((saleOrder.UnitPrice  + saleOrder.ModifierTransDetail.Sum(a => a.UnitPrice * a.Quantity)) * saleOrder.Quantity) + saleOrder.Tax - Convert.ToDecimal(saleOrder.Discount))
                                         </td>
                                     </tr>
                                 }
