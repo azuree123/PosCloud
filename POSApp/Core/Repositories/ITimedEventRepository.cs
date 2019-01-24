@@ -15,5 +15,8 @@ namespace POSApp.Core.Repositories
         void UpdateTimedEvent(int id, TimedEvent timedEvent, int storeid);
         void DeleteTimedEvent(int id, int storeid);
         IEnumerable<TimedEvent> GetApiTimedEvents();
+        Task<IEnumerable<TimedEvent>> GetTimedEventsAsync(int storeid);
+        Task<TimedEvent> GetTimedEventByIdAsync(int id, int storeid);
+        Task AddTimedEventAsync(TimedEvent TimedEvent);
     }
 }

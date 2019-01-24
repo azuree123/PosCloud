@@ -24,13 +24,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/FloorApi
         public async Task<IHttpActionResult> GetFloors(int storeId)
         {
-            return Ok(Mapper.Map<FloorViewModel[]>(_unitOfWork.FloorRepository.GetFloors(storeId)));
+            return Ok(Mapper.Map<FloorViewModel[]>(await _unitOfWork.FloorRepository.GetFloorsAsync(storeId)));
         }
 
         // GET: api/FloorApi/5
         public async Task<IHttpActionResult> GetFloor(int id, int storeId)
         {
-            return Ok(_unitOfWork.FloorRepository.GetFloorById(id, storeId));
+            return Ok(await _unitOfWork.FloorRepository.GetFloorByIdAsync(id, storeId));
         }
 
         // POST: api/FloorApi
@@ -44,9 +44,12 @@ namespace POSApp.Controllers.WebApi
                     floor.Code = floor.Id.ToString();
                     floor.Synced = true;
                     floor.SyncedOn = DateTime.Now;
-                    _unitOfWork.FloorRepository.AddFloor(floor);
+                    await _unitOfWork.FloorRepository.AddFloorAsync(floor);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

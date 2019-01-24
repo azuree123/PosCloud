@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace POSApp.Core.Repositories
@@ -15,5 +16,8 @@ namespace POSApp.Core.Repositories
         void DeleteSection(int id, int storeid);
         Section GetSectionBySectionNumber(string SectionNumber, int storeid);
         Section GetSectionByCode(string code, int storeid);
+        Task<IEnumerable<Section>> GetSectionsAsync(int storeid);
+        Task<Section> GetSectionByIdAsync(int id, int storeid);
+        Task AddSectionAsync(Section Section);
     }
 }

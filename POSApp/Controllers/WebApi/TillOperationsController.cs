@@ -25,13 +25,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/TillOperations
         public async Task<IHttpActionResult> GetTillOperations(int storeId)
         {
-            return Ok(Mapper.Map<TillOperationViewModel[]>(_unitOfWork.TillOperationRepository.GetTillOperations(storeId)));
+            return Ok(Mapper.Map<TillOperationViewModel[]>(await _unitOfWork.TillOperationRepository.GetTillOperationsAsync(storeId)));
         }
 
         // GET: api/TillOperations/5
         public async Task<IHttpActionResult> GetTillOperation(int id ,int storeId)
         {
-            return Ok(_unitOfWork.TillOperationRepository.GetTillOperationsById(id,storeId));
+            return Ok(await _unitOfWork.TillOperationRepository.GetTillOperationsByIdAsync(id,storeId));
         }
 
         // POST: api/TillOperations
@@ -45,9 +45,12 @@ namespace POSApp.Controllers.WebApi
                     tillOperation.Code = tillOperation.Id.ToString();
                     tillOperation.Synced = true;
                     tillOperation.SyncedOn = DateTime.Now;
-                    _unitOfWork.TillOperationRepository.AddTillOperation(tillOperation);
+                    await _unitOfWork.TillOperationRepository.AddTillOperationAsync(tillOperation);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok(1);
             }
             catch (Exception e)

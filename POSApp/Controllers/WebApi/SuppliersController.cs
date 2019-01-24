@@ -24,13 +24,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/SuppliersSync
         public async Task<IHttpActionResult> GetSuppliers(int storeId)
         {
-            return Ok(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", storeId)));
+            return Ok(Mapper.Map<SupplierModelView[]>(await _unitOfWork.BusinessPartnerRepository.GetBusinessPartnersAsync("S", storeId)));
         }
 
         // GET: api/SuppliersSync/5
         public async Task<IHttpActionResult> GetSupplier(int id,int storeId)
         {
-            return Ok(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(id,storeId));
+            return Ok(await _unitOfWork.BusinessPartnerRepository.GetBusinessPartnerAsync(id,storeId));
         }
 
         // POST: api/SuppliersSync
@@ -45,9 +45,12 @@ namespace POSApp.Controllers.WebApi
                     supplier.Type = "S";
                     supplier.Synced = true;
                     supplier.SyncedOn = DateTime.Now;
-                    _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(supplier);
+                    await _unitOfWork.BusinessPartnerRepository.AddBusinessPartnerAsync(supplier);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

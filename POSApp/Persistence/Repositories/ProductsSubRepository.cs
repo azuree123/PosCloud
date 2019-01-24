@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
@@ -21,6 +22,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context. ProductsSubs.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
+        public async Task<IEnumerable<ProductsSub>> GetProductsSubsAsync(int storeid)
+        {
+            return await _context.ProductsSubs.Where(a => a.StoreId == storeid && !a.IsDisabled).ToListAsync();
+        }
         public IEnumerable<ProductsSub> GetProductsSubs(string productCode,int storeid)
         {
             return _context.ProductsSubs.Where(a => a.StoreId == storeid && !a.IsDisabled &&a.ComboProductCode==productCode).ToList();
@@ -30,7 +35,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context. ProductsSubs.Find(id,comboProductId ,storeid);
         }
-
+        public async Task<ProductsSub> GetProductsSubByIdAsync(string id, string comboProductId, int storeid)
+        {
+            return await _context.ProductsSubs.FindAsync(id, comboProductId, storeid);
+        }
         public void AddProductsSub( ProductsSub  productsSubs)
         {
             var inDb = _context.ProductsSubs.FirstOrDefault(a =>
@@ -55,7 +63,30 @@ namespace POSApp.Persistence.Repositories
             }
 
         }
+        public async Task AddProductsSubAsync(ProductsSub productsSubs)
+        {
+            var inDb =await _context.ProductsSubs.FirstOrDefaultAsync(a =>
+                a.ProductCode == productsSubs.ProductCode && a.ComboProductCode == productsSubs.ComboProductCode &&
+                a.StoreId == productsSubs.StoreId);
+            if (inDb == null)
+            {
+                _context.ProductsSubs.Add(productsSubs);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    productsSubs.ComboProductCode = inDb.ComboProductCode;
+                    _context.Entry(inDb).CurrentValues.SetValues(productsSubs);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
 
+        }
         public void UpdateProductsSub(string id, string comboProductId,  ProductsSub  productsSub, int storeid)
         {
             if ( productsSub.ProductCode != id)

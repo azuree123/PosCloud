@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using POSApp.Core.Models;
@@ -31,8 +32,11 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Users.FirstOrDefault(a=>a.Id==id && a.StoreId==storeid);
         }
-    
-      
+            public async Task<ApplicationUser> GetUserByIdAsync(string id, int storeid)
+            {
+                return await _context.Users.FirstOrDefaultAsync(a => a.Id == id && a.StoreId == storeid);
+            }
+
 
         public void UpdateUser(string id, ApplicationUser ApplicationUser, int storeid)
         {
@@ -58,6 +62,23 @@ namespace POSApp.Persistence.Repositories
                 foreach (var registerListViewModel in list)
                 {
                     RegisterListViewModel model=new RegisterListViewModel();
+                    model.UserName = registerListViewModel.UserName;
+                    model.Email = registerListViewModel.Email;
+                    model.UserId = registerListViewModel.Id;
+                    model.UserPassword = Security.DecryptString(registerListViewModel.PasswordEncrypt,
+                        "E546C8DF278CD5931069B522E695D4F2");
+                    model.EmployeeId = registerListViewModel.EmployeeId;
+                    send.Add(model);
+                }
+                return send;
+            }
+            public async Task<IEnumerable<RegisterListViewModel>> GetApiUsersAsync(int storeid)
+            {
+                var list = await _context.Users.Where(a => a.StoreId == storeid && !a.IsDisabled).ToListAsync();
+                List<RegisterListViewModel> send = new List<RegisterListViewModel>();
+                foreach (var registerListViewModel in list)
+                {
+                    RegisterListViewModel model = new RegisterListViewModel();
                     model.UserName = registerListViewModel.UserName;
                     model.Email = registerListViewModel.Email;
                     model.UserId = registerListViewModel.Id;

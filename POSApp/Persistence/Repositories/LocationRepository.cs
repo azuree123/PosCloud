@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 
@@ -20,17 +21,26 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Locations.Where(a=> !a.IsDisabled).ToList();
         }
-
+        public async Task<IEnumerable<Location>> GetLocationsAsync()
+        {
+            return await _context.Locations.Where(a => !a.IsDisabled).ToListAsync();
+        }
         public Location GetLocationById(int id)
         {
             return _context.Locations.Find(id);
         }
-
+        public async Task<Location> GetLocationByIdAsync(int id)
+        {
+            return await _context.Locations.FindAsync(id);
+        }
         public void AddLocation(Location location)
         {
             _context.Locations.Add(location);
         }
-
+        public async Task AddLocationAsync(Location location)
+        {
+            _context.Locations.Add(location);
+        }
         public void UpdateLocation(int id, Location location)
         {
             _context.Locations.Attach(location);

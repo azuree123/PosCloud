@@ -49,8 +49,8 @@ namespace POSApp.Controllers.WebApi
                     //saleOrder.BusinessPartnerId = bId;
                     saleOrder.Code = saleOrder.Id.ToString();
                     var saleOrderAdd = saleOrder;
-                    _unitOfWork.TransMasterRepository.AddTransMaster(saleOrder);
-                    _unitOfWork.Complete();
+                    await _unitOfWork.TransMasterRepository.AddTransMasterAsync(saleOrder);
+                    
                     //foreach (var saleOrderDetail in saleOrder.TransDetails)
                     //{
                     //    saleOrderDetail.Code = salesViewModel.TransMaster.Id.ToString();
@@ -74,8 +74,11 @@ namespace POSApp.Controllers.WebApi
                     //    _unitOfWork.TransMasterPaymentMethodRepository.AddTransMasterPaymentMethod(method);
                     //}
                 }
-              
-                _unitOfWork.Complete();
+
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok(1);
             }
             catch (Exception e)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 
@@ -20,9 +21,17 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.ProductCategories.Where(a=>a.StoreId==storeId && !a.IsDisabled).ToList();
         }
+        public async Task<IEnumerable<ProductCategory>> GetProductCategoriesAsync(int storeId)
+        {
+            return await _context.ProductCategories.Where(a => a.StoreId == storeId && !a.IsDisabled).ToListAsync();
+        }
         public ProductCategory GetProductCategoryById(int id, int storeid)
         {
             return _context.ProductCategories.Find(id,storeid);
+        }
+        public async Task<ProductCategory> GetProductCategoryByIdAsync(int id, int storeid)
+        {
+            return await _context.ProductCategories.FindAsync(id, storeid);
         }
         public ProductCategory GetProductCategoryByCode(string code, int storeid)
         {
@@ -52,7 +61,29 @@ namespace POSApp.Persistence.Repositories
                 }
             }
         }
-
+        public async Task AddProductCategoryAsync(ProductCategory productCategory)
+        {
+            var inDb = await _context.ProductCategories.FirstOrDefaultAsync(a =>
+                a.Name == productCategory.Name && a.Type == productCategory.Type &&
+                a.StoreId == productCategory.StoreId);
+            if (inDb == null)
+            {
+                _context.ProductCategories.Add(productCategory);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    productCategory.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(productCategory);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+        }
         public void UpdateProductCategory(int id,int storeid ,ProductCategory productCategory)
         {
             productCategory.StoreId = storeid;

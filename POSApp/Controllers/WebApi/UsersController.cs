@@ -27,13 +27,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/Users
         public async Task<IHttpActionResult> GetUsers(int storeId)
         {
-            return Ok(_unitOfWork.UserRepository.GetApiUsers(storeId));
+            return Ok(await _unitOfWork.UserRepository.GetApiUsersAsync(storeId));
         }
 
         // GET: api/Users/5
         public async Task<IHttpActionResult> GetUser(string id, int storeId)
         {
-            return Ok(_unitOfWork.UserRepository.GetUserById(id, storeId));
+            return Ok(await _unitOfWork.UserRepository.GetUserByIdAsync(id, storeId));
         }
 
         // POST: api/Users

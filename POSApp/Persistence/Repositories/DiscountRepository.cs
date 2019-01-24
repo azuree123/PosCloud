@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
@@ -20,6 +21,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Discounts.FirstOrDefault(x => x.Id == id && x.StoreId==storeId);
         }
+        public async Task<Discount> GetDiscountByIdAsync(int id, int storeId)
+        {
+            return await _context.Discounts.FirstOrDefaultAsync(x => x.Id == id && x.StoreId == storeId);
+        }
         public IEnumerable<Discount> GetDiscounts(int storeId)
         {
             //return _context.Discount;
@@ -27,7 +32,13 @@ namespace POSApp.Persistence.Repositories
                 .Where(a => a.StoreId == storeId && !a.IsDisabled)
                 .ToList();
         }
-
+        public async Task<IEnumerable<Discount>> GetDiscountsAsync(int storeId)
+        {
+            //return _context.Discount;
+            return await _context.Discounts
+                .Where(a => a.StoreId == storeId && !a.IsDisabled)
+                .ToListAsync();
+        }
         public IEnumerable<Discount> GetDiscountsFiltered(string query, int storeId)
         {
             //return _context.Discount;
@@ -86,6 +97,28 @@ namespace POSApp.Persistence.Repositories
 
         }
 
+        public async Task AddDiscountAsync(Discount optcategory)
+        {
+            var inDb = await _context.Discounts.FirstOrDefaultAsync(a => a.Name == optcategory.Name && a.StoreId == optcategory.StoreId);
+            if (inDb == null)
+            {
+                _context.Discounts.Add(optcategory);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    optcategory.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(optcategory);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+
+        }
         public void UpdateDiscount(int id, Discount discount, int storeId)
         {
             if (discount.Id != id)

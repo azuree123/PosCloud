@@ -22,13 +22,13 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetProductCategories(int storeId)
         {
-            return Ok(Mapper.Map<ProductCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories(storeId)));
+            return Ok(Mapper.Map<ProductCategoryViewModel[]>(await _unitOfWork.ProductCategoryRepository.GetProductCategoriesAsync(storeId)));
         }
 
         // GET: api/ProductCategoryCategoriesSync/5
         public async Task<IHttpActionResult> GetProductCategory(int id, int storeId)
         {
-            return Ok(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id, storeId));
+            return Ok(await _unitOfWork.ProductCategoryRepository.GetProductCategoryByIdAsync(id, storeId));
         }
 
         // POST: api/ProductCategoryCategoriesSync
@@ -42,9 +42,12 @@ namespace POSApp.Controllers.WebApi
                     productCategory.Code = productCategory.Id.ToString();
                     productCategory.Synced = true;
                     productCategory.SyncedOn = DateTime.Now;
-                    _unitOfWork.ProductCategoryRepository.AddProductCategory(productCategory);
+                    await _unitOfWork.ProductCategoryRepository.AddProductCategoryAsync(productCategory);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

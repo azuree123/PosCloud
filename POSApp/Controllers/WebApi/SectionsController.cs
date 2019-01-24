@@ -23,13 +23,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/ProductCategoryGroups
         public async Task<IHttpActionResult> GetSections(int storeId)
         {
-            return Ok(Mapper.Map<SectionViewModel[]>(_unitOfWork.SectionRepository.GetSections(storeId)));
+            return Ok(Mapper.Map<SectionViewModel[]>(await _unitOfWork.SectionRepository.GetSectionsAsync(storeId)));
         }
 
         // GET: api/ProductCategoryGroupCategoriesSync/5
         public async Task<IHttpActionResult> GetSection(int id, int storeId)
         {
-            return Ok(_unitOfWork.SectionRepository.GetSectionById(id, storeId));
+            return Ok(await _unitOfWork.SectionRepository.GetSectionByIdAsync(id, storeId));
         }
 
         // POST: api/ProductCategoryGroupCategoriesSync
@@ -43,9 +43,12 @@ namespace POSApp.Controllers.WebApi
                    section.Code =section.SectionId.ToString();
                    section.Synced = true;
                     section.SyncedOn = DateTime.Now;
-                    _unitOfWork.SectionRepository.AddSection(section);
+                    await _unitOfWork.SectionRepository.AddSectionAsync(section);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

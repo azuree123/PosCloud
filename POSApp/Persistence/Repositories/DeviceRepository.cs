@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
@@ -24,10 +25,17 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Devices.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
-
+        public async Task<IEnumerable<Device>> GetDevicesAsync(int storeid)
+        {
+            return await _context.Devices.Where(a => a.StoreId == storeid && !a.IsDisabled).ToListAsync();
+        }
         public Device GetDeviceById(int id, int storeid)
         {
             return _context.Devices.Find(id, storeid);
+        }
+        public async Task<Device> GetDeviceByIdAsync(int id, int storeid)
+        {
+            return await _context.Devices.FindAsync(id, storeid);
         }
 
         public void AddDevice(Device Device)
@@ -52,7 +60,28 @@ namespace POSApp.Persistence.Repositories
             }
 
         }
+        public async Task AddDeviceAsync(Device Device)
+        {
+            var inDb = await _context.Devices.FirstOrDefaultAsync(a => a.DeviceCode == Device.DeviceCode && a.StoreId == Device.StoreId);
+            if (inDb == null)
+            {
+                _context.Devices.Add(Device);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    Device.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(Device);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
 
+        }
         public void UpdateDevice(int id, Device Device, int storeid)
         {
             if (Device.Id != id)

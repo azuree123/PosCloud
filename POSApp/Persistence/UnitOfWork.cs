@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Security.MicrosoftAccount;
+﻿using System.Threading.Tasks;
+using Microsoft.Owin.Security.MicrosoftAccount;
 using POSApp.Core;
 using POSApp.Core.Repositories;
 
@@ -111,6 +112,11 @@ namespace POSApp.Persistence
         public void Complete()
         {
             _context.SaveChanges();
+
+        }
+        public async Task<bool> CompleteAsync()
+        {
+            return  (await _context.SaveChangesAsync() >= 0);
 
         }
     }

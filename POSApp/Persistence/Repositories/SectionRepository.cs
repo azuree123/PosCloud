@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Repositories;
 
@@ -21,10 +22,17 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Sections.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
-
+        public async Task<IEnumerable<Section>> GetSectionsAsync(int storeid)
+        {
+            return await _context.Sections.Where(a => a.StoreId == storeid && !a.IsDisabled).ToListAsync();
+        }
         public Section GetSectionById(int id, int storeid)
         {
             return _context.Sections.Find(id, storeid);
+        }
+        public async Task<Section> GetSectionByIdAsync(int id, int storeid)
+        {
+            return await _context.Sections.FindAsync(id, storeid);
         }
         public Section GetSectionByCode(string code, int storeid)
         {
@@ -56,7 +64,28 @@ namespace POSApp.Persistence.Repositories
             }
 
         }
+        public async Task AddSectionAsync(Section Section)
+        {
+            var inDb = await _context.Sections.FirstOrDefaultAsync(a => a.Name == Section.Name && a.StoreId == Section.StoreId);
+            if (inDb == null)
+            {
+                _context.Sections.Add(Section);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    Section.SectionId = inDb.SectionId;
+                    _context.Entry(inDb).CurrentValues.SetValues(Section);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
 
+        }
         public void UpdateSection(int id, Section Section, int storeid)
         {
             if (Section.SectionId != id)

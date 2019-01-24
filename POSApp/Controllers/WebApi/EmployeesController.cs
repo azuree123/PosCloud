@@ -23,13 +23,13 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetEmployees(int storeId)
         {
-            return Ok(Mapper.Map<EmployeeModelView[]>(_unitOfWork.EmployeeRepository.GetEmployees(storeId)));
+            return Ok(Mapper.Map<EmployeeModelView[]>(await _unitOfWork.EmployeeRepository.GetEmployeesAsync(storeId)));
         }
 
         // GET: api/EmployeesSync/5
         public async Task<IHttpActionResult> GetEmployee(int id, int storeId)
         {
-            return Ok(_unitOfWork.EmployeeRepository.GetEmployeeById(id, storeId));
+            return Ok(await _unitOfWork.EmployeeRepository.GetEmployeeByIdAsync(id, storeId));
         }
 
         // POST: api/EmployeesSync
@@ -43,9 +43,12 @@ namespace POSApp.Controllers.WebApi
                     employee.Code = employee.Id.ToString();
                     employee.Synced = true;
                     employee.SyncedOn = DateTime.Now;
-                    _unitOfWork.EmployeeRepository.AddEmployee(employee);
+                    await _unitOfWork.EmployeeRepository.AddEmployeeAsync(employee);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

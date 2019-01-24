@@ -1,4 +1,5 @@
-﻿using POSApp.Core.Repositories;
+﻿using System.Threading.Tasks;
+using POSApp.Core.Repositories;
 
 namespace POSApp.Core
 {
@@ -54,5 +55,6 @@ namespace POSApp.Core
         IModifierTransDetailRepository ModifierTransDetailRepository { get; }
         ISizeRepository SizeRepository { get; }
         void Complete();
+        Task<bool> CompleteAsync();
     }
 }

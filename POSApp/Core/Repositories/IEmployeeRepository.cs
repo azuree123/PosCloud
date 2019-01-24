@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 
 namespace POSApp.Core.Repositories
@@ -11,5 +12,8 @@ namespace POSApp.Core.Repositories
        void UpdateEmployee(int id, Employee employee,int storeid);
        void DeleteEmployee(int id,int storeid);
        IEnumerable<Employee> GetApiEmployees();
+       Task<IEnumerable<Employee>> GetEmployeesAsync(int storeId);
+       Task<Employee> GetEmployeeByIdAsync(int id, int storeid);
+       Task AddEmployeeAsync(Employee employee);
    }
 }

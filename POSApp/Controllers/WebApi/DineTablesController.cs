@@ -24,13 +24,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/DineTables
         public async Task<IHttpActionResult> GetDineTables(int storeId)
         {
-            return Ok(Mapper.Map<DineTableViewModel[]>(_unitOfWork.DineTableRepository.GetDineTables(storeId)));
+            return Ok(Mapper.Map<DineTableViewModel[]>(await _unitOfWork.DineTableRepository.GetDineTablesAsync(storeId)));
         }
 
         // GET: api/DineTables/5
         public async Task<IHttpActionResult> GetDineTable(int id, int storeId)
         {
-            return Ok(_unitOfWork.DineTableRepository.GetDineTableById(id, storeId));
+            return Ok(await _unitOfWork.DineTableRepository.GetDineTableByIdAsync(id, storeId));
         }
 
         // POST: api/DineTables
@@ -44,9 +44,13 @@ namespace POSApp.Controllers.WebApi
                     dineTable.Code = dineTable.Id.ToString();
                     dineTable.Synced = true;
                     dineTable.SyncedOn = DateTime.Now;
-                    _unitOfWork.DineTableRepository.AddDineTable(dineTable);
+                    await _unitOfWork.DineTableRepository.AddDineTableAsync(dineTable);
                 }
-                _unitOfWork.Complete();
+
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
@@ -21,12 +22,24 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.BusinessPartners.FirstOrDefault(x => x.Id == id && x.StoreId == StoreId );
         }
+        public async Task<BusinessPartner> GetBusinessPartnerAsync(int id, int StoreId)
+        {
+            return await _context.BusinessPartners.FirstOrDefaultAsync(x => x.Id == id && x.StoreId == StoreId);
+        }
         public IEnumerable<BusinessPartner> GetBusinessPartners(string type, int StoreId)
         {
             //return _context.Customers;
             return _context.BusinessPartners
 
                 .Where(u => u.StoreId == StoreId && u.Type == type && !u.IsDisabled);
+
+        }
+        public async Task<IEnumerable<BusinessPartner>> GetBusinessPartnersAsync(string type, int StoreId)
+        {
+            //return _context.Customers;
+            return await _context.BusinessPartners
+
+                .Where(u => u.StoreId == StoreId && u.Type == type && !u.IsDisabled).ToListAsync();
 
         }
         public IEnumerable<BusinessPartnerViewModel> GetBusinessPartnersFiltered(string type, string query, int StoreId)
@@ -104,6 +117,29 @@ namespace POSApp.Persistence.Repositories
                 item.Id = inDb.Id;
                 _context.Entry(inDb).CurrentValues.SetValues(item);
                 _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+
+        }
+        public async Task AddBusinessPartnerAsync(BusinessPartner item)
+        {
+            var inDb = await _context.BusinessPartners.FirstOrDefaultAsync(a =>
+                a.Name == item.Name && a.Type == item.Type && a.StoreId == item.StoreId && a.Email == item.Email);
+            if (inDb == null)
+            {
+                _context.BusinessPartners.Add(item);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    item.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(item);
+                    _context.Entry(inDb).State = EntityState.Modified;
                 }
                 else
                 {

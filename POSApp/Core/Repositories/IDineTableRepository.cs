@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace POSApp.Core.Repositories
@@ -13,5 +14,8 @@ namespace POSApp.Core.Repositories
         void AddDineTable(DineTable DineTable);
         void UpdateDineTable(int id, DineTable DineTable, int storeid);
         void DeleteDineTable(int id, int storeid);
+        Task<IEnumerable<DineTable>> GetDineTablesAsync(int storeid);
+        Task<DineTable> GetDineTableByIdAsync(int id, int storeid);
+        Task AddDineTableAsync(DineTable DineTable);
     }
 }

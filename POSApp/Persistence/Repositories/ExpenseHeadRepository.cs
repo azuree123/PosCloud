@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 
@@ -20,12 +21,18 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.ExpenseHeads.Where(a=>a.StoreId == storeId && !a.IsDisabled).ToList();
         }
-
+        public async Task<IEnumerable<ExpenseHead>> GetExpenseHeadsAsync(int storeId)
+        {
+            return await _context.ExpenseHeads.Where(a => a.StoreId == storeId && !a.IsDisabled).ToListAsync();
+        }
         public ExpenseHead GetExpenseHeadById(int id, int storeid)
         {
             return _context.ExpenseHeads.Find(id,storeid);
         }
-
+        public async Task<ExpenseHead> GetExpenseHeadByIdAsync(int id, int storeid)
+        {
+            return await _context.ExpenseHeads.FindAsync(id, storeid);
+        }
         public void AddExpenseHead(ExpenseHead expenseHeads)
         {
             var inDb = _context.ExpenseHeads.FirstOrDefault(
@@ -48,7 +55,28 @@ namespace POSApp.Persistence.Repositories
                 }
             }
         }
-
+        public async Task AddExpenseHeadAsync(ExpenseHead expenseHeads)
+        {
+            var inDb = await _context.ExpenseHeads.FirstOrDefaultAsync(
+                a => a.Name == expenseHeads.Name && a.StoreId == expenseHeads.StoreId);
+            if (inDb == null)
+            {
+                _context.ExpenseHeads.Add(expenseHeads);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    expenseHeads.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(expenseHeads);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+        }
         public void UpdateExpenseHead(int id,int storeid, ExpenseHead expenseHeads)
         {
             expenseHeads.StoreId = storeid;

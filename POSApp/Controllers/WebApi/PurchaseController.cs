@@ -23,13 +23,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/Purchase
         public async Task<IHttpActionResult> GetPurchases(int storeId)
         {
-            return Ok(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters(storeId)));
+            return Ok(Mapper.Map<TransMasterViewModel[]>(await _unitOfWork.TransMasterRepository.GetTransMastersAsync(storeId)));
         }
 
         // GET: api/Purchase/5
         public async Task<IHttpActionResult> GetPurchase(int id, int storeId)
         {
-            return Ok(_unitOfWork.TransMasterRepository.GetTransMaster(id, storeId));
+            return Ok(await _unitOfWork.TransMasterRepository.GetTransMasterAsync(id, storeId));
         }
 
         // POST: api/Purchase

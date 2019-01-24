@@ -19,5 +19,8 @@ namespace POSApp.Core.Repositories
         Tax GetTaxByCode(string code, int storeId);
         void UpdateTax(int id, Tax tax, int storeId);
         IEnumerable<Tax> GetApiTaxes();
+        Task<IEnumerable<Tax>> GetTaxesAsync(int storeId);
+        Task<Tax> GetTaxByIdAsync(int id, int storeId);
+        Task AddTaxAsync(Tax optcategory);
     }
 }

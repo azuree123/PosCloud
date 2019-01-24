@@ -16,6 +16,9 @@ namespace POSApp.Core.Repositories
        void DeleteProductsSub(string id, string comboProductId, int storeid);
        IEnumerable<ProductsSub> GetApiProductsSubs();
        IEnumerable<ProductsSub> GetProductsSubs(string productCode, int storeid);
+       Task<IEnumerable<ProductsSub>> GetProductsSubsAsync(int storeid);
+       Task<ProductsSub> GetProductsSubByIdAsync(string id, string comboProductId, int storeid);
+       Task AddProductsSubAsync(ProductsSub productsSubs);
 
    }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 
 namespace POSApp.Core.Repositories
@@ -11,5 +12,8 @@ namespace POSApp.Core.Repositories
         void UpdateState(int id, State state);
         void DeleteState(int id);
         IEnumerable<State> GetApiStates();
+        Task<IEnumerable<State>> GetStatesAsync();
+        Task<State> GetStateByIdAsync(int id);
+        Task AddStateAsync(State state);
     }
 }

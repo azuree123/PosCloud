@@ -465,6 +465,7 @@
     <Compile Include="Core\ViewModels\POSTerminalViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductSizeSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\RoleViewModel.cs" />
+    <Compile Include="Core\ViewModels\SalesReportViewModel.cs" />
     <Compile Include="Core\ViewModels\SectionViewModel.cs" />
     <Compile Include="Core\ViewModels\SecurityObjectViewModel.cs" />
     <Compile Include="Core\ViewModels\SecurityRightViewModel.cs" />
@@ -699,11 +700,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ProductSales.rpt</DependentUpon>
       <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Reports\ProductSizeWiseSales.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ProductSizeWiseSales.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Sales.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Sales.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Services\ExcelService.cs" />
@@ -3358,10 +3366,15 @@
     <EmbeddedResource Include="Reports\ProductSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductSales.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductSizeWiseSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductSizeWiseSales.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Sales.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Sales.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

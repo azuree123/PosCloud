@@ -14,5 +14,6 @@ namespace POSApp.Core.Repositories
         void AddTimedEventProducts(TimedEventProducts tep);
         void UpdateTimedEventProducts(string id, int timedEventId, TimedEventProducts tep, int storeId);
         void DeleteTimedEventProducts(int id, int storeId);
+        
     }
 }

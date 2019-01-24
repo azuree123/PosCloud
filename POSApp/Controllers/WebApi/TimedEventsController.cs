@@ -24,13 +24,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/TimedEvents
         public async Task<IHttpActionResult> GetTimedEvents(int storeId)
         {
-            return Ok(Mapper.Map<TimedEventViewModel[]>(_unitOfWork.TimedEventRepository.GetTimedEvents(storeId)));
+            return Ok(Mapper.Map<TimedEventViewModel[]>(await _unitOfWork.TimedEventRepository.GetTimedEventsAsync(storeId)));
         }
 
         // GET: api/TimedEvents/5
         public async Task<IHttpActionResult> GetTimedEvent(int id, int storeId)
         {
-            return Ok(_unitOfWork.TimedEventRepository.GetTimedEventById(id, storeId));
+            return Ok(await _unitOfWork.TimedEventRepository.GetTimedEventByIdAsync(id, storeId));
         }
 
         // POST: api/TimedEvents
@@ -44,9 +44,12 @@ namespace POSApp.Controllers.WebApi
                     timedEvent.Code = timedEvent.Id.ToString();
                     timedEvent.Synced = true;
                     timedEvent.SyncedOn = DateTime.Now;
-                    _unitOfWork.TimedEventRepository.AddTimedEvent(timedEvent);
+                    await _unitOfWork.TimedEventRepository.AddTimedEventAsync(timedEvent);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

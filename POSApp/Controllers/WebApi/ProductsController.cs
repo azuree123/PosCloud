@@ -22,13 +22,13 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetProducts(int storeId)
         {
-            return Ok(Mapper.Map<ProductSyncViewModel[]>(_unitOfWork.ProductRepository.GetAllProducts(storeId)));
+            return Ok(Mapper.Map<ProductSyncViewModel[]>(await _unitOfWork.ProductRepository.GetAllProductsAsync(storeId)));
         }
 
         // GET: api/ProductsSync/5
         public async Task<IHttpActionResult> GetProduct(int id, int storeId)
         {
-            return Ok(_unitOfWork.ProductRepository.GetProductById(id,storeId));
+            return Ok(await _unitOfWork.ProductRepository.GetProductByIdAsync(id,storeId));
         }
 
         // POST: api/ProductsSync
@@ -41,7 +41,7 @@ namespace POSApp.Controllers.WebApi
                 {
                     product.Code = product.Id.ToString();
                     var catInfo =
-                        _unitOfWork.ProductCategoryRepository.GetProductCategoryByCode(product.CategoryId.ToString(),
+                         _unitOfWork.ProductCategoryRepository.GetProductCategoryByCode(product.CategoryId.ToString(),
                             product.StoreId);
                     var sectionInfo =
                         _unitOfWork.SectionRepository.GetSectionByCode(product.SectionId.ToString(),
@@ -71,10 +71,13 @@ namespace POSApp.Controllers.WebApi
                     {
 
                     product.CategoryId = catInfo.Id;
-                    _unitOfWork.ProductRepository.AddProduct(product);
+                    await _unitOfWork.ProductRepository.AddProductAsync(product);
                     }
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

@@ -14,5 +14,8 @@ namespace POSApp.Core.Repositories
         void AddClient(Client client);
         void UpdateClient(int id, Client client);
         void DeleteClient(int id);
+        Task<IEnumerable<Client>> GetClientsAsync();
+        Task<Client> GetClientAsync(int id);
+        Task AddClientAsync(Client client);
     }
 }

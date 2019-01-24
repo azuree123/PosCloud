@@ -23,13 +23,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/ProductCategoryGroups
         public async Task<IHttpActionResult> GetProductCategoryGroups(int storeId)
         {
-            return Ok(Mapper.Map<ProductCategoryGroupViewModel[]>(_unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups(storeId)));
+            return Ok(Mapper.Map<ProductCategoryGroupViewModel[]>(await _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroupsAsync(storeId)));
         }
 
         // GET: api/ProductCategoryGroupCategoriesSync/5
         public async Task<IHttpActionResult> GetProductCategoryGroup(int id, int storeId)
         {
-            return Ok(_unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroup(id, storeId));
+            return Ok(await _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroupAsync(id, storeId));
         }
 
         // POST: api/ProductCategoryGroupCategoriesSync
@@ -43,9 +43,12 @@ namespace POSApp.Controllers.WebApi
                     productCategoryGroup.Code = productCategoryGroup.Id.ToString();
                     productCategoryGroup.Synced = true;
                     productCategoryGroup.SyncedOn = DateTime.Now;
-                    _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(productCategoryGroup);
+                    await _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroupAsync(productCategoryGroup);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 //int s = 1;
                 //sync.Status = "Success";
                 return Ok(1);

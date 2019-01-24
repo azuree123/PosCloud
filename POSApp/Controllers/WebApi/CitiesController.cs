@@ -26,13 +26,14 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetCities()
         {
-            return Ok(Mapper.Map<CityModelView[]>(_unitOfWork.CityRepository.GetCities()));
+            
+            return Ok(Mapper.Map<CityModelView[]>( await  _unitOfWork.CityRepository.GetCitiesAsync()));
         }
 
         // GET: api/CitiesSync/5
         public async Task<IHttpActionResult> GetCity(int id)
         {
-            return Ok(_unitOfWork.CityRepository.GetCity(id));
+            return Ok(await _unitOfWork.CityRepository.GetCityAsync(id));
         }
 
         // POST: api/CitiesSync
@@ -46,9 +47,13 @@ namespace POSApp.Controllers.WebApi
                     city.Code = city.Id.ToString();
                     city.Synced = true;
                     city.SyncedOn = DateTime.Now;
-                    _unitOfWork.CityRepository.AddCity(city);
+                    await _unitOfWork.CityRepository.AddCityAsync(city);
                 }
-                _unitOfWork.Complete();
+
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

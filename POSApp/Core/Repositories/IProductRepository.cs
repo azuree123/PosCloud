@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
 
@@ -16,5 +17,8 @@ namespace POSApp.Core.Repositories
        IEnumerable<Product> GetApiProducts();
        Product GetProductByCode(string id, int storeid);
        IQueryable<ProductDtViewModel> GetProductsQuery(int storeId);
+       Task<IEnumerable<Product>> GetAllProductsAsync(int storeId);
+       Task<Product> GetProductByIdAsync(int id, int storeid);
+       Task AddProductAsync(Product product);
    }
 }

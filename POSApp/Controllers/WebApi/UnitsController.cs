@@ -23,13 +23,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/Units
         public async Task<IHttpActionResult> GetUnits(int storeId)
         {
-            return Ok(Mapper.Map<UnitViewModel[]>(_unitOfWork.UnitRepository.GetUnit(storeId)));
+            return Ok(Mapper.Map<UnitViewModel[]>(await _unitOfWork.UnitRepository.GetUnitAsync(storeId)));
         }
 
         // GET: api/UnitCategoriesSync/5
         public async Task<IHttpActionResult> GetUnit(int id, int storeId)
         {
-            return Ok(_unitOfWork.UnitRepository.GetUnitById(id, storeId));
+            return Ok(await _unitOfWork.UnitRepository.GetUnitByIdAsync(id, storeId));
         }
 
         // POST: api/UnitCategoriesSync
@@ -43,9 +43,12 @@ namespace POSApp.Controllers.WebApi
                     unit.Code = unit.Id.ToString();
                     unit.Synced = true;
                     unit.SyncedOn = DateTime.Now;
-                    _unitOfWork.UnitRepository.AddUnit(unit);
+                    await _unitOfWork.UnitRepository.AddUnitAsync(unit);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

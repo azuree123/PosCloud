@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Repositories;
 
@@ -21,10 +22,17 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Floors.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
-
+        public async Task<IEnumerable<Floor>> GetFloorsAsync(int storeid)
+        {
+            return await _context.Floors.Where(a => a.StoreId == storeid && !a.IsDisabled).ToListAsync();
+        }
         public Floor GetFloorById(int id, int storeid)
         {
             return _context.Floors.Find(id, storeid);
+        }
+        public async Task<Floor> GetFloorByIdAsync(int id, int storeid)
+        {
+            return await _context.Floors.FindAsync(id, storeid);
         }
         public Floor GetFloorByFloorNumber(string floorNumber, int storeid)
         {
@@ -55,7 +63,31 @@ namespace POSApp.Persistence.Repositories
            
 
         }
+        public async Task AddFloorAsync(Floor Floor)
+        {
+            var inDb = await _context.Floors.FirstOrDefaultAsync(a =>
+                a.FloorNumber == Floor.FloorNumber && a.StoreId == Floor.StoreId);
+            if (inDb == null)
+            {
+                _context.Floors.Add(Floor);
 
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    Floor.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(Floor);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+
+
+        }
         public void UpdateFloor(int id, Floor Floor, int storeid)
         {
             if (Floor.Id != id)

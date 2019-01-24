@@ -27,13 +27,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/Modifiers
         public async Task<IHttpActionResult> GetModifiers(int storeId)
         {
-            return Ok(_unitOfWork.ModifierRepository.GetModifiers(storeId));
+            return Ok(await _unitOfWork.ModifierRepository.GetModifiersAsync(storeId));
         }
 
         // GET: api/ModifiersSync/5
         public async Task<IHttpActionResult> GetModifierById(int id, int storeId)
         {
-            return Ok(_unitOfWork.ModifierRepository.GetModifierById(id, storeId));
+            return Ok(await _unitOfWork.ModifierRepository.GetModifierByIdAsync(id, storeId));
         }
 
         // POST: api/ModifiersSync
@@ -47,9 +47,12 @@ namespace POSApp.Controllers.WebApi
                     modifier.Code = modifier.Id.ToString();
                     modifier.Synced = true;
                     modifier.SyncedOn = DateTime.Now;
-                    _unitOfWork.ModifierRepository.AddModifier(modifier);
+                    await _unitOfWork.ModifierRepository.AddModifierAsync(modifier);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

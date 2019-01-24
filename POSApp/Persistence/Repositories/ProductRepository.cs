@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using POSApp.Core.Models;
@@ -22,6 +23,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Products.Include(a=>a.ProductCategory).Where(a=>a.StoreId==storeId && !a.IsDisabled).ToList();
         }
+        public async Task<IEnumerable<Product>> GetAllProductsAsync(int storeId)
+        {
+            return await _context.Products.Include(a => a.ProductCategory).Where(a => a.StoreId == storeId && !a.IsDisabled).ToListAsync();
+        }
         public IEnumerable<Product> GetProducts(int productCategoryId)
         {
             return _context.Products.Where(a => a.CategoryId == productCategoryId && !a.IsDisabled).ToList();
@@ -29,6 +34,10 @@ namespace POSApp.Persistence.Repositories
         public Product GetProductById(int id, int storeid)
         {
             return _context.Products.Include(a=>a.ComboProducts.Where(o=>!o.IsDisabled)).FirstOrDefault(a=>a.Id==id&&a.StoreId==storeid);
+        }
+        public async Task<Product> GetProductByIdAsync(int id, int storeid)
+        {
+            return await _context.Products.Include(a => a.ComboProducts.Where(o => !o.IsDisabled)).FirstOrDefaultAsync(a => a.Id == id && a.StoreId == storeid);
         }
         public Product GetProductByCode(string id, int storeid)
         {
@@ -65,7 +74,30 @@ namespace POSApp.Persistence.Repositories
                 }
             }
         }
-
+        public async Task AddProductAsync(Product product)
+        {
+            var inDb = await _context.Products.FirstOrDefaultAsync(a =>
+                a.Name == product.Name && a.Size == product.Size && a.CategoryId == product.CategoryId && a.Type == product.Type &&
+                a.StoreId == product.StoreId);
+            if (inDb == null)
+            {
+                _context.Products.Add(product);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    product.Id = inDb.Id;
+                    product.ProductCode = inDb.ProductCode;
+                    _context.Entry(inDb).CurrentValues.SetValues(product);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+        }
         public void UpdateProduct(string id, int storeid,Product product)
         {
             product.StoreId = storeid;

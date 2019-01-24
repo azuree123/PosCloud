@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 
@@ -20,12 +21,18 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Employees.Where(a=>a.StoreId == storeId && !a.IsDisabled).ToList();
         }
-
+        public async Task<IEnumerable<Employee>> GetEmployeesAsync(int storeId)
+        {
+            return await _context.Employees.Where(a => a.StoreId == storeId && !a.IsDisabled).ToListAsync();
+        }
         public Employee GetEmployeeById(int id,int storeid)
         {
             return _context.Employees.Find(id, storeid);
         }
-
+        public async Task<Employee> GetEmployeeByIdAsync(int id, int storeid)
+        {
+            return await _context.Employees.FindAsync(id, storeid);
+        }
         public void AddEmployee(Employee employee)
         {
             var inDb = _context.Employees.FirstOrDefault(a =>
@@ -50,7 +57,30 @@ namespace POSApp.Persistence.Repositories
             }
 
         }
+        public async Task AddEmployeeAsync(Employee employee)
+        {
+            var inDb = await _context.Employees.FirstOrDefaultAsync(a =>
+                a.Email == employee.Email && a.StoreId == employee.StoreId
+            );
+            if (inDb == null)
+            {
+                _context.Employees.Add(employee);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    employee.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(employee);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
 
+        }
         public void UpdateEmployee(int id, Employee employee, int storeid)
         {
             if (employee.Id != id)

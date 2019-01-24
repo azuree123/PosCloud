@@ -15,5 +15,7 @@ namespace POSApp.Core.Repositories
         void UpdateUser(string id, ApplicationUser ApplicationUser, int storeid);
         void DeleteUser(string id, int storeid);
         IEnumerable<RegisterListViewModel> GetApiUsers(int storeid);
+        Task<ApplicationUser> GetUserByIdAsync(string id, int storeid);
+        Task<IEnumerable<RegisterListViewModel>> GetApiUsersAsync(int storeid);
     }
 }

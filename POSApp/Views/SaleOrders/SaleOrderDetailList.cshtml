@@ -113,8 +113,8 @@
                                         <td>@(i++)</td>
                                         <td>@saleOrder.Product.Name</td>
                                         <td>
-                                            @saleOrder.ModifierTransDetail.Count 
-                                            @string.Join(",",saleOrder.ModifierTransDetail.Select(a=>a.ModifierOption+" x "+a.Quantity+" ("+a.UnitPrice+")").ToArray())
+                                            @saleOrder.ModifierTransDetail.Count
+                                            @string.Join(",", saleOrder.ModifierTransDetail.Select(a => a.ModifierOption + " x " + a.Quantity + " (" + a.UnitPrice + ")").ToArray())
                                         </td>
                                         <td>@saleOrder.Quantity</td>
                                         <td>@saleOrder.UnitPrice</td>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 
@@ -21,7 +22,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Expenses.Where(a=>a.StoreId==storeId && !a.IsDisabled).ToList();
         }
-
+        public async Task<IEnumerable<Expense>> GetExpensesAsync(int storeId)
+        {
+            return await _context.Expenses.Where(a => a.StoreId == storeId && !a.IsDisabled).ToListAsync();
+        }
         public IEnumerable<Expense> GetExpensesByDate(int stroreId)
         {
             return _context.Expenses.Where(a => a.Date == DateTime.Today && a.StoreId == stroreId && !a.IsDisabled).ToList();
@@ -30,14 +34,22 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Expenses.Find(id,storeid);
         }
-
+        public async Task<Expense> GetExpenseByIdAsync(int id, int storeid)
+        {
+            return await _context.Expenses.FindAsync(id, storeid);
+        }
         public void AddExpense(Expense expense)
         {
             
                 _context.Expenses.Add(expense);
             
         }
+        public async Task AddExpenseAsync(Expense expense)
+        {
 
+            _context.Expenses.Add(expense);
+
+        }
         public void UpdateExpense(int id, Expense expense,int storeid)
         {
             expense.StoreId = storeid;

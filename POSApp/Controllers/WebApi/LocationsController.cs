@@ -23,13 +23,13 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetLocations()
         {
-            return Ok(Mapper.Map<LocationModelView[]>(_unitOfWork.LocationRepository.GetLocations()));
+            return Ok(Mapper.Map<LocationModelView[]>(await _unitOfWork.LocationRepository.GetLocationsAsync()));
         }
 
         // GET: api/LocationsSync/5
         public async Task<IHttpActionResult> GetLocation(int id, int storeId)
         {
-            return Ok(_unitOfWork.LocationRepository.GetLocationById(id));
+            return Ok(await _unitOfWork.LocationRepository.GetLocationByIdAsync(id));
         }
 
         // POST: api/LocationsSync
@@ -43,9 +43,12 @@ namespace POSApp.Controllers.WebApi
                     location.Code = location.Id.ToString();
                     location.Synced = true;
                     location.SyncedOn = DateTime.Now;
-                    _unitOfWork.LocationRepository.AddLocation(location);
+                    await _unitOfWork.LocationRepository.AddLocationAsync(location);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

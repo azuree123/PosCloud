@@ -23,13 +23,13 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetDiscounts(int storeId)
         {
-            return Ok(Mapper.Map<DiscountViewModel[]>(_unitOfWork.DiscountRepository.GetDiscounts(storeId)));
+            return Ok(Mapper.Map<DiscountViewModel[]>(await _unitOfWork.DiscountRepository.GetDiscountsAsync(storeId)));
         }
 
         // GET: api/DiscountsSync/5
         public async Task<IHttpActionResult> GetDiscount(int id, int storeId)
         {
-            return Ok(_unitOfWork.DiscountRepository.GetDiscountById(id,storeId));
+            return Ok(await _unitOfWork.DiscountRepository.GetDiscountByIdAsync(id,storeId));
         }
 
         // POST: api/DiscountsSync
@@ -43,9 +43,12 @@ namespace POSApp.Controllers.WebApi
                     discount.Code = discount.Id.ToString();
                     discount.Synced = true;
                     discount.SyncedOn = DateTime.Now;
-                    _unitOfWork.DiscountRepository.AddDiscount(discount);
+                    await _unitOfWork.DiscountRepository.AddDiscountAsync(discount);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

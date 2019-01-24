@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 
 namespace POSApp.Core.Repositories
@@ -11,5 +12,8 @@ namespace POSApp.Core.Repositories
         void UpdateDepartment(int id, int storeId, Department department);
         void DeleteDepartment(int id,int storeId);
         IEnumerable<Department> GetApiDepartments();
+        Task<IEnumerable<Department>> GetDepartmentsAsync(int storeId);
+        Task<Department> GetDepartmentByIdAsync(int id, int storeId);
+        Task AddDepartmentAsync(Department department);
     }
 }

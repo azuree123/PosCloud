@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
 using POSApp.Core.Models;
@@ -32,11 +33,29 @@ namespace POSApp.Persistence.Repositories
 
             return data;
         }
+        public async Task<TransMaster> GetTransMasterAsync(int id, int storeId)
+        {
+            var data = await _context.TransMasters.Include(a => a.BusinessPartner).Include(a => a.DineTable).Include(a => a.TimedEvent)
+                .Include(a => a.TransDetails).Include(a => a.TransDetails.Select(c => c.Product)).Include(a => a.TransDetails.Select(c => c.ModifierTransDetail))
+                .Include(a => a.TransDetails.Select(c => c.ModifierTransDetail.Select(f => f.ModifierOption)))
+                .Include(a => a.TransMasterPaymentMethods)
+                .FirstOrDefaultAsync(x => x.Id == id && x.StoreId == storeId);
+
+
+            return data;
+        }
         public IEnumerable<TransMaster> GetTransMasters(int storeId)
         {
             //return _context.PurchaseOrder;
             return _context.TransMasters.Include(a=>a.BusinessPartner)
                 .Where(a => a.StoreId == storeId && !a.IsDisabled);
+
+        }
+        public async Task<IEnumerable<TransMaster>> GetTransMastersAsync(int storeId)
+        {
+            //return _context.PurchaseOrder;
+            return await _context.TransMasters.Include(a => a.BusinessPartner)
+                .Where(a => a.StoreId == storeId && !a.IsDisabled).ToListAsync();
 
         }
         public IEnumerable<TransMaster> GetTransMastersByDate(int storeId)
@@ -88,6 +107,11 @@ namespace POSApp.Persistence.Repositories
             _context.Entry(transMaster).State = EntityState.Modified;
         }
         public void AddTransMaster(TransMaster optcategory)
+        {
+            _context.TransMasters.Add(optcategory);
+
+        }
+        public async Task AddTransMasterAsync(TransMaster optcategory)
         {
             _context.TransMasters.Add(optcategory);
 

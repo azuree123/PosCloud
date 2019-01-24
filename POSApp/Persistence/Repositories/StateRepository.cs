@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 
@@ -19,12 +20,18 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.States.Where(a=> !a.IsDisabled).ToList();
         }
-
+        public async Task<IEnumerable<State>> GetStatesAsync()
+        {
+            return await _context.States.Where(a => !a.IsDisabled).ToListAsync();
+        }
         public State GetStateById(int id)
         {
             return _context.States.Find(id);
         }
-
+        public async Task<State> GetStateByIdAsync(int id)
+        {
+            return await _context.States.FindAsync(id);
+        }
         public void AddState(State state)
         {
             var inDb = _context.States.FirstOrDefault(a => a.Name == state.Name);
@@ -46,7 +53,27 @@ namespace POSApp.Persistence.Repositories
                 }
             }
         }
-
+        public async Task AddStateAsync(State state)
+        {
+            var inDb = await _context.States.FirstOrDefaultAsync(a => a.Name == state.Name);
+            if (inDb == null)
+            {
+                _context.States.Add(state);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    state.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(state);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+        }
         public void UpdateState(int id, State state)
         {
             if (state.Id != id)

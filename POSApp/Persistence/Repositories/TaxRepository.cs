@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
@@ -20,6 +21,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Taxes.FirstOrDefault(x => x.Id == id && x.StoreId==storeId);
         }
+        public async Task<Tax> GetTaxByIdAsync(int id, int storeId)
+        {
+            return await _context.Taxes.FirstOrDefaultAsync(x => x.Id == id && x.StoreId == storeId);
+        }
         public Tax GetTaxByCode(string code, int storeId)
         {
             return _context.Taxes.FirstOrDefault(x => x.Code == code && x.StoreId == storeId);
@@ -31,7 +36,13 @@ namespace POSApp.Persistence.Repositories
                 .Where(a => a.StoreId == storeId && !a.IsDisabled)
                 .ToList();
         }
-
+        public async Task<IEnumerable<Tax>> GetTaxesAsync(int storeId)
+        {
+            //return _context.Tax;
+            return await _context.Taxes
+                .Where(a => a.StoreId == storeId && !a.IsDisabled)
+                .ToListAsync();
+        }
         public IEnumerable<Tax> GetTaxesFiltered(string query, int storeId)
         {
             //return _context.Tax;
@@ -70,6 +81,28 @@ namespace POSApp.Persistence.Repositories
         public void AddTax(Tax optcategory)
         {
             var inDb = _context.Taxes.FirstOrDefault(a => a.Name == optcategory.Name && a.StoreId == optcategory.StoreId);
+            if (inDb == null)
+            {
+                _context.Taxes.Add(optcategory);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    optcategory.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(optcategory);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+
+        }
+        public async Task AddTaxAsync(Tax optcategory)
+        {
+            var inDb = await _context.Taxes.FirstOrDefaultAsync(a => a.Name == optcategory.Name && a.StoreId == optcategory.StoreId);
             if (inDb == null)
             {
                 _context.Taxes.Add(optcategory);

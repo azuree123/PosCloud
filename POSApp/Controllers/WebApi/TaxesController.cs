@@ -22,13 +22,13 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetTaxes(int storeId)
         {
-            return Ok(Mapper.Map<TaxViewModel[]>(_unitOfWork.TaxRepository.GetTaxes(storeId)));
+            return Ok(Mapper.Map<TaxViewModel[]>(await _unitOfWork.TaxRepository.GetTaxesAsync(storeId)));
         }
 
         // GET: api/TaxCategoriesSync/5
         public async Task<IHttpActionResult> GetTax(int id, int storeId)
         {
-            return Ok(_unitOfWork.TaxRepository.GetTaxById(id,storeId));
+            return Ok(await _unitOfWork.TaxRepository.GetTaxByIdAsync(id,storeId));
         }
 
         // POST: api/TaxCategoriesSync
@@ -42,9 +42,12 @@ namespace POSApp.Controllers.WebApi
                     tax.Code = tax.Id.ToString();
                     tax.Synced = true;
                     tax.SyncedOn = DateTime.Now;
-                    _unitOfWork.TaxRepository.AddTax(tax);
+                    await _unitOfWork.TaxRepository.AddTaxAsync(tax);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

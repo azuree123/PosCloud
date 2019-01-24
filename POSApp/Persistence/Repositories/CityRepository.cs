@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 
@@ -19,6 +20,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Cities.Include(a=>a.State).Where(a=> !a.IsDisabled).ToList();
         }
+        public async Task<IEnumerable<City>> GetCitiesAsync()
+        {
+            return await _context.Cities.Include(a => a.State).Where(a => !a.IsDisabled).ToListAsync();
+        }
         public IEnumerable<City> GetCities(int stateId)
         {
             return _context.Cities.Where(a => a.StateId == stateId && !a.IsDisabled).Include(a => a.State).ToList();
@@ -28,10 +33,34 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Cities.Find(id);
         }
-
+        public async Task<City> GetCityAsync(int id)
+        {
+            return await _context.Cities.FindAsync(id);
+        }
         public void AddCity(City city)
         {
             var inDb = _context.Cities.FirstOrDefault(a => a.Name == city.Name && a.StateId == city.StateId);
+            if (inDb == null)
+            {
+                _context.Cities.Add(city);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    city.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(city);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+        }
+        public async Task AddCityAsync(City city)
+        {
+            var inDb = await _context.Cities.FirstOrDefaultAsync(a => a.Name == city.Name && a.StateId == city.StateId);
             if (inDb == null)
             {
                 _context.Cities.Add(city);

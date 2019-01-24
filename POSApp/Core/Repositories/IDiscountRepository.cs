@@ -18,5 +18,8 @@ namespace POSApp.Core.Repositories
         void AddDiscount(Discount optcategory);
         void UpdateDiscount(int id, Discount discount, int storeId);
         IEnumerable<Discount> GetApiDiscounts();
+        Task<Discount> GetDiscountByIdAsync(int id, int storeId);
+        Task<IEnumerable<Discount>> GetDiscountsAsync(int storeId);
+        Task AddDiscountAsync(Discount optcategory);
     }
 }

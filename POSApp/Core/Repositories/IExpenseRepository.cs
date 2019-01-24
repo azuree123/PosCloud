@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 
 namespace POSApp.Core.Repositories
@@ -12,5 +13,8 @@ namespace POSApp.Core.Repositories
         void DeleteExpense(int id,int storeid);
         IEnumerable<Expense> GetExpensesByDate(int stroreId);
         IEnumerable<Expense> GetApiExpenses();
+        Task<IEnumerable<Expense>> GetExpensesAsync(int storeId);
+        Task<Expense> GetExpenseByIdAsync(int id, int storeid);
+        Task AddExpenseAsync(Expense expense);
     }
 }

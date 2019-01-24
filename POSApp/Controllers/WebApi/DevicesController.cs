@@ -24,13 +24,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/Devices
         public async Task<IHttpActionResult> GetDevices(int storeId)
         {
-            return Ok(Mapper.Map<DeviceViewModel[]>(_unitOfWork.DeviceRepository.GetDevices(storeId)));
+            return Ok(Mapper.Map<DeviceViewModel[]>( await _unitOfWork.DeviceRepository.GetDevicesAsync(storeId)));
         }
 
         // GET: api/Devices/5
         public async Task<IHttpActionResult> GetDevice(int id, int storeId)
         {
-            return Ok(_unitOfWork.DeviceRepository.GetDeviceById(id, storeId));
+            return Ok(await _unitOfWork.DeviceRepository.GetDeviceByIdAsync(id, storeId));
         }
 
         // POST: api/Devices
@@ -46,7 +46,11 @@ namespace POSApp.Controllers.WebApi
                     device.SyncedOn = DateTime.Now;
                     _unitOfWork.DeviceRepository.AddDevice(device);
                 }
-                _unitOfWork.Complete();
+
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

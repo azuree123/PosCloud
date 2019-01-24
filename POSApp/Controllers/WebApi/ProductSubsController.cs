@@ -24,13 +24,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/ProductSubs
         public async Task<IHttpActionResult> GetProductSubs(int storeId)
         {
-            return Ok(Mapper.Map<ProductSubViewModel[]>(_unitOfWork.ProductsSubRepository.GetProductsSubs(storeId)));
+            return Ok(Mapper.Map<ProductSubViewModel[]>(await _unitOfWork.ProductsSubRepository.GetProductsSubsAsync(storeId)));
         }
 
         // GET: api/ProductSubs/5
         public async Task<IHttpActionResult> GetProductSub(string id, string comboProductId, int storeId)
         {
-            return Ok(_unitOfWork.ProductsSubRepository.GetProductsSubById(id, comboProductId, storeId));
+            return Ok(await _unitOfWork.ProductsSubRepository.GetProductsSubByIdAsync(id, comboProductId, storeId));
         }
 
         // POST: api/ProductSubs
@@ -43,9 +43,12 @@ namespace POSApp.Controllers.WebApi
                 {
                     productSub.Synced = true;
                     productSub.SyncedOn = DateTime.Now;
-                    _unitOfWork.ProductsSubRepository.AddProductsSub(productSub);
+                    await _unitOfWork.ProductsSubRepository.AddProductsSubAsync(productSub);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

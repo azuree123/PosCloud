@@ -18,5 +18,8 @@ namespace POSApp.Core.Repositories
         void DeleteProductCategoryGroup(int id, int storeId);
         void AddProductCategoryGroup(ProductCategoryGroup optcategory);
         void UpdateProductCategoryGroup(int id, int storeId, ProductCategoryGroup productCategoryGroup);
+        Task<ProductCategoryGroup> GetProductCategoryGroupAsync(int id, int storeId);
+        Task<IEnumerable<ProductCategoryGroupViewModel>> GetProductCategoryGroupsAsync(int storeId);
+        Task AddProductCategoryGroupAsync(ProductCategoryGroup optcategory);
     }
 }

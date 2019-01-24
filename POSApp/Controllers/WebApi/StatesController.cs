@@ -23,13 +23,13 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetStates()
         {
-            return Ok(Mapper.Map<StateModelView[]>(_unitOfWork.StateRepository.GetStates()));
+            return Ok(Mapper.Map<StateModelView[]>(await _unitOfWork.StateRepository.GetStatesAsync()));
         }
 
         // GET: api/StateCategoriesSync/5
         public async Task<IHttpActionResult> GetState(int id, int storeId)
         {
-            return Ok(_unitOfWork.StateRepository.GetStateById(id));
+            return Ok(await _unitOfWork.StateRepository.GetStateByIdAsync(id));
         }
 
         // POST: api/StateCategoriesSync
@@ -43,9 +43,12 @@ namespace POSApp.Controllers.WebApi
                     state.Code = state.Id.ToString();
                     state.Synced = true;
                     state.SyncedOn = DateTime.Now;
-                    _unitOfWork.StateRepository.AddState(state);
+                    await _unitOfWork.StateRepository.AddStateAsync(state);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

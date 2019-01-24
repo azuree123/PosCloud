@@ -24,13 +24,13 @@ namespace POSApp.Controllers.WebApi
         // GET: api/Clients
         public async Task<IHttpActionResult> GetClients(int storeId)
         {
-            return Ok(Mapper.Map<ClientViewModel[]>(_unitOfWork.ClientRepository.GetClients()));
+            return Ok(Mapper.Map<ClientViewModel[]>(await _unitOfWork.ClientRepository.GetClientsAsync()));
         }
 
         // GET: api/Clients/5
         public async Task<IHttpActionResult> GetClient(int id, int storeId)
         {
-            return Ok(_unitOfWork.ClientRepository.GetClient(id));
+            return Ok(await _unitOfWork.ClientRepository.GetClientAsync(id));
         }
 
         // POST: api/Clients
@@ -44,9 +44,12 @@ namespace POSApp.Controllers.WebApi
                     client.Code = client.Id.ToString();
                     client.Synced = true;
                     client.SyncedOn = DateTime.Now;
-                    _unitOfWork.ClientRepository.AddClient(client);
+                    await _unitOfWork.ClientRepository.AddClientAsync(client);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

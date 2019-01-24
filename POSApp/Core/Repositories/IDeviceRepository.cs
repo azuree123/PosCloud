@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
 
@@ -13,5 +14,8 @@ namespace POSApp.Core.Repositories
         void AddDevice(Device Device);
         void UpdateDevice(int id, Device Device, int storeid);
         void DeleteDevice(int id, int storeid);
+        Task<IEnumerable<Device>> GetDevicesAsync(int storeid);
+        Task<Device> GetDeviceByIdAsync(int id, int storeid);
+        Task AddDeviceAsync(Device Device);
     }
 }

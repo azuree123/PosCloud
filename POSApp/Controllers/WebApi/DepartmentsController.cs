@@ -23,13 +23,13 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetDepartments(int storeId)
         {
-            return Ok(Mapper.Map<DepartmentViewModel[]>(_unitOfWork.DepartmentRepository.GetDepartments(storeId)));
+            return Ok(Mapper.Map<DepartmentViewModel[]>(await _unitOfWork.DepartmentRepository.GetDepartmentsAsync(storeId)));
         }
 
         // GET: api/DepartmentsSync/5
         public async Task<IHttpActionResult> GetDepartment(int id, int storeId)
         {
-            return Ok(_unitOfWork.DepartmentRepository.GetDepartmentById(id,storeId));
+            return Ok(await _unitOfWork.DepartmentRepository.GetDepartmentByIdAsync(id,storeId));
         }
 
         // POST: api/DepartmentsSync
@@ -43,9 +43,12 @@ namespace POSApp.Controllers.WebApi
                     department.Code = department.Id.ToString();
                     department.Synced = true;
                     department.SyncedOn = DateTime.Now;
-                    _unitOfWork.DepartmentRepository.AddDepartment(department);
+                    await _unitOfWork.DepartmentRepository.AddDepartmentAsync(department);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

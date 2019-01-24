@@ -18,5 +18,8 @@ namespace POSApp.Core.Repositories
         void DeleteBusinessPartner(int id, int StoreId);
         void AddBusinessPartner(BusinessPartner businesspartner);
         void UpdateBusinessPartner(int id, int StoreId,BusinessPartner businesspartner);
+        Task<BusinessPartner> GetBusinessPartnerAsync(int id, int StoreId);
+        Task<IEnumerable<BusinessPartner>> GetBusinessPartnersAsync(string type, int StoreId);
+        Task AddBusinessPartnerAsync(BusinessPartner item);
     }
 }

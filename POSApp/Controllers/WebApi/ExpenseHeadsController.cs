@@ -23,13 +23,13 @@ namespace POSApp.Controllers.WebApi
         }
         public async Task<IHttpActionResult> GetExpenseHeads(int storeId)
         {
-            return Ok(Mapper.Map<ExpenseHeadViewModel[]>(_unitOfWork.ExpenseHeadRepository.GetExpenseHeads(storeId)));
+            return Ok(Mapper.Map<ExpenseHeadViewModel[]>(await _unitOfWork.ExpenseHeadRepository.GetExpenseHeadsAsync(storeId)));
         }
 
         // GET: api/ExpenseHeadsSync/5
         public async Task<IHttpActionResult> GetExpenseHead(int id, int storeId)
         {
-            return Ok(_unitOfWork.ExpenseHeadRepository.GetExpenseHeadById(id, storeId));
+            return Ok(await _unitOfWork.ExpenseHeadRepository.GetExpenseHeadByIdAsync(id, storeId));
         }
 
         // POST: api/ExpenseHeadsSync
@@ -43,9 +43,12 @@ namespace POSApp.Controllers.WebApi
                     expenseHead.Code = expenseHead.Id.ToString();
                     expenseHead.Synced = true;
                     expenseHead.SyncedOn=DateTime.Now;
-                    _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expenseHead);
+                    await _unitOfWork.ExpenseHeadRepository.AddExpenseHeadAsync(expenseHead);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)
