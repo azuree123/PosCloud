@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 using POSApp.Core.ViewModels;
-using EntityState = System.Data.Entity.EntityState;
+using POSApp.Core.ViewModels.Sync;
 
 namespace POSApp.Persistence.Repositories
 {

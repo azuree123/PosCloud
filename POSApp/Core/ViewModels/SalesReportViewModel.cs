@@ -7,7 +7,7 @@ namespace POSApp.Core.ViewModels
 {
     public class SalesReportViewModel
     {
-        public string ProductName { get; set; }
+        public string InvoiceNumber { get; set; }
         public int Qty { get; set; }
         public decimal Amount { get; set; }
         public decimal Discount { get; set; }

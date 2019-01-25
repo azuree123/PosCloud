@@ -14,5 +14,6 @@ namespace POSApp.Core.Repositories
        List<ProductSizeSaleViewModel> GenerateProductSizeWiseSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<ComboReportSaleViewModel> GenerateComboSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<BranchReportSaleViewModel> GenerateBranchSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
+       List<SalesReportViewModel> GenerateSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
    }
 }

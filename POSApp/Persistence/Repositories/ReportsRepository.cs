@@ -82,12 +82,27 @@ namespace POSApp.Persistence.Repositories
             inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
             inner join PosCloud.Products as c on b.ProductCode=c.ProductCode
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
-            where a.TransDate >=@p2 and a.TransDate<=@p3 
+            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 
             group by d.Name,c.Name,a.TransDate
             
                 ";
 
             return _context.Database.SqlQuery<BranchReportSaleViewModel>(sql, parameters.ToArray()).ToList();
+        }
+        public List<SalesReportViewModel> GenerateSalesData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var sql = @"select a.TransCode as InvoiceNumber,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount,a.TransDate as Date 
+            ,a.Discount as Discount,a.Tax as Tax
+			from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+			inner join PosCloud.Stores as d on a.StoreId=d.Id
+            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 
+            group by a.TransCode,a.TransCode,a.TransDate,a.Discount,a.Tax
+            
+                ";
+
+            return _context.Database.SqlQuery<SalesReportViewModel>(sql, parameters.ToArray()).ToList();
         }
     }
 }

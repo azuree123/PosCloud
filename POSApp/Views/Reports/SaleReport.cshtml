@@ -32,6 +32,7 @@
 
                 <li><a href="@Url.Action("InventoryReport","Reports")">Inventory</a></li>
 
+
                 <li><a href="@Url.Action("MiscellaneousReport","Reports")">Miscellaneous</a></li>
 
                 <li><a href="@Url.Action("ExportingReport","Reports")">Exporting</a></li>
@@ -60,28 +61,31 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-4 mb-lg">
-                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateCategoriesSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Categories Sales</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Sales Report</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateProductSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Products Sales</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports", new {target = "GenerateCategoriesSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Categories Sales</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateProductSizeSaleReport"})" class="modalShow" id=""><button type="button" class="btn outline-success chart ">Products Sizes Sales</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports", new {target = "GenerateProductSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Products Sales</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateComboSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Combos Sales</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports", new {target = "GenerateProductSizeSaleReport"})" class="modalShow" id=""><button type="button" class="btn outline-success chart ">Products Sizes Sales</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateProductSizeByOrderTypeSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart "> Product Sizes By Order Type Sales</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports", new {target = "GenerateComboSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Combos Sales</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateModifierSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Modifiers Sales</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports", new {target = "GenerateProductSizeByOrderTypeSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart "> Product Sizes By Order Type Sales</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateProductModifierSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success  chart">Product Modifiers Sales</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports", new {target = "GenerateModifierSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Modifiers Sales</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
-                    <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateProductTimelySaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Products Timely Sales</button></a>
+                    <a href="@Url.Action("GenerateReport", "Reports", new {target = "GenerateProductModifierSaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success  chart">Product Modifiers Sales</button></a>
+                </div>
+                <div class="col-md-4 mb-lg">
+                    <a href="@Url.Action("GenerateReport", "Reports", new {target = "GenerateProductTimelySaleReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Products Timely Sales</button></a>
                 </div>
             </div>
         </div>

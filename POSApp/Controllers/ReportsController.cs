@@ -30,6 +30,40 @@ namespace POSApp.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult GenerateSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            try
+            {
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateBranchSalesData((int)user.StoreId, dateFrom, dateTo),
+                    "SalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "Sales.rpt");
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("MyReports");
+        }
 
         public ActionResult InventoryReport()
         {
