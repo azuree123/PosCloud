@@ -16,14 +16,14 @@ namespace POSApp.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class Sales : ReportClass {
+    public class OrderTypeWiseSale : ReportClass {
         
-        public Sales() {
+        public OrderTypeWiseSale() {
         }
         
         public override string ResourceName {
             get {
-                return "Sales.rpt";
+                return "OrderTypeWiseSale.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace POSApp.Reports {
         
         public override string FullResourceName {
             get {
-                return "POSApp.Reports.Sales.rpt";
+                return "POSApp.Reports.OrderTypeWiseSale.rpt";
             }
             set {
                 // Do nothing
@@ -106,9 +106,9 @@ namespace POSApp.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedSales : Component, ICachedReport {
+    public class CachedOrderTypeWiseSale : Component, ICachedReport {
         
-        public CachedSales() {
+        public CachedOrderTypeWiseSale() {
         }
         
         [Browsable(false)]
@@ -145,7 +145,7 @@ namespace POSApp.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            Sales rpt = new Sales();
+            OrderTypeWiseSale rpt = new OrderTypeWiseSale();
             rpt.Site = this.Site;
             return rpt;
         }

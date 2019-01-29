@@ -97,7 +97,7 @@ namespace POSApp.Persistence.Repositories
         public void DeletePOSTerminal(int id, int storeid)
         {
             var posTerminal = _context.PosTerminals.FirstOrDefault(a => a.POSTerminalId == id && a.StoreId == storeid);
-            posTerminal.IsActive = false;
+            posTerminal.IsDisabled = true;
             _context.PosTerminals.Attach(posTerminal);
             _context.Entry(posTerminal).State = EntityState.Modified;
         }

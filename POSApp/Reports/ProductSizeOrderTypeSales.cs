@@ -16,14 +16,14 @@ namespace POSApp.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class Sales : ReportClass {
+    public class ProductSizeOrderTypeSales : ReportClass {
         
-        public Sales() {
+        public ProductSizeOrderTypeSales() {
         }
         
         public override string ResourceName {
             get {
-                return "Sales.rpt";
+                return "ProductSizeOrderTypeSales.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace POSApp.Reports {
         
         public override string FullResourceName {
             get {
-                return "POSApp.Reports.Sales.rpt";
+                return "POSApp.Reports.ProductSizeOrderTypeSales.rpt";
             }
             set {
                 // Do nothing
@@ -74,7 +74,7 @@ namespace POSApp.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupHeaderSection2 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,7 +82,7 @@ namespace POSApp.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -90,7 +90,7 @@ namespace POSApp.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection2 {
             get {
                 return this.ReportDefinition.Sections[5];
             }
@@ -98,17 +98,33 @@ namespace POSApp.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection1 {
             get {
                 return this.ReportDefinition.Sections[6];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
+            get {
+                return this.ReportDefinition.Sections[7];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
+            get {
+                return this.ReportDefinition.Sections[8];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedSales : Component, ICachedReport {
+    public class CachedProductSizeOrderTypeSales : Component, ICachedReport {
         
-        public CachedSales() {
+        public CachedProductSizeOrderTypeSales() {
         }
         
         [Browsable(false)]
@@ -145,7 +161,7 @@ namespace POSApp.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            Sales rpt = new Sales();
+            ProductSizeOrderTypeSales rpt = new ProductSizeOrderTypeSales();
             rpt.Site = this.Site;
             return rpt;
         }
