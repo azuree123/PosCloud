@@ -28,6 +28,7 @@ namespace POSApp.Persistence
         public DbSet<Product> Products { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Designation> Designations { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<ExpenseHead> ExpenseHeads { get; set; }
@@ -76,11 +77,11 @@ namespace POSApp.Persistence
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            
+
             //modelBuilder.Configurations.Add(new ApplicationUserEntityConfiguration());
             //modelBuilder.Configurations.Add(new UserRoleConfiguration());
             //modelBuilder.Configurations.Add(new RoleConfiguration());
-            //modelBuilder.Configurations.Add(new DesignationEntityConfiguration());
+            modelBuilder.Configurations.Add(new DesignationEntityConfiguration());
             //modelBuilder.Configurations.Add(new UserLoginConfiguration());
             //modelBuilder.Configurations.Add(new UserClaimConfiguration());
 

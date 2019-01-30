@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 
 namespace POSApp.Persistence.Repositories
 {
-    public class DesignationRepository:IDesignationRepository
+    public class DesignationRepository : IDesignationRepository
     {
         private PosDbContext _context;
 
@@ -16,44 +17,91 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<Designation> GetDesignations()
+        public IEnumerable<Designation> GetDesignations(int storeId)
         {
-            return _context.Designations.ToList();
+            return _context.Designations.Where(a => a.StoreId == storeId && !a.IsDisabled).ToList();
+        }
+        public async Task<IEnumerable<Designation>> GetDesignationsAsync(int storeId)
+        {
+            return await _context.Designations.Where(a => a.StoreId == storeId && !a.IsDisabled).ToListAsync();
+        }
+        public Designation GetDesignationById(int id, int storeId)
+        {
+            return _context.Designations.Where(a => a.Id == id && a.StoreId == storeId && !a.IsDisabled).ToList().FirstOrDefault();
+        }
+        public async Task<Designation> GetDesignationByIdAsync(int id, int storeId)
+        {
+            return await _context.Designations.FirstOrDefaultAsync(a => a.Id == id && a.StoreId == storeId && !a.IsDisabled);
+        }
+        public void AddDesignation(Designation Designation)
+        {
+            var inDb = _context.Designations.FirstOrDefault(a =>
+                a.Name == Designation.Name && a.StoreId == Designation.StoreId);
+            if (inDb == null)
+            {
+                _context.Designations.Add(Designation);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    Designation.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(Designation);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+        }
+        public async Task AddDesignationAsync(Designation Designation)
+        {
+            var inDb = await _context.Designations.FirstOrDefaultAsync(a =>
+                a.Name == Designation.Name && a.StoreId == Designation.StoreId);
+            if (inDb == null)
+            {
+                _context.Designations.Add(Designation);
+            }
+            else
+            {
+                if (inDb.IsDisabled)
+                {
+                    Designation.Id = inDb.Id;
+                    _context.Entry(inDb).CurrentValues.SetValues(Designation);
+                    _context.Entry(inDb).State = EntityState.Modified;
+                }
+                else
+                {
+                    throw new Exception("Entity Already Exists!");
+                }
+            }
+        }
+        public void UpdateDesignation(int id, int storeId, Designation Designation)
+        {
+            Designation.StoreId = storeId;
+            _context.Designations.Attach(Designation);
+            _context.Entry(Designation).State = EntityState.Modified;
         }
 
-        public Designation GetDesignationById(int id)
+        public void DeleteDesignation(int id, int storeId)
         {
-            return _context.Designations.Find(id);
-        }
-
-        public void AddDesignation(Designation designation)
-        {
-            _context.Designations.Add(designation);
-        }
-
-        public void UpdateDesignation(int id, Designation designation)
-        {
-            _context.Designations.Attach(designation);
-            _context.Entry(designation).State = EntityState.Modified;
-        }
-
-        public void DeleteDesignation(int id)
-        {
-            var designation = new Designation { Id = id };
-            _context.Designations.Attach(designation);
-            _context.Entry(designation).State = EntityState.Deleted;
+            var Designation = _context.Designations.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            Designation.IsDisabled = true;
+            _context.Designations.Attach(Designation);
+            _context.Entry(Designation).State = EntityState.Modified;
         }
         public IEnumerable<Designation> GetApiDesignations()
         {
-            IEnumerable<Designation> designations = _context.Designations.Where(a => !a.Synced).ToList();
-            foreach (var designation in designations)
+            IEnumerable<Designation> Designations = _context.Designations.Where(a => !a.Synced).ToList();
+            foreach (var Designation in Designations)
             {
-                designation.Synced = true;
-                designation.SyncedOn = DateTime.Now;
+                Designation.Synced = true;
+                Designation.SyncedOn = DateTime.Now;
             }
 
             _context.SaveChanges();
-            return designations;
+            return Designations;
         }
     }
 }

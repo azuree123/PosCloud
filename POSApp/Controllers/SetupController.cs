@@ -82,23 +82,23 @@ namespace POSApp.Controllers
             ViewBag.edit = "AddDesignationPartial";
             return View();
         }
-        //[HttpPost]
-        //public ActionResult AddDesignationPartial(DesignationViewModel designationVm)
-        //{
-        //    ViewBag.edit = "AddDesignationPartial";
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(designationVm);
-        //    }
-        //    else
-        //    {
-        //        Designation designation = Mapper.Map<Designation>(designationVm);
-        //        _unitOfWork.DesignationRepository.AddDesignation(designation);
-        //        _unitOfWork.Complete();
-        //        return PartialView("Test");
-        //    }
+        [HttpPost]
+        public ActionResult AddDesignationPartial(DesignationViewModel designationVm)
+        {
+            ViewBag.edit = "AddDesignationPartial";
+            if (!ModelState.IsValid)
+            {
+                return View(designationVm);
+            }
+            else
+            {
+                Designation designation = Mapper.Map<Designation>(designationVm);
+                _unitOfWork.DesignationRepository.AddDesignation(designation);
+                _unitOfWork.Complete();
+                return PartialView("Test");
+            }
 
-        //}
+        }
 
 
 
@@ -359,61 +359,205 @@ namespace POSApp.Controllers
             return RedirectToAction("DepartmentList", "Setup");
 
         }
-
-        //public ActionResult DesignationList()
-        //{
-        //    return View(_unitOfWork.DesignationRepository.GetDesignations());
-        //}
+        public ActionResult DesignationList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId));
+        }
         [HttpGet]
         public ActionResult AddDesignation()
         {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("DesignationList");
+            }
             ViewBag.edit = "AddDesignation";
             return View();
         }
-        // [HttpPost]
-        //public ActionResult AddDesignation(DesignationViewModel designationVm)
-        //{
-        //    ViewBag.edit = "AddDesignation";
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(designationVm);
-        //    }
+        [HttpPost]
+        public ActionResult AddDesignation(DesignationViewModel DesignationVm)
+        {
+            ViewBag.edit = "AddDesignation";
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                    return View(DesignationVm);
+                }
+                else
+                {
+                    Designation Designation = Mapper.Map<Designation>(DesignationVm);
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Designation.StoreId = (int)user.StoreId;
+                    _unitOfWork.DesignationRepository.AddDesignation(Designation);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("Designation Added Successfully", AlertType.Success);
+                    return null;
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
 
-        //    Designation designation = Mapper.Map<Designation>(designationVm);
-        //    _unitOfWork.DesignationRepository.AddDesignation(designation);
-        //    _unitOfWork.Complete();
-        //    return RedirectToAction("DesignationList", "Setup");
-        //}
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
 
-        //public ActionResult UpdateDesignation(int id)
-        //{
-        //    ViewBag.edit = "UpdateDesignation";
-        //    DesignationViewModel designationVm =
-        //        Mapper.Map<DesignationViewModel>(_unitOfWork.DesignationRepository.GetDesignationById(id));
-        //    return View("AddDesignation",designationVm);
-        //}
-        //[HttpPost]
-        //public ActionResult UpdateDesignation(int id, DesignationViewModel designationVm)
-        //{
-        //    ViewBag.edit = "UpdateDesignation";
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction("AddDesignation", designationVm);
-        //    }
-        //    else
-        //    {
-        //        Designation designation = Mapper.Map<Designation>(designationVm);
-        //        _unitOfWork.DesignationRepository.UpdateDesignation(id,designation);
-        //        _unitOfWork.Complete();
-        //        return RedirectToAction("DesignationList", "Setup");
-        //    }
-        //}
-        //public ActionResult DeleteDesignation(int id)
-        //{
-        //    _unitOfWork.DesignationRepository.DeleteDesignation(id);
-        //    _unitOfWork.Complete();
-        //    return RedirectToAction("DesignationList","Setup");
-        //}
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+
+            return View(DesignationVm);
+
+
+        }
+        [HttpGet]
+        public ActionResult UpdateDesignation(int id)
+        {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("DesignationList");
+            }
+            ViewBag.edit = "UpdateDesignation";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            DesignationViewModel DesignationVm =
+                Mapper.Map<DesignationViewModel>(_unitOfWork.DesignationRepository.GetDesignationById(id, (int)user.StoreId));
+            return View("AddDesignation", DesignationVm);
+        }
+        [HttpPost]
+        public ActionResult UpdateDesignation(int id, DesignationViewModel DesignationVm)
+        {
+            ViewBag.edit = "UpdateDesignation";
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again", AlertType.Error);
+                    return View("AddDesignation", DesignationVm);
+                }
+                else
+                {
+                    Designation Designation = Mapper.Map<Designation>(DesignationVm);
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Designation.StoreId = (int)user.StoreId;
+                    _unitOfWork.DesignationRepository.UpdateDesignation(id, Designation.StoreId, Designation);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The Designation updated successfully", AlertType.Success);
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return View("AddDesignation", DesignationVm);
+        }
+        public ActionResult DeleteDesignation(int id)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.DesignationRepository.DeleteDesignation(id, (int)user.StoreId);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Designation deleted successfully", AlertType.Success);
+                return RedirectToAction("DesignationList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+
+            return RedirectToAction("DesignationList", "Setup");
+
+        }
+
+        
         [HttpGet]
         public ActionResult EmployeeList()
         {

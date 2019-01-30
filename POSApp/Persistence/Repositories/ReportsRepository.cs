@@ -167,5 +167,32 @@ namespace POSApp.Persistence.Repositories
 
             return _context.Database.SqlQuery<DineTableReportViewModel>(sql, parameters.ToArray()).ToList();
         }
+        public List<ProductTimelySaleViewModel> GenerateProductTimeWiseSalesData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var sql = @"select CONVERT(time(0),(CONVERT(VARCHAR(2), a.TransDate, 108))+':00') as Time,c.Name as ProductName,SUM(b.Quantity) as Quantity,SUM(b.UnitPrice*b.Quantity)as UnitPrice,b.Discount as Discount from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+            inner join PosCloud.Products as c on b.ProductCode=c.ProductCode  
+            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3
+            group by  c.Name,b.Discount,CONVERT(time(0),(CONVERT(VARCHAR(2), a.TransDate, 108)+':00'))
+            
+                ";
+            var data = _context.Database.SqlQuery<ProductTimelySaleViewModel>(sql, parameters.ToArray()).ToList();
+            return data;
+        }
+        public List<BranchTimelyReportViewModel> GenerateTimelyBranchSalesData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var sql = @"select d.Name as BranchName,c.Name as ProductName,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount,CONVERT(time(0),(CONVERT(VARCHAR(2), a.TransDate, 108))+':00') as Time
+			from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+            inner join PosCloud.Products as c on b.ProductCode=c.ProductCode
+			inner join PosCloud.Stores as d on a.StoreId=d.Id
+            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 
+            group by d.Name,c.Name,CONVERT(time(0),(CONVERT(VARCHAR(2), a.TransDate, 108)+':00'))
+                ";
+            var data = _context.Database.SqlQuery<BranchTimelyReportViewModel>(sql, parameters.ToArray()).ToList();
+            return data;
+        }
     }
 }

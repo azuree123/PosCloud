@@ -1,14 +1,16 @@
-﻿
+﻿@using POSApp.Core.Models
 @model IEnumerable<POSApp.Core.Models.Designation>
 
 @{
-                /**/
-
-                ViewBag.Title = "DesignationList";
+    ViewBag.Title = "DesignationList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
 }
-
-    @*<header class="page-header">
-        <h2>Designations</h2>
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
+@*<header class="page-header">
+        <h2>Departments</h2>
 
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -17,7 +19,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>Designation</span></li>
+                <li><span>Departments</span></li>
                 <li><span>Setup</span></li>
             </ol>
 
@@ -25,7 +27,7 @@
         </div>
     </header>*@
 
-    <!-- start: page -->
+<!-- start: page -->
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
@@ -33,77 +35,92 @@
             <li><a href="@Url.Action("EmployeeList","Setup")">Employee</a></li>
 
             <li><a href="@Url.Action("SupplierList","Setup")">Supplier</a></li>
-
             <li><a href="@Url.Action("DepartmentList","Setup")">Department</a></li>
 
-            @*<li class="current"><a href="#">Desigantion</a></li>*@
+            <li class="current"><a href="#">Designation</a></li>
+
+
 
             @*<li><a href="@Url.Action("CouponList","Setup")">Coupon</a></li>*@
 
-            <li><a href="@Url.Action("DiscountList","Setup")">Discount</a></li>
+            <li class="hidden"><a href="@Url.Action("DiscountList","Setup")">Discount</a></li>
             <li><a href="@Url.Action("TaxList","Setup")">Tax</a></li>
             <li><a href="@Url.Action("StateList","Setup")">State</a></li>
             <li><a href="@Url.Action("CityList","Setup")">City</a></li>
+            <li><a href="@Url.Action("ClientList","Setup")">Client</a></li>
+            <li><a href="@Url.Action("UnitList","Setup")">Unit</a></li>
+            <li><a href="@Url.Action("TimedEventList","Setup")">Discount</a></li>
             <li><a href="@Url.Action("DineTableList","Setup")">Dine Table</a></li>
             <li><a href="@Url.Action("FloorList","Setup")">Floor</a></li>
-
+            <li><a href="@Url.Action("POSTerminalList","Setup")">POS Terminal</a></li>
+            <li><a href="@Url.Action("ShiftList","Setup")">Shifts</a></li>
+            <li><a href="@Url.Action("TillOperationList","Setup")">Till Operation</a></li>
+            <li><a href="@Url.Action("SectionList","Products")">Sections</a></li>
+            <li><a href="@Url.Action("SizeList","Setup")">Size</a></li>
         </ul>
         <hr />
 
     </div>
 </div>
-    <section class="panel">
-        <header class="panel-heading">
-            <div class="row">
-                <div class="col-md-12">
-   
+<section class="panel">
+    <header class="panel-heading">
+        <div class="row">
+            <div class="col-md-12">
 
-                    <div class="" id="header-flex">
-                        <h3 class="wb-color" style="flex-grow: 8"><b>Designations</b></h3>
+                <div class="" id="header-flex">
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Designations</b></h3>
 
 
-                        <a href="@Url.Action("AddDesignation", "Setup")" class="modalShow">
-                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Designation</button>
 
-                        </a>
 
-                    </div>
+
+                    <a href="@Url.Action("AddDesignation", "Setup")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Department</button>
+
+                    </a>
+                    @*<a href="@Url.Action("De", "ExcelImport")" class="modalShow" style="flex-grow: 0">
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+                    </a>*@
+
+
                 </div>
             </div>
-            <h2 class="panel-title"></h2>
-        </header>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <table class="table mb-none" style="width:100%" id="datatable-default">
-                    <thead>
+        </div>
+
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 1;}
+                    @foreach (var designation in Model)
+                    {
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{ int i = 1;}
-                        @foreach (var designation in Model)
-                        {
-                            <tr>
-                                <td>@(i++)</td>
-                                <td>@designation.Name</td>
-                                <td class="center">
-                                    <div class="btn-group">
+                            <td>@(i++)</td>
+                            <td>@designation.Name</td>
+                            <td class="text-center">
+                                <div class="btn-group">
 
                                     @Html.ActionLink(" ", "UpdateDesignation", "Setup", new { id = @designation.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                    @Html.ActionLink(" ", "DeleteDesignation", "setup", new { id = @designation.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                </div>
-            </div>
+                                    @Html.ActionLink(" ", "DeleteDesignation", "Setup", new { id = @designation.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </section>
-
 
 
 
@@ -115,7 +132,7 @@
     <script>
         $('#datatable-default').dataTable();
 
-        $('#datatable-default').on('click','a.modalShow', function () {
+        $('#datatable-default').on('click', 'a.modalShow', function () {
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
@@ -130,11 +147,11 @@
             return false;
         });
         $('a.modalShow').on('click', function () {
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();
@@ -143,7 +160,15 @@
 
             return false;
         });
+        function CreateAssetSuccess(data) {
+            if (data !== '') {
+                $('#ordine').modal('hide');
+                $('#ModalData').html(data);
+                $('#ordine').modal('show');
+
+                return;
+            }
+            location.reload();
+        }
     </script>
 }
-
-

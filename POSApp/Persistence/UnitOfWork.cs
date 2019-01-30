@@ -17,7 +17,7 @@ namespace POSApp.Persistence
         public IProductCategoryRepository ProductCategoryRepository { get; private set; }
         public IEmployeeRepository EmployeeRepository { get; private set; }
         public IDepartmentRepository DepartmentRepository { get; private set; }
-        //public IDesignationRepository DesignationRepository { get; private set; }
+        public IDesignationRepository DesignationRepository { get; private set; }
         public ICustomerRepository CustomerRepository { get; private set; }
         public ISupplierRepository SupplierRepository { get; private set; }
         public ILocationRepository LocationRepository { get; private set; }
