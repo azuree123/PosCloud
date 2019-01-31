@@ -21,5 +21,7 @@ namespace POSApp.Core.Repositories
        List<DineTableReportViewModel> GenerateTableWiseSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<ProductTimelySaleViewModel> GenerateProductTimeWiseSalesData(int storeId, DateTime dateFrom,DateTime dateTo);
        List<BranchTimelyReportViewModel> GenerateTimelyBranchSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
+       List<CustomerSaleReportViewModel> GenerateCustomerWiseSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
+       List<ModifierReportViewModel> GenerateModifierSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
    }
 }

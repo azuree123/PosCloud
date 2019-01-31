@@ -346,6 +346,7 @@
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\TransMasterPaymentMethodController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WebApi\DesignationsController.cs" />
     <Compile Include="Controllers\WebApi\ModifiersController.cs" />
     <Compile Include="Controllers\WebApi\PurchaseController.cs" />
     <Compile Include="Controllers\WebApi\UsersController.cs" />
@@ -455,6 +456,7 @@
     <Compile Include="Core\ViewModels\ClientViewModel.cs" />
     <Compile Include="Core\ViewModels\ComboReportSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
+    <Compile Include="Core\ViewModels\CustomerSaleReportViewModel.cs" />
     <Compile Include="Core\ViewModels\DashBoardViewModel.cs" />
     <Compile Include="Core\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
@@ -711,6 +713,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ComboSale.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\CustomerSale.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerSale.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\ModifierSale.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModifierSale.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\OrderTypeWiseSale.cs">
@@ -3334,6 +3348,7 @@
     <Content Include="Views\Setup\AddSizePartial.cshtml" />
     <Content Include="Views\Setup\AddSize.cshtml" />
     <Content Include="Views\ExcelImport\SizeExcelImport.cshtml" />
+    <Content Include="Views\ExcelImport\DesignationExcelImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3417,6 +3432,14 @@
     <EmbeddedResource Include="Reports\ComboSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ComboSale.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\CustomerSale.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CustomerSale.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ModifierSale.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ModifierSale.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\OrderTypeWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

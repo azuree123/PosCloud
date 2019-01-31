@@ -21,15 +21,15 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetDesignations()
+        public async Task<IHttpActionResult> GetDesignations(int storeId)
         {
-            return Ok(Mapper.Map<DesignationViewModel[]>(_unitOfWork.DesignationRepository.GetApiDesignations()));
+            return Ok(Mapper.Map<DesignationViewModel[]>(await _unitOfWork.DesignationRepository.GetDesignationsAsync(storeId)));
         }
 
         // GET: api/DesignationsSync/5
         public async Task<IHttpActionResult> GetDesignation(int id, int storeId)
         {
-            return Ok(_unitOfWork.DesignationRepository.GetDesignationById(id));
+            return Ok(await _unitOfWork.DesignationRepository.GetDesignationByIdAsync(id, storeId));
         }
 
         // POST: api/DesignationsSync
@@ -37,15 +37,18 @@ namespace POSApp.Controllers.WebApi
         {
             try
             {
-                List<Designation> designations = System.Web.Helpers.Json.Decode<List<Designation>>(sync.Object);
-                foreach (var designation in designations)
+                List<Designation> Designations = System.Web.Helpers.Json.Decode<List<Designation>>(sync.Object);
+                foreach (var Designation in Designations)
                 {
-                    designation.Code = designation.Id.ToString();
-                    designation.Synced = true;
-                    designation.SyncedOn = DateTime.Now;
-                    _unitOfWork.DesignationRepository.AddDesignation(designation);
+                    Designation.Code = Designation.Id.ToString();
+                    Designation.Synced = true;
+                    Designation.SyncedOn = DateTime.Now;
+                    await _unitOfWork.DesignationRepository.AddDesignationAsync(Designation);
                 }
-                _unitOfWork.Complete();
+                if (!await _unitOfWork.CompleteAsync())
+                {
+                    throw new Exception("Error Occured While Adding");
+                }
                 return Ok("Success");
             }
             catch (Exception e)

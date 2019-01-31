@@ -71,7 +71,7 @@ namespace POSApp.Persistence
             ProductCategoryRepository = new ProductCategoryRepository(context);
             EmployeeRepository = new EmployeeRepository(context);
             DepartmentRepository = new DepartmentRepository(context);
-            //DesignationRepository = new DesignationRepository(context);
+            DesignationRepository = new DesignationRepository(context);
             LocationRepository = new LocationRepository(context);
             ExpenseRepository = new ExpenseRepository(context);
             ExpenseHeadRepository = new ExpenseHeadRepository(context);

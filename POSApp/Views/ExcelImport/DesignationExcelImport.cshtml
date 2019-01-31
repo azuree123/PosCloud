@@ -1,0 +1,64 @@
+﻿@{
+    Layout = null;
+}
+
+<div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    @{string s = ViewBag.edit;}
+
+    @using (Html.BeginForm(s, "ExcelImport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content ">
+                <div class="modal-header modalheader">
+                    <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+
+                    @if (s.Contains("ExcelImport"))
+                    {
+                        <h4 class="modal-title">
+                            Import Excel Data
+                        </h4>
+                    }
+
+
+
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-bd lobidrag">
+
+                        <div class="panel-body">
+
+
+                            <div class="">
+                                <div class="form-group">
+
+                                    <div class="col-md-6" style="    border-right: 4px solid #09ab5a;">
+                                        <button type="button" onclick="$('#fileupload').click();" class="btn btn-block btn-md">Upload File</button>
+                                        <input onchange="$('#submitButton').click();" style="display: none" type="file" id="fileupload" name="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                        <button hidden="" type="submit" id="submitButton"></button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="/Content/ImportFormats/DesignationImport.xls">
+                                            <button type="button" class="btn btn-block btn-md">Download Template</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+

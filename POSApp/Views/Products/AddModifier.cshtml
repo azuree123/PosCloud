@@ -253,6 +253,12 @@
         });
         $('#datatable-default').dataTable();
     </script>
+    <script>
+        $("input").on("keypress", function (e) {
+            if (e.which === 32 && !this.value.length)
+                e.preventDefault();
+        });
+    </script>
     @Html.Raw(ViewBag.js)
 }
 

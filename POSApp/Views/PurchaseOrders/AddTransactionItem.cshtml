@@ -116,33 +116,39 @@
     }
 </div>
 
-    <script>
-        $(document).ready(function () {
-            $('.selectddl').select2();
-        });
-        $('#productDdl').on("change",
-            function () {
-                var val = $(this).val();
-                if (val !== '') {
-                    $.ajax({
-                        url: "@Url.Action("GetProductInfo","PurchaseOrders")",
-                        type: "GET",
-                        data: { id: val },
-                        success: function(data) {
-                            $('#disQty').text(data.Stock);
-                            $('#price').val(data.UnitPrice);
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
+<script>
+    $(document).ready(function () {
+        $('.selectddl').select2();
+    });
+    $('#productDdl').on("change",
+        function () {
+            var val = $(this).val();
+            if (val !== '') {
+                $.ajax({
+                    url: "@Url.Action("GetProductInfo","PurchaseOrders")",
+                    type: "GET",
+                    data: { id: val },
+                    success: function(data) {
+                        $('#disQty').text(data.Stock);
+                        $('#price').val(data.UnitPrice);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
 
-                    });
-                } else {
-                    $('#disQty').text('-');
-                    $('#price').val('');
-                }
-            });
+                });
+            } else {
+                $('#disQty').text('-');
+                $('#price').val('');
+            }
+        });
      
-    </script>
+</script>
+<script>
+    $("input").on("keypress", function (e) {
+        if (e.which === 32 && !this.value.length)
+            e.preventDefault();
+    });
+</script>
 
 

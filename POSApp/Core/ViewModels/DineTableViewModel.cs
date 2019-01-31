@@ -13,6 +13,7 @@ namespace POSApp.Core.ViewModels
         public int StoreId { get; set; }
         [DisplayName("Table Number")]
         public string DineTableNumber { get; set; }
+        [DisplayName("Floor")]
         public int FloorId { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }

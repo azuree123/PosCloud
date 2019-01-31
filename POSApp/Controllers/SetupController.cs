@@ -44,59 +44,157 @@ namespace POSApp.Controllers
         public ActionResult AddDepartmentPartial()
         {
             var isAjax = Request.IsAjaxRequest();
-            if (isAjax)
-            {
-            ViewBag.edit = "AddDepartmentPartial";
-            return View();
-            }
-            else
+            if (!isAjax)
             {
                 return RedirectToAction("DepartmentList");
             }
+            ViewBag.edit = "AddDepartmentPartial";
+            return View();
         }
         [HttpPost]
-        public ActionResult AddDepartmentPartial(DepartmentViewModel departmentVm)
+        public ActionResult AddDepartmentPartial(DepartmentViewModel Departmentvm)
         {
             ViewBag.edit = "AddDepartmentPartial";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(departmentVm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Departmentvm.StoreId = user.StoreId;
+                    Department Department = Mapper.Map<Department>(Departmentvm);
+                    _unitOfWork.DepartmentRepository.AddDepartment(Department);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The Department added successfully", AlertType.Success);
+                    return PartialView("Test");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
-                Department department = Mapper.Map<Department>(departmentVm);
-                department.StoreId = (int) user.StoreId;
-                _unitOfWork.DepartmentRepository.AddDepartment(department);
-                _unitOfWork.Complete();
-                return PartialView("Test");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return PartialView("Test");
+
 
         }
 
 
         public ActionResult AddDesignationPartial()
         {
-          
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("DesignationList");
+            }
             ViewBag.edit = "AddDesignationPartial";
             return View();
         }
         [HttpPost]
-        public ActionResult AddDesignationPartial(DesignationViewModel designationVm)
+        public ActionResult AddDesignationPartial(DesignationViewModel Designationvm)
         {
             ViewBag.edit = "AddDesignationPartial";
-            if (!ModelState.IsValid)
+            try
             {
-                return View(designationVm);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Designationvm.StoreId = user.StoreId;
+                    Designation Designation = Mapper.Map<Designation>(Designationvm);
+                    _unitOfWork.DesignationRepository.AddDesignation(Designation);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The designation added successfully", AlertType.Success);
+                    return PartialView("Test");
+                }
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                Designation designation = Mapper.Map<Designation>(designationVm);
-                _unitOfWork.DesignationRepository.AddDesignation(designation);
-                _unitOfWork.Complete();
-                return PartialView("Test");
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
             }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return PartialView("Test");
+
 
         }
 
@@ -579,7 +677,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-
+            employee.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddEmployeePartial";
             return View(employee);
         }
@@ -677,7 +776,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
-            
+            employee.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddEmployee";
             return View(employee);
         }
@@ -688,6 +788,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             ViewBag.edit = "AddEmployee";
             employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
@@ -767,7 +869,8 @@ namespace POSApp.Controllers
             EmployeeModelView employeeMv = Mapper.Map<EmployeeModelView>(_unitOfWork.EmployeeRepository.GetEmployeeById(id, Convert.ToInt32(user.StoreId)));
             employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-           
+            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddEmployee",employeeMv);
         }
         [HttpPost]
@@ -777,6 +880,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             ViewBag.edit = "UpdateEmployee";
             employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
@@ -3835,6 +3940,20 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 return Json(Mapper.Map<DepartmentViewModel[]>(_unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        public JsonResult GetDesignationDdl()
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<DesignationViewModel[]>(_unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

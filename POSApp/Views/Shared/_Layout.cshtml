@@ -155,40 +155,40 @@
 
 
                                                 <li class=" ">
-                                                    <a  href="@Url.Action("UserList","User")">
+                                                    <a href="@Url.Action("UserList","User")">
                                                         <i class="fa fa-user-secret" aria-hidden="true"></i>
                                                         <span>User Management</span>
                                                     </a>
                                                     @*<ul class="nav nav-children ">
-                                                        <li>
-                                                            <a href="~/user/create">
-                                                                Add New User
-                                                            </a>
-                                                        </li>
+                                                            <li>
+                                                                <a href="~/user/create">
+                                                                    Add New User
+                                                                </a>
+                                                            </li>
 
-                                                        <li>
-                                                            <a href="~/user">
-                                                                Edit a User
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="~/user">
-                                                                Users Listing
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="~/user">
-                                                                Change Password
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">
-                                                                Users Settings
-                                                            </a>
-                                                        </li>
+                                                            <li>
+                                                                <a href="~/user">
+                                                                    Edit a User
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="~/user">
+                                                                    Users Listing
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="~/user">
+                                                                    Change Password
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    Users Settings
+                                                                </a>
+                                                            </li>
 
 
-                                                    </ul>*@
+                                                        </ul>*@
                                                 </li>
 
                                                 <li>
@@ -264,7 +264,7 @@
     @section scripts
       {
         <script>
-        
+           
             $(document).on('submit', 'form', function () {
                 var buttons = $(this).find('[type="submit"]');
                 if ($(this).valid()) {
@@ -276,8 +276,11 @@
                         $(buttons[btn]).prop('disabled', false);
                     });
                 }
+
             });
+              
         </script>
+       
     }
 
 <script>
@@ -286,17 +289,20 @@
     //        e.preventDefault();
     //    });
     //});
-
-    $('html').bind('keypress', function(e)
-    {
-        if(e.keyCode == 13)
-        {
+   
+     
+    
+    $('html').bind('keypress', function (e) {
+        if (e.keyCode === 13) {
             return false;
         }
     });
-
+    $("input").on("keypress", function (e) {
+        if (e.which === 32 && !this.value.length) {
+            e.preventDefault();
+        }
+    });
 </script>
-
 
 
 </body>

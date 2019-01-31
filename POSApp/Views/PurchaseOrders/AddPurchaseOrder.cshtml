@@ -242,13 +242,13 @@
                 return false;
             } else {
 
-            new PNotify({
-                title: 'Transaction Items Cannot Be Empty',
-                text: 'Please Enter Atleast 1 Transaction Item.',
-                type: 'error'
-            });
-            $('#transact').click();
-            return false;
+                new PNotify({
+                    title: 'Transaction Items Cannot Be Empty',
+                    text: 'Please Enter Atleast 1 Transaction Item.',
+                    type: 'error'
+                });
+                $('#transact').click();
+                return false;
             }
         }
         function ChangeTableFill() {
@@ -311,6 +311,12 @@
                 args.set_cancel(true);
             }
         }
+    </script>
+    <script>
+        $("input").on("keypress", function (e) {
+            if (e.which === 32 && !this.value.length)
+                e.preventDefault();
+        });
     </script>
 }
 

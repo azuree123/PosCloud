@@ -114,52 +114,58 @@
             });
 
         }*@
-    function UpdateDdlFloor() {
-        $.ajax({
-            url: "@Url.Action("GetFloorDdl", "Setup")",
-            type: 'GET',
-            cache: false,
-            success: function (result) {
-                var $dropdown = $("#@Html.IdFor(a=>a.FloorId)");
-                $dropdown.empty();
-                $dropdown.append($("<option />").val('').text("Select an Option"));
-                $.each(result, function (index, value) {
-                    $dropdown.append($("<option />").val(value.Id).text(value.FloorNumber));
-                });
+        function UpdateDdlFloor() {
+            $.ajax({
+                url: "@Url.Action("GetFloorDdl", "Setup")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.FloorId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.FloorNumber));
+                    });
 
-            }
+                }
+            });
+
+        }
+        $('a.modalShow1').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData1').html(result);
+                    $('#ordine2').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('a.modalShow2').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData2').html(result);
+                    $('#ordine2').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
         });
 
-    }
-    $('a.modalShow1').on('click', function () {
-        $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
-        $.ajax({
-            url: this.href,
-            type: 'GET',
-            success: function(result) {
-                $('#ModalData1').html(result);
-                $('#ordine2').modal('show');
-                $.unblockUI();
-            }
+    </script>
+    <script>
+        $("input").on("keypress", function (e) {
+            if (e.which === 32 && !this.value.length)
+                e.preventDefault();
         });
-
-        return false;
-    });
-    $('a.modalShow2').on('click', function () {
-        $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
-        $.ajax({
-            url: this.href,
-            type: 'GET',
-            success: function(result) {
-                $('#ModalData2').html(result);
-                $('#ordine2').modal('show');
-                $.unblockUI();
-            }
-        });
-
-        return false;
-    });
-
     </script>
 </div>
 

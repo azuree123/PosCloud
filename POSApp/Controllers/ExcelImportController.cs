@@ -32,7 +32,78 @@ namespace POSApp.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+        public ActionResult DesignationExcelImport()
+        {
+            ViewBag.edit = "DesignationExcelImport";
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult DesignationExcelImport(HttpPostedFileBase file)
+        {
+
+            try
+            {
+                DataTable dt = ImportService.GetExcelData(file);
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Designation NewModel = new Designation();
+                    if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
+                    {
+                        NewModel.Name = dr["Name"].ToString();
+                        
+                        NewModel.StoreId = (int)user.StoreId;
+                        _unitOfWork.DesignationRepository.AddDesignation(NewModel);
+                    }
+                }
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
+                return RedirectToAction("DesignationList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+
+
+            return RedirectToAction("DesignationList", "Setup");
+        }
         // GET: ExcelImport
         public ActionResult StateExcelImport()
         {
@@ -102,6 +173,7 @@ namespace POSApp.Controllers
 
             return RedirectToAction("StateList", "Setup");
         }
+
         [HttpGet]
         public ActionResult CityExcelImport()
         {

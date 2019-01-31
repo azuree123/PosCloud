@@ -21,6 +21,8 @@ namespace POSApp.Core.ViewModels
         public double Commission { get; set; }
         [DisplayName("Department")]
         public int DepartmentId { get; set; }
+        [DisplayName("Designation")]
+        public int DesignationId { get; set; }
         [DataType(DataType.Date)]
         [DisplayName("Join Date")]
        
@@ -30,5 +32,6 @@ namespace POSApp.Core.ViewModels
         public string CreatedBy { get; set; }
         public string Code { get; set; }
         public IEnumerable<SelectListItem> DepartmentDdl { get; set; }
+        public IEnumerable<SelectListItem> DesignationDdl { get; set; }
     }
 }

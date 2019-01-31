@@ -20,6 +20,8 @@
 
 }).apply(this, [jQuery]);
 
+
+ 
 // Scroll to Top
 (function(theme, $) {
 	// Scroll to Top Button.
@@ -162,7 +164,8 @@
 
 				$this.themePluginIOS7Switch();
 			});
-		});
+        });
+	   
 
 	}
 

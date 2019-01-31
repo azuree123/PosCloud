@@ -214,91 +214,97 @@
     <div id="ModalData1"></div>
     <div id="ModalData2"></div>
 
-    <script>
-        var fired = false;
-        function UpdateDdlCategory() {
-            $.ajax({
-                url: "@Url.Action("GetProductCategoryDdl", "Products")",
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    var $dropdown = $("#@Html.IdFor(a=>a.CategoryId)");
-                    $dropdown.empty();
-                    $dropdown.append($("<option />").val('').text("Select an Option"));
-                    $.each(result, function (index, value) {
-                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
-                    });
-
-                }
-            });
-
-        }
-        $('a.modalShow1').on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
-            if (!fired) {
-                //mark as fired
-                fired = true;
-                $.ajax({
-                    url: this.href,
-                    type: 'GET',
-                    success: function (result) {
-                        $('#ModalData1').html(result);
-                        $('#ordine2').modal('show');
-                        $.unblockUI();
-                        fired = false;
-                    }
+<script>
+    var fired = false;
+    function UpdateDdlCategory() {
+        $.ajax({
+            url: "@Url.Action("GetProductCategoryDdl", "Products")",
+            type: 'GET',
+            cache: false,
+            success: function (result) {
+                var $dropdown = $("#@Html.IdFor(a=>a.CategoryId)");
+                $dropdown.empty();
+                $dropdown.append($("<option />").val('').text("Select an Option"));
+                $.each(result, function (index, value) {
+                    $dropdown.append($("<option />").val(value.Id).text(value.Name));
                 });
+
             }
-            else {}
-
-            return false;
         });
 
-        function UpdateDdlSection() {
+    }
+    $('a.modalShow1').on('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+        if (!fired) {
+            //mark as fired
+            fired = true;
             $.ajax({
-                url: "@Url.Action("GetSectionDdl", "Products")",
+                url: this.href,
                 type: 'GET',
-                cache: false,
                 success: function (result) {
-                    var $dropdown = $("#@Html.IdFor(a=>a.SectionId)");
-                    $dropdown.empty();
-                    $dropdown.append($("<option />").val('').text("Select an Option"));
-                    $.each(result, function (index, value) {
-                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
-                    });
-
+                    $('#ModalData1').html(result);
+                    $('#ordine2').modal('show');
+                    $.unblockUI();
+                    fired = false;
                 }
             });
         }
+        else {}
 
+        return false;
+    });
 
-
-        $('a.modalShow3').on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
-            if (!fired) {
-                //mark as fired
-                fired = true;
-                $.ajax({
-                    url: this.href,
-                    type: 'GET',
-                    success: function (result) {
-                        $('#ModalData2').html(result);
-                        $('#ordine3').modal('show');
-                        $.unblockUI();
-                        fired = false;
-                    }
+    function UpdateDdlSection() {
+        $.ajax({
+            url: "@Url.Action("GetSectionDdl", "Products")",
+            type: 'GET',
+            cache: false,
+            success: function (result) {
+                var $dropdown = $("#@Html.IdFor(a=>a.SectionId)");
+                $dropdown.empty();
+                $dropdown.append($("<option />").val('').text("Select an Option"));
+                $.each(result, function (index, value) {
+                    $dropdown.append($("<option />").val(value.Id).text(value.Name));
                 });
-            } else {}
 
-            return false;
+            }
         });
+    }
 
-        $('#datatable-default').dataTable();
-    </script>
+
+
+    $('a.modalShow3').on('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+        if (!fired) {
+            //mark as fired
+            fired = true;
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function (result) {
+                    $('#ModalData2').html(result);
+                    $('#ordine3').modal('show');
+                    $.unblockUI();
+                    fired = false;
+                }
+            });
+        } else {}
+
+        return false;
+    });
+
+    $('#datatable-default').dataTable();
+</script>
+<script>
+    $("input").on("keypress", function (e) {
+        if (e.which === 32 && !this.value.length)
+            e.preventDefault();
+    });
+</script>
 </div>
 
 

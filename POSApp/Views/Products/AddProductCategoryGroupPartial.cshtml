@@ -10,7 +10,7 @@
     {
         HttpMethod = "Post",
         OnSuccess = "UpdateDdlCategoryGroup();$('#ordine3').modal('hide');"
-       ,
+        ,
         UpdateTargetId = "ordine3"
     }, new { enctype = "multipart/form-data" }))
     {
@@ -66,3 +66,9 @@
         </div>
     }
 </div>
+<script>
+    $("input").on("keypress", function (e) {
+        if (e.which === 32 && !this.value.length)
+            e.preventDefault();
+    });
+</script>

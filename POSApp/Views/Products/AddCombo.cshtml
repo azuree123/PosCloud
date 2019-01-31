@@ -409,17 +409,17 @@
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
            
                
-                $.ajax({
-                    url: this.href,
-                    type: 'GET',
-                    success: function (result) {
-                        $('#ModalData').html('');
-                        $('#ModalData2').html(result).find('#ordine2').modal('show');
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function (result) {
+                    $('#ModalData').html('');
+                    $('#ModalData2').html(result).find('#ordine2').modal('show');
                         
-                        $.unblockUI();
+                    $.unblockUI();
                         
-                    }
-                });
+                }
+            });
             
 
             return false;
@@ -543,6 +543,12 @@
         });
         $('#datatable-default').dataTable();
         @Html.Raw(ViewBag.js)
+    </script>
+    <script>
+        $("input").on("keypress", function (e) {
+            if (e.which === 32 && !this.value.length)
+                e.preventDefault();
+        });
     </script>
 }
 

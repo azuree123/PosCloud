@@ -9,7 +9,7 @@
     @using (Ajax.BeginForm(s, "Setup", new AjaxOptions
     {
         HttpMethod = "Post",
-        OnSuccess = "$('#ordine2').modal('hide').UpdateDdlDepartment();"
+        OnSuccess = "$('#ordine2').modal('hide');UpdateDdlDepartment();"
        ,
         UpdateTargetId="ordine2"
     }, new { enctype = "multipart/form-data" }))
@@ -66,3 +66,9 @@
         </div>
     }
 </div>
+<script>
+    $("input").on("keypress", function (e) {
+        if (e.which === 32 && !this.value.length)
+            e.preventDefault();
+    });
+</script>
