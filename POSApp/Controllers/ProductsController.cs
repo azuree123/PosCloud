@@ -2383,6 +2383,111 @@ namespace POSApp.Controllers
 
 
         }
+        //Recipe
+        [HttpGet]
+        public ActionResult AddRecipe(string ingredientCode)
+        {
+            RecipeViewModel RecipeVm = new RecipeViewModel();
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
+            RecipeVm.RecipeProductDDl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
+            RecipeVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            RecipeVm.IngredientCode = ingredientCode;
+            if (_unitOfWork.RecipeRepository.GetRecipes(ingredientCode, (int)user.StoreId)
+                .Select(a => a.ProductCode).Any())
+            {
+                RecipeVm.ProductsDisplay = string.Join(",",
+                    _unitOfWork.RecipeRepository.GetRecipes(ingredientCode, (int)user.StoreId)
+                        .Select(a => a.ProductCode));
+            }
+
+            ViewBag.edit = "AddRecipe";
+            return View(RecipeVm);
+        }
+        [HttpPost]
+        public ActionResult AddRecipe(RecipeViewModel RecipeVm)
+        {
+
+            ViewBag.edit = "AddRecipe";
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    if (_unitOfWork.RecipeRepository.GetRecipes(RecipeVm.IngredientCode, (int)user.StoreId)
+                        .Select(a => a.ProductCode).Any())
+                    {
+                        _unitOfWork.RecipeRepository.DeleteRecipe(
+                            RecipeVm.ProductCode,RecipeVm.IngredientCode, (int)user.StoreId);
+                        _unitOfWork.Complete();
+                    }
+
+                    foreach (var product in RecipeVm.Products)
+                    {
+                        Recipe recipe = Mapper.Map<Recipe>(RecipeVm);
+                        recipe.ProductCode = product;
+                        recipe.StoreId = (int)user.StoreId;
+                        
+                        _unitOfWork.RecipeRepository.AddRecipe(recipe);
+                    }
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The Recipe added successfully", AlertType.Success);
+                    return RedirectToAction("ProductsList", "Products");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("ProductsList", "Products");
+
+
+        }
         public ApplicationUserManager UserManager
         {
             get

@@ -392,6 +392,7 @@
     <Compile Include="Core\Models\DineTable.cs" />
     <Compile Include="Core\Models\Discount.cs" />
     <Compile Include="Core\Models\Floor.cs" />
+    <Compile Include="Core\Models\Recipe.cs" />
     <Compile Include="Core\Models\Modifier.cs" />
     <Compile Include="Core\Models\ModifierLinkProduct.cs" />
     <Compile Include="Core\Models\ModifierOption.cs" />
@@ -429,6 +430,7 @@
     <Compile Include="Core\Repositories\IPOSTerminalRepository.cs" />
     <Compile Include="Core\Repositories\IProductCategoryGroupRepository.cs" />
     <Compile Include="Core\Repositories\IProductsSubRepository.cs" />
+    <Compile Include="Core\Repositories\IRecipeRepository.cs" />
     <Compile Include="Core\Repositories\IReportsLogRepository.cs" />
     <Compile Include="Core\Repositories\IReportsRepository.cs" />
     <Compile Include="Core\Repositories\ISectionRepository.cs" />
@@ -468,10 +470,13 @@
     <Compile Include="Core\ViewModels\OrderTypeSaleReportViewModel.cs" />
     <Compile Include="Core\ViewModels\PaymentMethodReportViewModel.cs" />
     <Compile Include="Core\ViewModels\POSTerminalViewModel.cs" />
+    <Compile Include="Core\ViewModels\ProductCostReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\ProductModifierSaleReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductSalesReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductSizeOrderTypeReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductSizeSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductTimelySaleViewModel.cs" />
+    <Compile Include="Core\ViewModels\RecipeViewModel.cs" />
     <Compile Include="Core\ViewModels\RoleViewModel.cs" />
     <Compile Include="Core\ViewModels\SalesReportViewModel.cs" />
     <Compile Include="Core\ViewModels\SectionViewModel.cs" />
@@ -538,12 +543,21 @@
     <Compile Include="Migrations\201901301340364_Emplydesignation.Designer.cs">
       <DependentUpon>201901301340364_Emplydesignation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902011325397_Recipe.cs" />
+    <Compile Include="Migrations\201902011325397_Recipe.Designer.cs">
+      <DependentUpon>201902011325397_Recipe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902011340119_cal.cs" />
+    <Compile Include="Migrations\201902011340119_cal.Designer.cs">
+      <DependentUpon>201902011340119_cal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DesignationEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ModifierLinkProductEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ModifierTransDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\POSTerminalEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\RecipeEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SectionEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SecurityRightEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ShiftEntityConfiguration.cs" />
@@ -670,6 +684,7 @@
     <Compile Include="Persistence\Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductRepository.cs" />
     <Compile Include="Persistence\Repositories\ProductsSubRepository.cs" />
+    <Compile Include="Persistence\Repositories\RecipeRepository.cs" />
     <Compile Include="Persistence\Repositories\ReportsLogRepository.cs" />
     <Compile Include="Persistence\Repositories\ReportsRepository.cs" />
     <Compile Include="Persistence\Repositories\RoleRepository.cs" />
@@ -737,6 +752,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PaymentMethodWiseSale.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\ProductModifierSale.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductModifierSale.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\ProductSales.cs">
@@ -3349,6 +3370,7 @@
     <Content Include="Views\Setup\AddSize.cshtml" />
     <Content Include="Views\ExcelImport\SizeExcelImport.cshtml" />
     <Content Include="Views\ExcelImport\DesignationExcelImport.cshtml" />
+    <Content Include="Views\Products\AddRecipe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3417,6 +3439,12 @@
     <EmbeddedResource Include="Migrations\201901301340364_Emplydesignation.resx">
       <DependentUpon>201901301340364_Emplydesignation.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902011325397_Recipe.resx">
+      <DependentUpon>201902011325397_Recipe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902011340119_cal.resx">
+      <DependentUpon>201902011340119_cal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchTimelySale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BranchTimelySale.cs</LastGenOutput>
@@ -3448,6 +3476,10 @@
     <EmbeddedResource Include="Reports\PaymentMethodWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>PaymentMethodWiseSale.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProductModifierSale.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProductModifierSale.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

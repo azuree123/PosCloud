@@ -11,7 +11,7 @@ namespace POSApp.Core.Models
         public Store Store { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Type { get; set; }
+        public string Type { get; set; }//Sale item,Service
         public string ProductCode { get; set; }
         public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
         public string Size { get; set; }//MED, SML, LRG,XRG, Child,
@@ -49,6 +49,9 @@ namespace POSApp.Core.Models
 
         public virtual ICollection<TimedEventProducts> TimedEventProducts { get; set; }
         public ICollection<ModifierLinkProduct> ModifierLinkProducts { get; set; }
-        
+        public virtual ICollection<Recipe> Recipes { get; set; }
+        public virtual ICollection<Recipe> IngredientRecipes { get; set; }
+
+
     }
 }

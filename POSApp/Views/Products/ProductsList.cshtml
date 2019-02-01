@@ -199,11 +199,12 @@
 
                 {
                     "data": "ProductCode", "autoWidth": true, render: function (data, type, full, meta) {
-                        return '<span data-toggle="tooltip" title="Edit !"   class=" btn outline-success text-default btn-sm fa fa-edit  "   onclick="UpdateProduct(' + "'" + data + "'" + ')"  ></span>' +
-                            '<span data-toggle="tooltip" title="Delete !"   class=" btn outline-danger text-default btn-sm fa fa-remove  "   onclick="DeleteProduct(' + "'" + data + "'" + ')"  ></span>';
+                        return '<span data-toggle="tooltip" title="Edit !"   class=" btn btn-default text-success btn-sm  fa fa-edit "   onclick="UpdateProduct(' + "'" + data + "'" + ')"  ></span>' +
+                            '<span data-toggle="tooltip" title="Delete !"   class=" btn btn-default text-danger btn-sm  fa fa-remove  "   onclick="DeleteProduct(' + "'" + data + "'" + ')"  ></span>' 
+                            ;
                     }
                 }
-
+           
             ]
         });
             function UpdateProduct(a) {
@@ -225,10 +226,29 @@
             function DeleteProduct(a) {
                 window.location.href = "/Products/DeleteProduct?id="+a;
 
+            }
+        function AddRecipe(a) {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: "@Url.Action("AddRecipe","Products")",
+                data: { ingredientCode:a},
+                type: 'GET',
+                success: function (result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+
         }
+        //    function AddRecipe(a) {
+        //        window.location.href = "/Products/AddRecipe?ingredientCode="+a;
 
-
-
+        //}
+      
+      
 
 
         </script>

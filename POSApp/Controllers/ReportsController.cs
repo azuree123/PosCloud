@@ -301,7 +301,36 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateProductModifierSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            return View();
+            try
+            {
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductModifierSalesData((int)user.StoreId, dateFrom, dateTo),
+                    "ProductModifierWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductModifierSale.rpt");
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateProductTimelySaleReport(DateTime dateFrom, DateTime dateTo, int branchId)

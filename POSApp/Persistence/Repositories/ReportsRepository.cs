@@ -214,5 +214,22 @@ namespace POSApp.Persistence.Repositories
             var data = _context.Database.SqlQuery<CustomerSaleReportViewModel>(sql, parameters.ToArray()).ToList();
             return data;
         }
+        public List<ModifierReportViewModel> GenerateProductModifierSalesData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var sql = @"select g.Name as ProductName,e.Name as ModifierName,f.Name as ModifierOption,a.TransCode as InvoiceNumber,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount,a.TransDate as Date 
+            ,a.Discount as Discount,a.Tax as Tax
+			from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+            inner join PosCloud.ModifierTransDetails as c on b.Id = c.TransDetailId
+			inner join PosCloud.ModifierOptions as f on c.ModifierOptionId= f.Id
+			inner join PosCloud.Modifier as e on f.ModifierId = e.Id
+			inner join PosCloud.Products as g on g.ProductCode=b.ProductCode
+			where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3
+            group by e.Name,f.Name,g.Name,a.TransCode,a.TransDate,a.Discount,a.Tax
+                ";
+
+            return _context.Database.SqlQuery<ModifierReportViewModel>(sql, parameters.ToArray()).ToList();
+        }
     }
 }

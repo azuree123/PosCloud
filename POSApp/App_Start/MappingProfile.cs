@@ -143,6 +143,9 @@ namespace POSApp
 
             CreateMap<Size, SizeViewModel>();
             CreateMap<SizeViewModel, Size>();
+
+            CreateMap<Recipe, RecipeViewModel>();
+            CreateMap<RecipeViewModel, Recipe>();
         }
     }
 }

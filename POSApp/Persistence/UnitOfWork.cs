@@ -62,6 +62,7 @@ namespace POSApp.Persistence
         public IModifierLinkProductRepository ModifierLinkProductRepository { get; private set; }
         public IModifierTransDetailRepository ModifierTransDetailRepository { get; private set; }
         public ISizeRepository SizeRepository { get; private set; }
+        public IRecipeRepository RecipeRepository { get; private set; }
         public UnitOfWork(PosDbContext context)
         {
             _context = context;
@@ -107,6 +108,7 @@ namespace POSApp.Persistence
             ModifierLinkProductRepository = new ModifierLinkProductRepository(context);
             ModifierTransDetailRepository = new ModifierTransDetailRepository(context);
             SizeRepository = new SizeRepository(context);
+            RecipeRepository = new RecipeRepository(context);
         }
 
         public void Complete()

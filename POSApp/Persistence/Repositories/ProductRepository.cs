@@ -35,15 +35,15 @@ namespace POSApp.Persistence.Repositories
         }
         public Product GetProductById(int id, int storeid)
         {
-            return _context.Products.Include(a=>a.ComboProducts.Where(o=>!o.IsDisabled)).FirstOrDefault(a=>a.Id==id&&a.StoreId==storeid);
+            return _context.Products.Include(a=>a.ComboProducts).FirstOrDefault(a=>a.Id==id&&a.StoreId==storeid);
         }
         public async Task<Product> GetProductByIdAsync(int id, int storeid)
         {
-            return await _context.Products.Include(a => a.ComboProducts.Where(o => !o.IsDisabled)).FirstOrDefaultAsync(a => a.Id == id && a.StoreId == storeid);
+            return await _context.Products.Include(a => a.ComboProducts).FirstOrDefaultAsync(a => a.Id == id && a.StoreId == storeid);
         }
         public Product GetProductByCode(string id, int storeid)
         {
-            return _context.Products.Include(a => a.ComboProducts.Where(o => !o.IsDisabled)).FirstOrDefault(a => a.ProductCode == id && a.StoreId == storeid);
+            return _context.Products.Include(a => a.ComboProducts).FirstOrDefault(a => a.ProductCode == id && a.StoreId == storeid);
         }
         public IQueryable<ProductDtViewModel> GetProductsQuery(int storeId)
         {

@@ -61,6 +61,7 @@ namespace POSApp.Persistence
         public DbSet<ModifierLinkProduct> ModifierLinkProducts { get; set; }
         public DbSet<ModifierTransDetail> ModifierTransDetails { get; set; }
         public DbSet<Size> Sizes { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
           
@@ -120,6 +121,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new ModifierLinkProductEntityConfiguration());
             modelBuilder.Configurations.Add(new ModifierTransDetailEntityConfiguration());
             modelBuilder.Configurations.Add(new SizeEntityConfiguration());
+            modelBuilder.Configurations.Add(new RecipeEntityConfiguration());
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             
             base.OnModelCreating(modelBuilder);

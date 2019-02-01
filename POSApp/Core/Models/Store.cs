@@ -45,7 +45,7 @@ namespace POSApp.Core.Models
         public virtual ICollection<ModifierLinkProduct> ProductsLink { get; set; }
         public virtual ICollection<ModifierLinkProduct> ModifiersLink { get; set; }
         public virtual ICollection<ModifierTransDetail> ModifierTransDetails { get; set; }
-
+        public virtual ICollection<Recipe> Recipes { get; set; }
 
 
 
