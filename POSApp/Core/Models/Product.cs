@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 
 namespace POSApp.Core.Models
@@ -49,8 +50,8 @@ namespace POSApp.Core.Models
 
         public virtual ICollection<TimedEventProducts> TimedEventProducts { get; set; }
         public ICollection<ModifierLinkProduct> ModifierLinkProducts { get; set; }
-        public virtual ICollection<Recipe> Recipes { get; set; }
-        public virtual ICollection<Recipe> IngredientRecipes { get; set; }
+        public virtual ICollection<Recipe> Recipes { get; set; }=new List<Recipe>();
+        public virtual ICollection<Recipe> IngredientRecipes { get; set; }=new List<Recipe>();
 
 
     }

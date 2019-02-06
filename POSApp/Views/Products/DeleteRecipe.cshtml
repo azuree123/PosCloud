@@ -1,0 +1,32 @@
+﻿@model List<POSApp.Core.ViewModels.RecipeListViewModel>
+@{
+    Layout = null;
+}
+<table class="table">
+    <thead>
+    <tr>
+        <th>Ingredient</th>
+        <th>Unit</th>
+        <th>Quantity</th>
+        <th>Calories</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var data in Model)
+    {
+        <tr>
+            <td>@data.IngredientName</td>
+            <td>@data.Unit</td>
+            <td>@data.Quantity</td>
+            <td>@data.Calories</td>
+                                    
+
+            <td>
+                @Ajax.ActionLink(" ", "DeleteRecipe", "Products", new { id = data.Id,code=data.ProductCode },new AjaxOptions{HttpMethod = "GET",UpdateTargetId = "renderData" }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+            </td>
+                                    
+        </tr>
+    }
+    </tbody>
+</table>

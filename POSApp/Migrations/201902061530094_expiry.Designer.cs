@@ -7,13 +7,13 @@ namespace POSApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class modifiertrans : IMigrationMetadata
+    public sealed partial class expiry : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(modifiertrans));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(expiry));
         
         string IMigrationMetadata.Id
         {
-            get { return "201812190714236_modifier-trans"; }
+            get { return "201902061530094_expiry"; }
         }
         
         string IMigrationMetadata.Source

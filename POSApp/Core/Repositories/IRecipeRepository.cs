@@ -4,19 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 
 namespace POSApp.Core.Repositories
 {
     public interface IRecipeRepository
     {
-        IEnumerable<Recipe> GetRecipes(int storeid);
-        Task<IEnumerable<Recipe>> GetRecipesAsync(int storeid);
-        IEnumerable<Recipe> GetRecipes(string productCode, int storeid);
-        Recipe GetRecipeById(string id, string comboProductId, int storeid);
-        Task<Recipe> GetRecipeByIdAsync(string id, string comboProductId, int storeid);
-        void AddRecipe(Recipe Recipes);
-        Task AddRecipeAsync(Recipe Recipes);
-        void UpdateRecipe(string id, string recipeProductId, Recipe Recipe, int storeid);
-        void DeleteRecipe(string id, string recipeProductId, int storeid);
+        IEnumerable<Recipe> GetRecipes(int storeId);
+        Recipe GetRecipeById(string ProductCode, string ingredientcode);
+        IEnumerable<RecipeListViewModel> GetRecipes(int storeId, string productCode);
+        void AddRecipes(Recipe tep);
+        void UpdateRecipes(string id, string ingredientcode, Recipe tep);
+        void DeleteRecipes(int id, int storeId);
     }
 }

@@ -3,16 +3,16 @@ namespace POSApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class PasswordEncrypt : DbMigration
+    public partial class expiry : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.AspNetUsers", "PasswordEncrypt", c => c.String());
+            AddColumn("PosCloud.Recipes", "ExpiryDate", c => c.DateTime(nullable: false));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.AspNetUsers", "PasswordEncrypt");
+            DropColumn("PosCloud.Recipes", "ExpiryDate");
         }
     }
 }

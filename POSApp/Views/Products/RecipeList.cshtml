@@ -1,0 +1,46 @@
+﻿@using POSApp.Core.ViewModels
+@model IEnumerable<POSApp.Core.ViewModels.RecipeListViewModel>
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <table class="table mb-none" style="width: 100%" id="datatable-default">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ingredient</th>
+                    <th>Quantity</th>
+                    <th>Unit</th>
+                    <th>Calories</th>
+
+
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{ int i = 1;}
+                @foreach (var recipe in Model)
+                {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@recipe.IngredientName</td>
+                        <td>@recipe.Quantity</td>
+                        <td>@recipe.Unit</td>
+                        <td>@recipe.Calories</td>
+
+                        <td>
+                            @Html.ActionLink(" ", "DeleteRecipe", "Products", new { id = @recipe.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+

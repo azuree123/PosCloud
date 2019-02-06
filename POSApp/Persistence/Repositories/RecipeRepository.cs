@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
+using POSApp.Core.ViewModels;
 
 namespace POSApp.Persistence.Repositories
 {
@@ -19,112 +20,63 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<Recipe> GetRecipes(int storeid)
+        public IEnumerable<Recipe> GetRecipes(int storeId)
         {
-            return _context.Recipes.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
+            return _context.Recipes.Where(a=>a.StoreId == storeId && a.Product.InventoryItem).ToList();
         }
-        public async Task<IEnumerable<Recipe>> GetRecipesAsync(int storeid)
+        public IEnumerable<RecipeListViewModel> GetRecipes(int storeId,string productCode)
         {
-            return await _context.Recipes.Where(a => a.StoreId == storeid && !a.IsDisabled).ToListAsync();
-        }
-        public IEnumerable<Recipe> GetRecipes(string productCode, int storeid)
-        {
-            return _context.Recipes.Where(a => a.StoreId == storeid && !a.IsDisabled && a.IngredientCode == productCode).ToList();
+            return _context.Recipes.Include(a=>a.Ingredient).Include(a=>a.Unit).Where(a => a.StoreId == storeId && a.ProductCode==productCode).Select(a=>new RecipeListViewModel
+            {
+                Id = a.Id,
+                StoreId = a.StoreId,
+                Quantity = a.Quantity
+               ,Calories = a.Calories,
+                IngredientName =a.Ingredient.Name,
+                Unit = a.Unit.Name,
+                ExpiryDate = a.ExpiryDate,
+                ProductCode = a.ProductCode
+            }).ToList();
         }
 
-        public Recipe GetRecipeById(string id, string comboProductId, int storeid)
+        public Recipe GetRecipeById(string ProductCode, string ingredientcode)
         {
-            return _context.Recipes.Find(id, comboProductId, storeid);
+            return _context.Recipes.FirstOrDefault(a => a.ProductCode == ProductCode && a.IngredientCode == ingredientcode);
         }
-        public async Task<Recipe> GetRecipeByIdAsync(string id, string comboProductId, int storeid)
-        {
-            return await _context.Recipes.FindAsync(id, comboProductId, storeid);
-        }
-        public void AddRecipe(Recipe Recipes)
-        {
-            var inDb = _context.Recipes.FirstOrDefault(a =>
-                a.ProductCode == Recipes.ProductCode && a.IngredientCode == Recipes.IngredientCode &&
-                a.StoreId == Recipes.StoreId);
-            if (inDb == null)
-            {
-                _context.Recipes.Add(Recipes);
-            }
-            else
-            {
-                if (inDb.IsDisabled)
-                {
-                    Recipes.IngredientCode = inDb.IngredientCode;
-                    _context.Entry(inDb).CurrentValues.SetValues(Recipes);
-                    _context.Entry(inDb).State = EntityState.Modified;
-                }
-                else
-                {
-                    throw new Exception("Entity Already Exists!");
-                }
-            }
 
-        }
-        public async Task AddRecipeAsync(Recipe Recipes)
+        public void AddRecipes(Recipe tep)
         {
-            var inDb = await _context.Recipes.FirstOrDefaultAsync(a =>
-                 a.ProductCode == Recipes.ProductCode && a.IngredientCode == Recipes.IngredientCode &&
-                 a.StoreId == Recipes.StoreId);
-            if (inDb == null)
-            {
-                _context.Recipes.Add(Recipes);
-            }
-            else
-            {
-                if (inDb.IsDisabled)
-                {
-                    Recipes.IngredientCode = inDb.IngredientCode;
-                    _context.Entry(inDb).CurrentValues.SetValues(Recipes);
-                    _context.Entry(inDb).State = EntityState.Modified;
-                }
-                else
-                {
-                    throw new Exception("Entity Already Exists!");
-                }
-            }
 
-        }
-        public void UpdateRecipe(string id, string recipeProductId, Recipe Recipe, int storeid)
-        {
-            if (Recipe.ProductCode != id)
+            if (!_context.Recipes.Where(a => a.ProductCode == tep.ProductCode && a.IngredientCode == tep.IngredientCode).Any())
             {
-                Recipe.ProductCode = id;
+                _context.Recipes.Add(tep);
+            }
+        }
+
+        public void UpdateRecipes(string id, string ingredientcode, Recipe tep)
+        {
+            if (tep.ProductCode != id)
+            {
+                tep.ProductCode = id;
             }
             else { }
-            if (Recipe.IngredientCode != recipeProductId)
+            if (tep.IngredientCode != ingredientcode)
             {
-                Recipe.IngredientCode = recipeProductId;
+                tep.IngredientCode = ingredientcode;
             }
             else { }
 
-            Recipe.StoreId = storeid;
-            _context.Recipes.Attach(Recipe);
-            _context.Entry(Recipe).State = EntityState.Modified;
+            //  tep.TimedEventStoreId = storeId;
+
+            _context.Recipes.Attach(tep);
+            _context.Entry(tep).State = EntityState.Modified;
         }
-
-        public void DeleteRecipe(string id, string recipeProductId, int storeid)
+        public void DeleteRecipes(int id, int storeId)
         {
-
-            var recipe = _context.Recipes.FirstOrDefault(a => a.ProductCode == id && a.IngredientCode == recipeProductId && a.StoreId == storeid);
-            recipe.IsDisabled = true;
-            _context.Recipes.Attach(recipe);
-            _context.Entry(recipe).State = EntityState.Modified;
-        }
-        public IEnumerable<Recipe> GetApiRecipes()
-        {
-            IEnumerable<Recipe> Recipes = _context.Recipes.Where(a => !a.Synced).ToList();
-            foreach (var Recipe in Recipes)
-            {
-                Recipe.Synced = true;
-                Recipe.SyncedOn = DateTime.Now;
-            }
-
-            _context.SaveChanges();
-            return Recipes;
+            Recipe product = _context.Recipes
+                .FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+                _context.Recipes.Remove(product);
+            
         }
     }
 }

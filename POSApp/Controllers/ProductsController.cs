@@ -2383,68 +2383,76 @@ namespace POSApp.Controllers
 
 
         }
+
+
         //Recipe
+        public JsonResult RecipeList(string productCode)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return Json(Mapper.Map<RecipeListViewModel[]>(_unitOfWork.RecipeRepository.GetRecipes((int)user.StoreId, productCode)), JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
-        public ActionResult AddRecipe(string ingredientCode)
+        public ActionResult AddRecipe(string code)
         {
             RecipeViewModel RecipeVm = new RecipeViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
-            RecipeVm.RecipeProductDDl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
+            RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>a.InventoryItem && a.PurchaseItem)
                 .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
             RecipeVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            RecipeVm.IngredientCode = ingredientCode;
-            if (_unitOfWork.RecipeRepository.GetRecipes(ingredientCode, (int)user.StoreId)
-                .Select(a => a.ProductCode).Any())
-            {
-                RecipeVm.ProductsDisplay = string.Join(",",
-                    _unitOfWork.RecipeRepository.GetRecipes(ingredientCode, (int)user.StoreId)
-                        .Select(a => a.ProductCode));
-            }
-
+            RecipeVm.ProductCode = code;
+            RecipeVm.StoreId = (int) user.StoreId;
+            RecipeVm.RecipeList = _unitOfWork.RecipeRepository.GetRecipes(RecipeVm.StoreId, code).ToList();
             ViewBag.edit = "AddRecipe";
             return View(RecipeVm);
+           
         }
         [HttpPost]
         public ActionResult AddRecipe(RecipeViewModel RecipeVm)
         {
-
             ViewBag.edit = "AddRecipe";
+           
             try
             {
+                    
                 if (!ModelState.IsValid)
                 {
                     var message = string.Join(" | ", ModelState.Values
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts(RecipeVm.StoreId).Where(a => a.InventoryItem && a.PurchaseItem)
+                        .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
+                    RecipeVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit(RecipeVm.StoreId)
+                        .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                    RecipeVm.RecipeList = _unitOfWork.RecipeRepository.GetRecipes(RecipeVm.StoreId, RecipeVm.ProductCode).ToList();
+                    return View(RecipeVm);
                 }
                 else
                 {
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    if (_unitOfWork.RecipeRepository.GetRecipes(RecipeVm.IngredientCode, (int)user.StoreId)
-                        .Select(a => a.ProductCode).Any())
-                    {
-                        _unitOfWork.RecipeRepository.DeleteRecipe(
-                            RecipeVm.ProductCode,RecipeVm.IngredientCode, (int)user.StoreId);
-                        _unitOfWork.Complete();
-                    }
+                
 
-                    foreach (var product in RecipeVm.Products)
-                    {
-                        Recipe recipe = Mapper.Map<Recipe>(RecipeVm);
-                        recipe.ProductCode = product;
-                        recipe.StoreId = (int)user.StoreId;
+                    
+                        Recipe Recipe = Mapper.Map<Recipe>(RecipeVm);
                         
-                        _unitOfWork.RecipeRepository.AddRecipe(recipe);
-                    }
+                        _unitOfWork.RecipeRepository.AddRecipes(Recipe);
+                    
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Recipe added successfully", AlertType.Success);
-                    return RedirectToAction("ProductsList", "Products");
+                    RecipeVm=new RecipeViewModel();
+                    RecipeVm.ProductCode = Recipe.ProductCode;
+                    RecipeVm.StoreId = Recipe.StoreId;
+                    RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts(RecipeVm.StoreId).Where(a => a.InventoryItem && a.PurchaseItem)
+                        .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
+                    RecipeVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit(RecipeVm.StoreId)
+                        .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                    RecipeVm.RecipeList = _unitOfWork.RecipeRepository.GetRecipes(RecipeVm.StoreId, RecipeVm.ProductCode).ToList();
+                    return View(RecipeVm);
+
                 }
             }
             catch (DbEntityValidationException ex)
@@ -2483,11 +2491,77 @@ namespace POSApp.Controllers
                     TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
                 }
             }
-
-            return RedirectToAction("ProductsList", "Products");
+            RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts(RecipeVm.StoreId).Where(a => a.InventoryItem && a.PurchaseItem)
+                .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
+            RecipeVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit(RecipeVm.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            RecipeVm.RecipeList = _unitOfWork.RecipeRepository.GetRecipes(RecipeVm.StoreId, RecipeVm.ProductCode).ToList();
+            return View(RecipeVm);
 
 
         }
+
+        public ActionResult DeleteRecipe(int id,string code)
+        {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+            try
+            {
+                _unitOfWork.RecipeRepository.DeleteRecipes(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Recipe deleted successfully", AlertType.Success);
+                return View(_unitOfWork.RecipeRepository.GetRecipes(Convert.ToInt32(user.StoreId), code).ToList());
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] =
+                            new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage,
+                                AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message,
+                                    AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                }
+                else
+                {
+
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+
+            }
+
+            return View(_unitOfWork.RecipeRepository.GetRecipes(Convert.ToInt32(user.StoreId), code).ToList());
+
+
+
+        }
+
         public ApplicationUserManager UserManager
         {
             get
