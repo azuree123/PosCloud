@@ -127,7 +127,7 @@
                                     <td>@data.Unit</td>
                                     <td>@data.Quantity</td>
                                     <td>@data.Calories</td>
-                                    <td>@data.ExpiryDate</td>
+                                    <td>@data.ExpiryDate.ToShortDateString()</td>
 
                                     <td>
                                         @Ajax.ActionLink(" ", "DeleteRecipe", "Products", new { id = data.Id, code = data.ProductCode },new AjaxOptions{HttpMethod = "GET",UpdateTargetId = "renderData" }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })

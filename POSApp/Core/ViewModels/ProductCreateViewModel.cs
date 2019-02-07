@@ -72,7 +72,7 @@ namespace POSApp.Core.ViewModels
         public double CostPrice { get; set; }
         public int ReOrderLevel { get; set; }
 
-        public string Stock { get; set; }
+        public double Stock { get; set; }
         public string Barcode { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
@@ -119,7 +119,7 @@ namespace POSApp.Core.ViewModels
         public double CostPrice { get; set; }
         public int ReOrderLevel { get; set; }
 
-        public string Stock { get; set; }
+        public double Stock { get; set; }
         public string Barcode { get; set; }
         public string Image { get; set; }
         public DateTime? CreatedOn { get; set; }

@@ -614,6 +614,41 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        public ActionResult GenerateStockReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        {
+            try
+            {
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                var data = _unitOfWork.ReportsRepository.GenerateStockData((int) user.StoreId, dateFrom, dateTo);
+                ExcelService.GenerateCrystalReport(data,
+                    "ProductStockReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "Stock.rpt");
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("MyReports");
+        }
+        [HttpPost]
         public ActionResult GenerateSemiFinishedItemCostReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
             return View();
@@ -666,7 +701,36 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateProductRecipeReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            return View();
+            try
+            {
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductRecipeData((int)user.StoreId, dateFrom, dateTo),
+                    "ProductRecipeReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductRecipe.rpt");
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateInventoryItemRecipeReport(DateTime dateFrom, DateTime dateTo, int branchId)

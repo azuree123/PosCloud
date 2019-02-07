@@ -231,5 +231,41 @@ namespace POSApp.Persistence.Repositories
 
             return _context.Database.SqlQuery<ModifierReportViewModel>(sql, parameters.ToArray()).ToList();
         }
+
+        public List<RecipeReportViewModel> GenerateProductRecipeData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId) };
+            var sql = @"SELECT t.Id, t.IngredientCode, t.Quantity, t.ExpiryDate,t1.Name AS ProductName, t2.Name AS IngredientName,t.Calories , t3.Name as Unit
+                         FROM  PosCloud.Recipes AS t INNER JOIN
+                         PosCloud.Products AS t1 ON t1.ProductCode = t.ProductCode INNER JOIN
+                         PosCloud.Products AS t2 ON t2.ProductCode = t.IngredientCode INNER JOIN
+                         PosCloud.Units AS t3 ON t.UnitId = t3.Id AND t.StoreId = t3.StoreId
+			             where t.StoreId=@p1;";
+
+            return _context.Database.SqlQuery<RecipeReportViewModel>(sql, parameters.ToArray()).ToList();
+        }
+        public List<StockReportViewModel> GenerateStockData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId) };
+            var sql = @"Select a.ProductCode,a.Name,a.Stock,
+						 ISNULL(
+						 (select SUM(r.Quantity) from
+						 PosCloud.TransMaster as c inner join PosCloud.TransDetails as d
+						 on c.Id=d.TransMasterId AND c.StoreId=d.StoreId
+						 inner join PosCloud.Products as e on e.ProductCode=d.ProductCode AND d.StoreId=e.StoreId
+						 inner join PosCloud.Recipes as r on r.ProductCode=e.ProductCode AND r.StoreId=e.StoreId
+						 inner join PosCloud.Products as t on r.IngredientCode=t.ProductCode AND r.StoreId=t.StoreId	
+						 where t.ProductCode=a.ProductCode AND t.StoreId=a.StoreId AND c.Type='INV' ),0) as Sale,
+						  ISNULL(
+						 (select SUM(d.Quantity) from
+						 PosCloud.TransMaster as c inner join PosCloud.TransDetails as d
+						 on c.Id=d.TransMasterId AND c.StoreId=d.StoreId
+						 where d.ProductCode=a.ProductCode AND d.StoreId=a.StoreId AND c.Type='PRI' ),0) as Purchase
+						 from PosCloud.Products as a
+						 where a.InventoryItem=1 AND a.StoreId=@p1
+			            ";
+
+            return _context.Database.SqlQuery<StockReportViewModel>(sql, parameters.ToArray()).ToList();
+        }
     }
 }

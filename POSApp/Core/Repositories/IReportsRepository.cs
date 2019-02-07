@@ -24,5 +24,7 @@ namespace POSApp.Core.Repositories
        List<CustomerSaleReportViewModel> GenerateCustomerWiseSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<ModifierReportViewModel> GenerateModifierSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<ModifierReportViewModel> GenerateProductModifierSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
+       List<RecipeReportViewModel> GenerateProductRecipeData(int storeId, DateTime dateFrom, DateTime dateTo);
+       List<StockReportViewModel> GenerateStockData(int storeId, DateTime dateFrom, DateTime dateTo);
    }
 }

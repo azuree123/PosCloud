@@ -349,6 +349,7 @@
     <Compile Include="Controllers\WebApi\DesignationsController.cs" />
     <Compile Include="Controllers\WebApi\ModifiersController.cs" />
     <Compile Include="Controllers\WebApi\PurchaseController.cs" />
+    <Compile Include="Controllers\WebApi\RecipesController.cs" />
     <Compile Include="Controllers\WebApi\UsersController.cs" />
     <Compile Include="Controllers\WebApi\CitiesController.cs" />
     <Compile Include="Controllers\WebApi\ClientsController.cs" />
@@ -476,6 +477,7 @@
     <Compile Include="Core\ViewModels\ProductSizeOrderTypeReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductSizeSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductTimelySaleViewModel.cs" />
+    <Compile Include="Core\ViewModels\RecipeReportViewModel.cs" />
     <Compile Include="Core\ViewModels\RecipeViewModel.cs" />
     <Compile Include="Core\ViewModels\RoleViewModel.cs" />
     <Compile Include="Core\ViewModels\SalesReportViewModel.cs" />
@@ -484,6 +486,7 @@
     <Compile Include="Core\ViewModels\SecurityRightViewModel.cs" />
     <Compile Include="Core\ViewModels\ShiftViewModel.cs" />
     <Compile Include="Core\ViewModels\SizeViewModel.cs" />
+    <Compile Include="Core\ViewModels\StockReportViewModel.cs" />
     <Compile Include="Core\ViewModels\TillOperationViewModel.cs" />
     <Compile Include="Core\ViewModels\TransMasterPaymentMethodViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
@@ -704,6 +707,12 @@
       <DependentUpon>ProductModifierSale.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\ProductRecipe.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductRecipe.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\ProductSales.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -733,6 +742,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Sales.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Stock.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Stock.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\TableWiseSale.cs">
@@ -3317,6 +3332,7 @@
     <Content Include="Views\Products\AddRecipe.cshtml" />
     <Content Include="Views\Products\RecipeList.cshtml" />
     <Content Include="Views\Products\DeleteRecipe.cshtml" />
+    <Content Include="Views\Products\ProductDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3385,6 +3401,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductModifierSale.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProductRecipe.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProductRecipe.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductSales.cs</LastGenOutput>
@@ -3405,6 +3425,10 @@
     <EmbeddedResource Include="Reports\Sales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Sales.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Stock.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Stock.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\TableWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

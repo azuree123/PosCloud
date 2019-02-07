@@ -24,6 +24,21 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Recipes.Where(a=>a.StoreId == storeId && a.Product.InventoryItem).ToList();
         }
+        public async Task<IEnumerable<RecipeListViewModel>> GetRecipesAsync(int storeId)
+        {
+            return await _context.Recipes.Where(a => a.StoreId == storeId).Select(a => new RecipeListViewModel
+            {
+                Id = a.Id,
+                StoreId = a.StoreId,
+                Quantity = a.Quantity
+                ,
+                Calories = a.Calories,
+                IngredientName = a.Ingredient.Name,
+                Unit = a.Unit.Name,
+                ExpiryDate = a.ExpiryDate,
+                ProductCode = a.ProductCode
+            }).ToListAsync(); 
+        }
         public IEnumerable<RecipeListViewModel> GetRecipes(int storeId,string productCode)
         {
             return _context.Recipes.Include(a=>a.Ingredient).Include(a=>a.Unit).Where(a => a.StoreId == storeId && a.ProductCode==productCode).Select(a=>new RecipeListViewModel
@@ -43,7 +58,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Recipes.FirstOrDefault(a => a.ProductCode == ProductCode && a.IngredientCode == ingredientcode);
         }
-
+        public async Task<Recipe> GetRecipeByIdAsync(string ProductCode, string ingredientcode)
+        {
+            return await _context.Recipes.FirstOrDefaultAsync(a => a.ProductCode == ProductCode && a.IngredientCode == ingredientcode);
+        }
         public void AddRecipes(Recipe tep)
         {
 
@@ -52,7 +70,14 @@ namespace POSApp.Persistence.Repositories
                 _context.Recipes.Add(tep);
             }
         }
+        public async Task AddRecipesAsync(Recipe tep)
+        {
 
+            if (!await _context.Recipes.Where(a => a.ProductCode == tep.ProductCode && a.IngredientCode == tep.IngredientCode).AnyAsync())
+            {
+                 _context.Recipes.Add(tep);
+            }
+        }
         public void UpdateRecipes(string id, string ingredientcode, Recipe tep)
         {
             if (tep.ProductCode != id)

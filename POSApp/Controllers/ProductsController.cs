@@ -2440,7 +2440,15 @@ namespace POSApp.Controllers
                         Recipe Recipe = Mapper.Map<Recipe>(RecipeVm);
                         
                         _unitOfWork.RecipeRepository.AddRecipes(Recipe);
+
                     
+                    _unitOfWork.Complete();
+
+                    var product = _unitOfWork.ProductRepository.GetProductByCode(Recipe.ProductCode, Recipe.StoreId);
+                    product.CostPrice = Convert.ToDouble(product.Recipes.Select(a =>
+                            Convert.ToDecimal(a.Ingredient.CostPrice) *
+                            a.Quantity)
+                        .Sum());
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Recipe added successfully", AlertType.Success);
                     RecipeVm=new RecipeViewModel();
@@ -2561,7 +2569,13 @@ namespace POSApp.Controllers
 
 
         }
-
+        public ActionResult ProductDetail(string productId)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            var data = _unitOfWork.ProductRepository.GetProductByCode(productId, (int)user.StoreId);
+            return View(data);
+        }
         public ApplicationUserManager UserManager
         {
             get

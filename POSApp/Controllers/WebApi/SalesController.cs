@@ -35,7 +35,7 @@ namespace POSApp.Controllers.WebApi
 
         // POST: api/Sync
         public async Task<IHttpActionResult> AddSaleOrder([FromBody]SyncObject sync)
-       {
+      {
             try
             {
 

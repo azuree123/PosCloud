@@ -16,5 +16,8 @@ namespace POSApp.Core.Repositories
         void AddRecipes(Recipe tep);
         void UpdateRecipes(string id, string ingredientcode, Recipe tep);
         void DeleteRecipes(int id, int storeId);
+        Task<IEnumerable<RecipeListViewModel>> GetRecipesAsync(int storeId);
+        Task<Recipe> GetRecipeByIdAsync(string ProductCode, string ingredientcode);
+        Task AddRecipesAsync(Recipe tep);
     }
 }

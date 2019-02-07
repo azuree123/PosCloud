@@ -87,12 +87,12 @@
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
-                        <th width="10%">ID</th>
-                        <th width="20%">Name</th>
-                        <th width="20%">Attribute</th>
-                        <th width="10%">Size</th>
-                        <th width="10%">Price</th>
-                        <th width="10%">Actions</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Attribute</th>
+                        <th>Size</th>
+                        <th>Price</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -199,9 +199,50 @@
 
                 {
                     "data": "ProductCode", "autoWidth": true, render: function (data, type, full, meta) {
-                        return '<span data-toggle="tooltip" title="Edit !"   class=" btn btn-default text-success btn-sm  fa fa-edit "   onclick="UpdateProduct(' + "'" + data + "'" + ')"  ></span>' +
-                            '<span data-toggle="tooltip" title="Delete !"   class=" btn btn-default text-danger btn-sm  fa fa-remove  "   onclick="DeleteProduct(' + "'" + data + "'" + ')"  ></span>' +
-                                '<span data-toggle="tooltip" title="AddRecipe !"   class=" btn btn-default text-success btn-sm  fa fa-plus  "   onclick="AddRecipe(' + "'" + data + "'" + ')"  ></span>';
+                        
+                        var str = '';
+                        if (full.InventoryItem) {
+                            str =
+                                
+                                '<div class="pull-left"><span data-toggle="tooltip" title="Edit !"   class=" btn btn-default text-success btn-sm  fa fa-edit "   onclick="UpdateProduct(' +
+                                "'" +
+                                data +
+                                "'" +
+                                ')"  ></span>' +
+                                '<span data-toggle="tooltip" title="Delete !"   class=" btn btn-default text-danger btn-sm  fa fa-remove  "   onclick="DeleteProduct(' +
+                                "'" +
+                                data +
+                                "'" +
+                                ')"  ></span>' +
+                                '<span data-toggle="tooltip" title="Preview !"   class=" btn btn-default text-default btn-sm fa fa-eye  "   onclick="ProductDetails(' +
+                                "'" +
+                                data +
+                                "'" +
+                                ')"  ></span></div>';
+                        } else {
+                            str =
+                                '<div class="pull-left"><span data-toggle="tooltip" title="Edit !"   class=" btn btn-default text-success btn-sm  fa fa-edit "   onclick="UpdateProduct(' +
+                                "'" +
+                                data +
+                                "'" +
+                                ')"  ></span>' +
+                                '<span data-toggle="tooltip" title="Delete !"   class=" btn btn-default text-danger btn-sm  fa fa-remove  "   onclick="DeleteProduct(' +
+                                "'" +
+                                data +
+                                "'" +
+                                ')"  ></span>' +
+                                '<span data-toggle="tooltip" title="AddRecipe !"   class=" btn btn-default text-success btn-sm  fa fa-plus  "   onclick="AddRecipe(' +
+                                "'" +
+                                data +
+                                "'" +
+                                ')"  ></span>' +
+                                '<span data-toggle="tooltip" title="Preview !"   class=" btn btn-default text-default btn-sm fa fa-eye  "   onclick="ProductDetails(' +
+                                "'" +
+                                data +
+                                "'" +
+                                ')"  ></span></div>';
+                        }
+                        return str;
                             
                     }
                 }
@@ -246,10 +287,10 @@
             return false;
             
         }
-        //    function AddRecipe(a) {
-        //        window.location.href = "/Products/AddRecipe?ingredientCode="+a;
+        function ProductDetails(a) {
+            window.location.href = "/Products/ProductDetail?productId="+a;
 
-        //}
+        }
       
       
 
