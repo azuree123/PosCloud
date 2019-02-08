@@ -35,7 +35,10 @@ namespace POSApp.Persistence.Repositories
         }
         public Product GetProductById(int id, int storeid)
         {
-            return _context.Products.Include(a=>a.ComboProducts).Include(a=>a.Recipes).FirstOrDefault(a=>a.Id==id&&a.StoreId==storeid);
+            var data = _context.Products.Include(a => a.ComboProducts)
+                .Include(a => a.ComboProducts.Select(g => g.Product)).Include(a => a.Recipes)
+                .FirstOrDefault(a => a.Id == id && a.StoreId == storeid);
+            return data;
         }
         public async Task<Product> GetProductByIdAsync(int id, int storeid)
         {

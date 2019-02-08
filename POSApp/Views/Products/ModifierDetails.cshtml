@@ -1,0 +1,172 @@
+﻿@using System.ServiceModel.Channels
+@model POSApp.Core.Models.Modifier
+@{
+    //Layout = null;
+}
+<div class="mt-md pull-right">
+
+    <input type='button' id='btnP' class="btn outline-success btn-sm" value='Print' onclick='printDiv();'>
+    <a href="@Url.Action("ModifierList", "Products")" style="flex-grow: 0">
+        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Modifier List</button>
+
+    </a>
+</div>
+<div class="container-fluid " id="DivIdToPrint">
+   
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h3 class="text-center"><strong>Modifier Details</strong></h3>
+            <table class="table table-bordered">
+                <thead>
+                </thead>
+                <tbody>
+
+                    
+                <tr>
+                    <th class="text-center" width="50%">Modifier Name</th>
+                    <td class="text-center">@Model.Name</td>
+
+
+                </tr>
+                <tr>
+                    <th class="text-center" width="50%">Modifier Barcode</th>
+                    <td class="text-center">@Model.Barcode</td>
+
+
+                </tr>
+              
+
+
+
+
+
+
+                </tbody>
+
+            </table>
+
+
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h3 class="text-center"><strong>Modifier Options</strong></h3>
+            <table class="table table-bordered">
+                <thead>
+                </thead>
+                <thead>
+                    <tr>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Cost</th>
+                        <th class="text-center">Cost Type</th>
+                        <th class="text-center"> Taxable </th>
+                        <th class="text-center"> Price </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                @foreach (var data in Model.ModifierOptions)
+                {
+                    if (@data.CostType == "Fixed")
+                    {
+                        <tr>
+                            <th class="text-center">@data.Name</th>
+                            <th class="text-center">@data.Cost</th>
+                            <th class="text-center">@data.CostType</th>
+                            <th class="text-center"> @data.IsTaxable</th>
+                            <th class="text-center"> @data.Price</th>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <th class="text-center">@data.Name</th>
+                            <th class="text-center">Null</th>
+                            <th class="text-center">@data.CostType</th>
+                            <th class="text-center"> @data.IsTaxable</th>
+                            <th class="text-center"> @data.Price</th>
+                        </tr>
+                    }
+                   
+                }
+
+
+
+
+
+
+                </tbody>
+
+            </table>
+
+
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h3 class="text-center"><strong>Modifier Linked Products</strong></h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Product Code</th>
+                        <th class="text-center">Attribute</th>
+                        <th class="text-center">Cost</th>
+                        <th class="text-center"> Price </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+
+
+                    @foreach (var lnk in Model.ModifierLinkProducts)
+                    {
+                    <tr>
+                        <th class="text-center">@lnk.Product.Name</th>
+                        <th class="text-center">@lnk.Product.Barcode</th>
+                        <th class="text-center">@lnk.Product.Attribute</th>
+                        <th class="text-center">@lnk.Product.CostPrice</th>
+                        <th class="text-center"> @lnk.Product.UnitPrice </th>
+                    </tr>
+                            }
+                        
+
+
+
+                    </tbody>
+
+            </table>
+
+
+        </div>
+    </div>
+    
+        
+    
+
+</div>
+
+
+
+
+
+
+
+<script>
+    function printDiv()
+    {
+
+        var divToPrint=document.getElementById('DivIdToPrint');
+
+        var newWin=window.open('','Print-Window');
+
+        newWin.document.open();
+
+
+        newWin.document.write('<html>  <link href = "/../Content/bootstrap.min.css" rel = "stylesheet" /><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">' +
+            '<style>table>thead>tr>th {text-align: center;} table>tbody>tr>td {text-align: center;} </style><body onload="window.print() " width="1024">' + divToPrint.innerHTML + '</body></html>');
+
+        newWin.document.close();
+
+        setTimeout(function(){newWin.close();},10);
+
+    }
+</script>
+

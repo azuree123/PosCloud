@@ -1203,6 +1203,14 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<ModifierListViewModel[]>(_unitOfWork.ModifierRepository.GetModifiers((int)user.StoreId)));
         }
+
+        public ActionResult ModifierDetails(int modifierId)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            var data = _unitOfWork.ModifierRepository.GetModifierById(modifierId, (int)user.StoreId);
+            return View(data);
+        }
         [HttpGet]
         public ActionResult AddModifier()
         {
@@ -1686,7 +1694,12 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.Type == "Combo").ToList());
         }
-
+        public ActionResult CombosDetails(int comboId)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductRepository.GetProductById(comboId, (int)user.StoreId));
+        }
         public ActionResult AddCombo()
         {
             

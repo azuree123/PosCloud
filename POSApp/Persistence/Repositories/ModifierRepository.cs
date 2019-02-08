@@ -28,7 +28,8 @@ namespace POSApp.Persistence.Repositories
         }
         public Modifier GetModifierById(int id, int storeId)
         {
-            return _context.Modifiers.Include(a=>a.ModifierOptions).Where(a => a.Id == id && a.StoreId == storeId).ToList().FirstOrDefault();
+            return _context.Modifiers.Include(a=>a.ModifierOptions).Include(a=>a.ModifierLinkProducts)
+                .Include(a=>a.ModifierLinkProducts.Select(g=>g.Product)).Where(a => a.Id == id && a.StoreId == storeId).ToList().FirstOrDefault();
         }
         public async Task<Modifier> GetModifierByIdAsync(int id, int storeId)
         {

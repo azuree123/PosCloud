@@ -21,13 +21,26 @@ namespace POSApp.Persistence.Repositories
         public List<ProductSalesReportViewModel> GenerateProductSalesData(int storeId,DateTime dateFrom,DateTime dateTo)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
-            var sql = @"select CONVERT(date,a.TransDate) as Date,c.Name as ProductName,SUM(b.Quantity) as Quantity,SUM(b.UnitPrice*b.Quantity)as UnitPrice,b.Discount as Discount from PosCloud.TransMaster as a 
-            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
-            inner join PosCloud.Products as c on b.ProductCode=c.ProductCode  
+            var sql = @"select CONVERT(date,a.TransDate) as Date,c.Name as ProductName,SUM(b.Quantity) as Quantity,c.CostPrice as CostPrice
+            ,b.UnitPrice as UnitPrice,b.Tax as Tax,b.Discount as Discount 
+			from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId AND a.StoreId=b.StoreId
+            inner join PosCloud.Products as c on b.ProductCode=c.ProductCode AND b.StoreId=c.StoreId  
+            
            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3
-            group by  c.Name,b.Discount,CONVERT(date,a.TransDate)
+            group by  c.Name,b.Tax,b.Discount,c.CostPrice,b.UnitPrice,CONVERT(date,a.TransDate)
                 ";
             var data= _context.Database.SqlQuery<ProductSalesReportViewModel>(sql, parameters.ToArray()).ToList();
+            return data;
+        }
+        public decimal GetProductSalesDiscount(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var sql = @"select Sum(Discount)
+                from PosCloud.TransMaster 
+           where StoreId=@p1 and TransDate >=@p2 and TransDate<=@p3
+                ";
+            var data = _context.Database.SqlQuery<decimal>(sql, parameters.ToArray()).Sum();
             return data;
         }
 

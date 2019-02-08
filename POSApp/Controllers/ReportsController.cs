@@ -97,12 +97,31 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSalesData((int)user.StoreId, dateFrom, dateTo),
-                    "ProductSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductSales.rpt");
+                string filePath = Server.MapPath("~/Content/Reports/");
+                if (!Directory.Exists(filePath))
+                {
+                    Directory.CreateDirectory(filePath);
+                }
+
+                string fileName = "ProductSalesReport" + "_" + this.HttpContext.User.Identity.GetUserId() + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".xls";
+                ReportDocument rd = new ReportDocument();
+                rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProductSales.rpt"));
+                rd.SetDataSource(_unitOfWork.ReportsRepository.GenerateProductSalesData((int)user.StoreId, dateFrom, dateTo));
+                rd.SetParameterValue("totalDiscount", _unitOfWork.ReportsRepository.GetProductSalesDiscount((int)user.StoreId, dateFrom, dateTo));
+                rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.Excel, filePath + fileName);
+                _unitOfWork.ReportsLogRepository.AddReportsLog(new ReportsLog
+                {
+                    Name = "ProductSalesReport",
+                    Path = fileName,
+                    Status = "Ready",
+                    Details = details,
+                    StoreId = (int)user.StoreId
+
+                });
+                _unitOfWork.Complete();
 
 
-             
+
             }
             catch (Exception e)
             {

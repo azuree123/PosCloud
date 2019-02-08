@@ -1,0 +1,138 @@
+﻿@using System.ServiceModel.Channels
+@model POSApp.Core.Models.Product
+@{
+    //Layout = null;
+}
+<div class="mt-md pull-right">
+
+    <input type='button' id='btnP' class="btn outline-success btn-sm" value='Print' onclick='printDiv();'>
+    <a href="@Url.Action("CombosList", "Products")" style="flex-grow: 0">
+        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Combo List</button>
+
+    </a>
+</div>
+<div class="container-fluid " id="DivIdToPrint">
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h3 class="text-center"><strong>Combo Details</strong></h3>
+            <table class="table table-bordered">
+                <thead>
+                </thead>
+                <tbody>
+
+
+                    <tr>
+                        <th class="text-center" width="50%">Name</th>
+                        <td class="text-center">@Model.Name</td>
+
+
+                    </tr>
+                    <tr>
+                        <th class="text-center" width="50%">Barcode</th>
+                        <td class="text-center">@Model.Barcode</td>
+
+
+                    </tr>
+
+                <tr>
+                    <th class="text-center" width="50%">Attribute</th>
+                    <td class="text-center">@Model.Attribute</td>
+
+
+                </tr>
+
+                <tr>
+                    <th class="text-center" width="50%">Size</th>
+                    <td class="text-center">@Model.Size</td>
+
+
+                </tr>
+                <tr>
+                    <th class="text-center" width="50%">Cost Price</th>
+                    <td class="text-center">@Model.CostPrice</td>
+
+
+                </tr>
+
+                <tr>
+                    <th class="text-center" width="50%">Price</th>
+                    <td class="text-center">@Model.UnitPrice</td>
+
+
+                </tr>
+                </tbody>
+
+            </table>
+
+
+        </div>
+        
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h3 class="text-center"><strong>Combo options</strong></h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Quantity</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+
+
+
+
+                    @foreach (var lnk in Model.ComboProducts)
+                    {
+                        <tr>
+                            <th class="text-center">@lnk.Product.Name</th>
+                            <th class="text-center">@lnk.Qty</th>
+                            
+                        </tr>
+                    }
+
+
+
+
+                </tbody>
+
+            </table>
+
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script>
+    function printDiv()
+    {
+
+        var divToPrint=document.getElementById('DivIdToPrint');
+
+        var newWin=window.open('','Print-Window');
+
+        newWin.document.open();
+
+
+        newWin.document.write('<html>  <link href = "/../Content/bootstrap.min.css" rel = "stylesheet" /><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">' +
+            '<style>table>thead>tr>th {text-align: center;} table>tbody>tr>td {text-align: center;} </style><body onload="window.print() " width="1024">' + divToPrint.innerHTML + '</body></html>');
+
+        newWin.document.close();
+
+        setTimeout(function(){newWin.close();},10);
+
+    }
+</script>
+
+

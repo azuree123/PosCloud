@@ -498,6 +498,10 @@
     <Compile Include="Migrations\201902061530094_expiry.Designer.cs">
       <DependentUpon>201902061530094_expiry.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902080953513_fixit.cs" />
+    <Compile Include="Migrations\201902080953513_fixit.Designer.cs">
+      <DependentUpon>201902080953513_fixit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DesignationEntityConfiguration.cs" />
@@ -3333,6 +3337,8 @@
     <Content Include="Views\Products\RecipeList.cshtml" />
     <Content Include="Views\Products\DeleteRecipe.cshtml" />
     <Content Include="Views\Products\ProductDetail.cshtml" />
+    <Content Include="Views\Products\ModifierDetails.cshtml" />
+    <Content Include="Views\Products\CombosDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3364,6 +3370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902061530094_expiry.resx">
       <DependentUpon>201902061530094_expiry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902080953513_fixit.resx">
+      <DependentUpon>201902080953513_fixit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchTimelySale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

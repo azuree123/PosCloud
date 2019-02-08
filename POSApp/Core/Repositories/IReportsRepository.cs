@@ -26,5 +26,6 @@ namespace POSApp.Core.Repositories
        List<ModifierReportViewModel> GenerateProductModifierSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<RecipeReportViewModel> GenerateProductRecipeData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<StockReportViewModel> GenerateStockData(int storeId, DateTime dateFrom, DateTime dateTo);
+       decimal GetProductSalesDiscount(int storeId, DateTime dateFrom, DateTime dateTo);
    }
 }
