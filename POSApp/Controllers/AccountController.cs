@@ -144,7 +144,11 @@ namespace POSApp.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterViewModel model = new RegisterViewModel();
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+            return View(model);
         }
 
         //
@@ -156,8 +160,10 @@ namespace POSApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 int storeId = _unitOfWork.StoreRepository.GetStores().Select(a => a.Id).FirstOrDefault();
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StoreId = storeId,PasswordEncrypt = Security.EncryptString(model.Password, "E546C8DF278CD5931069B522E695D4F2") };
+                
+                var user = new ApplicationUser { UserName = model.Email,Email = model.Email, StoreId = storeId,PasswordEncrypt = Security.EncryptString(model.Password, "E546C8DF278CD5931069B522E695D4F2") };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -428,6 +434,7 @@ namespace POSApp.Controllers
 
             base.Dispose(disposing);
         }
+      
 
         #region Helpers
         // Used for XSRF protection when adding external logins

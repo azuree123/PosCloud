@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace POSApp.Models
 {
@@ -78,7 +80,7 @@ namespace POSApp.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         [Required]
         public string Name { get; set; }
@@ -90,6 +92,9 @@ namespace POSApp.Models
     
         [Required]
         public string Address { get; set; }
+        [DisplayName("Select Employee")]
+        public int EmployeeId { get; set; }
+        public IEnumerable<SelectListItem> EmpDdl { get; set; }
     }
 
     public class RegisterListViewModel
@@ -116,7 +121,7 @@ namespace POSApp.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

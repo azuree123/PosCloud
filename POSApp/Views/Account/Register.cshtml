@@ -1,13 +1,166 @@
 ﻿@model POSApp.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Register";
+    //Layout = null;
 }
+<div class="mt-md pull-right">
 
-<section class="body-sign">
+
+    <a href="@Url.Action("UserList", "User")" style="flex-grow: 0">
+        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>User List</button>
+
+    </a>
+</div>
+<div class="container-fluid ">
+    <br />
+    <br />
+    <br />
+
+    <h3 class="text-center text-danger">Register User</h3>
+    <br />
+    <br />
+
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form", id = "logoutForm" }))
+    {
+
+
+        @Html.AntiForgeryToken()
+
+
+
+
+        <div class="col-md-12">
+            <div class="tabs  tabs-left">
+                <div class="row">
+                    <div class="tab-content col-md-8 col-xs-12 col-md-offset-2  p-xlg">
+                        <div>
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1 " })
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control ", placeholder = "Enter your name" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label required1 " })
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", autofocus = "autofocus", placeholder = "Enter your email", @required = true })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label required1 " })
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Type Password- 6 digits", @required = true })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label required1 " })
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm your password" })
+                                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label required1 " })
+                                    @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control ", placeholder = "Enter your company name(if)" })
+                                    @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label required1 " })
+                                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control ", placeholder = "Enter your Mobile Number" })
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label required1 " })
+                                    @Html.DropDownListFor(model => model.EmployeeId, Model.EmpDdl, "Select an employee", new { @class = "form-control", @required = true })
+                                    @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label required1 " })
+                                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control ", placeholder = "Enter Address" })
+                                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="row" style="margin-top: 25px">
+
+                            <div class="col-lg-offset-3 col-lg-3">
+
+
+                                <button type="reset" class="btn btn-danger btn-block btn-md ">Reset</button>
+                            </div>
+                            <div class="col-lg-3">
+
+
+                                <button type="submit" class="btn btn-success btn-block btn-md ">Create account</button>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+    }
+
+
+
+
+
+
+
+</div>
+   
+
+
+    
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<section class="body-sign">
     <div class="center-sign">
-        @*<a href="/" class="logo pull-left">
-            <img src="~/Content/images/logo.png" height="54" alt="Porto Admin" />
-        </a>*@
+        <a href="/" class="logo pull-left">
+                <img src="~/Content/images/logo.png" height="54" alt="Porto Admin" />
+            </a>
 
         <div class="panel panel-sign">
             <div class="panel-title-sign mt-xl text-right">
@@ -15,85 +168,93 @@
                     <i class="fa fa-user mr-xs"></i> User Sign Up
                 </h2>
             </div>
-            <div class="panel-body">
-                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "logoutForm" }))
-                {
+            <div class="panel-body">*@
+                @*@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "logoutForm" }))*@
+                @*{*@
 
-                <p class="label bg-default text-danger" >
-                    All fields are required.
-                 
-                </p>
-                   
-                    @Html.AntiForgeryToken()
+                    @*<p class="label bg-default text-danger">
+                        All fields are required.
+
+                    </p>*@
+
+                    @*@Html.AntiForgeryToken()*@
                     <!-- Regular Signup -->
-                <div class="regular-signup">
+                    @*<div class="regular-signup">*@
 
-                    <br />
-                
-                    <div>
-                        @Html.ValidationSummary("", new { @class = "text-danger" })
-                    </div>
+                        @*<br />
 
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control c-textbox mb-lg", autofocus = "autofocus", placeholder = "Enter your email", @required = true })
-
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control c-textbox mb-lg", placeholder = "Type Password- 6 digits", @required = true })
-
-                    @*<a href="javascript:void(0);" class="password-generate pass-actions">
-            <i class="fa fa-refresh"></i>
-        </a>
-        <div class="progress">
-            <div class="progress-bar password-output" style="width: 0%"></div>
-        </div>*@
-                    <div class="clearfix spacer-20"></div>
-                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control c-textbox mb-lg", placeholder = "Confirm your password" })
-
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter your name" })
-                    @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter your company name(if)" })
-                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter your Mobile Number" })
-                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter Address" })
-
-                    @*<label class="checkbox-inline">@Html.CheckBoxFor(m => m.IsAdmin, new { @class = "checkbox" }) I am a Admin.</label>*@
-
-                    @*<label><input type="checkbox"> By signing up, I agree to the <a href="#">terms &amp; conditions</a> and <a href="#">privacy policy</a></label>*@
-
-
-                    @*<div class="form-group">
-            <div class="g-recaptcha" data-sitekey="6LfamB4UAAAAAI9PypwbSZZMFdqZi35iWGahWpUr"></div>
-            <div>
-                @if (TempData["recaptcha"] != null)
-                {
-                    <p>TempData["recaptcha"].ToString()</p>
-                }
-            </div>
-        </div>*@
-                    <div class="spacer-20"></div>
-                    <div class="row">
-                        <div class="col-md-6">
-
-                         
-                            <a href="#" onclick="window.history.go(-1); return false;" style="text-decoration:none"><button type="button" class="btn btn-danger btn-block btn-md " value="">Back </button></a>
-                          
-                        
-                        </div>
-                        <div class="col-md-6">
-                            <button type="submit" class="btn btn-success btn-block btn-md ">Create account</button>
-                        </div>
+                        <div>
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
                         </div>
 
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control c-textbox mb-lg", autofocus = "autofocus", placeholder = "Enter your email", @required = true })
 
-                    </div>
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control c-textbox mb-lg", placeholder = "Type Password- 6 digits", @required = true })*@
+
+                        @*<a href="javascript:void(0);" class="password-generate pass-actions">
+                                <i class="fa fa-refresh"></i>
+                            </a>
+                            <div class="progress">
+                                <div class="progress-bar password-output" style="width: 0%"></div>
+                            </div>
+                        <div class="clearfix spacer-20"></div>*@
+                        @*@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control c-textbox mb-lg", placeholder = "Confirm your password" })
+
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter your name" })
+                        @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter your company name(if)" })
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter your Mobile Number" })
+                        @Html.DropDownListFor(model => model.EmployeeId, Model.EmpDdl, "Select an Option", new { @class = "form-control c-textbox", @required = true })
+                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter Address" })*@
+
+
+
+
+
+
+
+
+                        @*<label class="checkbox-inline">@Html.CheckBoxFor(m => m.IsAdmin, new { @class = "checkbox" }) I am a Admin.</label>*@
+
+                        @*<label><input type="checkbox"> By signing up, I agree to the <a href="#">terms &amp; conditions</a> and <a href="#">privacy policy</a></label>*@
+
+
+                        @*<div class="form-group">
+                                <div class="g-recaptcha" data-sitekey="6LfamB4UAAAAAI9PypwbSZZMFdqZi35iWGahWpUr"></div>
+                                <div>
+                                    @if (TempData["recaptcha"] != null)
+                                    {
+                                        <p>TempData["recaptcha"].ToString()</p>
+                                    }
+                                </div>
+                            </div>*@
+                        @*<div class="spacer-20"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+
+
+                                <a href="#" onclick="window.history.go(-1); return false;" style="text-decoration:none"><button type="button" class="btn btn-danger btn-block btn-md " value="">Back </button></a>
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success btn-block btn-md ">Create account</button>
+                            </div>
+                        </div>
+
+
+                    </div>*@
                     <!-- Social Signup -->
                     @*<div class="social-signup">
                             <span class="or-break">or</span>
                             <button type="button" class="btn btn-block btn-facebook btn-social"><i class="fa fa-facebook"></i> Signup with Facebook</button>
                             <button type="button" class="btn btn-block btn-twitter btn-social"><i class="fa fa-twitter"></i> Signup with Twitter</button>
                         </div>*@
-                }
-            </div>
+                @*}*@
+            @*</div>
         </div>
 
     </div>
-</section>
+</section>*@
 
 <!-- End Body Content -->
 
