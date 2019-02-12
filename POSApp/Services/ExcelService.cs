@@ -22,11 +22,11 @@ namespace POSApp.Services
                 Directory.CreateDirectory(filePath);
             }
 
-            string fileName = reportName + "_" + userId + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".xls";
+            string fileName = reportName + "_" + userId + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".PDF";
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(crystalReportPath, crystalReportName));
             rd.SetDataSource(dtList);
-            rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.Excel, filePath + fileName);
+            rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
             unitOfWork.ReportsLogRepository.AddReportsLog(new ReportsLog
             {
                 Name = reportName,
@@ -40,7 +40,7 @@ namespace POSApp.Services
         }
         public static void GenerateExcelSheet(DataTable dtList,string reportName,string filePath,string userId,IUnitOfWork unitOfWork,int storeId,string details)
         {
-            string fileName = reportName + "_" + userId + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".xls";
+            string fileName = reportName + "_" + userId + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".PDF";
             DataGrid gridDetails=new DataGrid();
             gridDetails.DataSource = dtList;
             gridDetails.DataBind();

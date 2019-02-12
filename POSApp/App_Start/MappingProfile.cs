@@ -146,6 +146,9 @@ namespace POSApp
 
             CreateMap<Recipe, RecipeViewModel>();
             CreateMap<RecipeViewModel, Recipe>();
+
+            CreateMap<Warehouse, WarehouseViewModel>();
+            CreateMap<WarehouseViewModel, Warehouse>();
         }
     }
 }

@@ -95,6 +95,7 @@
 
 
                                 </td>
+                                
                                 <td>@Convert.ToDateTime(item.CreatedOn).ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
                                 <td>        <span class="label label-success mr-sm">@item.Status </span></td>
                                 <td class="center">
@@ -102,6 +103,8 @@
                                         @*<a class="btn btn-default btn-sm fa fa-eye" data-toggle="tooltip" title="Preview !"></a>*@
                                         <a class="btn btn-default text-success btn-sm fa fa-download" href="~/Content/Reports/@item.Path" data-toggle="tooltip" title="Download !"></a>
                                         <a href="@Url.Action("DeleteReport",new{id=@item.Id,storeId=@item.StoreId})" class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>
+                                        @Html.ActionLink(" ", "MyReportsPreview", "Reports", new { reportId = @item.Id, storeId = @item.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
+                                       
                                     </div>
 
                                 </td>

@@ -55,6 +55,7 @@ namespace POSApp.Core
         IModifierTransDetailRepository ModifierTransDetailRepository { get; }
         ISizeRepository SizeRepository { get; }
         IRecipeRepository RecipeRepository { get; }
+        IWarehouseRepository WarehouseRepository { get; }
         void Complete();
         Task<bool> CompleteAsync();
     }

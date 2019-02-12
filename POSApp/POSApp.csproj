@@ -416,6 +416,7 @@
     <Compile Include="Core\Models\TransMaster.cs" />
     <Compile Include="Core\Models\TransMasterPaymentMethod.cs" />
     <Compile Include="Core\Models\Unit.cs" />
+    <Compile Include="Core\Models\Warehouse.cs" />
     <Compile Include="Core\Repositories\IAppCountersRepository.cs" />
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
     <Compile Include="Core\Repositories\IClientRepository.cs" />
@@ -449,6 +450,7 @@
     <Compile Include="Core\Repositories\ITransDetailRepository.cs" />
     <Compile Include="Core\Repositories\ITransMasterRepository.cs" />
     <Compile Include="Core\Repositories\IUserRepository.cs" />
+    <Compile Include="Core\Repositories\IWarehouseRepository.cs" />
     <Compile Include="Core\Shared\Helper.cs" />
     <Compile Include="Core\Shared\PoHelper.cs" />
     <Compile Include="Core\ViewModels\BranchReportSaleViewModel.cs" />
@@ -490,6 +492,7 @@
     <Compile Include="Core\ViewModels\TillOperationViewModel.cs" />
     <Compile Include="Core\ViewModels\TransMasterPaymentMethodViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
+    <Compile Include="Core\ViewModels\WarehouseViewModel.cs" />
     <Compile Include="Migrations\201902061331430_init-1.cs" />
     <Compile Include="Migrations\201902061331430_init-1.Designer.cs">
       <DependentUpon>201902061331430_init-1.cs</DependentUpon>
@@ -501,6 +504,10 @@
     <Compile Include="Migrations\201902080953513_fixit.cs" />
     <Compile Include="Migrations\201902080953513_fixit.Designer.cs">
       <DependentUpon>201902080953513_fixit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902121014104_warehouse.cs" />
+    <Compile Include="Migrations\201902121014104_warehouse.Designer.cs">
+      <DependentUpon>201902121014104_warehouse.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
@@ -515,6 +522,7 @@
     <Compile Include="Persistence\EntityConfigurations\SizeEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TillOperationEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransMasterPaymentMethodEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\WarehouseEntityConfiguration.cs" />
     <Compile Include="Persistence\Repositories\DesignationRepository.cs" />
     <Compile Include="Persistence\Repositories\DeviceRepository.cs" />
     <Compile Include="Core\ViewModels\DineTableViewModel.cs" />
@@ -655,6 +663,7 @@
     <Compile Include="Persistence\Repositories\TransMasterRepository.cs" />
     <Compile Include="Persistence\Repositories\UnitRepository.cs" />
     <Compile Include="Persistence\Repositories\UserRepository.cs" />
+    <Compile Include="Persistence\Repositories\WarehouseRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\BranchTimelySale.cs">
@@ -3339,6 +3348,10 @@
     <Content Include="Views\Products\ProductDetail.cshtml" />
     <Content Include="Views\Products\ModifierDetails.cshtml" />
     <Content Include="Views\Products\CombosDetails.cshtml" />
+    <Content Include="Views\Setup\WarehouseList.cshtml" />
+    <Content Include="Views\Setup\AddWarehouse.cshtml" />
+    <Content Include="Views\Store\AddStorePartial.cshtml" />
+    <Content Include="Views\Reports\MyReportsPreview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3373,6 +3386,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902080953513_fixit.resx">
       <DependentUpon>201902080953513_fixit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902121014104_warehouse.resx">
+      <DependentUpon>201902121014104_warehouse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchTimelySale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

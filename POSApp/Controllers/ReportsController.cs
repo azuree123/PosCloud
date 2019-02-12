@@ -82,7 +82,10 @@ namespace POSApp.Controllers
         {
             return View(Mapper.Map<ReportLogViewModel[]>(_unitOfWork.ReportsLogRepository.GetReportsLogs(this.HttpContext.User.Identity.GetUserId())));
         }
-
+        public ActionResult MyReportsPreview(int reportId,int storeid)
+        {
+            return View(Mapper.Map<ReportLogViewModel>(_unitOfWork.ReportsLogRepository.GetReportsLog(reportId,storeid)));
+        }
         public ActionResult GenerateReport(string target)
         {
             ViewBag.edit = target;
@@ -103,12 +106,12 @@ namespace POSApp.Controllers
                     Directory.CreateDirectory(filePath);
                 }
 
-                string fileName = "ProductSalesReport" + "_" + this.HttpContext.User.Identity.GetUserId() + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".xls";
+                string fileName = "ProductSalesReport" + "_" + this.HttpContext.User.Identity.GetUserId() + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".PDF";
                 ReportDocument rd = new ReportDocument();
                 rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProductSales.rpt"));
                 rd.SetDataSource(_unitOfWork.ReportsRepository.GenerateProductSalesData((int)user.StoreId, dateFrom, dateTo));
                 rd.SetParameterValue("totalDiscount", _unitOfWork.ReportsRepository.GetProductSalesDiscount((int)user.StoreId, dateFrom, dateTo));
-                rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.Excel, filePath + fileName);
+                rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
                 _unitOfWork.ReportsLogRepository.AddReportsLog(new ReportsLog
                 {
                     Name = "ProductSalesReport",

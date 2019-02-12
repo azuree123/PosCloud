@@ -1,0 +1,139 @@
+﻿@using POSApp.Core.Models
+@model POSApp.Core.ViewModels.WarehouseViewModel
+
+@{
+    Layout = null;
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+
+<div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    @{ string s = ViewBag.edit;}
+
+    @using (Ajax.BeginForm(s, "Setup", null, new AjaxOptions
+    {
+        HttpMethod = "Post",
+        OnSuccess = "CreateAssetSuccess"
+    }
+        , new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content ">
+                <div class="modal-header modalheader">
+                    <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+
+                    @if (s.Contains("Add"))
+                    {
+                        <h4 class="modal-title">
+                            Add Warehouse
+                        </h4>
+                    }
+                    else
+                    {
+                        <h4 class="modal-title">
+                            Edit Warehouse
+                        </h4>
+                    }
+
+
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-bd lobidrag">
+
+                        <div class="panel-body">
+                            @if (alertModel != null)
+                            {
+                                @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+                            }
+                            @Html.HiddenFor(a => a.Id)
+                            @Html.HiddenFor(a => a.CreatedBy)
+                            @Html.HiddenFor(a => a.CreatedOn)
+                            <div class="">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1" })
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", @required = true, autofocus = "" } })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.StoreId, htmlAttributes: new { @class = "control-label required1" })
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(model => model.StoreId, Model.StoreDdl, "Select an Option", new { @class = "form-control", @required = true })
+                                                <span class="input-group-addon" style="   ">
+                                                    <a href="@Url.Action("AddStorePartial","Store")" class="modalShow1"> <i class="fa fa-plus "></i></a>
+                                                </span>
+                                                @Html.ValidationMessageFor(model => model.StoreId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal" *@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>Close</button>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<div id="ModalData1"></div>
+<script>
+        function UpdateDdlStore() {
+            $.ajax({
+                url: "@Url.Action("GetStoreDdl", "Store")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.StoreId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+
+                }
+            });
+
+        }
+
+        $('a.modalShow1').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData1').html(result);
+                    $('#ordine2').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+</script>
+
+<script>
+    $("input").on("keypress", function (e) {
+        if (e.which === 32 && !this.value.length)
+            e.preventDefault();
+    });
+</script>
+
+
+
+
+
+
+
+
+

@@ -28,6 +28,35 @@ namespace POSApp.Controllers
         {
             return View(_unitOfWork.StoreRepository.GetStores());
         }
+
+        public ActionResult AddStorePartial()
+        {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("StoresList");
+            }
+            ViewBag.edit = "AddStorePartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddStorePartial(StoreViewModel storevm)
+        {
+            ViewBag.edit = "AddStorePartial";
+            if (!ModelState.IsValid)
+            {
+                return View(storevm);
+            }
+            else
+            {
+                Store store = Mapper.Map<Store>(storevm);
+                _unitOfWork.StoreRepository.AddStore(store);
+                _unitOfWork.Complete();
+                return PartialView("Test");
+            }
+
+        }
+
         [HttpGet]
         public ActionResult AddStore()
         {
@@ -228,6 +257,18 @@ namespace POSApp.Controllers
 
             return RedirectToAction("StoresList", "Store");
 
+        }
+        public JsonResult GetStoreDdl()
+        {
+            try
+            {
+                return Json(Mapper.Map<StateModelView[]>(_unitOfWork.StoreRepository.GetStores()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

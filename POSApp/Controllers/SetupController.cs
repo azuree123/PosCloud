@@ -229,6 +229,7 @@ namespace POSApp.Controllers
 
         }
 
+       
 
 
 
@@ -5276,5 +5277,225 @@ namespace POSApp.Controllers
 
         }
 
+        //Warehouse
+
+        public ActionResult WarehouseList(int storeId = 0)
+        {
+
+            if (storeId == 0)
+            {
+                return View(_unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new WarehouseListModelView { Id = a.Id, Name = a.Name, StoreName = a.Store.Name }));
+            }
+            return View(_unitOfWork.WarehouseRepository.GetWarehouses(storeId).Select(a => new WarehouseListModelView { Id = a.Id, Name = a.Name, StoreName = a.Store.Name }));
+        }
+        public ActionResult AddWarehouse()
+        {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("WarehouseList");
+            }
+            WarehouseViewModel warehouse = new WarehouseViewModel();
+            warehouse.StoreDdl = _unitOfWork.StoreRepository.GetStores()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            ViewBag.edit = "AddWarehouse";
+            return View(warehouse);
+        }
+
+        [HttpPost]
+        public ActionResult AddWarehouse(WarehouseViewModel warehouseVm)
+        {
+            ViewBag.edit = "AddWarehouse";
+            warehouseVm.StoreDdl = _unitOfWork.StoreRepository.GetStores()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(warehouseVm);
+                }
+                else
+                {
+                    Warehouse warehouse = Mapper.Map<Warehouse>(warehouseVm);
+                    _unitOfWork.WarehouseRepository.AddWarehouse(warehouse);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The warehouse added successfully", AlertType.Success);
+                    return null;
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return View(warehouseVm);
+
+
+        }
+
+        [HttpGet]
+        public ActionResult UpdateWarehouse(int id)
+        {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("WarehouseList");
+            }
+            ViewBag.edit = "UpdateWarehouse";
+            WarehouseViewModel warehouseMv = Mapper.Map<WarehouseViewModel>(_unitOfWork.WarehouseRepository.GetWarehouse(id));
+            warehouseMv.StoreDdl = _unitOfWork.StoreRepository.GetStores()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            return View("AddWarehouse", warehouseMv);
+        }
+        [HttpPost]
+        public ActionResult UpdateWarehouse(int id, WarehouseViewModel warehouseVm)
+        {
+            ViewBag.edit = "UpdateWarehouse";
+            warehouseVm.StoreDdl = _unitOfWork.StoreRepository.GetStores()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddWarehouse", warehouseVm);
+                }
+                else
+                {
+                    Warehouse warehouse = Mapper.Map<Warehouse>(warehouseVm);
+                    _unitOfWork.WarehouseRepository.UpdateWarehouse(id, warehouse);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The warehouse updated successfully", AlertType.Success);
+                    return null;
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return View("AddWarehouse", warehouseVm);
+
+        }
+        public ActionResult DeleteWarehouse(int id)
+        {
+            try
+            {
+                _unitOfWork.WarehouseRepository.DeleteWarehouse(id);
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The warehouse deleted successfully", AlertType.Success);
+                return RedirectToAction("WarehouseList", "Setup");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("WarehouseList", "Setup");
+
+        }
     }
 }

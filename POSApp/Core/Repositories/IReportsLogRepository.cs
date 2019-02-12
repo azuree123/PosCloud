@@ -11,7 +11,7 @@ namespace POSApp.Core.Repositories
    {
        IEnumerable<ReportsLog> GetReportsLogs();
        IEnumerable<ReportsLog> GetReportsLogs(string userId);
-       ReportsLog GetReportsLog(int id);
+       ReportsLog GetReportsLog(int id, int StoreId);
        void AddReportsLog(ReportsLog ReportsLog);
        void UpdateReportsLog(int id, ReportsLog ReportsLog);
        void DeleteReportsLog(int id, int storeId);

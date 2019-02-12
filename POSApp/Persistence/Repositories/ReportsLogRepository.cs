@@ -25,9 +25,9 @@ namespace POSApp.Persistence.Repositories
             return _context.ReportsLogs.Where(a => a.CreatedById == userId).ToList();
         }
 
-        public ReportsLog GetReportsLog(int id)
+        public ReportsLog GetReportsLog(int id, int StoreId)
         {
-            return _context.ReportsLogs.Find(id);
+            return _context.ReportsLogs.Find(id,StoreId);
         }
 
         public void AddReportsLog(ReportsLog ReportsLog)
