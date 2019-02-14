@@ -174,13 +174,44 @@ namespace POSApp.Core.ViewModels
 
     }
 
+    public class ItemsViewModel
+    {
+        public int? Id { get; set; }
+        public string Name { get; set; }
+        public int? StoreId { get; set; }
+        public string Type { get; set; }
+        public string ProductCode { get; set; }
+        public double CostPrice { get; set; }
+        public string PurchaseUnit { get; set; }
+        public string StorageUnit { get; set; }
+        public string IngredientUnit { get; set; }
+        [DisplayName("Purchase to Storage Factor")]
+        public decimal? PtoSFactor { get; set; }
+        [DisplayName("Storage to Ingredient Factor")]
+        public decimal? StoIFactor { get; set; }
+        public string Barcode { get; set; }
+        
+        public DateTime? CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
+        [DisplayName("Unit")]
+        
+        
+        public IEnumerable<SelectListItem> TaxDdl { get; set; }
+        
+        public IEnumerable<SelectListItem> SizeDdl { get; set; }
+        
+
+    }
+
     public class ProductDdlViewModel
     {
         public int? Id { get; set; }
         public string Name { get; set; }
         public double UnitPrice { get; set; }
         public double CostPrice { get; set; }
-        public string Stock { get; set; }
+        public string PurchaseUnit { get; set; }
+        public string StorageUnit { get; set; }
+        public string IngredientUnit { get; set; }
 
     }
 }

@@ -23,17 +23,16 @@ namespace POSApp.Core.Models
         [DefaultValue(0)]
         public double UnitPrice { get; set; }
         [DefaultValue(0)]
-        public double CostPrice { get; set; }
+        public double? CostPrice { get; set; }
         [DefaultValue(0)]
         public double Stock { get; set; }
         [DefaultValue(0)]
         public int ReOrderLevel { get; set; }
         public string Barcode { get; set; }
         public byte[] Image { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public ProductCategory ProductCategory { get; set; }
-
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
         public Unit ProductUnit { get; set; }
         public int? SectionId { get; set; }
         public Section Section { get; set; }
@@ -41,7 +40,11 @@ namespace POSApp.Core.Models
         public bool InventoryItem { get; set; }
         public bool PurchaseItem { get; set; }
         public bool FixedAssetItem { get; set; }
-
+        public string PurchaseUnit { get; set; }
+        public string StorageUnit { get; set; }
+        public string IngredientUnit { get; set; }
+        public decimal? PtoSFactor { get; set; }
+        public decimal? StoIFactor { get; set; }
         public virtual ICollection<TransDetail> TransDetails { get; set; }
 
         public virtual ICollection<Modifier> Modifiers { get; set; }

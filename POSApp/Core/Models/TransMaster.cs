@@ -35,7 +35,7 @@ namespace POSApp.Core.Models
 
         public bool Posted { get; set; }
         public string ACRef { get; set; }
-
+        public string Description { get; set; }
         public string PaymentMethod { get; set; }//visa, master,accout,credit, cash etc
 
         public int? DineTableId { get; set; }

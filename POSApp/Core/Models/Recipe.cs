@@ -26,8 +26,7 @@ namespace POSApp.Core.Models
         public decimal Quantity { get; set; }
 
 
-        public int UnitId { get; set; }
-        public  Unit Unit { get; set; }
+        
 
 
         public decimal? Calories { get; set; }

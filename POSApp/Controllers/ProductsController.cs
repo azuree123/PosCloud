@@ -2411,7 +2411,7 @@ namespace POSApp.Controllers
             RecipeViewModel RecipeVm = new RecipeViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>a.InventoryItem && a.PurchaseItem)
+            RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>a.InventoryItem)
                 .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
             RecipeVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
@@ -2589,6 +2589,243 @@ namespace POSApp.Controllers
             var data = _unitOfWork.ProductRepository.GetProductByCode(productId, (int)user.StoreId);
             return View(data);
         }
+
+        public ActionResult InventoryItemsList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.InventoryItem).ToList());
+        }
+        [HttpGet]
+        public ActionResult AddInventoryItems()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ItemsViewModel items = new ItemsViewModel();
+            int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
+            items.ProductCode = "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("InventoryItemsList");
+            }
+            ViewBag.edit = "AddInventoryItems";
+            return View(items);
+        }
+
+        [HttpPost]
+        public ActionResult AddInventoryItems(ItemsViewModel itemVm)
+        {
+            ViewBag.edit = "AddInventoryItems";
+            try
+            {
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View(itemVm);
+                }
+
+
+                {
+                    
+                    itemVm.StoreId = user.StoreId;
+                    var product = Mapper.Map<Product>(itemVm);
+                    int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
+                    product.ProductCode = "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
+                    product.InventoryItem = true;
+                    _unitOfWork.ProductRepository.AddProduct(product);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The item added successfully", AlertType.Success);
+                    return RedirectToAction("InventoryItemsList", "Products");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return View(itemVm);
+        }
+        public ActionResult UpdateInventoryItems(string productId)
+        {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ProductsList");
+            }
+            ViewBag.edit = "UpdateInventoryItems";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ItemsViewModel itemVm = Mapper.Map<ItemsViewModel>(_unitOfWork.ProductRepository.GetProductByCode(productId, Convert.ToInt32(user.StoreId)));
+            
+            return View("AddInventoryItems", itemVm);
+        }
+        [HttpPost]
+        public ActionResult UpdateInventoryItems(string productId, ItemsViewModel itemVm)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ViewBag.edit = "UpdateInventoryItems";
+           
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddInventoryItems", itemVm);
+                }
+                else
+                {
+                    
+
+                    Product product = Mapper.Map<Product>(itemVm);
+                    product.InventoryItem = true;
+                    _unitOfWork.ProductRepository.UpdateProduct(product.ProductCode, Convert.ToInt32(user.StoreId), product);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The item updated successfully", AlertType.Success);
+                    return null;
+                }
+
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return View("AddInventoryItems", itemVm);
+
+
+        }
+        public ActionResult DeleteInventoryItems(string id)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.ProductRepository.DeleteProduct(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The item deleted successfully", AlertType.Success);
+                return RedirectToAction("InventoryItemsList", "Products");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                }
+                else
+                {
+
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+
+            }
+
+            return RedirectToAction("InventoryItemsList", "Products");
+
+        }
+
         public ApplicationUserManager UserManager
         {
             get

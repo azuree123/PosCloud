@@ -25,6 +25,7 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Products.Include(a=>a.ProductCategory).Where(a=>a.StoreId==storeId && !a.IsDisabled).ToList();
         }
+       
         public async Task<IEnumerable<Product>> GetAllProductsAsync(int storeId)
         {
             return await _context.Products.Include(a => a.ProductCategory).Where(a => a.StoreId == storeId && !a.IsDisabled).ToListAsync();
@@ -46,14 +47,15 @@ namespace POSApp.Persistence.Repositories
         }
         public Product GetProductByCode(string id, int storeid)
         {
-            return _context.Products.Include(a => a.ComboProducts).Include(a=>a.Recipes).Include(a=>a.Recipes.Select(g=>g.Unit))
+                var data=_context.Products.Include(a => a.ComboProducts).Include(a=>a.Recipes)
                 .Include(a => a.Recipes.Select(g => g.Ingredient)).FirstOrDefault(a => a.ProductCode == id && a.StoreId == storeid);
+                return data;
         }
         public IQueryable<ProductDtViewModel> GetProductsQuery(int storeId)
         {
             //return _context.PurchaseOrder;
             return Mapper.Map<ProductDtViewModel[]>(_context.Products
-                .Where(a => a.StoreId == storeId && !a.IsDisabled)).AsQueryable();
+                .Where(a => a.StoreId == storeId && !a.InventoryItem &&!a.IsDisabled)).AsQueryable();
 
         }
         public void AddProduct(Product product)

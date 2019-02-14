@@ -34,21 +34,21 @@ namespace POSApp.Persistence.Repositories
                 ,
                 Calories = a.Calories,
                 IngredientName = a.Ingredient.Name,
-                Unit = a.Unit.Name,
+                
                 ExpiryDate = a.ExpiryDate,
                 ProductCode = a.ProductCode
             }).ToListAsync(); 
         }
         public IEnumerable<RecipeListViewModel> GetRecipes(int storeId,string productCode)
         {
-            return _context.Recipes.Include(a=>a.Ingredient).Include(a=>a.Unit).Where(a => a.StoreId == storeId && a.ProductCode==productCode).Select(a=>new RecipeListViewModel
+            return _context.Recipes.Include(a=>a.Ingredient).Where(a => a.StoreId == storeId && a.ProductCode==productCode).Select(a=>new RecipeListViewModel
             {
                 Id = a.Id,
                 StoreId = a.StoreId,
                 Quantity = a.Quantity
                ,Calories = a.Calories,
                 IngredientName =a.Ingredient.Name,
-                Unit = a.Unit.Name,
+               
                 ExpiryDate = a.ExpiryDate,
                 ProductCode = a.ProductCode
             }).ToList();

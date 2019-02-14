@@ -75,7 +75,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Ingredient</th>
-                                    <th>Unit</th>
+                                    
                                     <th>Qty</th>
                                     <th>Calories</th>
                                     <th>Expiry Date</th>
@@ -91,10 +91,7 @@
                                     <tr>
                                         <td>@(i++)</td>
                                         <td>@recipe.Ingredient.Name</td>
-                                        <td>
-                                            @(recipe.Unit.Name)
-
-                                        </td>
+                                        
                                         <td>@recipe.Quantity</td>
                                         <td>@recipe.Calories</td>
                                         <td>@recipe.ExpiryDate.ToShortDateString()</td>

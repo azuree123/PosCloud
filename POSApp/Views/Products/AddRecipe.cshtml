@@ -67,16 +67,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-2">
-                                    @Html.LabelFor(model => model.UnitId, htmlAttributes: new {@class = "control-label required1"})
-                                    <div class="">
-                                        @Html.DropDownListFor(model => model.UnitId, Model.UnitDdl, "Select an Option", new {@class = "form-control", @required = "true"})
-                                        @Html.ValidationMessageFor(model => model.UnitId, "", new {@class = "text-danger"})
-
-
-                                    </div>
-
-                                </div>
+                             
                                 <div class="col-md-2">
                                     @Html.LabelFor(model => model.Quantity, htmlAttributes: new {@class = "control-label"})
                                     @Html.EditorFor(model => model.Quantity, new {htmlAttributes = new {@class = "form-control", @placeholder = "Enter Quantity"}})
@@ -112,7 +103,7 @@
                             <thead>
                                 <tr>
                                     <th>Ingredient</th>
-                                    <th>Unit</th>
+                                    
                                     <th>Quantity</th>
                                     <th>Calories</th>
                                     <th>Expiry Date</th>
@@ -124,7 +115,7 @@
                                 {
                                 <tr>
                                     <td>@data.IngredientName</td>
-                                    <td>@data.Unit</td>
+                                    
                                     <td>@data.Quantity</td>
                                     <td>@data.Calories</td>
                                     <td>@data.ExpiryDate.ToShortDateString()</td>

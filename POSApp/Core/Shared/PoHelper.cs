@@ -17,7 +17,7 @@ namespace POSApp.Core.Shared
                 .Where(a => a.ProductCode == product.ProductCode && a.UnitPrice == cost && a.CreatedByUserId == userId).ToList()
                 .FirstOrDefault();
             if (checkTrans != null)
-            {
+            { 
                 checkTrans.Quantity+=qty;
             }
             else

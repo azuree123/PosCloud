@@ -509,6 +509,22 @@
     <Compile Include="Migrations\201902121014104_warehouse.Designer.cs">
       <DependentUpon>201902121014104_warehouse.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902130722549_pro.cs" />
+    <Compile Include="Migrations\201902130722549_pro.Designer.cs">
+      <DependentUpon>201902130722549_pro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902131016239_pro1.cs" />
+    <Compile Include="Migrations\201902131016239_pro1.Designer.cs">
+      <DependentUpon>201902131016239_pro1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902131123512_pro2.cs" />
+    <Compile Include="Migrations\201902131123512_pro2.Designer.cs">
+      <DependentUpon>201902131123512_pro2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902131218273_pro3.cs" />
+    <Compile Include="Migrations\201902131218273_pro3.Designer.cs">
+      <DependentUpon>201902131218273_pro3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DesignationEntityConfiguration.cs" />
@@ -3352,6 +3368,8 @@
     <Content Include="Views\Setup\AddWarehouse.cshtml" />
     <Content Include="Views\Store\AddStorePartial.cshtml" />
     <Content Include="Views\Reports\MyReportsPreview.cshtml" />
+    <Content Include="Views\Products\AddInventoryItems.cshtml" />
+    <Content Include="Views\Products\InventoryItemsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3389,6 +3407,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902121014104_warehouse.resx">
       <DependentUpon>201902121014104_warehouse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902130722549_pro.resx">
+      <DependentUpon>201902130722549_pro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902131016239_pro1.resx">
+      <DependentUpon>201902131016239_pro1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902131123512_pro2.resx">
+      <DependentUpon>201902131123512_pro2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902131218273_pro3.resx">
+      <DependentUpon>201902131218273_pro3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchTimelySale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

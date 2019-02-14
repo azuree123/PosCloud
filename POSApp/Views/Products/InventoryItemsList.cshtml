@@ -1,0 +1,131 @@
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.Models.Product>
+
+@{
+    ViewBag.Title = "InventoryItemsList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
+            <li class="current"><a href="#">Inventory Items</a></li>
+           
+        </ul>
+        <hr />
+
+    </div>
+</div>
+<section class="panel">
+    <header class="panel-heading">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="" id="header-flex">
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Items</b></h3>
+
+
+
+                    <a href="@Url.Action("AddInventoryItems", "Products")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Item</button>
+
+                    </a>
+                    @*<a href="@Url.Action("DeviceExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+
+                    </a>*@
+
+                </div>
+            </div>
+        </div>
+
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @{ int i = 1;}
+                @foreach (var s in Model)
+                {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@s.Name</td>
+                        <td class="center">
+                            <div class="btn-group">
+
+                                @Html.ActionLink(" ", "UpdateInventoryItems", "Products", new { productId = @s.ProductCode }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                @Html.ActionLink(" ", "DeleteInventoryItems", "Products", new { id = @s.ProductCode }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').dataTable();
+
+        $('#datatable-default').on('click','a.modalShow', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('a.modalShow').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        function CreateAssetSuccess(data) {
+            if (data !== '') {
+                $('#ordine').modal('hide');
+                $('#ModalData').html(data);
+                $('#ordine').modal('show');
+
+                return;
+            }
+            location.reload();
+        }
+    </script>
+}
+
+

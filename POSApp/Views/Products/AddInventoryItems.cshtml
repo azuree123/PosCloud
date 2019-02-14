@@ -1,0 +1,165 @@
+﻿
+@using Newtonsoft.Json
+@using POSApp.Core.Models
+@model POSApp.Core.ViewModels.ItemsViewModel
+
+@{
+    Layout = null;
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+
+}
+
+<div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    @{ string s = ViewBag.edit;}
+
+    @using (Ajax.BeginForm(s, "Products", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "CreateAssetSuccess"
+    }
+        , new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content ">
+                <div class="modal-header modalheader">
+                    <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+
+                    @if (s.Contains("Add"))
+                    {
+                    <h4 class="modal-title">
+                        Add InventoryItems
+                    </h4>
+                    }
+                    else
+                    {
+                    <h4 class="modal-title">
+                        Edit InventoryItems
+                    </h4>
+                    }
+
+
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-bd lobidrag">
+
+                        <div class="panel-body">
+                            @if (alertModel != null)
+                            {
+                                @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+                            }
+                            @Html.HiddenFor(a => a.Id)
+                            @Html.HiddenFor(a => a.ProductCode)
+                            @Html.HiddenFor(a => a.CreatedBy)
+                            @Html.HiddenFor(a => a.CreatedOn)
+                            
+                            @Html.HiddenFor(a => a.StoreId)
+                            <div class="">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="row">
+                                    <div class="form-group">
+
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1 " })
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @Required = true, @placeholder = "Enter Name", autofocus = "" } })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label required1 " })
+                                            @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label required1" })
+                                            @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.PurchaseUnit, htmlAttributes: new { @class = "control-label required1 " })
+                                            @Html.EditorFor(model => model.PurchaseUnit, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.PurchaseUnit, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.StorageUnit, htmlAttributes: new { @class = "control-label required1 " })
+                                            @Html.EditorFor(model => model.StorageUnit, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.StorageUnit, "", new { @class = "text-danger" })
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.IngredientUnit, htmlAttributes: new { @class = "control-label required1 " })
+                                            @Html.EditorFor(model => model.IngredientUnit, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.IngredientUnit, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.PtoSFactor, htmlAttributes: new { @class = "control-label required1 " })
+                                            @Html.EditorFor(model => model.PtoSFactor, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.PtoSFactor, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.StoIFactor, htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.StoIFactor, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.StoIFactor, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-lg btnPro">Save</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal"*@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );">Close</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    $("input").on("keypress", function (e) {
+        if (e.which === 32 && !this.value.length)
+            e.preventDefault();
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

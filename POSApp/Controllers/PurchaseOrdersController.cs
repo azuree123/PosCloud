@@ -100,11 +100,11 @@ namespace POSApp.Controllers
                 po.TransCode = "PRI-" + "C-" + TransId.ToString() + "-" + user.StoreId;
                 po.StoreId = user.StoreId;
                 var savePo = Mapper.Map<TransMaster>(po);
-               
+                
                 IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a=>a.CreatedByUserId==userid && a.StoreId==user.StoreId);
 
                 savePo.TotalPrice = (from a in poItems
-                                     select a.Quantity * a.UnitPrice).Sum();
+                                     select a.Quantity  * a.UnitPrice).Sum();
                 _unitOfWork.TransMasterRepository.AddTransMaster(savePo);
                 _unitOfWork.Complete();
 

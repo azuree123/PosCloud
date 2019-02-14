@@ -16,8 +16,7 @@ namespace POSApp.Core.ViewModels
         [DisplayName("Ingredient")]
         public string IngredientCode { get; set; }
         public decimal Quantity { get; set; }
-        [DisplayName("Unit")]
-        public int UnitId { get; set; }
+        
         public decimal? Calories { get; set; }
         public string Code { get; set; }
         public DateTime? CreatedOn { get; set; }

@@ -70,7 +70,7 @@
                                                 Quantity
                                             </label>
                                             <div class="input-group">
-                                                <input class="form-control" id="quty" type="number" min="1" required="" name="quantity" />
+                                                <input class="form-control" id="quty" type="number" min="1" required="" name="quantity" placeholder="Purchase" />
 
                                                 <span class="input-group-addon" style="   ">
                                                     <span id="disQty" class="input-group-text">-</span>
@@ -83,18 +83,43 @@
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="form-group">
                                             <label class="control-label">
-                                                Cost
+                                                Quantity
                                             </label>
-                                            <input type="number" class="form-control"  id="price" min="1" name="cost" placeholder="Enter Cost" Required="" />
+                                            <div class="input-group">
+                                                <input class="form-control" id="quty1" type="number" min="1" required="" name="quantity" placeholder="Storage"/>
+
+                                                <span class="input-group-addon" style="   ">
+                                                    <span id="disQty1" class="input-group-text">-</span>
+                                                </span>
+
+                                            </div>
+
                                         </div>
                                     </div>
+                                    <div class="col-md-8 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Quantity
+                                            </label>
+                                            <div class="input-group">
+                                                <input class="form-control" id="quty2" type="number" min="1" required="" name="quantity"  placeholder="Ingredient"/>
 
+                                                <span class="input-group-addon" style="   ">
+                                                    <span id="disQty2" class="input-group-text">-</span>
+                                                </span>
 
+                                            </div>
 
-
-
-
-
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Cost
+                                            </label>
+                                            <input type="number" class="form-control" id="price" min="1" name="cost" placeholder="Enter Cost" Required="" />
+                                        </div>
+                                    </div>
 
 
 
@@ -129,8 +154,10 @@
                     type: "GET",
                     data: { id: val },
                     success: function(data) {
-                        $('#disQty').text(data.Stock);
-                        $('#price').val(data.UnitPrice);
+                        $('#disQty').text(data.PurchaseUnit);
+                        $('#disQty1').text(data.StorageUnit);
+                        $('#disQty2').text(data.IngredientUnit);
+                        $('#price').val(data.CostPrice);
                     },
                     error: function(error) {
                         console.log(error);

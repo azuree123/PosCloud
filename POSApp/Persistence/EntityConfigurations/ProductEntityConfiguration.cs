@@ -25,14 +25,18 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.UnitPrice).HasColumnType("float").IsRequired();
             Property(x => x.Attribute).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.Size).HasColumnType("varchar").HasMaxLength(150).IsOptional();
-            Property(x => x.CostPrice).HasColumnType("float").IsRequired();
+            Property(x => x.CostPrice).HasColumnType("float").IsOptional();
             Property(x => x.ReOrderLevel).HasColumnType("int").IsRequired();
             Property(x => x.IsTaxable).HasColumnType("bit").IsRequired();
             Property(x => x.InventoryItem).HasColumnType("bit").IsRequired();
             Property(x => x.PurchaseItem).HasColumnType("bit").IsRequired();
             Property(x => x.FixedAssetItem).HasColumnType("bit").IsRequired();
             Property(x => x.IsTaxable).HasColumnType("bit").IsRequired();
-
+            Property(x => x.IngredientUnit).HasColumnType("varchar").HasMaxLength(300).IsOptional();
+            Property(x => x.PurchaseUnit).HasColumnType("varchar").HasMaxLength(300).IsOptional();
+            Property(x => x.StorageUnit).HasColumnType("varchar").HasMaxLength(300).IsOptional();
+            Property(x => x.PtoSFactor).HasColumnType("decimal").IsOptional();
+            Property(x => x.StoIFactor).HasColumnType("decimal").IsOptional();
             //******************************************************************************************* Auditable ***************
 
             //Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();
@@ -41,9 +45,9 @@ namespace POSApp.Persistence.EntityConfigurations
             //******************************************************************************************* Auditable ***************
             //HasRequired(x => x.CreatedBy).WithMany().HasForeignKey(x => new { x.CreatedById, x.StoreId }).WillCascadeOnDelete(false);
             //HasRequired(x => x.UpdatedBy).WithMany().HasForeignKey(x => new { x.UpdatedById, x.StoreId }).WillCascadeOnDelete(false);
-            HasRequired(x => x.ProductCategory).WithMany(x => x.Products).HasForeignKey(x => new {x.CategoryId,x.StoreId}).WillCascadeOnDelete(true);
+            HasOptional(x => x.ProductCategory).WithMany(x => x.Products).HasForeignKey(x => new {x.CategoryId,x.StoreId}).WillCascadeOnDelete(true);
             HasOptional(x => x.Tax).WithMany(x => x.Products).HasForeignKey(x => new {x.TaxId,x.StoreId}).WillCascadeOnDelete(false);
-            HasRequired(x => x.ProductUnit).WithMany(x => x.Products).HasForeignKey(x => new { x.UnitId, x.StoreId }).WillCascadeOnDelete(false);
+            HasOptional(x => x.ProductUnit).WithMany(x => x.Products).HasForeignKey(x => new { x.UnitId, x.StoreId }).WillCascadeOnDelete(false);
             HasOptional(x => x.Section).WithMany(x => x.Products).HasForeignKey(x => new { x.SectionId, x.StoreId }).WillCascadeOnDelete(false);
             //HasMany(x => x.TimedEvents).WithMany(x => x.Products).Map(a =>
             //{
