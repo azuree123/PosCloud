@@ -31,6 +31,7 @@ namespace POSApp.Core.ViewModels
         public string PaymentMethod { get; set; }
         [DisplayName("BusinessPartner Name")]
         public string BusinessPartnerName { get; set; }
+        public bool Issued { get; set; }
         public string Code { get; set; }
         [DefaultValue(0)]
         public decimal Tax { get; set; }

@@ -130,11 +130,11 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
                                         </div>
-                                        <div class="col-md-4">
+                                        @*<div class="col-md-4">
                                             @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label required1" })
                                             @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
-                                        </div>
+                                        </div>*@
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label required1" })
@@ -148,11 +148,11 @@
                                     <div class="form-group">
 
 
-                                        <div class="col-md-4">
+                                        @*<div class="col-md-4">
                                             @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label required1" })
                                             @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @type = "number", @class = "form-control", @Required = true } })
                                             @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
-                                        </div>
+                                        </div>*@
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Attribute, htmlAttributes: new { @class = "control-label required1" })
                                             @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control", @Required = true } })
@@ -188,25 +188,7 @@
                                     </div>
                                 </div>
                                 <hr/>
-                                <div class="row">
-                                    <div class="form-group">
-
-                                        @Html.Label("Inventory Item", htmlAttributes: new { @class = "control-label col-xs-2" })
-                                        @Html.EditorFor(model => model.InventoryItem, new { htmlAttributes = new { @class = " col-xs-2" } })
-                                        @Html.ValidationMessageFor(model => model.InventoryItem, "", new { @class = "text-danger" })
-
-                                        <div class="">
-                                            @Html.Label("Purchase Item", htmlAttributes: new { @class = "control-label col-xs-2" })
-                                            @Html.EditorFor(model => model.PurchaseItem, new { htmlAttributes = new { @class = "col-xs-2" } })
-                                            @Html.ValidationMessageFor(model => model.PurchaseItem, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="">
-                                            @Html.Label("FixedAsset Item", htmlAttributes: new { @class = "control-label col-xs-2" })
-                                            @Html.EditorFor(model => model.FixedAssetItem, new { htmlAttributes = new { @class = "col-xs-2" } })
-                                            @Html.ValidationMessageFor(model => model.FixedAssetItem, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
+                                
 
 
                                 <div class="row">

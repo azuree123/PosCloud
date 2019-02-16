@@ -25,6 +25,8 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
 
             Property(x => x.IsOperational).HasColumnType("bit").IsOptional();
+
+            HasOptional(a=>a.Client).WithMany(a=>a.Stores).HasForeignKey(a=>a.ClientId).WillCascadeOnDelete(false);
         }
     }
 }

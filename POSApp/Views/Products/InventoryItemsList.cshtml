@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "InventoryItemsList";
     AlertModel alertModel = (AlertModel)TempData["Alert"];
+    
 }
 @if (alertModel != null)
 {
@@ -48,11 +49,12 @@
         <div class="table-responsive">
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Action</th>
-                </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Cost Price</th>
+                        <th>Action</th>
+                    </tr>
                 </thead>
                 <tbody>
                 @{ int i = 1;}
@@ -61,6 +63,7 @@
                     <tr>
                         <td>@(i++)</td>
                         <td>@s.Name</td>
+                        <td>@s.CostPrice</td>
                         <td class="center">
                             <div class="btn-group">
 

@@ -30,6 +30,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Tax).HasColumnType("decimal").IsRequired();
             Property(x => x.SessionCode).HasColumnType("int").IsRequired();
             Property(x => x.Type).HasColumnType("char").HasMaxLength(3).IsOptional();
+            Property(a => a.Issued).HasColumnType("bit").IsRequired();
             Property(x => x.CreatedOn).IsOptional();
             Property(x => x.UpdatedOn).IsOptional();
             Property(x => x.CreatedById).IsOptional();

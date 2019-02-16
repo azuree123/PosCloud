@@ -12,6 +12,7 @@ using POSApp.Core.Models;
 using POSApp.Core.Shared;
 using POSApp.Core.ViewModels;
 using System.Linq.Dynamic;
+using Remotion.Linq.Clauses;
 
 namespace POSApp.Controllers
 {
@@ -2436,12 +2437,12 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
-                    RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts(RecipeVm.StoreId).Where(a => a.InventoryItem && a.PurchaseItem)
+                    RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts(RecipeVm.StoreId).Where(a => a.InventoryItem)
                         .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
                     RecipeVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit(RecipeVm.StoreId)
                         .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
                     RecipeVm.RecipeList = _unitOfWork.RecipeRepository.GetRecipes(RecipeVm.StoreId, RecipeVm.ProductCode).ToList();
-                    return View(RecipeVm);
+                    return View("AddRecipePartial",RecipeVm);
                 }
                 else
                 {
@@ -2458,21 +2459,20 @@ namespace POSApp.Controllers
                     _unitOfWork.Complete();
 
                     var product = _unitOfWork.ProductRepository.GetProductByCode(Recipe.ProductCode, Recipe.StoreId);
-                    product.CostPrice = Convert.ToDouble(product.Recipes.Select(a =>
-                            Convert.ToDecimal(a.Ingredient.CostPrice) *
-                            a.Quantity)
-                        .Sum());
+                    
+                    product.CostPrice = Convert.ToDouble(product.Recipes.Select(a=> (Convert.ToDecimal(a.Ingredient.CostPrice) / (a.Ingredient.StoIFactor) * (a.Ingredient.PtoSFactor)) *
+                                                                                     a.Quantity).Sum());
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Recipe added successfully", AlertType.Success);
-                    RecipeVm=new RecipeViewModel();
-                    RecipeVm.ProductCode = Recipe.ProductCode;
-                    RecipeVm.StoreId = Recipe.StoreId;
-                    RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts(RecipeVm.StoreId).Where(a => a.InventoryItem && a.PurchaseItem)
-                        .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
-                    RecipeVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit(RecipeVm.StoreId)
-                        .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-                    RecipeVm.RecipeList = _unitOfWork.RecipeRepository.GetRecipes(RecipeVm.StoreId, RecipeVm.ProductCode).ToList();
-                    return View(RecipeVm);
+                    RecipeViewModel newRecipeVm = new RecipeViewModel();
+                    newRecipeVm.ProductCode = Recipe.ProductCode;
+                    newRecipeVm.StoreId = Recipe.StoreId;
+                    newRecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts(Recipe.StoreId).Where(a => a.InventoryItem)
+                        .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).ToList();
+                    newRecipeVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit(Recipe.StoreId)
+                        .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).ToList();
+                    newRecipeVm.RecipeList = _unitOfWork.RecipeRepository.GetRecipes(Recipe.StoreId, Recipe.ProductCode).ToList();
+                    return View("AddRecipePartial", newRecipeVm);
 
                 }
             }
@@ -2517,7 +2517,7 @@ namespace POSApp.Controllers
             RecipeVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit(RecipeVm.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             RecipeVm.RecipeList = _unitOfWork.RecipeRepository.GetRecipes(RecipeVm.StoreId, RecipeVm.ProductCode).ToList();
-            return View(RecipeVm);
+            return View("AddRecipePartial",RecipeVm);
 
 
         }
@@ -2529,6 +2529,10 @@ namespace POSApp.Controllers
             try
             {
                 _unitOfWork.RecipeRepository.DeleteRecipes(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                var product = _unitOfWork.ProductRepository.GetProductByCode(code, Convert.ToInt32(user.StoreId));
+                product.CostPrice = Convert.ToDouble(product.Recipes.Select(a => (Convert.ToDecimal(a.Ingredient.CostPrice) / (a.Ingredient.StoIFactor) * (a.Ingredient.PtoSFactor)) *
+                                                                                 a.Quantity).Sum());
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The Recipe deleted successfully", AlertType.Success);
                 return View(_unitOfWork.RecipeRepository.GetRecipes(Convert.ToInt32(user.StoreId), code).ToList());
@@ -2639,10 +2643,11 @@ namespace POSApp.Controllers
                     int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
                     product.ProductCode = "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
                     product.InventoryItem = true;
+                    
                     _unitOfWork.ProductRepository.AddProduct(product);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The item added successfully", AlertType.Success);
-                    return RedirectToAction("InventoryItemsList", "Products");
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -2683,6 +2688,7 @@ namespace POSApp.Controllers
             }
 
             return View(itemVm);
+
         }
         public ActionResult UpdateInventoryItems(string productId)
         {

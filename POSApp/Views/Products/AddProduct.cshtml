@@ -105,6 +105,11 @@
                                             @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
                                         </div>
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Attribute, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "Enter Description" } })
+                                            @Html.ValidationMessageFor(model => model.Attribute, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
 
@@ -112,12 +117,8 @@
                                     <div class="form-group">
 
 
-                                        
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Attribute, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "Enter Attribute" } })
-                                            @Html.ValidationMessageFor(model => model.Attribute, "", new { @class = "text-danger" })
-                                        </div>
+
+
                                         <div class="col-md-4">
                                             @Html.Label("Size", htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
@@ -128,10 +129,6 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group">
                                         <div class="col-md-4">
                                             @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
@@ -142,7 +139,6 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
                                         </div>
-
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label" })
                                             <input type="file" name="file" id="file" />
@@ -162,7 +158,6 @@
                                         }
                                     </div>
                                 </div>
-
 
                                 <hr/>
                                 <div class="row">

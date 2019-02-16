@@ -51,6 +51,13 @@ namespace POSApp.Persistence.Repositories
                 .Where(a => a.StoreId == storeId && !a.IsDisabled);
 
         }
+        public IEnumerable<TransMaster> GetSaleInvoices(int storeId)
+        {
+            
+            return _context.TransMasters.Include(a => a.BusinessPartner)
+                .Where(a => a.StoreId == storeId && !a.Issued && !a.IsDisabled);
+
+        }
         public async Task<IEnumerable<TransMaster>> GetTransMastersAsync(int storeId)
         {
             //return _context.PurchaseOrder;

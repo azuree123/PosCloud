@@ -53,7 +53,10 @@ namespace POSApp.Persistence.Repositories
                 ProductCode = a.ProductCode
             }).ToList();
         }
-
+        public Recipe GetRecipeById(int id, int storeId)
+        {
+            return _context.Recipes.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+        }
         public Recipe GetRecipeById(string ProductCode, string ingredientcode)
         {
             return _context.Recipes.FirstOrDefault(a => a.ProductCode == ProductCode && a.IngredientCode == ingredientcode);

@@ -14,6 +14,7 @@ namespace POSApp.Core.ViewModels
         public string Description { get; set; }
         public string Type { get; set; }
         public string ProductCode { get; set; }
+        [DisplayName("Description")]
         public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
         public string Size { get; set; }//MED, SML, LRG,XRG, Child,
         [DisplayName("Tax")]

@@ -13,7 +13,7 @@
     @using (Ajax.BeginForm(s, "Products", null, new AjaxOptions
     {
         HttpMethod = "POST",
-        OnSuccess = " $('#ordine').modal('hide');$('#ModalData').html(data);$('#ordine').modal('show');  "
+        OnSuccess = " $('#changeData').html(data);"
     }
         , new { enctype = "multipart/form-data", id = "client" }))
     {
@@ -39,7 +39,7 @@
 
                     <button type="reset" style="display: none" id="resetBtn">reset</button>
                 </div>
-                <div class="modal-body">
+                <div id="changeData" class="modal-body">
                     <div class="panel panel-bd lobidrag">
 
                         <div class="panel-body">

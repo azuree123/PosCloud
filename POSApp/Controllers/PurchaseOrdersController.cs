@@ -99,6 +99,7 @@ namespace POSApp.Controllers
                 int TransId = _unitOfWork.AppCountersRepository.GetId("Invoice");
                 po.TransCode = "PRI-" + "C-" + TransId.ToString() + "-" + user.StoreId;
                 po.StoreId = user.StoreId;
+                
                 var savePo = Mapper.Map<TransMaster>(po);
                 
                 IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a=>a.CreatedByUserId==userid && a.StoreId==user.StoreId);
@@ -136,7 +137,7 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>(a.PurchaseItem||a.InventoryItem)).Select(a=>new SelectListItem{Text = a.Name,Value = a.Id.ToString()}));
         }
         [HttpPost]
-        public ActionResult AddTransactionItem(int productId,int quantity,decimal cost)
+        public ActionResult AddTransactionItem(int productId,int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -144,7 +145,12 @@ namespace POSApp.Controllers
             }
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductById(productId,(int)user.StoreId),quantity,cost,user.Id);
+            var product = _unitOfWork.ProductRepository.GetProductById(productId, (int) user.StoreId);
+            decimal quantity = 0;
+            quantity += purchaseQuantity;
+            quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
+            quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
+            PoHelper.AddToTemptTransDetail(product, quantity,cost,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
         public ActionResult RemoveTransactionItem(string productId)

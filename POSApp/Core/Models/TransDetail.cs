@@ -19,7 +19,7 @@ namespace POSApp.Core.Models
         public Product Product { get; set; }
 
         [DefaultValue(0)]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         [DefaultValue(0)]
         public decimal UnitPrice { get; set; }
 

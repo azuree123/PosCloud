@@ -26,5 +26,6 @@ namespace POSApp.Core.Repositories
         Task<TransMaster> GetTransMasterAsync(int id, int storeId);
         Task<IEnumerable<TransMaster>> GetTransMastersAsync(int storeId);
         Task AddTransMasterAsync(TransMaster optcategory);
+        IEnumerable<TransMaster> GetSaleInvoices(int storeId);
     }
 }

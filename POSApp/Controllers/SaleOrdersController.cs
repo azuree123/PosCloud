@@ -156,6 +156,8 @@ namespace POSApp.Controllers
             var data = _unitOfWork.TransMasterRepository.GetTransMaster(saleOrderId, (int) user.StoreId);
             return View(data);
         }
+
+       
         public ApplicationUserManager UserManager
         {
             get

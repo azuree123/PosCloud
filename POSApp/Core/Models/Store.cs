@@ -7,10 +7,11 @@ namespace POSApp.Core.Models
         public int Id { get; set; }
 
        // public string Reference { get; set; } //code
-
+        public int? ClientId { get; set; }
+        public Client Client { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-
+        
         public string Contact { get; set; }
 
         public string City { get; set; }
@@ -48,6 +49,7 @@ namespace POSApp.Core.Models
         public virtual ICollection<Recipe> Recipes { get; set; }
 
         public virtual ICollection<Warehouse> Warehouses { get; set; }
+        
 
     }
 }

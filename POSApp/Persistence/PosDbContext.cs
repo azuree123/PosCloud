@@ -124,6 +124,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new SizeEntityConfiguration());
             modelBuilder.Configurations.Add(new RecipeEntityConfiguration());
             modelBuilder.Configurations.Add(new WarehouseEntityConfiguration());
+            modelBuilder.Configurations.Add(new ClientEntityConfiguration());
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             
             base.OnModelCreating(modelBuilder);

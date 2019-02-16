@@ -10,8 +10,9 @@ namespace POSApp.Core.Shared
     public class PoHelper
     {
         public static List<TransDetailViewModel> temptTransDetail;
+       
 
-        public static void AddToTemptTransDetail(Product product,int qty,decimal cost,string userId)
+        public static void AddToTemptTransDetail(Product product,decimal qty,decimal cost,string userId)
         {
             TransDetailViewModel checkTrans = temptTransDetail
                 .Where(a => a.ProductCode == product.ProductCode && a.UnitPrice == cost && a.CreatedByUserId == userId).ToList()
@@ -19,7 +20,7 @@ namespace POSApp.Core.Shared
             if (checkTrans != null)
             { 
                 checkTrans.Quantity+=qty;
-            }
+            }  
             else
             {
 
@@ -28,6 +29,7 @@ namespace POSApp.Core.Shared
                 Discount = 0,
                 StoreId = product.StoreId,
                 ProductCode = product.ProductCode,
+                
                 Quantity = qty,
                 UnitPrice = cost,
                 CreatedByUserId = userId,
