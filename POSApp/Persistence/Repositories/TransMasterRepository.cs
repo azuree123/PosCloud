@@ -48,7 +48,7 @@ namespace POSApp.Persistence.Repositories
         {
             //return _context.PurchaseOrder;
             return _context.TransMasters.Include(a=>a.BusinessPartner)
-                .Where(a => a.StoreId == storeId && !a.IsDisabled);
+                .Where(a => a.StoreId == storeId && !a.Issued && !a.IsDisabled);
 
         }
         public IEnumerable<TransMaster> GetSaleInvoices(int storeId)
@@ -62,7 +62,7 @@ namespace POSApp.Persistence.Repositories
         {
             //return _context.PurchaseOrder;
             return await _context.TransMasters.Include(a => a.BusinessPartner)
-                .Where(a => a.StoreId == storeId && !a.IsDisabled).ToListAsync();
+                .Where(a => a.StoreId == storeId && !a.Issued && !a.IsDisabled).ToListAsync();
 
         }
         public IEnumerable<TransMaster> GetTransMastersByDate(int storeId)
@@ -70,7 +70,7 @@ namespace POSApp.Persistence.Repositories
             DateTime next = DateTime.Today.AddDays(1);
             //return _context.PurchaseOrder;
             return _context.TransMasters.Include(a => a.BusinessPartner)
-                .Where(a => a.StoreId == storeId && a.TransDate >= DateTime.Today && a.TransDate< next && !a.IsDisabled);
+                .Where(a => a.StoreId == storeId && a.TransDate >= DateTime.Today && a.TransDate< next && !a.Issued && !a.IsDisabled);
 
         }
         public IEnumerable<InvoiceViewModel> GetInvoice(int id, int storeId)

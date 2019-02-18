@@ -6,6 +6,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using System.Linq.Dynamic;
+using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 
 namespace POSApp.Controllers
 {
@@ -98,6 +100,50 @@ namespace POSApp.Controllers
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        [HttpPost]
+        public ActionResult MIFData()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            try
+            {
+                var saleorders = _unitOfWork.TransMasterRepository.GetSaleInvoices((int) user.StoreId);
+
+                foreach (var saleorder in saleorders)
+                {
+                    TransMaster mif = new TransMaster();
+                    mif.Type = "MIF";
+                    int TransId = _unitOfWork.AppCountersRepository.GetId("MIF");
+                    mif.TransCode = "MIF-" + "I-" + TransId.ToString() + "-" + user.StoreId;
+                    _unitOfWork.TransMasterRepository.AddTransMaster((mif));
+                    mif.StoreId = (int)user.StoreId;
+                    foreach (var item in saleorder.TransDetails)
+                    {
+                       
+                        TransDetail mifdetail = new TransDetail();
+                        mifdetail.TransMasterId = mif.Id;
+
+                        mifdetail.ProductCode = item.ProductCode;
+                        Recipe recipee = _unitOfWork.RecipeRepository.GetRecipeById(mifdetail.ProductCode,
+                            mifdetail.Product.IngredientRecipes.Select(a => a.IngredientCode).ToString());
+
+
+
+
+
+                    }
+                    
+            }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return View();
         }
         [HttpPost]
         public ActionResult GetDailySaleOrdersData()

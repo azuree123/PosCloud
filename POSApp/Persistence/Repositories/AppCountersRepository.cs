@@ -53,7 +53,11 @@ namespace POSApp.Persistence.Repositories
                     if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
                     appCounter.FiscalYearId = intId;
                     break;
-                    
+                case "MIF":
+                    intId = _context.AppCounters.Max(u => u.MifId);
+                    if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
+                    appCounter.MifId = intId;
+                    break;
 
 
 
@@ -87,7 +91,9 @@ namespace POSApp.Persistence.Repositories
                 case "FiscalYear":
                     appCounter.FiscalYearId = intId;
                     break;
-
+                case "MIF":
+                    appCounter.MifId = intId;
+                    break;
 
             }
 
