@@ -6,6 +6,7 @@ namespace POSApp.Core.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string ArabicName { get; set; }
         public virtual ICollection<City> Cities { get; set; }
     }
 }

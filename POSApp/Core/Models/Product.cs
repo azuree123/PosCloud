@@ -11,6 +11,7 @@ namespace POSApp.Core.Models
         public int StoreId { get; set; }
         public Store Store { get; set; }
         public string Name { get; set; }
+        public string ArabicName { get; set; }
         public string Description { get; set; }
         public string Type { get; set; }//Sale item,Service
         public string ProductCode { get; set; }

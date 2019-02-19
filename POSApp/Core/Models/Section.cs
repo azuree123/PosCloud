@@ -15,7 +15,7 @@ namespace POSApp.Core.Models
 
 
         public string Name { get; set; } // indian,turkish,
-
+        public string ArabicName { get; set; }
         public ICollection<POSTerminal> POSTerminals
         {
             get;

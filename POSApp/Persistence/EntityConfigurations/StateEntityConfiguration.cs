@@ -18,7 +18,7 @@ namespace POSApp.Persistence.EntityConfigurations
                 Property(x => x.Name).HasColumnType("varchar").HasMaxLength(150).IsRequired();
                 Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
 
-
+                Property(x => x.ArabicName).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
             //******************************************************************************************* Auditable ***************
 
             //Property(x => x.CreatedBy).HasColumnType("nvarchar").HasMaxLength(150).IsRequired();

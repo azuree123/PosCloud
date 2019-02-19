@@ -10,6 +10,8 @@ namespace POSApp.Core.ViewModels
     {
         public int? Id { get; set; }
         public string Name { get; set; }
+        
+        public string ArabicName { get; set; }
         public int? StoreId { get; set; }
         public string Description { get; set; }
         public string Type { get; set; }
@@ -136,6 +138,7 @@ namespace POSApp.Core.ViewModels
     {
         public int? Id { get; set; }
         public string Name { get; set; }
+        public string ArabicName { get; set; }
         public int? StoreId { get; set; }
         public string Description { get; set; }
         public string Type { get; set; }
@@ -179,6 +182,7 @@ namespace POSApp.Core.ViewModels
     {
         public int? Id { get; set; }
         public string Name { get; set; }
+        public string ArabicName { get; set; }
         public int? StoreId { get; set; }
         public string Type { get; set; }
         public string ProductCode { get; set; }

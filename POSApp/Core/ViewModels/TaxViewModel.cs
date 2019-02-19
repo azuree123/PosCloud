@@ -10,6 +10,8 @@ namespace POSApp.Core.ViewModels
     {
         public int? Id { get; set; }
         public string Name { get; set; }
+        public string ArabicName { get; set; }
+
         [DefaultValue(0)]
         public double Rate { get; set; }
         [DefaultValue(0)]

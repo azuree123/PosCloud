@@ -105,7 +105,7 @@ namespace POSApp.Persistence.Repositories
         public void AddBusinessPartner(BusinessPartner item)
         {
             var inDb = _context.BusinessPartners.FirstOrDefault(a =>
-                a.Name == item.Name && a.Type == item.Type && a.StoreId == item.StoreId && a.Email == item.Email);
+                a.Name == item.Name &&  a.Type == item.Type && a.StoreId == item.StoreId && a.Email == item.Email);
             if (inDb==null)
             {
             _context.BusinessPartners.Add(item);

@@ -13,6 +13,8 @@ namespace POSApp.Core.ViewModels
         public int StoreId { get; set; }
         public int? SectionId { get; set; }
         public string Name { get; set; }
+        
+        public string ArabicName { get; set; }
         public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }

@@ -12,7 +12,7 @@ namespace POSApp.Core.Models
         public Store Store { get; set; }
 
         public string Name { get; set; }
-
+        public string ArabicName { get; set; }
         public ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public ICollection<TillOperation> TillOperations { get; set; }
 

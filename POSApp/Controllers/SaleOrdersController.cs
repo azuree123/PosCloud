@@ -126,8 +126,12 @@ namespace POSApp.Controllers
                         mifdetail.TransMasterId = mif.Id;
 
                         mifdetail.ProductCode = item.ProductCode;
-                        Recipe recipee = _unitOfWork.RecipeRepository.GetRecipeById(mifdetail.ProductCode,
+                        Recipe recipe = _unitOfWork.RecipeRepository.GetRecipeById(mifdetail.ProductCode,
                             mifdetail.Product.IngredientRecipes.Select(a => a.IngredientCode).ToString());
+                        foreach (var ing in recipe.Ingredient.Recipes)
+                        {
+                           
+                        }
 
 
 

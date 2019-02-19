@@ -59,6 +59,13 @@
                                             @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
                                         </div>
                                     </div>
+                                    <div class="col-md-8  col-md-offset-2">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ArabicName, htmlAttributes: new {@class = "control-label" })
+                                            @Html.TextBoxFor(model => model.ArabicName, new {@class = "form-control", @id = "nameDis", @placeholder = "Enter Name"})
+                                            @Html.ValidationMessageFor(model => model.ArabicName, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.CostType, htmlAttributes: new { @class = "control-label" })

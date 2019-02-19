@@ -541,6 +541,10 @@
     <Compile Include="Migrations\201902181112212_app.Designer.cs">
       <DependentUpon>201902181112212_app.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902191043473_n.cs" />
+    <Compile Include="Migrations\201902191043473_n.Designer.cs">
+      <DependentUpon>201902191043473_n.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ClientEntityConfiguration.cs" />
@@ -3449,6 +3453,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902181112212_app.resx">
       <DependentUpon>201902181112212_app.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902191043473_n.resx">
+      <DependentUpon>201902191043473_n.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchTimelySale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

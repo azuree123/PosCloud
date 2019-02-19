@@ -15,7 +15,7 @@ namespace POSApp.Core.Models
         public Store Store { get; set; }
 
         public string Name { get; set; }
-
+        public string ArabicName { get; set; }
         public int? SectionId { get; set; }
         public Section Section { get; set; }
 

@@ -12,6 +12,8 @@ namespace POSApp.Core.ViewModels
         public int? Id { get; set; }
         public int? StoreId { get; set; }
         public string Name { get; set; }
+        
+        public string ArabicName { get; set; }
         public double Cost { get; set; }
         [DisplayName("Cost Type")]
         public string CostType { get; set; }

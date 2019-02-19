@@ -10,6 +10,8 @@ namespace POSApp.Core.ViewModels
         public string Code { get; set; }
         [Required]
         public string Name { get; set; }
+        [Required]
+        public string ArabicName { get; set; }
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Entered phone format like (abc@example.com)")]
         public string Email { get; set; }
         [Required]

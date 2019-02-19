@@ -12,6 +12,8 @@ namespace POSApp.Core.ViewModels
         public int? Id { get; set; }
         public int? StoreId { get; set; }
         public string Name { get; set; }
+        public string ArabicName { get; set; }
+
         [DisplayName("Unit Code")]
         public string UnitCode { get; set; }
         public DateTime? CreatedOn { get; set; }

@@ -62,6 +62,11 @@
                                         @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", @required = "true", autofocus = "" } })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
+                                    <div class="col-md-8 col-md-offset-2">
+                                        @Html.LabelFor(model => model.ArabicName, htmlAttributes: new { @class = "control-label " })
+                                        @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name" } })
+                                        @Html.ValidationMessageFor(model => model.ArabicName, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
 
 

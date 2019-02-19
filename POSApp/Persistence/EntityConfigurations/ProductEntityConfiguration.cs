@@ -16,6 +16,7 @@ namespace POSApp.Persistence.EntityConfigurations
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************
             Property(x => x.Name).HasColumnType("varchar").HasMaxLength(150).IsRequired();
+            Property(x => x.ArabicName).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
             Property(x => x.Description).HasColumnType("varchar").HasMaxLength(300).IsOptional();
             Property(x => x.Barcode).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.ProductCode).HasColumnType("varchar").HasMaxLength(150).IsRequired();

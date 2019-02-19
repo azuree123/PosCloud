@@ -10,6 +10,7 @@ namespace POSApp.Core.Models
         public Store Store { get; set; }
         
         public string Name { get; set; }
+        public string ArabicName { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
 
     }

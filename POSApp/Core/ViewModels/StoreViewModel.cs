@@ -10,6 +10,8 @@ namespace POSApp.Core.ViewModels
     {
         public int? Id { get; set; }
         public string Name { get; set; }
+        public string ArabicName { get; set; }
+
         public string Address { get; set; }
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{7})$", ErrorMessage = "Entered phone format like (050xxxxxxx)")]
         public string Contact { get; set; }

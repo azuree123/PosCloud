@@ -31,7 +31,7 @@
             @Html.HiddenFor(a => a.CreatedOn)
             @Html.HiddenFor(a => a.Image)
             @Html.HiddenFor(a => a.StoreId)
-           
+
 
             <div class="col-md-12">
                 <div class="tabs  tabs-left">
@@ -46,7 +46,7 @@
                                         Basic Data
                                     </a>
                                 </li>
-                                
+
                                 <li id="tranInfo">
                                     <a href="#transactionitems" data-toggle="tab" id="modifierOption" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">Combo Options </a>
                                 </li>
@@ -55,16 +55,16 @@
                             <div class="row mt-md">
                                 <div class="col-md-12">
                                     <h4 class=" wb-color  text-center">New Combo</h4>
-                                 
+
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="tab-content col-md-8 col-xs-12 col-md-offset-2  p-xlg">
                             <div class="row mb-xlg">
                                 <div class="col-md-12">
 
-                                    
+
                                     <button type="submit" class="btn outline-success btn-sm " style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><span class="fa fa-save mr-md"></span> Save</button>
                                     <a href="@Url.Action("CombosList","Products")" style="float:right">
                                         <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Combo List</button>
@@ -80,8 +80,13 @@
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "true", autofocus = "" } })
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", @required = "true", autofocus = "" } })
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.ArabicName, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", autofocus = "" } })
+                                            @Html.ValidationMessageFor(model => model.ArabicName, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label" })
@@ -96,198 +101,185 @@
                                             </div>
 
                                         </div>
-                                        @*<div class="col-md-4">
-                        @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label" })
-                        @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDdl, "Select an Option", new {@class = "form-control", @required = "true"})
-                        @Html.ValidationMessageFor(model => model.CategoryId, "", new {@class = "text-danger"})
-                </div>*@
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label required1" })
-                                            <div class="input-group">
-                                                @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                <span class="input-group-addon">
-                                                    <a href="@Url.Action("AddSectionPartial","Products")" class="modalShow2">   <i class="fa fa-plus "></i></a>
-                                                </span>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
-                                        </div>
-                                        @*<div class="col-md-4">
-                    @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                    @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
-                </div>*@
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group ">
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(a => a.UnitId, htmlAttributes: new { @class = "control-label required1" })
-                                            <div class="input-group">
-                                                @Html.DropDownListFor(a => a.UnitId, Model.UnitDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                <span class="input-group-addon">
-                                                    <a href="@Url.Action("AddUnitPartial","Setup")" class="modalShow4">   <i class="fa fa-plus "></i></a>
-                                                </span>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
-                                        </div>
-                                        @*<div class="col-md-4">
-                                            @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
-                                        </div>*@
-
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group">
 
 
-                                        @*<div class="col-md-4">
-                                            @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @type = "number", @class = "form-control", @Required = true } })
-                                            @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
-                                        </div>*@
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Attribute, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control", @Required = true } })
-                                            @Html.ValidationMessageFor(model => model.Attribute, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-4">
-                                            @Html.Label("Size", htmlAttributes: new { @class = "control-label required1" })
-                                            <div class="input-group">
-                                                @Html.DropDownListFor(a => a.Size, Model.SizeDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                <span class="input-group-addon">
-                                                    <a href="@Url.Action("AddSizePartial", "Setup")" class="modalShow5"> <i class="fa fa-plus "></i></a>
-                                                </span>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group">
-
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label required1" })
-                                            <input type="file" name="file" id="file" />
-                                            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label required1 " })
-                                            @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
-                                            @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
-                                        </div>
-                                        
 
                                     </div>
                                 </div>
-                                <hr/>
                                 
+                                    <div class="row">
+                                        <div class="form-group ">
+                                            <div class="col-md-4">
+                                                @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label required1" })
+                                                <div class="input-group">
+                                                    @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                    <span class="input-group-addon">
+                                                        <a href="@Url.Action("AddSectionPartial", "Products")" class="modalShow2"> <i class="fa fa-plus "></i></a>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.LabelFor(a => a.UnitId, htmlAttributes: new {@class = "control-label required1"})
+                                                <div class="input-group">
+                                                    @Html.DropDownListFor(a => a.UnitId, Model.UnitDdl, "Select an Option", new {@class = "form-control", @required = "true"})
+                                                    <span class="input-group-addon">
+                                                        <a href="@Url.Action("AddUnitPartial", "Setup")" class="modalShow4"> <i class="fa fa-plus "></i></a>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.UnitId, "", new {@class = "text-danger"})
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new {@class = "control-label required1"})
+                                                @Html.EditorFor(model => model.UnitPrice, new {htmlAttributes = new {@type = "number", @min = "0", @class = "form-control", @required = true}})
+                                                @Html.ValidationMessageFor(model => model.UnitPrice, "", new {@class = "text-danger"})
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
 
 
-                                <div class="row">
-                                    <div class="form-group">
-                                        
 
-                                        
+                                            <div class="col-md-4">
+                                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label required1" })
+                                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Description", @Required = true } })
+                                                @Html.ValidationMessageFor(model => model.Attribute, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.Label("Size", htmlAttributes: new { @class = "control-label required1" })
+                                                <div class="input-group">
+                                                    @Html.DropDownListFor(a => a.Size, Model.SizeDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                    <span class="input-group-addon">
+                                                        <a href="@Url.Action("AddSizePartial", "Setup")" class="modalShow5"> <i class="fa fa-plus "></i></a>
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label required1 " })
+                                                @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter barcode", @required = "true" } })
+                                                @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+
+                                            <div class="col-md-4">
+                                                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label required1" })
+                                                <input type="file" name="file" id="file" />
+                                                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                                            </div>
+                                            
+
+
+                                        </div>
+                                    </div>
+                                    <hr />
+
+
+
+                                    <div class="row">
+                                        <div class="form-group">
+
+
+
                                             @Html.Label("Is Taxable?", htmlAttributes: new { @class = "control-label col-xs-2" })
                                             @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "col-xs-2" } })
                                             @Html.ValidationMessageFor(model => model.IsTaxable, "", new { @class = "text-danger" })
-                                        
 
-                                        <div class="col-md-4" style="display: none" id="taxDdl">
-                                            @Html.LabelFor(a => a.TaxId, htmlAttributes: new { @class = "control-label" })
-                                            @Html.DropDownListFor(model => model.TaxId, Model.TaxDdl, "Select an Option", new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(model => model.TaxId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
 
-                            </div>
-                            <div id="transactionitems" class="tab-pane">
-                                <div class=" mb-lg" id="header-flex">
-                                    <h4 class="mt-xs  " style="flex-grow: 8">Combo Options</h4>
-                                    <a href="@Url.Action("AddComboOption", "Products")" class="modalShow" style="flex-grow: 0">
-                                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New</button>
-
-                                    </a>
-                                </div>
-                                <div id="AjaxUpdate">
-                                    <div class="row mb-lg">
-                                        <div class="col-md-12">
-                                            <table class="table mb-none" style="width:100%" id="datatable-default">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Name</th>
-                                                        <th>Qty</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if (Model.ProductSubViewModels != null)
-                                                    {
-
-                                                        if (Model.ProductSubViewModels.Count() > 0)
-                                                        {
-
-                                                            foreach (var modelModifierOptionViewModel in Model.ProductSubViewModels)
-                                                            {
-                                                                <tr>
-                                                                    <td>@(number++)</td>
-                                                                    <td>@modelModifierOptionViewModel.ProductName</td>
-                                                                    <td>@modelModifierOptionViewModel.Qty</td>
-                                                                    <td class="center">
-                                                                        <div class="btn-group">
-                                                                            <a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@modelModifierOptionViewModel.ProductCode.ToString()','@modelModifierOptionViewModel.StoreId.ToString()')" data-toggle="tooltip" title="Edit !"></a>
-                                                                            @Ajax.ActionLink(" ", "DeleteComboOption", "Products", new { productId = modelModifierOptionViewModel.ProductCode, storeId = modelModifierOptionViewModel.StoreId }, new AjaxOptions { HttpMethod = "GET",
-                                                                                UpdateTargetId = "AjaxUpdate"
-                                                                            },new{
-                                                                                @onclick = "return confirm('Are you sure?')",
-                                                                                @class = "btn btn-danger btn-sm fa fa-trash-o",
-                                                                                @style = "color: #ffffff;"
-                                                                            })
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            <tr>
-                                                                <td colspan="4" class="text-center">No records found</td>
-                                                            </tr>
-                                                        }
-                                                    }
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="hidden">
-                                    <h4 class="mb-lg ">Add items From Tag</h4>
-                                    <div class="row mb-lg">
-                                        <div class="col-md-9 col-lg-offset-2">
-                                            <div class="form-group">
-                                                <label class="control-label">
-                                                    Select Tag
-                                                </label>
-                                                <input type="text" class="form-control unstyled" placeholder="" />
+                                            <div class="col-md-4" style="display: none" id="taxDdl">
+                                                @Html.LabelFor(a => a.TaxId, htmlAttributes: new { @class = "control-label" })
+                                                @Html.DropDownListFor(model => model.TaxId, Model.TaxDdl, "Select an Option", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.TaxId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
-                                    <h4 class="mb-lg ">Upload Items Via Excel</h4>
-                                    <div class="row">
-                                        <div class="col-md-9 col-lg-offset-2">
-                                            <div class="form-group">
-                                                <input type="file" class="" placeholder="" />
+
+                                </div>
+                                <div id="transactionitems" class="tab-pane">
+                                    <div class=" mb-lg" id="header-flex">
+                                        <h4 class="mt-xs  " style="flex-grow: 8">Combo Options</h4>
+                                        <a href="@Url.Action("AddComboOption", "Products")" class="modalShow" style="flex-grow: 0">
+                                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New</button>
+
+                                        </a>
+                                    </div>
+                                    <div id="AjaxUpdate">
+                                        <div class="row mb-lg">
+                                            <div class="col-md-12">
+                                                <table class="table mb-none" style="width:100%" id="datatable-default">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Name</th>
+                                                            <th>Qty</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.ProductSubViewModels != null)
+                                                        {
+
+                                                            if (Model.ProductSubViewModels.Count() > 0)
+                                                            {
+
+                                                                foreach (var modelModifierOptionViewModel in Model.ProductSubViewModels)
+                                                                {
+                                                                    <tr>
+                                                                        <td>@(number++)</td>
+                                                                        <td>@modelModifierOptionViewModel.ProductName</td>
+                                                                        <td>@modelModifierOptionViewModel.Qty</td>
+                                                                        <td class="center">
+                                                                            <div class="btn-group">
+                                                                                <a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@modelModifierOptionViewModel.ProductCode.ToString()','@modelModifierOptionViewModel.StoreId.ToString()')" data-toggle="tooltip" title="Edit !"></a>
+                                                                                @Ajax.ActionLink(" ", "DeleteComboOption", "Products", new { productId = modelModifierOptionViewModel.ProductCode, storeId = modelModifierOptionViewModel.StoreId }, new AjaxOptions { HttpMethod = "GET",
+                                                                                    UpdateTargetId = "AjaxUpdate"
+                                                                                },new{
+                                                                                    @onclick = "return confirm('Are you sure?')",
+                                                                                    @class = "btn btn-danger btn-sm fa fa-trash-o",
+                                                                                    @style = "color: #ffffff;"
+                                                                                })
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr>
+                                                                    <td colspan="4" class="text-center">No records found</td>
+                                                                </tr>
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hidden">
+                                        <h4 class="mb-lg ">Add items From Tag</h4>
+                                        <div class="row mb-lg">
+                                            <div class="col-md-9 col-lg-offset-2">
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        Select Tag
+                                                    </label>
+                                                    <input type="text" class="form-control unstyled" placeholder="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h4 class="mb-lg ">Upload Items Via Excel</h4>
+                                        <div class="row">
+                                            <div class="col-md-9 col-lg-offset-2">
+                                                <div class="form-group">
+                                                    <input type="file" class="" placeholder="" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -297,10 +289,9 @@
                     </div>
                 </div>
             </div>
+            }
         </div>
-    }
-</div>
-
+    
 
 <div id="ModalData"></div>
 <div id="ModalData2"></div>

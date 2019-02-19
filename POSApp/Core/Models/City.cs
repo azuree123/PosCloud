@@ -7,6 +7,7 @@ namespace POSApp.Core.Models
         public int Id { get; set; }
         
         public string Name { get; set; }
+        public string ArabicName { get; set; }
         public int StateId { get; set; }
         public virtual State State { get; set; }
     }

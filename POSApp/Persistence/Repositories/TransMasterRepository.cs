@@ -55,7 +55,7 @@ namespace POSApp.Persistence.Repositories
         {
             
             return _context.TransMasters.Include(a => a.BusinessPartner)
-                .Where(a => a.StoreId == storeId && !a.Issued && !a.IsDisabled);
+                .Where(a => a.StoreId == storeId && a.Type == "Paid" && !a.Issued && !a.IsDisabled);
 
         }
         public async Task<IEnumerable<TransMaster>> GetTransMastersAsync(int storeId)

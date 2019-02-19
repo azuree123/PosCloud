@@ -64,11 +64,23 @@
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
+                                            @Html.LabelFor(model => model.ArabicName, htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", autofocus = "" } })
+                                            @Html.ValidationMessageFor(model => model.ArabicName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4">
                                             @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Barcode" } })
                                             @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
                                         </div>
 
+
+                                     
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label required1" })
@@ -83,11 +95,6 @@
                                             </div>
 
                                         </div>
-
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group ">
                                         <div class="col-md-4">
                                             @Html.LabelFor(a => a.UnitId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
@@ -98,7 +105,32 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
                                         </div>
-                                       
+                                        <div class="col-md-4">
+                                            @Html.Label("Size", htmlAttributes: new { @class = "control-label required1" })
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(a => a.Size, Model.SizeDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                <span class="input-group-addon">
+                                                    <a href="@Url.Action("AddSizePartial", "Setup")" class="modalShow5"> <i class="fa fa-plus "></i></a>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group ">
+
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label required1" })
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                <span class="input-group-addon">
+                                                    <a href="@Url.Action("AddSectionPartial", "Products")" class="modalShow3"> <i class="fa fa-plus "></i></a>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
+                                        </div>
+
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label required1" })
@@ -119,26 +151,7 @@
 
 
 
-                                        <div class="col-md-4">
-                                            @Html.Label("Size", htmlAttributes: new { @class = "control-label required1" })
-                                            <div class="input-group">
-                                                @Html.DropDownListFor(a => a.Size, Model.SizeDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                <span class="input-group-addon">
-                                                    <a href="@Url.Action("AddSizePartial", "Setup")" class="modalShow5"> <i class="fa fa-plus "></i></a>
-                                                </span>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label required1" })
-                                            <div class="input-group">
-                                                @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                <span class="input-group-addon">
-                                                    <a href="@Url.Action("AddSectionPartial", "Products")" class="modalShow3"> <i class="fa fa-plus "></i></a>
-                                                </span>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
-                                        </div>
+                                       
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label" })
                                             <input type="file" name="file" id="file" />
@@ -159,7 +172,7 @@
                                     </div>
                                 </div>
 
-                                <hr/>
+                                <hr />
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="">

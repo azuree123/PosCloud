@@ -14,6 +14,8 @@ namespace POSApp.Core.ViewModels
         public int? Id { get; set; }
         public int? StoreId { get; set; }
         public string Name { get; set; }
+        public string ArabicName { get; set; }
+
         public string Type { get; set; }
         [DefaultValue(0)]
         public double Value { get; set; }

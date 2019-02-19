@@ -28,6 +28,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Contact).HasColumnType("varchar").IsRequired().HasMaxLength(150);
             Property(x => x.City).HasColumnType("varchar").IsOptional().HasMaxLength(150);
             Property(x => x.State).HasColumnType("varchar").IsOptional().HasMaxLength(150);
+            Property(x => x.ArabicName).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
 
             // *******************************************************************************************RELATIONS*****************
             HasRequired(x => x.Store).WithMany(x => x.Devices).HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);

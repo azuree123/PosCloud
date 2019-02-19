@@ -17,6 +17,7 @@ namespace POSApp.Persistence.EntityConfigurations
             HasKey(a => new { a.ShiftId, a.StoreId });
             Property(a => a.ShiftId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(a => a.Name).HasColumnType("varchar").HasMaxLength(10).IsRequired();
+            Property(x => x.ArabicName).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
         }
     }
 }
