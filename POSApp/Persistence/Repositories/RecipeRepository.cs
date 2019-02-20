@@ -24,6 +24,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Recipes.Where(a=>a.StoreId == storeId && a.Product.InventoryItem).ToList();
         }
+        public IEnumerable<Recipe> GetAllRecipes(int storeId,string productCode)
+        {
+            return _context.Recipes.Include(a=>a.Ingredient).Where(a => a.StoreId == storeId && a.ProductCode==productCode).ToList();
+        }
         public async Task<IEnumerable<RecipeListViewModel>> GetRecipesAsync(int storeId)
         {
             return await _context.Recipes.Where(a => a.StoreId == storeId).Select(a => new RecipeListViewModel

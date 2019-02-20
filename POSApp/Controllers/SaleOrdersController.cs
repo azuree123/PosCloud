@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -115,22 +116,34 @@ namespace POSApp.Controllers
                 {
                     TransMaster mif = new TransMaster();
                     mif.Type = "MIF";
-                    int TransId = _unitOfWork.AppCountersRepository.GetId("MIF");
-                    mif.TransCode = "MIF-" + "I-" + TransId.ToString() + "-" + user.StoreId;
-                    _unitOfWork.TransMasterRepository.AddTransMaster((mif));
+                    int transId = _unitOfWork.AppCountersRepository.GetId("MIF");
+                    mif.TransCode = "MIF-"  + transId.ToString() + "-" + user.StoreId;
+                    mif.BusinessPartnerId = saleorder.BusinessPartnerId;
+                    mif.TransDate=new DateTime();
                     mif.StoreId = (int)user.StoreId;
                     foreach (var item in saleorder.TransDetails)
                     {
                        
-                        TransDetail mifdetail = new TransDetail();
-                        mifdetail.TransMasterId = mif.Id;
 
-                        mifdetail.ProductCode = item.ProductCode;
-                        Recipe recipe = _unitOfWork.RecipeRepository.GetRecipeById(mifdetail.ProductCode,
-                            mifdetail.Product.IngredientRecipes.Select(a => a.IngredientCode).ToString());
-                        foreach (var ing in recipe.Ingredient.Recipes)
+                        List<Recipe> recipes = _unitOfWork.RecipeRepository.GetAllRecipes(item.StoreId,item.ProductCode
+                           ).ToList();
+                        foreach (var ing in recipes)
                         {
-                           
+                            if (!mif.TransDetails.Where(a => a.ProductCode == ing.IngredientCode).Any())
+                            {
+                        TransDetail mifdetail = new TransDetail();
+                            mifdetail.ProductCode = ing.IngredientCode;
+                            mifdetail.StoreId = ing.StoreId;
+                            mifdetail.Quantity = ing.Quantity * item.Quantity;
+                            mifdetail.UnitPrice = 0;
+                            mif.TransDetails.Add(mifdetail);
+                            }
+                            else
+                            {
+                                TransDetail mifdetail = mif.TransDetails.FirstOrDefault(a => a.ProductCode == ing.IngredientCode);
+                                mifdetail.Quantity += ing.Quantity * item.Quantity;
+                                mifdetail.UnitPrice = 0;
+                            }
                         }
 
 
@@ -138,6 +151,7 @@ namespace POSApp.Controllers
 
 
                     }
+                    _unitOfWork.TransMasterRepository.AddTransMaster((mif));
                     
             }
             }

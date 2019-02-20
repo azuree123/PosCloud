@@ -40,6 +40,12 @@ namespace POSApp.Core.ViewModels
         [DefaultValue(0)]
         public decimal Discount { get; set; }
     }
+
+    public class FifoHelper
+    {
+        public decimal Qty { get; set; }
+        public decimal Cost { get; set; }
+    }
   
 
 }

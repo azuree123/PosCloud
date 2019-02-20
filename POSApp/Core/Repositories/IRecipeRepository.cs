@@ -10,6 +10,7 @@ namespace POSApp.Core.Repositories
 {
     public interface IRecipeRepository
     {
+        IEnumerable<Recipe> GetAllRecipes(int storeId, string productCode);
         IEnumerable<Recipe> GetRecipes(int storeId);
         Recipe GetRecipeById(string ProductCode, string ingredientcode);
         IEnumerable<RecipeListViewModel> GetRecipes(int storeId, string productCode);

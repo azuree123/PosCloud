@@ -118,6 +118,36 @@ namespace POSApp.Persistence.Repositories
             _context.TransMasters.Add(optcategory);
 
         }
+
+        public List<FifoHelper> GetCostPriceWithFifo(string ingredientCode, int storeId,decimal qty)
+        {
+           List<FifoHelper>helper=new List<FifoHelper>();
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId) };
+            var sql = @"select b.*
+			from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId AND a.StoreId=b.StoreId
+           where a.StoreId=@p1 and a.Type='PRI' and b.Quantity-b.Balance!=0
+		   order by a.Id
+                ";
+            var data = _context.Database.SqlQuery<TransDetail>(sql, parameters.ToArray()).ToList();
+            while (qty>1)
+            {
+             
+                var detail = data.Where(a=>a.Quantity-a.Balance!=0).FirstOrDefault();
+                if (qty > detail.Quantity)
+                {
+                    detail.Balance = detail.Quantity;
+                    qty -= detail.Quantity;
+                }
+                else
+                {
+                    detail.Balance = detail.Quantity - qty;
+                    qty = 0;
+                }
+
+            }
+            return helper;
+        }
         public async Task AddTransMasterAsync(TransMaster optcategory)
         {
             _context.TransMasters.Add(optcategory);

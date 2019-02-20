@@ -15,7 +15,8 @@ namespace POSApp.Core.ViewModels
         public int TransMasterId { get; set; }
         [DisplayName("Product Code")]
         public string ProductCode { get; set; }
-
+        
+        public decimal? Balance { get; set; }
         public decimal Quantity { get; set; }
         public decimal Discount { get; set; }
         [DisplayName("Unit Price")]

@@ -29,6 +29,7 @@ namespace POSApp.Core.ViewModels
         public string Duration { get; set; }
         
         public double UnitPrice { get; set; }
+        
         public double CostPrice { get; set; }
         public int ReOrderLevel { get; set; }
 
@@ -72,6 +73,7 @@ namespace POSApp.Core.ViewModels
         public string Duration { get; set; }
 
         public double UnitPrice { get; set; }
+       
         public double CostPrice { get; set; }
         public int ReOrderLevel { get; set; }
 
@@ -119,6 +121,7 @@ namespace POSApp.Core.ViewModels
         public string Duration { get; set; }
        
         public double UnitPrice { get; set; }
+        
         public double CostPrice { get; set; }
         public int ReOrderLevel { get; set; }
 
@@ -186,6 +189,7 @@ namespace POSApp.Core.ViewModels
         public int? StoreId { get; set; }
         public string Type { get; set; }
         public string ProductCode { get; set; }
+        
         public double CostPrice { get; set; }
         public string PurchaseUnit { get; set; }
         public string StorageUnit { get; set; }

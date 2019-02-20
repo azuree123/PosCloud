@@ -37,7 +37,8 @@
                         <tr>
                             <th class="text-center">Cost Price</th>
                             <td class="text-center">
-                                @(Model.CostPrice)
+                                @*@(Model.CostPrice.ToString("0.00"))*@
+                                @String.Format("{0:#,##0.00}", Model.CostPrice)
                             </td>
 
 

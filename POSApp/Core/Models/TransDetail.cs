@@ -24,6 +24,8 @@ namespace POSApp.Core.Models
         public decimal UnitPrice { get; set; }
 
         public int? DiscountId { get; set; }
+        [DefaultValue(0)]
+        public decimal Balance { get; set; }
         public virtual TimedEvent TimedEvent { get; set; }
 
         [DefaultValue(0)]

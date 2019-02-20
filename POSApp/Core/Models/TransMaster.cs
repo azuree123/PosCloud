@@ -33,6 +33,7 @@ namespace POSApp.Core.Models
         [DefaultValue(0)]
         public decimal TotalPrice { get; set; }
 
+        
         public bool Posted { get; set; }
         public string ACRef { get; set; }
         public string Description { get; set; }

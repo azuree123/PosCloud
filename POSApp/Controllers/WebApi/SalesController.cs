@@ -42,37 +42,13 @@ namespace POSApp.Controllers.WebApi
                 List<SalesViewModel> salesView = System.Web.Helpers.Json.Decode<List<SalesViewModel>>(sync.Object) ;
                 foreach (var salesViewModel in salesView)
                 {
+
                     TransMaster saleOrder = salesViewModel.TransMaster;
-                    //saleOrder.DiscountId = saleOrder.DiscountId == 0 ? null : saleOrder.DiscountId;
-                    //int bId = _unitOfWork.BusinessPartnerRepository
-                    //    .GetBusinessPartners("C", saleOrder.StoreId).Select(a=>a.Id).FirstOrDefault();
-                    //saleOrder.BusinessPartnerId = bId;
                     saleOrder.Code = saleOrder.Id.ToString();
                     var saleOrderAdd = saleOrder;
                     await _unitOfWork.TransMasterRepository.AddTransMasterAsync(saleOrder);
                     
-                    //foreach (var saleOrderDetail in saleOrder.TransDetails)
-                    //{
-                    //    saleOrderDetail.Code = salesViewModel.TransMaster.Id.ToString();
-                    //    saleOrderDetail.TransMasterId = saleOrderAdd.Id;
-                    //    saleOrderDetail.StoreId= salesViewModel.TransMaster.StoreId;
-                    //    _unitOfWork.TransDetailRepository.AddTransDetail(saleOrderDetail);
-                    //    _unitOfWork.Complete();
-                    //    foreach (var modifierTransDetail in saleOrderDetail.ModifierTransDetail)
-                    //    {
-                    //        modifierTransDetail.Code = modifierTransDetail.Id.ToString();
-                    //        modifierTransDetail.TransDetailId = saleOrderDetail.Id;
-                    //        modifierTransDetail.StoreId = salesViewModel.TransMaster.StoreId;
-                    //        _unitOfWork.ModifierTransDetailRepository.AddModifierTransDetail(modifierTransDetail);
-                    //    }
-                    //}
-                    //foreach (var method in saleOrder.TransMasterPaymentMethods)
-                    //{
-                    //    method.Code = salesViewModel.TransMaster.Id.ToString();
-                    //    method.TransMasterId = saleOrderAdd.Id;
-                    //    method.StoreId = salesViewModel.TransMaster.StoreId;
-                    //    _unitOfWork.TransMasterPaymentMethodRepository.AddTransMasterPaymentMethod(method);
-                    //}
+                  
                 }
 
                 if (!await _unitOfWork.CompleteAsync())

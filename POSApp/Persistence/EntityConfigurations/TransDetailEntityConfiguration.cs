@@ -22,7 +22,7 @@ namespace POSApp.Persistence.EntityConfigurations
             //******************************************************************************************* PROPERTIES ***************
             Property(x => x.Tax).HasColumnType("decimal").IsRequired();
             Property(x => x.Quantity).HasColumnType("decimal").IsRequired();
-
+            Property(x => x.Balance).HasColumnType("decimal").IsRequired();
             Property(x => x.Discount).HasColumnType("decimal").IsOptional();
 
             Property(x => x.CreatedOn).IsOptional();
