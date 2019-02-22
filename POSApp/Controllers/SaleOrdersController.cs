@@ -103,7 +103,7 @@ namespace POSApp.Controllers
             }
         }
 
-        [HttpPost]
+       
         public ActionResult MIFData()
         {
             var userid = User.Identity.GetUserId();
@@ -111,15 +111,22 @@ namespace POSApp.Controllers
             try
             {
                 var saleorders = _unitOfWork.TransMasterRepository.GetSaleInvoices((int) user.StoreId);
+                List<int> transIds=new List<int>();
+                for (int i = 0; i < saleorders.Count(); i++)
+                {
+                    transIds.Add(_unitOfWork.AppCountersRepository.GetId("MIF"));
+                    _unitOfWork.Complete();
+                }
 
+                int index = 0;
                 foreach (var saleorder in saleorders)
                 {
                     TransMaster mif = new TransMaster();
                     mif.Type = "MIF";
-                    int transId = _unitOfWork.AppCountersRepository.GetId("MIF");
-                    mif.TransCode = "MIF-"  + transId.ToString() + "-" + user.StoreId;
+                    mif.TransCode = "MIF-"  + transIds[index].ToString() + "-" + user.StoreId;
+                    index++;
                     mif.BusinessPartnerId = saleorder.BusinessPartnerId;
-                    mif.TransDate=new DateTime();
+                    mif.TransDate=DateTime.Now;
                     mif.StoreId = (int)user.StoreId;
                     foreach (var item in saleorder.TransDetails)
                     {
@@ -127,33 +134,32 @@ namespace POSApp.Controllers
 
                         List<Recipe> recipes = _unitOfWork.RecipeRepository.GetAllRecipes(item.StoreId,item.ProductCode
                            ).ToList();
+
+
                         foreach (var ing in recipes)
                         {
+                            var mifdetail = new TransDetail();
                             if (!mif.TransDetails.Where(a => a.ProductCode == ing.IngredientCode).Any())
                             {
-                        TransDetail mifdetail = new TransDetail();
-                            mifdetail.ProductCode = ing.IngredientCode;
-                            mifdetail.StoreId = ing.StoreId;
-                            mifdetail.Quantity = ing.Quantity * item.Quantity;
-                            mifdetail.UnitPrice = 0;
-                            mif.TransDetails.Add(mifdetail);
+                                mifdetail = new TransDetail();
+                                mifdetail.ProductCode = ing.IngredientCode;
+                                mifdetail.StoreId = ing.StoreId;
+                                mifdetail.Quantity = ing.Quantity * item.Quantity;
+                                mifdetail.UnitPrice = _unitOfWork.TransMasterRepository.AvgPrice(ing.IngredientCode,ing.StoreId,saleorder.TransDate);
+                                mif.TransDetails.Add(mifdetail);
                             }
                             else
                             {
-                                TransDetail mifdetail = mif.TransDetails.FirstOrDefault(a => a.ProductCode == ing.IngredientCode);
+                                mifdetail = mif.TransDetails.FirstOrDefault(a => a.ProductCode == ing.IngredientCode);
                                 mifdetail.Quantity += ing.Quantity * item.Quantity;
-                                mifdetail.UnitPrice = 0;
                             }
                         }
-
-
-
-
-
                     }
                     _unitOfWork.TransMasterRepository.AddTransMaster((mif));
-                    
-            }
+                    saleorder.Issued = true;
+
+                }
+                    _unitOfWork.Complete();
             }
             catch (Exception e)
             {
@@ -161,7 +167,7 @@ namespace POSApp.Controllers
                 throw;
             }
 
-            return View();
+            return RedirectToAction("SaleOrderList", "SaleOrders");
         }
         [HttpPost]
         public ActionResult GetDailySaleOrdersData()

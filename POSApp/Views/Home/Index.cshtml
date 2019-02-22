@@ -37,7 +37,8 @@
     </header>*@
 
 <!-- start: page -->
-<br />
+
+
 <br />
 <div class="row">
     <div class="col-md-6 col-lg-12 col-xl-6">
@@ -47,8 +48,8 @@
                     <div class="col-md-6">
                         <div class="chart-data-selector" id="salesSelectorWrapper">
                             <h2>
-                                Monthly Sales:
-                                <strong>
+                                Monthly Sales
+                                @*<strong>
                                     <select class="form-control" id="salesSelector">
                                         @if (Model.StoreDatas != null)
                                         {
@@ -59,7 +60,7 @@
                                             }
                                         }
                                     </select>
-                                </strong>
+                                </strong>*@
                             </h2>
 
                             <div id="salesSelectorItems" class="chart-data-selector-items mt-sm">
@@ -83,7 +84,7 @@
 
                                 </script>
 
-                                <div class="chart chart-md" data-sales-rel="Cosmic 2" id="flotDashSales2" class="chart-hidden"></div>
+                                @*<div class="chart chart-md" data-sales-rel="Cosmic 2" id="flotDashSales2" class="chart-hidden"></div>
                                 <script>
 
                                     var flotDashSales2Data = [{
@@ -121,7 +122,7 @@
                                     }];
 
 
-                                </script>
+                                </script>*@
                             </div>
                             <span class="center row">
                                 <i class="fa fa-dot-circle-o col-md-4" style="color: #0aaa5a">  Purchases</i>

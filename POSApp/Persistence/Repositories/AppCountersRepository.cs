@@ -19,7 +19,7 @@ namespace POSApp.Persistence.Repositories
         public int GetId(string dbSetIs)
         {
             int intId = 0;
-            AppCounter appCounter = _context.AppCounters.SingleOrDefault();
+            AppCounter appCounter = _context.AppCounters.ToList().FirstOrDefault();
             switch (dbSetIs)
             {
                 case "Invoice":
@@ -58,7 +58,11 @@ namespace POSApp.Persistence.Repositories
                     if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
                     appCounter.MifId = intId;
                     break;
-
+                case "STI":
+                    intId = _context.AppCounters.Max(u => u.STId);
+                    if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
+                    appCounter.STId = intId;
+                    break;
 
 
             }
@@ -94,7 +98,9 @@ namespace POSApp.Persistence.Repositories
                 case "MIF":
                     appCounter.MifId = intId;
                     break;
-
+                case "STI":
+                    appCounter.STId = intId;
+                    break;
             }
 
             //_context.SaveChanges();

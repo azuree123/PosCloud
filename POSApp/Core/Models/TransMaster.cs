@@ -47,7 +47,7 @@ namespace POSApp.Core.Models
         public virtual TimedEvent TimedEvent { get; set; } 
         [DefaultValue(0)]
         public decimal Discount { get; set; }
-        public ICollection<TransDetail> TransDetails { get; set; }
-        public ICollection<TransMasterPaymentMethod> TransMasterPaymentMethods { get; set; }
+        public ICollection<TransDetail> TransDetails { get; set; }=new List<TransDetail>();
+        public ICollection<TransMasterPaymentMethod> TransMasterPaymentMethods { get; set; }=new List<TransMasterPaymentMethod>();
     }
 }

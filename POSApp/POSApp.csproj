@@ -549,6 +549,10 @@
     <Compile Include="Migrations\201902201245174_bbbb.Designer.cs">
       <DependentUpon>201902201245174_bbbb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902211030033_pn.cs" />
+    <Compile Include="Migrations\201902211030033_pn.Designer.cs">
+      <DependentUpon>201902211030033_pn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ClientEntityConfiguration.cs" />
@@ -3396,6 +3400,10 @@
     <Content Include="Views\Products\AddInventoryItems.cshtml" />
     <Content Include="Views\Products\InventoryItemsList.cshtml" />
     <Content Include="Views\Products\AddRecipePartial.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddStock.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddStockItem.cshtml" />
+    <Content Include="Views\PurchaseOrders\StockList.cshtml" />
+    <Content Include="Views\PurchaseOrders\GenerateStockReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3463,6 +3471,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902201245174_bbbb.resx">
       <DependentUpon>201902201245174_bbbb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902211030033_pn.resx">
+      <DependentUpon>201902211030033_pn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchTimelySale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

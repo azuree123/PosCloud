@@ -30,5 +30,7 @@ namespace POSApp.Core.Models
             public int FiscalYearId { get; set; }
             [DefaultValue(0)]
             public int MifId { get; set; }
+            [DefaultValue(0)]
+            public int STId { get; set; }
     }
 }

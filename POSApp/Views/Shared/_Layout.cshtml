@@ -109,6 +109,13 @@
 
                                         </li>
                                         <li>
+                                            <a href="@Url.Action("StockList","PurchaseOrders")">
+                                                <i class="fa fa-tasks " aria-hidden="true"></i>
+                                                <span>Stock</span>
+                                            </a>
+
+                                        </li>
+                                        <li>
                                             <a href="@Url.Action("ExpenseList","Expense")">
                                                 <i class="fa fa-dollar" aria-hidden="true"></i>
                                                 <span>Expenses</span>
@@ -154,7 +161,7 @@
 
                                         </li>
 
-                                        
+
 
                                         @{
                                             if (Request.IsAuthenticated)

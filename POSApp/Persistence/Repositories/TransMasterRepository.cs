@@ -48,14 +48,14 @@ namespace POSApp.Persistence.Repositories
         {
             //return _context.PurchaseOrder;
             return _context.TransMasters.Include(a=>a.BusinessPartner)
-                .Where(a => a.StoreId == storeId && !a.Issued && !a.IsDisabled);
+                .Where(a => a.StoreId == storeId  && !a.IsDisabled);
 
         }
         public IEnumerable<TransMaster> GetSaleInvoices(int storeId)
         {
             
-            return _context.TransMasters.Include(a => a.BusinessPartner)
-                .Where(a => a.StoreId == storeId && a.Type == "Paid" && !a.Issued && !a.IsDisabled);
+            return _context.TransMasters.Include(a=>a.TransDetails)
+                .Where(a => a.StoreId == storeId && a.Type == "INV" && !a.Issued && !a.IsDisabled);
 
         }
         public async Task<IEnumerable<TransMaster>> GetTransMastersAsync(int storeId)
@@ -119,34 +119,16 @@ namespace POSApp.Persistence.Repositories
 
         }
 
-        public List<FifoHelper> GetCostPriceWithFifo(string ingredientCode, int storeId,decimal qty)
+        public decimal AvgPrice(string ingredientCode, int storeId,DateTime date)
         {
-           List<FifoHelper>helper=new List<FifoHelper>();
-            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId) };
-            var sql = @"select b.*
-			from PosCloud.TransMaster as a 
-            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId AND a.StoreId=b.StoreId
-           where a.StoreId=@p1 and a.Type='PRI' and b.Quantity-b.Balance!=0
-		   order by a.Id
+         
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", date), new SqlParameter("@p3", ingredientCode) };
+            var sql = @"select SUM(b.UnitPrice*b.Quantity)/SUM(b.Quantity) as Average from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+            where a.StoreId=3 and a.Type='PRI' and b.ProductCode=@p3 and a.TransDate<=@p2
                 ";
-            var data = _context.Database.SqlQuery<TransDetail>(sql, parameters.ToArray()).ToList();
-            while (qty>1)
-            {
-             
-                var detail = data.Where(a=>a.Quantity-a.Balance!=0).FirstOrDefault();
-                if (qty > detail.Quantity)
-                {
-                    detail.Balance = detail.Quantity;
-                    qty -= detail.Quantity;
-                }
-                else
-                {
-                    detail.Balance = detail.Quantity - qty;
-                    qty = 0;
-                }
-
-            }
-            return helper;
+            var data = Convert.ToDecimal(_context.Database.SqlQuery<decimal?>(sql, parameters.ToArray()).ToList().Sum());
+            return data;
         }
         public async Task AddTransMasterAsync(TransMaster optcategory)
         {

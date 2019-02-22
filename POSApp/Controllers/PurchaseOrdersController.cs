@@ -165,6 +165,122 @@ namespace POSApp.Controllers
             PoHelper.RemoveFromTemptTransDetail(productId, (int)user.StoreId, user.Id);
             return View("PoTable",PoHelper.temptTransDetail);
         }
+
+        //Stock
+
+        public ActionResult PreviewStock(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            GeneratePurchaseOrderViewModel temp = new GeneratePurchaseOrderViewModel();
+            temp.TransMasterViewModel = Mapper.Map<TransMasterViewModel>(_unitOfWork.TransMasterRepository.GetTransMaster(id, (int)user.StoreId));
+            temp.TransDetailViewModels =
+                _unitOfWork.TransDetailRepository.GetTransDetails(temp.TransMasterViewModel.Id, (int)user.StoreId);
+            foreach (var tempTransDetailViewModel in temp.TransDetailViewModels)
+            {
+                tempTransDetailViewModel.ProductName = _unitOfWork.ProductRepository
+                    .GetProductByCode(tempTransDetailViewModel.ProductCode, tempTransDetailViewModel.StoreId).Name;
+            }
+            temp.BusinessPartnerViewModel =
+                Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(temp.TransMasterViewModel.BusinessPartnerId, (int)user.StoreId));
+            temp.TotalAmount = (from a in temp.TransDetailViewModels
+                select a.Quantity * a.UnitPrice).Sum();
+            TempData["po"] = temp;
+            return RedirectToAction("GenerateStockReceipt", "PurchaseOrders");
+
+        }
+        public ActionResult StockList()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "STI")));
+        }
+        public ActionResult AddStock()
+        {
+            TransMasterViewModel po = new TransMasterViewModel();
+            po.Type = "STI";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+            if (PoHelper.temptTransDetail != null)
+            {
+
+                PoHelper.EmptyTemptTransDetail(user.Id, (int)user.StoreId);
+            }
+            return View(po);
+        }
+        [HttpPost]
+        public ActionResult AddStock(TransMasterViewModel po)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            GeneratePurchaseOrderViewModel temp = new GeneratePurchaseOrderViewModel();
+            po.Type = "STI";
+            if (!ModelState.IsValid)
+            {
+                po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+                return View(po);
+            }
+            else
+            {
+
+                int TransId = _unitOfWork.AppCountersRepository.GetId("STI");
+                po.TransCode = "STI-" + "C-" + TransId.ToString() + "-" + user.StoreId;
+                po.StoreId = user.StoreId;
+
+                var savePo = Mapper.Map<TransMaster>(po);
+
+                IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid && a.StoreId == user.StoreId);
+
+                savePo.TotalPrice = (from a in poItems
+                                     select a.Quantity * a.UnitPrice).Sum();
+                _unitOfWork.TransMasterRepository.AddTransMaster(savePo);
+                _unitOfWork.Complete();
+
+                foreach (var transDetailViewModel in poItems)
+                {
+                    transDetailViewModel.TransMasterId = savePo.Id;
+                    _unitOfWork.TransDetailRepository.AddTransDetail(Mapper.Map<TransDetail>(transDetailViewModel));
+                }
+                _unitOfWork.Complete();
+                temp.TransMasterViewModel = po;
+                temp.TransMasterViewModel.TransDate = Convert.ToDateTime(savePo.TransDate).ToString("dd-MMM-yyyy");
+                temp.TransMasterViewModel.TransTime = Convert.ToDateTime(savePo.TransDate).ToShortTimeString();
+                temp.BusinessPartnerViewModel =
+                    Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(po.BusinessPartnerId, (int)user.StoreId));
+                temp.TransDetailViewModels = poItems;
+                temp.TotalAmount = (from a in temp.TransDetailViewModels
+                                    select a.Quantity * a.UnitPrice).Sum();
+                TempData["po"] = temp;
+            }
+            return RedirectToAction("StockList", "PurchaseOrders");
+
+
+        }
+
+        public ActionResult AddStockItem()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => (a.PurchaseItem || a.InventoryItem)).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }));
+        }
+        [HttpPost]
+        public ActionResult AddStockItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
+        {
+            if (PoHelper.temptTransDetail == null)
+            {
+                PoHelper.temptTransDetail = new List<TransDetailViewModel>();
+            }
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            var product = _unitOfWork.ProductRepository.GetProductById(productId, (int)user.StoreId);
+            decimal quantity = 0;
+            quantity += purchaseQuantity;
+            quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
+            quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
+            return View("PoTable", PoHelper.temptTransDetail);
+        }
         public ApplicationUserManager UserManager
         {
             get
@@ -183,6 +299,15 @@ namespace POSApp.Controllers
             if (po == null)
             {
                 return RedirectToAction("PurchaseOrderList");
+            }
+            return View(po);
+        }
+        public ActionResult GenerateStockReceipt()
+        {
+            GeneratePurchaseOrderViewModel po = (GeneratePurchaseOrderViewModel)TempData["po"];
+            if (po == null)
+            {
+                return RedirectToAction("StockList");
             }
             return View(po);
         }
