@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "AddPurchasing";
+    int number = 1;
 }
 <style>
     .table > thead > tr > th {
@@ -23,24 +24,7 @@
                 <div class="row">
                     <div class="col-md-12 text-center  col-xs-12 mb-xlg">
                         <ul class=" snip1189 ">
-                            @*<li class="mt-xs  current" id="basicInfo">
-                                    <a href="#basicdata" id="basic" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
-                                        Basic Data
-                                    </a>
-                                </li>*@
-                            @*<li id="tranInfo">
-                                    <a href="#transactionitems" id="transact" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
-                                        Transaction Items
-
-                                    </a>
-                                </li>*@
-
-                            @*<li id="tranInfo">
-                                    <a href="#transactionitems" id="transact" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
-                                        Transaction Items
-
-                                    </a>
-                                </li>*@
+                  
 
                         </ul>
 
@@ -71,40 +55,7 @@
 
                                 <h4 class="mt-none mb-lg text-weight-semibold ">Basic Data</h4>
                                 <div class="row">
-                                    @*<div class="col-md-4 col-md-4 col-lg-offset-2 ">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Purchase Order Number
-                                            </label>
-
-                                            <select name="productId" id="purchaseDdl" required="" class="form-control populate selectddl" autofocus style="width:100%">
-                                              
-                                                <option value="">Select an Option</option>
-
-                                                @foreach (var data in Model.PriDdl)
-                                                {
-                                                    <option value="@data.Value">@data.Text</option>
-
-                                                }
-                                               
-
-
-
-
-                                            </select>
-                                        </div>
-                                    </div>*@
-                                    @*<div class="col-md-4 col-lg-offset-2">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Purchase Order Number <span class="text-danger">*</span>
-                                            </label>
-
-                                            @Html.DropDownListFor(a => a.Id, Model.PriDdl, "Select an Option", new {@class = "form-control", @required = "true"})
-
-
-                                        </div>
-                                    </div>*@
+                                  
 
 
 
@@ -180,9 +131,43 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @if (Model.TransDetailViewModels != null)
+                                                {
+
+                                                    if (Model.TransDetailViewModels.Count() > 0)
+                                                    {
+
+                                                        foreach (var item in Model.TransDetailViewModels)
+                                                        {
                                                 <tr>
-                                                    <td colspan="5" class="text-center">No records found</td>
+                                                    <td>@(number++)</td>
+                                                    <td>@item.ProductName</td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>@item.UnitName</td>
+                                                    <td>@item.UnitPrice</td>
+                                                    <td class="center">
+                                                        <div class="btn-group">
+                                                            <a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@item.ProductCode.ToString()','@item.StoreId.ToString()')" data-toggle="tooltip" title="Edit !"></a>
+                                                            @Ajax.ActionLink(" ", "DeletePurchasingItem", "Products", new { productId = item.ProductCode, storeId = item.StoreId }, new AjaxOptions { HttpMethod = "GET",
+                                                                UpdateTargetId = "AjaxUpdate"
+                                                            },new{
+                                                                @onclick = "return confirm('Are you sure?')",
+                                                                @class = "btn btn-danger btn-sm fa fa-trash-o",
+                                                                @style = "color: #ffffff;"
+                                                            })
+                                                        </div>
+                                                    </td>
                                                 </tr>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">No records found</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                          
 
                                             </tbody>
                                         </table>
