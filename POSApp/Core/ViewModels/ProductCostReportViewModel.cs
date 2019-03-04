@@ -9,7 +9,7 @@ namespace POSApp.Core.ViewModels
     {
         public string ProductName { get; set; }
         public double CostPrice { get; set; }
-        public int Qty { get; set; }
+        public decimal Qty { get; set; }
         public DateTime DateTime { get; set; }
     }
 }

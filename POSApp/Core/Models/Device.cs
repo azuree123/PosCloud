@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+
 namespace POSApp.Core.Models
 {
     public class Device:AuditableEntity
@@ -16,7 +20,11 @@ namespace POSApp.Core.Models
         public string AppVersion { get; set; }
 
         public DateTime DownloadedDate { get; set; }
-
+        public string ReceiptHeader { get; set; }
+        public string ReceiptFooter { get; set; }
+        
+        
+        public string RefundPin { get; set; }
 
         public string Address { get; set; }
 
@@ -25,6 +33,7 @@ namespace POSApp.Core.Models
         public string City { get; set; }
 
         public string State { get; set; }
+       
 
     }
 }

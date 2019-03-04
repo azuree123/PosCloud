@@ -17,7 +17,9 @@ namespace POSApp.Core.ViewModels
         public string Contact { get; set; }
 
         public string City { get; set; }
-
+        [DataType(DataType.Time)]
+        public DateTime BusinessStartTime { get; set; }
+        public string Currency { get; set; }
         public string State { get; set; }
 
         public bool IsOperational { get; set; }

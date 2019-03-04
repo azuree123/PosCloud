@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
@@ -13,6 +15,7 @@ namespace POSApp.Controllers
     [Authorize]
     public class StoreController : Controller
     {
+        private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;
 
         public StoreController()
@@ -26,7 +29,15 @@ namespace POSApp.Controllers
         }
         public ActionResult StoresList()
         {
-            return View(_unitOfWork.StoreRepository.GetStores());
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+
+            
+
+
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            return View(clientStores);
         }
 
         public ActionResult AddStorePartial()
@@ -66,7 +77,7 @@ namespace POSApp.Controllers
                 return RedirectToAction("StoresList");
             }
             ViewBag.edit = "AddStore";
-            return View();
+            return View(new StoreViewModel());
         }
         [HttpPost]
         public ActionResult AddStore(StoreViewModel storeVm)
@@ -257,6 +268,17 @@ namespace POSApp.Controllers
 
             return RedirectToAction("StoresList", "Store");
 
+        }
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
         }
         public JsonResult GetStoreDdl()
         {

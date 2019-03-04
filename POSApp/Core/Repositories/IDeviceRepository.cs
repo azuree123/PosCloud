@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 
 namespace POSApp.Core.Repositories
 {
@@ -17,5 +18,6 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<Device>> GetDevicesAsync(int storeid);
         Task<Device> GetDeviceByIdAsync(int id, int storeid);
         Task AddDeviceAsync(Device Device);
+        Task<AppInfoViewModel> GetDeviceByLicenseAsync(string license);
     }
 }

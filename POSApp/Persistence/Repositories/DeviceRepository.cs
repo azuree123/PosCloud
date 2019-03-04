@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
+using POSApp.Core.ViewModels;
 using POSApp.Persistence;
 
 namespace POSApp.Persistence.Repositories
@@ -37,7 +38,24 @@ namespace POSApp.Persistence.Repositories
         {
             return await _context.Devices.FindAsync(id, storeid);
         }
-
+        public async Task<AppInfoViewModel> GetDeviceByLicenseAsync(string license)
+        {
+            return await _context.Devices.Include(a => a.Store).Include(a => a.Store.Client).Where(a => a.License == license).Select(a => new AppInfoViewModel
+            {
+                BusinessStartTime = a.Store.BusinessStartTime,
+                BranchName = a.Store.Name,
+                CompanyName = a.Store.Client.Name,
+                Currency = a.Store.Currency,
+                RefundPin = a.RefundPin,
+                
+                ReceiptHeader = a.ReceiptHeader,
+                ReceiptFooter = a.ReceiptFooter,
+                DeviceName = a.Name,
+                StoreId = a.StoreId,
+                DeviceId = a.Id,
+                StoreAddress = a.Store.Address
+            }).FirstOrDefaultAsync();
+        }
         public void AddDevice(Device Device)
         {
             var inDb = _context.Devices.FirstOrDefault(a => a.DeviceCode == Device.DeviceCode && a.StoreId == Device.StoreId);
@@ -90,7 +108,6 @@ namespace POSApp.Persistence.Repositories
             }
             else { }
 
-            Device.StoreId = storeid;
             _context.Devices.Attach(Device);
             _context.Entry(Device).State = EntityState.Modified;
         }

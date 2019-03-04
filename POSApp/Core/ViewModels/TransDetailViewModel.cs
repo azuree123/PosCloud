@@ -29,7 +29,7 @@ namespace POSApp.Core.ViewModels
         public int? DiscountId { get; set; }
         public string Modifiers { get; set; }
         public decimal ModifiersPrice { get; set; }
-
+        public string UnitName { get; set; } 
     }
  
 }

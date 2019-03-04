@@ -12,6 +12,7 @@ namespace POSApp.Core.Models
         
         public int Id { get; set; }
         public int StoreId { get; set; }
+        public int? ToStoreId { get; set; }
         public Store Store { get; set; }
         public int SessionCode { get; set; }
         public string Type { get; set; }  //INV or PRI
@@ -20,7 +21,7 @@ namespace POSApp.Core.Models
         public string Address { get; set; }
         public string ContactNumber { get; set; }
 
-        public int BusinessPartnerId { get; set; }
+        public int? BusinessPartnerId { get; set; }
         public BusinessPartner BusinessPartner { get; set; } 
 
         [DataType(DataType.DateTime)]

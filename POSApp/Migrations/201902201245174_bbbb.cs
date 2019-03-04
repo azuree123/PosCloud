@@ -7,7 +7,7 @@ namespace POSApp.Migrations
     {
         public override void Up()
         {
-            AlterColumn("PosCloud.TransDetails", "Balance", c => c.Decimal(nullable: false, precision: 18, scale: 2,defaultValueSql:"0"));
+            AddColumn("PosCloud.TransDetails", "Balance", c => c.Decimal(nullable: false, precision: 18, scale: 2,defaultValueSql:"0"));
         }
         
         public override void Down()

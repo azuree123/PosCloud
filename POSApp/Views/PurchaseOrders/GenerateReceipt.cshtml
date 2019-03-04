@@ -82,10 +82,13 @@
                                 TIME : <strong>@Model.TransMasterViewModel.TransTime</strong>
 
                             </p>
+                            
                             <p class="m-none">
                                 TO : <strong>@Model.BusinessPartnerViewModel.Name</strong>
 
                             </p>
+
+                            
                             <div class="">
                                 <i class="fa fa-envelope"></i>
                                 <strong class="text-right">@Model.BusinessPartnerViewModel.Email</strong>
@@ -112,7 +115,8 @@
                     <thead>
                         <tr>
                             <th width="50%" class="text-left">ITEMS</th>
-                            <th width="25%">QUANTITY</th>
+                            <th width="20%">QUANTITY</th>
+                            @*<th width="5%">UNIT</th>*@
                             <th width="25%" class="text-right">PRICE</th>
 
                         </tr>
@@ -120,13 +124,14 @@
                     <tbody>
                         @foreach (var s in Model.TransDetailViewModels)
                         {
-                            <tr>
-                                <td class="text-left">@s.ProductName</td>
+                        <tr>
+                            <td class="text-left">@s.ProductName</td>
 
-                                <td class="text-center">@s.Quantity</td>
+                            <td class="text-center">@(s.Quantity)</td>
+                            @*<td class="text-center">@(s.UnitName)</td>*@
+                            <td class="text-right">@s.UnitPrice</td>
 
-                                <td class="text-right">@s.UnitPrice</td>
-                            </tr>
+                        </tr>
                         }
 
 

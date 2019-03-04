@@ -40,6 +40,13 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             DeviceViewModel Device = new DeviceViewModel();
+            //Device.StoreId = (int)user.StoreId;
+
+
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            Device.StoreDDl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+
             var isAjax = Request.IsAjaxRequest();
             if (!isAjax)
             {
@@ -53,6 +60,8 @@ namespace POSApp.Controllers
         {
 
             ViewBag.edit = "AddDevice";
+            DeviceMv.StoreDDl = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+
             try
             {
                 if (!ModelState.IsValid)
@@ -68,7 +77,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Device Device = Mapper.Map<Device>(DeviceMv);
-                    Device.StoreId = (int)user.StoreId;
+                   
                     _unitOfWork.DeviceRepository.AddDevice(Device);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The device added successfully", AlertType.Success);
@@ -130,12 +139,16 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             DeviceViewModel DeviceMv =
                 Mapper.Map<DeviceViewModel>(_unitOfWork.DeviceRepository.GetDeviceById(id, (int)user.StoreId));
+            DeviceMv.StoreDDl = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+
             return View("AddDevice", DeviceMv);
         }
         [HttpPost]
         public ActionResult UpdateDevice(int id, DeviceViewModel DeviceMv)
         {
             ViewBag.edit = "UpdateDevice";
+            DeviceMv.StoreDDl = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+
             try
             {
                 if (!ModelState.IsValid)

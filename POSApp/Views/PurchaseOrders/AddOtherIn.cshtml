@@ -1,0 +1,355 @@
+﻿@model POSApp.Core.ViewModels.TransMasterViewModel
+
+@{
+    ViewBag.Title = "AddOtherOut";
+}
+<style>
+    .table > thead > tr > th {
+        background-color: rgba(153, 153, 153, 0.4);
+        padding: 16px 0;
+    }
+</style>
+
+
+<div class="container-fluid">
+
+
+    <div class="row mt-lg">
+
+
+
+        <div class="col-md-12">
+            <div class="tabs  tabs-left">
+                <div class="row">
+                    <div class="col-md-12 text-center  col-xs-12 mb-xlg">
+                        <ul class=" snip1189 ">
+                            @*<li class="mt-xs  current" id="basicInfo">
+                                    <a href="#basicdata" id="basic" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
+                                        Basic Data
+                                    </a>
+                                </li>*@
+                            @*<li id="tranInfo">
+                                    <a href="#transactionitems" id="transact" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
+                                        Transaction Items
+
+                                    </a>
+                                </li>*@
+
+                            @*<li id="tranInfo">
+                                    <a href="#transactionitems" id="transact" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
+                                        Transaction Items
+
+                                    </a>
+                                </li>*@
+
+                        </ul>
+
+                        <div class="row mt-md">
+                            <div class="col-md-12">
+                                <h4 class=" wb-color  text-center">New Other In</h4>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content col-md-12 col-xs-12   p-xlg">
+
+                        <div class="row mb-xlg">
+                            <div class="col-md-12">
+                                <button type="button" class="btn outline-success btn-sm" style="float:right;font-size:13px;margin-left: 7px;" onclick="$('#basicSubmit').click();"><i class="fa fa-save  pr-md"></i> Save</button>
+                                <a href="@Url.Action("OtherInList","PurchaseOrders")" style="float:right">
+                                    <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>OtherIn List</button>
+
+                                </a>
+                            </div>
+
+                        </div>
+                        <div id="transactionitems" class="tab-pane active">
+                            @using (Html.BeginForm())
+                            {
+                                <button type="submit" class="btn outline-success btn-sm hidden" id="basicSubmit" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> Save</button>
+
+                                <h4 class="mt-none mb-lg text-weight-semibold ">Basic Data</h4>
+
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Supplier <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                @Html.DropDownListFor(a => a.BusinessPartnerId, Model.SupplierDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                <span class="input-group-addon" style="">
+                                                    <a href="@Url.Action("AddSupplierPartial", "Setup")" class="modalShow1" id="#arrButtonIds"> <i class="fa fa-plus "></i></a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label"> Purchase order Date</label>
+
+                                            <div class="input-group">
+                                                @*@Html.TextBoxFor(a => a.TransDate, new { @class = "form-control unstyled", @data_plugin_datepicker = "true", @required = "true" })*@
+                                                @Html.TextBoxFor(a => a.TransDate, new { @class = "form-control unstyled", @required = "true", @type = "datetime-local" })
+
+                                                @*<input type="text" data-plugin-datepicker="true" class="form-control unstyled">*@
+                                                <span class="input-group-addon">
+                                                    <i onclick="$('#@Html.IdFor(a => a.TransDate)').focus();" class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8 col-lg-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Remarks
+                                            </label>
+                                            @Html.TextAreaFor(a => a.TransRef, new { @rows = "3", @class = "form-control ", @placeholder = "Enter Remarks" })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            }
+                            @*<div id="transactionitems" class="tab-pane">*@
+                            <div class=" mb-lg" id="header-flex">
+                                <h4 class="mt-xs   text-weight-semibold " style="flex-grow: 8">Transaction Items</h4>
+                                @*<a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
+                                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm" id="#arrButtonIds"></i>Add New</button>
+
+                                    </a>*@
+
+                            </div>
+                            @{Html.RenderAction("AddOtherInItem", "PurchaseOrders");}
+                            <div id="AjaxUpdate">
+                                <div class="row mb-lg">
+                                    <div class="col-md-12">
+                                        <table class="table mb-none" style="width: 100%" id="datatable-default">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit</th>
+                                                    <th>Cost</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="5" class="text-center">No records found</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hidden">
+                                <h4 class="mb-lg ">Add items From Tag</h4>
+                                <div class="row mb-lg">
+                                    <div class="col-md-9 col-lg-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Select Tag
+                                            </label>
+                                            <input type="text" class="form-control unstyled" placeholder="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="mb-lg ">Upload Items Via Excel</h4>
+                                <div class="row">
+                                    <div class="col-md-9 col-lg-offset-2">
+                                        <div class="form-group">
+                                            <input type="file" class="" placeholder="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*</div>*@
+
+
+
+
+
+<div id="ModalData"></div>
+<div id="ModalData2"></div>
+
+@section scripts
+{
+
+    <script>
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+        $(document).ready(function () {
+            d = new Date();
+            document.getElementById("@Html.IdFor(a=>a.TransDate)").defaultValue = d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + zeroPadded(d.getHours()) + ":" + zeroPadded(d.getMinutes()) + ":" + zeroPadded(d.getSeconds());
+        });
+        function UpdateDdlSupplier() {
+            $.ajax({
+                url: "@Url.Action("GetSupplierDdl", "Setup")",
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    var $dropdown = $("#@Html.IdFor(a=>a.BusinessPartnerId)");
+                    $dropdown.empty();
+                    $dropdown.append($("<option />").val('').text("Select an Option"));
+                    $.each(result, function (index, value) {
+                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
+                    });
+
+                }
+            });
+        }
+        var tablefill = false;
+        function CheckData() {
+
+            var rowCount = $('#datatable-default >tbody >tr').length;
+            var supplier = $('#@Html.IdFor(a=>a.BusinessPartnerId)').val();
+            if (tablefill && rowCount >= 1 && supplier !== '') {
+
+                return true;
+            } else if (supplier === '') {
+                $('#basic').click();
+                new PNotify({
+                    title: 'Supplier Not Selected',
+                    text: 'Please Select Supplier.',
+                    type: 'error'
+                });
+                $('#@Html.IdFor(a=>a.BusinessPartnerId)').focus();
+                return false;
+            } else {
+
+                new PNotify({
+                    title: 'Transaction Items Cannot Be Empty',
+                    text: 'Please Enter Atleast 1 Transaction Item.',
+                    type: 'error'
+                });
+                $('#transact').click();
+                return false;
+            }
+        }
+        function ChangeTableFill() {
+            tablefill = true;
+        }
+
+        $('#datatable-default').on('click','a.modalShow', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('a.modalShow').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('a.modalShow1').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData2').html(result);
+                    $('#ordine2').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('#datatable-default').dataTable();
+        // Using that prm reference, hook _initializeRequest
+        Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(InitializeRequestBuchung);
+
+        // Abfangen von Mehrfachklicks auf Buttons für asynchrone Postbacks im Updatepanel
+        function InitializeRequestBuchung(sender, args) {
+            var arrButtonIds = ["ButtonInsert", "ButtonUpdate"];
+
+            // Get a reference to the PageRequestManager.
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+            if (prm.get_isInAsyncPostBack() & jQuery.inArray(args.get_postBackElement().id, arrButtonIds) > -1) {
+                args.set_cancel(true);
+            }
+        }
+    </script>
+    <script>
+        $("input").on("keypress", function (e) {
+            if (e.which === 32 && !this.value.length)
+                e.preventDefault();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.selectddl').select2();
+        });
+        $('#productDdl').on("change",
+            function () {
+                var val = $(this).val();
+                if (val !== '') {
+                    $.ajax({
+                        url: "@Url.Action("GetProductInfo","PurchaseOrders")",
+                        type: "GET",
+                        data: { id: val },
+                        success: function(data) {
+                            $('#disQty').text(data.PurchaseUnit);
+                            $('#disQty1').text(data.StorageUnit);
+                            $('#disQty2').text(data.IngredientUnit);
+                            $('#price').val(data.CostPrice);
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+
+                    });
+                } else {
+                    $('#disQty').text('-');
+                    $('#price').val('');
+                }
+            });
+
+    </script>
+
+
+}
+
+
+
+
+

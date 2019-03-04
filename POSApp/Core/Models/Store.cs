@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace POSApp.Core.Models
 {
@@ -14,7 +15,8 @@ namespace POSApp.Core.Models
         public string Address { get; set; }
         
         public string Contact { get; set; }
-
+        public DateTime BusinessStartTime { get; set; }
+        public string Currency { get; set; }
         public string City { get; set; }
 
         public string State { get; set; }

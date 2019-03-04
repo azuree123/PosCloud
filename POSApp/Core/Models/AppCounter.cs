@@ -14,6 +14,9 @@ namespace POSApp.Core.Models
             [Key]
             [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
             public byte Id { get; set; }
+
+            public int? StoreId { get; set; }
+            public Store Store { get; set; }
             [DefaultValue(0)]
             public int InvoiceTransId { get; set; }
             [DefaultValue(0)]
@@ -32,5 +35,19 @@ namespace POSApp.Core.Models
             public int MifId { get; set; }
             [DefaultValue(0)]
             public int STId { get; set; }
+            [DefaultValue(0)]
+            public int TransferId { get; set; }
+            [DefaultValue(0)]
+            public int PurchasingId { get; set; }
+            [DefaultValue(0)]
+            public int OtherInId { get; set; }
+            [DefaultValue(0)]
+            public int OtherOutId { get; set; }
+            [DefaultValue(0)]
+            public int ExpiryId { get; set; }
+            [DefaultValue(0)]
+            public int DamageId { get; set; }
+            [DefaultValue(0)]
+            public int WasteId { get; set; }
     }
 }

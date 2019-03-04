@@ -20,6 +20,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             //******************************************************************************************* PROPERTIES ***************
+            Property(x => x.ToStoreId).HasColumnType("int").IsOptional();
             Property(x => x.ACRef).HasColumnType("varchar").HasMaxLength(25).IsOptional();
             Property(x => x.TransCode).HasColumnType("varchar").HasMaxLength(25).IsOptional();
             Property(x => x.TransRef).HasColumnType("varchar").HasMaxLength(25).IsOptional();
@@ -39,7 +40,7 @@ namespace POSApp.Persistence.EntityConfigurations
             HasIndex(p => new { p.TransCode }).IsUnique();
 
             HasRequired(x => x.Store).WithMany(x => x.TransMasters).HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
-            HasRequired(x => x.BusinessPartner).WithMany(x => x.TransMasters).HasForeignKey(x => new { x.BusinessPartnerId, x.StoreId }).WillCascadeOnDelete(false);
+            HasOptional(x => x.BusinessPartner).WithMany(x => x.TransMasters).HasForeignKey(x => new { x.BusinessPartnerId, x.StoreId }).WillCascadeOnDelete(false);
             HasOptional(x => x.DineTable).WithMany(c=>c.TransMasters).HasForeignKey(x => new { x.DineTableId, x.StoreId }).WillCascadeOnDelete(false);
             HasOptional(x => x.TimedEvent).WithMany(x => x.TransMasters).HasForeignKey(x => new { x.DiscountId, x.StoreId }).WillCascadeOnDelete(true);
 

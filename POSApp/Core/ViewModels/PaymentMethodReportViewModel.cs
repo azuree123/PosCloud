@@ -12,7 +12,7 @@ namespace POSApp.Core.ViewModels
         public DateTime DateTime { get; set; }
         public decimal Discount { get; set; }
         public decimal Tax { get; set; }
-        public int Qty { get; set; }
+        public decimal Qty { get; set; }
         public decimal Amount { get; set; }
     }
 }

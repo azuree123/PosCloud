@@ -17,5 +17,6 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<Client>> GetClientsAsync();
         Task<Client> GetClientAsync(int id);
         Task AddClientAsync(Client client);
+        IEnumerable<Store> GetClientStore(int id);
     }
 }

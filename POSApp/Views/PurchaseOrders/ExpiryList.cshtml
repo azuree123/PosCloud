@@ -1,0 +1,184 @@
+﻿@model IEnumerable<POSApp.Core.ViewModels.TransMasterViewModel>
+
+@{
+    ViewBag.Title = "ExpiryList";
+}
+
+@*<header class="page-header">
+        <h2>PurchaseOrders</h2>
+
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>PurchaseOrder</span></li>
+
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>*@
+
+<!-- start: page -->
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
+            @*<li><a href="@Url.Action("StockList","PurchaseOrders")">Stock Taking</a></li>
+            <li><a href="@Url.Action("PurchasingList","PurchaseOrders")">Purchasing</a></li>
+            <li><a href="@Url.Action("ExchangeList","SaleOrders")">Production</a></li>
+            <li><a href="@Url.Action("TransferList","PurchaseOrders")">Transfer</a></li>*@
+            <li><a href="@Url.Action("OtherInList","PurchaseOrders")">Other In</a></li>
+            <li><a href="@Url.Action("OtherOutList","PurchaseOrders")">Other Out</a></li>
+
+            <li class="current"><a href="#">Expiry</a></li>
+            <li><a href="@Url.Action("WasteList","PurchaseOrders")">Waste</a></li>
+            <li><a href="@Url.Action("DamageList","PurchaseOrders")">Damage</a></li>
+        </ul>
+        <hr />
+
+    </div>
+</div>
+<section class="panel">
+
+    <header class="panel-heading">
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <div class="" id="header-flex">
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Expiry </b></h3>
+
+
+
+                    <a href="@Url.Action("AddExpiry","PurchaseOrders")" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Add Expiry</button>
+
+                    </a>
+                    @*<a href="@Url.Action("GenerateReceipt","PurchaseOrders")">
+                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Generate Receipt</button>
+
+                        </a>*@
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                    <tr>
+                        <th width="5%">ID</th>
+                        <th>Supplier</th>
+                        <th>Order Date</th>
+                        <th>Invoice</th>
+                        <th>Total Price</th>
+                        <th>Type</th>
+                        <th width="15%">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 1;}
+                    @foreach (var purchaseOrder in Model)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@purchaseOrder.BusinessPartnerName</td>
+                            <td>@purchaseOrder.TransDate</td>
+                            <td>@purchaseOrder.TransCode</td>
+                            <td>@purchaseOrder.TotalPrice</td>
+                            <td>@purchaseOrder.Type</td>
+                            <td>
+                                @Html.ActionLink(" ", "PreviewExpiry", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').dataTable();
+
+        $('#datatable-default').on('click','a.modalShow', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('a.modalShow').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('a.modalShow').on('click', function () {
+            debugger;
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        // Using that prm reference, hook _initializeRequest
+        Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(InitializeRequestBuchung);
+
+        // Abfangen von Mehrfachklicks auf Buttons für asynchrone Postbacks im Updatepanel
+        function InitializeRequestBuchung(sender, args) {
+            var arrButtonIds = ["ButtonInsert", "ButtonUpdate"];
+
+            // Get a reference to the PageRequestManager.
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+            if (prm.get_isInAsyncPostBack() & jQuery.inArray(args.get_postBackElement().id, arrButtonIds) > -1) {
+                args.set_cancel(true);
+            }
+        }
+    </script>
+}
+
+
+

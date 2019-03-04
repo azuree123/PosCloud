@@ -34,6 +34,10 @@ namespace POSApp.Persistence.Repositories
         {
             return await _context.Clients.FindAsync(id);
         }
+        public IEnumerable<Store> GetClientStore(int id)
+        {
+            return _context.Clients.Include(a=>a.Stores).Where(a=>a.Id==id).Select(a=>a.Stores).FirstOrDefault();
+        }
         public void AddClient(Client client)
         {
             var inDb = _context.Clients.FirstOrDefault(a => a.Name == client.Name);

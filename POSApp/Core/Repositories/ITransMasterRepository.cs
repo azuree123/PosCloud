@@ -28,5 +28,8 @@ namespace POSApp.Core.Repositories
         Task AddTransMasterAsync(TransMaster optcategory);
         IEnumerable<TransMaster> GetSaleInvoices(int storeId);
         decimal AvgPrice(string ingredientCode, int storeId, DateTime date);
+        IEnumerable<TransMaster> GetPurchaseInvoices(int storeId);
+        TransMaster GetPurchaseById(int id, int storeId);
+        void UpdateTransMaster(int id, int storeid, TransMaster transMaster);
     }
 }

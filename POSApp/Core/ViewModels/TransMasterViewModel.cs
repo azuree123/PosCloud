@@ -14,7 +14,11 @@ namespace POSApp.Core.ViewModels
         public string Type { get; set; }
         public string TransCode { get; set; }
         public int? StoreId { get; set; }
-        public int BusinessPartnerId { get; set; }
+        public int? FromStoreId { get; set; }
+        public string ToStoreName { get; set; }
+        public string FromStoreName { get; set; }
+
+        public int? BusinessPartnerId { get; set; }
         [DisplayName("Trans Date")]
         public string TransDate { get; set; }
         [DisplayName("Trans Time")]
@@ -36,16 +40,18 @@ namespace POSApp.Core.ViewModels
         [DefaultValue(0)]
         public decimal Tax { get; set; }
         public IEnumerable<SelectListItem> SupplierDdl { get; set; }
+        public IEnumerable<SelectListItem> FromStoreDdl { get; set; }
+        public IEnumerable<SelectListItem> ToStoreDdl { get; set; }
+        public IEnumerable<SelectListItem> PriDdl { get; set; }
         public int? DiscountId { get; set; }
         [DefaultValue(0)]
         public decimal Discount { get; set; }
+
+        public List<TransDetailViewModel> TransDetailViewModels { get; set; } = new List<TransDetailViewModel>();
+       
     }
 
-    public class FifoHelper
-    {
-        public decimal Qty { get; set; }
-        public decimal Cost { get; set; }
-    }
+  
   
 
 }

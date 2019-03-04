@@ -28,9 +28,9 @@ namespace POSApp.Controllers.WebApi
         }
 
         // GET: api/Devices/5
-        public async Task<IHttpActionResult> GetDevice(int id, int storeId)
+        public async Task<IHttpActionResult> GetDevice(string license)
         {
-            return Ok(await _unitOfWork.DeviceRepository.GetDeviceByIdAsync(id, storeId));
+            return Ok(await _unitOfWork.DeviceRepository.GetDeviceByLicenseAsync(license));
         }
 
         // POST: api/Devices

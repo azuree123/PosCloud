@@ -453,6 +453,7 @@
     <Compile Include="Core\Repositories\IWarehouseRepository.cs" />
     <Compile Include="Core\Shared\Helper.cs" />
     <Compile Include="Core\Shared\PoHelper.cs" />
+    <Compile Include="Core\ViewModels\AppInfoViewModel.cs" />
     <Compile Include="Core\ViewModels\BranchReportSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\BranchTimelyReportViewModel.cs" />
     <Compile Include="Core\ViewModels\BusinessPartnerViewModel.cs" />
@@ -479,6 +480,7 @@
     <Compile Include="Core\ViewModels\ProductSizeOrderTypeReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductSizeSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductTimelySaleViewModel.cs" />
+    <Compile Include="Core\ViewModels\PurchasingDdlViewModel.cs" />
     <Compile Include="Core\ViewModels\RecipeReportViewModel.cs" />
     <Compile Include="Core\ViewModels\RecipeViewModel.cs" />
     <Compile Include="Core\ViewModels\RoleViewModel.cs" />
@@ -552,6 +554,26 @@
     <Compile Include="Migrations\201902211030033_pn.cs" />
     <Compile Include="Migrations\201902211030033_pn.Designer.cs">
       <DependentUpon>201902211030033_pn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902261419183_appcounter.cs" />
+    <Compile Include="Migrations\201902261419183_appcounter.Designer.cs">
+      <DependentUpon>201902261419183_appcounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902261457517_appinfo.cs" />
+    <Compile Include="Migrations\201902261457517_appinfo.Designer.cs">
+      <DependentUpon>201902261457517_appinfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902271210470_busin.cs" />
+    <Compile Include="Migrations\201902271210470_busin.Designer.cs">
+      <DependentUpon>201902271210470_busin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902281103119_apc.cs" />
+    <Compile Include="Migrations\201902281103119_apc.Designer.cs">
+      <DependentUpon>201902281103119_apc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903011304514_bhy.cs" />
+    <Compile Include="Migrations\201903011304514_bhy.Designer.cs">
+      <DependentUpon>201903011304514_bhy.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
@@ -3404,6 +3426,34 @@
     <Content Include="Views\PurchaseOrders\AddStockItem.cshtml" />
     <Content Include="Views\PurchaseOrders\StockList.cshtml" />
     <Content Include="Views\PurchaseOrders\GenerateStockReceipt.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddTransfer.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddTransferItem.cshtml" />
+    <Content Include="Views\PurchaseOrders\TransferList.cshtml" />
+    <Content Include="Views\PurchaseOrders\GenerateTransferReceipt.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddPurchasing.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddPurchasingItem.cshtml" />
+    <Content Include="Views\PurchaseOrders\PurchasingList.cshtml" />
+    <Content Include="Views\PurchaseOrders\GeneratePurchasingReceipt.cshtml" />
+    <Content Include="Views\PurchaseOrders\OtherInList.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddOtherIn.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddOtherInItem.cshtml" />
+    <Content Include="Views\PurchaseOrders\GenerateOtherInReceipt.cshtml" />
+    <Content Include="Views\PurchaseOrders\OtherOutList.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddOtherOut.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddOtherOutItem.cshtml" />
+    <Content Include="Views\PurchaseOrders\GenerateOtherOutReceipt.cshtml" />
+    <Content Include="Views\PurchaseOrders\ExpiryList.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddExpiry.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddExpiryItem.cshtml" />
+    <Content Include="Views\PurchaseOrders\GenerateExpiryReceipt.cshtml" />
+    <Content Include="Views\PurchaseOrders\WasteList.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddWaste.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddWasteItem.cshtml" />
+    <Content Include="Views\PurchaseOrders\GenerateWasteReceipt.cshtml" />
+    <Content Include="Views\PurchaseOrders\DamageList.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddDamage.cshtml" />
+    <Content Include="Views\PurchaseOrders\AddDamageItem.cshtml" />
+    <Content Include="Views\PurchaseOrders\GenerateDamageReceipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3474,6 +3524,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902211030033_pn.resx">
       <DependentUpon>201902211030033_pn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902261419183_appcounter.resx">
+      <DependentUpon>201902261419183_appcounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902261457517_appinfo.resx">
+      <DependentUpon>201902261457517_appinfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902271210470_busin.resx">
+      <DependentUpon>201902271210470_busin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902281103119_apc.resx">
+      <DependentUpon>201902281103119_apc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903011304514_bhy.resx">
+      <DependentUpon>201903011304514_bhy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchTimelySale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

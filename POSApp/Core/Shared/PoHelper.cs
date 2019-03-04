@@ -29,7 +29,7 @@ namespace POSApp.Core.Shared
                 Discount = 0,
                 StoreId = product.StoreId,
                 ProductCode = product.ProductCode,
-                
+                UnitName = product.PurchaseUnit,
                 Quantity = qty,
                 UnitPrice = cost,
                 CreatedByUserId = userId,
@@ -55,5 +55,7 @@ namespace POSApp.Core.Shared
             temptTransDetail.Remove(transDetailViewModel);
             }
         }
+
+
     }
 }

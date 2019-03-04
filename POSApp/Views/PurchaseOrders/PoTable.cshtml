@@ -11,6 +11,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Quantity</th>
+                <th>Unit</th>
                 <th>Cost</th>
                 <th>Action</th>
             </tr>
@@ -22,16 +23,17 @@
                 <tr>
                     <td>@(count++)</td>
                     <td>@s.ProductName</td>
-                    <td>@s.Quantity</td>
+                    <td>@String.Format("{0:#,##0.00}", s.Quantity)</td>
+                    <td>@s.UnitName</td>
                     <td>@s.UnitPrice</td>
                     <td>
-                            @Ajax.ActionLink(" ", "RemoveTransactionItem", "PurchaseOrders", new { productId = @s.ProductCode },new AjaxOptions { HttpMethod = "GET",
-                           UpdateTargetId = "AjaxUpdate"
-                       },new{
-                           @onclick = "return confirm('Are you sure?')",
-                           @class = "btn btn-danger btn-sm fa fa-trash-o",
-                           @style = "color: #ffffff;"
-                       })
+                        @Ajax.ActionLink(" ", "RemoveTransactionItem", "PurchaseOrders", new { productId = @s.ProductCode },new AjaxOptions { HttpMethod = "GET",
+                       UpdateTargetId = "AjaxUpdate"
+                   },new{
+                       @onclick = "return confirm('Are you sure?')",
+                       @class = "btn btn-danger btn-sm fa fa-trash-o",
+                       @style = "color: #ffffff;"
+                   })
                     </td>
                 </tr>
             }

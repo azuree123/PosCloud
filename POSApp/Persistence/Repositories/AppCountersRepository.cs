@@ -58,13 +58,47 @@ namespace POSApp.Persistence.Repositories
                     if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
                     appCounter.MifId = intId;
                     break;
-                case "STI":
+                case "StockIn":
                     intId = _context.AppCounters.Max(u => u.STId);
                     if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
                     appCounter.STId = intId;
                     break;
-
-
+                case "Transfer":
+                    intId = _context.AppCounters.Max(u => u.TransferId);
+                    if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
+                    appCounter.TransferId = intId;
+                    break;
+               
+                case "Purchasing":
+                    intId = _context.AppCounters.Max(u => u.PurchasingId);
+                    if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
+                    appCounter.PurchasingId = intId;
+                    break;
+                case "OtherIn":
+                    intId = _context.AppCounters.Max(u => u.OtherInId);
+                    if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
+                    appCounter.OtherInId = intId;
+                    break;
+                case "OtherOut":
+                    intId = _context.AppCounters.Max(u => u.OtherOutId);
+                    if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
+                    appCounter.OtherOutId = intId;
+                    break;
+                case "Expiry":
+                    intId = _context.AppCounters.Max(u => u.ExpiryId);
+                    if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
+                    appCounter.ExpiryId = intId;
+                    break;
+                case "Waste":
+                    intId = _context.AppCounters.Max(u => u.WasteId);
+                    if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
+                    appCounter.WasteId = intId;
+                    break;
+                case "Damage":
+                    intId = _context.AppCounters.Max(u => u.DamageId);
+                    if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
+                    appCounter.DamageId = intId;
+                    break;
             }
 
             //_context.SaveChanges();
@@ -100,6 +134,9 @@ namespace POSApp.Persistence.Repositories
                     break;
                 case "STI":
                     appCounter.STId = intId;
+                    break;
+                case "TRA":
+                    appCounter.TransferId = intId;
                     break;
             }
 

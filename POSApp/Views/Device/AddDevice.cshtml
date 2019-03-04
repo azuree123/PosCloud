@@ -52,7 +52,7 @@
                             @Html.HiddenFor(a => a.Id)
                             @Html.HiddenFor(a => a.CreatedBy)
                             @Html.HiddenFor(a => a.CreatedOn)
-                            @Html.HiddenFor(a => a.StoreId)
+                            
                             <div class="">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="row">
@@ -83,7 +83,7 @@
                                             @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @class = "form-control", @Required = true, @placeholder = "Enter Device Code" } })
                                             @Html.ValidationMessageFor(model => model.DeviceCode, "", new { @class = "text-danger" })
                                         </div>
-                                        
+
                                     </div>
                                 </div>
 
@@ -100,7 +100,7 @@
                                             @Html.ValidationMessageFor(model => model.DownloadedDate, "", new { @class = "text-danger" })
                                         </div>
                                         <input type="hidden" id="download_date" value="@Model.DownloadedDate" />
-                                        
+
                                     </div>
                                 </div>
 
@@ -117,7 +117,7 @@
                                             @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @Required = true, @placeholder = "Enter Contact No." } })
                                             @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
                                         </div>
-                                        
+
                                     </div>
                                 </div>
 
@@ -136,15 +136,48 @@
                                             @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter State Name" } })
                                             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                                         </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.ReceiptHeader, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.ReceiptHeader, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Receipt Header" } })
+                                            @Html.ValidationMessageFor(model => model.ReceiptHeader, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.ReceiptFooter, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.ReceiptFooter, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Receipt Footer" } })
+                                            @Html.ValidationMessageFor(model => model.ReceiptFooter, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.RefundPin, htmlAttributes: new { @class = "control-label required1 " })
+                                            @Html.PasswordFor(m => m.RefundPin, new { @class = "form-control", placeholder = "Type Password- 6 digits", @required = true })
+                                            @Html.ValidationMessageFor(model => model.RefundPin, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Code" } })
+                                            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                                        </div>
                                         
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Code" } })
-                                            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                                            @Html.LabelFor(model => model.StoreId, htmlAttributes: new { @class = "control-label required1" })
+                                            
+                                                @Html.DropDownListFor(model => model.StoreId, Model.StoreDDl, "Select an Option", new { @class = "form-control", @required = true, autofocus = "" })
+                                               
+                                                @Html.ValidationMessageFor(model => model.StoreId, "", new { @class = "text-danger" })
+                                            
                                         </div>
                                     </div>
                                 </div>

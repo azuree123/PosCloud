@@ -70,7 +70,7 @@
 
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.Contact, htmlAttributes: new { @class = "control-label required1 " })
-                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "050xxxxxxx",@pattern = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{7})$" } })
+                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "050xxxxxxx", @pattern = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{7})$" } })
                                             @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-6">
@@ -95,7 +95,24 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                
+
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.Currency, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Currency, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Currency" } })
+                                            @Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.BusinessStartTime, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.BusinessStartTime, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Business Start Time" } })
+                                            @Html.ValidationMessageFor(model => model.BusinessStartTime, "", new { @class = "text-danger" })
+                                        </div>
+                                        <input type="hidden" id="business_time" value="@Model.BusinessStartTime" />
+
+                                    </div>
+                                </div>
+                                <div class="row">
+
                                     <div class="form-group">
                                         <div class="col-md-3">
                                             @Html.LabelFor(model => model.IsOperational, htmlAttributes: new { @class = "control-label " })
@@ -110,34 +127,34 @@
                                     </div>
                                 </div>
 
-                                    @*<div class="row">
-                                        <div class="form-group">
-                                            <div class="col-md-2">
-                                                @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label " })
-                                            </div>
-                                            <div class="col-md-1">
-                                                <div class="checkbox">
-                                                    @Html.EditorFor(model => model.Active)
-                                                    @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
+                                @*<div class="row">
+            <div class="form-group">
+                <div class="col-md-2">
+                    @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-1">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Active)
+                        @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <div class="col-md-2">
-                                                @Html.LabelFor(model => model.Deactive, htmlAttributes: new { @class = "control-label " })
-                                            </div>
-                                            <div class="col-md-1">
-                                                <div class="checkbox">
-                                                    @Html.EditorFor(model => model.Deactive)
-                                                    @Html.ValidationMessageFor(model => model.Deactive, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-2">
+                    @Html.LabelFor(model => model.Deactive, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-1">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Deactive)
+                        @Html.ValidationMessageFor(model => model.Deactive, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-                                        </div>
-                                    </div>*@
+            </div>
+        </div>*@
 
 
                             </div>
@@ -152,6 +169,20 @@
         </div>
     }
 </div>
+<script>
+    $(document).ready(function () {
+        var date = $('#business_time').val();
+        if (date !== '12:00:00 AM' && date!=='') {
+            var displayDate = new Date(date);
+            displayDate.setDate(displayDate.getDate()+1);
+            document.getElementById("@Html.IdFor(a=>a.BusinessStartTime)").valueAsDate = displayDate;
+        }else {
+            document.getElementById("@Html.IdFor(a=>a.BusinessStartTime)").valueAsDate = new Date();
+
+        }
+    });
+
+</script>
 <script>
     $("input").on("keypress", function (e) {
         if (e.which === 32 && !this.value.length)

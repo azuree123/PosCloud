@@ -33,6 +33,18 @@ namespace POSApp.Persistence.Repositories
 
             return data;
         }
+
+        public TransMaster GetPurchaseById(int id, int storeId)
+        {
+            var data = _context.TransMasters.Include(a => a.BusinessPartner).Include(a => a.DineTable).Include(a => a.TimedEvent)
+                .Include(a => a.TransDetails).Include(a => a.TransDetails.Select(c => c.Product)).Include(a => a.TransDetails.Select(c => c.ModifierTransDetail))
+                .Include(a => a.TransDetails.Select(c => c.ModifierTransDetail.Select(f => f.ModifierOption)))
+                .Include(a => a.TransMasterPaymentMethods)
+                .FirstOrDefault(x => x.Id == id && x.StoreId == storeId);
+
+
+            return data;
+        }
         public async Task<TransMaster> GetTransMasterAsync(int id, int storeId)
         {
             var data = await _context.TransMasters.Include(a => a.BusinessPartner).Include(a => a.DineTable).Include(a => a.TimedEvent)
@@ -47,7 +59,7 @@ namespace POSApp.Persistence.Repositories
         public IEnumerable<TransMaster> GetTransMasters(int storeId)
         {
             //return _context.PurchaseOrder;
-            return _context.TransMasters.Include(a=>a.BusinessPartner)
+            return _context.TransMasters.Include(a=>a.Store).Include(a=>a.BusinessPartner)
                 .Where(a => a.StoreId == storeId  && !a.IsDisabled);
 
         }
@@ -56,6 +68,13 @@ namespace POSApp.Persistence.Repositories
             
             return _context.TransMasters.Include(a=>a.TransDetails)
                 .Where(a => a.StoreId == storeId && a.Type == "INV" && !a.Issued && !a.IsDisabled);
+
+        }
+        public IEnumerable<TransMaster> GetPurchaseInvoices(int storeId)
+        {
+
+            return _context.TransMasters.Include(a => a.TransDetails)
+                .Where(a => a.StoreId == storeId && a.Type == "PRO" && !a.Issued && !a.IsDisabled);
 
         }
         public async Task<IEnumerable<TransMaster>> GetTransMastersAsync(int storeId)
@@ -159,6 +178,12 @@ namespace POSApp.Persistence.Repositories
             salesViewModel.TransMaster.TransMasterPaymentMethods =
                 _context.TransMasterPaymentMethods.Where(a => a.TransMasterId == id).ToList();
             return salesViewModel;
+        }
+        public void UpdateTransMaster(int id, int storeid, TransMaster transMaster)
+        {
+            transMaster.StoreId = storeid;
+            _context.TransMasters.Attach(transMaster);
+            _context.Entry(transMaster).State = EntityState.Modified;
         }
 
     }

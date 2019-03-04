@@ -1,0 +1,159 @@
+﻿
+@model IEnumerable<SelectListItem>
+
+@{
+    Layout = null;
+}
+
+@*<div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">*@
+
+
+@using (Ajax.BeginForm("AddOtherInItem", "PurchaseOrders", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "AjaxUpdate",
+    OnSuccess = "ChangeTableFill();"
+}, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @*<div class="modal-dialog modal-block-md">
+        <div class="modal-content ">
+            <div class="modal-header modalheader">
+
+                <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+
+                <h4 class="modal-title">
+                    Add Item
+                </h4>
+
+
+
+            </div>
+            <div class="modal-body">*@
+    <div class="panel panel-bd lobidrag">
+        <div class="panel-body">
+            <div class="">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+
+
+                    <div class="col-md-2 ">
+                        <div class="form-group">
+                            <label class="control-label">
+                                Inventory Item
+                            </label>
+
+                            <select name="productId" id="productDdl" required="" class="form-control populate selectddl" autofocus style="width:100%">
+                                @*<optgroup label="Choose Items">*@
+                                <option value="">Select an Option</option>
+
+                                @foreach (var data in Model)
+                                {
+                                    <option value="@data.Value">@data.Text</option>
+
+                                }
+                                @*</optgroup>*@
+
+
+
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">
+                                Quantity (Purchase)
+                            </label>
+                            <div class="input-group">
+                                <input class="form-control" id="quty" type="number" min="1" required="" name="purchaseQuantity" placeholder="Purchase" />
+
+                                <span class="input-group-addon" style="   ">
+                                    <span id="disQty" class="input-group-text">-</span>
+                                </span>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2 ">
+                        <div class="form-group">
+                            <label class="control-label">
+                                Quantity (Storage)
+                            </label>
+                            <div class="input-group">
+                                <input class="form-control" id="quty1" type="number" min="1" required="" name="storageQuantity" placeholder="Storage" />
+
+                                <span class="input-group-addon" style="   ">
+                                    <span id="disQty1" class="input-group-text">-</span>
+                                </span>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2 ">
+                        <div class="form-group">
+                            <label class="control-label">
+                                Quantity (Ingredient)
+                            </label>
+                            <div class="input-group">
+                                <input class="form-control" id="quty2" type="number" min="1" required="" name="ingredientQuantity" placeholder="Ingredient" />
+
+                                <span class="input-group-addon" style="   ">
+                                    <span id="disQty2" class="input-group-text">-</span>
+                                </span>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2 ">
+                        <div class="form-group">
+                            <label class="control-label">
+                                Cost
+                            </label>
+                            <input type="number" class="form-control" id="price" min="1" name="cost" placeholder="Enter Cost" Required="" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 " style="margin-top: 25px">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default btn-sm btnPro"><span class="glyphicon glyphicon-plus"></span></button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+    @*</div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-lg btnPro">Save</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>*@
+}
+@*</div>*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

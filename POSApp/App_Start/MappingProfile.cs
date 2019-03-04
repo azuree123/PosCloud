@@ -63,11 +63,19 @@ namespace POSApp
             CreateMap<TransMaster, TransMasterViewModel>().ForMember(d => d.TransDate, o => o.MapFrom(g => g.TransDate.ToString("yyyy-MMM-dd ddd")))
                 .ForMember(d => d.TransTime, o => o.MapFrom(g => g.TransDate.ToShortTimeString()))
                 .ForMember(d => d.PaymentMethod, o => o.MapFrom(g =>string.Join(",", g.TransMasterPaymentMethods.Select(a => a.Method + " (" + a.Amount + ")")) ))
-                .ForMember(d => d.BusinessPartnerName, o => o.MapFrom(g => g.BusinessPartner.Name));
+                .ForMember(d => d.BusinessPartnerName, o => o.MapFrom(g => g.BusinessPartner.Name))
+                .ForMember(k => k.FromStoreName, j => j.MapFrom(l => l.Store.Name));
             CreateMap<TransDetail, TransDetailViewModel>()
-                .ForMember(d => d.Modifiers, o => o.MapFrom(g => string.Join(",",g.ModifierTransDetail.Select(a=>a.ModifierOption.Name+" ("+a.UnitPrice+") x "+a.Quantity))))
-                .ForMember(d => d.ModifiersPrice, o => o.MapFrom(g => g.ModifierTransDetail.Sum(a =>a.UnitPrice*a.Quantity)))
-                .ForMember(d => d.ProductName, o => o.MapFrom(g => g.Product.Name));
+                .ForMember(d => d.Modifiers,
+                    o => o.MapFrom(g => string.Join(",",
+                        g.ModifierTransDetail.Select(a =>
+                            a.ModifierOption.Name + " (" + a.UnitPrice + ") x " + a.Quantity))))
+                .ForMember(d => d.ModifiersPrice,
+                    o => o.MapFrom(g => g.ModifierTransDetail.Sum(a => a.UnitPrice * a.Quantity)))
+                .ForMember(d => d.ProductName, o => o.MapFrom(g => g.Product.Name))
+                .ForMember(f => f.UnitName, h => h.MapFrom(i => i.Product.PurchaseUnit));
+                
+                
             CreateMap<TransMasterViewModel, TransMaster>();
             CreateMap<TransDetailViewModel, TransDetail>();
             CreateMap<ModifierViewModel, Modifier>();
@@ -93,6 +101,8 @@ namespace POSApp
             CreateMap<ProductCategory, ProductCategoryDdlViewModel>();
             CreateMap<ProductDdlViewModel, Product>();
             CreateMap<Product, ProductDdlViewModel>();
+            CreateMap<PurchasingDdlViewModel, TransMaster>();
+            CreateMap<TransMaster, PurchasingDdlViewModel>();
             CreateMap<UserViewModel, ApplicationUser>().ForMember(d => d.UserName, o => o.MapFrom(g => g.Name));
             CreateMap<ApplicationUser, UserViewModel>().ForMember(d => d.Name, o => o.MapFrom(g => g.UserName));
 
