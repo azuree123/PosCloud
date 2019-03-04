@@ -3461,10 +3461,6 @@
     <Folder Include="Core\Dtos\" />
     <Folder Include="Images\Data\Product\" />
     <Folder Include="Images\Data\Service\" />
-    <Folder Include="Views\Product\" />
-    <Folder Include="Views\Roles\" />
-    <Folder Include="Views\Sales\" />
-    <Folder Include="Views\TransMasterPaymentMethod\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

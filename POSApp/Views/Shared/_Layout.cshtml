@@ -11,8 +11,8 @@
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
 
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/datatables")
+    @Scripts.Render("~/bundles/modernizr")
 
 
 </head>
@@ -173,36 +173,7 @@
                                                         <i class="fa fa-user-secret" aria-hidden="true"></i>
                                                         <span>User Management</span>
                                                     </a>
-                                                    @*<ul class="nav nav-children ">
-                        <li>
-                            <a href="~/user/create">
-                                Add New User
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="~/user">
-                                Edit a User
-                            </a>
-                        </li>
-                        <li>
-                            <a href="~/user">
-                                Users Listing
-                            </a>
-                        </li>
-                        <li>
-                            <a href="~/user">
-                                Change Password
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Users Settings
-                            </a>
-                        </li>
-
-
-                    </ul>*@
+                      
                                                 </li>
 
                                                 <li>
@@ -272,7 +243,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/vendor")
     @Scripts.Render("~/bundles/datatables")
-    @*@Scripts.Render("~/bundles/js")*@
 
     @RenderSection("scripts", required: false)
     @section scripts
