@@ -92,6 +92,15 @@ namespace POSApp.Controllers
             ViewBag.branches = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem{Text = a.Name,Value = a.Id.ToString()});
             return View();
         }
+        public ActionResult GenerateEmployeeReport(string target)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ViewBag.edit = target;
+            ViewBag.branches = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            ViewBag.designations = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            return View();
+        }
         [HttpPost]
         public ActionResult GenerateProductSaleReport(DateTime dateFrom,DateTime dateTo,int branchId)
         {
@@ -502,9 +511,38 @@ namespace POSApp.Controllers
             return RedirectToAction("MyReports");
         }
         [HttpPost]
-        public ActionResult GenerateAgentIncomeReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        public ActionResult GenerateAgentIncomeReport(int branchId,int designationId)
         {
-            return View();
+            try
+            {
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                string details = "BranchID: " + branchId.ToString() + "- DesignationId: " + designationId.ToString();
+                ExcelService.GenerateEmployeeCrystalReport(_unitOfWork.ReportsRepository.GenerateEmployeeIncomeData((int)user.StoreId, designationId),
+                    "AgentIncomeReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId,details, Server.MapPath("~/Reports"), "AgentIncomeReport.rpt");
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateCashierIncomeReport(DateTime dateFrom, DateTime dateTo, int branchId)

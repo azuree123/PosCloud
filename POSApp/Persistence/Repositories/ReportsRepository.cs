@@ -33,6 +33,20 @@ namespace POSApp.Persistence.Repositories
             var data= _context.Database.SqlQuery<ProductSalesReportViewModel>(sql, parameters.ToArray()).ToList();
             return data;
         }
+        public List<AgentIncomeReportViewModel> GenerateEmployeeIncomeData(int storeId, int designationId)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", designationId) };
+            var sql = @"select a.Name as Employee,SUM(a.Salary) as Salary,SUM(a.Commission) as Commission,SUM(a.Salary+a.Commission)as Income 
+            
+			from PosCloud.Employees as a 
+            
+			inner join PosCloud.Stores as d on a.StoreId=d.Id
+            where a.StoreId = @p1 and a.DesignationId = @p2
+            group by a.Name
+                ";
+            var data = _context.Database.SqlQuery<AgentIncomeReportViewModel>(sql, parameters.ToArray()).ToList();
+            return data;
+        }
         public decimal GetProductSalesDiscount(int storeId, DateTime dateFrom, DateTime dateTo)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
@@ -148,7 +162,7 @@ namespace POSApp.Persistence.Repositories
 			from PosCloud.TransMaster as a 
             inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
-            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 
+            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 and Type= 'INV'
             group by a.TransCode,a.TransCode,a.TransDate,a.Discount,a.Tax
             
                 ";
@@ -250,9 +264,9 @@ namespace POSApp.Persistence.Repositories
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId) };
             var sql = @"SELECT t.Id, t.IngredientCode, t.Quantity, t.ExpiryDate,t1.Name AS ProductName, t2.Name AS IngredientName,t.Calories , t3.Name as Unit
                          FROM  PosCloud.Recipes AS t INNER JOIN
-                         PosCloud.Products AS t1 ON t1.ProductCode = t.ProductCode INNER JOIN
-                         PosCloud.Products AS t2 ON t2.ProductCode = t.IngredientCode INNER JOIN
-                         PosCloud.Units AS t3 ON t.UnitId = t3.Id AND t.StoreId = t3.StoreId
+                         PosCloud.Products AS t1 ON t1.ProductCode = t.ProductCode AND t1.StoreId = t.StoreId  INNER JOIN
+                         PosCloud.Products AS t2 ON t2.ProductCode = t.IngredientCode AND t2.StoreId = t.StoreId  INNER JOIN
+                         PosCloud.Units AS t3 ON t1.UnitId = t3.Id AND t1.StoreId = t3.StoreId 
 			             where t.StoreId=@p1;";
 
             return _context.Database.SqlQuery<RecipeReportViewModel>(sql, parameters.ToArray()).ToList();

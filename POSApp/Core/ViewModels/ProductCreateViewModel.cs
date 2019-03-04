@@ -19,7 +19,8 @@ namespace POSApp.Core.ViewModels
         [DisplayName("Description")]
         public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
         public string Size { get; set; }//MED, SML, LRG,XRG, Child,
-        [DisplayName("Tax")]
+        [DisplayName("VAT")]
+
         public int? TaxId { get; set; }
         public bool IsTaxable { get; set; }
 
@@ -63,7 +64,7 @@ namespace POSApp.Core.ViewModels
         public string ProductCode { get; set; }
         public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
         public string Size { get; set; }//MED, SML, LRG,XRG, Child,
-        [DisplayName("Tax")]
+        [DisplayName("VAT")]
         public int? TaxId { get; set; }
         public bool IsTaxable { get; set; }
 
@@ -107,7 +108,7 @@ namespace POSApp.Core.ViewModels
         public string Attribute { get; set; }//Black, Grey, Tan or Right, Left, Tikka or Fajeeta etc
         [DisplayName("Size")]
         public string Size { get; set; }//MED, SML, LRG,XRG, Child,
-        [DisplayName("Tax")]
+        [DisplayName("VAT")]
         public int? TaxId { get; set; }
         public bool IsTaxable { get; set; }
 
@@ -153,7 +154,7 @@ namespace POSApp.Core.ViewModels
         public bool InventoryItem { get; set; }
         public bool PurchaseItem { get; set; }
         public bool FixedAssetItem { get; set; }
-        [DisplayName("Tax")]
+        [DisplayName("VAT")]
         public int? TaxId { get; set; }
         public bool IsTaxable { get; set; }
 

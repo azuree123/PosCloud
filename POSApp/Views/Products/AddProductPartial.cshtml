@@ -177,7 +177,7 @@
                                         </div>
 
                                         <div class="col-md-2">
-                                            @Html.Label("Is Taxable?", htmlAttributes: new { @class = "control-label" })
+                                            @Html.Label("Is VAT Applicable?", htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "" } })
                                             @Html.ValidationMessageFor(model => model.IsTaxable, "", new { @class = "text-danger" })
                                         </div>

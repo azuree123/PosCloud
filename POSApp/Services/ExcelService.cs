@@ -38,6 +38,31 @@ namespace POSApp.Services
             });
             unitOfWork.Complete();
         }
+
+        public static void GenerateEmployeeCrystalReport<T>(List<T> dtList, string reportName, string userId, IUnitOfWork unitOfWork, int storeId, string details, string crystalReportPath, string crystalReportName)
+        {
+            string filePath = HttpContext.Current.Server.MapPath("~/Content/Reports/");
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            string fileName = reportName + "_" + userId + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".PDF";
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(crystalReportPath, crystalReportName));
+            rd.SetDataSource(dtList);
+            rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
+            unitOfWork.ReportsLogRepository.AddReportsLog(new ReportsLog
+            {
+                Name = reportName,
+                Path = fileName,
+                Status = "Ready",
+                Details = details,
+                StoreId = storeId
+
+            });
+            unitOfWork.Complete();
+        }
         public static void GenerateExcelSheet(DataTable dtList,string reportName,string filePath,string userId,IUnitOfWork unitOfWork,int storeId,string details)
         {
             string fileName = reportName + "_" + userId + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".PDF";

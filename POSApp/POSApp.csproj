@@ -468,6 +468,7 @@
     <Compile Include="Core\ViewModels\DesignationViewModel.cs" />
     <Compile Include="Core\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Core\ViewModels\DineTableReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\AgentIncomeReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ModifierLinkProductViewModel.cs" />
     <Compile Include="Core\ViewModels\ModifierReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ModifierTransDetailViewModel.cs" />
@@ -733,6 +734,12 @@
     <Compile Include="Persistence\Repositories\WarehouseRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\AgentIncomeReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AgentIncomeReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\BranchTimelySale.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -3454,6 +3461,7 @@
     <Content Include="Views\PurchaseOrders\AddDamage.cshtml" />
     <Content Include="Views\PurchaseOrders\AddDamageItem.cshtml" />
     <Content Include="Views\PurchaseOrders\GenerateDamageReceipt.cshtml" />
+    <Content Include="Views\Reports\GenerateEmployeeReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3535,6 +3543,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903011304514_bhy.resx">
       <DependentUpon>201903011304514_bhy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\AgentIncomeReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>AgentIncomeReport.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BranchTimelySale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

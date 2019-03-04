@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace POSApp.Core.ViewModels
 {
@@ -10,6 +11,7 @@ namespace POSApp.Core.ViewModels
        
         public string ArabicName { get; set; }
         public byte[] Image { get; set; }
+        [DisplayName("Group")]
         public string Type { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
