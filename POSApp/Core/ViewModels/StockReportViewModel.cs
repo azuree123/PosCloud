@@ -8,6 +8,7 @@ namespace POSApp.Core.ViewModels
     public class StockReportViewModel
     {
         public string ProductCode { get; set; }
+        public string BranchName { get; set; }
         public string Name { get; set; }
         public double Stock { get; set; }
         public decimal Sale { get; set; }

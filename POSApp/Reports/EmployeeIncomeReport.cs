@@ -16,14 +16,14 @@ namespace POSApp.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class AgentIncomeReport : ReportClass {
+    public class EmployeeIncomeReport : ReportClass {
         
-        public AgentIncomeReport() {
+        public EmployeeIncomeReport() {
         }
         
         public override string ResourceName {
             get {
-                return "AgentIncomeReport.rpt";
+                return "EmployeeIncomeReport.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace POSApp.Reports {
         
         public override string FullResourceName {
             get {
-                return "POSApp.Reports.AgentIncomeReport.rpt";
+                return "POSApp.Reports.EmployeeIncomeReport.rpt";
             }
             set {
                 // Do nothing
@@ -106,9 +106,9 @@ namespace POSApp.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedAgentIncomeReport : Component, ICachedReport {
+    public class CachedEmployeeIncomeReport : Component, ICachedReport {
         
-        public CachedAgentIncomeReport() {
+        public CachedEmployeeIncomeReport() {
         }
         
         [Browsable(false)]
@@ -145,7 +145,7 @@ namespace POSApp.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            AgentIncomeReport rpt = new AgentIncomeReport();
+            EmployeeIncomeReport rpt = new EmployeeIncomeReport();
             rpt.Site = this.Site;
             return rpt;
         }

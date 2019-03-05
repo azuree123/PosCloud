@@ -88,8 +88,12 @@ namespace POSApp.Controllers
         }
         public ActionResult GenerateReport(string target)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = target;
-            ViewBag.branches = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem{Text = a.Name,Value = a.Id.ToString()});
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            ViewBag.branches = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             return View();
         }
         public ActionResult GenerateEmployeeReport(string target)
@@ -97,7 +101,9 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = target;
-            ViewBag.branches = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            ViewBag.branches = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             ViewBag.designations = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             return View();
         }
@@ -520,8 +526,8 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 string details = "BranchID: " + branchId.ToString() + "- DesignationId: " + designationId.ToString();
                 ExcelService.GenerateEmployeeCrystalReport(_unitOfWork.ReportsRepository.GenerateEmployeeIncomeData((int)user.StoreId, designationId),
-                    "AgentIncomeReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId,details, Server.MapPath("~/Reports"), "AgentIncomeReport.rpt");
+                    "EmployeeIncomeReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId,details, Server.MapPath("~/Reports"), "EmployeeIncomeReport.rpt");
             }
             catch (Exception e)
             {

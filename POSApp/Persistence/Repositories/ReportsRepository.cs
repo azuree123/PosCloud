@@ -36,13 +36,13 @@ namespace POSApp.Persistence.Repositories
         public List<AgentIncomeReportViewModel> GenerateEmployeeIncomeData(int storeId, int designationId)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", designationId) };
-            var sql = @"select a.Name as Employee,SUM(a.Salary) as Salary,SUM(a.Commission) as Commission,SUM(a.Salary+a.Commission)as Income 
+            var sql = @"select a.Name as Name,c.Name as Designation,SUM(a.Salary) as Salary,SUM(a.Commission) as Commission,SUM(a.Salary+a.Commission)as Income 
             
 			from PosCloud.Employees as a 
-            
+            inner join PosCloud.Designations as c on a.DesignationId  = c.Id
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
             where a.StoreId = @p1 and a.DesignationId = @p2
-            group by a.Name
+            group by a.Name,c.Name
                 ";
             var data = _context.Database.SqlQuery<AgentIncomeReportViewModel>(sql, parameters.ToArray()).ToList();
             return data;
@@ -157,13 +157,15 @@ namespace POSApp.Persistence.Repositories
         public List<SalesReportViewModel> GenerateSalesData(int storeId, DateTime dateFrom, DateTime dateTo)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
-            var sql = @"select a.TransCode as InvoiceNumber,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount,a.TransDate as Date 
+            var sql = @"select d.Name as BranchName,a.TransCode as InvoiceNumber,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount,a.TransDate as Date 
             ,a.Discount as Discount,a.Tax as Tax
 			from PosCloud.TransMaster as a 
             inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
             where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 and Type= 'INV'
-            group by a.TransCode,a.TransCode,a.TransDate,a.Discount,a.Tax
+            group by d.Name,a.TransCode,a.TransCode,a.TransDate,a.Discount,a.Tax
+            
+            
             
                 ";
 

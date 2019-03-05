@@ -8,6 +8,7 @@ namespace POSApp.Core.ViewModels
     public class SalesReportViewModel
     {
         public string InvoiceNumber { get; set; }
+        public string BranchName { get; set; }
         public decimal Qty { get; set; }
         public decimal Amount { get; set; }
         public decimal Discount { get; set; }

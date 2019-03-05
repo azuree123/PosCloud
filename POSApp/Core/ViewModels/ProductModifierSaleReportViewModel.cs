@@ -9,6 +9,7 @@ namespace POSApp.Core.ViewModels
     {
         public string ModifierName { get; set; }
         public string ModifierOption { get; set; }
+        public string BranchName { get; set; }
         public string ProductName { get; set; }
         public decimal Qty { get; set; }
         public decimal Discount { get; set; }

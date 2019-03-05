@@ -459,6 +459,8 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+            po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+
             GeneratePurchaseOrderViewModel temp = new GeneratePurchaseOrderViewModel();
             po.Type = "PRI";
             if (!ModelState.IsValid)
@@ -548,9 +550,10 @@ namespace POSApp.Controllers
 
                 PoHelper.EmptyTemptTransDetail(user.Id, (int)user.StoreId);
             }
-            TransMasterViewModel transMasterVm =
-                Mapper.Map<TransMasterViewModel>(_unitOfWork.TransMasterRepository.GetTransMaster(id, (int)user.StoreId));
-            foreach (var modifierVmModifierOptionViewModel in transMasterVm.TransDetailViewModels)
+
+            productVm.TransDetailViewModels = _unitOfWork.TransDetailRepository
+                .GetTransDetails(id, Convert.ToInt32(user.StoreId)).ToList();
+            foreach (var modifierVmModifierOptionViewModel in productVm.TransDetailViewModels)
             {
                 PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode,modifierVmModifierOptionViewModel.StoreId),modifierVmModifierOptionViewModel.Quantity,modifierVmModifierOptionViewModel.UnitPrice,userid);
             }
@@ -561,11 +564,13 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult UpdatePurchasing(int id, TransMasterViewModel purchasingVm)
         {
-           
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            purchasingVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+
             try
             {
-                var userid = User.Identity.GetUserId();
-                var user = UserManager.FindById(userid);
+                
                 if (!ModelState.IsValid)
                 {
                     var message = string.Join(" | ", ModelState.Values
@@ -579,15 +584,20 @@ namespace POSApp.Controllers
 
                 {
                     TransMaster transMaster = Mapper.Map<TransMaster>(purchasingVm);
-
-                    purchasingVm.StoreId = (int)user.StoreId;
-                    _unitOfWork.TransMasterRepository.UpdateTransMaster(id, transMaster.StoreId, transMaster);
+                    
+                    _unitOfWork.TransMasterRepository.UpdateTransMaster(id, Convert.ToInt32(user.StoreId),transMaster);
                     _unitOfWork.Complete();
-                    _unitOfWork.TransDetailRepository.DeleteTransDetail(transMaster.Id, transMaster.StoreId);
-                    foreach (var modifierOptionViewModel in PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid))
+                    List<TransDetailViewModel> products = _unitOfWork.TransDetailRepository.GetTransDetails(transMaster.Id,transMaster.StoreId).ToList();
+                    foreach (var productsSub in products)
                     {
-                        modifierOptionViewModel.Id = transMaster.Id;
-                        _unitOfWork.TransDetailRepository.AddTransDetail(Mapper.Map<TransDetail>(modifierOptionViewModel));
+                        _unitOfWork.TransDetailRepository.DeleteTransDetail(productsSub.Id, productsSub.StoreId);
+                    }
+                    foreach (var productSubViewModel in PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid))
+                    {
+                        productSubViewModel.StoreId = transMaster.StoreId;
+                        productSubViewModel.Id = transMaster.Id;
+                        _unitOfWork.TransDetailRepository.AddTransDetail(Mapper.Map<TransDetail>(productSubViewModel));
+
                     }
                     _unitOfWork.Complete();
                     

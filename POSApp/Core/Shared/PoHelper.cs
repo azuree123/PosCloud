@@ -56,6 +56,40 @@ namespace POSApp.Core.Shared
             }
         }
 
+        //public static List<ProductSubViewModel> TempComboOptions;
+        //public static void AddToTempComboOptions(ProductSubViewModel ComboOptionViewModel, string userId)
+        //{
 
+        //    ProductSubViewModel checkTrans = TempComboOptions
+        //        .Where(a => a.ProductCode == ComboOptionViewModel.ProductCode && a.CreatedBy == userId).ToList()
+        //        .FirstOrDefault();
+        //    ComboOptionViewModel.CreatedBy = userId;
+        //    if (checkTrans != null)
+        //    {
+        //        TempComboOptions.Remove(checkTrans);
+        //        TempComboOptions.Add(ComboOptionViewModel);
+        //    }
+        //    else
+        //    {
+        //        ProductSubViewModel transDetail = ComboOptionViewModel;
+        //        TempComboOptions.Add(transDetail);
+        //    }
+
+        //}
+        //public static void RemoveFromTempComboOptions(string product, int storeId, string userId)
+        //{
+        //    ProductSubViewModel transDetail = TempComboOptions
+        //        .Where(a => a.ProductCode == product && a.CreatedBy == userId && a.StoreId == storeId).ToList().FirstOrDefault();
+        //    TempComboOptions.Remove(transDetail);
+        //}
+        //public static void EmptyTempComboOptions(string userId, int storeId)
+        //{
+        //    List<ProductSubViewModel> transDetail = TempComboOptions
+        //        .Where(a => a.CreatedBy == userId && a.StoreId == storeId).ToList().ToList();
+        //    foreach (var transDetailViewModel in transDetail)
+        //    {
+        //        TempComboOptions.Remove(transDetailViewModel);
+        //    }
+        //}
     }
 }

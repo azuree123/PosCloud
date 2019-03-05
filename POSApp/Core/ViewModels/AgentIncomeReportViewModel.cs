@@ -7,7 +7,9 @@ namespace POSApp.Core.ViewModels
 {
     public class AgentIncomeReportViewModel
     {
-        public string EmployeeName { get; set; }
+        public string Name { get; set; }
+
+        public string BranchName { get; set; }
         public string Designation { get; set; }
         public double Income { get; set; }
         public double Salary { get; set; }

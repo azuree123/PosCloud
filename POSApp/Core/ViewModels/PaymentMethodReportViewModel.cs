@@ -8,6 +8,7 @@ namespace POSApp.Core.ViewModels
     public class PaymentMethodReportViewModel
     {
         public string PaymentMethod { get; set; }
+        public string BranchName { get; set; }
         public string InvoiceNumber { get; set; }
         public DateTime DateTime { get; set; }
         public decimal Discount { get; set; }

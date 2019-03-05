@@ -8,6 +8,7 @@ namespace POSApp.Core.ViewModels
     public class ModifierReportViewModel
     {
         public string ModifierName { get; set; }
+        public string BranchName { get; set; }
         public string ModifierOption { get; set; }
         public string ProductName { get; set; }
         public decimal Qty { get; set; }
