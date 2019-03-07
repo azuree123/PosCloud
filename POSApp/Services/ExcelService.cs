@@ -14,7 +14,7 @@ namespace POSApp.Services
 {
     public static class ExcelService
     {
-        public static void GenerateCrystalReport<T>(List<T> dtList, string reportName, string userId, IUnitOfWork unitOfWork, int storeId, string details, string crystalReportPath,string crystalReportName)
+        public static int GenerateCrystalReport<T>(List<T> dtList, string reportName, string userId, IUnitOfWork unitOfWork, int storeId, string details, string crystalReportPath,string crystalReportName)
         {
             string filePath = HttpContext.Current.Server.MapPath("~/Content/Reports/");
             if (!Directory.Exists(filePath))
@@ -26,8 +26,12 @@ namespace POSApp.Services
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(crystalReportPath, crystalReportName));
             rd.SetDataSource(dtList);
+            foreach (ReportDocument reportDocument in rd.Subreports)
+            {
+                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(details, reportName));
+            }
             rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
-            unitOfWork.ReportsLogRepository.AddReportsLog(new ReportsLog
+            var report = new ReportsLog
             {
                 Name = reportName,
                 Path = fileName,
@@ -35,11 +39,13 @@ namespace POSApp.Services
                 Details = details,
                 StoreId = storeId
 
-            });
+            };
+            unitOfWork.ReportsLogRepository.AddReportsLog(report);
             unitOfWork.Complete();
+            return report.Id; 
         }
 
-        public static void GenerateEmployeeCrystalReport<T>(List<T> dtList, string reportName, string userId, IUnitOfWork unitOfWork, int storeId, string details, string crystalReportPath, string crystalReportName)
+        public static int GenerateEmployeeCrystalReport<T>(List<T> dtList, string reportName, string userId, IUnitOfWork unitOfWork, int storeId, string details, string crystalReportPath, string crystalReportName)
         {
             string filePath = HttpContext.Current.Server.MapPath("~/Content/Reports/");
             if (!Directory.Exists(filePath))
@@ -50,9 +56,13 @@ namespace POSApp.Services
             string fileName = reportName + "_" + userId + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".PDF";
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(crystalReportPath, crystalReportName));
+            foreach (ReportDocument reportDocument in rd.Subreports)
+            {
+                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(details, reportName));
+            }
             rd.SetDataSource(dtList);
             rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
-            unitOfWork.ReportsLogRepository.AddReportsLog(new ReportsLog
+            var report = new ReportsLog
             {
                 Name = reportName,
                 Path = fileName,
@@ -60,8 +70,10 @@ namespace POSApp.Services
                 Details = details,
                 StoreId = storeId
 
-            });
+            };
+            unitOfWork.ReportsLogRepository.AddReportsLog(report);
             unitOfWork.Complete();
+            return report.Id;
         }
         public static void GenerateExcelSheet(DataTable dtList,string reportName,string filePath,string userId,IUnitOfWork unitOfWork,int storeId,string details)
         {

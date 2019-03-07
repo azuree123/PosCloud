@@ -84,6 +84,8 @@
                                 <td>@purchaseOrder.Type</td>
                                 <td>
                                     @Html.ActionLink(" ", "PreviewPurchaseOrder", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
+                                    @Html.ActionLink(" ", "GetPurchaseOrder", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-plus  ", data_toggle = "tooltip", title = "Add Purchasing !" })
+
                                 </td>
                             </tr>
                         }

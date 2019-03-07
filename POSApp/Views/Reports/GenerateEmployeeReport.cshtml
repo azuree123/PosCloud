@@ -39,7 +39,7 @@
                                             <option value="0">Select an option</option>
                                             @foreach (var opt in ViewBag.designations)
                                             {
-                                                <option value="@opt.Value">@opt.Text</option>
+                                                <option value="@opt.Value" selected="@opt.Selected">@opt.Text</option>
 
                                             }
 

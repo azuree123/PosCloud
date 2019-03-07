@@ -474,6 +474,7 @@
     <Compile Include="Core\ViewModels\ModifierTransDetailViewModel.cs" />
     <Compile Include="Core\ViewModels\OrderTypeSaleReportViewModel.cs" />
     <Compile Include="Core\ViewModels\PaymentMethodReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\PaymentMethodTimelySaleViewModel.cs" />
     <Compile Include="Core\ViewModels\POSTerminalViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductCostReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductModifierSaleReportViewModel.cs" />
@@ -492,6 +493,7 @@
     <Compile Include="Core\ViewModels\ShiftViewModel.cs" />
     <Compile Include="Core\ViewModels\SizeViewModel.cs" />
     <Compile Include="Core\ViewModels\StockReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\SubReportViewModel.cs" />
     <Compile Include="Core\ViewModels\TillOperationViewModel.cs" />
     <Compile Include="Core\ViewModels\TransMasterPaymentMethodViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
@@ -770,6 +772,12 @@
       <DependentUpon>CustomerSale.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\Header.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Header.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\ModifierSale.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -780,6 +788,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OrderTypeWiseSale.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\PaymentMethodTimeWiseSale.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PaymentMethodTimeWiseSale.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\PaymentMethodWiseSale.cs">
@@ -3544,78 +3558,86 @@
     <EmbeddedResource Include="Migrations\201903011304514_bhy.resx">
       <DependentUpon>201903011304514_bhy.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\EmployeeIncomeReport.rpt">
+    <Content Include="Reports\EmployeeIncomeReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>EmployeeIncomeReport.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BranchTimelySale.rpt">
+    </Content>
+    <Content Include="Reports\BranchTimelySale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BranchTimelySale.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BranchWiseSale.rpt">
+    </Content>
+    <Content Include="Reports\BranchWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BranchWiseSale.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\CategoriesSales.rpt">
+    </Content>
+    <Content Include="Reports\CategoriesSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CategoriesSales.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ComboSale.rpt">
+    </Content>
+    <Content Include="Reports\ComboSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ComboSale.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\CustomerSale.rpt">
+    </Content>
+    <Content Include="Reports\CustomerSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CustomerSale.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ModifierSale.rpt">
+    </Content>
+    <Content Include="Reports\ModifierSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ModifierSale.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\OrderTypeWiseSale.rpt">
+    </Content>
+    <Content Include="Reports\OrderTypeWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>OrderTypeWiseSale.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\PaymentMethodWiseSale.rpt">
+    </Content>
+    <Content Include="Reports\PaymentMethodWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>PaymentMethodWiseSale.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ProductModifierSale.rpt">
+    </Content>
+    <Content Include="Reports\ProductModifierSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductModifierSale.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ProductRecipe.rpt">
+    </Content>
+    <Content Include="Reports\ProductRecipe.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductRecipe.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ProductSales.rpt">
+    </Content>
+    <Content Include="Reports\ProductSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductSales.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ProductSizeOrderTypeSales.rpt">
+    </Content>
+    <Content Include="Reports\ProductSizeOrderTypeSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductSizeOrderTypeSales.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ProductSizeWiseSales.rpt">
+    </Content>
+    <Content Include="Reports\ProductSizeWiseSales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductSizeWiseSales.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ProductTimelySale.rpt">
+    </Content>
+    <Content Include="Reports\ProductTimelySale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductTimelySale.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Sales.rpt">
+    </Content>
+    <Content Include="Reports\Sales.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Sales.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Stock.rpt">
+    </Content>
+    <Content Include="Reports\Stock.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Stock.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\TableWiseSale.rpt">
+    </Content>
+    <Content Include="Reports\TableWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>TableWiseSale.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\PaymentMethodTimeWiseSale.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PaymentMethodTimeWiseSale.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Reports\Header.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Header.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

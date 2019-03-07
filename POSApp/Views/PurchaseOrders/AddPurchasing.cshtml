@@ -122,6 +122,7 @@
                                     <div class="col-md-8 col-lg-offset-2">
                                         <div class="form-group">
                                             <label class="control-label">
+                                                +		$exception	{"Error executing child request for handler 'System.Web.Mvc.HttpHandlerUtil+ServerExecuteHttpHandlerAsyncWrapper'."}	System.Web.HttpException
                                                 Remarks
                                             </label>
                                             @Html.TextAreaFor(a => a.TransRef, new { @rows = "3", @class = "form-control ", @placeholder = "Enter Remarks" })
@@ -417,9 +418,9 @@
                     $('#price').val('');
                 }
             });
-
+      
     </script>
-
+    @Html.Raw(ViewBag.js)
 
 }
 

@@ -38,10 +38,11 @@ namespace POSApp.Controllers
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateSalesData((int)user.StoreId, dateFrom, dateTo),
+                string details = "Period From: " + dateFrom.ToShortDateString() + "To:" + dateTo.ToShortDateString();
+                int logId=ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateSalesData((int)user.StoreId, dateFrom, dateTo),
                     "SalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "Sales.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId,  storeid= (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -80,7 +81,7 @@ namespace POSApp.Controllers
         }
         public ActionResult MyReports()
         {
-            return View(Mapper.Map<ReportLogViewModel[]>(_unitOfWork.ReportsLogRepository.GetReportsLogs(this.HttpContext.User.Identity.GetUserId())));
+            return View(Mapper.Map<ReportLogViewModel[]>(_unitOfWork.ReportsLogRepository.GetReportsLogs(this.HttpContext.User.Identity.GetUserId()).OrderByDescending(a=>a.CreatedOn)));
         }
         public ActionResult MyReportsPreview(int reportId,int storeid)
         {
@@ -92,8 +93,19 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             ViewBag.edit = target;
             var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            if (store.ClientId == null)
+            {
+                ViewBag.branches = new List<SelectListItem>(){new SelectListItem
+                {
+                    Text = store.Name, Value = store.Id.ToString(),Selected = true
+                }};
+
+            }
+            else
+            {
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
             ViewBag.branches = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            }
             return View();
         }
         public ActionResult GenerateEmployeeReport(string target)
@@ -102,8 +114,19 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             ViewBag.edit = target;
             var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
-            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
-            ViewBag.branches = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            if (store.ClientId == null)
+            {
+                ViewBag.branches = new List<SelectListItem>(){new SelectListItem
+                {
+                    Text = store.Name, Value = store.Id.ToString(),Selected = true
+                }};
+
+            }
+            else
+            {
+                var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+                ViewBag.branches = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            }
             ViewBag.designations = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             return View();
         }
@@ -114,7 +137,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period from: " + dateFrom.ToShortDateString() + "To: " + dateTo.ToShortDateString();
                 string filePath = Server.MapPath("~/Content/Reports/");
                 if (!Directory.Exists(filePath))
                 {
@@ -124,10 +147,27 @@ namespace POSApp.Controllers
                 string fileName = "ProductSalesReport" + "_" + this.HttpContext.User.Identity.GetUserId() + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".PDF";
                 ReportDocument rd = new ReportDocument();
                 rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProductSales.rpt"));
+                //rd.Subreports[0].SetDataSource(_unitOfWork.ReportsRepository.GenerateSubReportData(details, "ProductSalesReport"));
+
                 rd.SetDataSource(_unitOfWork.ReportsRepository.GenerateProductSalesData((int)user.StoreId, dateFrom, dateTo));
+                foreach (ReportDocument reportDocument in rd.Subreports)
+                {
+                    reportDocument.SetDataSource(_unitOfWork.ReportsRepository.GenerateSubReportData(details, "ProductSalesReport"));
+                }
                 rd.SetParameterValue("totalDiscount", _unitOfWork.ReportsRepository.GetProductSalesDiscount((int)user.StoreId, dateFrom, dateTo));
                 rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
-                _unitOfWork.ReportsLogRepository.AddReportsLog(new ReportsLog
+                //_unitOfWork.ReportsLogRepository.AddReportsLog(new ReportsLog
+                //{
+                //    Name = "ProductSalesReport",
+                //    Path = fileName,
+                //    Status = "Ready",
+                //    Details = details,
+                //    StoreId = (int)user.StoreId
+
+                //});
+                //_unitOfWork.Complete();
+
+                var report = new ReportsLog
                 {
                     Name = "ProductSalesReport",
                     Path = fileName,
@@ -135,10 +175,10 @@ namespace POSApp.Controllers
                     Details = details,
                     StoreId = (int)user.StoreId
 
-                });
+                };
+                _unitOfWork.ReportsLogRepository.AddReportsLog(report);
                 _unitOfWork.Complete();
-
-
+                return RedirectToAction("MyReportsPreview","Reports",new{ reportId = report.Id,storeId=report.StoreId});
 
             }
             catch (Exception e)
@@ -174,10 +214,10 @@ namespace POSApp.Controllers
            
 
             string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-            ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCategoriesSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCategoriesSalesData((int)user.StoreId, dateFrom, dateTo),
                 "CategoriesSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "CategoriesSales.rpt");
-
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -208,9 +248,10 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-            ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeWiseSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                 "ProductSizeWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductSizeWiseSales.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -242,9 +283,10 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-            ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateComboSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateComboSalesData((int)user.StoreId, dateFrom, dateTo),
                 "ComboSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "ComboSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -276,9 +318,10 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeOrderTypeSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeOrderTypeSalesData((int)user.StoreId, dateFrom, dateTo),
                     "ProductSizeWiseOrderTypeSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductSizeOrderTypeSales.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -310,9 +353,10 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateModifierSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateModifierSalesData((int)user.StoreId, dateFrom, dateTo),
                     "ModifierWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "ModifierSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -344,9 +388,10 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductModifierSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductModifierSalesData((int)user.StoreId, dateFrom, dateTo),
                     "ProductModifierWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductModifierSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -377,10 +422,10 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductTimeWiseSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductTimeWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                     "ProductTimelySaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductTimelySale.rpt");
-
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
 
 
             }
@@ -413,9 +458,10 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateBranchSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateBranchSalesData((int)user.StoreId, dateFrom, dateTo),
                     "BranchSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "BranchWiseSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -446,11 +492,11 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTimelyBranchSalesData((int)user.StoreId, dateFrom, dateTo),
+                string details = "Period From: " + dateFrom.ToShortDateString() + "To:" + dateTo.ToShortDateString();
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTimelyBranchSalesData((int)user.StoreId, dateFrom, dateTo),
                     "BranchTimelySaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "BranchTimelySale.rpt");
-
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
 
 
             }
@@ -491,10 +537,10 @@ namespace POSApp.Controllers
 
 
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTableWiseSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTableWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                     "TableSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "TableWiseSale.rpt");
-
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -525,9 +571,10 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "BranchID: " + branchId.ToString() + "- DesignationId: " + designationId.ToString();
-                ExcelService.GenerateEmployeeCrystalReport(_unitOfWork.ReportsRepository.GenerateEmployeeIncomeData((int)user.StoreId, designationId),
+                int logId = ExcelService.GenerateEmployeeCrystalReport(_unitOfWork.ReportsRepository.GenerateEmployeeIncomeData((int)user.StoreId, designationId),
                     "EmployeeIncomeReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId,details, Server.MapPath("~/Reports"), "EmployeeIncomeReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -574,9 +621,10 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCustomerWiseSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCustomerWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                     "CustomerWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "CustomerSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -608,9 +656,10 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GeneratePaymentMethodWiseSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GeneratePaymentMethodWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                     "PaymentMethodWiseSaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "PaymentMethodWiseSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -636,7 +685,37 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GeneratePaymentMethodTimelySaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            return View();
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GeneratePaymentMethodTimeWiseSalesData((int)user.StoreId, dateFrom, dateTo),
+                    "PaymentMethodTimeWiseSaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "PaymentMethodTimeWiseSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+            return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateOrderTypeSaleReport(DateTime dateFrom, DateTime dateTo, int branchId)
@@ -647,9 +726,10 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductOrderTypeSalesData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductOrderTypeSalesData((int)user.StoreId, dateFrom, dateTo),
                     "OrderTypeSaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "OrderTypeWiseSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -689,9 +769,10 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
                 var data = _unitOfWork.ReportsRepository.GenerateStockData((int) user.StoreId, dateFrom, dateTo);
-                ExcelService.GenerateCrystalReport(data,
+                int logId = ExcelService.GenerateCrystalReport(data,
                     "ProductStockReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "Stock.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {
@@ -773,9 +854,10 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
-                ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductRecipeData((int)user.StoreId, dateFrom, dateTo),
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductRecipeData((int)user.StoreId, dateFrom, dateTo),
                     "ProductRecipeReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductRecipe.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
             {

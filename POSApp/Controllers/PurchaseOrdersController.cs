@@ -649,7 +649,125 @@ namespace POSApp.Controllers
 
         }
         //End Purchasing
+        public ActionResult GetPurchaseOrder(int id)
+        {
 
+            TransMasterViewModel productVm = new TransMasterViewModel();
+            productVm.Type = "PRI";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            TransMasterViewModel temp = Mapper.Map<TransMasterViewModel>(_unitOfWork.TransMasterRepository.GetTransMaster(id, Convert.ToInt32(user.StoreId)));
+            productVm.BusinessPartnerId = temp.BusinessPartnerId;
+            productVm.PriDdl = _unitOfWork.TransMasterRepository.GetPurchaseInvoices((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.TransCode });
+            productVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+
+            if (PoHelper.temptTransDetail == null)
+            {
+                PoHelper.temptTransDetail = new List<TransDetailViewModel>();
+
+            }
+            if (PoHelper.temptTransDetail != null)
+            {
+
+                PoHelper.EmptyTemptTransDetail(user.Id, (int)user.StoreId);
+            }
+
+            productVm.TransDetailViewModels = _unitOfWork.TransDetailRepository
+                .GetTransDetails(id, Convert.ToInt32(user.StoreId)).ToList();
+            foreach (var modifierVmModifierOptionViewModel in productVm.TransDetailViewModels)
+            {
+                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode, modifierVmModifierOptionViewModel.StoreId), modifierVmModifierOptionViewModel.Quantity, modifierVmModifierOptionViewModel.UnitPrice, userid);
+            }
+
+            ViewBag.js = "<script>ChangeTableFill();</script>";
+            return View("AddPurchasing", productVm);
+        }
+        [HttpPost]
+        public ActionResult GetPurchaseOrder(int id, TransMasterViewModel purchasingVm)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            purchasingVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddPurchasing", purchasingVm);
+
+                }
+                else
+
+                {
+                    int TransId = _unitOfWork.AppCountersRepository.GetId("Purchasing");
+                    purchasingVm.TransCode = "PRI-" + "C-" + TransId.ToString() + "-" + user.StoreId;
+                    TransMaster transMaster = Mapper.Map<TransMaster>(purchasingVm);
+
+                    _unitOfWork.TransMasterRepository.AddTransMaster(transMaster);
+                    _unitOfWork.Complete();
+                    foreach (var productSubViewModel in PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid))
+                    {
+                        productSubViewModel.StoreId = transMaster.StoreId;
+                        productSubViewModel.Id = transMaster.Id;
+                        var temp = Mapper.Map<TransDetail>(productSubViewModel);
+                        _unitOfWork.TransDetailRepository.AddTransDetail(temp);
+
+                    }
+                    _unitOfWork.Complete();
+
+
+                    TempData["Alert"] = new AlertModel("The Purchasing updated successfully", AlertType.Success);
+                    return RedirectToAction("PurchasingList", "PurchaseOrders");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return View("AddPurchasing", purchasingVm);
+
+
+
+        }
 
         //Other In
 

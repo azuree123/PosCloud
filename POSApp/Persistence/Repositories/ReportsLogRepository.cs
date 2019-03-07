@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Web;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
