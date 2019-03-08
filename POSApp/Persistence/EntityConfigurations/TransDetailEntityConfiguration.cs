@@ -24,7 +24,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.Quantity).HasColumnType("decimal").IsRequired();
             Property(x => x.Balance).HasColumnType("decimal").IsRequired();
             Property(x => x.Discount).HasColumnType("decimal").IsOptional();
-
+            Property(x => x.Waste).HasColumnType("bit").IsOptional();
             Property(x => x.CreatedOn).IsOptional();
             Property(x => x.UpdatedOn).IsOptional();
             Property(x => x.CreatedById).IsOptional();

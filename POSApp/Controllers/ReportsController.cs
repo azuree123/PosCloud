@@ -38,7 +38,7 @@ namespace POSApp.Controllers
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Period From: " + dateFrom.ToShortDateString() + "To:" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId=ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateSalesData((int)user.StoreId, dateFrom, dateTo),
                     "SalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "Sales.rpt");
@@ -137,7 +137,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Period from: " + dateFrom.ToShortDateString() + "To: " + dateTo.ToShortDateString();
+                string details = "Period from: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 string filePath = Server.MapPath("~/Content/Reports/");
                 if (!Directory.Exists(filePath))
                 {
@@ -213,7 +213,7 @@ namespace POSApp.Controllers
 
            
 
-            string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+            string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCategoriesSalesData((int)user.StoreId, dateFrom, dateTo),
                 "CategoriesSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "CategoriesSales.rpt");
@@ -247,7 +247,7 @@ namespace POSApp.Controllers
 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+            string details = "Period from: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                 "ProductSizeWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductSizeWiseSales.rpt");
@@ -282,7 +282,7 @@ namespace POSApp.Controllers
 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+            string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateComboSalesData((int)user.StoreId, dateFrom, dateTo),
                 "ComboSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                 (int)user.StoreId, details, Server.MapPath("~/Reports"), "ComboSale.rpt");
@@ -317,7 +317,7 @@ namespace POSApp.Controllers
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeOrderTypeSalesData((int)user.StoreId, dateFrom, dateTo),
                     "ProductSizeWiseOrderTypeSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductSizeOrderTypeSales.rpt");
@@ -352,7 +352,7 @@ namespace POSApp.Controllers
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateModifierSalesData((int)user.StoreId, dateFrom, dateTo),
                     "ModifierWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "ModifierSale.rpt");
@@ -387,7 +387,7 @@ namespace POSApp.Controllers
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductModifierSalesData((int)user.StoreId, dateFrom, dateTo),
                     "ProductModifierWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductModifierSale.rpt");
@@ -421,7 +421,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductTimeWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                     "ProductTimelySaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductTimelySale.rpt");
@@ -457,7 +457,7 @@ namespace POSApp.Controllers
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateBranchSalesData((int)user.StoreId, dateFrom, dateTo),
                     "BranchSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "BranchWiseSale.rpt");
@@ -492,7 +492,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Period From: " + dateFrom.ToShortDateString() + "To:" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTimelyBranchSalesData((int)user.StoreId, dateFrom, dateTo),
                     "BranchTimelySaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "BranchTimelySale.rpt");
@@ -536,7 +536,7 @@ namespace POSApp.Controllers
 
 
 
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTableWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                     "TableSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "TableWiseSale.rpt");
@@ -620,7 +620,7 @@ namespace POSApp.Controllers
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCustomerWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                     "CustomerWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "CustomerSale.rpt");
@@ -655,7 +655,7 @@ namespace POSApp.Controllers
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GeneratePaymentMethodWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                     "PaymentMethodWiseSaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "PaymentMethodWiseSale.rpt");
@@ -689,7 +689,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GeneratePaymentMethodTimeWiseSalesData((int)user.StoreId, dateFrom, dateTo),
                     "PaymentMethodTimeWiseSaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "PaymentMethodTimeWiseSale.rpt");
@@ -725,7 +725,7 @@ namespace POSApp.Controllers
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductOrderTypeSalesData((int)user.StoreId, dateFrom, dateTo),
                     "OrderTypeSaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "OrderTypeWiseSale.rpt");
@@ -767,7 +767,7 @@ namespace POSApp.Controllers
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 var data = _unitOfWork.ReportsRepository.GenerateStockData((int) user.StoreId, dateFrom, dateTo);
                 int logId = ExcelService.GenerateCrystalReport(data,
                     "ProductStockReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
@@ -853,7 +853,7 @@ namespace POSApp.Controllers
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductRecipeData((int)user.StoreId, dateFrom, dateTo),
                     "ProductRecipeReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductRecipe.rpt");
@@ -979,7 +979,7 @@ namespace POSApp.Controllers
                 Directory.CreateDirectory(path);
             }
 
-            string details = "Date Range: " + dateFrom.ToShortDateString() + "-" + dateTo.ToShortDateString();
+            string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ExcelService.GenerateExcelSheet(ExcelService.ToDataTable(_unitOfWork.TaxRepository.GetTaxes(branchId)), "TaxReport", path, this.HttpContext.User.Identity.GetUserId(),_unitOfWork,(int)user.StoreId,details);

@@ -580,6 +580,10 @@
     <Compile Include="Migrations\201903011304514_bhy.Designer.cs">
       <DependentUpon>201903011304514_bhy.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903081011500_waste.cs" />
+    <Compile Include="Migrations\201903081011500_waste.Designer.cs">
+      <DependentUpon>201903081011500_waste.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ClientEntityConfiguration.cs" />
@@ -3650,6 +3654,9 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>PaymentMethodTimeWiseSale.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="Migrations\201903081011500_waste.resx">
+      <DependentUpon>201903081011500_waste.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\Header.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Header.cs</LastGenOutput>
