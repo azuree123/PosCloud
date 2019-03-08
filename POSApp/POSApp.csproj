@@ -336,6 +336,7 @@
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PointOfSaleController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -376,6 +377,7 @@
     <Compile Include="Controllers\WebApi\TillOperationsController.cs" />
     <Compile Include="Controllers\WebApi\TimedEventsController.cs" />
     <Compile Include="Controllers\WebApi\UnitsController.cs" />
+    <Compile Include="Core\Dtos\PointOfSale.cs" />
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\DiscountType.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
@@ -2425,6 +2427,13 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="login.html" />
+    <Content Include="Pos\6988655f95602f9394f9315165f920fe.png" />
+    <Content Include="Pos\blue.png" />
+    <Content Include="Pos\jquery.min.js" />
+    <Content Include="Pos\libraries.min.js" />
+    <Content Include="Pos\pos.min.js" />
+    <Content Include="Pos\scripts.min.js" />
+    <Content Include="Pos\style.css" />
     <Content Include="Scripts\blockUI.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -3052,6 +3061,10 @@
     <Content Include="wp-includes\wlwmanifest.xml" />
     <Content Include="wp-json\index.html" />
     <Content Include="Content\ImportFormats\SizeImport.xls" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\ODelI1aHBYDBqgeIAH2zlNV_2ngZ8dMf8fLgjYEouxg.woff2" />
+    <Content Include="fonts\toadOcfmlt9b38dHJxOBGCOFnW3Jk0f09zW_Yln67Ac.woff2" />
+    <Content Include="fonts\toadOcfmlt9b38dHJxOBGEo0As1BFRXtCDhS66znb_k.woff2" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -3476,11 +3489,13 @@
     <Content Include="Views\PurchaseOrders\AddDamageItem.cshtml" />
     <Content Include="Views\PurchaseOrders\GenerateDamageReceipt.cshtml" />
     <Content Include="Views\Reports\GenerateEmployeeReport.cshtml" />
+    <Content Include="Views\Shared\_PosLayout.cshtml" />
+    <Content Include="Views\PointOfSale\Index.cshtml" />
+    <Content Include="Views\PointOfSale\GetProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
-    <Folder Include="Core\Dtos\" />
     <Folder Include="Images\Data\Product\" />
     <Folder Include="Images\Data\Service\" />
   </ItemGroup>
