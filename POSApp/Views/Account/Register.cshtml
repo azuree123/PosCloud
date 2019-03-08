@@ -88,7 +88,7 @@
                                     @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-lg-6">
-                                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label required1 " })
+                                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
                                     @Html.TextAreaFor(m => m.Address, new { @class = "form-control ", placeholder = "Enter Address" })
                                     @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                 </div>

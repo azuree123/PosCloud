@@ -13,11 +13,11 @@ namespace POSApp.Core.ViewModels
         public string Name { get; set; }
         
         public string ArabicName { get; set; }
-        [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Entered phone format like (waqar@example.com)")]
+        [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Entered email format like (waqar@example.com)")]
         public string Email { get; set; }
         public string Gender { get; set; }
         [DisplayName("Mobile Number")]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{7})$", ErrorMessage = "Entered phone format like (050xxxxxxx)")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{8})$", ErrorMessage = "Entered phone format like (050xxxxxxxx)")]
         public string MobileNumber { get; set; }
         public double Salary { get; set; }
         public double Commission { get; set; }

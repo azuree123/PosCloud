@@ -86,7 +86,7 @@ namespace POSApp.Models
         public string Name { get; set; }
         public string CompanyName { get; set; }
         [Required]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{7})$", ErrorMessage = "Entered phone format like (050xxxxxxx)")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{8})$", ErrorMessage = "Entered phone format like (050xxxxxxxx)")]
         public string PhoneNumber { get; set; }
         public bool IsAdmin { get; set; }
     
