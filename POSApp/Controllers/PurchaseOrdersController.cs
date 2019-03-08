@@ -690,6 +690,7 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             purchasingVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
 
+            GeneratePurchaseOrderViewModel temp = new GeneratePurchaseOrderViewModel();
             try
             {
 
@@ -707,24 +708,36 @@ namespace POSApp.Controllers
                 {
                     int TransId = _unitOfWork.AppCountersRepository.GetId("Purchasing");
                     purchasingVm.TransCode = "PRI-" + "C-" + TransId.ToString() + "-" + user.StoreId;
-                    TransMaster transMaster = Mapper.Map<TransMaster>(purchasingVm);
+                    purchasingVm.StoreId = user.StoreId;
 
-                    _unitOfWork.TransMasterRepository.AddTransMaster(transMaster);
+                    var savePo = Mapper.Map<TransMaster>(purchasingVm);
+
+                    IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid && a.StoreId == user.StoreId);
+
+                    savePo.TotalPrice = (from a in poItems
+                        select a.Quantity * a.UnitPrice).Sum();
+                    _unitOfWork.TransMasterRepository.AddTransMaster(savePo);
                     _unitOfWork.Complete();
-                    foreach (var productSubViewModel in PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid))
-                    {
-                        productSubViewModel.StoreId = transMaster.StoreId;
-                        productSubViewModel.Id = transMaster.Id;
-                        var temp = Mapper.Map<TransDetail>(productSubViewModel);
-                        _unitOfWork.TransDetailRepository.AddTransDetail(temp);
 
+                    foreach (var transDetailViewModel in poItems)
+                    {
+                        transDetailViewModel.TransMasterId = savePo.Id;
+                        _unitOfWork.TransDetailRepository.AddTransDetail(Mapper.Map<TransDetail>(transDetailViewModel));
                     }
                     _unitOfWork.Complete();
-
-
-                    TempData["Alert"] = new AlertModel("The Purchasing updated successfully", AlertType.Success);
-                    return RedirectToAction("PurchasingList", "PurchaseOrders");
+                    temp.TransMasterViewModel = purchasingVm;
+                    temp.TransMasterViewModel.TransDate = Convert.ToDateTime(savePo.TransDate).ToString("dd-MMM-yyyy");
+                    temp.TransMasterViewModel.TransTime = Convert.ToDateTime(savePo.TransDate).ToShortTimeString();
+                    temp.BusinessPartnerViewModel =
+                        Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner((int)purchasingVm.BusinessPartnerId, (int)user.StoreId));
+                    temp.TransDetailViewModels = poItems;
+                    temp.TotalAmount = (from a in temp.TransDetailViewModels
+                        select a.Quantity * a.UnitPrice).Sum();
+                    TempData["po"] = temp;
                 }
+                return RedirectToAction("GenerateReceipt", "PurchaseOrders");
+
+            
             }
             catch (DbEntityValidationException ex)
             {
