@@ -165,12 +165,32 @@ namespace POSApp
             CreateMap<ItemsViewModel, Product>();
 
             CreateMap<Product, PosProducts>()
-                .ForMember(a=>a.ProductImage,g=>g.MapFrom(o => string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(o.Image))))
+                .ForMember(a=>a.ProductImage,g=>g.MapFrom(o => ImageReturn(Convert.ToBase64String(o.Image))))
                 .ForMember(a => a.ProductCode, g => g.MapFrom(o => o.ProductCode))
                 .ForMember(a => a.ProductId, g => g.MapFrom(o => o.Id))
                 .ForMember(a => a.ProductName, g => g.MapFrom(o => o.Name))
                 .ForMember(a => a.StoreId, g => g.MapFrom(o => o.StoreId));
 
+            CreateMap<ProductCategory, PosCategory>()
+                .ForMember(a => a.CategoryImage, g => g.MapFrom(o => ImageReturn(Convert.ToBase64String(o.Image))))
+                .ForMember(a => a.CategoryGroup, g => g.MapFrom(o => o.Type))
+                .ForMember(a => a.CategoryId, g => g.MapFrom(o => o.Id))
+                .ForMember(a => a.CategoryName, g => g.MapFrom(o => o.Name))
+                .ForMember(a => a.StoreId, g => g.MapFrom(o => o.StoreId));
+
+        
         }
+        private string ImageReturn(string image)
+        {
+            if (string.IsNullOrEmpty(image))
+            {
+                return "/Pos/notfound_placeholder.svg";
+            }
+            else
+            {
+                return string.Format("data:image/jpg;base64,{0}", image);
+            }
+        }
+
     }
 }

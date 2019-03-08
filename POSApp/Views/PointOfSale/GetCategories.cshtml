@@ -1,0 +1,34 @@
+﻿@model List<POSApp.Core.Dtos.PosCategory>
+@{
+    Layout = null;
+}
+
+@foreach (var category in Model)
+{
+    if (category.CategoryId == Model.FirstOrDefault().CategoryId)
+    {
+        <li>
+        
+            <a href="#" class="category active" id="@category.CategoryId">
+                <div class="menu-icon"><img src="@category.CategoryImage" alt="" class="img-thumbnail img-responsive"></div>
+                <div class="menu-info"><h4 class="control-sidebar-subheading">@category.CategoryName</h4>
+                    @*<p>General</p>*@
+                    </div>
+            </a>
+        </li>
+    }
+     else
+     {
+         <li>
+        
+             <a href="#" class="category " id="@category.CategoryId">
+                 <div class="menu-icon"><img src="@category.CategoryImage" alt="" class="img-thumbnail img-responsive"></div>
+                 <div class="menu-info"><h4 class="control-sidebar-subheading">@category.CategoryName</h4>
+                     @*<p>General</p>*@
+                 </div>
+             </a>
+         </li>
+    }
+  
+
+}

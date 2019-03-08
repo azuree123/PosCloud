@@ -20,5 +20,7 @@ namespace POSApp.Core.Repositories
        Task<IEnumerable<Product>> GetAllProductsAsync(int storeId);
        Task<Product> GetProductByIdAsync(int id, int storeid);
        Task AddProductAsync(Product product);
+       IEnumerable<Product> GetSaleProducts(int productCategoryId, int storeId);
+       IEnumerable<Product> GetSaleProductsQuery(int storeId,string term);
    }
 }

@@ -12,11 +12,13 @@
 @RenderBody()
 
 <script type="text/javascript">
-    var base_url = 'https://spos.tecdiary.com/', assets = 'https://spos.tecdiary.com/themes/default/assets/';
+    var getUrl = window.location;
+    var base_url = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+    assets = '#/themes/default/assets/';
     var dateformat = 'D j M Y', timeformat = 'h:i A';
     var Settings = {
         "logo": "logo1.png",
-        "site_name": "SimplePOS",
+        "site_name": "CosmicPOS",
         "tel": "0105292122",
         "dateformat": "D j M Y",
         "timeformat": "h:i A",
@@ -24,13 +26,13 @@
         "theme": "default",
         "mmode": "0",
         "captcha": "0",
-        "currency_prefix": "USD",
+        "currency_prefix": "RS",
         "default_customer": "3",
         "default_tax_rate": "5%",
         "rows_per_page": "10",
         "total_rows": "30",
         "header":
-            "<h2><strong>Simple POS<\/strong><\/h2>\r\n       My Shop Lot, Shopping Mall,<br>\r\n                                                                                              Post Code, City<br>",
+            "<h2><strong>Cosmic POS<\/strong><\/h2>\r\n       88-Temple Road, Opp. Gourmet,<br>\r\n                                                                                              54000, Lahore<br>",
         "footer": "Thank you for your business!\r\n<br>",
         "bsty": "3",
         "display_kb": "0",
@@ -205,7 +207,7 @@
                 } else {
                     var socket_data = {
                         'printer': false,
-                        'logo': 'https://spos.tecdiary.com/uploads/logo.png',
+                            'logo': '/Content/images/cosmic.png',
                         'text': bill
                     };
                     socket.send(JSON.stringify({
@@ -260,7 +262,7 @@
                         var socket_data = {
                             'printer': false,
                             'order': true,
-                            'logo': 'https://spos.tecdiary.com/uploads/logo.png',
+                            'logo': '/Content/images/cosmic.png',
                             'text': order
                         };
                         socket.send(JSON.stringify({ type: 'print-receipt', data: socket_data }));
@@ -269,7 +271,7 @@
                             function() {
                                 var socket_data = {
                                     'printer': this,
-                                    'logo': 'https://spos.tecdiary.com/uploads/logo.png',
+                                    'logo': '/Content/images/cosmic.png',
                                     'text': order
                                 };
                                 socket.send(JSON.stringify({ type: 'print-receipt', data: socket_data }));

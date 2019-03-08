@@ -2435,6 +2435,7 @@
     <Content Include="Pos\blue.png" />
     <Content Include="Pos\jquery.min.js" />
     <Content Include="Pos\libraries.min.js" />
+    <Content Include="Pos\notfound_placeholder.svg" />
     <Content Include="Pos\pos.min.js" />
     <Content Include="Pos\scripts.min.js" />
     <Content Include="Pos\style.css" />
@@ -3069,6 +3070,7 @@
     <Content Include="fonts\ODelI1aHBYDBqgeIAH2zlNV_2ngZ8dMf8fLgjYEouxg.woff2" />
     <Content Include="fonts\toadOcfmlt9b38dHJxOBGCOFnW3Jk0f09zW_Yln67Ac.woff2" />
     <Content Include="fonts\toadOcfmlt9b38dHJxOBGEo0As1BFRXtCDhS66znb_k.woff2" />
+    <Content Include="Pos\no_image.webp" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -3496,6 +3498,10 @@
     <Content Include="Views\Shared\_PosLayout.cshtml" />
     <Content Include="Views\PointOfSale\Index.cshtml" />
     <Content Include="Views\PointOfSale\GetProducts.cshtml" />
+    <Content Include="Views\PointOfSale\GetCategories.cshtml" />
+    <Content Include="Views\PointOfSale\PrintView.cshtml" />
+    <Content Include="Views\PointOfSale\CustomerDisplay.cshtml" />
+    <Content Include="Views\PointOfSale\_Promotion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,4 @@
-﻿
+﻿@model POSApp.Core.Dtos.PosScreen
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_PosLayout.cshtml";
@@ -11,12 +11,20 @@
             <span class="logo-lg">Cosmic<b>POS</b></span>
         </a>
         <nav class="navbar navbar-static-top" role="navigation">
-           
+
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li><a href="#" class="clock">Fri 8 Mar 2019 11:18 AM</a></li>
+                    
+                   
+                    <li><a href="@Url.Action("CustomerDisplay","PointOfSale")" target="_blank"><i class="fa fa-desktop"></i></a></li>
+                   
+                    @*<li><a href="#/register_details" data-toggle="ajax">Register Details</a></li>
+                    <li><a href="#/today_sale" data-toggle="ajax">Today's Sale</a></li>
+                    <li><a href="#/close_register" data-toggle="ajax">Close Register</a></li>*@
                     <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a></li>
-                        @*<li class="dropdown user user-menu">
+
+                    @*<li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="https://spos.tecdiary.com/uploads/avatars/thumbs/male.png" class="user-image" alt="Avatar">
                                 <span>Admin Admin</span>
@@ -38,14 +46,14 @@
                                 </li>
                             </ul>
                         </li>*@
-                    @*<li>
+                    <li>
                         <a href="#" data-toggle="control-sidebar" class="sidebar-icon"><i class="fa fa-folder sidebar-icon"></i></a>
-                    </li>*@
+                    </li>
                 </ul>
             </div>
         </nav>
     </header>
-        
+
     <div class="content-wrapper" style="min-height: 440px;">
         <div class="col-lg-12 alerts" style="display: none;">
 
@@ -55,14 +63,17 @@
                 <tr>
                     <td style="width: 460px;">
                         <div id="pos">
-                            <form  id="pos-sale-form" >
+                            <form action="@Url.Action("Index","PointOfSale")" id="pos-sale-form" method="post" accept-charset="utf-8">
                                 <input type="hidden" name="spos_token" value="c639bd60c8d7bfe09c3b3674e0286349">
                                 <div class="well well-sm" id="leftdiv">
                                     <div id="lefttop" style="margin-bottom: 5px;">
                                         <div class="form-group" style="margin-bottom: 5px;">
                                             <div class="input-group">
                                                 <select name="customer_id" id="spos_customer" data-placeholder="Select Customer" required="required" class="form-control select2 select2-hidden-accessible" style="width: 100%; position: absolute;" tabindex="-1" aria-hidden="true">
-                                                    <option value="1">Walk-in Client</option>
+                                                   @foreach (var selectListItem in Model.Customers)
+                                                   {
+                                                    <option value="@selectListItem.Value" selected="@selectListItem.Selected">@selectListItem.Text</option>
+                                                   }
                                                 </select>
                                                 <div class="input-group-addon no-print" style="padding: 2px 5px;">
                                                     <a href="#" id="add-customer" class="external" data-toggle="modal" data-target="#myModal"><i class="fa fa-2x fa-plus-circle" id="addIcon"></i></a>
@@ -74,17 +85,16 @@
                                             <input type="text" name="hold_ref" value="" id="hold_ref" class="form-control kb-text" placeholder="Reference Note">
                                         </div>
                                         <div class="form-group" style="margin-bottom: 5px;">
-                                            <input type="text" name="code" id="add_item" class="form-control ui-autocomplete-input" placeholder="Search product by code or name, you can scan barcode too" autocomplete="off">
-                                        </div>
+                                                <input type="text" name="code" id="add_item" class="form-control ui-autocomplete-input" placeholder="Search product by code or name, you can scan barcode too" autocomplete="off">
+                                            </div>
                                     </div>
                                     <div id="printhead" class="print">
                                         <h2><strong>Cosmic POS</strong></h2>
-                                        My Shop Lot, Shopping Mall,<br>
-                                        Post Code, City<br>
+                                        88-Temple Road, Opp. Gourmet<br>
+                                        54000, Lahore<br>
                                         <p>Date: Fri 8 Mar 2019</p>
                                     </div>
                                     <div id="print" class="fixed-table-container">
-                                        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 250px;">
                                             <div id="list-table-div" style="overflow: hidden; width: auto; height: 0px;">
                                                 <div class="fixed-table-header">
                                                     <table class="table table-striped table-condensed table-hover list-table" style="margin: 0;">
@@ -109,11 +119,10 @@
                                                             <th style="width: 20px;" class="satu"><i class="fa fa-trash-o"></i></th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody><tr id="1552025895698" class="2" data-item-id="2" data-id="2"><td><input name="product_id[]" type="hidden" class="rid" value="2"><input name="item_comment[]" type="hidden" class="ritem_comment" value=""><input name="product_code[]" type="hidden" value="TOY02"><input name="product_name[]" type="hidden" value="Minion Banana"><button type="button" class="btn bg-purple btn-block btn-xs edit" id="1552025895698" data-item="2"><span class="sname" id="name_1552025895698">Minion Banana (TOY02)</span></button></td><td class="text-right"><input class="realuprice" name="real_unit_price[]" type="hidden" value="15.0000"><input class="rdiscount" name="product_discount[]" type="hidden" id="discount_1552025895698" value="0"><span class="text-right sprice" id="sprice_1552025895698">15.00</span></td><td><input name="item_was_ordered[]" type="hidden" class="riwo" value="0"><input class="form-control input-qty kb-pad text-center rquantity" name="quantity[]" type="text" value="1" data-id="1552025895698" data-item="2" id="quantity_1552025895698" onclick="this.select();"></td><td class="text-right"><span class="text-right ssubtotal" id="subtotal_1552025895698">15.00</span></td><td class="text-center"><i class="fa fa-trash-o tip pointer posdel" id="1552025895698" title="Remove"></i></td></tr><tr id="1552025895693" class="1" data-item-id="1" data-id="1"><td><input name="product_id[]" type="hidden" class="rid" value="1"><input name="item_comment[]" type="hidden" class="ritem_comment" value=""><input name="product_code[]" type="hidden" value="TOY01"><input name="product_name[]" type="hidden" value="Minion Hi"><button type="button" class="btn bg-purple btn-block btn-xs edit" id="1552025895693" data-item="1"><span class="sname" id="name_1552025895693">Minion Hi (TOY01)</span></button></td><td class="text-right"><input class="realuprice" name="real_unit_price[]" type="hidden" value="15.0000"><input class="rdiscount" name="product_discount[]" type="hidden" id="discount_1552025895693" value="0"><span class="text-right sprice" id="sprice_1552025895693">15.00</span></td><td><input name="item_was_ordered[]" type="hidden" class="riwo" value="0"><input class="form-control input-qty kb-pad text-center rquantity" name="quantity[]" type="text" value="1" data-id="1552025895693" data-item="1" id="quantity_1552025895693" onclick="this.select();"></td><td class="text-right"><span class="text-right ssubtotal" id="subtotal_1552025895693">15.00</span></td><td class="text-center"><i class="fa fa-trash-o tip pointer posdel" id="1552025895693" title="Remove"></i></td></tr></tbody>
+                                                    <tbody>
+                                                    </tbody>
                                                 </table>
                                             </div>
-                                            <div class="slimScrollBar" style="background: rgb(0, 0, 0) none repeat scroll 0% 0%; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 396px;"></div>
-                                            <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;"></div>
                                         </div>
                                         <div style="clear: both;"></div>
                                         <div id="totaldiv">
@@ -121,15 +130,15 @@
                                                 <tbody>
                                                     <tr class="info">
                                                         <td width="25%">Total Items</td>
-                                                        <td class="text-right" style="padding-right: 10px;"><span id="count">2 (2.00)</span></td>
+                                                        <td class="text-right" style="padding-right: 10px;"><span id="count">0 (0.00)</span></td>
                                                         <td width="25%">Total</td>
-                                                        <td class="text-right" colspan="2"><span id="total">30.00</span></td>
+                                                        <td class="text-right" colspan="2"><span id="total">0.00</span></td>
                                                     </tr>
                                                     <tr class="info">
                                                         <td width="25%"><a href="#" id="add_discount">Discount</a></td>
                                                         <td class="text-right" style="padding-right: 10px;"><span id="ds_con">(0.00) 0.00</span></td>
                                                         <td width="25%"><a href="#" id="add_tax">Order Tax</a></td>
-                                                        <td class="text-right"><span id="ts_con">1.50</span></td>
+                                                        <td class="text-right"><span id="ts_con">0</span></td>
                                                     </tr>
                                                     <tr class="success">
                                                         <td colspan="2" style="font-weight: bold;">
@@ -138,7 +147,7 @@
                                                                 <i class="fa fa-comment"></i>
                                                             </a>
                                                         </td>
-                                                        <td class="text-right" colspan="2" style="font-weight: bold;"><span id="total-payable">31.50</span></td>
+                                                        <td class="text-right" colspan="2" style="font-weight: bold;"><span id="total-payable">0</span></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -190,30 +199,33 @@
                                     <input type="hidden" name="total_items" id="total_items" value="0">
                                     <input type="hidden" name="total_quantity" id="total_quantity" value="0">
                                     <input type="submit" id="submit" value="Submit Sale" style="display: none;">
-                                </div>
                             </form>
                         </div>
                     </td>
                     <td>
                         <div class="contents" id="right-col" style="height: 303px;">
                             <div id="item-list">
-                                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 250px;">
-                                    <div class="items" style="overflow: hidden; width: auto; height: 400px;">
-                                        <div id="productsRender">
+                                <div class="items" style="overflow: hidden; width: auto; height: 400px;">
+                                    <div id="renderProducts">
 
-                                        
-                                        
-                                        
-                                        </div> 
-                                    </div>
-                                    <div class="slimScrollBar" style="background: rgb(0, 0, 0) none repeat scroll 0% 0%; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 666px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+                                        @if (Model.PosProducts.Count>0)
+                                        {
+                                            foreach (var product in Model.PosProducts)
+                                            {
+                                                <button type="button" data-name="@product.ProductName" id="product-@product.ProductId" value="@product.ProductCode" class="btn btn-both btn-flat product"><span class="bg-img"><img src="@product.ProductImage" alt="@product.ProductName" style="width: 100px; height: 100px;"></span><span><span>@product.ProductName</span></span></button>
 
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h4 class="text-center text-info" style="margin-top:50px;">Category is empty</h4>
+                                        }
                                     </div>
-                                    <div class="slimScrollBar" style="background: rgb(0, 0, 0) none repeat scroll 0% 0%; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 666px;"></div>
-                                    <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;"></div>
-                               
-                            
-                            <div class="product-nav">
+                                </div>
+
+
+                            </div>
+                            @*<div class="product-nav">
                                 <div class="btn-group btn-group-justified">
                                     <div class="btn-group">
                                         <button style="z-index: 10002;" class="btn btn-warning pos-tip btn-flat" type="button" id="previous" disabled="disabled"><i class="fa fa-chevron-left"></i></button>
@@ -225,7 +237,7 @@
                                         <button style="z-index: 10004;" class="btn btn-warning pos-tip btn-flat" type="button" id="next" disabled="disabled"><i class="fa fa-chevron-right"></i></button>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                     </td>
                 </tr>
@@ -233,6 +245,51 @@
         </table>
     </div>
 </div>
+<aside class="control-sidebar control-sidebar-dark" id="categories-list">
+    <div class="tab-content sb">
+        <div class="tab-pane active sb" id="control-sidebar-home-tab">
+            <div id="filter-categories-con">
+                <input type="text" autocomplete="off" data-list=".control-sidebar-menu" name="filter-categories" id="filter-categories" class="form-control sb col-xs-12 kb-text" placeholder="Type to filter categories" style="margin-bottom: 20px;">
+            </div>
+            <div class="clearfix sb"></div>
+
+                <div id="category-sidebar-menu" style="overflow: hidden; width: 100%; height: 250px;">
+                    <ul class="control-sidebar-menu" >
+                        @foreach (var category in Model.PosCategories)
+                        {
+                            if (category.CategoryId == Model.PosCategories.FirstOrDefault().CategoryId)
+                            {
+                                <li>
+        
+                                    <a href="#" class="category active" id="@category.CategoryId">
+                                        <div class="menu-icon"><img src="@category.CategoryImage" alt="" class="img-thumbnail img-responsive"></div>
+                                        <div class="menu-info"><h4 class="control-sidebar-subheading">@category.CategoryName</h4>
+                                            <p>@category.CategoryGroup</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+        
+                                    <a href="#" class="category " id="@category.CategoryId">
+                                        <div class="menu-icon"><img src="@category.CategoryImage" alt="" class="img-thumbnail img-responsive"></div>
+                                        <div class="menu-info">
+                                            <h4 class="control-sidebar-subheading">@category.CategoryName</h4>
+                                            <p>@category.CategoryGroup</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+  
+
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+</aside>
 
 
 <div id="order_tbl" style="display: none;">
@@ -502,7 +559,7 @@
                                         <option value="gift_card">Gift Card</option>
                                         <option value="stripe">Stripe</option>
                                         <option value="other">Other</option>
-                                    </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-paid_by-container"><span class="select2-selection__rendered" id="select2-paid_by-container" title="Cash">Cash</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -534,7 +591,7 @@
                                                     <option value="MasterCard">MasterCard</option>
                                                     <option value="Amex">Amex</option>
                                                     <option value="Discover">Discover</option>
-                                                </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-pcc_type-container"><span class="select2-selection__rendered" id="select2-pcc_type-container" title="Visa">Visa</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-xs-3">
@@ -594,7 +651,7 @@
                     Add Customer
                 </h4>
             </div>
-            <form action="https://spos.tecdiary.com/pos/add_customer" id="customer-form" method="post" accept-charset="utf-8">
+            <form action="@Url.Action("AddCustomer","PointOfSale")" id="customer-form" method="post" accept-charset="utf-8">
                 <input type="hidden" name="spos_token" value="c639bd60c8d7bfe09c3b3674e0286349">
                 <div class="modal-body">
                     <div id="c-alert" class="alert alert-danger" style="display: none;"></div>
@@ -604,7 +661,7 @@
                                 <label class="control-label" for="code">
                                     Name
                                 </label>
-                                <input type="text" name="name" value="" class="form-control input-sm kb-text" id="cname">
+                                <input type="text" name="name" value="" class="form-control input-sm kb-text" id="cname" required>
                             </div>
                         </div>
                     </div>
@@ -614,7 +671,7 @@
                                 <label class="control-label" for="cemail">
                                     Email Address
                                 </label>
-                                <input type="text" name="email" value="" class="form-control input-sm kb-text" id="cemail">
+                                <input type="text" name="email" value="" class="form-control input-sm kb-text" id="cemail" required>
                             </div>
                         </div>
                         <div class="col-xs-6">
@@ -622,11 +679,11 @@
                                 <label class="control-label" for="phone">
                                     Phone
                                 </label>
-                                <input type="text" name="phone" value="" class="form-control input-sm kb-pad" id="cphone">
+                                <input type="text" name="phone" value="" class="form-control input-sm kb-pad" id="cphone" required>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    @*<div class="row">
                         <div class="col-xs-6">
                             <div class="form-group">
                                 <label class="control-label" for="cf1">
@@ -643,7 +700,7 @@
                                 <input type="text" name="cf2" value="" class="form-control input-sm kb-text" id="cf2">
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
                 <div class="modal-footer" style="margin-top: 0;">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal"> Close </button>
@@ -662,17 +719,17 @@
 
 @*Scripts*@
 
-<script>
+@*<script>
     $(document).ready(function() {
         $.ajax({
             type: "GET",
-            url: "@Url.Action("GetProducts","PointOfSale")",
+            url: "@Url.Action("GetCategories","PointOfSale")",
             success: function(data) {
-                $('#productsRender').html(data);
+                $('#renderCategory').html(data);
             },
             error: function(error) {
                 console.log(error);
             }
     });
     });
-</script>
+</script>*@
