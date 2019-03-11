@@ -382,7 +382,7 @@ namespace POSApp.Persistence.Repositories
 
             return _context.Database.SqlQuery<SalesReportViewModel>(sql, parameters.ToArray()).ToList();
         }
-        public List<CustomerModelView> GenerateCustomersData(int storeId, DateTime dateFrom, DateTime dateTo)
+        public List<BusinessPartnerViewModel> GenerateCustomersData(int storeId, DateTime dateFrom, DateTime dateTo)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
             var sql = @" select d.Name as BranchName,a.Name as Name,a.Email as Email,a.PhoneNumber as PhoneNumber,a.Address as Address,a.Birthday as Birthday,a.City as City,a.State as State
@@ -401,7 +401,7 @@ namespace POSApp.Persistence.Repositories
              
                 ";
 
-            return _context.Database.SqlQuery<CustomerModelView>(sql, parameters.ToArray()).ToList();
+            return _context.Database.SqlQuery<BusinessPartnerViewModel>(sql, parameters.ToArray()).ToList();
         }
 
         public List<ProductCostReportViewModel> GenerateProductCostData(int storeId, DateTime dateFrom, DateTime dateTo)

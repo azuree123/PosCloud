@@ -1208,8 +1208,8 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCustomersData((int)user.StoreId, dateFrom, dateTo),
-                    "CustomersReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "CustomersReport.rpt");
+                    "CustomerReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "CustomerReport.rpt");
                 return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
             catch (Exception e)
