@@ -33,6 +33,17 @@ namespace POSApp.Persistence.Repositories
 
             return data;
         }
+        public TransMaster GetSaleTransMaster(int id, int storeId)
+        {
+            var data = _context.TransMasters.Include(a => a.BusinessPartner)
+                .Include(a => a.TransDetails).Include(a => a.TransDetails.Select(c => c.Product))
+                .Include(a => a.TransMasterPaymentMethods).Include(a => a.Store).Include(a => a.Store.Client)
+                .FirstOrDefault(x => x.Id == id && x.StoreId == storeId);
+
+
+            return data;
+        }
+        
 
         public TransMaster GetPurchaseById(int id, int storeId)
         {
@@ -61,6 +72,20 @@ namespace POSApp.Persistence.Repositories
             //return _context.PurchaseOrder;
             return _context.TransMasters.Include(a=>a.Store).Include(a=>a.BusinessPartner)
                 .Where(a => a.StoreId == storeId  && !a.IsDisabled);
+
+        }
+        public IEnumerable<TransMaster> GetHoldTransactions(int storeId)
+        {
+            //return _context.PurchaseOrder;
+            return _context.TransMasters.Include(a=>a.BusinessPartner)
+                .Where(a => a.StoreId == storeId && !a.IsDisabled && a.TransStatus=="Hold");
+
+        }
+        public TransMaster GetHoldTransaction(int id,int storeId)
+        {
+            //return _context.PurchaseOrder;
+            return _context.TransMasters.Include(a=>a.TransDetails).Include(a=>a.TransDetails.Select(g=>g.Product))
+                .FirstOrDefault(a => a.StoreId == storeId && !a.IsDisabled && a.TransStatus == "Hold" && a.Id==id);
 
         }
         public IEnumerable<TransMaster> GetSaleInvoices(int storeId)
@@ -135,6 +160,19 @@ namespace POSApp.Persistence.Repositories
         public void AddTransMaster(TransMaster optcategory)
         {
             _context.TransMasters.Add(optcategory);
+
+        }
+
+        public void DeleteHold (int id,int storeId)
+        {
+            var delete =
+                _context.TransMasters.Include(a=>a.TransMasterPaymentMethods).Include(a=>a.TransDetails).FirstOrDefault(a => a.Id == id && a.StoreId == storeId && a.TransStatus == "Hold");
+            if (delete != null)
+            {
+                _context.TransDetails.RemoveRange(delete.TransDetails);
+                _context.TransMasterPaymentMethods.RemoveRange(delete.TransMasterPaymentMethods);
+                _context.TransMasters.Remove(delete);
+            }
 
         }
 
