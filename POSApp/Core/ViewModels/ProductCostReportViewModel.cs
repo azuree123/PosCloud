@@ -11,6 +11,6 @@ namespace POSApp.Core.ViewModels
         public string BranchName { get; set; }
         public double CostPrice { get; set; }
         public decimal Qty { get; set; }
-        public DateTime DateTime { get; set; }
+       
     }
 }
