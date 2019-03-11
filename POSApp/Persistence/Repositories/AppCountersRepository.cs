@@ -28,6 +28,12 @@ namespace POSApp.Persistence.Repositories
                     if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
                     appCounter.InvoiceTransId = intId;
                     break;
+                case "HoldInvoice":
+                    intId = _context.AppCounters.DefaultIfEmpty().Max(r => r == null ? 0 : r.HoldInvoiceTransId);
+                    //intId = _context.AppCounters.Max(u => u.AutoAdId);
+                    if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
+                    appCounter.HoldInvoiceTransId = intId;
+                    break;
                 case "Purchase":
                     intId = _context.AppCounters.Max(u => u.PurchaseTransId);
                     if (intId <= 0) { intId = 1; } else { intId = intId + 1; }

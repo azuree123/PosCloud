@@ -20,6 +20,8 @@ namespace POSApp.Core.Models
             [DefaultValue(0)]
             public int InvoiceTransId { get; set; }
             [DefaultValue(0)]
+            public int HoldInvoiceTransId { get; set; }
+            [DefaultValue(0)]
             public int PurchaseTransId { get; set; }
             [DefaultValue(0)]
             public int Voucher { get; set; }

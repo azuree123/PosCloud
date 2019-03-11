@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using System;
+using System.Globalization;
+using Newtonsoft.Json.Converters;
 
 namespace POSApp.Core.Dtos
 {
@@ -11,6 +12,16 @@ namespace POSApp.Core.Dtos
         public List<PosProducts> PosProducts { get; set; }
         public List<PosCategory> PosCategories { get; set; }
         public List<SelectListItem> Customers { get; set; }
+        public List<PosHold> PosHolds { get; set; }
+        public int Hold { get; set; }
+        public string HoldRef { get; set; }
+    }
+
+    public class PosHold
+    {
+        public string Description { get; set; }
+        public string Ref { get; set; }
+        public int Id { get; set; }
 
     }
     public class PosCustomer
@@ -39,7 +50,7 @@ namespace POSApp.Core.Dtos
         public string CategoryImage { get; set; }
         
     }
-    public class Row
+    public partial class Row
     {
         public string id { get; set; }
         public string code { get; set; }
@@ -61,9 +72,10 @@ namespace POSApp.Core.Dtos
         public string unit_price { get; set; }
     }
 
-    public class RootObject
+    public partial class RootObject
     {
         public string id { get; set; }
+        [JsonConverter(typeof(string))]
         public string item_id { get; set; }
         public string label { get; set; }
         public Row row { get; set; }

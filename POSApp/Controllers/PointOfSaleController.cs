@@ -4,14 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using System.Web.UI;
 using AutoMapper;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
 using POSApp.Core;
 using POSApp.Core.Dtos;
 using POSApp.Core.Models;
 using POSApp.Core.Shared;
 using POSApp.Core.ViewModels;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
@@ -26,12 +31,12 @@ namespace POSApp.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: PointOfSale
-        public ActionResult Index()
+        public ActionResult Index(int hold=0,bool IsEmpty=false)
         {
+            var products = new PosScreen();
+            products.Hold = hold;
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            var products = new PosScreen();
-
             products.PosCategories = Mapper.Map<List<PosCategory>>(
                 _unitOfWork.ProductCategoryRepository.GetProductCategories(Convert.ToInt32(user.StoreId)));
             products.PosProducts = Mapper.Map<List<PosProducts>>(
@@ -42,12 +47,75 @@ namespace POSApp.Controllers
                     Text = a.Name,
                     Value = a.Id.ToString()
                 }).ToList();
-            if (products.Customers.Where(a => a.Text == "Walk-in Customer").Any())
+            products.PosHolds = _unitOfWork.TransMasterRepository.GetHoldTransactions(Convert.ToInt32(user.StoreId))
+                .Select(a => new PosHold
+                {
+                    Id = a.Id,
+                    Description = a.TransDate.ToString("R") +" ("+a.BusinessPartner.Name+") ",
+                    Ref = a.TransRef
+                }).ToList();
+            switch (hold)
             {
-            var temp=products.Customers.Where(a => a.Text == "Walk-in Customer").FirstOrDefault();
-            temp.Selected = true;
+
+                case 0:
+                    if (products.Customers.Where(a => a.Text == "Walk-in Customer").Any())
+                    {
+                        var temp = products.Customers.Where(a => a.Text == "Walk-in Customer").FirstOrDefault();
+                        temp.Selected = true;
+                    }
+                    else { }
+
+                    break;
+                default:
+                    var holdTrans = _unitOfWork.TransMasterRepository.GetHoldTransaction(hold,
+                        Convert.ToInt32(user.StoreId));
+                    products.HoldRef = holdTrans.TransRef;
+                    List<RootObject> objects = holdTrans.TransDetails.Select(a => new RootObject
+                    {
+                        id = a.Product.Id.ToString(),
+                        item_id = a.Product.Id.ToString(),
+                        label = a.Product.Name + " (" + a.Product.ProductCode + ")",
+                        row =
+                        new Row
+                        {
+                            id = a.Product.Id.ToString(),
+                            code = a.Product.ProductCode,
+                            name = a.Product.Name,
+                            category_id = a.Product.CategoryId.ToString(),
+                            price = a.UnitPrice.ToString(),
+                            image = "/Pos/notfound_placeholder.svg",
+                            tax = a.Tax.ToString(),
+                            tax_method = "0",
+                            quantity = "0",
+                            barcode_symbology = a.Product.Barcode,
+                            type = a.Product.Type,
+                            alert_quantity = "0",
+                            store_price = a.Product.CostPrice.ToString(),
+                            qty = Convert.ToInt32(a.Quantity),
+                            comment = "",
+                            discount = a.Discount.ToString(),
+                            real_unit_price = a.Product.UnitPrice.ToString(),
+                            unit_price = a.UnitPrice.ToString()
+                        },
+                        combo_items = false
+            }).ToList();
+                    JavaScriptSerializer json = new JavaScriptSerializer();
+                    string check = json.Serialize(objects.ToArray());
+                    Response.Write("<script>localStorage.setItem('spos_customer'," + holdTrans.BusinessPartnerId+ ");" +
+                                   "localStorage.setItem('spositems', '"+ check.ToString() + "');" +
+                                   "localStorage.setItem('spos_tax', '5%');" +
+                                   "localStorage.setItem('spos_discount', "+holdTrans.Discount+");</script>");
+
+                    break;
             }
-            else { }
+
+            if (IsEmpty)
+            {
+                
+                Response.Write("<script>localStorage.removeItem('spositems');</script>");
+            }
+          
+
             return View(products);
         }
         [HttpPost]
@@ -55,26 +123,43 @@ namespace POSApp.Controllers
             ,int[] product_id,
             string[] item_comment,string[] product_code,string[] product_name,decimal[] real_unit_price,decimal[] product_discount,
             decimal[] item_was_ordered, decimal[] quantity,
-            string spos_note,decimal amount,decimal balance_amount,string paid_by,
+            string spos_note,string paid_by,
             string cc_no,string paying_gift_card_no,string cc_holder,string cheque_no,string cc_month,string cc_year, string cc_type,
             string cc_cvv2,string balance,string payment_note,int customer,string order_tax,decimal order_discount,string count,
-            int did,int eid,int total_items,int total_quantity,string suspend, bool delete_id=true)
+            int did,int eid,int total_items,int total_quantity,string suspend, bool delete_id=true, decimal amount=0, decimal balance_amount=0)
         {
             try
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                int TransId = _unitOfWork.AppCountersRepository.GetId("Purchase");
-
+                _unitOfWork.TransMasterRepository.DeleteHold(did, Convert.ToInt32(user.StoreId));
                 var savePo = new TransMaster();
-                savePo.TransCode = "INV-" + "C-" + TransId.ToString() + "-" + Convert.ToInt32(user.StoreId);
+
                 savePo.StoreId = Convert.ToInt32(user.StoreId);
                 savePo.BusinessPartnerId = customer_id;
                 savePo.TotalPrice = amount;
                 savePo.Discount = order_discount;
                 savePo.PaymentMethod = paid_by;
+                savePo.Tax = Convert.ToDecimal(order_tax.Replace("%",String.Empty));
+                savePo.Discount = order_discount;
                 savePo.SessionCode = 1;
                 savePo.Type = "INV";
+                savePo.TransRef = hold_ref;
+                if (delete_id)
+                {
+                    
+                    int TransId = _unitOfWork.AppCountersRepository.GetId("Invoice");
+                    savePo.TransCode = "INV-" + "C-" + TransId.ToString() + "-" + Convert.ToInt32(user.StoreId);
+                    savePo.TransStatus = "Complete";
+                }
+                else
+                {
+                    int TransId = _unitOfWork.AppCountersRepository.GetId("HoldInvoice");
+                    savePo.TransCode = "HLDINV-" + "C-" + TransId.ToString() + "-" + Convert.ToInt32(user.StoreId);
+                    savePo.TransStatus = "Hold";
+                    
+                }
+
                 savePo.TransDate = DateTime.Now;
                 savePo.TransMasterPaymentMethods.Add(new TransMasterPaymentMethod
                 {
@@ -101,14 +186,22 @@ namespace POSApp.Controllers
                 _unitOfWork.TransMasterRepository.AddTransMaster(savePo);
 
                 _unitOfWork.Complete();
+                if (delete_id)
+                {
+                    return RedirectToAction("PrintView", "PointOfSale", new { id = savePo.Id });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "PointOfSale",new{ IsEmpty = true});
+                }
             }
+
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                return RedirectToAction("Index", "PointOfSale");
             }
-            
-            return View();
+           
+          
         }
 
         public ActionResult GetProducts(int id = 0, string group = "")
@@ -314,9 +407,11 @@ namespace POSApp.Controllers
 
 
         }
-        public ActionResult PrintView()
+        public ActionResult PrintView(int id)
         {
-            return View();
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            return View(_unitOfWork.TransMasterRepository.GetSaleTransMaster(id,Convert.ToInt32(user.StoreId)));
         }
 
         public ActionResult CustomerDisplay()

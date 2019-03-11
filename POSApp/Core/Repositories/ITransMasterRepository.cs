@@ -31,5 +31,10 @@ namespace POSApp.Core.Repositories
         IEnumerable<TransMaster> GetPurchaseInvoices(int storeId);
         TransMaster GetPurchaseById(int id, int storeId);
         void UpdateTransMaster(int id, int storeid, TransMaster transMaster);
+        IEnumerable<TransMaster> GetHoldTransactions(int storeId);
+        TransMaster GetHoldTransaction(int id, int storeId);
+        void DeleteHold(int id, int storeId);
+
+        TransMaster GetSaleTransMaster(int id, int storeId);
     }
 }

@@ -18,7 +18,30 @@
                     
                    
                     <li><a href="@Url.Action("CustomerDisplay","PointOfSale")" target="_blank"><i class="fa fa-desktop"></i></a></li>
-                   
+                   @if (Model.PosHolds.Any())
+                   {
+                       <li class="dropdown notifications-menu" id="suspended_sales">
+                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                               <i class="fa fa-bell-o"></i>
+                               <span class="label label-warning">@Model.PosHolds.Count</span>
+                           </a>
+                           <ul class="dropdown-menu">
+                               <li class="header">
+                                   <input type="text" autocomplete="off" data-list=".list-suspended-sales" name="filter-suspended-sales" id="filter-suspended-sales" class="form-control input-sm kb-text clearfix" placeholder="Filter by Reference">
+                               </li>
+                               <li>
+                                   <ul class="menu" style="overflow: hidden; width: 100%; height: 200px;">
+                                        @foreach (var modelPosHold in Model.PosHolds)
+                                        {
+                                            <li class="list-suspended-sales">
+                                                <a href="@Url.Action("Index","PointOfSale",new{hold=modelPosHold.Id})" class="load_suspended">@modelPosHold.Description<br><div class="bold">@modelPosHold.Ref</div></a> </li>
+                                        }
+                                   </ul>
+                               </li>
+                               <li class="footer"><a href="#">View All</a></li>
+                           </ul>
+                       </li>
+                   }
                     @*<li><a href="#/register_details" data-toggle="ajax">Register Details</a></li>
                     <li><a href="#/today_sale" data-toggle="ajax">Today's Sale</a></li>
                     <li><a href="#/close_register" data-toggle="ajax">Close Register</a></li>*@
@@ -26,22 +49,22 @@
 
                     @*<li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="https://spos.tecdiary.com/uploads/avatars/thumbs/male.png" class="user-image" alt="Avatar">
+                                <img src="#/uploads/avatars/thumbs/male.png" class="user-image" alt="Avatar">
                                 <span>Admin Admin</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="user-header">
-                                    <img src="https://spos.tecdiary.com/uploads/avatars/male.png" class="img-circle" alt="Avatar">
+                                    <img src="#/uploads/avatars/male.png" class="img-circle" alt="Avatar">
                                     <p>
                                         admin@tecdiary.com <small>Member since Thu 25 Jun 2015 11:59 AM</small>
                                     </p>
                                 </li>
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="https://spos.tecdiary.com/users/profile/1" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="#/users/profile/1" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="https://spos.tecdiary.com/logout" class="btn btn-default btn-flat sign_out">Sign Out</a>
+                                        <a href="#/logout" class="btn btn-default btn-flat sign_out">Sign Out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -82,7 +105,7 @@
                                             <div style="clear: both;"></div>
                                         </div>
                                         <div class="form-group" style="margin-bottom: 5px;">
-                                            <input type="text" name="hold_ref" value="" id="hold_ref" class="form-control kb-text" placeholder="Reference Note">
+                                            <input type="text" name="hold_ref" value="@Model.HoldRef" id="hold_ref" class="form-control kb-text" placeholder="Reference Note">
                                         </div>
                                         <div class="form-group" style="margin-bottom: 5px;">
                                                 <input type="text" name="code" id="add_item" class="form-control ui-autocomplete-input" placeholder="Search product by code or name, you can scan barcode too" autocomplete="off">
@@ -194,7 +217,7 @@
                                     <input type="hidden" name="order_tax" id="tax_val" value="5%">
                                     <input type="hidden" name="order_discount" id="discount_val" value="0">
                                     <input type="hidden" name="count" id="total_item" value="">
-                                    <input type="hidden" name="did" id="is_delete" value="0">
+                                    <input type="hidden" name="did" id="is_delete" value="@Model.Hold">
                                     <input type="hidden" name="eid" id="is_delete" value="0">
                                     <input type="hidden" name="total_items" id="total_items" value="0">
                                     <input type="hidden" name="total_quantity" id="total_quantity" value="0">
@@ -493,7 +516,7 @@
             <div class="modal-body">
                 <p>Type Reference Note</p>
                 <div class="form-group">
-                    <label for="reference_note">Reference Note</label> <input type="text" name="reference_note" value="" class="form-control kb-text" id="reference_note">
+                    <label for="reference_note">Reference Note</label> <input type="text" name="reference_note" value="@Model.HoldRef" class="form-control kb-text" id="reference_note">
                 </div>
             </div>
             <div class="modal-footer">
@@ -733,3 +756,121 @@
     });
     });
 </script>*@
+<script type="text/javascript">
+    var socket = null;
+
+    function printBill(bill) {
+        if (Settings.remote_printing == 1) {
+            Popup($('#bill_tbl').html());
+        } else if (Settings.remote_printing == 2) {
+            if (socket.readyState == 1) {
+                if (Settings.print_img == 1) {
+                    $('#bill-data').show();
+                    $('#preb').html(
+                        '<pre style="background:#FFF;font-size:20px;margin:0;border:0;color:#000 !important;">' +
+                        bill_data.info +
+                        bill_data.items +
+                        '\n' +
+                        bill_data.totals +
+                        '</pre>'
+                    );
+                    var element = $('#bill-data').get(0);
+                    html2canvas(element, { scrollY: 0, scale: 1.7 }).then(function (canvas) {
+                        var dataURL = canvas.toDataURL();
+                        var socket_data = {
+                            'printer': false,
+                            'text': dataURL,
+                            'cash_drawer': 0
+                        };
+                        socket.send(JSON.stringify({
+                            type: 'print-img',
+                            data: socket_data
+                        }));
+                        // return Canvas2Image.saveAsPNG(canvas);
+                    });
+                    setTimeout(function () {
+                        $('#bill-data').hide();
+                    },
+                        500);
+                } else {
+                    var socket_data = {
+                        'printer': false,
+                        'logo': '/Content/images/cosmic.png',
+                        'text': bill
+                    };
+                    socket.send(JSON.stringify({
+                        type: 'print-receipt',
+                        data: socket_data
+                    }));
+                }
+                return false;
+            } else {
+                bootbox.alert('Unable to connect to socket, please make sure that server is up and running fine.');
+                return false;
+            }
+        }
+    }
+
+    var order_printers = [];
+
+    function printOrder(order) {
+        if (Settings.remote_printing == 1) {
+            Popup($('#order_tbl').html());
+        } else if (Settings.remote_printing == 2) {
+            if (socket.readyState == 1) {
+                if (Settings.print_img == 1) {
+                    $('#order-data').show();
+                    $('#preo').html(
+                        '<pre style="background:#FFF;font-size:20px;margin:0;border:0;color:#000 !important;">' +
+                        order_data.info +
+                        order_data.items +
+                        '</pre>'
+                    );
+                    var element = $('#order-data').get(0);
+                    html2canvas(element, { scrollY: 0, scale: 1.7 }).then(function (canvas) {
+                        var dataURL = canvas.toDataURL();
+                        var socket_data = {
+                            'printer': false,
+                            'text': dataURL,
+                            'order': 1,
+                            'cash_drawer': 0
+                        };
+                        socket.send(JSON.stringify({
+                            type: 'print-img',
+                            data: socket_data
+                        }));
+                        // return Canvas2Image.saveAsPNG(canvas);
+                    });
+                    setTimeout(function () {
+                        $('#order-data').hide();
+                    },
+                        500);
+                } else {
+                    if (order_printers == '') {
+                        var socket_data = {
+                            'printer': false,
+                            'order': true,
+                            'logo': '/Content/images/cosmic.png',
+                            'text': order
+                        };
+                        socket.send(JSON.stringify({ type: 'print-receipt', data: socket_data }));
+                    } else {
+                        $.each(order_printers,
+                            function () {
+                                var socket_data = {
+                                    'printer': this,
+                                    'logo': '/Content/images/cosmic.png',
+                                    'text': order
+                                };
+                                socket.send(JSON.stringify({ type: 'print-receipt', data: socket_data }));
+                            });
+                    }
+                }
+                return false;
+            } else {
+                bootbox.alert('Unable to connect to socket, please make sure that server is up and running fine.');
+                return false;
+            }
+        }
+    }
+</script>
