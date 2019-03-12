@@ -36,6 +36,7 @@ namespace POSApp.Core.Repositories
         void DeleteHold(int id, int storeId);
 
         TransMaster GetSaleTransMaster(int id, int storeId);
+        IQueryable<TransMasterViewModel> GetDailyRefundsQuery(int storeId);
 
         decimal GetSaleInvoicesTotalBySessionCode(string userId, int sessionCode, int storeId, DateTime dateFrom,
             DateTime dateTo);

@@ -42,6 +42,12 @@ namespace POSApp.Controllers
                     model.PurchaseOrders = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
                         .Where(a => a.Type == "PRI" && a.TransDate >= today).Select(a => a.TotalPrice).Sum();
                 }
+                if (_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                    .Where(a => a.Type == "REF" && a.TransDate >= today).Any())
+                {
+                    model.Refunds = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                        .Where(a => a.Type == "REF" && a.TransDate >= today).Select(a => a.TotalPrice).Sum();
+                }
                 model.Expenses = _unitOfWork.ExpenseRepository.GetExpenses((int) user.StoreId)
                     .Where(a => a.Date == today).Select(a => a.Amount).Sum();
                 model.StoreDatas = _unitOfWork.StoreRepository.GetStores().Select(a => new StoreData

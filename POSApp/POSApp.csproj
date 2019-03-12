@@ -3582,6 +3582,8 @@
     <Content Include="Views\PointOfSale\OpenTill.cshtml" />
     <Content Include="Views\PointOfSale\CloseTill.cshtml" />
     <Content Include="Views\Reports\GenerateCustomerReport.cshtml" />
+    <Content Include="Views\SaleOrders\RefundList.cshtml" />
+    <Content Include="Views\SaleOrders\DailyFunds.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -281,31 +281,33 @@
                     </a>
                 </section>
             </div>
-            <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
-                <section class="panel panel-featured-left panel-featured-quartenary">
-                    <div class="panel-body">
-                        <div class="widget-summary">
-                            <div class="widget-summary-col widget-summary-col-icon">
-                                <div class="summary-icon">
-                                    <img src="~/Content/images/icons/refundicon.png" />
-                                   
-                                    @*<i class="fa fa-undo"></i>*@
-                                </div>
-                            </div>
-                            <div class="widget-summary-col">
-                                <div class="summary">
-                                    <h4 class="title">Total Refunds</h4>
-                                    <div class="info">
-                                        <strong class="amount">@string.Format("{0:N2}", Model.Refunds)</strong>
-                                        @*<a href="#" class="text-xs" style="color:#777777"> (view more)</a>*@
+                <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
+                    <section class="panel panel-featured-left panel-featured-quartenary">
+                        <a href="@Url.Action("DailyFunds","SaleOrders")">
+                            <div class="panel-body">
+                                <div class="widget-summary">
+                                    <div class="widget-summary-col widget-summary-col-icon">
+                                        <div class="summary-icon">
+                                            <img src="~/Content/images/icons/refundicon.png" />
+
+                                            @*<i class="fa fa-undo"></i>*@
+                                        </div>
+                                    </div>
+                                    <div class="widget-summary-col">
+                                        <div class="summary">
+                                            <h4 class="title">Total Refunds</h4>
+                                            <div class="info">
+                                                <strong class="amount">@string.Format("{0:N2}", Model.Refunds)</strong>
+                                                @*<a href="#" class="text-xs" style="color:#777777"> (view more)</a>*@
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
-                               
                             </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
+                        </a>
+                    </section>
+                </div>
         </div>
     </div>
 </div>

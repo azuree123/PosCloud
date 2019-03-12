@@ -43,8 +43,15 @@ namespace POSApp.Persistence.Repositories
 
             return data;
         }
-        
 
+        public IQueryable<TransMasterViewModel> GetDailyRefundsQuery(int storeId)
+        {
+            DateTime today = DateTime.Now;
+            //return _context.PurchaseOrder;
+            return Mapper.Map<TransMasterViewModel[]>(_context.TransMasters
+                .Where(a => a.StoreId == storeId && a.TransDate >= DateTime.Today).Include(a => a.BusinessPartner).Include(a => a.TransMasterPaymentMethods)).AsQueryable();
+
+        }
         public TransMaster GetPurchaseById(int id, int storeId)
         {
             var data = _context.TransMasters.Include(a => a.BusinessPartner).Include(a => a.DineTable).Include(a => a.TimedEvent)
