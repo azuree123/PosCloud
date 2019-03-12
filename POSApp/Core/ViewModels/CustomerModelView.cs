@@ -7,6 +7,7 @@ namespace POSApp.Core.ViewModels
     {
         public int? Id { get; set; }
         public int? StoreId { get; set; }
+        public string BranchName { get; set; }
         public string Code { get; set; }
         [Required]
         public string Name { get; set; }

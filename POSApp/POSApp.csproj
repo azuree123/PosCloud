@@ -471,6 +471,7 @@
     <Compile Include="Core\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Core\ViewModels\DineTableReportViewModel.cs" />
     <Compile Include="Core\ViewModels\AgentIncomeReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\EmployeeShiftReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ModifierLinkProductViewModel.cs" />
     <Compile Include="Core\ViewModels\ModifierReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ModifierTransDetailViewModel.cs" />
@@ -484,6 +485,7 @@
     <Compile Include="Core\ViewModels\ProductSizeOrderTypeReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductSizeSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductTimelySaleViewModel.cs" />
+    <Compile Include="Core\ViewModels\PurchaseReportViewModel.cs" />
     <Compile Include="Core\ViewModels\PurchasingDdlViewModel.cs" />
     <Compile Include="Core\ViewModels\RecipeReportViewModel.cs" />
     <Compile Include="Core\ViewModels\RecipeViewModel.cs" />
@@ -496,6 +498,7 @@
     <Compile Include="Core\ViewModels\SizeViewModel.cs" />
     <Compile Include="Core\ViewModels\StockReportViewModel.cs" />
     <Compile Include="Core\ViewModels\SubReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\TillOperationReportViewModel.cs" />
     <Compile Include="Core\ViewModels\TillOperationViewModel.cs" />
     <Compile Include="Core\ViewModels\TransMasterPaymentMethodViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
@@ -746,6 +749,18 @@
     <Compile Include="Persistence\Repositories\WarehouseRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\CustomerReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\CustomerSale.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerSale.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\EmployeeIncomeReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -776,10 +791,10 @@
       <DependentUpon>ComboSale.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\CustomerSale.cs">
+    <Compile Include="Reports\EmployeeShiftReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CustomerSale.rpt</DependentUpon>
+      <DependentUpon>EmployeeShiftReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\Header.cs">
@@ -831,6 +846,12 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Reports\ProductsCostReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductsCostReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\ProductSizeOrderTypeSales.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -849,6 +870,12 @@
       <DependentUpon>ProductTimelySale.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\PurchasePerSupplierReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PurchasePerSupplierReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\Sales.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -865,6 +892,24 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TableWiseSale.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\TilOperationsReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TilOperationsReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\TotalPurchasesReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TotalPurchasesReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\TransactionsReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransactionsReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Services\ExcelService.cs" />
@@ -3506,6 +3551,7 @@
     <Content Include="Views\PointOfSale\PrintView.cshtml" />
     <Content Include="Views\PointOfSale\CustomerDisplay.cshtml" />
     <Content Include="Views\PointOfSale\_Promotion.cshtml" />
+    <Content Include="Views\Reports\GeneratePurchasePerSupplierReport.cshtml" />
     <Content Include="Views\PointOfSale\OpenTill.cshtml" />
     <Content Include="Views\PointOfSale\CloseTill.cshtml" />
   </ItemGroup>
@@ -3609,10 +3655,6 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ComboSale.cs</LastGenOutput>
     </Content>
-    <Content Include="Reports\CustomerSale.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CustomerSale.cs</LastGenOutput>
-    </Content>
     <Content Include="Reports\ModifierSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ModifierSale.cs</LastGenOutput>
@@ -3672,9 +3714,41 @@
     <EmbeddedResource Include="Migrations\201903111054019_Appcounter-add.resx">
       <DependentUpon>201903111054019_Appcounter-add.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\CustomerReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CustomerReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\CustomerSale.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CustomerSale.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\EmployeeShiftReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>EmployeeShiftReport.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\Header.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Header.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProductsCostReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProductsCostReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\PurchasePerSupplierReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PurchasePerSupplierReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\TilOperationsReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TilOperationsReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\TotalPurchasesReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TotalPurchasesReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\TransactionsReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TransactionsReport.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -13,7 +13,7 @@ namespace POSApp.Core.ViewModels
         public string ArabicName { get; set; }
 
         public string Address { get; set; }
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{8})$", ErrorMessage = "Entered phone format like (050xxxxxxx)")]
+        //[RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{8})$", ErrorMessage = "Entered phone format like (050xxxxxxxx)")]
         public string Contact { get; set; }
 
         public string City { get; set; }
