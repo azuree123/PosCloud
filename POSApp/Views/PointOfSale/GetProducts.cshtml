@@ -8,7 +8,7 @@
 {
     foreach (var product in Model)
     {
-        <button type="button" data-name="@product.ProductName" id="product-@product.ProductId" value="@product.ProductCode" class="btn btn-both btn-flat product"><span class="bg-img"><img src="@product.ProductImage" alt="@product.ProductName" style="width: 100px; height: 100px;"></span><span><span>@product.ProductName</span></span></button>
+        <button type="button" data-name="@product.ProductName" id="product-@product.ProductId" value="@product.ProductCode" class="btn btn-both btn-flat product"><span class="bg-img"><img src="@product.ProductImage" alt="@product.ProductName" style="width: 100px; height: 100px;"><div class="location-badge">@product.Size</div></span><span><span>@product.ProductName</span></span></button>
 
     }
 }

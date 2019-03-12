@@ -80,11 +80,24 @@
                             <br>@Model.Store.Address  @Model.Store.City   @Model.Store.Contact
                         </p><p></p>
                     </div>
-                    <p>
-                        Date: @DateTime.Now.ToString("R") <br>
-                        Sale No/Ref: @Model.TransCode<br>
-                        Customer: @Model.BusinessPartner.Name<br>
-                    </p>
+                    @if (Model.DineTableId != null)
+                    {
+                        <p>
+                            Date: @DateTime.Now.ToString("R") <br>
+                            Sale No/Ref: @Model.TransCode<br>
+                            Customer: @Model.BusinessPartner.Name<br>
+                            Table: @Model.DineTable.DineTableNumber<br>
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            Date: @DateTime.Now.ToString("R") <br>
+                            Sale No/Ref: @Model.TransCode<br>
+                            Customer: @Model.BusinessPartner.Name<br>
+                        </p>
+                    }
+                    
                     <div style="clear:both;"></div>
                     <table class="table table-striped table-condensed">
                         <thead>
@@ -99,7 +112,7 @@
                         @foreach (var product in Model.TransDetails)
                         {
 
-                        <tr><td>@product.Product.Name</td><td style="text-align: center;">@product.Quantity</td><td class="text-right">@product.UnitPrice</td><td class="text-right">@((product.Quantity*product.UnitPrice).ToString("F"))</td></tr>
+                        <tr><td>@(product.Product.Name+" ("+product.Product.Size+")")</td><td style="text-align: center;">@product.Quantity</td><td class="text-right">@product.UnitPrice</td><td class="text-right">@((product.Quantity*product.UnitPrice).ToString("F"))</td></tr>
                         }
                         </tbody>
                         <tfoot>

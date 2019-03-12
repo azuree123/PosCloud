@@ -35,7 +35,7 @@ namespace POSApp.Persistence.Repositories
         }
         public TransMaster GetSaleTransMaster(int id, int storeId)
         {
-            var data = _context.TransMasters.Include(a => a.BusinessPartner)
+            var data = _context.TransMasters.Include(a => a.BusinessPartner).Include(a=>a.DineTable)
                 .Include(a => a.TransDetails).Include(a => a.TransDetails.Select(c => c.Product))
                 .Include(a => a.TransMasterPaymentMethods).Include(a => a.Store).Include(a => a.Store.Client)
                 .FirstOrDefault(x => x.Id == id && x.StoreId == storeId);

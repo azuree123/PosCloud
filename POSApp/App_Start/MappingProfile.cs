@@ -169,7 +169,8 @@ namespace POSApp
                 .ForMember(a => a.ProductCode, g => g.MapFrom(o => o.ProductCode))
                 .ForMember(a => a.ProductId, g => g.MapFrom(o => o.Id))
                 .ForMember(a => a.ProductName, g => g.MapFrom(o => o.Name))
-                .ForMember(a => a.StoreId, g => g.MapFrom(o => o.StoreId));
+                .ForMember(a => a.StoreId, g => g.MapFrom(o => o.StoreId))
+                .ForMember(a => a.Size, g => g.MapFrom(o => o.Size));
 
             CreateMap<ProductCategory, PosCategory>()
                 .ForMember(a => a.CategoryImage, g => g.MapFrom(o => ImageReturn(Convert.ToBase64String(o.Image))))

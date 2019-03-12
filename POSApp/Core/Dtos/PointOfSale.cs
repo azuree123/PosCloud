@@ -12,6 +12,7 @@ namespace POSApp.Core.Dtos
         public List<PosProducts> PosProducts { get; set; }
         public List<PosCategory> PosCategories { get; set; }
         public List<SelectListItem> Customers { get; set; }
+        public List<SelectListItem> DineTables { get; set; }
         public List<PosHold> PosHolds { get; set; }
         public int Hold { get; set; }
         public string HoldRef { get; set; }
@@ -40,6 +41,7 @@ namespace POSApp.Core.Dtos
         public string ProductCode { get; set; }
         public int StoreId { get; set; }
         public string ProductImage { get; set; }
+        public string Size { get; set; }
     }
 
     public class PosCategory

@@ -38,6 +38,12 @@ namespace POSApp.Controllers
             products.Hold = hold;
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+            products.DineTables = _unitOfWork.DineTableRepository.GetDineTables(Convert.ToInt32(user.StoreId)).Select(
+                a => new SelectListItem
+                {
+                    Text = a.DineTableNumber,
+                    Value = a.Id.ToString()
+                }).ToList();
             if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(user.StoreId)))
             {
                 return RedirectToAction("OpenTill", "PointOfSale", new {returnUrl = @Request.Url.AbsoluteUri});
@@ -90,7 +96,7 @@ namespace POSApp.Controllers
                         {
                             id = a.Product.Id.ToString(),
                             code = a.Product.ProductCode,
-                            name = a.Product.Name,
+                            name = a.Product.Name+" ("+a.Product.Size+")",
                             category_id = a.Product.CategoryId.ToString(),
                             price = a.UnitPrice.ToString(),
                             image = "/Pos/notfound_placeholder.svg",
@@ -129,7 +135,7 @@ namespace POSApp.Controllers
             return View(products);
         }
         [HttpPost]
-        public ActionResult Index(string spos_token,int customer_id,string hold_ref,string code
+        public ActionResult Index(string spos_token,int? table_id, int customer_id,string hold_ref,string code
             ,int[] product_id,
             string[] item_comment,string[] product_code,string[] product_name,decimal[] real_unit_price,decimal[] product_discount,
             decimal[] item_was_ordered, decimal[] quantity,
@@ -155,6 +161,7 @@ namespace POSApp.Controllers
                 savePo.SessionCode = 1;
                 savePo.Type = "INV";
                 savePo.TransRef = hold_ref;
+                savePo.DineTableId = table_id;
                 savePo.SessionCode = eid;
                 if (delete_id)
                 {
@@ -275,7 +282,7 @@ namespace POSApp.Controllers
                 {
                     id = productVm.Id.ToString(),
                     code = productVm.ProductCode,
-                    name = productVm.Name,
+                    name = productVm.Name + " (" + productVm.Size + ")",
                     category_id = productVm.CategoryId.ToString(),
                     price = productVm.UnitPrice.ToString(),
                     image = ImageReturn(productVm.Image),
@@ -332,7 +339,7 @@ namespace POSApp.Controllers
                     {
                         id = productVm.Id.ToString(),
                         code = productVm.ProductCode,
-                        name = productVm.Name,
+                        name = productVm.Name + " (" + productVm.Size + ")",
                         category_id = productVm.CategoryId.ToString(),
                         price = productVm.UnitPrice.ToString(),
                         image = "/Pos/notfound_placeholder.svg",
