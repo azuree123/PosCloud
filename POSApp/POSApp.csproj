@@ -463,6 +463,9 @@
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\ClientViewModel.cs" />
     <Compile Include="Core\ViewModels\ComboReportSaleViewModel.cs" />
+    <Compile Include="Core\ViewModels\ReturnReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\TaxReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\VoidReasonsReportViewModel.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerSaleReportViewModel.cs" />
     <Compile Include="Core\ViewModels\DashBoardViewModel.cs" />
@@ -749,6 +752,12 @@
     <Compile Include="Persistence\Repositories\WarehouseRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\ConsumptionReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConsumptionReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\CustomerReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -839,6 +848,12 @@
       <DependentUpon>ProductRecipe.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\ProductReturnReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductReturnReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\ProductSales.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -894,6 +909,12 @@
       <DependentUpon>TableWiseSale.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\TaxesReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaxesReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\TilOperationsReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -910,6 +931,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TransactionsReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\VoidReasonsReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VoidReasonsReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Services\ExcelService.cs" />
@@ -3552,6 +3579,7 @@
     <Content Include="Views\PointOfSale\CustomerDisplay.cshtml" />
     <Content Include="Views\PointOfSale\_Promotion.cshtml" />
     <Content Include="Views\Reports\GeneratePurchasePerSupplierReport.cshtml" />
+    <Content Include="Views\Reports\GenerateCustomerReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3712,41 +3740,57 @@
     <EmbeddedResource Include="Migrations\201903111054019_Appcounter-add.resx">
       <DependentUpon>201903111054019_Appcounter-add.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\CustomerReport.rpt">
+    <Content Include="Reports\CustomerReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CustomerReport.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\CustomerSale.rpt">
+    </Content>
+    <Content Include="Reports\CustomerSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CustomerSale.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\EmployeeShiftReport.rpt">
+    </Content>
+    <Content Include="Reports\EmployeeShiftReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>EmployeeShiftReport.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Header.rpt">
+    </Content>
+    <Content Include="Reports\Header.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Header.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ProductsCostReport.rpt">
+    </Content>
+    <Content Include="Reports\ProductsCostReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductsCostReport.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\PurchasePerSupplierReport.rpt">
+    </Content>
+    <Content Include="Reports\PurchasePerSupplierReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>PurchasePerSupplierReport.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\TilOperationsReport.rpt">
+    </Content>
+    <Content Include="Reports\TilOperationsReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>TilOperationsReport.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\TotalPurchasesReport.rpt">
+    </Content>
+    <Content Include="Reports\TotalPurchasesReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>TotalPurchasesReport.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\TransactionsReport.rpt">
+    </Content>
+    <Content Include="Reports\TransactionsReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>TransactionsReport.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Reports\ConsumptionReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ConsumptionReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProductReturnReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProductReturnReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\TaxesReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TaxesReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\VoidReasonsReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>VoidReasonsReport.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

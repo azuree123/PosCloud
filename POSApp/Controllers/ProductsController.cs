@@ -59,7 +59,7 @@ namespace POSApp.Controllers
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))
                 {
 
-                    v = v.Where(a => a.ProductCode.Contains(searchColumn) || a.Name.Contains(searchColumn) || a.Size.Contains(searchColumn));
+                    v = v.Where(a => a.ProductCode.ToLower().Contains(searchColumn) || a.Name.ToLower().Contains(searchColumn) || a.Size.ToLower().Contains(searchColumn));
                 }
                 //SORT
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))

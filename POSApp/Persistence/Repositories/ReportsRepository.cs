@@ -382,18 +382,19 @@ namespace POSApp.Persistence.Repositories
 
             return _context.Database.SqlQuery<SalesReportViewModel>(sql, parameters.ToArray()).ToList();
         }
-        public List<BusinessPartnerViewModel> GenerateCustomersData(int storeId, DateTime dateFrom, DateTime dateTo)
+        public List<BusinessPartnerViewModel> GenerateCustomersData(int storeId)
         {
-            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
-            var sql = @" select d.Name as BranchName,a.Name as Name,a.Email as Email,a.PhoneNumber as PhoneNumber,a.Address as Address,a.Birthday as Birthday,a.City as City,a.State as State
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId)};
+            var sql = @" select d.Name as BranchName,a.Name as Name,a.Email as Email,a.PhoneNumber as PhoneNumber,a.Address as Address,a.City as City,a.State as State
             
 			from PosCloud.BusinessPartners as a 
 			
            
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
 			
-            where a.StoreId=@p1 and a.CreatedOn >=@p2 and a.CreatedOn <=@p3  and a.Type = 'C'
-            group by a.Name, d.Name,a.Email,a.PhoneNumber,a.Address,a.Birthday,a.City,a.State
+            where a.StoreId=@p1 and a.Type = 'C'
+
+            group by a.Name, d.Name,a.Email,a.PhoneNumber,a.Address,a.City,a.State
 
 			
             
@@ -454,6 +455,62 @@ namespace POSApp.Persistence.Repositories
                 ";
 
             return _context.Database.SqlQuery<TillOperationReportViewModel>(sql, parameters.ToArray()).ToList();
+        }
+        public List<SalesReportViewModel> GenerateConsumptionData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var sql = @"  select d.Name as BranchName,a.TransCode as InvoiceNumber,SUM(b.Quantity) as Qty,p.IngredientUnit as IngredientUnit,SUM(b.UnitPrice*b.Quantity)as Amount,a.TransDate as Date 
+            ,a.Discount as Discount,a.Tax as Tax
+			from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+            inner join PosCloud.Products as p on b.ProductCode = p.ProductCode
+			inner join PosCloud.Stores as d on a.StoreId=d.Id
+            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 and a.Type= 'MIF'
+            group by d.Name,a.TransCode,a.TransCode,a.TransDate,a.Discount,a.Tax,p.IngredientUnit
+                ";
+
+            return _context.Database.SqlQuery<SalesReportViewModel>(sql, parameters.ToArray()).ToList();
+        }
+        public List<VoidReasonsReportViewModel> GenerateVoidReasonsData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var sql = @"   select d.Name as BranchName,a.TransCode as TransCode,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount,a.TransDate as Date 
+            ,a.Description as VoidReasons,p.ProductCode as ProductCode
+			from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+			inner join PosCloud.Products as p on b.ProductCode = p.ProductCode
+			inner join PosCloud.Stores as d on a.StoreId=d.Id
+            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 and a.TransStatus = 'Void' 
+            group by d.Name,a.TransCode,a.TransDate,a.Description,p.ProductCode
+                ";
+            return _context.Database.SqlQuery<VoidReasonsReportViewModel>(sql, parameters.ToArray()).ToList();
+        }
+        public List<ReturnReportViewModel> GenerateReturnData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var sql = @"    select d.Name as BranchName,a.TransCode as InvoiceNumber,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount,a.TransDate as Date 
+            ,p.Name as Products,a.TransStatus as Status
+			from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+			inner join PosCloud.Products as p on b.ProductCode = p.ProductCode
+			inner join PosCloud.Stores as d on a.StoreId=d.Id
+            where a.StoreId=@p1 and a.TransStatus = 'Returned' and a.Type = 'REF' and a.TransDate >=@p2 and a.TransDate<=@p3
+            group by d.Name,a.TransCode,a.TransDate,a.Description,p.Name,a.TransStatus
+           
+                ";
+            return _context.Database.SqlQuery<ReturnReportViewModel>(sql, parameters.ToArray()).ToList();
+        }
+
+        public List<TaxReportViewModel> GenerateTaxesData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var sql = @"    Select s.Name as BranchName,a.Name as Name, a.Rate,ISNULL(a.IsPercentage,0) as Percentage From PosCloud.Taxes as a 
+            inner join PosCloud.Stores as s on a.StoreId = s.Id
+            where a.StoreId=@p1 and a.CreatedOn >=@p2 and a.CreatedOn<=@p3
+            group by a.Name, a.Rate,a.IsPercentage,s.Name
+           
+                ";
+            return _context.Database.SqlQuery<TaxReportViewModel>(sql, parameters.ToArray()).ToList();
         }
     }
 }

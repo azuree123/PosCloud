@@ -5,16 +5,15 @@ using System.Web;
 
 namespace POSApp.Core.ViewModels
 {
-    public class SalesReportViewModel
+    public class ReturnReportViewModel
     {
-        public string InvoiceNumber { get; set; }
-        public string SupplierName { get; set; }
         public string BranchName { get; set; }
-        public string IngredientUnit { get; set; }
+        public string Products{ get; set; }
+        public string TransCode { get; set; }
         public decimal Qty { get; set; }
         public decimal Amount { get; set; }
-        public decimal Discount { get; set; }
-        public decimal Tax { get; set; }
+        public string Status { get; set; }
         public DateTime Date { get; set; }
+
     }
 }

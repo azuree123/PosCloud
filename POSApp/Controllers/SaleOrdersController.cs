@@ -83,7 +83,7 @@ namespace POSApp.Controllers
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))
                 {
 
-                    v = v.Where(a => a.TransCode.Contains(searchColumn) || a.TransDate.Contains(searchColumn) || a.TransTime.Contains(searchColumn) ||  a.BusinessPartnerName.Contains(searchColumn) || a.TransStatus.Contains(searchColumn) );
+                    v = v.Where(a => a.TransCode.ToLower().Contains(searchColumn) || a.TransDate.Contains(searchColumn) || a.TransTime.Contains(searchColumn) ||  a.BusinessPartnerName.ToLower().Contains(searchColumn) || a.TransStatus.Contains(searchColumn) );
                 }
                 //SORT
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
