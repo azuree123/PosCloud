@@ -30,6 +30,19 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.TillOperations.Where(a => a.Id == id && a.StoreId == storeId).ToList().FirstOrDefault();
         }
+        public TillOperation GetOpenedTill(string userId, int storeId)
+        {
+            return _context.TillOperations.Where(a => a.ApplicationUserId == userId && a.StoreId == storeId && a.TillOperationType.ToLower()=="open").ToList().OrderByDescending(a=>a.Id).FirstOrDefault();
+        }
+        public bool CheckTillOpened(string userId, int storeId)
+        {
+            return _context.TillOperations.Where(a => a.ApplicationUserId == userId && a.StoreId == storeId && a.TillOperationType.ToLower()=="open").Any();
+        }
+        public int GetTillSessionCode(string userId, int storeId)
+        {
+            return _context.TillOperations.Where(a => a.ApplicationUserId == userId && a.StoreId == storeId).Count()+1;
+        }
+        
         public async Task<TillOperation> GetTillOperationsByIdAsync(int id, int storeId)
         {
             return await _context.TillOperations.FirstOrDefaultAsync(a => a.Id == id && a.StoreId == storeId);

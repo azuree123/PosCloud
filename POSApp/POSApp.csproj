@@ -3506,6 +3506,8 @@
     <Content Include="Views\PointOfSale\PrintView.cshtml" />
     <Content Include="Views\PointOfSale\CustomerDisplay.cshtml" />
     <Content Include="Views\PointOfSale\_Promotion.cshtml" />
+    <Content Include="Views\PointOfSale\OpenTill.cshtml" />
+    <Content Include="Views\PointOfSale\CloseTill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -95,6 +95,16 @@ namespace POSApp.Persistence.Repositories
                 .Where(a => a.StoreId == storeId && a.Type == "INV" && !a.Issued && !a.IsDisabled);
 
         }
+
+        public decimal GetSaleInvoicesTotalBySessionCode(string userId,int sessionCode,int storeId,DateTime dateFrom,DateTime dateTo)
+        {
+
+            return _context.TransMasters
+                .Where(a => a.StoreId == storeId && a.TransDate>=dateFrom && a.TransDate<=dateTo && a.Type == "INV" && a.SessionCode==sessionCode && !a.Issued && !a.IsDisabled && (a.CreatedById==userId||a.UpdatedById==userId)).Any()?
+                _context.TransMasters
+                    .Where(a => a.StoreId == storeId && a.TransDate >= dateFrom && a.TransDate <= dateTo && a.Type == "INV" && a.SessionCode == sessionCode && !a.Issued && !a.IsDisabled && (a.CreatedById == userId || a.UpdatedById == userId)).Sum(a => a.TotalPrice):0;
+
+        }
         public IEnumerable<TransMaster> GetPurchaseInvoices(int storeId)
         {
 

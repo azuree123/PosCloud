@@ -89,5 +89,9 @@ namespace POSApp.Persistence.Repositories
                 }
                 return send;
             }
+            public int? GetShiftId(string userId, int storeId)
+            {
+                return _context.Users.FirstOrDefault(a => a.Id == userId && a.StoreId == storeId).ShiftId;
+            }
     }
 }
