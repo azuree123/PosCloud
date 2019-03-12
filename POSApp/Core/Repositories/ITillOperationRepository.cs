@@ -17,5 +17,8 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<TillOperation>> GetTillOperationsAsync(int storeId);
         Task<TillOperation> GetTillOperationsByIdAsync(int id, int storeId);
         Task AddTillOperationAsync(TillOperation to);
+        bool CheckTillOpened(string userId, int storeId);
+        int GetTillSessionCode(string userId, int storeId);
+        TillOperation GetOpenedTill(string userId, int storeId);
     }
 }

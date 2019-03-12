@@ -15,6 +15,7 @@ namespace POSApp.Core.Dtos
         public List<PosHold> PosHolds { get; set; }
         public int Hold { get; set; }
         public string HoldRef { get; set; }
+        public int SessionCode { get; set; }
     }
 
     public class PosHold

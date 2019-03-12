@@ -17,5 +17,6 @@ namespace POSApp.Core.Repositories
         IEnumerable<RegisterListViewModel> GetApiUsers(int storeid);
         Task<ApplicationUser> GetUserByIdAsync(string id, int storeid);
         Task<IEnumerable<RegisterListViewModel>> GetApiUsersAsync(int storeid);
+        int? GetShiftId(string userId, int storeId);
     }
 }

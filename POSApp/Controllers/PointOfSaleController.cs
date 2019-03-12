@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -37,6 +38,15 @@ namespace POSApp.Controllers
             products.Hold = hold;
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+            if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(user.StoreId)))
+            {
+                return RedirectToAction("OpenTill", "PointOfSale", new {returnUrl = @Request.Url.AbsoluteUri});
+            }
+            else
+            {
+                products.SessionCode = _unitOfWork.TillOperationRepository
+                    .GetOpenedTill(userid, Convert.ToInt32(user.StoreId)).SessionCode;
+            }
             products.PosCategories = Mapper.Map<List<PosCategory>>(
                 _unitOfWork.ProductCategoryRepository.GetProductCategories(Convert.ToInt32(user.StoreId)));
             products.PosProducts = Mapper.Map<List<PosProducts>>(
@@ -145,6 +155,7 @@ namespace POSApp.Controllers
                 savePo.SessionCode = 1;
                 savePo.Type = "INV";
                 savePo.TransRef = hold_ref;
+                savePo.SessionCode = eid;
                 if (delete_id)
                 {
                     
@@ -419,6 +430,80 @@ namespace POSApp.Controllers
             return View();
         }
 
+        public ActionResult OpenTill(string returnUrl = "")
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(user.StoreId)))
+            {
+                ViewBag.ReturnUrl = returnUrl;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index","PointOfSale");
+            }
+        }
+        [HttpPost]
+        public ActionResult OpenTill(decimal cash_in_hand,string returnUrl = "")
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(user.StoreId)))
+            {
+                TillOperation data = new TillOperation
+                {
+                    StoreId = Convert.ToInt32(user.StoreId),
+                    ApplicationUserId = userid,
+                    OpeningAmount = cash_in_hand,
+                    SystemAmount = 0,
+                    PhysicalAmount = 0,
+                    OperationDate = DateTime.Now,
+                    Remarks = "",
+                    Status = false,
+                    TillOperationType = "Open",
+                    SessionCode =
+                        _unitOfWork.TillOperationRepository.GetTillSessionCode(userid, Convert.ToInt32(user.StoreId)),
+                    ShiftId = user.ShiftId
+
+                };
+                _unitOfWork.TillOperationRepository.AddTillOperation(data);
+                _unitOfWork.Complete();
+            }
+
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return Redirect(returnUrl);
+        }
+
+        public ActionResult CloseTill()
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return View(_unitOfWork.TillOperationRepository.GetOpenedTill(userid, Convert.ToInt32(user.StoreId)));
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
+        }
+        [HttpPost]
+        public ActionResult CloseTill(TillOperation operation)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            operation.TillOperationType = "Close";
+            operation.SystemAmount = _unitOfWork.TransMasterRepository.GetSaleInvoicesTotalBySessionCode(userid,operation.SessionCode,operation.StoreId,operation.OperationDate,DateTime.Now);
+            _unitOfWork.TillOperationRepository.UpdateTillOperations(operation.Id,operation.StoreId,operation);
+            _unitOfWork.Complete();
+            return RedirectToAction("LogOut", "Account");
+        }
+      
         public ApplicationUserManager UserManager
         {
             get
@@ -430,5 +515,6 @@ namespace POSApp.Controllers
                 _userManager = value;
             }
         }
+        
     }
 }
