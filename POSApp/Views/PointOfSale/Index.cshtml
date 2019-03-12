@@ -3,7 +3,20 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_PosLayout.cshtml";
 }
-
+<style>
+    .location-badge{
+        position: absolute;
+        bottom: 0.5em;
+        right: 0.5em;
+        padding: 0 0.5em;
+        background-color: red;
+        color: white;
+        text-align: center;
+        border-radius: 1000px;
+        border: thin solid #fff;
+        box-shadow: 2px 1px 5px #000;
+    }
+</style>
 <div class="wrapper rtl rtl-inv">
     <header class="main-header">
         <a href="@Url.Action("Index","Home")" class="logo">
@@ -93,14 +106,26 @@
                                         <div class="form-group" style="margin-bottom: 5px;">
                                             <div class="input-group">
                                                 <select name="customer_id" id="spos_customer" data-placeholder="Select Customer" required="required" class="form-control select2 select2-hidden-accessible" style="width: 100%; position: absolute;" tabindex="-1" aria-hidden="true">
-                                                   @foreach (var selectListItem in Model.Customers)
-                                                   {
-                                                    <option value="@selectListItem.Value" selected="@selectListItem.Selected">@selectListItem.Text</option>
-                                                   }
+                                                    @foreach (var selectListItem in Model.Customers)
+                                                    {
+                                                        <option value="@selectListItem.Value" selected="@selectListItem.Selected">@selectListItem.Text</option>
+                                                    }
                                                 </select>
                                                 <div class="input-group-addon no-print" style="padding: 2px 5px;">
                                                     <a href="#" id="add-customer" class="external" data-toggle="modal" data-target="#myModal"><i class="fa fa-2x fa-plus-circle" id="addIcon"></i></a>
                                                 </div>
+                                            </div>
+                                            <div style="clear: both;"></div>
+                                        </div>
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <div class="input-group" style="width: 100%;">
+                                                <select name="table_id" id="spos_table" data-placeholder="Select Table"  class="form-control select2 select2-hidden-accessible" style="width: 100%; position: absolute;" tabindex="-1" aria-hidden="true">
+                                                    <option value="">Select a Table</option>
+                                                    @foreach (var selectListItem in Model.DineTables)
+                                                    {
+                                                        <option value="@selectListItem.Value" >@selectListItem.Text</option>
+                                                    }
+                                                </select>
                                             </div>
                                             <div style="clear: both;"></div>
                                         </div>
@@ -235,7 +260,7 @@
                                         {
                                             foreach (var product in Model.PosProducts)
                                             {
-                                                <button type="button" data-name="@product.ProductName" id="product-@product.ProductId" value="@product.ProductCode" class="btn btn-both btn-flat product"><span class="bg-img"><img src="@product.ProductImage" alt="@product.ProductName" style="width: 100px; height: 100px;"></span><span><span>@product.ProductName</span></span></button>
+                                                <button type="button" data-name="@product.ProductName" id="product-@product.ProductId" value="@product.ProductCode" class="btn btn-both btn-flat product"><span class="bg-img"><img src="@product.ProductImage" alt="@product.ProductName" style="width: 100px; height: 100px;"><div class="location-badge">@product.Size</div></span><span><span>@product.ProductName</span></span></button>
 
                                             }
                                         }
