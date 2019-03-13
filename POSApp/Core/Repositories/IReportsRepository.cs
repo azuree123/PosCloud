@@ -37,8 +37,8 @@ namespace POSApp.Core.Repositories
        List<PurchaseReportViewModel> GeneratePurchasesPerSupplierData(int storeId, int supplierId);
        List<SalesReportViewModel> GenerateTransactionsData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<BusinessPartnerViewModel> GenerateCustomersData(int storeId);
-       List<ProductCostReportViewModel> GenerateProductCostData(int storeId, DateTime dateFrom, DateTime dateTo);
-       List<EmployeeShiftReportViewModel> GenerateEmployeeShiftData(int storeId, DateTime dateFrom, DateTime dateTo);
+       List<ProductCostReportViewModel> GenerateProductCostData(int storeId);
+       List<EmployeeShiftReportViewModel> GenerateEmployeeShiftData(int storeId);
        List<TillOperationReportViewModel> GenerateTillOperationData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<VoidReasonsReportViewModel> GenerateVoidReasonsData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<SalesReportViewModel> GenerateConsumptionData(int storeId, DateTime dateFrom, DateTime dateTo);

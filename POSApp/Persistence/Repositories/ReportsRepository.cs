@@ -21,8 +21,7 @@ namespace POSApp.Persistence.Repositories
         {
             var sql = @"select a.Name as CompanyName,a.Contact as PhoneNumber,a.Address as Address
 			from PosCloud.Clients as a 
-            inner join PosCloud.Stores as d on a.Id=d.Id
-            
+            inner join PosCloud.Stores as d on a.Id=d.ClientId
             group by a.Name,a.Contact,a.Address
                 ";
             var data = _context.Database.SqlQuery<SubReportViewModel>(sql).ToList();
@@ -177,7 +176,7 @@ namespace POSApp.Persistence.Repositories
 			from PosCloud.TransMaster as a 
             inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
-            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 and Type= 'INV' and a.TransStatus = 'Paid'
+            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 and Type= 'INV' and ((a.TransStatus = 'Paid' or a.TransStatus = 'Complete') or a.TransStatus = 'Complete')
             group by d.Name,a.TransCode,a.TransCode,a.TransDate,a.Discount,a.Tax
             
             
@@ -438,9 +437,9 @@ namespace POSApp.Persistence.Repositories
             return _context.Database.SqlQuery<BusinessPartnerViewModel>(sql, parameters.ToArray()).ToList();
         }
 
-        public List<ProductCostReportViewModel> GenerateProductCostData(int storeId, DateTime dateFrom, DateTime dateTo)
+        public List<ProductCostReportViewModel> GenerateProductCostData(int storeId)
         {
-            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId) };
             var sql = @" select d.Name as BranchName,a.Name as ProductName,SUM(a.CostPrice) as CostPrice
             
 			from PosCloud.Products as a 
@@ -448,16 +447,16 @@ namespace POSApp.Persistence.Repositories
            
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
 			
-            where a.StoreId=@p1 and a.CreatedOn >= @p2 and a.CreatedOn <= @p3
+            where a.StoreId=@p1
             group by a.Name, d.Name,a.CostPrice
                 ";
 
             return _context.Database.SqlQuery<ProductCostReportViewModel>(sql, parameters.ToArray()).ToList();
         }
 
-        public List<EmployeeShiftReportViewModel> GenerateEmployeeShiftData(int storeId, DateTime dateFrom, DateTime dateTo)
+        public List<EmployeeShiftReportViewModel> GenerateEmployeeShiftData(int storeId)
         {
-            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId) };
             var sql = @" select d.Name as BranchName,a.Name as Shift,e.Name as EmployeeName
             
 			from PosCloud.Shifts as a 
@@ -465,7 +464,7 @@ namespace POSApp.Persistence.Repositories
             inner join PosCloud.Employees as e on a.ShiftId = e.Id
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
 			
-            where a.StoreId=@p1 and a.CreatedOn >= @p2 and a.CreatedOn <= @p3
+            where a.StoreId=@p1
             group by a.Name, d.Name,e.Name
 			
            
@@ -483,7 +482,7 @@ namespace POSApp.Persistence.Repositories
              inner join PosCloud.Shifts as s on a.ShiftId = s.ShiftId
              inner join AspNetUsers as b on a.ApplicationUserId = b.Id
              inner join PosCloud.Stores as t on a.StoreId = s.StoreId
-             where a.StoreId=@p1 and a.CreatedOn >= @p2 and a.CreatedOn <= @p3
+             where a.StoreId=@p1 and a.OperationDate >= @p2 and a.OperationDate <= @p3
              group by b.Email,a.OperationDate,a.OpeningAmount,a.SystemAmount,a.PhysicalAmount,s.Name,a.TillOperationType,t.Name
                 ";
 
@@ -554,7 +553,7 @@ namespace POSApp.Persistence.Repositories
 			from PosCloud.TransMaster as a 
             inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
-            where a.StoreId=@p1 and Type= 'INV' and a.TransStatus = 'Paid' and a.TransDate >=@p2 and a.TransDate<=@p3 and a.Discount != 0
+            where a.StoreId=@p1 and Type= 'INV' and (a.TransStatus = 'Paid' or a.TransStatus = 'Complete') and a.TransDate >=@p2 and a.TransDate<=@p3 and a.Discount != 0
             group by d.Name,a.TransCode,a.TransCode,a.TransDate,a.Discount
             
            

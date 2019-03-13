@@ -3614,6 +3614,8 @@
     <Content Include="Views\SaleOrders\DailyFunds.cshtml" />
     <Content Include="Views\PointOfSale\OpenedBills.cshtml" />
     <Content Include="Views\Reports\GenerateStockReport.cshtml" />
+    <Content Include="Views\Reports\GenerateShiftReport.cshtml" />
+    <Content Include="Views\Reports\GenerateCostReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
