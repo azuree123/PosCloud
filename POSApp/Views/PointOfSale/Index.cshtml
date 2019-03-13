@@ -339,7 +339,7 @@
 </aside>
 
 
-<div id="order_tbl" style="display: none;">
+<div id="order_tbl" class="order_tbl" style="display: none;">
     <span id="order_span">
         <style>
             .bb td, .bb th {
@@ -352,7 +352,7 @@
     </span>
     <table id="order-table" class="prT table table-striped table-condensed" style="width: 100%; margin-bottom: 0;"><tbody><tr class="bb row_1" data-item-id="1"><td>#1 Minion Hi (TOY01)</td><td>[ 1 ]</td></tr><tr class="bb row_2" data-item-id="2"><td>#2 Minion Banana (TOY02)</td><td>[ 1 ]</td></tr></tbody></table>
 </div>
-<div id="bill_tbl" style="display: none;">
+<div id="bill_tbl" class="bill_tbl" style="display: none;">
     <span id="bill_span">
         <style>
             .bb td, .bb th {
@@ -730,24 +730,7 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="row">
-                        <div class="col-xs-6">
-                            <div class="form-group">
-                                <label class="control-label" for="cf1">
-                                    Custom Field 1
-                                </label>
-                                <input type="text" name="cf1" value="" class="form-control input-sm kb-text" id="cf1">
-                            </div>
-                        </div>
-                        <div class="col-xs-6">
-                            <div class="form-group">
-                                <label class="control-label" for="cf2">
-                                    Custom Field 2
-                                </label>
-                                <input type="text" name="cf2" value="" class="form-control input-sm kb-text" id="cf2">
-                            </div>
-                        </div>
-                    </div>*@
+                
                 </div>
                 <div class="modal-footer" style="margin-top: 0;">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal"> Close </button>
@@ -766,27 +749,23 @@
 
 @*Scripts*@
 
-@*<script>
-    $(document).ready(function() {
-        $.ajax({
-            type: "GET",
-            url: "@Url.Action("GetCategories","PointOfSale")",
-            success: function(data) {
-                $('#renderCategory').html(data);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-    });
-    });
-</script>*@
+
 <script type="text/javascript">
     var socket = null;
 
     function printBill(bill) {
-        debugger;
         if (Settings.remote_printing == 1) {
-            Popup($('#bill_tbl').html());
+            newWin = window.open("", "", "width=800, height=600");
+            var divToPrint = document.getElementById("bill_tbl");
+            var head = "<style>.bill_tbl{display:block !important;}</style>";
+            newWin.document.write(head+divToPrint.outerHTML);
+
+            window.setTimeout(function() {
+                    newWin.print();
+                    newWin.close();
+                },
+                300);
+            //Popup($('#bill_tbl').html());
         } else if (Settings.remote_printing == 2) {
             if (socket.readyState == 1) {
                 if (Settings.print_img == 1) {
@@ -840,7 +819,17 @@
 
     function printOrder(order) {
         if (Settings.remote_printing == 1) {
-            Popup($('#order_tbl').html());
+            newWin = window.open("", "", "width=800, height=600");
+            var divToPrint = document.getElementById("order_tbl");
+            var head = "<style>.order_tbl{display:block !important;} table>tbody>tr>td:first-child{width:80%}</style>";
+            newWin.document.write(head+divToPrint.outerHTML);
+
+            window.setTimeout(function() {
+                    newWin.print();
+                    newWin.close();
+                },
+                300);
+            //Popup($('#order_tbl').html());
         } else if (Settings.remote_printing == 2) {
             if (socket.readyState == 1) {
                 if (Settings.print_img == 1) {
