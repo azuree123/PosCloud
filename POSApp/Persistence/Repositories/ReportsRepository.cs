@@ -595,5 +595,19 @@ namespace POSApp.Persistence.Repositories
                 ";
             return _context.Database.SqlQuery<InventoryCostReportViewModel>(sql, parameters.ToArray()).ToList();
         }
+        public List<ExpiryReportViewModel> GenerateExpiryData(int storeId, DateTime dateFrom, DateTime dateTo)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
+            var sql = @" select d.Name as BranchName,a.TransCode as TransCode,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount,a.TransDate as Date 
+            ,p.Name as Products
+			from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+			inner join PosCloud.Products as p on b.ProductCode = p.ProductCode
+			inner join PosCloud.Stores as d on a.StoreId=d.Id
+             where  p.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 and a.Type = 'EXP'
+            group by d.Name,a.TransCode,a.TransDate,p.Name
+                ";
+            return _context.Database.SqlQuery<ExpiryReportViewModel>(sql, parameters.ToArray()).ToList();
+        }
     }
 }
