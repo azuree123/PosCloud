@@ -174,6 +174,27 @@ namespace POSApp.Controllers
             ViewBag.suppliers = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
             return View();
         }
+        public ActionResult GenerateStockReport(string target)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ViewBag.edit = target;
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            if (store.ClientId == null)
+            {
+                ViewBag.branches = new List<SelectListItem>(){new SelectListItem
+                {
+                    Text = store.Name, Value = store.Id.ToString(),Selected = true
+                }};
+
+            }
+            else
+            {
+                var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+                ViewBag.branches = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            }
+            return View();
+        }
         [HttpPost]
         public ActionResult GenerateProductSaleReport(DateTime dateFrom,DateTime dateTo,int branchId)
         {
@@ -790,17 +811,17 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult GenerateStockReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        public ActionResult GenerateStockReport(int branchId)
         {
             try
             {
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
-                var data = _unitOfWork.ReportsRepository.GenerateStockData((int) user.StoreId, dateFrom, dateTo);
+                string details = " "  + " " ;
+                var data = _unitOfWork.ReportsRepository.GenerateStockData((int) user.StoreId);
                 int logId = ExcelService.GenerateCrystalReport(data,
-                    "ProductStockReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    "StockReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "Stock.rpt");
                 return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
             }
@@ -833,7 +854,37 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateInventoryItemTotalCostReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            return View();
+            try
+            {
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateItemsCostData((int)user.StoreId, dateFrom, dateTo),
+                    "InventoryTotalCostReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "InventoryTotalCostReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("MyReports");
         }
         [HttpPost]
         public ActionResult GenerateItemHistoryReport(DateTime dateFrom, DateTime dateTo, int branchId)
@@ -1275,13 +1326,73 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult GenerateOrderDiscountReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            return View();
+            try
+            {
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateOrderDiscountData((int)user.StoreId, dateFrom, dateTo),
+                    "OrderDiscountReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "OrderDiscountReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("MyReports");
 
         }
         [HttpPost]
         public ActionResult GenerateProductDiscountReport(DateTime dateFrom, DateTime dateTo, int branchId)
         {
-            return View();
+            try
+            {
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
+                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductDiscountData((int)user.StoreId, dateFrom, dateTo),
+                    "ProductsDiscountReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductsDiscountReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("MyReports");
 
         }
         [HttpPost]

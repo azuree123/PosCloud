@@ -106,6 +106,36 @@ namespace POSApp.Services
             unitOfWork.Complete();
             return report.Id;
         }
+        public static int GenerateStockReport<T>(List<T> dtList, string reportName, string userId, IUnitOfWork unitOfWork, int storeId, string details, string crystalReportPath, string crystalReportName)
+        {
+            string filePath = HttpContext.Current.Server.MapPath("~/Content/Reports/");
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            string fileName = reportName + "_" + userId + "_" + DateTime.Now.ToString("ddd, dd MMM yyy HH-mm-ss ") + ".PDF";
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(crystalReportPath, crystalReportName));
+            foreach (ReportDocument reportDocument in rd.Subreports)
+            {
+                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(details, reportName));
+            }
+            rd.SetDataSource(dtList);
+            rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
+            var report = new ReportsLog
+            {
+                Name = reportName,
+                Path = fileName,
+                Status = "Ready",
+                Details = details,
+                StoreId = storeId
+
+            };
+            unitOfWork.ReportsLogRepository.AddReportsLog(report);
+            unitOfWork.Complete();
+            return report.Id;
+        }
 
         public static int GenerateCustomerCrystalReport<T>(List<T> dtList, string reportName, string userId, IUnitOfWork unitOfWork, int storeId, string details, string crystalReportPath, string crystalReportName)
         {

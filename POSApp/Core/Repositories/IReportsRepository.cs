@@ -25,7 +25,7 @@ namespace POSApp.Core.Repositories
        List<ModifierReportViewModel> GenerateModifierSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<ModifierReportViewModel> GenerateProductModifierSalesData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<RecipeReportViewModel> GenerateProductRecipeData(int storeId, DateTime dateFrom, DateTime dateTo);
-       List<StockReportViewModel> GenerateStockData(int storeId, DateTime dateFrom, DateTime dateTo);
+       List<StockReportViewModel> GenerateStockData(int storeId);
        decimal GetProductSalesDiscount(int storeId, DateTime dateFrom, DateTime dateTo);
        List<AgentIncomeReportViewModel> GenerateEmployeeIncomeData(int storeId, int designationId);
 
@@ -44,5 +44,8 @@ namespace POSApp.Core.Repositories
        List<SalesReportViewModel> GenerateConsumptionData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<ReturnReportViewModel> GenerateReturnData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<TaxReportViewModel> GenerateTaxesData(int storeId, DateTime dateFrom, DateTime dateTo);
+       List<OrderDiscountViewModel> GenerateOrderDiscountData(int storeId, DateTime dateFrom, DateTime dateTo);
+       List<ProductDiscountViewModel> GenerateProductDiscountData(int storeId, DateTime dateFrom, DateTime dateTo);
+       List<InventoryCostReportViewModel> GenerateItemsCostData(int storeId, DateTime dateFrom, DateTime dateTo);
    }
 }

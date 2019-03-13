@@ -463,6 +463,9 @@
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\ClientViewModel.cs" />
     <Compile Include="Core\ViewModels\ComboReportSaleViewModel.cs" />
+    <Compile Include="Core\ViewModels\InventoryCostReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\OrderDiscountViewModel.cs" />
+    <Compile Include="Core\ViewModels\ProductDiscountViewModel.cs" />
     <Compile Include="Core\ViewModels\ReturnReportViewModel.cs" />
     <Compile Include="Core\ViewModels\TaxReportViewModel.cs" />
     <Compile Include="Core\ViewModels\VoidReasonsReportViewModel.cs" />
@@ -812,10 +815,22 @@
       <DependentUpon>Header.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\InventoryTotalCostReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InventoryTotalCostReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\ModifierSale.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModifierSale.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\OrderDiscountReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrderDiscountReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\OrderTypeWiseSale.cs">
@@ -865,6 +880,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ProductsCostReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\ProductsDiscountReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductsDiscountReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\ProductSizeOrderTypeSales.cs">
@@ -3584,6 +3605,7 @@
     <Content Include="Views\Reports\GenerateCustomerReport.cshtml" />
     <Content Include="Views\SaleOrders\RefundList.cshtml" />
     <Content Include="Views\SaleOrders\DailyFunds.cshtml" />
+    <Content Include="Views\Reports\GenerateStockReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3796,6 +3818,18 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>VoidReasonsReport.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="Reports\InventoryTotalCostReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>InventoryTotalCostReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\OrderDiscountReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>OrderDiscountReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProductsDiscountReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProductsDiscountReport.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
