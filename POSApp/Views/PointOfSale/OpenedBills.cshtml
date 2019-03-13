@@ -1,0 +1,73 @@
+﻿@using POSApp.Core.Models
+@model List<POSApp.Core.Models.TransMaster>
+@{
+    ViewBag.Title = "OpenedBills";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
+<section class="panel">
+
+    <header class="panel-heading">
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <div class="" id="header-flex">
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Opened Bills </b></h3>
+
+
+
+
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                    <tr>
+                        <th width="5%">ID</th>
+                        <th>Customer</th>
+                        <th>Order Date</th>
+                        <th>Reference Note</th>
+                        <th>Total Price</th>
+                        <th width="15%">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 1;}
+                    @foreach (var purchaseOrder in Model)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@purchaseOrder.BusinessPartner.Name</td>
+                            <td>@purchaseOrder.TransDate.ToString("f")</td>
+                            <td>@purchaseOrder.TransRef</td>
+                            <td>@purchaseOrder.TotalPrice</td>
+                            <td>
+                                @Html.ActionLink(" ", "Index", "PointOfSale", new { hold = @purchaseOrder.Id }, new { @class = "btn btn-info   btn-sm fa fa-th-large  ", data_toggle = "tooltip", title = "Preview !" })
+                                @Html.ActionLink(" ", "DeleteBill", "PointOfSale", new { id = @purchaseOrder.Id }, new { @class = "btn btn-danger  btn-sm fa fa-trash-o  ", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+

@@ -21,5 +21,6 @@ namespace POSApp.Core.Repositories
         Task<BusinessPartner> GetBusinessPartnerAsync(int id, int StoreId);
         Task<IEnumerable<BusinessPartner>> GetBusinessPartnersAsync(string type, int StoreId);
         Task AddBusinessPartnerAsync(BusinessPartner item);
+        bool IsWalkIn(int id, int StoreId);
     }
 }

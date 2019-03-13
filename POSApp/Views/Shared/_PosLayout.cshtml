@@ -28,7 +28,7 @@
         "captcha": "0",
         "currency_prefix": "RS",
         "default_customer": "3",
-        "default_tax_rate": "5%",
+        "default_tax_rate": "0%",
         "rows_per_page": "10",
         "total_rows": "30",
         "header":
@@ -154,8 +154,8 @@
             $('#discount_val').val('0');
         }
         if (! get('spos_tax')) {
-            store('spos_tax', '5%');
-            $('#tax_val').val('5%');
+            store('spos_tax', '0%');
+            $('#tax_val').val('0%');
         }
 
         if (ots = get('spos_tax')) {

@@ -94,6 +94,21 @@ namespace POSApp.Persistence.Repositories
             }
 
         }
+
+        public bool IsWalkIn(int id,int StoreId)
+        {
+            var customer = _context.BusinessPartners.Where(z => z.Id == id && z.Type == "C" && z.StoreId == StoreId)
+                .ToList().FirstOrDefault();
+            if (customer.Name.ToLower() == "walk-in customer")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
         public void DeleteBusinessPartner(int id, int StoreId)
         {
             var dept = _context.BusinessPartners.FirstOrDefault(a => a.Id == id && a.StoreId == StoreId);
