@@ -112,15 +112,15 @@
                         @foreach (var product in Model.TransDetails)
                         {
 
-                        <tr><td>@(product.Product.Name+" ("+product.Product.Size+")")</td><td style="text-align: center;">@product.Quantity</td><td class="text-right">@product.UnitPrice</td><td class="text-right">@((product.Quantity*product.UnitPrice).ToString("F"))</td></tr>
+                        <tr><td>@(product.Product.Name+" ("+product.Product.Size+")")</td><td style="text-align: center;">@product.Quantity</td><td class="text-right">@(product.UnitPrice-product.Discount) </td><td class="text-right">@((product.Quantity* (product.UnitPrice - product.Discount)).ToString("F"))</td></tr>
                         }
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th colspan="2">Total</th>
-                                <th colspan="2" class="text-right">@Model.TransDetails.Sum(a=>a.Quantity*a.UnitPrice).ToString("F")</th>
+                                <th colspan="2" class="text-right">@Model.TransDetails.Sum(a=>a.Quantity* (a.UnitPrice - a.Discount)).ToString("F")</th>
                             </tr>
-                            <tr><th colspan="2">Order Tax</th><th colspan="2" class="text-right">@(((Model.Tax/100) * Model.TransDetails.Sum(a => a.Quantity * a.UnitPrice)).ToString("F"))</th></tr>
+                            <tr><th colspan="2">Order Tax</th><th colspan="2" class="text-right">@(((Model.Tax/100) * Model.TransDetails.Sum(a => a.Quantity * (a.UnitPrice-a.Discount))).ToString("F"))</th></tr>
                             <tr>
                                 <th colspan="2">Discount</th>
                                 <th colspan="2" class="text-right">@Model.Discount</th>
