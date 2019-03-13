@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -34,6 +35,7 @@ namespace POSApp.Controllers
         // GET: PointOfSale
         public ActionResult Index(int hold=0,bool IsEmpty=false)
         {
+            ViewBag.alert = TempData["alert"];
             var products = new PosScreen();
             products.Hold = hold;
             var userid = User.Identity.GetUserId();
@@ -85,6 +87,11 @@ namespace POSApp.Controllers
                 default:
                     var holdTrans = _unitOfWork.TransMasterRepository.GetHoldTransaction(hold,
                         Convert.ToInt32(user.StoreId));
+                    if (holdTrans.DineTableId!=null)
+                    {
+                        var selectedTable = products.DineTables.FirstOrDefault(a => a.Value == holdTrans.DineTableId.ToString());
+                        selectedTable.Selected = true;
+                    }
                     products.HoldRef = holdTrans.TransRef;
                     List<RootObject> objects = holdTrans.TransDetails.Select(a => new RootObject
                     {
@@ -119,7 +126,7 @@ namespace POSApp.Controllers
                     string check = json.Serialize(objects.ToArray());
                     Response.Write("<script>localStorage.setItem('spos_customer'," + holdTrans.BusinessPartnerId+ ");" +
                                    "localStorage.setItem('spositems', '"+ check.ToString() + "');" +
-                                   "localStorage.setItem('spos_tax', '5%');" +
+                                   "localStorage.setItem('spos_tax', '0%');" +
                                    "localStorage.setItem('spos_discount', "+holdTrans.Discount+");</script>");
 
                     break;
@@ -146,8 +153,10 @@ namespace POSApp.Controllers
         {
             try
             {
+               
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
+               
                 _unitOfWork.TransMasterRepository.DeleteHold(did, Convert.ToInt32(user.StoreId));
                 var savePo = new TransMaster();
 
@@ -165,7 +174,21 @@ namespace POSApp.Controllers
                 savePo.SessionCode = eid;
                 if (delete_id)
                 {
-                    
+                    if (balance_amount < 0 && _unitOfWork.BusinessPartnerRepository.IsWalkIn(customer_id, Convert.ToInt32(user.StoreId)))
+                    {
+                        TempData["alert"] = @"<div class='col-lg-12 alerts'>
+                        <div class='alert alert-danger alert-dismissable'>
+                        <button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>
+                        <h4><i class='icon fa fa-ban'></i> Error</h4>
+                        Please select customer for due payment. </div>
+                        </div>";
+                        if (did != 0)
+                        {
+                            return RedirectToAction("Index", "PointOfSale",new{hold=did});
+
+                        }
+                        return RedirectToAction("Index", "PointOfSale");
+                    }
                     int TransId = _unitOfWork.AppCountersRepository.GetId("Invoice");
                     savePo.TransCode = "INV-" + "C-" + TransId.ToString() + "-" + Convert.ToInt32(user.StoreId);
                     savePo.TransStatus = "Complete";
@@ -197,7 +220,7 @@ namespace POSApp.Controllers
                         Quantity = quantity[i],
                         Tax = 0,
                         Balance = 0,
-                        Waste = false
+                        Waste = false,
                     });
                 }
 
@@ -210,6 +233,12 @@ namespace POSApp.Controllers
                 }
                 else
                 {
+                    TempData["alert"] = @"<div class='col-lg-12 alerts'>
+                        <div class='alert alert-success alert-dismissable'>
+                        <button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>
+                        <h4><i class='icon fa fa-check'></i> Success</h4>
+                        Invoice added to hold. </div>
+                        </div>";
                     return RedirectToAction("Index", "PointOfSale",new{ IsEmpty = true});
                 }
             }
@@ -487,6 +516,7 @@ namespace POSApp.Controllers
 
         public ActionResult CloseTill()
         {
+          
             try
             {
                 var userid = User.Identity.GetUserId();
@@ -510,7 +540,71 @@ namespace POSApp.Controllers
             _unitOfWork.Complete();
             return RedirectToAction("LogOut", "Account");
         }
-      
+
+        public ActionResult OpenedBills()
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return View(_unitOfWork.TransMasterRepository.GetHoldTransactions(Convert.ToInt32(user.StoreId)).ToList());
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+        }
+        public ActionResult DeleteBill(int id)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TransMasterRepository.DeleteHold(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("Hold order deleted successfully", AlertType.Success);
+                return RedirectToAction("OpenedBills","PointOfSale");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("OpenedBills","PointOfSale");
+
+        }
+
         public ApplicationUserManager UserManager
         {
             get

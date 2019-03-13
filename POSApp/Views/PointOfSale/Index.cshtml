@@ -51,7 +51,7 @@
                                         }
                                    </ul>
                                </li>
-                               <li class="footer"><a href="#">View All</a></li>
+                               <li class="footer"><a href="@Url.Action("OpenedBills","PointOfSale")">View All</a></li>
                            </ul>
                        </li>
                    }
@@ -91,9 +91,8 @@
     </header>
 
     <div class="content-wrapper" style="min-height: 440px;">
-        <div class="col-lg-12 alerts" style="display: none;">
+   @Html.Raw(ViewBag.alert)
 
-        </div>
         <table style="width: 100%;" class="layout-table">
             <tbody>
                 <tr>
@@ -123,7 +122,7 @@
                                                     <option value="">Select a Table</option>
                                                     @foreach (var selectListItem in Model.DineTables)
                                                     {
-                                                        <option value="@selectListItem.Value" >@selectListItem.Text</option>
+                                                        <option value="@selectListItem.Value" selected="@selectListItem.Selected" >@selectListItem.Text</option>
                                                     }
                                                 </select>
                                             </div>
