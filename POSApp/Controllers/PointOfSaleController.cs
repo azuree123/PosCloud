@@ -153,7 +153,7 @@ namespace POSApp.Controllers
 
                 savePo.StoreId = Convert.ToInt32(user.StoreId);
                 savePo.BusinessPartnerId = customer_id;
-                savePo.TotalPrice = amount;
+                savePo.TotalPrice = amount-balance_amount;
                 savePo.Discount = order_discount;
                 savePo.PaymentMethod = paid_by;
                 savePo.Tax = Convert.ToDecimal(order_tax.Replace("%",String.Empty));

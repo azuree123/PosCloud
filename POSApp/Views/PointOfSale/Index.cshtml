@@ -56,8 +56,8 @@
                        </li>
                    }
                     @*<li><a href="#/register_details" data-toggle="ajax">Register Details</a></li>
-                    <li><a href="#/today_sale" data-toggle="ajax">Today's Sale</a></li>
-                    <li><a href="#/close_register" data-toggle="ajax">Close Register</a></li>*@
+                    <li><a href="#/today_sale" data-toggle="ajax">Today's Sale</a></li>*@
+                    <li><a href="@Url.Action("CloseTill","PointOfSale")" >Close Till</a></li>
                     <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a></li>
 
                     @*<li class="dropdown user user-menu">
@@ -785,6 +785,7 @@
     var socket = null;
 
     function printBill(bill) {
+        debugger;
         if (Settings.remote_printing == 1) {
             Popup($('#bill_tbl').html());
         } else if (Settings.remote_printing == 2) {
