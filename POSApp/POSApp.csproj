@@ -3826,11 +3826,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>VoidReasonsReport.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Reports\ExpiredItemsReport.rpt">
+    <Content Include="Reports\ExpiredItemsReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ExpiredItemsReport.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\InventoryTotalCostReport.rpt">
+    </Content>
     <Content Include="Reports\InventoryTotalCostReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>InventoryTotalCostReport.cs</LastGenOutput>
