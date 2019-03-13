@@ -463,6 +463,7 @@
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\ClientViewModel.cs" />
     <Compile Include="Core\ViewModels\ComboReportSaleViewModel.cs" />
+    <Compile Include="Core\ViewModels\ExpiryReportViewModel.cs" />
     <Compile Include="Core\ViewModels\InventoryCostReportViewModel.cs" />
     <Compile Include="Core\ViewModels\OrderDiscountViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductDiscountViewModel.cs" />
@@ -807,6 +808,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EmployeeShiftReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\ExpiredItemsReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExpiredItemsReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\Header.cs">
@@ -3819,6 +3826,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>VoidReasonsReport.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="Reports\ExpiredItemsReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ExpiredItemsReport.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\InventoryTotalCostReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>InventoryTotalCostReport.cs</LastGenOutput>

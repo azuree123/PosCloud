@@ -47,5 +47,6 @@ namespace POSApp.Core.Repositories
        List<OrderDiscountViewModel> GenerateOrderDiscountData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<ProductDiscountViewModel> GenerateProductDiscountData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<InventoryCostReportViewModel> GenerateItemsCostData(int storeId, DateTime dateFrom, DateTime dateTo);
+       List<ExpiryReportViewModel> GenerateExpiryData(int storeId, DateTime dateFrom, DateTime dateTo);
    }
 }
