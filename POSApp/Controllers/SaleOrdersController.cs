@@ -319,8 +319,14 @@ namespace POSApp.Controllers
             var data = _unitOfWork.TransMasterRepository.GetTransMaster(saleOrderId, (int) user.StoreId);
             return View(data);
         }
+        public ActionResult RefundDetailList(int saleOrderId)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            var data = _unitOfWork.TransMasterRepository.GetTransMaster(saleOrderId, (int)user.StoreId);
+            return View(data);
+        }
 
-       
         public ApplicationUserManager UserManager
         {
             get

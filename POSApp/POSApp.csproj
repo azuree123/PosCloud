@@ -3616,6 +3616,7 @@
     <Content Include="Views\Reports\GenerateStockReport.cshtml" />
     <Content Include="Views\Reports\GenerateShiftReport.cshtml" />
     <Content Include="Views\Reports\GenerateCostReport.cshtml" />
+    <Content Include="Views\SaleOrders\RefundDetailList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

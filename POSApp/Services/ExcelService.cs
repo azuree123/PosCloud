@@ -28,7 +28,7 @@ namespace POSApp.Services
             rd.SetDataSource(dtList);
             foreach (ReportDocument reportDocument in rd.Subreports)
             {
-                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(details, reportName));
+                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(storeId,details, reportName));
             }
             rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
             var report = new ReportsLog
@@ -58,7 +58,7 @@ namespace POSApp.Services
             rd.Load(Path.Combine(crystalReportPath, crystalReportName));
             foreach (ReportDocument reportDocument in rd.Subreports)
             {
-                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(details, reportName));
+                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(storeId,details, reportName));
             }
             rd.SetDataSource(dtList);
             rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
@@ -89,7 +89,7 @@ namespace POSApp.Services
             rd.Load(Path.Combine(crystalReportPath, crystalReportName));
             foreach (ReportDocument reportDocument in rd.Subreports)
             {
-                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(details, reportName));
+                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(storeId,details, reportName));
             }
             rd.SetDataSource(dtList);
             rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
@@ -119,7 +119,7 @@ namespace POSApp.Services
             rd.Load(Path.Combine(crystalReportPath, crystalReportName));
             foreach (ReportDocument reportDocument in rd.Subreports)
             {
-                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(details, reportName));
+                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(storeId,details, reportName));
             }
             rd.SetDataSource(dtList);
             rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
@@ -149,7 +149,7 @@ namespace POSApp.Services
             rd.Load(Path.Combine(crystalReportPath, crystalReportName));
             foreach (ReportDocument reportDocument in rd.Subreports)
             {
-                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(details, reportName));
+                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(storeId,details, reportName));
             }
             rd.SetDataSource(dtList);
             rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
@@ -179,7 +179,7 @@ namespace POSApp.Services
             rd.Load(Path.Combine(crystalReportPath, crystalReportName));
             foreach (ReportDocument reportDocument in rd.Subreports)
             {
-                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(details, reportName));
+                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(storeId,details, reportName));
             }
             rd.SetDataSource(dtList);
             rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
@@ -210,7 +210,7 @@ namespace POSApp.Services
             rd.Load(Path.Combine(crystalReportPath, crystalReportName));
             foreach (ReportDocument reportDocument in rd.Subreports)
             {
-                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(details, reportName));
+                reportDocument.SetDataSource(unitOfWork.ReportsRepository.GenerateSubReportData(storeId,details, reportName));
             }
             rd.SetDataSource(dtList);
             rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);

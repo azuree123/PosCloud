@@ -258,7 +258,7 @@ namespace POSApp.Controllers
                 rd.SetDataSource(_unitOfWork.ReportsRepository.GenerateProductSalesData((int)user.StoreId, dateFrom, dateTo));
                 foreach (ReportDocument reportDocument in rd.Subreports)
                 {
-                    reportDocument.SetDataSource(_unitOfWork.ReportsRepository.GenerateSubReportData(details, "ProductSalesReport"));
+                    reportDocument.SetDataSource(_unitOfWork.ReportsRepository.GenerateSubReportData((int)user.StoreId, details, "ProductSalesReport"));
                 }
                 rd.SetParameterValue("totalDiscount", _unitOfWork.ReportsRepository.GetProductSalesDiscount((int)user.StoreId, dateFrom, dateTo));
                 rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);

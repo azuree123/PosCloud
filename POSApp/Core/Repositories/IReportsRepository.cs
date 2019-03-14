@@ -32,7 +32,7 @@ namespace POSApp.Core.Repositories
        List<PaymentMethodTimelySaleViewModel> GeneratePaymentMethodTimeWiseSalesData(int storeId, DateTime dateFrom,
            DateTime dateTo);
 
-       List<SubReportViewModel> GenerateSubReportData(string details, string reportName);
+       List<SubReportViewModel> GenerateSubReportData(int storeId, string details, string reportName);
        List<PurchaseReportViewModel> GenerateTotalPurchasesData(int storeId, DateTime dateFrom, DateTime dateTo);
        List<PurchaseReportViewModel> GeneratePurchasesPerSupplierData(int storeId, int supplierId);
        List<SalesReportViewModel> GenerateTransactionsData(int storeId, DateTime dateFrom, DateTime dateTo);

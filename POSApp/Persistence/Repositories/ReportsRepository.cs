@@ -17,14 +17,16 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
-        public List<SubReportViewModel> GenerateSubReportData(string details,string reportName)
+        public List<SubReportViewModel> GenerateSubReportData(int storeId,string details,string reportName)
         {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId) };
             var sql = @"select a.Name as CompanyName,a.Contact as PhoneNumber,a.Address as Address
 			from PosCloud.Clients as a 
             inner join PosCloud.Stores as d on a.Id=d.ClientId
+            where d.Id = @p1
             group by a.Name,a.Contact,a.Address
                 ";
-            var data = _context.Database.SqlQuery<SubReportViewModel>(sql).ToList();
+            var data = _context.Database.SqlQuery<SubReportViewModel>(sql,parameters.ToArray()).ToList();
             foreach (var subReportViewModel in data)
             {
                 subReportViewModel.ReportName = reportName;
