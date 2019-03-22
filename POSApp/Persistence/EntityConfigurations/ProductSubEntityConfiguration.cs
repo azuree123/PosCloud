@@ -19,10 +19,11 @@ namespace POSApp.Persistence.EntityConfigurations
             //******************************************************************************************* PROPERTIES ***************
             Property(x => x.Qty).HasColumnType("float").IsRequired();
             Property(x => x.Code).HasColumnType("varchar").HasMaxLength(150).IsOptional();
-
+            Property(x => x.Price).HasColumnType("decimal").IsRequired();
+            Property(x => x.Modifiable).HasColumnType("bit").IsOptional();
             //******************************************************************************************* Auditable ***************
 
-           
+
 
             //******************************************************************************************* Auditable ***************
 

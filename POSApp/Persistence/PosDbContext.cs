@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -63,6 +64,9 @@ namespace POSApp.Persistence
         public DbSet<Size> Sizes { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<ComboProductsTransDetail> ComboProductsTransDetails { get; set; }
+       
+
         public void SetCommandTimeOut(int Timeout)
         {
           

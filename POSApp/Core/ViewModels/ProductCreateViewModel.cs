@@ -46,12 +46,17 @@ namespace POSApp.Core.ViewModels
         public bool InventoryItem { get; set; }
         public bool PurchaseItem { get; set; }
         public bool FixedAssetItem { get; set; }
+       
         public IEnumerable<SelectListItem> CategoryDdl { get; set; }
         public IEnumerable<SelectListItem> UnitDdl { get; set; }
         public IEnumerable<SelectListItem> TaxDdl { get; set; }
         public IEnumerable<SelectListItem> SectionDdl { get; set; }
         public IEnumerable<SelectListItem> SizeDdl { get; set; }
+        public IEnumerable<SelectListItem> ModifierDDl { get; set; }
+        public string ModifierDisplay { get; set; }
+        public string[] Modifiers { get; set; }
 
+        public List<ProductHelperViewModel> ProductHelperViewModels { get; set; } = new List<ProductHelperViewModel>();
 
     }
     public class ProductDtViewModel

@@ -144,8 +144,8 @@
 
 
                                             <div class="col-md-4">
-                                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label required1" })
-                                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Description", @Required = true } })
+                                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Description" } })
                                                 @Html.ValidationMessageFor(model => model.Attribute, "", new { @class = "text-danger" })
                                             </div>
                                             <div class="col-md-4">
@@ -169,7 +169,7 @@
                                         <div class="form-group">
 
                                             <div class="col-md-4">
-                                                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label required1" })
+                                                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label " })
                                                 <input type="file" name="file" id="file" />
                                                 @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
                                             </div>
@@ -475,7 +475,11 @@
                 type: 'GET',
                 cache: false,
                 success: function (result) {
-                    $('#ModalData').html(result).find('#ordine').modal('show');
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+
+
                 }
             });
 
@@ -515,7 +519,7 @@
             return false;
         });
         $('#datatable-default').dataTable();
-        @Html.Raw(ViewBag.js)
+      
     </script>
     <script>
         $("input").on("keypress", function (e) {
@@ -523,6 +527,7 @@
                 e.preventDefault();
         });
     </script>
+    @Html.Raw(ViewBag.js)
 }
 
 

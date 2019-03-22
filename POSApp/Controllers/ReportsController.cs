@@ -108,7 +108,48 @@ namespace POSApp.Controllers
             }
             return View();
         }
+        public ActionResult GenerateShiftReport(string target)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ViewBag.edit = target;
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            if (store.ClientId == null)
+            {
+                ViewBag.branches = new List<SelectListItem>(){new SelectListItem
+                {
+                    Text = store.Name, Value = store.Id.ToString(),Selected = true
+                }};
 
+            }
+            else
+            {
+                var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+                ViewBag.branches = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            }
+            return View();
+        }
+        public ActionResult GenerateCostReport(string target)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ViewBag.edit = target;
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            if (store.ClientId == null)
+            {
+                ViewBag.branches = new List<SelectListItem>(){new SelectListItem
+                {
+                    Text = store.Name, Value = store.Id.ToString(),Selected = true
+                }};
+
+            }
+            else
+            {
+                var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+                ViewBag.branches = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            }
+            return View();
+        }
         public ActionResult GenerateCustomerReport(string target)
         {
             var userid = User.Identity.GetUserId();
@@ -217,7 +258,7 @@ namespace POSApp.Controllers
                 rd.SetDataSource(_unitOfWork.ReportsRepository.GenerateProductSalesData((int)user.StoreId, dateFrom, dateTo));
                 foreach (ReportDocument reportDocument in rd.Subreports)
                 {
-                    reportDocument.SetDataSource(_unitOfWork.ReportsRepository.GenerateSubReportData(details, "ProductSalesReport"));
+                    reportDocument.SetDataSource(_unitOfWork.ReportsRepository.GenerateSubReportData((int)user.StoreId, details, "ProductSalesReport"));
                 }
                 rd.SetParameterValue("totalDiscount", _unitOfWork.ReportsRepository.GetProductSalesDiscount((int)user.StoreId, dateFrom, dateTo));
                 rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, filePath + fileName);
@@ -1103,15 +1144,15 @@ namespace POSApp.Controllers
 
         }
         [HttpPost]
-        public ActionResult GenerateProductCostReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        public ActionResult GenerateProductCostReport(int branchId)
         {
             try
             {
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
-                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductCostData((int)user.StoreId, dateFrom, dateTo),
+                string details = " " +  " ";
+                int logId = ExcelService.GenerateCostCrystalReport(_unitOfWork.ReportsRepository.GenerateProductCostData((int)user.StoreId),
                     "ProductsCostReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductsCostReport.rpt");
                 return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
@@ -1253,15 +1294,15 @@ namespace POSApp.Controllers
 
         }
         [HttpPost]
-        public ActionResult GenerateEmployeeShiftReport(DateTime dateFrom, DateTime dateTo, int branchId)
+        public ActionResult GenerateEmployeeShiftReport(int branchId)
         {
             try
             {
 
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                string details = "Period From: " + dateFrom.ToShortDateString() + " To: " + dateTo.ToShortDateString();
-                int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateEmployeeShiftData((int)user.StoreId, dateFrom, dateTo),
+                string details = " " + " To: ";
+                int logId = ExcelService.GenerateShiftCrystalReport(_unitOfWork.ReportsRepository.GenerateEmployeeShiftData((int)user.StoreId),
                     "EmployeesShiftReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
                     (int)user.StoreId, details, Server.MapPath("~/Reports"), "EmployeeShiftReport.rpt");
                 return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });

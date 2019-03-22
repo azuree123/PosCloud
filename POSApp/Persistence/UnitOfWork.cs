@@ -64,6 +64,7 @@ namespace POSApp.Persistence
         public ISizeRepository SizeRepository { get; private set; }
         public IRecipeRepository RecipeRepository { get; private set; }
         public IWarehouseRepository WarehouseRepository { get; private set; }
+        public IComboProductTransDetailRepository ComboProductTransDetailRepository { get; private set; }
         public UnitOfWork(PosDbContext context)
         {
             _context = context;
@@ -111,6 +112,7 @@ namespace POSApp.Persistence
             SizeRepository = new SizeRepository(context);
             RecipeRepository = new RecipeRepository(context);
             WarehouseRepository = new WarehouseRepository(context);
+            ComboProductTransDetailRepository = new ComboProductTransDetailRepository(context);
         }
 
         public void Complete()

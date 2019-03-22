@@ -14,7 +14,7 @@ namespace POSApp.Core.ViewModels.Sync
     {
         public TransDetail TransDetail { get; set; }
         public List<ModifierTransDetail> ModifierTransDetails { get; set; }
-
+        public List<ComboProductsTransDetail> ComboProductsTransDetails { get; set; }
 
     }
     public class SyncObject

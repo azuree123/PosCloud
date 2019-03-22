@@ -33,5 +33,7 @@ namespace POSApp.Core.Models
         [DefaultValue(0)]
         public decimal Discount { get; set; }
         public virtual ICollection<ModifierTransDetail> ModifierTransDetail { get; set; }
+        public virtual ICollection<ComboProductsTransDetail> ComboProductsTransDetails { get; set; }
+
     }
 }

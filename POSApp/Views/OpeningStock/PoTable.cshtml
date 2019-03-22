@@ -1,0 +1,45 @@
+﻿@model List<POSApp.Core.ViewModels.TransDetailViewModel>
+@{
+    Layout = null;
+}
+
+<div class="row mb-lg">
+    <div class="col-md-12">
+        <table class="table mb-none" style="width:100%" id="datatable-default">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Cost</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @{ int count = 1;}
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@(count++)</td>
+                    <td>@s.ProductName</td>
+                    <td>@String.Format("{0:#,##0.00}", s.Quantity)</td>
+                    <td>@s.UnitName</td>
+                    <td>@s.UnitPrice</td>
+                    <td>
+                        @Ajax.ActionLink(" ", "RemoveTransactionItem", "OpeningStock", new { productId = @s.ProductCode },new AjaxOptions { HttpMethod = "GET",
+                            UpdateTargetId = "AjaxUpdate"
+                        },new{
+                            @onclick = "return confirm('Are you sure?')",
+                            @class = "btn btn-danger btn-sm fa fa-trash-o",
+                            @style = "color: #ffffff;"
+                        })
+                    </td>
+                </tr>
+            }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

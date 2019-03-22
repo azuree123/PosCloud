@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using POSApp.Core.Models;
 
 namespace POSApp.Core.ViewModels
 {
@@ -29,6 +30,7 @@ namespace POSApp.Core.ViewModels
         public string[] Products { get; set; }
 
         public List<RecipeListViewModel> RecipeList { get; set; }
+        
     }
     public class RecipeListViewModel
     {
@@ -40,6 +42,7 @@ namespace POSApp.Core.ViewModels
         public decimal? Calories { get; set; }
         public string IngredientName { get; set; }
         public string Unit { get; set; }
+       
 
 
     }

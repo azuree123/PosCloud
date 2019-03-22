@@ -41,14 +41,30 @@
                                     @Html.TextBoxFor(model => model.ProductName, new  { @style = "display:none;",@id="productName" })
 
 
-                                    <div class="col-md-8 col-md-offset-2">
+                                    <div class="col-md-8 col-md-offset-2 ">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.ProductCode, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.DropDownListFor(model => model.ProductCode, Model.ProductDdl, "Select an Option", new { @class = "form-control", @required = true,@id="productCode" })
-                                            @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
+                                            <label class="control-label">
+                                                Product Name
+                                            </label>
 
+                                            <select name="productId" id="productDdl" required="" class="form-control populate selectddl" autofocus style="width:100%">
+                            
+                                                <option value="">Select an Option</option>
+
+                                                @foreach (var data in Model.ProductDdl)
+                                                {
+                                                    <option value="@data.Value">@(data.Text)</option>
+
+                                                }
+                               
+
+
+
+
+                                            </select>
                                         </div>
                                     </div>
+                                   
 
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="form-group">
@@ -88,5 +104,12 @@
     $("input").on("keypress", function (e) {
         if (e.which === 32 && !this.value.length)
             e.preventDefault();
+    });
+</script>
+
+    
+<script>
+    $(document).ready(function () {
+        $('.selectddl').select2();
     });
 </script>

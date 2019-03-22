@@ -11,6 +11,7 @@ namespace POSApp.Core.Models
         public int Id { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
+        public int ComboSubItem { get; set; }
         public int TransDetailId { get; set; }
         public TransDetail TransDetail { get; set; }
         [DefaultValue(0)]

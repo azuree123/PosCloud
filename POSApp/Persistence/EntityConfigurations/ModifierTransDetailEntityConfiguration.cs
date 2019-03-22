@@ -16,6 +16,7 @@ namespace POSApp.Persistence.EntityConfigurations
             HasKey(a => new {a.Id, a.StoreId});
             Property(a => a.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(a => a.Quantity).HasColumnType("int").IsRequired();
+            Property(a => a.ComboSubItem).HasColumnType("int").IsOptional();
             Property(a => a.UnitPrice).HasColumnType("decimal").IsRequired();
             HasRequired(a=>a.Store).WithMany(a=>a.ModifierTransDetails).HasForeignKey(a=>a.StoreId).WillCascadeOnDelete(false);
             HasRequired(a=>a.ModifierOption).WithMany(a=>a.ModifierTransDetail).HasForeignKey(a=> new{a.ModifierOptionId,a.StoreId}).WillCascadeOnDelete(false);

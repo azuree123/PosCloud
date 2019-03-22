@@ -33,7 +33,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "PRO")));
+            return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "PRO").OrderBy(a => a.TransDate)));
         }
         public ActionResult DailyPurchaseOrderList()
         {
@@ -135,7 +135,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>(a.PurchaseItem||a.InventoryItem)).Select(a=>new SelectListItem{Text = a.Name,Value = a.Id.ToString()}));
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>(a.PurchaseItem||a.InventoryItem)).OrderBy(a=>a.Name).Select(a=>new SelectListItem{Text = a.Name+"("+a.ProductCode+")",Value = a.Id.ToString()}));
         }
         [HttpPost]
         public ActionResult AddTransactionItem(int productId,int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
@@ -711,7 +711,7 @@ namespace POSApp.Controllers
                     purchasingVm.StoreId = user.StoreId;
 
                     var savePo = Mapper.Map<TransMaster>(purchasingVm);
-
+                    savePo.Type = "PRI";
                     IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid && a.StoreId == user.StoreId);
 
                     savePo.TotalPrice = (from a in poItems

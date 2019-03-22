@@ -199,7 +199,7 @@ namespace POSApp.Persistence.Repositories
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", date), new SqlParameter("@p3", ingredientCode) };
             var sql = @"select SUM(b.UnitPrice*b.Quantity)/SUM(b.Quantity) as Average from PosCloud.TransMaster as a 
             inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
-            where a.StoreId=3 and a.Type='PRI' and b.ProductCode=@p3 and a.TransDate<=@p2
+            where a.StoreId=@p1 and a.Type='PRI' and b.ProductCode=@p3 and a.TransDate<=@p2
                 ";
             var data = Convert.ToDecimal(_context.Database.SqlQuery<decimal?>(sql, parameters.ToArray()).ToList().Sum());
             return data;

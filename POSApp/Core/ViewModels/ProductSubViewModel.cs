@@ -10,6 +10,8 @@ namespace POSApp.Core.ViewModels
     public class ProductSubViewModel
     {
         public string ComboProductCode { get; set; }
+        public decimal Price { get; set; }
+        public bool Modifiable { get; set; }
         public int StoreId { get; set; }
         [DisplayName("Product")]
         public string ProductCode { get; set; }
