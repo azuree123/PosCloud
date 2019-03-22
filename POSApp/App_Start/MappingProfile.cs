@@ -13,7 +13,7 @@ namespace POSApp
     {
         public MappingProfile()
         {
-            CreateMap<ProductCreateViewModel,Product>();
+            CreateMap<ProductCreateViewModel,Product>().ForMember(a => a.Modifiers, o => o.Ignore());
             CreateMap<Product, ProductCreateViewModel>();
             CreateMap<ProductDtViewModel, Product>();
             CreateMap<Product, ProductDtViewModel>();
@@ -179,7 +179,8 @@ namespace POSApp
                 .ForMember(a => a.CategoryName, g => g.MapFrom(o => o.Name))
                 .ForMember(a => a.StoreId, g => g.MapFrom(o => o.StoreId));
 
-        
+            CreateMap<ComboProductsTransDetail, ComboProductsTransDetailViewModel>();
+            CreateMap<ComboProductsTransDetailViewModel, ComboProductsTransDetail>();
         }
         private string ImageReturn(string image)
         {

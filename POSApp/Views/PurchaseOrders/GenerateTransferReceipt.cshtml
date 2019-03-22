@@ -124,7 +124,7 @@
 
                             <td class="text-center">@s.Quantity</td>
 
-                            <td class="text-right">@s.UnitPrice</td>
+                            <td class="text-right">@String.Format("{0:#,##0.00}", s.UnitPrice)</td>
                         </tr>
                     }
 
@@ -156,7 +156,7 @@
                             <br />
                             <br />
 
-                            @Model.TotalAmount
+                            @String.Format("{0:#,##0.00}", Model.TotalAmount)
                         </td>
                     </tr>
                     <tr>
@@ -167,7 +167,7 @@
                     <tr>
 
                         <td class="text-capitalize text-xl"><strong>Total </strong></td>
-                        <td class="text-right text-xl"><strong>  @Model.TotalAmount</strong></td>
+                        <td class="text-right text-xl"><strong>@String.Format("{0:#,##0.00}", Model.TotalAmount)</strong></td>
                     </tr>
                     <tr>
                         <td class="text-left pb-xx">

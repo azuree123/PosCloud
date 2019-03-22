@@ -1,0 +1,46 @@
+﻿@model List<POSApp.Core.ViewModels.ProductHelperViewModel>
+@{
+    Layout = null;
+}
+
+<div class="row mb-lg">
+    <div class="col-md-12">
+        <table class="table mb-none" style="width:100%" id="datatable-default">
+            <thead>
+            <tr>
+                
+                <th>Size</th>
+                
+                <th>Price</th>
+                <th>Barcode</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+           
+            @foreach (var s in Model)
+            {
+                <tr>
+
+                    <td>@s.Size</td>
+
+                    <td>@String.Format("{0:#,##0.00}", s.Price)</td>
+                    <td>@s.Barcode</td>
+
+                    <td>
+                        @Ajax.ActionLink(" ", "RemoveProductItem", "Products", new {size = @s.Size, @s.Barcode,price=@s.Price },new AjaxOptions { HttpMethod = "GET",
+                       UpdateTargetId = "AjaxUpdate"
+                   },new{
+                       @onclick = "return confirm('Are you sure?')",
+                       @class = "btn btn-danger btn-sm fa fa-trash-o",
+                       @style = "color: #ffffff;"
+                   })
+                    </td>
+                </tr>
+            }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

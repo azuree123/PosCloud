@@ -43,6 +43,7 @@
                     <div class="panel panel-bd lobidrag">
 
                         <div class="panel-body">
+                            
                             @if (alertModel != null)
                             {
                                 @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
@@ -67,7 +68,7 @@
                                     </div>
 
                                 </div>
-                             
+
                                 <div class="col-md-2">
                                     @Html.LabelFor(model => model.Quantity, htmlAttributes: new {@class = "control-label"})
                                     @Html.EditorFor(model => model.Quantity, new {htmlAttributes = new {@class = "form-control", @placeholder = "Enter Quantity"}})
@@ -82,19 +83,19 @@
 
                                 </div>
                                 <div class="col-md-2">
-                                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label required1" })
-                                    @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control unstyled", @required = true } })
-                                    @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new {@class = "control-label required1"})
+                                    @Html.EditorFor(model => model.ExpiryDate, new {htmlAttributes = new {@class = "form-control unstyled", @required = true}})
+                                    @Html.ValidationMessageFor(model => model.ExpiryDate, "", new {@class = "text-danger"})
                                 </div>
                                 <div class="col-md-1 ">
-                                    <div class="pull-right" style="    margin-top: 24px;">
+                                    <div class="pull-right" style="margin-top: 24px;">
 
-                                    <button type="submit" class="btn btn-default btn-sm btnPro"><span class="glyphicon glyphicon-plus"></span></button>
+                                        <button type="submit" class="btn btn-default btn-sm btnPro"><span class="glyphicon glyphicon-plus"></span></button>
                                     </div>
                                 </div>
-                               
 
-                                <input type="hidden" id="expiry_date" value="@Model.ExpiryDate" />
+
+                                <input type="hidden" id="expiry_date" value="@Model.ExpiryDate"/>
                             </div>
                         </div>
                     </div>
@@ -105,6 +106,7 @@
                                     <th>Ingredient</th>
                                     
                                     <th>Quantity</th>
+                                    
                                     <th>Calories</th>
                                     <th>Expiry Date</th>
                                     <th>Action</th>
@@ -116,7 +118,8 @@
                                 <tr>
                                     <td>@data.IngredientName</td>
                                     
-                                    <td>@data.Quantity</td>
+                                    <td>@(data.Quantity)</td>
+                                   
                                     <td>@data.Calories</td>
                                     <td>@data.ExpiryDate.ToShortDateString()</td>
 

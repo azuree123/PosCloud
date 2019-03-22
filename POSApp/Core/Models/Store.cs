@@ -52,7 +52,7 @@ namespace POSApp.Core.Models
         public virtual ICollection<Recipe> Recipes { get; set; }
 
         public virtual ICollection<Warehouse> Warehouses { get; set; }
-        
+        public virtual ICollection<ComboProductsTransDetail> ComboProductsTransDetails { get; set; }
 
     }
 }

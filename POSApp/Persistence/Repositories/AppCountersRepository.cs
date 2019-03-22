@@ -105,6 +105,11 @@ namespace POSApp.Persistence.Repositories
                     if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
                     appCounter.DamageId = intId;
                     break;
+                case "OpeningStock":
+                    intId = _context.AppCounters.Max(u => u.OpeningStockId);
+                    if (intId <= 0) { intId = 1; } else { intId = intId + 1; }
+                    appCounter.OpeningStockId = intId;
+                    break;
             }
 
             //_context.SaveChanges();
@@ -143,6 +148,9 @@ namespace POSApp.Persistence.Repositories
                     break;
                 case "TRA":
                     appCounter.TransferId = intId;
+                    break;
+                case "OpeningStock":
+                    appCounter.OpeningStockId = intId;
                     break;
             }
 

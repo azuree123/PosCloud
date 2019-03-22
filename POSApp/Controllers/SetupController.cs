@@ -3036,8 +3036,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             model.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int) user.StoreId)
                 .Select(a => new SelectListItem{Text = a.Name,Value = a.Id.ToString()});
-            model.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
+            model.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>!a.InventoryItem && !a.PurchaseItem)
+                .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
             model.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             return View(model);
@@ -3049,8 +3049,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => !a.InventoryItem && !a.PurchaseItem)
+                .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
             timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             ViewBag.edit = "AddTimedEvent";
@@ -3182,8 +3182,8 @@ namespace POSApp.Controllers
                 Mapper.Map<TimedEventViewModel>(_unitOfWork.TimedEventRepository.GetTimedEventById(id, (int)user.StoreId));
             timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => !a.InventoryItem && !a.PurchaseItem)
+                .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
             timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             ViewBag.alert = "<script> $(document).ready(function() {$('#CategoriesArea').css('display', 'none');$('#BranchesArea').css('display', 'none');" +
@@ -3197,8 +3197,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode });
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => !a.InventoryItem && !a.PurchaseItem)
+                .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
             timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             ViewBag.edit = "UpdateTimedEvent";

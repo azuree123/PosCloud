@@ -215,21 +215,31 @@ namespace POSApp.Controllers
         //Add Product
         public ActionResult AddProduct()
         {
+
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+            if (ProductHelper.temptProduct!=null)
+            {
+                ProductHelper.EmptyTemptProduct(userid, Convert.ToInt32(user.StoreId));
+            }
             ProductCreateViewModel product = new ProductCreateViewModel();
-            product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a=>a.Type!="Combo")
+            product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a=>a.Type!="Combo").OrderBy(a=>a.Name)
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
-            product.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+            product.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId).OrderBy(a=>a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            product.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+            product.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId).OrderBy(a=>a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+            product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId).OrderBy(a=>a.Name)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             product.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
+            product.ModifierDDl = _unitOfWork.ModifierRepository.GetModifiers((int) user.StoreId).OrderBy(a => a.Name)
+                .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
             product.ProductCode =  "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
+
+          
+
             var isAjax = Request.IsAjaxRequest();
             if (!isAjax)
             {
@@ -245,16 +255,18 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = "AddProduct";
-            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type != "Combo")
+            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type != "Combo").OrderBy(a=>a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
+            productVm.ModifierDDl = _unitOfWork.ModifierRepository.GetModifiers((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
                 
@@ -291,14 +303,37 @@ namespace POSApp.Controllers
 
                 }
                 {
+                   
 
+                    foreach (var productHelperViewModel in ProductHelper.temptProduct)
+                    {
                     productVm.StoreId = user.StoreId;
                     Product product = Mapper.Map<Product>(productVm);
+                        product.Size = productHelperViewModel.Size;
+                        product.Barcode = productHelperViewModel.Barcode;
+                        product.UnitPrice = Convert.ToDouble(productHelperViewModel.Price);
                     int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
                     product.ProductCode = "PRO-" + "C-" + prodId.ToString() + "-" + user.StoreId;
                     product.Type = "Product";
                     _unitOfWork.ProductRepository.AddProduct(product);
-                    _unitOfWork.Complete();
+                        if (productVm.Modifiers != null)
+                        {
+                        foreach (var modifierm in productVm.Modifiers)
+                        {
+                            product.ModifierLinkProducts.Add(new ModifierLinkProduct
+                            {
+                                ModifierId = Convert.ToInt32(modifierm),
+                                ModifierStoreId = product.StoreId
+                            });
+                        }
+                        }
+                        _unitOfWork.Complete();
+                        
+                    }
+                    if (ProductHelper.temptProduct != null)
+                    {
+                        ProductHelper.EmptyTemptProduct(userid, Convert.ToInt32(user.StoreId));
+                    }
                     TempData["Alert"] = new AlertModel("The product added successfully", AlertType.Success);
                     return null;
                 }
@@ -344,6 +379,55 @@ namespace POSApp.Controllers
 
 
         }
+        public JsonResult GetInfo(int id)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                ProductHelperViewModel product =
+                    Mapper.Map<ProductHelperViewModel>(
+                        _unitOfWork.ProductRepository.GetProductById(id, (int)user.StoreId));
+                return Json(product, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        public ActionResult AddProductItem()
+        {
+           
+            ProductHelperViewModel phVm = new ProductHelperViewModel();
+            return View(phVm);
+        }
+        [HttpPost]
+        public ActionResult AddProductItem( string size,string barcode,decimal price)
+        {
+            if (ProductHelper.temptProduct == null)
+            {
+                ProductHelper.temptProduct = new List<ProductHelperViewModel>();
+            }
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ;
+
+            ProductHelper.AddToTemptProduct(size, barcode,price, user.Id,Convert.ToInt32(user.StoreId));
+            return View("PoProductTable", ProductHelper.temptProduct);
+        }
+        public ActionResult RemoveProductItem(string size, string barcode,decimal price)
+        {
+            if (ProductHelper.temptProduct == null)
+            {
+                ProductHelper.temptProduct = new List<ProductHelperViewModel>();
+                return View("PoProductTable", ProductHelper.temptProduct);
+            }
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            ProductHelper.RemoveFromTemptProduct(size, barcode,price, (int)user.StoreId, user.Id);
+            return View("PoProductTable", ProductHelper.temptProduct);
+        }
         public ActionResult UpdateProduct(string productId)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -354,18 +438,41 @@ namespace POSApp.Controllers
             ViewBag.edit = "UpdateProduct";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+
+            if (ProductHelper.temptProduct == null)
+            {
+                ProductHelper.temptProduct = new List<ProductHelperViewModel>();
+
+            }
+            if (ProductHelper.temptProduct != null)
+            {
+
+                ProductHelper.EmptyTemptProduct(user.Id, (int)user.StoreId);
+            }
+
             ProductCreateViewModel productVm = Mapper.Map<ProductCreateViewModel>(_unitOfWork.ProductRepository.GetProductByCode(productId, Convert.ToInt32(user.StoreId)));
-            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type != "Combo")
+            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type != "Combo").OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
-            return View("AddProduct", productVm);
+            productVm.ModifierDDl = _unitOfWork.ModifierRepository.GetModifiers((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+          
+            foreach (var productVmModifier in productVm.ProductHelperViewModels)
+            {
+                ProductHelper.AddToTemptProduct(productVmModifier.Size, productVmModifier.Barcode, productVmModifier.StoreId, Convert.ToString(productVmModifier.Price), Convert.ToInt32(productVmModifier.UserId));
+            }
+
+            
+            ViewBag.alert = "<script> $(document).ready(function() {$('#ModifierArea');" +
+                            @"});</script>";
+            return View( productVm);
         }
         [HttpPost]
         public ActionResult UpdateProduct(string productId, ProductCreateViewModel productVm,HttpPostedFileBase file)
@@ -373,15 +480,15 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = "UpdateProduct";
-            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type != "Combo")
+            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type != "Combo").OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
@@ -392,7 +499,7 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
-                    return View("AddProduct",productVm);
+                    return View(productVm);
                 }
                 else 
                 {
@@ -411,9 +518,10 @@ namespace POSApp.Controllers
                     Product product = Mapper.Map<Product>(productVm);
                     product.Type = "Product";
                     _unitOfWork.ProductRepository.UpdateProduct(product.ProductCode, Convert.ToInt32(user.StoreId), product);
+                    
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The product updated successfully", AlertType.Success);
-                    return null;
+                    return RedirectToAction("ProductsList","Products");
                 }
                 
             }
@@ -453,7 +561,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return View("AddProduct",productVm);
+            return View(productVm);
 
 
         }
@@ -1325,6 +1433,8 @@ namespace POSApp.Controllers
                 Helper.AddToTempModifierOptions(modifierVmModifierOptionViewModel,userid);
             }
 
+            
+
             ViewBag.js = "<script>ChangeTableFill();</script>";
             return View("AddModifier", modifierVm);
         }
@@ -1466,8 +1576,8 @@ namespace POSApp.Controllers
             ModifierLinkProductViewModel ModifierLinkProduct = new ModifierLinkProductViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            ModifierLinkProduct.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
+            ModifierLinkProduct.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>!a.InventoryItem  && !a.PurchaseItem)
+                .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name + " (" + a.Size + ")" }).AsEnumerable();
             ModifierLinkProduct.ModifierId = modifierId;
             if (_unitOfWork.ModifierLinkProductRepository.GetModifierLinkProducts(modifierId, (int) user.StoreId)
                 .Select(a => a.ProductCode).Any())
@@ -1717,16 +1827,16 @@ namespace POSApp.Controllers
 
                 Helper.EmptyTempComboOptions(user.Id, (int)user.StoreId);
             }
-            product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo")
+            product.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo").OrderBy(a=>a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
            
-            product.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+            product.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            product.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+            product.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+            product.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-            product.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+            product.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddCombo";
             int prodId = _unitOfWork.AppCountersRepository.GetId("Product");
@@ -1848,16 +1958,16 @@ namespace POSApp.Controllers
                 Helper.EmptyTempComboOptions(user.Id, (int)user.StoreId);
             }
             ComboViewModel productVm = Mapper.Map<ComboViewModel>(_unitOfWork.ProductRepository.GetProductById(id, Convert.ToInt32(user.StoreId)));
-            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo")
+            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo").OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
            
-            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId)
+            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId)
+            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId)
+            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId).OrderBy(a => a.Name)
                 .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
             productVm.ProductSubViewModels = Mapper.Map<ProductSubViewModel[]>(
                 _unitOfWork.ProductsSubRepository.GetProductsSubs(productVm.ProductCode, (int) productVm.StoreId));
@@ -2025,8 +2135,8 @@ namespace POSApp.Controllers
             ProductSubViewModel Combooption = new ProductSubViewModel();
             
             ViewBag.edit = "AddComboOption";
-            Combooption.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int) user.StoreId)
-                .Select(a => new SelectListItem {Text = a.Name, Value = a.ProductCode.ToString()}).ToList();
+            Combooption.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int) user.StoreId).OrderBy(a=>a.Name)
+                .Select(a => new SelectListItem {Text = a.Name + " ("+a.Size+")", Value = a.ProductCode.ToString()}).ToList();
             return View(Combooption);
         }
         [HttpPost]
@@ -2041,8 +2151,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             if (!ModelState.IsValid)
             {
-                CombooptionVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                    .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode.ToString() }).ToList();
+                CombooptionVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).OrderBy(a=>a.Name)
+                    .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode.ToString() }).ToList();
                 return View(CombooptionVm);
             }
             else
@@ -2064,12 +2174,40 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ProductSubViewModel CombooptionVm = Helper.TempComboOptions.FirstOrDefault(a => a.ProductCode == productId && a.CreatedBy == userid);
-            CombooptionVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId)
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.ProductCode }).ToList();
+            CombooptionVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).OrderBy(a => a.Name)
+                .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode.ToString() }).ToList();
             ViewBag.com = "<script>$('#productCode').css('pointer-events','none');</script>";
             return View("AddComboOption", CombooptionVm);
         }
-        
+        [HttpPost]
+        public ActionResult UpdateComboOption(string productId, string cpid, ProductSubViewModel productSubVm)
+        {
+            ViewBag.edit = "UpdateComboOption";
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            productSubVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).OrderBy(a => a.Name)
+                .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode.ToString() }).ToList();
+
+
+            if (!ModelState.IsValid)
+            {
+                return View("AddComboOption", productSubVm);
+            }
+            else
+
+
+            {
+
+                ProductsSub comboOption = Mapper.Map<ProductsSub>(productSubVm);
+               
+                _unitOfWork.ProductsSubRepository.UpdateProductsSub(productId, cpid, comboOption, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+
+
+                return View("ComboOptionListTable", Helper.TempComboOptions.Where(a => a.CreatedBy == userid).ToList());
+            }
+
+        }
         public ActionResult DeleteComboOption(string productId, int storeid)
         {
             if (Helper.TempComboOptions == null)
@@ -2428,6 +2566,7 @@ namespace POSApp.Controllers
         {
             ViewBag.edit = "AddRecipe";
            
+            
             try
             {
                     
@@ -2448,12 +2587,9 @@ namespace POSApp.Controllers
                 {
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                
 
-                    
-                        Recipe Recipe = Mapper.Map<Recipe>(RecipeVm);
-                        
-                        _unitOfWork.RecipeRepository.AddRecipes(Recipe);
+                    Recipe Recipe = Mapper.Map<Recipe>(RecipeVm);
+                    _unitOfWork.RecipeRepository.AddRecipes(Recipe);
 
                     
                     _unitOfWork.Complete();

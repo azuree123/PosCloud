@@ -129,7 +129,7 @@
 
                             <td class="text-center">@(s.Quantity)</td>
                             @*<td class="text-center">@(s.UnitName)</td>*@
-                            <td class="text-right">@s.UnitPrice</td>
+                            <td class="text-right">@String.Format("{0:#,##0.00}", s.UnitPrice)</td>
 
                         </tr>
                         }

@@ -336,6 +336,7 @@
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OpeningStockController.cs" />
     <Compile Include="Controllers\PointOfSaleController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
@@ -344,6 +345,7 @@
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\SetupController.cs" />
+    <Compile Include="Controllers\StockTakingController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\TransMasterPaymentMethodController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -390,6 +392,7 @@
     <Compile Include="Core\Models\ApplicationUserRole.cs" />
     <Compile Include="Core\Models\BusinessPartner.cs" />
     <Compile Include="Core\Models\Client.cs" />
+    <Compile Include="Core\Models\ComboProductsTransDetail.cs" />
     <Compile Include="Core\Models\Designation.cs" />
     <Compile Include="Core\Models\Device.cs" />
     <Compile Include="Core\Models\DineTable.cs" />
@@ -422,6 +425,7 @@
     <Compile Include="Core\Repositories\IAppCountersRepository.cs" />
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
     <Compile Include="Core\Repositories\IClientRepository.cs" />
+    <Compile Include="Core\Repositories\IComboProductTransDetailRepository.cs" />
     <Compile Include="Core\Repositories\IDesignationRepository.cs" />
     <Compile Include="Core\Repositories\IDeviceRepository.cs" />
     <Compile Include="Core\Repositories\IDineTableRepository.cs" />
@@ -454,7 +458,10 @@
     <Compile Include="Core\Repositories\IUserRepository.cs" />
     <Compile Include="Core\Repositories\IWarehouseRepository.cs" />
     <Compile Include="Core\Shared\Helper.cs" />
+    <Compile Include="Core\Shared\OpeningHelper.cs" />
     <Compile Include="Core\Shared\PoHelper.cs" />
+    <Compile Include="Core\Shared\ProductHelper.cs" />
+    <Compile Include="Core\Shared\TakingHelper.cs" />
     <Compile Include="Core\ViewModels\AppInfoViewModel.cs" />
     <Compile Include="Core\ViewModels\BranchReportSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\BranchTimelyReportViewModel.cs" />
@@ -462,11 +469,13 @@
     <Compile Include="Core\ViewModels\CategoryReportViewModel.cs" />
     <Compile Include="Core\ViewModels\CityModelView.cs" />
     <Compile Include="Core\ViewModels\ClientViewModel.cs" />
+    <Compile Include="Core\ViewModels\ComboProductsTransDetailViewModel.cs" />
     <Compile Include="Core\ViewModels\ComboReportSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\ExpiryReportViewModel.cs" />
     <Compile Include="Core\ViewModels\InventoryCostReportViewModel.cs" />
     <Compile Include="Core\ViewModels\OrderDiscountViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductDiscountViewModel.cs" />
+    <Compile Include="Core\ViewModels\ProductHelperViewModel.cs" />
     <Compile Include="Core\ViewModels\ReturnReportViewModel.cs" />
     <Compile Include="Core\ViewModels\TaxReportViewModel.cs" />
     <Compile Include="Core\ViewModels\VoidReasonsReportViewModel.cs" />
@@ -598,9 +607,26 @@
     <Compile Include="Migrations\201903111054019_Appcounter-add.Designer.cs">
       <DependentUpon>201903111054019_Appcounter-add.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903180609510_combosub.cs" />
+    <Compile Include="Migrations\201903180609510_combosub.Designer.cs">
+      <DependentUpon>201903180609510_combosub.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903181229427_ps.cs" />
+    <Compile Include="Migrations\201903181229427_ps.Designer.cs">
+      <DependentUpon>201903181229427_ps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903201014113_app3.cs" />
+    <Compile Include="Migrations\201903201014113_app3.Designer.cs">
+      <DependentUpon>201903201014113_app3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903201347092_csitem.cs" />
+    <Compile Include="Migrations\201903201347092_csitem.Designer.cs">
+      <DependentUpon>201903201347092_csitem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ClientEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ComboProductTransDetailEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\DesignationEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ModifierLinkProductEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ModifierTransDetailEntityConfiguration.cs" />
@@ -613,6 +639,7 @@
     <Compile Include="Persistence\EntityConfigurations\TillOperationEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransMasterPaymentMethodEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\WarehouseEntityConfiguration.cs" />
+    <Compile Include="Persistence\Repositories\ComboProductTransDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\DesignationRepository.cs" />
     <Compile Include="Persistence\Repositories\DeviceRepository.cs" />
     <Compile Include="Core\ViewModels\DineTableViewModel.cs" />
@@ -3191,7 +3218,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Views\Setup\EmployeeList.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -3617,6 +3646,19 @@
     <Content Include="Views\Reports\GenerateShiftReport.cshtml" />
     <Content Include="Views\Reports\GenerateCostReport.cshtml" />
     <Content Include="Views\SaleOrders\RefundDetailList.cshtml" />
+    <Content Include="Views\Products\AddProductItem.cshtml" />
+    <Content Include="Views\Products\PoProductTable.cshtml" />
+    <Content Include="Views\OpeningStock\OpeningStockList.cshtml" />
+    <Content Include="Views\OpeningStock\AddOpeningStock.cshtml" />
+    <Content Include="Views\OpeningStock\AddTransactionItem.cshtml" />
+    <Content Include="Views\OpeningStock\GenerateOpeningStockReceipt.cshtml" />
+    <Content Include="Views\OpeningStock\PoTable.cshtml" />
+    <Content Include="Views\Products\UpdateProduct.cshtml" />
+    <Content Include="Views\StockTaking\StockTakingList.cshtml" />
+    <Content Include="Views\StockTaking\AddStockTaking.cshtml" />
+    <Content Include="Views\StockTaking\AddTransactionItem.cshtml" />
+    <Content Include="Views\StockTaking\GenerateStockTakingReceipt.cshtml" />
+    <Content Include="Views\StockTaking\PoTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3845,6 +3887,18 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProductsDiscountReport.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="Migrations\201903180609510_combosub.resx">
+      <DependentUpon>201903180609510_combosub.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903181229427_ps.resx">
+      <DependentUpon>201903181229427_ps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903201014113_app3.resx">
+      <DependentUpon>201903201014113_app3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903201347092_csitem.resx">
+      <DependentUpon>201903201347092_csitem.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />

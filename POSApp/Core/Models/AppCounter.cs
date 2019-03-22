@@ -51,5 +51,8 @@ namespace POSApp.Core.Models
             public int DamageId { get; set; }
             [DefaultValue(0)]
             public int WasteId { get; set; }
+            [DefaultValue(0)]
+            public int OpeningStockId { get; set; }
+
     }
 }

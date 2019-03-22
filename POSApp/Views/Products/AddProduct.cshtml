@@ -8,42 +8,37 @@
 }
 
 <div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-    @{ string s = ViewBag.edit;}
 
-    @using (Ajax.BeginForm(s, "Products", null, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        OnSuccess = "CreateAssetSuccess"
-    }
-        , new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-        <div class="modal-dialog modal-lg">
-            <!-- Modal content-->
-            <div class="modal-content ">
-                <div class="modal-header modalheader">
-                    <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content ">
+            <div class="modal-header modalheader">
+                <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+                @{ string s = ViewBag.edit;}
 
-                    @if (s.Contains("Add"))
-                    {
-                        <h4 class="modal-title">
-                            Add Product
-                        </h4>
-                    }
-                    else
-                    {
-                        <h4 class="modal-title">
-                            Edit Product
-                        </h4>
-                    }
+                
+                    <h4 class="modal-title">
+                        Add Product
+                    </h4>
+               
+               
 
 
-                </div>
-                <div class="modal-body">
-                    <div class="panel panel-bd lobidrag">
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-bd lobidrag">
 
-                        <div class="panel-body">
-                            @if (alertModel != null)
+                    <div class="panel-body">
+
+                        @using (Ajax.BeginForm(s, "Products", null, new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            OnSuccess = "CreateAssetSuccess"
+                        }
+                            , new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            if (alertModel != null)
                             {
                                 @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
                             }
@@ -53,6 +48,7 @@
                             @Html.HiddenFor(a => a.CreatedOn)
                             @Html.HiddenFor(a => a.Image)
                             @Html.HiddenFor(a => a.StoreId)
+                            @Html.HiddenFor(a => a.CostPrice)
 
                             <div class="">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -69,20 +65,6 @@
                                             @Html.ValidationMessageFor(model => model.ArabicName, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Barcode" } })
-                                            @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
-                                        </div>
-
-
-                                     
-
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group">
-
-                                        <div class="col-md-4">
                                             @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
                                                 @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDdl, "Select an Option", new { @class = "form-control", @required = "true" })
@@ -95,6 +77,16 @@
                                             </div>
 
                                         </div>
+
+
+
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+
+
                                         <div class="col-md-4">
                                             @Html.LabelFor(a => a.UnitId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
@@ -106,21 +98,6 @@
                                             @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
-                                            @Html.Label("Size", htmlAttributes: new { @class = "control-label required1" })
-                                            <div class="input-group">
-                                                @Html.DropDownListFor(a => a.Size, Model.SizeDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                <span class="input-group-addon">
-                                                    <a href="@Url.Action("AddSizePartial", "Setup")" class="modalShow5"> <i class="fa fa-plus "></i></a>
-                                                </span>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group ">
-
-                                        <div class="col-md-4">
                                             @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
                                                 @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
@@ -130,28 +107,35 @@
                                             </div>
                                             @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
                                         </div>
-
-
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
-                                        </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Attribute, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Description" } })
                                             @Html.ValidationMessageFor(model => model.Attribute, "", new { @class = "text-danger" })
                                         </div>
+                                        @*<div class="col-md-4">
+                            @Html.Label("Size", htmlAttributes: new { @class = "control-label required1" })
+                            <div class="input-group">
+                                @Html.DropDownListFor(a => a.Size, Model.SizeDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                <span class="input-group-addon">
+                                    <a href="@Url.Action("AddSizePartial", "Setup")" class="modalShow5"> <i class="fa fa-plus "></i></a>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
+                        </div>*@
                                     </div>
                                 </div>
-
                                 <div class="row">
-                                    <div class="form-group">
+                                    <div class="form-group ">
 
 
 
 
-                                       
+                                        @*<div class="col-md-4">
+                            @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label required1" })
+                            @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
+                            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+                        </div>*@
+
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label" })
                                             <input type="file" name="file" id="file" />
@@ -169,15 +153,9 @@
                                                 <img src='@imgsrc' width="69px" height="58px" />
                                             </div>
                                         }
-                                    </div>
-                                </div>
-
-                                <hr />
-                                <div class="row">
-                                    <div class="form-group">
                                         <div class="">
-                                            @Html.Label("Is VAT Applicable?", htmlAttributes: new { @class = "control-label col-xs-2" })
-                                            @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "col-xs-2" } })
+                                            @Html.Label("Is VAT Applicable?", htmlAttributes: new { @class = "control-label col-xs-2", @style = "margin-top:26px" })
+                                            @Html.EditorFor(model => model.IsTaxable, new { htmlAttributes = new { @class = "col-xs-2", @style = "margin-top:32px" } })
                                             @Html.ValidationMessageFor(model => model.IsTaxable, "", new { @class = "text-danger" })
                                         </div>
                                         <script>
@@ -198,24 +176,99 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br />
+                                <div class="row">
+                                    <div class="form-group">
+
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class=" mb-md">
+                                    <h4 class="text-center font-weight-bold" style="font-weight: bold">Add Modifiers</h4>
+                                    @*<a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm" id="#arrButtonIds"></i>Add New</button>
+
+                    </a>*@
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-offset-3 col-md-6" id="ModifierArea">
+
+
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <input type="hidden" id="productsDispaly" value="@Model.ModifierDisplay" />
+                                        <div class="col-md-12">
+
+                                            <div class="">
+                                                @Html.DropDownListFor(model => model.Modifiers, Model.ModifierDDl, null, new { @class = "form-control", @multiple = "multiple" })
+                                                @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
+
+                                                <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Modifiers)');" />
+                                                Select All
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
+                            <button type="submit" class="hidden" id="productSubmit"></button>
+
+                        }
+                    </div>
+                </div>
+
+                <hr />
+                <div class=" mb-md">
+                    <h4 class="text-center font-weight-bold" style="font-weight: bold">Sizes and Price</h4>
+                    @*<a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm" id="#arrButtonIds"></i>Add New</button>
+
+                        </a>*@
+
+                </div>
+
+                @{Html.RenderAction("AddProductItem", "Products");}
+
+                <div id="AjaxUpdate">
+                    <div class="row mb-lg">
+                        <div class="col-md-12">
+                            <table class="table mb-none" style="width: 100%" id="datatable-default">
+                                <thead>
+                                    <tr>
+
+                                        <th>Size</th>
+
+                                        <th>Price</th>
+                                        <th>Barcode</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="5" class="text-center">No records found</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                    <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal"*@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>Close</button>
-                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="$('#productSubmit').click()" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
+                <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal"*@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>Close</button>
             </div>
         </div>
-    }
+    </div>
+
 
     <div id="ModalData1"></div>
     <div id="ModalData2"></div>
     <div id="ModalData3"></div>
 
-<script>
+    <script>
     var fired = false;
     function UpdateDdlCategory() {
         $.ajax({
@@ -235,7 +288,7 @@
 
     }
     $('a.modalShow1').on('click', function (e) {
-           
+
         $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
         if (!fired) {
             //mark as fired
@@ -279,7 +332,7 @@
 
 
     $('a.modalShow3').on('click', function (e) {
-           
+
         $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
         if (!fired) {
             //mark as fired
@@ -299,7 +352,11 @@
         } else {}
 
         return false;
-    });
+        });
+    var tablefill = false;
+    function ChangeTableFill() {
+        tablefill = true;
+    }
     function UpdateDdlUnit() {
         $.ajax({
             url: "@Url.Action("GetUnitDdl", "Setup")",
@@ -317,7 +374,7 @@
         });
     }
     $('a.modalShow4').on('click', function (e) {
-            
+
         $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
         if (!fired) {
             //mark as fired
@@ -355,7 +412,7 @@
         });
     }
     $('a.modalShow5').on('click', function (e) {
-            
+
         $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
         if (!fired) {
             //mark as fired
@@ -377,23 +434,85 @@
         return false;
     });
     $('#datatable-default').dataTable();
-</script>
-<script>
-    $("input").on("keypress", function (e) {
-        if (e.which === 32 && !this.value.length)
-            e.preventDefault();
+    </script>
+    <script>
+        $("input").on("keypress", function (e) {
+            if (e.which === 32 && !this.value.length)
+                e.preventDefault();
+        });
+    </script>
+    <script>
+    $(document).ready(function () {
+        $('.selectddl').select2();
     });
-</script>
+    $('#productDdl').on("change",
+        function () {
+            var val = $(this).val();
+            if (val !== '') {
+                $.ajax({
+                    url: "@Url.Action("GetInfo","Products")",
+                    type: "GET",
+                    data: { id: val },
+                    success: function(data) {
+                        $('#size').text(data.size);
+                        
+                        $('#price').text(data.price);
+                        $('#barcode').text(data.barcode);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+
+                });
+            } else {
+                $('#disSize').text('-');
+                $('#price').val('');
+            }
+        });
+
+    </script>
+    <script>
+
+
+    $("#@Html.IdFor(a=>a.Modifiers)").select2();
+
+
+    function Select_All(a, b) {
+        if (a){
+            $("#"+b+" > option").prop("selected","selected");
+            $("#" + b +"").trigger("change");
+        }else{
+            $("#" + b +"").val("");
+            $("#" + b +"").trigger("change");
+        }
+    }
+
+    $(document).ready(function () {
+
+
+
+        selectedValues = $('#productsDispaly').val().split(',');
+        $('#@Html.IdFor(a=>a.Modifiers)').val(selectedValues).trigger("change");
+
+
+
+
+
+
+
+    });
+
+    </script>
+@Html.Raw(ViewBag.js)
 </div>
 
 
 
 
-           
-
-        
 
 
-    
+
+
+
 
 

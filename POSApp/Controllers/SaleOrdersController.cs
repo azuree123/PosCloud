@@ -237,14 +237,17 @@ namespace POSApp.Controllers
                                 mifdetail = new TransDetail();
                                 mifdetail.ProductCode = ing.IngredientCode;
                                 mifdetail.StoreId = ing.StoreId;
-                                mifdetail.Quantity = ing.Quantity * item.Quantity;
+                                
+                               var  quantity = (ing.Quantity / Convert.ToDecimal(ing.Ingredient.StoIFactor)) / Convert.ToDecimal(ing.Ingredient.PtoSFactor);
+                                mifdetail.Quantity = quantity * item.Quantity;
                                 mifdetail.UnitPrice = _unitOfWork.TransMasterRepository.AvgPrice(ing.IngredientCode,ing.StoreId,saleorder.TransDate);
                                 mif.TransDetails.Add(mifdetail);
                             }
                             else
                             {
                                 mifdetail = mif.TransDetails.FirstOrDefault(a => a.ProductCode == ing.IngredientCode);
-                                mifdetail.Quantity += ing.Quantity * item.Quantity;
+                                var quantity = (ing.Quantity / Convert.ToDecimal(ing.Ingredient.StoIFactor)) / Convert.ToDecimal(ing.Ingredient.PtoSFactor);
+                                mifdetail.Quantity += quantity * item.Quantity;
                             }
                         }
                     }
