@@ -28,7 +28,7 @@
         <ul class="snip1189">
             <li><a href="@Url.Action("StockTakingList","StockTaking")">Stock Taking</a></li>
             <li><a href="@Url.Action("PurchasingList","PurchaseOrders")">Purchasing</a></li>
-            @*<li><a href="@Url.Action("ExchangeList","SaleOrders")">Production</a></li>*@
+            <li><a href="@Url.Action("StockList","PurchaseOrders")">Stock In</a></li>
             <li><a href="@Url.Action("TransferList","PurchaseOrders")">Transfer</a></li>
             <li><a href="@Url.Action("OtherInList","PurchaseOrders")">Other In</a></li>
             <li><a href="@Url.Action("OtherOutList","PurchaseOrders")">Other Out</a></li>
@@ -80,7 +80,7 @@
                 <thead>
                     <tr>
                         <th width="5%">ID</th>
-                        <th>Supplier</th>
+                        
                         <th>Order Date</th>
                         <th>Invoice</th>
                         <th>Total Price</th>
@@ -95,7 +95,7 @@
                     {
                         <tr>
                             <td>@(i++)</td>
-                            <td>@purchaseOrder.BusinessPartnerName</td>
+                            
                             <td>@purchaseOrder.TransDate</td>
                             <td>@purchaseOrder.TransCode</td>
                             <td>@purchaseOrder.TotalPrice</td>

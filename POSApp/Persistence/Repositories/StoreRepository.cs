@@ -33,7 +33,7 @@ namespace POSApp.Persistence.Repositories
 
         public void AddStore(Store store)
         {
-            var inDb = _context.Stores.FirstOrDefault(a => a.Name == store.Name && a.Address == store.Address && a.City == store.City && a.State == store.State);
+            var inDb = _context.Stores.FirstOrDefault(a => a.Name == store.Name && a.Address == store.Address && a.ClientId == store.ClientId && a.City == store.City && a.State == store.State);
             if (inDb == null)
             {
                 _context.Stores.Add(store);
@@ -53,7 +53,7 @@ namespace POSApp.Persistence.Repositories
             }
         }
 
-        public void UpdateStore(int id, Store store)
+        public void UpdateStore(int id, Store store,int clientId)
         {
             if (store.Id != id)
             {
@@ -64,6 +64,7 @@ namespace POSApp.Persistence.Repositories
                 
             }
 
+            store.ClientId = clientId;
             _context.Stores.Attach(store);
             _context.Entry(store).State = EntityState.Modified;
         }

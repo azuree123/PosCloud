@@ -83,7 +83,7 @@ namespace POSApp.Controllers
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))
                 {
 
-                    v = v.Where(a => a.TransCode.ToLower().Contains(searchColumn) || a.TransDate.Contains(searchColumn) || a.TransTime.Contains(searchColumn) ||  a.BusinessPartnerName.ToLower().Contains(searchColumn) || a.TransStatus.Contains(searchColumn) );
+                    v = v.Where(a => a.TransCode.ToLower().Contains(searchColumn) || a.TransDate.Contains(searchColumn) || a.TransTime.Contains(searchColumn) ||  a.BusinessPartnerName.ToLower().Contains(searchColumn) || a.TransStatus.ToLower().Contains(searchColumn) );
                 }
                 //SORT
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -135,7 +135,7 @@ namespace POSApp.Controllers
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))
                 {
 
-                    v = v.Where(a => a.TransCode.Contains(searchColumn) || a.TransDate.Contains(searchColumn) || a.TransTime.Contains(searchColumn) || a.BusinessPartnerName.Contains(searchColumn) || a.TransStatus.Contains(searchColumn));
+                    v = v.Where(a => a.TransCode.ToLower().Contains(searchColumn) || a.TransDate.Contains(searchColumn) || a.TransTime.Contains(searchColumn) || a.BusinessPartnerName.ToLower().Contains(searchColumn) || a.TransStatus.ToLower().Contains(searchColumn));
                 }
                 //SORT
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -178,7 +178,7 @@ namespace POSApp.Controllers
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))
                 {
 
-                    v = v.Where(a => a.TransCode.Contains(searchColumn) || a.TransDate.Contains(searchColumn) || a.TransTime.Contains(searchColumn) || a.BusinessPartnerName.Contains(searchColumn) || a.TransStatus.Contains(searchColumn));
+                    v = v.Where(a => a.TransCode.ToLower().Contains(searchColumn) || a.TransDate.Contains(searchColumn) || a.TransTime.Contains(searchColumn) || a.BusinessPartnerName.ToLower().Contains(searchColumn) || a.TransStatus.ToLower().Contains(searchColumn));
                 }
                 //SORT
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -197,13 +197,46 @@ namespace POSApp.Controllers
                 throw;
             }
         }
-        public ActionResult MIFData()
+        public ActionResult MIFDataDetailList(int miforderId)
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+            var data = _unitOfWork.TransMasterRepository.GetTransMaster(miforderId, (int)user.StoreId);
+            return View(data);
+        }
+        public ActionResult MIFDataList()
+        {
+
+            return View();
+        }
+        public ActionResult MIFData()
+        {
+
+            
+
+
+
+
+           
             try
             {
+                var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                var start = Request.Form.GetValues("start").FirstOrDefault();
+                var length = Request.Form.GetValues("length").FirstOrDefault();
+                //Find Order Column
+                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                var searchColumn = Request.Form.GetValues("search[value]").FirstOrDefault();
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                int recordsFiltered = 0;
                 var saleorders = _unitOfWork.TransMasterRepository.GetSaleInvoices((int) user.StoreId);
+                var v = _unitOfWork.TransMasterRepository.GetTransMastersQuery((int)user.StoreId);
+                v = v.Where(a => a.Type == "MIF");
+                
                 List<int> transIds=new List<int>();
                 for (int i = 0; i < saleorders.Count(); i++)
                 {
@@ -219,6 +252,7 @@ namespace POSApp.Controllers
                     mif.TransCode = "MIF-"  + transIds[index].ToString() + "-" + user.StoreId;
                     index++;
                     mif.BusinessPartnerId = saleorder.BusinessPartnerId;
+                    
                     mif.TransDate=DateTime.Now;
                     mif.StoreId = (int)user.StoreId;
                     foreach (var item in saleorder.TransDetails)
@@ -256,6 +290,22 @@ namespace POSApp.Controllers
 
                 }
                     _unitOfWork.Complete();
+                recordsTotal = v.Count();
+                if (!(string.IsNullOrWhiteSpace(searchColumn)))
+                {
+
+                    v = v.Where(a => a.TransCode.ToLower().Contains(searchColumn) || a.TransDate.Contains(searchColumn) || a.TransTime.Contains(searchColumn) || a.BusinessPartnerName.ToLower().Contains(searchColumn) || a.TransStatus.ToLower().Contains(searchColumn));
+                }
+                //SORT
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                }
+                recordsFiltered = v.Count();
+
+
+                var data = v.Skip(skip).Take(pageSize).ToList();
+                return Json(new { draw = draw, recordsFiltered = recordsFiltered, recordsTotal = recordsTotal, data = data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -263,7 +313,7 @@ namespace POSApp.Controllers
                 throw;
             }
 
-            return RedirectToAction("SaleOrderList", "SaleOrders");
+           
         }
         [HttpPost]
         public ActionResult GetDailySaleOrdersData()
@@ -289,7 +339,7 @@ namespace POSApp.Controllers
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))
                 {
 
-                    v = v.Where(a => a.TransCode.Contains(searchColumn) || a.TransDate.Contains(searchColumn) || a.TransTime.Contains(searchColumn) || a.BusinessPartnerName.Contains(searchColumn) || a.TransStatus.Contains(searchColumn));
+                    v = v.Where(a => a.TransCode.ToLower().Contains(searchColumn) || a.TransDate.Contains(searchColumn) || a.TransTime.Contains(searchColumn) || a.BusinessPartnerName.ToLower().Contains(searchColumn) || a.TransStatus.ToLower().Contains(searchColumn));
                 }
                 //SORT
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))

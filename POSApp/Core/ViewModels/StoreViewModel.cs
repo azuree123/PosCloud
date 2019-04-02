@@ -10,6 +10,7 @@ namespace POSApp.Core.ViewModels
     {
         public int? Id { get; set; }
         public string Name { get; set; }
+        public int? ClientId { get; set; }
         public string ArabicName { get; set; }
 
         public string Address { get; set; }

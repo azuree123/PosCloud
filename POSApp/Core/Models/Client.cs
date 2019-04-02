@@ -22,6 +22,7 @@ namespace POSApp.Core.Models
         
         public string State { get; set; }
         public virtual ICollection<Store> Stores { get; set; }
+        public virtual ICollection<Warehouse> WareHouses { get; set; }
 
     }
 }

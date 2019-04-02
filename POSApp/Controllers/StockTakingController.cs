@@ -32,7 +32,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).OrderBy(a => a.TransDate).Where(a => a.Type == "STI")));
+            return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).OrderBy(a => a.TransDate).Where(a => a.Type == "STK").OrderByDescending(a => a.Id)));
         }
 
         public ActionResult PreviewStockTaking(int id)
@@ -62,10 +62,12 @@ namespace POSApp.Controllers
         public ActionResult AddStockTaking()
         {
             TransMasterViewModel po = new TransMasterViewModel();
-            po.Type = "OPS";
+            po.Type = "STK";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+            
             po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+            po.WarehouseDdl = _unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name,Selected = a.Id == a.Id});
             if (TakingHelper.temptTransDetail != null)
             {
 
@@ -79,17 +81,18 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             GeneratePurchaseOrderViewModel temp = new GeneratePurchaseOrderViewModel();
-            po.Type = "STI";
+            po.Type = "STK";
             if (!ModelState.IsValid)
             {
                 po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+                po.WarehouseDdl = _unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
                 return View(po);
             }
             else
             {
 
                 int TransId = _unitOfWork.AppCountersRepository.GetId("StockTaking");
-                po.TransCode = "STI-" + "C-" + TransId.ToString() + "-" + user.StoreId;
+                po.TransCode = "STK-" + "C-" + TransId.ToString() + "-" + user.StoreId;
                 po.StoreId = user.StoreId;
 
                 var savePo = Mapper.Map<TransMaster>(po);
@@ -138,7 +141,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             var product = _unitOfWork.ProductRepository.GetProductById(productId, (int)user.StoreId);
-            ;
+            
             decimal quantity = 0;
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);

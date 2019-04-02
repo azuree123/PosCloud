@@ -32,7 +32,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.DeviceRepository.GetDevices((int)user.StoreId));
+            return View(_unitOfWork.DeviceRepository.GetDevices((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         [HttpGet]
         public ActionResult AddDevice()
@@ -40,7 +40,8 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             DeviceViewModel Device = new DeviceViewModel();
-            //Device.StoreId = (int)user.StoreId;
+            
+          
 
 
             var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
@@ -60,6 +61,8 @@ namespace POSApp.Controllers
         {
 
             ViewBag.edit = "AddDevice";
+           
+           
             DeviceMv.StoreDDl = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
 
             try
@@ -137,15 +140,21 @@ namespace POSApp.Controllers
             ViewBag.edit = "UpdateDevice";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+            
+            
             DeviceViewModel DeviceMv =
                 Mapper.Map<DeviceViewModel>(_unitOfWork.DeviceRepository.GetDeviceById(id, (int)user.StoreId));
-            DeviceMv.StoreDDl = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            DeviceMv.StoreDDl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
 
             return View("AddDevice", DeviceMv);
         }
         [HttpPost]
         public ActionResult UpdateDevice(int id, DeviceViewModel DeviceMv)
         {
+           
+           
             ViewBag.edit = "UpdateDevice";
             DeviceMv.StoreDDl = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
 

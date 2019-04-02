@@ -74,15 +74,9 @@
                                 <div class="row">
                                     <div class="col-md-4 col-lg-offset-2">
                                         <div class="form-group">
-                                            <label class="control-label">
-                                                Supplier <span class="text-danger">*</span>
-                                            </label>
-                                            <div class="input-group">
-                                                @Html.DropDownListFor(a => a.BusinessPartnerId, Model.SupplierDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                <span class="input-group-addon" style="">
-                                                    <a href="@Url.Action("AddSupplierPartial", "Setup")" class="modalShow1" id="#arrButtonIds"> <i class="fa fa-plus "></i></a>
-                                                </span>
-                                            </div>
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", autofocus = "" } })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-4">

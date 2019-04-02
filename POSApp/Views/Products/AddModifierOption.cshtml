@@ -55,7 +55,7 @@
                                     <div class="col-md-8  col-md-offset-2">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label required1" })
-                                            @Html.TextBoxFor(model => model.Name, new {@class = "form-control", @required = true, @id = "nameDis", @placeholder = "Enter Name"})
+                                            @Html.TextBoxFor(model => model.Name, new {@class = "form-control", @required = true, @id = "nameDis",@placeholder = "Enter Name"})
                                             @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
                                         </div>
                                     </div>

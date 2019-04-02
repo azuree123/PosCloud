@@ -38,7 +38,7 @@
                             <div class="">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="row">
-                                    @Html.TextBoxFor(model => model.ProductName, new  { @style = "display:none;",@id="productName" })
+                                    @Html.TextBoxFor(model => model.ProductName, new { @style = "display:none;", @id = "productName" })
 
 
                                     <div class="col-md-8 col-md-offset-2 ">
@@ -46,25 +46,11 @@
                                             <label class="control-label">
                                                 Product Name
                                             </label>
+                                            @Html.DropDownListFor(a => a.ProductCode, Model.ProductDdl, "Select an Option", new { @id = "productCode", @required = "", @class = "form-control populate selectddl ", @autofocus = "autofocus", @style = "width:100%" })
 
-                                            <select name="productId" id="productDdl" required="" class="form-control populate selectddl" autofocus style="width:100%">
-                            
-                                                <option value="">Select an Option</option>
-
-                                                @foreach (var data in Model.ProductDdl)
-                                                {
-                                                    <option value="@data.Value">@(data.Text)</option>
-
-                                                }
-                               
-
-
-
-
-                                            </select>
                                         </div>
                                     </div>
-                                   
+
 
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="form-group">
@@ -73,11 +59,23 @@
                                             @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+                                    <div class="col-md-8 col-md-offset-2">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label required1" })
+                                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = "true" } })
+                                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-md-offset-2">
+                                        @Html.LabelFor(model => model.Modifiable, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.Modifiable, new {@class = "form-control"})
+                                        @Html.ValidationMessageFor(model => model.Modifiable, "", new {@class = "text-danger"})
+                                    </div>
                                 </div>
 
 
 
-                            </div>
+                                </div>
 
                         </div>
                     </div>
@@ -106,7 +104,12 @@
             e.preventDefault();
     });
 </script>
+<script>
+    $(document).ready(function () {
+        
+    });
 
+</script>
     
 <script>
     $(document).ready(function () {

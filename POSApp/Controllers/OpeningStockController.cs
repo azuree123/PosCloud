@@ -32,7 +32,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).OrderBy(a=>a.TransDate).Where(a => a.Type == "OPS")));
+            return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).OrderByDescending(a => a.Id).Where(a => a.Type == "OPS")));
         }
         
         public ActionResult PreviewOpeningStock(int id)
@@ -48,8 +48,7 @@ namespace POSApp.Controllers
                 tempTransDetailViewModel.ProductName = _unitOfWork.ProductRepository
                     .GetProductByCode(tempTransDetailViewModel.ProductCode, tempTransDetailViewModel.StoreId).Name;
             }
-            temp.BusinessPartnerViewModel =
-                Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner((int)temp.TransMasterViewModel.BusinessPartnerId, (int)user.StoreId));
+          
             temp.TotalAmount = (from a in temp.TransDetailViewModels
                                 select a.Quantity * a.UnitPrice).Sum();
             TempData["po"] = temp;
@@ -66,6 +65,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+            
             if (OpeningHelper.temptTransDetail != null)
             {
 
@@ -82,7 +82,8 @@ namespace POSApp.Controllers
             po.Type = "OPS";
             if (!ModelState.IsValid)
             {
-                po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+                
+                
                 return View(po);
             }
             else
@@ -110,8 +111,8 @@ namespace POSApp.Controllers
                 temp.TransMasterViewModel = po;
                 temp.TransMasterViewModel.TransDate = Convert.ToDateTime(savePo.TransDate).ToString("dd-MMM-yyyy");
                 temp.TransMasterViewModel.TransTime = Convert.ToDateTime(savePo.TransDate).ToShortTimeString();
-                temp.BusinessPartnerViewModel =
-                    Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner((int)po.BusinessPartnerId, (int)user.StoreId));
+               
+                
                 temp.TransDetailViewModels = poItems;
                 temp.TotalAmount = (from a in temp.TransDetailViewModels
                                     select a.Quantity * a.UnitPrice).Sum();

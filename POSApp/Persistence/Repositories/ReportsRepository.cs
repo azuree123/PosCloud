@@ -367,7 +367,7 @@ namespace POSApp.Persistence.Repositories
 			inner join POsCloud.Products as p on b.ProductCode = p.ProductCode
             inner join PosCloud.BusinessPartners as c on a.BusinessPartnerId  = c.Id
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
-            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 and a.Type = 'PRO' and c.Type = 'S' 
+            where a.StoreId=@p1 and a.TransDate >=@p2 and a.TransDate<=@p3 and a.Type = 'PRI' and c.Type = 'S' 
             group by a.TransCode,c.Name, d.Name,p.PurchaseUnit
                 ";
 

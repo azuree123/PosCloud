@@ -11,7 +11,7 @@ namespace POSApp.Core.Repositories
     {
         IEnumerable<Warehouse> GetWarehouses();
         Task<IEnumerable<Warehouse>> GetWarehousesAsync();
-        IEnumerable<Warehouse> GetWarehouses(int storeId);
+      
         Warehouse GetWarehouse(int id);
         Task<Warehouse> GetWarehouseAsync(int id);
         void AddWarehouse(Warehouse warehouse);

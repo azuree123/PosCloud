@@ -12,7 +12,7 @@ namespace POSApp.Core.Repositories
         IEnumerable<ModifierOption> GetModifierOptions(int storeId);
         ModifierOption GetModifierOptionsById(int id, int storeId);
         void AddModifierOption(ModifierOption mo);
-        void UpdateModifierOptions(int id, int storeId, ModifierOption mo);
+        void UpdateModifierOptions(string name, int storeId, ModifierOption mo);
         void DeleteModifierOptions(int id, int storeId);
         void DeleteModifierOptionsByModifierId(int id, int storeId);
     }

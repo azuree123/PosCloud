@@ -39,7 +39,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId));
+            return View(_unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         public ActionResult AddDepartmentPartial()
         {
@@ -462,7 +462,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId));
+            return View(_unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         [HttpGet]
         public ActionResult AddDesignation()
@@ -662,7 +662,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View("EmployeeList", _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId));
+            return View("EmployeeList", _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         //Add partial
         [HttpGet]
@@ -999,7 +999,7 @@ namespace POSApp.Controllers
 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(Mapper.Map<CustomerModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("C",(int)user.StoreId)));
+            return View(Mapper.Map<CustomerModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("C",(int)user.StoreId).OrderByDescending(a => a.Id)));
         }
         [HttpGet]
         public ActionResult AddCustomer()
@@ -1222,7 +1222,7 @@ namespace POSApp.Controllers
         
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId)));
+            return View(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).OrderByDescending(a => a.Id)));
         }
         [HttpGet]
         public ActionResult AddSupplier()
@@ -1442,7 +1442,7 @@ namespace POSApp.Controllers
 
         public ActionResult StateList()
         {
-            return View(_unitOfWork.StateRepository.GetStates());
+            return View(_unitOfWork.StateRepository.GetStates().OrderByDescending(a => a.Id));
         }
         [HttpGet]
         public ActionResult AddState()
@@ -2157,7 +2157,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TaxRepository.GetTaxes((int)user.StoreId));
+            return View(_unitOfWork.TaxRepository.GetTaxes((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         [HttpGet]
         public ActionResult AddTax()
@@ -2448,7 +2448,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.UnitRepository.GetUnit((int)user.StoreId));
+            return View(_unitOfWork.UnitRepository.GetUnit((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         //Unit Partial
         [HttpGet]
@@ -2762,7 +2762,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ClientRepository.GetClients());
+            return View(_unitOfWork.ClientRepository.GetClients().OrderByDescending(a => a.Id));
         }
         [HttpGet]
         public ActionResult AddClient()
@@ -3020,7 +3020,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TimedEventRepository.GetTimedEvents((int)user.StoreId));
+            return View(_unitOfWork.TimedEventRepository.GetTimedEvents((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         [HttpGet]
         public ActionResult AddTimedEvent()
@@ -3289,7 +3289,7 @@ namespace POSApp.Controllers
 
 
                 TempData["Alert"] = new AlertModel("The timed event updated successfully", AlertType.Success);
-                    return View("AddTimedEvent", timeeventVm);
+                    return null;
                 }
             }
             catch (DbEntityValidationException ex)
@@ -3399,7 +3399,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.FloorRepository.GetFloors((int)user.StoreId));
+            return View(_unitOfWork.FloorRepository.GetFloors((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         //Floor Partial
         [HttpGet]
@@ -3706,7 +3706,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.DineTableRepository.GetDineTables((int)user.StoreId).Select(a => new DineTableListModelView { Id = a.Id, DineTableNumber = a.DineTableNumber, FloorNumber =a.Floor.FloorNumber }));
+            return View(_unitOfWork.DineTableRepository.GetDineTables((int)user.StoreId).Select(a => new DineTableListModelView { Id = a.Id, DineTableNumber = a.DineTableNumber, FloorNumber =a.Floor.FloorNumber }).OrderByDescending(a => a.Id));
         }
         public ActionResult AddDineTable()
         {
@@ -4305,7 +4305,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(Mapper.Map<POSTerminalListModelView[]>(_unitOfWork.POSTerminalRepository.GetPOSTerminals((int)user.StoreId)));
+            return View(Mapper.Map<POSTerminalListModelView[]>(_unitOfWork.POSTerminalRepository.GetPOSTerminals((int)user.StoreId)).OrderByDescending(a => a.POSTerminalId));
         }
         public ActionResult AddPOSTerminal()
         {
@@ -4537,7 +4537,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ShiftRepository.GetShifts((int)user.StoreId));
+            return View(_unitOfWork.ShiftRepository.GetShifts((int)user.StoreId).OrderByDescending(a => a.ShiftId));
         }
         [HttpGet]
         public ActionResult AddShift()
@@ -4755,13 +4755,28 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TillOperationRepository.GetTillOperations((int)user.StoreId).Select(a => new TillOperationListModelView
-            {
-                Id = a.Id, ShiftName = a.Shift.Name,OpeningAmount = a.OpeningAmount,OperationDate = a.OperationDate
-               ,PhysicalAmount = a.PhysicalAmount,Remarks = a.Remarks,Status = a.Status,SystemAmount = a.SystemAmount,
-                TillOperationType = a.TillOperationType
-            })); 
-        }
+            
+                return View(_unitOfWork.TillOperationRepository.GetTillOperations((int)user.StoreId).Select(a => new TillOperationListModelView
+                {
+
+                    Id = a.Id,
+                    ShiftName = a.ShiftId!=null?a.Shift.Name:"",
+                    OpeningAmount = a.OpeningAmount,
+                    OperationDate = a.OperationDate,
+
+                    PhysicalAmount = a.PhysicalAmount,
+                    Remarks = a.Remarks,
+                    Status = a.Status,
+                    SystemAmount = a.SystemAmount,
+                    TillOperationType = a.TillOperationType
+                }));
+            }
+            
+              
+            
+           
+           
+        
 
         [HttpGet]
         public ActionResult AddTillOperation()
@@ -4976,7 +4991,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.SizeRepository.GetSizes((int)user.StoreId));
+            return View(_unitOfWork.SizeRepository.GetSizes((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         //Size Partial
         [HttpGet]
@@ -5279,14 +5294,12 @@ namespace POSApp.Controllers
 
         //Warehouse
 
-        public ActionResult WarehouseList(int storeId = 0)
+        public ActionResult WarehouseList()
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
 
-            if (storeId == 0)
-            {
-                return View(_unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new WarehouseListModelView { Id = a.Id, Name = a.Name, StoreName = a.Store.Name }));
-            }
-            return View(_unitOfWork.WarehouseRepository.GetWarehouses(storeId).Select(a => new WarehouseListModelView { Id = a.Id, Name = a.Name, StoreName = a.Store.Name }));
+            return View(_unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new WarehouseListModelView { Id = a.Id, Name = a.Name, ClientName = a.Client.Name }).OrderByDescending(a => a.Id));
         }
         public ActionResult AddWarehouse()
         {
@@ -5295,9 +5308,13 @@ namespace POSApp.Controllers
             {
                 return RedirectToAction("WarehouseList");
             }
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+           
+            
             WarehouseViewModel warehouse = new WarehouseViewModel();
-            warehouse.StoreDdl = _unitOfWork.StoreRepository.GetStores()
-                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            warehouse.ClientDdl = _unitOfWork.ClientRepository.GetClients()
+                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name,Selected = a.Id ==a.Id}).AsEnumerable();
             ViewBag.edit = "AddWarehouse";
             return View(warehouse);
         }
@@ -5306,7 +5323,7 @@ namespace POSApp.Controllers
         public ActionResult AddWarehouse(WarehouseViewModel warehouseVm)
         {
             ViewBag.edit = "AddWarehouse";
-            warehouseVm.StoreDdl = _unitOfWork.StoreRepository.GetStores()
+            warehouseVm.ClientDdl = _unitOfWork.ClientRepository.GetClients()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
@@ -5379,7 +5396,7 @@ namespace POSApp.Controllers
             }
             ViewBag.edit = "UpdateWarehouse";
             WarehouseViewModel warehouseMv = Mapper.Map<WarehouseViewModel>(_unitOfWork.WarehouseRepository.GetWarehouse(id));
-            warehouseMv.StoreDdl = _unitOfWork.StoreRepository.GetStores()
+            warehouseMv.ClientDdl = _unitOfWork.ClientRepository.GetClients()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddWarehouse", warehouseMv);
         }
@@ -5387,7 +5404,7 @@ namespace POSApp.Controllers
         public ActionResult UpdateWarehouse(int id, WarehouseViewModel warehouseVm)
         {
             ViewBag.edit = "UpdateWarehouse";
-            warehouseVm.StoreDdl = _unitOfWork.StoreRepository.GetStores()
+            warehouseVm.ClientDdl = _unitOfWork.ClientRepository.GetClients()
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
@@ -5496,6 +5513,19 @@ namespace POSApp.Controllers
 
             return RedirectToAction("WarehouseList", "Setup");
 
+        }
+
+        public JsonResult GetClientDdl()
+        {
+            try
+            {
+                return Json(Mapper.Map<ClientViewModel[]>(_unitOfWork.ClientRepository.GetClients()), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

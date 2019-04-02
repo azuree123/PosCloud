@@ -77,8 +77,15 @@ namespace POSApp.Persistence.Repositories
         public IEnumerable<TransMaster> GetTransMasters(int storeId)
         {
             //return _context.PurchaseOrder;
-            return _context.TransMasters.Include(a=>a.Store).Include(a=>a.BusinessPartner)
+            return _context.TransMasters.Include(a=>a.Store).Include(a=>a.BusinessPartner).Include(a => a.Warehouse)
                 .Where(a => a.StoreId == storeId  && !a.IsDisabled);
+
+        }
+        public IEnumerable<TransMaster> GetWareTransMasters(int storeId,int warehouseId)
+        {
+            //return _context.PurchaseOrder;
+            return _context.TransMasters.Include(a => a.Store).Include(a => a.BusinessPartner)
+                .Where(a => a.StoreId == storeId &&a.WarehouseId == warehouseId && !a.IsDisabled);
 
         }
         public IEnumerable<TransMaster> GetHoldTransactions(int storeId)

@@ -17,6 +17,7 @@ namespace POSApp.Core.ViewModels
         public double Cost { get; set; }
         [DisplayName("Cost Type")]
         public string CostType { get; set; }
+        public bool IsDisabled { get; set; }
         public double Price { get; set; }
         public int ModifierId { get; set; }
         public int? TaxId { get; set; }

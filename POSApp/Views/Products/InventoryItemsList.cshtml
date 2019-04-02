@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <ul class="snip1189">
             <li class="current"><a href="#">Inventory Items</a></li>
-           
+            <li><a href="@Url.Action("MIFDataList","SaleOrders")">Material issuance</a></li>
         </ul>
         <hr />
 
@@ -34,10 +34,7 @@
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Item</button>
 
                     </a>
-                    <a href="@Url.Action("MIFData", "SaleOrders")" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-sign-out pr-sm"></i>Material Issuance</button>
-
-                    </a>
+                  
                    
                     @*<a href="@Url.Action("DeviceExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
             <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>

@@ -53,6 +53,7 @@ namespace POSApp.Core.Models
             public int WasteId { get; set; }
             [DefaultValue(0)]
             public int OpeningStockId { get; set; }
-
+            [DefaultValue(0)]
+            public int StockTakingId { get; set; }
     }
 }

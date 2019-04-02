@@ -54,7 +54,7 @@ namespace POSApp.Persistence.Repositories
         }
         public Product GetProductByCode(string id, int storeid)
         {
-                var data=_context.Products.Include(a => a.ComboProducts).Include(a=>a.Recipes)
+                var data=_context.Products.Include(a=>a.ModifierLinkProducts).Include(a => a.ComboProducts).Include(a=>a.Recipes)
                 .Include(a => a.Recipes.Select(g => g.Ingredient)).FirstOrDefault(a => a.ProductCode == id && a.StoreId == storeid);
                 return data;
         }

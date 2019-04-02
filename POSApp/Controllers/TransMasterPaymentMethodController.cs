@@ -32,7 +32,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TransMasterPaymentMethodRepository.GetTransMasterPaymentMethods((int)user.StoreId));
+            return View(_unitOfWork.TransMasterPaymentMethodRepository.GetTransMasterPaymentMethods((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         [HttpGet]
         public ActionResult AddTransMasterPaymentMethod()

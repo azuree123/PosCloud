@@ -19,7 +19,11 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<Client> GetClients()
         {
-            return _context.Clients.Where(a=> !a.IsDisabled).ToList();
+            return _context.Clients
+                .Where(a => a.Stores.Any(b => b.Id==3))
+                
+                
+                .Where(a=> !a.IsDisabled).ToList();
         }
         public async Task<IEnumerable<Client>> GetClientsAsync()
         {
@@ -28,7 +32,8 @@ namespace POSApp.Persistence.Repositories
 
         public Client GetClient(int id)
         {
-            return _context.Clients.Find(id);
+            return _context.Stores.Include(a=>a.Client).Where(a=>a.Id==id).Select(a=>a.Client).FirstOrDefault();
+           
         }
         public async Task<Client> GetClientAsync(int id)
         {
@@ -38,6 +43,8 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Clients.Include(a=>a.Stores).Where(a=>a.Id==id).Select(a=>a.Stores).FirstOrDefault();
         }
+
+      
         public void AddClient(Client client)
         {
             var inDb = _context.Clients.FirstOrDefault(a => a.Name == client.Name);

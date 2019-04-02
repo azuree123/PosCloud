@@ -70,29 +70,17 @@
                                 <button type="submit" class="btn outline-success btn-sm hidden" id="basicSubmit" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> Save</button>
 
                                 <h4 class="mt-none mb-lg text-weight-semibold ">Basic Data</h4>
-
+                                
                                 <div class="row">
+                                    
                                     <div class="col-md-4 col-lg-offset-2">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Supplier <span class="text-danger">*</span>
-                                            </label>
-                                            <div class="input-group">
-                                                @Html.DropDownListFor(a => a.BusinessPartnerId, Model.SupplierDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                <span class="input-group-addon" style="">
-                                                    <a href="@Url.Action("AddSupplierPartial", "Setup")" class="modalShow1" id="#arrButtonIds"> <i class="fa fa-plus "></i></a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label"> Damage Date</label>
 
                                             <div class="input-group">
                                                 @*@Html.TextBoxFor(a => a.TransDate, new { @class = "form-control unstyled", @data_plugin_datepicker = "true", @required = "true" })*@
                                                 @Html.TextBoxFor(a => a.TransDate, new { @class = "form-control unstyled", @required = "true", @type = "datetime-local" })
-
+                                               
                                                 @*<input type="text" data-plugin-datepicker="true" class="form-control unstyled">*@
                                                 <span class="input-group-addon">
                                                     <i onclick="$('#@Html.IdFor(a => a.TransDate)').focus();" class="fa fa-calendar"></i>
@@ -203,22 +191,7 @@
             d = new Date();
             document.getElementById("@Html.IdFor(a=>a.TransDate)").defaultValue = d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + zeroPadded(d.getHours()) + ":" + zeroPadded(d.getMinutes()) + ":" + zeroPadded(d.getSeconds());
         });
-        function UpdateDdlSupplier() {
-            $.ajax({
-                url: "@Url.Action("GetSupplierDdl", "Setup")",
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    var $dropdown = $("#@Html.IdFor(a=>a.BusinessPartnerId)");
-                    $dropdown.empty();
-                    $dropdown.append($("<option />").val('').text("Select an Option"));
-                    $.each(result, function (index, value) {
-                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
-                    });
-
-                }
-            });
-        }
+     
         var tablefill = false;
         function CheckData() {
 

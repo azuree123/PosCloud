@@ -14,7 +14,7 @@ namespace POSApp
         public MappingProfile()
         {
             CreateMap<ProductCreateViewModel,Product>().ForMember(a => a.Modifiers, o => o.Ignore());
-            CreateMap<Product, ProductCreateViewModel>();
+            CreateMap<Product, ProductCreateViewModel>().ForMember(a => a.Modifiers, o => o.MapFrom(g=>g.ModifierLinkProducts.Select(a=>a.ModifierId).ToArray()));
             CreateMap<ProductDtViewModel, Product>();
             CreateMap<Product, ProductDtViewModel>();
             CreateMap<ProductCategoryViewModel, ProductCategory>();
@@ -65,7 +65,7 @@ namespace POSApp
                 .ForMember(d => d.TransTime, o => o.MapFrom(g => g.TransDate.ToShortTimeString()))
                 .ForMember(d => d.PaymentMethod, o => o.MapFrom(g =>string.Join(",", g.TransMasterPaymentMethods.Select(a => a.Method + " (" + a.Amount + ")")) ))
                 .ForMember(d => d.BusinessPartnerName, o => o.MapFrom(g => g.BusinessPartner.Name))
-                .ForMember(k => k.FromStoreName, j => j.MapFrom(l => l.Store.Name));
+                .ForMember(k => k.StoreName, j => j.MapFrom(l => l.Store.Name)).ForMember(v=>v.WarehouseName, n=>n.MapFrom(m=>m.Warehouse.Name));
             CreateMap<TransDetail, TransDetailViewModel>()
                 .ForMember(d => d.Modifiers,
                     o => o.MapFrom(g => string.Join(",",

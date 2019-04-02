@@ -27,7 +27,8 @@ namespace POSApp.Persistence.EntityConfigurations
 
             //******************************************************************************************* Auditable ***************
 
-            HasRequired(x => x.Store).WithMany(x => x.Warehouses).HasForeignKey(x => x.StoreId).WillCascadeOnDelete(false);
+            HasRequired(a=>a.Client).WithMany(a=>a.WareHouses).HasForeignKey(a=>a.ClientId).WillCascadeOnDelete(false);
+
             //HasRequired(x => x.CreatedBy).WithMany().HasForeignKey(x => new { x.CreatedById }).WillCascadeOnDelete(false);
             //HasRequired(x => x.UpdatedBy).WithMany().HasForeignKey(x => new { x.UpdatedById}).WillCascadeOnDelete(false);
         }

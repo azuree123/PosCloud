@@ -39,7 +39,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(Mapper.Map<UserViewModel[]>(_unitOfWork.UserRepository.GetUsers((int)user.StoreId).Where(a=>!a.IsDisabled)));
+            return View(Mapper.Map<UserViewModel[]>(_unitOfWork.UserRepository.GetUsers((int)user.StoreId).Where(a=>!a.IsDisabled).OrderByDescending(a => a.Id)));
         }
         [HttpGet]
         public ActionResult UpdateUser(string id)

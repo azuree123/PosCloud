@@ -19,16 +19,13 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<Warehouse> GetWarehouses()
         {
-            return _context.Warehouses.Include(a => a.Store).Where(a => !a.IsDisabled).ToList();
+            return _context.Warehouses.Include(a => a.Client).Where(a => !a.IsDisabled).ToList();
         }
         public async Task<IEnumerable<Warehouse>> GetWarehousesAsync()
         {
-            return await _context.Warehouses.Include(a => a.Store).Where(a => !a.IsDisabled).ToListAsync();
+            return await _context.Warehouses.Include(a => a.Client).Where(a => !a.IsDisabled).ToListAsync();
         }
-        public IEnumerable<Warehouse> GetWarehouses(int storeId)
-        {
-            return _context.Warehouses.Where(a => a.StoreId == storeId && !a.IsDisabled).Include(a => a.Store).ToList();
-        }
+       
 
         public Warehouse GetWarehouse(int id)
         {
@@ -40,7 +37,7 @@ namespace POSApp.Persistence.Repositories
         }
         public void AddWarehouse(Warehouse warehouse)
         {
-            var inDb = _context.Warehouses.FirstOrDefault(a => a.Name == warehouse.Name && a.StoreId == warehouse.StoreId);
+            var inDb = _context.Warehouses.FirstOrDefault(a => a.Name == warehouse.Name);
             if (inDb == null)
             {
                 _context.Warehouses.Add(warehouse);
@@ -61,7 +58,7 @@ namespace POSApp.Persistence.Repositories
         }
         public async Task AddWarehouseAsync(Warehouse warehouse)
         {
-            var inDb = await _context.Warehouses.FirstOrDefaultAsync(a => a.Name == warehouse.Name && a.StoreId == warehouse.StoreId);
+            var inDb = await _context.Warehouses.FirstOrDefaultAsync(a => a.Name == warehouse.Name);
             if (inDb == null)
             {
                 _context.Warehouses.Add(warehouse);

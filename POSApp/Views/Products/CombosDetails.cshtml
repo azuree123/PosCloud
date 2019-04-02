@@ -42,24 +42,14 @@
 
                 </tr>
 
-                <tr>
-                    <th class="text-center" width="50%">Size</th>
-                    <td class="text-center">@Model.Size</td>
-
-
-                </tr>
-                <tr>
-                    <th class="text-center" width="50%">Cost Price</th>
-                    <td class="text-center">@Model.CostPrice</td>
-
-
-                </tr>
+               
+              
 
                 <tr>
                     <th class="text-center" width="50%">Price</th>
-                    <td class="text-center">@Model.UnitPrice</td>
+                    <td class="text-center">@(Model.ComboProducts.Select(a=>a.Price).Sum())</td>
 
-
+                    
                 </tr>
                 </tbody>
 
@@ -73,9 +63,9 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-center" width="50%">Name</th>
-                        <th class="text-center" width="50%">Quantity</th>
-                        
+                        <th class="text-center" width="40%">Name</th>
+                        <th class="text-center" width="40%">Quantity</th>
+                        <th class="text-center" width="20%">Price</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,7 +78,7 @@
                         <tr>
                             <th class="text-center">@lnk.Product.Name</th>
                             <th class="text-center">@lnk.Qty</th>
-                            
+                            <th class="text-center">@lnk.Price</th>
                         </tr>
                     }
 

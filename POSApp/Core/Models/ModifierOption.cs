@@ -6,7 +6,7 @@ using System.Web;
 
 namespace POSApp.Core.Models
 {
-    public class ModifierOption
+    public class ModifierOption:AuditableEntity
     {
         public int Id { get; set; }
         public int StoreId { get; set; }

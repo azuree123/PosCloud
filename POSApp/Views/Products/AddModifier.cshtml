@@ -125,7 +125,7 @@
                                                             <td>@modelModifierOptionViewModel.Cost</td>
                                                             <td>@modelModifierOptionViewModel.Price</td>
                                                             <td>
-                                                                <a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@modelModifierOptionViewModel.Name.ToString()')" data-toggle="tooltip" title="Edit !"></a>
+                                                                @*<a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@modelModifierOptionViewModel.Name.ToString()')" data-toggle="tooltip" title="Edit !"></a>*@
                                                                 @Ajax.ActionLink(" ", "DeleteModifierOption", "Products", new {name = @modelModifierOptionViewModel.Name, storeId = @modelModifierOptionViewModel.StoreId}, new AjaxOptions
                                                                 {
                                                                     HttpMethod = "GET",

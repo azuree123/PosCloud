@@ -17,10 +17,11 @@ namespace POSApp.Core.Shared
             ProductHelperViewModel checkProduct = temptProduct
                 .Where(a => a.Size == size && a.Barcode == barcode && a.StoreId==storeId  && a.UserId == userId && a.Price == price).ToList()
                 .FirstOrDefault();
-            //if (checkProduct != null)
-            //{
-            //    checkTrans.Quantity += qty;
-            //}
+            if (checkProduct != null)
+            {
+                checkProduct.Price += price;
+            }
+            else
            
             {
 

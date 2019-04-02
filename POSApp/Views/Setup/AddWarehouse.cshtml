@@ -64,15 +64,13 @@
                                             @Html.ValidationMessageFor(model => model.ArabicName, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.StoreId, htmlAttributes: new { @class = "control-label required1" })
-                                            <div class="input-group">
-                                                @Html.DropDownListFor(model => model.StoreId, Model.StoreDdl, "Select an Option", new { @class = "form-control", @required = true })
-                                                <span class="input-group-addon" style="   ">
-                                                    <a href="@Url.Action("AddStorePartial","Store")" class="modalShow1"> <i class="fa fa-plus "></i></a>
-                                                </span>
-                                                @Html.ValidationMessageFor(model => model.StoreId, "", new { @class = "text-danger" })
+                                            @Html.LabelFor(model => model.ClientId, htmlAttributes: new { @class = "control-label required1" })
+                                           
+                                                @Html.DropDownListFor(model => model.ClientId, Model.ClientDdl, "Select an Option", new { @class = "form-control", @required = true })
+                                                
+                                                @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "text-danger" })
                                             </div>
-                                        </div>
+                                      
                                     </div>
                                 </div>
 
@@ -94,11 +92,11 @@
 <script>
         function UpdateDdlStore() {
             $.ajax({
-                url: "@Url.Action("GetStoreDdl", "Store")",
+                url: "@Url.Action("GetClientDdl", "Setup")",
                 type: 'GET',
                 cache: false,
                 success: function (result) {
-                    var $dropdown = $("#@Html.IdFor(a=>a.StoreId)");
+                    var $dropdown = $("#@Html.IdFor(a=>a.ClientId)");
                     $dropdown.empty();
                     $dropdown.append($("<option />").val('').text("Select an Option"));
                     $.each(result, function (index, value) {

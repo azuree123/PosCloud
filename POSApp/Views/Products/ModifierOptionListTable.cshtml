@@ -25,7 +25,7 @@
                         <td>@s.Cost</td>
                         <td>@s.Price</td>
                         <td>
-                            <a href="#" class = "btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@s.Name.ToString()')"  data-toggle = "tooltip" title = "Edit !"></a>
+                            @*<a href="" class = "btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@s.Name.ToString()')"  data-toggle = "tooltip" title = "Edit !"></a>*@
                             @Ajax.ActionLink(" ", "DeleteModifierOption", "Products", new { name = @s.Name, storeId = @s.StoreId }, new AjaxOptions { HttpMethod = "GET",
                            UpdateTargetId = "AjaxUpdate"
                        },new{

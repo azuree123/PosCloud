@@ -90,13 +90,14 @@
                         }
 
                     </tr>
-                    <tr>
-                        <th class="text-center">PaymentMethod</th>
-                        <td class="text-center">
-                           @string.Join(",", Model.TransMasterPaymentMethods.Select(a=>a.Method+" ("+a.Amount+")"))
-                        </td>
+                <tr>
+                    <th class="text-center">PaymentMethod</th>
+                    <td class="text-center">
+                        @string.Join(",", Model.TransMasterPaymentMethods.Select(a=>a.Method+" ("+a.Amount+")"))
+                    </td>
 
-                    </tr>
+                </tr>
+               
                 <tr>
                     <th class="text-center">Invoice Gross</th>
                     <td class="text-center">@(Model.Discount+Model.TotalPrice)</td>
@@ -132,6 +133,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Product</th>
+                                <th>Size</th>
                                 <th>Modifiers</th>
                                 <th>Qty</th>
                                 <th>Price</th>
@@ -147,23 +149,25 @@
                             @{ int i = 1;}
                             @foreach (var saleOrder in Model.TransDetails)
                             {
-                                <tr>
-                                    <td>@(i++)</td>
-                                    <td>@saleOrder.Product.Name</td>
-                                    <td>
-                                        @saleOrder.ModifierTransDetail.Count
+                            <tr>
+                                <td>@(i++)</td>
+                                <td>@saleOrder.Product.Name</td>
+                                <td>@saleOrder.Product.Size</td>
+                                <td>
+                                    @saleOrder.ModifierTransDetail.Count
 
-                                    </td>
-                                    <td>@saleOrder.Quantity</td>
-                                    <td>@saleOrder.UnitPrice</td>
-                                    <td>@saleOrder.Tax</td>
+                                </td>
+                                <td>@saleOrder.Quantity</td>
+                                <td>@saleOrder.UnitPrice</td>
+                                <td>@saleOrder.Tax</td>
 
-                                    <td>@saleOrder.Discount</td>
+                                <td>@saleOrder.Discount</td>
 
-                                    <td>
-                                        @(((saleOrder.UnitPrice + saleOrder.ModifierTransDetail.Sum(a => a.UnitPrice * a.Quantity)) * saleOrder.Quantity) + saleOrder.Tax - Convert.ToDecimal(saleOrder.Discount))
-                                    </td>
-                                </tr>
+                                <td>
+                                    @(((saleOrder.UnitPrice + saleOrder.ModifierTransDetail.Sum(a => a.UnitPrice * a.Quantity)) * saleOrder.Quantity) + saleOrder.Tax - Convert.ToDecimal(saleOrder.Discount))
+                                </td>
+                            </tr>
+                               
                             }
                         </tbody>
                     </table>

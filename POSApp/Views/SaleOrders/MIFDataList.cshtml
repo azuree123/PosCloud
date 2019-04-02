@@ -1,0 +1,155 @@
+﻿
+
+
+@{
+
+    ViewBag.Title = "MIFDataList";
+}
+
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
+
+            <li><a href="@Url.Action("InventoryItemsList","Products")">Inventory Items</a></li>
+            <li class="current"><a href="#">Material issuance</a></li>
+
+           
+
+
+        </ul>
+        <hr />
+
+    </div>
+</div>
+
+<!-- start: page -->
+<section class="panel">
+    <header class="panel-heading">
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <div class="" id="header-flex">
+                    <h3 class="wb-color" style="flex-grow: 8"><b>Issued Orders </b></h3>
+
+
+
+                    <a href="@Url.Action("MIFData", "SaleOrders")" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-sign-out pr-sm"></i>Material Issuance</button>
+
+                    </a>
+                    
+
+                </div>
+
+
+
+
+                
+            </div>
+        </div>
+
+
+        <h2 class="panel-title"></h2>
+    </header>
+    <div class="panel-body">
+        <div class="">
+
+            <div class="table-responsive">
+                <table class="table mb-none " id="datatable-default">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Tax</th>
+                            <th>Discount</th>
+                            <th>Amount</th>
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            
+                            
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<div id="ModalData"></div>
+@section scripts
+{
+    <script>
+        $('#datatable-default').DataTable({
+
+            "processing": true, // for show progress bar lBfrtip
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once,
+            "lengthMenu": [[20, 50, 100, 200], [20, 50, 100, 200]],
+            "order": [[3, "desc"],[ 2, "desc" ]],
+            "ajax": {
+
+                "url": "@Url.Action("MIFData", "SaleOrders")",
+                "type": "POST",
+                "datatype": "json"
+            }, "language": {
+                "search": "Search: ",
+                "searchPlaceholder": "Search..."
+            }, "search": {
+                "search": ""
+            },
+            "columns": [
+                { "data": "TransCode", "name": "TransCode", "autoWidth": true },
+                { "data": "BusinessPartnerName", "name": "BusinessPartnerName", "autoWidth": true },
+
+                { "data": "TransDate", "name": "TransDate", "autoWidth": true }
+                , { "data": "TransTime", "name": "TransTime", "autoWidth": true },
+                { "data": "Tax", "name": "Tax", "autoWidth": true },
+                { "data": "Discount", "name": "Discount", "autoWidth": true },
+                { "data": "TotalPrice", "name": "TotalPrice", "autoWidth": true },
+               
+
+                
+
+                //{
+                //    "data": "Id", "autoWidth": true, render: function (data, type, full, meta) {
+                //        return '<span data-toggle="tooltip" title="Preview !"   class=" btn btn-default text-default btn-sm fa fa-eye  "   onclick="DisplayDetails(' + data +')"  ></span>';
+                //    }
+                //}
+
+            ]
+        });
+        //function DisplayDetails(a) {
+        //    window.location.href = "/SaleOrders/MIFDataDetailList?miforderIdId="+a;
+
+        //}
+
+
+
+
+
+    </script>
+}
+
+
+
+

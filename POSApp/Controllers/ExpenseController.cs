@@ -33,14 +33,15 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View( _unitOfWork.ExpenseRepository.GetExpenses((int)user.StoreId));
+            
+            return View( _unitOfWork.ExpenseRepository.GetExpenses((int)user.StoreId).OrderByDescending(a => a.Id));
         }
 
         public ActionResult DailyExpenseList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ExpenseRepository.GetExpensesByDate((int)user.StoreId));
+            return View(_unitOfWork.ExpenseRepository.GetExpensesByDate((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         public ActionResult AddExpense()
         {
@@ -274,7 +275,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId));
+            return View(_unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).OrderByDescending(a => a.Id));
         }
 
 

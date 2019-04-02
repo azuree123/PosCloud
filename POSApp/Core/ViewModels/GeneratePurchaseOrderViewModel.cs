@@ -11,6 +11,7 @@ namespace POSApp.Core.ViewModels
         public TransMasterViewModel TransMasterViewModel { get; set; }
         public IEnumerable<TransDetailViewModel> TransDetailViewModels { get; set; }
         public CustomerModelView BusinessPartnerViewModel { get; set; }
+        public WarehouseViewModel WarehouseViewModel { get; set; }
         public TransMaster TransMaster { get; set; }
         public decimal TotalAmount { get; set; }
         public string UnitName { get; set; }

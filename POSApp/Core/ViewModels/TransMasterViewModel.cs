@@ -14,10 +14,12 @@ namespace POSApp.Core.ViewModels
         public string Type { get; set; }
         public string TransCode { get; set; }
         public int? StoreId { get; set; }
-        public int? FromStoreId { get; set; }
-        public string ToStoreName { get; set; }
-        public string FromStoreName { get; set; }
+        
+        public string Name { get; set; }
 
+        public string TransferTo { get; set; }
+        public int? WarehouseId { get; set; }
+        public string WarehouseName { get; set; }
         public int? BusinessPartnerId { get; set; }
         [DisplayName("Trans Date")]
         public string TransDate { get; set; }
@@ -36,12 +38,14 @@ namespace POSApp.Core.ViewModels
         [DisplayName("BusinessPartner Name")]
         public string BusinessPartnerName { get; set; }
         public bool Issued { get; set; }
+        public string StoreName { get; set; }
         public string Code { get; set; }
         [DefaultValue(0)]
         public decimal Tax { get; set; }
         public IEnumerable<SelectListItem> SupplierDdl { get; set; }
-        public IEnumerable<SelectListItem> FromStoreDdl { get; set; }
-        public IEnumerable<SelectListItem> ToStoreDdl { get; set; }
+        public IEnumerable<SelectListItem> WarehouseDdl { get; set; }
+        public IEnumerable<SelectListItem> StoreDdl { get; set; }
+
         public IEnumerable<SelectListItem> PriDdl { get; set; }
         public int? DiscountId { get; set; }
         [DefaultValue(0)]

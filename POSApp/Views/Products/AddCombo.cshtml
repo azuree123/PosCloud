@@ -31,7 +31,7 @@
             @Html.HiddenFor(a => a.CreatedOn)
             @Html.HiddenFor(a => a.Image)
             @Html.HiddenFor(a => a.StoreId)
-
+            @Html.HiddenFor(a => a.UnitPrice)
 
             <div class="col-md-12">
                 <div class="tabs  tabs-left">
@@ -89,7 +89,7 @@
                                             @Html.ValidationMessageFor(model => model.ArabicName, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
                                                 @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDdl, "Select an Option", new { @class = "form-control", @required = "true" })
 
@@ -119,65 +119,50 @@
                                                 </div>
                                                 @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
                                             </div>
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(a => a.UnitId, htmlAttributes: new {@class = "control-label required1"})
-                                                <div class="input-group">
-                                                    @Html.DropDownListFor(a => a.UnitId, Model.UnitDdl, "Select an Option", new {@class = "form-control", @required = "true"})
-                                                    <span class="input-group-addon">
-                                                        <a href="@Url.Action("AddUnitPartial", "Setup")" class="modalShow4"> <i class="fa fa-plus "></i></a>
-                                                    </span>
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.UnitId, "", new {@class = "text-danger"})
-                                            </div>
+                                            
 
-                                            <div class="col-md-4">
+                                            @*<div class="col-md-4">
                                                 @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new {@class = "control-label required1"})
                                                 @Html.EditorFor(model => model.UnitPrice, new {htmlAttributes = new {@type = "number", @min = "0", @class = "form-control", @required = true}})
                                                 @Html.ValidationMessageFor(model => model.UnitPrice, "", new {@class = "text-danger"})
-                                            </div>
+                                            </div>*@
+                                        
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(a => a.UnitId, htmlAttributes: new { @class = "control-label required1" })
+                                            
+                                            @Html.DropDownListFor(a => a.UnitId, Model.UnitDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                
+                                           
+                                            @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Description" } })
+                                            @Html.ValidationMessageFor(model => model.Attribute, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
+                                    </div>
                                     <div class="row">
                                         <div class="form-group">
 
 
 
+                                          
+                                           
                                             <div class="col-md-4">
-                                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Description" } })
-                                                @Html.ValidationMessageFor(model => model.Attribute, "", new { @class = "text-danger" })
-                                            </div>
-                                            <div class="col-md-4">
-                                                @Html.Label("Size", htmlAttributes: new { @class = "control-label required1" })
-                                                <div class="input-group">
-                                                    @Html.DropDownListFor(a => a.Size, Model.SizeDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                                    <span class="input-group-addon">
-                                                        <a href="@Url.Action("AddSizePartial", "Setup")" class="modalShow5"> <i class="fa fa-plus "></i></a>
-                                                    </span>
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
-                                            </div>
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label required1 " })
-                                                @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter barcode", @required = "true" } })
+                                                @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label  " })
+                                                @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter barcode" } })
                                                 @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group">
-
                                             <div class="col-md-4">
                                                 @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label " })
                                                 <input type="file" name="file" id="file" />
                                                 @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
                                             </div>
-                                            
-
-
                                         </div>
+
                                     </div>
+                                    
                                     <hr />
 
 
@@ -217,6 +202,8 @@
                                                         <tr>
                                                             <th>ID</th>
                                                             <th>Name</th>
+                                                            <th>Price</th>
+
                                                             <th>Qty</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -230,23 +217,24 @@
 
                                                                 foreach (var modelModifierOptionViewModel in Model.ProductSubViewModels)
                                                                 {
-                                                                    <tr>
-                                                                        <td>@(number++)</td>
-                                                                        <td>@modelModifierOptionViewModel.ProductName</td>
-                                                                        <td>@modelModifierOptionViewModel.Qty</td>
-                                                                        <td class="center">
-                                                                            <div class="btn-group">
-                                                                                <a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@modelModifierOptionViewModel.ProductCode.ToString()','@modelModifierOptionViewModel.StoreId.ToString()')" data-toggle="tooltip" title="Edit !"></a>
-                                                                                @Ajax.ActionLink(" ", "DeleteComboOption", "Products", new { productId = modelModifierOptionViewModel.ProductCode, storeId = modelModifierOptionViewModel.StoreId }, new AjaxOptions { HttpMethod = "GET",
-                                                                                    UpdateTargetId = "AjaxUpdate"
-                                                                                },new{
-                                                                                    @onclick = "return confirm('Are you sure?')",
-                                                                                    @class = "btn btn-danger btn-sm fa fa-trash-o",
-                                                                                    @style = "color: #ffffff;"
-                                                                                })
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
+                                                        <tr>
+                                                            <td>@(number++)</td>
+                                                            <td>@modelModifierOptionViewModel.ProductName</td>
+                                                            <td>@modelModifierOptionViewModel.Price</td>
+                                                            <td>@modelModifierOptionViewModel.Qty</td>
+                                                            <td class="center">
+                                                                <div class="btn-group">
+                                                                    @*<a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@modelModifierOptionViewModel.ProductCode.ToString()','@modelModifierOptionViewModel.StoreId.ToString()')" data-toggle="tooltip" title="Edit !"></a>*@
+                                                                    @Ajax.ActionLink(" ", "DeleteComboOption", "Products", new { productId = modelModifierOptionViewModel.ProductCode, storeId = modelModifierOptionViewModel.StoreId }, new AjaxOptions { HttpMethod = "GET",
+                                                                        UpdateTargetId = "AjaxUpdate"
+                                                                    },new{
+                                                                        @onclick = "return confirm('Are you sure?')",
+                                                                        @class = "btn btn-danger btn-sm fa fa-trash-o",
+                                                                        @style = "color: #ffffff;"
+                                                                    })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
                                                                 }
                                                             }
                                                             else

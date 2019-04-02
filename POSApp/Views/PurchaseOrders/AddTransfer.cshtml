@@ -23,24 +23,7 @@
                 <div class="row">
                     <div class="col-md-12 text-center  col-xs-12 mb-xlg">
                         <ul class=" snip1189 ">
-                            @*<li class="mt-xs  current" id="basicInfo">
-                                    <a href="#basicdata" id="basic" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
-                                        Basic Data
-                                    </a>
-                                </li>*@
-                            @*<li id="tranInfo">
-                                    <a href="#transactionitems" id="transact" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
-                                        Transaction Items
-
-                                    </a>
-                                </li>*@
-
-                            @*<li id="tranInfo">
-                                    <a href="#transactionitems" id="transact" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
-                                        Transaction Items
-
-                                    </a>
-                                </li>*@
+                          
 
                         </ul>
 
@@ -78,7 +61,7 @@
                                                 From <span class="text-danger">*</span>
                                             </label>
                                             
-                                                @Html.DropDownListFor(a => a.FromStoreId, Model.FromStoreDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                @Html.DropDownListFor(a => a.StoreId, Model.StoreDdl, "Select an Option", new { @class = "form-control", @required = "true" })
 
                                             
                                         </div>
@@ -88,10 +71,10 @@
                                             <label class="control-label">
                                                 To <span class="text-danger">*</span>
                                             </label>
-                                            
-                                                @Html.DropDownListFor(a => a.StoreId, Model.ToStoreDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                            @Html.TextBoxFor(a => a.TransferTo, new { @class = "form-control unstyled", @required = "true", @type = "text", @placeholder = "Transfer to" })
 
-                                            
+
+
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-lg-offset-2">

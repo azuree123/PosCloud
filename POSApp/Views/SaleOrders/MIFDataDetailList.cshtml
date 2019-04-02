@@ -1,0 +1,204 @@
+﻿@using System.ServiceModel.Channels
+@model POSApp.Core.Models.TransMaster
+@{
+    //Layout = null;
+}
+<div class="mt-md pull-right">
+
+    <input type='button' id='btnP' class="btn outline-success btn-sm" value='Print' onclick='printDiv();'>
+    <a href="@Url.Action("MIFDataList", "SaleOrders")" style="flex-grow: 0">
+        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>MIF List</button>
+
+    </a>
+</div>
+<div class="container-fluid " id="DivIdToPrint">
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h3 class="text-center"><strong>MIF Details</strong></h3>
+            <table class="table table-bordered">
+                <thead>
+
+
+                </thead>
+
+                <tbody>
+
+
+
+
+                    <tr>
+                        <th class="text-center">Customer Name</th>
+                        <td class="text-center" width="70%">@Model.BusinessPartner.Name</td>
+
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">Sale Id</th>
+                        <td class="text-center">@Model.TransCode</td>
+
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">Date & Time</th>
+                        <td class="text-center">@Model.TransDate</td>
+
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">Order Type</th>
+                        @{
+                            string s = "";
+                            if (@Model.DeliveryType == "Dine In")
+                            {
+                                if (@Model.DineTableId != null)
+                                {
+
+
+                                    s = "(" + @Model.DineTable.DineTableNumber +
+                                        ")";
+                                }
+                            }
+                            else
+                            {
+                                if (@Model.DeliveryType == "Delivery")
+                                {
+                                    if (@Model.Address != null)
+                                    {
+                                        s += @Model.Address;
+                                    }
+
+
+                                    if (@Model.ContactNumber != null)
+                                    {
+                                        if (s != "")
+                                        {
+                                            s += " - ";
+                                        }
+
+                                    }
+                                    s += @Model.ContactNumber;
+                                }
+
+                            }
+
+                            <td class="text-center"><b class="text-success">@Model.DeliveryType</b> @s </td>
+
+
+
+
+                        }
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">PaymentMethod</th>
+                        <td class="text-center">
+                            @string.Join(",", Model.TransMasterPaymentMethods.Select(a => a.Method + " (" + a.Amount + ")"))
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <th class="text-center">Invoice Gross</th>
+                        <td class="text-center">@(Model.Discount + Model.TotalPrice)</td>
+
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">Invoice Tax</th>
+                        <td class="text-center">@(Model.Tax)</td>
+
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">Invoice Discount</th>
+                        <td class="text-center">@(Model.Discount)</td>
+
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">Invoice Total</th>
+                        <td class="text-center">@(Model.TotalPrice)</td>
+
+
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <table class="table mb-none" style="width: 100%" id="datatable-default">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Size</th>
+                                <th>Modifiers</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Tax</th>
+
+                                <th>Discount</th>
+
+                                <th>Total</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int i = 1;}
+                            @foreach (var saleOrder in Model.TransDetails)
+                            {
+                                <tr>
+                                    <td>@(i++)</td>
+                                    <td>@saleOrder.Product.Name</td>
+                                    <td>@saleOrder.Product.Size</td>
+                                    <td>
+                                        @saleOrder.ModifierTransDetail.Count
+
+                                    </td>
+                                    <td>@saleOrder.Quantity</td>
+                                    <td>@saleOrder.UnitPrice</td>
+                                    <td>@saleOrder.Tax</td>
+
+                                    <td>@saleOrder.Discount</td>
+
+                                    <td>
+                                        @(((saleOrder.UnitPrice + saleOrder.ModifierTransDetail.Sum(a => a.UnitPrice * a.Quantity)) * saleOrder.Quantity) + saleOrder.Tax - Convert.ToDecimal(saleOrder.Discount))
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+    function printDiv()
+    {
+
+        var divToPrint=document.getElementById('DivIdToPrint');
+
+        var newWin=window.open('','Print-Window');
+
+        newWin.document.open();
+
+
+        newWin.document.write('<html>  <link href = "/../Content/bootstrap.min.css" rel = "stylesheet" /><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">' +
+            '<style>table>thead>tr>th {text-align: center;} table>tbody>tr>td {text-align: center;} </style><body onload="window.print() " width="1024">' + divToPrint.innerHTML + '</body></html>');
+
+        newWin.document.close();
+
+        setTimeout(function(){newWin.close();},10);
+
+    }
+</script>

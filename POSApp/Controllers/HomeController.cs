@@ -31,10 +31,10 @@ namespace POSApp.Controllers
                 DateTime today = DateTime.Now.Date;
                 DashBoardViewModel model = new DashBoardViewModel();
                 if (_unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
-                    .Where(a => a.Type == "INV" && a.TransDate >= today).Any())
+                    .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= today).Any())
                 {
                     model.Sales = _unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
-                        .Where(a => a.Type == "INV" && a.TransDate >= today).Select(a => a.TotalPrice).Sum();
+                        .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= today).Select(a => a.TotalPrice).Sum();
                 }
                 if (_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
                     .Where(a => a.Type == "PRI" && a.TransDate >= today).Any())
@@ -124,7 +124,7 @@ namespace POSApp.Controllers
                     DateTime dateFrom=new DateTime(year-i,1,1);
                     DateTime dateTo = dateFrom.AddYears(1);
                     morrisGraph.a = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
-                        .Where(a => a.Type == "INV" && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice).Sum();
+                        .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice).Sum();
                     morrisGraph.b = _unitOfWork.ExpenseRepository.GetExpenses((int) user.StoreId)
                         .Where(a => a.Date >= dateFrom && a.Date < dateTo).Select(a => a.Amount).Sum();
                     graph.Morris.Add(morrisGraph);
@@ -138,7 +138,7 @@ namespace POSApp.Controllers
                     string x = dateFrom.Date.ToString("MMM");
                     DateTime dateTo = dateFrom.AddMonths(1);
                     decimal y = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
-                        .Where(a => a.Type == "INV" && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice).Sum();
+                        .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice).Sum();
                     data.data.Add(new LineData{Month = x,Value = y});
                 }
                 graph.Line.Add(data);

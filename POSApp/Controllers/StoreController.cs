@@ -32,8 +32,9 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
 
-            
 
+
+            
 
             var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
@@ -95,6 +96,10 @@ namespace POSApp.Controllers
                 }
                 else
                 {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    var client = _unitOfWork.ClientRepository.GetClient(Convert.ToInt32(user.StoreId));
+                    storeVm.ClientId = client.Id;
                     Store store = Mapper.Map<Store>(storeVm);
                     _unitOfWork.StoreRepository.AddStore(store);
                     _unitOfWork.Complete();
@@ -151,12 +156,17 @@ namespace POSApp.Controllers
             {
                 return RedirectToAction("StoresList");
             }
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+           
+           
+           
             ViewBag.edit = "UpdateStore";
             StoreViewModel storeVm = Mapper.Map<StoreViewModel>(_unitOfWork.StoreRepository.GetStoreById(id));
             return View("AddStore", storeVm);
         }
         [HttpPost]
-        public ActionResult UpdateStore(int id, StoreViewModel storeVm)
+        public ActionResult UpdateStore(int id, StoreViewModel storeVm, int clientId)
         {
             ViewBag.edit = "UpdateStore";
             try
@@ -171,8 +181,12 @@ namespace POSApp.Controllers
                 }
                 else
                 {
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    var client = _unitOfWork.ClientRepository.GetClient(Convert.ToInt32(user.StoreId));
+
                     Store store = Mapper.Map<Store>(storeVm);
-                    _unitOfWork.StoreRepository.UpdateStore(id, store);
+                    _unitOfWork.StoreRepository.UpdateStore(id, store,client.Id);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Store updated successfully", AlertType.Success);
                     return null;
@@ -224,6 +238,8 @@ namespace POSApp.Controllers
         {
             try
             {
+                
+                
                 _unitOfWork.StoreRepository.DeleteStore(id);
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The Store deleted successfully", AlertType.Success);
@@ -284,6 +300,8 @@ namespace POSApp.Controllers
         {
             try
             {
+                
+               
                 return Json(Mapper.Map<StateModelView[]>(_unitOfWork.StoreRepository.GetStores()), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

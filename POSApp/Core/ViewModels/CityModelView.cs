@@ -11,7 +11,7 @@ namespace POSApp.Core.ViewModels
         public int? Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
+      
         public string ArabicName { get; set; }
         [DisplayName("State")]
         public int StateId { get; set; }

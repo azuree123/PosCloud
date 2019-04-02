@@ -65,9 +65,22 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 ">
                                         <div class="form-group">
-                                            <label class="control-label"> StockTaking Date</label>
+                                            <label class="control-label">
+                                                WareHouse <span class="text-danger">*</span>
+                                            </label>
+
+                                            @Html.DropDownListFor(a => a.WarehouseId, Model.WarehouseDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label"> Opening Stock Date</label>
 
                                             <div class="input-group">
                                                 @*@Html.TextBoxFor(a => a.TransDate, new { @class = "form-control unstyled", @data_plugin_datepicker = "true", @required = "true" })*@
@@ -81,8 +94,8 @@
 
                                         </div>
                                     </div>
-
                                 </div>
+                            
                                 <div class="row">
                                     <div class="col-md-8 col-lg-offset-2">
                                         <div class="form-group">

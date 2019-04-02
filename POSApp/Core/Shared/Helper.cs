@@ -76,6 +76,7 @@ namespace POSApp.Core.Shared
         {
             ModifierOptionViewModel transDetail = TempModifierOptions
                 .Where(a => a.Name == product && a.CreatedBy == userId && a.StoreId == storeId).ToList().FirstOrDefault();
+           
             TempModifierOptions.Remove(transDetail);
         }
         public static void EmptyTempModifierOptions(string userId, int storeId)

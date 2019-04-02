@@ -623,6 +623,26 @@
     <Compile Include="Migrations\201903201347092_csitem.Designer.cs">
       <DependentUpon>201903201347092_csitem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903221132220_hgy.cs" />
+    <Compile Include="Migrations\201903221132220_hgy.Designer.cs">
+      <DependentUpon>201903221132220_hgy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903250717477_bhyg.cs" />
+    <Compile Include="Migrations\201903250717477_bhyg.Designer.cs">
+      <DependentUpon>201903250717477_bhyg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903280735141_tn.cs" />
+    <Compile Include="Migrations\201903280735141_tn.Designer.cs">
+      <DependentUpon>201903280735141_tn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904020544397_trs.cs" />
+    <Compile Include="Migrations\201904020544397_trs.Designer.cs">
+      <DependentUpon>201904020544397_trs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904020934139_nbb.cs" />
+    <Compile Include="Migrations\201904020934139_nbb.Designer.cs">
+      <DependentUpon>201904020934139_nbb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ClientEntityConfiguration.cs" />
@@ -3659,6 +3679,8 @@
     <Content Include="Views\StockTaking\AddTransactionItem.cshtml" />
     <Content Include="Views\StockTaking\GenerateStockTakingReceipt.cshtml" />
     <Content Include="Views\StockTaking\PoTable.cshtml" />
+    <Content Include="Views\SaleOrders\MIFDataList.cshtml" />
+    <Content Include="Views\SaleOrders\MIFDataDetailList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3898,6 +3920,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903201347092_csitem.resx">
       <DependentUpon>201903201347092_csitem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903221132220_hgy.resx">
+      <DependentUpon>201903221132220_hgy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903250717477_bhyg.resx">
+      <DependentUpon>201903250717477_bhyg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903280735141_tn.resx">
+      <DependentUpon>201903280735141_tn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904020544397_trs.resx">
+      <DependentUpon>201904020544397_trs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904020934139_nbb.resx">
+      <DependentUpon>201904020934139_nbb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

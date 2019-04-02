@@ -12,7 +12,7 @@ namespace POSApp.Core.Models
         
         public int Id { get; set; }
         public int StoreId { get; set; }
-        public int? ToStoreId { get; set; }
+        public string  TransferTo { get; set; }
         public Store Store { get; set; }
         public int SessionCode { get; set; }
         public string Type { get; set; }  //INV or PRI
@@ -20,10 +20,11 @@ namespace POSApp.Core.Models
         public string DeliveryType { get; set; }
         public string Address { get; set; }
         public string ContactNumber { get; set; }
-
+        public string Name { get; set; }
         public int? BusinessPartnerId { get; set; }
-        public BusinessPartner BusinessPartner { get; set; } 
-
+        public BusinessPartner BusinessPartner { get; set; }
+        public int? WarehouseId { get; set; }
+        public Warehouse Warehouse { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime TransDate { get; set; }
         [DefaultValue(0)]

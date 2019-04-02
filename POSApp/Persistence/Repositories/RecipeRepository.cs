@@ -71,11 +71,22 @@ namespace POSApp.Persistence.Repositories
         }
         public void AddRecipes(Recipe tep)
         {
-
-            if (!_context.Recipes.Where(a => a.ProductCode == tep.ProductCode && a.IngredientCode == tep.IngredientCode).Any())
+            var inDb = _context.Recipes.FirstOrDefault(a =>
+                a.ProductCode == tep.ProductCode && a.IngredientCode == tep.IngredientCode);
+            if (inDb != null)
+            {
+                inDb.Calories += tep.Calories;
+                inDb.Quantity += tep.Quantity;
+                
+            }
+            else
             {
                 _context.Recipes.Add(tep);
             }
+            //if (!_context.Recipes.Where(a => a.ProductCode == tep.ProductCode && a.IngredientCode == tep.IngredientCode).Any())
+            //{
+                
+            //}
         }
         public async Task AddRecipesAsync(Recipe tep)
         {

@@ -65,7 +65,7 @@
                             <th >Supplier</th>
                             <th >Order Date</th>
                             <th >Invoice</th>
-                            <th ">Total Price</th>
+                            <th >Total Price</th>
                             <th >Type</th>
                             <th width="15%">Action</th>
 
@@ -80,7 +80,7 @@
                                 <td>@purchaseOrder.BusinessPartnerName</td>
                                 <td>@purchaseOrder.TransDate</td>
                                 <td>@purchaseOrder.TransCode</td>
-                                <td>@purchaseOrder.TotalPrice</td>
+                                <td>@String.Format("{0:#,##0.00}", purchaseOrder.TotalPrice)</td>
                                 <td>@purchaseOrder.Type</td>
                                 <td>
                                     @Html.ActionLink(" ", "PreviewPurchaseOrder", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })

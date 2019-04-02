@@ -10,7 +10,8 @@ namespace POSApp.Core.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string ArabicName { get; set; }
-        public int StoreId { get; set; }
-        public Store Store { get; set; }
+        public int ClientId { get; set; }
+        public Client Client { get; set; }
+        public ICollection<TransMaster> TransMasters { get; set; } = new List<TransMaster>();
     }
 }

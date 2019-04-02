@@ -14,17 +14,17 @@ namespace POSApp.Core.ViewModels
         [Required]
         public string Name { get; set; }
         public string ArabicName { get; set; }
-        [DisplayName("Branch")]
-        public int StoreId { get; set; }
+        [DisplayName("Client")]
+        public int ClientId { get; set; }
         public string Code { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
-        public IEnumerable<SelectListItem> StoreDdl { get; set; }
+        public IEnumerable<SelectListItem> ClientDdl { get; set; }
     }
     public class WarehouseListModelView
     {
         public int? Id { get; set; }
         public string Name { get; set; }
-        public string StoreName { get; set; }
+        public string ClientName { get; set; }
     }
 }
