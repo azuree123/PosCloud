@@ -122,7 +122,7 @@
                         <tr>
                             <td class="text-left">@s.ProductName</td>
 
-                            <td class="text-center">@s.Quantity</td>
+                            <td class="text-center">@String.Format("{0:n2}",s.Quantity)</td>
 
                             <td class="text-right">@String.Format("{0:#,##0.00}", s.UnitPrice)</td>
                         </tr>

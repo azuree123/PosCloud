@@ -1,7 +1,13 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.TransMasterViewModel>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.ViewModels.TransMasterViewModel>
 
 @{
     ViewBag.Title = "OtherInList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
 @*<header class="page-header">
@@ -24,19 +30,19 @@
 
 <!-- start: page -->
 <div class="row mt-md">
-<div class="col-md-12">
-    <ul class="snip1189">
-        <li><a href="@Url.Action("StockTakingList","StockTaking")">Stock Taking</a></li>
-        <li><a href="@Url.Action("PurchasingList","PurchaseOrders")">Purchasing</a></li>
-        <li><a href="@Url.Action("StockList","PurchaseOrders")">Stock In</a></li>
-        <li><a href="@Url.Action("TransferList","PurchaseOrders")">Transfer</a></li>
-        <li class="current"><a href="#">Others In</a></li>
-        <li><a href="@Url.Action("OtherOutList","PurchaseOrders")">Other Out</a></li>
+    <div class="col-md-12">
+        <ul class="snip1189">
+            <li><a href="@Url.Action("StockTakingList","StockTaking")">Stock Taking</a></li>
+            <li><a href="@Url.Action("PurchasingList","PurchaseOrders")">Purchasing</a></li>
+            <li><a href="@Url.Action("StockList","PurchaseOrders")">Stock In</a></li>
+            <li><a href="@Url.Action("TransferList","PurchaseOrders")">Transfer</a></li>
+            <li class="current"><a href="#">Others In</a></li>
+            <li><a href="@Url.Action("OtherOutList","PurchaseOrders")">Other Out</a></li>
 
-        <li><a href="@Url.Action("ExpiryList","PurchaseOrders")">Expiry</a></li>
-        <li><a href="@Url.Action("WasteList","PurchaseOrders")">Waste</a></li>
-        <li><a href="@Url.Action("DamageList","PurchaseOrders")">Damage</a></li>
-    </ul>
+            <li><a href="@Url.Action("ExpiryList","PurchaseOrders")">Expiry</a></li>
+            <li><a href="@Url.Action("WasteList","PurchaseOrders")">Waste</a></li>
+            <li><a href="@Url.Action("DamageList","PurchaseOrders")">Damage</a></li>
+        </ul>
         <hr />
 
     </div>
@@ -83,7 +89,7 @@
                         <th>Name</th>
                         <th>Order Date</th>
                         <th>Invoice</th>
-                        <th >Total Price</th>
+                        <th>Total Price</th>
                         <th>Type</th>
                         <th width="15%">Action</th>
 
@@ -102,6 +108,8 @@
                             <td>@purchaseOrder.Type</td>
                             <td>
                                 @Html.ActionLink(" ", "PreviewOtherIn", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
+                                @Html.ActionLink(" ", "DeleteOtherIn", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+
                             </td>
                         </tr>
                     }
@@ -121,12 +129,12 @@
     <script>
         $('#datatable-default').dataTable();
 
-        $('#datatable-default').on('click','a.modalShow', function () {
+        $('#datatable-default').on('click', 'a.modalShow', function () {
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();
@@ -140,7 +148,7 @@
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();
@@ -155,7 +163,7 @@
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();

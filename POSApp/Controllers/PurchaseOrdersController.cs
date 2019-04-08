@@ -184,7 +184,7 @@ namespace POSApp.Controllers
                     .GetProductByCode(tempTransDetailViewModel.ProductCode, tempTransDetailViewModel.StoreId).Name;
             }
             temp.WarehouseViewModel =
-                Mapper.Map<WarehouseViewModel>(_unitOfWork.WarehouseRepository.GetWarehouses());
+                Mapper.Map<WarehouseViewModel>(_unitOfWork.WarehouseRepository.GetWarehouse((int)temp.TransMasterViewModel.WarehouseId));
             temp.TotalAmount = (from a in temp.TransDetailViewModels
                 select a.Quantity * a.UnitPrice).Sum();
             TempData["po"] = temp;
@@ -284,7 +284,57 @@ namespace POSApp.Controllers
             PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+        public ActionResult DeleteStock(int id, int storeid)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TransMasterRepository.DeleteTransMaster(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Stock deleted successfully", AlertType.Success);
+                return RedirectToAction("StockList", "PurchaseOrders");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("StockList");
+
+        }
         //Transfer
         public ActionResult PreviewTransferOrder(int id)
         {
@@ -411,7 +461,57 @@ namespace POSApp.Controllers
             return View("PoTable", PoHelper.temptTransDetail);
         }
 
+        public ActionResult DeleteTransfer(int id, int storeid)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TransMasterRepository.DeleteTransMaster(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Transfer deleted successfully", AlertType.Success);
+                return RedirectToAction("TransferList", "PurchaseOrders");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("TransferList");
+
+        }
         //Purchasing
 
         public ActionResult PreviewPurchasing(int id)
@@ -505,7 +605,7 @@ namespace POSApp.Controllers
                                     select a.Quantity * a.UnitPrice).Sum();
                 TempData["po"] = temp;
             }
-            return RedirectToAction("GenerateReceipt", "PurchaseOrders");
+            return RedirectToAction("GeneratePurchasingReceipt", "PurchaseOrders");
 
 
         }
@@ -556,11 +656,13 @@ namespace POSApp.Controllers
 
             productVm.TransDetailViewModels = _unitOfWork.TransDetailRepository
                 .GetTransDetails(id, Convert.ToInt32(user.StoreId)).ToList();
+
             foreach (var modifierVmModifierOptionViewModel in productVm.TransDetailViewModels)
             {
                 PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode,modifierVmModifierOptionViewModel.StoreId),modifierVmModifierOptionViewModel.Quantity,modifierVmModifierOptionViewModel.UnitPrice,userid);
             }
 
+            productVm.TransDetailViewModels = PoHelper.temptTransDetail;
             ViewBag.js = "<script>ChangeTableFill();</script>";
             return View("AddPurchasing", productVm);
         }
@@ -588,27 +690,42 @@ namespace POSApp.Controllers
                 {
                     TransMaster transMaster = Mapper.Map<TransMaster>(purchasingVm);
                     transMaster.Type = "PRI";
-                   
-                    _unitOfWork.TransMasterRepository.UpdateTransMaster(id, Convert.ToInt32(user.StoreId),transMaster);
+                    IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid && a.StoreId == user.StoreId);
 
-                    _unitOfWork.Complete();
-                    List<TransDetailViewModel> products = _unitOfWork.TransDetailRepository.GetTransDetails(transMaster.Id,transMaster.StoreId).ToList();
-                    foreach (var productsSub in products)
-                    {
-                        _unitOfWork.TransDetailRepository.DeleteTransDetail(productsSub.Id, productsSub.StoreId);
-                    }
-                    foreach (var productSubViewModel in PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid))
+                    transMaster.TotalPrice = (from a in poItems
+                        select a.Quantity * a.UnitPrice).Sum();
+                    transMaster.TransDetails=new List<TransDetail>();
+                    foreach (var productSubViewModel in poItems)
                     {
                         productSubViewModel.StoreId = transMaster.StoreId;
                         productSubViewModel.TransMasterId = transMaster.Id;
-                        _unitOfWork.TransDetailRepository.AddTransDetail(Mapper.Map<TransDetail>(productSubViewModel));
+                        transMaster.TransDetails.Add(Mapper.Map<TransDetail>(productSubViewModel));
 
                     }
+                    _unitOfWork.TransMasterRepository.UpdatePurchasing(id, Convert.ToInt32(user.StoreId),transMaster);
+
                     _unitOfWork.Complete();
+                    //purchasingVm.TransDetailViewModels = _unitOfWork.TransDetailRepository
+                    //    .GetTransDetails(id, Convert.ToInt32(user.StoreId)).ToList();
+
+                    //foreach (var modifierVmModifierOptionViewModel in purchasingVm.TransDetailViewModels)
+                    //{
+                    //    _unitOfWork.TransDetailRepository.DeleteTransDetail(modifierVmModifierOptionViewModel.Id,modifierVmModifierOptionViewModel.StoreId);
+                    //}
+                    //_unitOfWork.Complete();
+                    //foreach (var productSubViewModel in poItems)
+                    //{
+                    //    productSubViewModel.StoreId = transMaster.StoreId;
+                    //    productSubViewModel.TransMasterId = transMaster.Id;
+                    //    _unitOfWork.TransDetailRepository.AddTransDetail(Mapper.Map<TransDetail>(productSubViewModel));
+
+                    //}
+                   
+                    //_unitOfWork.Complete();
                     
 
                     TempData["Alert"] = new AlertModel("The Purchasing updated successfully", AlertType.Success);
-                    return RedirectToAction("GeneratePurchasingReceipt", "PurchaseOrders");
+                    return RedirectToAction("PurchasingList", "PurchaseOrders");
                 }
             }
             catch (DbEntityValidationException ex)
@@ -651,6 +768,58 @@ namespace POSApp.Controllers
             return View("AddPurchasing", purchasingVm);
 
 
+
+        }
+
+        public ActionResult DeletePurchasing(int id, int storeid)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TransMasterRepository.DeleteTransMaster(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Purchasing deleted successfully", AlertType.Success);
+                return RedirectToAction("PurchasingList", "PurchaseOrders");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("PurchasingList");
 
         }
         //End Purchasing
@@ -901,7 +1070,57 @@ namespace POSApp.Controllers
             PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+        public ActionResult DeleteOtherIn(int id, int storeid)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TransMasterRepository.DeleteTransMaster(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The OtherIn deleted successfully", AlertType.Success);
+                return RedirectToAction("OtherInList", "PurchaseOrders");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("OtherInList");
+
+        }
 
         //Other Out
 
@@ -1017,7 +1236,57 @@ namespace POSApp.Controllers
             PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+        public ActionResult DeleteOtherOut(int id, int storeid)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TransMasterRepository.DeleteTransMaster(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The OtherOut deleted successfully", AlertType.Success);
+                return RedirectToAction("OtherOutList", "PurchaseOrders");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("OtherOutList");
+
+        }
         public ActionResult GenerateOtherOutReceipt()
         {
             GeneratePurchaseOrderViewModel po = (GeneratePurchaseOrderViewModel)TempData["po"];
@@ -1050,8 +1319,7 @@ namespace POSApp.Controllers
                 tempTransDetailViewModel.ProductName = _unitOfWork.ProductRepository
                     .GetProductByCode(tempTransDetailViewModel.ProductCode, tempTransDetailViewModel.StoreId).Name;
             }
-            temp.BusinessPartnerViewModel =
-                Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner((int)temp.TransMasterViewModel.BusinessPartnerId, (int)user.StoreId));
+           
             temp.TotalAmount = (from a in temp.TransDetailViewModels
                                 select a.Quantity * a.UnitPrice).Sum();
             TempData["po"] = temp;
@@ -1123,7 +1391,127 @@ namespace POSApp.Controllers
 
 
         }
+        [HttpGet]
+        public ActionResult UpdateExpiry(int id)
+        {
 
+
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+
+            TransMasterViewModel productVm = Mapper.Map<TransMasterViewModel>(_unitOfWork.TransMasterRepository.GetTransMaster(id, Convert.ToInt32(user.StoreId)));
+           
+            if (PoHelper.temptTransDetail == null)
+            {
+                PoHelper.temptTransDetail = new List<TransDetailViewModel>();
+
+            }
+            if (PoHelper.temptTransDetail != null)
+            {
+
+                PoHelper.EmptyTemptTransDetail(user.Id, (int)user.StoreId);
+            }
+
+            productVm.TransDetailViewModels = _unitOfWork.TransDetailRepository
+                .GetTransDetails(id, Convert.ToInt32(user.StoreId)).ToList();
+
+            foreach (var modifierVmModifierOptionViewModel in productVm.TransDetailViewModels)
+            {
+                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode, modifierVmModifierOptionViewModel.StoreId), modifierVmModifierOptionViewModel.Quantity, modifierVmModifierOptionViewModel.UnitPrice, userid);
+            }
+
+            productVm.TransDetailViewModels = PoHelper.temptTransDetail;
+            ViewBag.js = "<script>ChangeTableFill();</script>";
+            return View("AddExpiry", productVm);
+        }
+        [HttpPost]
+        public ActionResult UpdateExpiry(int id, TransMasterViewModel purchasingVm)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+       
+
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    return View("AddPurchasing", purchasingVm);
+
+                }
+                else
+
+                {
+                    TransMaster transMaster = Mapper.Map<TransMaster>(purchasingVm);
+                    transMaster.Type = "EXP";
+                    IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid && a.StoreId == user.StoreId);
+
+                    transMaster.TotalPrice = (from a in poItems
+                                              select a.Quantity * a.UnitPrice).Sum();
+                    transMaster.TransDetails = new List<TransDetail>();
+                    foreach (var productSubViewModel in poItems)
+                    {
+                        productSubViewModel.StoreId = transMaster.StoreId;
+                        productSubViewModel.TransMasterId = transMaster.Id;
+                        transMaster.TransDetails.Add(Mapper.Map<TransDetail>(productSubViewModel));
+
+                    }
+                    _unitOfWork.TransMasterRepository.UpdateExpiry(id, Convert.ToInt32(user.StoreId), transMaster);
+
+                    _unitOfWork.Complete();
+             
+
+
+                    TempData["Alert"] = new AlertModel("The Expiry updated successfully", AlertType.Success);
+                    return RedirectToAction("ExpiryList", "PurchaseOrders");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return View("AddExpiry", purchasingVm);
+
+
+
+        }
         public ActionResult AddExpiryItem()
         {
             var userid = User.Identity.GetUserId();
@@ -1158,7 +1546,57 @@ namespace POSApp.Controllers
             }
             return View(po);
         }
+        public ActionResult DeleteExpiry(int id, int storeid)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TransMasterRepository.DeleteTransMaster(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Expiry deleted successfully", AlertType.Success);
+                return RedirectToAction("ExpiryList", "PurchaseOrders");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("ExpiryList");
+
+        }
         //Waste
 
         public ActionResult WasteList()
@@ -1283,7 +1721,57 @@ namespace POSApp.Controllers
             }
             return View(po);
         }
+        public ActionResult DeleteWaste(int id, int storeid)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TransMasterRepository.DeleteTransMaster(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Waste deleted successfully", AlertType.Success);
+                return RedirectToAction("WasteList", "PurchaseOrders");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("WasteList");
+
+        }
         //Damage
 
         public ActionResult DamageList()
@@ -1399,7 +1887,57 @@ namespace POSApp.Controllers
             PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+        public ActionResult DeleteDamage(int id, int storeid)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TransMasterRepository.DeleteTransMaster(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Damage deleted successfully", AlertType.Success);
+                return RedirectToAction("DamageList", "PurchaseOrders");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("DamageList");
+
+        }
         public ActionResult GenerateDamageReceipt()
         {
             GeneratePurchaseOrderViewModel po = (GeneratePurchaseOrderViewModel)TempData["po"];
@@ -1469,6 +2007,23 @@ namespace POSApp.Controllers
         }
        
         public JsonResult GetPurchasingInfo(int id)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                PurchasingDdlViewModel purchase =
+                    Mapper.Map<PurchasingDdlViewModel>(
+                        _unitOfWork.TransMasterRepository.GetPurchaseById(id, (int)user.StoreId));
+                return Json(purchase, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        public JsonResult GetExpiryInfo(int id)
         {
             try
             {

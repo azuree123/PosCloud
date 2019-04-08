@@ -99,7 +99,7 @@
                     <tr>
                         <th width="50%" class="text-left">ITEMS</th>
                         <th width="20%">QUANTITY</th>
-                        @*<th width="5%">UNIT</th>*@
+                       
                         <th width="25%" class="text-right">PRICE</th>
 
                     </tr>
@@ -110,8 +110,8 @@
                         <tr>
                             <td class="text-left">@s.ProductName</td>
 
-                            <td class="text-center">@(s.Quantity)</td>
-                            @*<td class="text-center">@(s.UnitName)</td>*@
+                            <td class="text-center">@String.Format("{0:n2}",s.Quantity)</td>
+               
                             <td class="text-right">@s.UnitPrice</td>
 
                         </tr>

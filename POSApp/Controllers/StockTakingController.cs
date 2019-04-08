@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -161,7 +162,57 @@ namespace POSApp.Controllers
             TakingHelper.RemoveFromTemptTransDetail(productId, (int)user.StoreId, user.Id);
             return View("PoTable", TakingHelper.temptTransDetail);
         }
+        public ActionResult DeleteStockStaking(int id, int storeid)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                _unitOfWork.TransMasterRepository.DeleteTransMaster(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.Complete();
+                TempData["Alert"] = new AlertModel("The Stocktaking deleted successfully", AlertType.Success);
+                return RedirectToAction("StockTakingList", "StockTaking");
+            }
+            catch (DbEntityValidationException ex)
+            {
 
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return RedirectToAction("StockTakingList", "StockTaking");
+
+        }
         public ActionResult GenerateStockTakingReceipt()
         {
             GeneratePurchaseOrderViewModel po = (GeneratePurchaseOrderViewModel)TempData["po"];

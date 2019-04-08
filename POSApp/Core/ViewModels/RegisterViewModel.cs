@@ -24,7 +24,7 @@ namespace POSApp.Core.ViewModels
         public string Name { get; set; }
         public string CompanyName { get; set; }
         [Required]
-        [RegularExpression(@"^\(?([0-9]{4})\)?[-. ]?([0-9]{7})$", ErrorMessage = "Entered phone format like (03211234567)")]
+        [RegularExpression(@"^\(?([0-9])\)?[-. ]?([0-9])$", ErrorMessage = "Entered phone format like (03211234567)")]
         public string PhoneNumber { get; set; }
         public bool IsAdmin { get; set; }
         [Display(Name = "Photo/Logo")]

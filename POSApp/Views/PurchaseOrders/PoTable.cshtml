@@ -23,9 +23,9 @@
                 <tr>
                     <td>@(count++)</td>
                     <td>@s.ProductName</td>
-                    <td>@String.Format("{0:#,##0.00}", s.Quantity)</td>
+                    <td>@String.Format("{0:n2}", s.Quantity)</td>
                     <td>@s.UnitName</td>
-                    <td>@s.UnitPrice</td>
+                    <td>@String.Format("{0:n2}",s.UnitPrice)</td>
                     <td>
                         @Ajax.ActionLink(" ", "RemoveTransactionItem", "PurchaseOrders", new { productId = @s.ProductCode },new AjaxOptions { HttpMethod = "GET",
                        UpdateTargetId = "AjaxUpdate"

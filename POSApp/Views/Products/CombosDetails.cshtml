@@ -34,22 +34,16 @@
 
 
                     </tr>
+                <tr>
+                    <th class="text-center" width="50%">Price</th>
+                    <td class="text-center">@(Model.ComboProducts.Select(a=>a.Price).Sum())</td>
+                </tr>
 
                 <tr>
                     <th class="text-center" width="50%">Description</th>
                     <td class="text-center">@Model.Attribute</td>
 
 
-                </tr>
-
-               
-              
-
-                <tr>
-                    <th class="text-center" width="50%">Price</th>
-                    <td class="text-center">@(Model.ComboProducts.Select(a=>a.Price).Sum())</td>
-
-                    
                 </tr>
                 </tbody>
 

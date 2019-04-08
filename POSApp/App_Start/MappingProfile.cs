@@ -65,7 +65,8 @@ namespace POSApp
                 .ForMember(d => d.TransTime, o => o.MapFrom(g => g.TransDate.ToShortTimeString()))
                 .ForMember(d => d.PaymentMethod, o => o.MapFrom(g =>string.Join(",", g.TransMasterPaymentMethods.Select(a => a.Method + " (" + a.Amount + ")")) ))
                 .ForMember(d => d.BusinessPartnerName, o => o.MapFrom(g => g.BusinessPartner.Name))
-                .ForMember(k => k.StoreName, j => j.MapFrom(l => l.Store.Name)).ForMember(v=>v.WarehouseName, n=>n.MapFrom(m=>m.Warehouse.Name));
+                .ForMember(k => k.StoreName, j => j.MapFrom(l => l.Store.Name)).ForMember(v=>v.WarehouseName, n=>n.MapFrom(m=>m.Warehouse.Name))
+                .ForMember(c=>c.WarehouseName, z=>z.MapFrom(l=>l.Warehouse.Name));
             CreateMap<TransDetail, TransDetailViewModel>()
                 .ForMember(d => d.Modifiers,
                     o => o.MapFrom(g => string.Join(",",

@@ -16,7 +16,7 @@
 
 
     <div class="row mt-lg">
-
+        
 
 
         <div class="col-md-12">
@@ -51,7 +51,7 @@
                         <div id="transactionitems" class="tab-pane active">
                             @using (Html.BeginForm())
                             {
-                                @Html.HiddenFor(a => a.Id)
+                                
                                 @Html.HiddenFor(a => a.TransCode)
                                 @Html.HiddenFor(a => a.StoreId)
                                 <button type="submit" class="btn outline-success btn-sm hidden" id="basicSubmit" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> Save</button>
@@ -63,31 +63,7 @@
 
 
                                 </div>
-                                @*<div class="row">
-                <div class="col-md-4 col-lg-offset-2 ">
-                    <div class="form-group">
-                        <label class="control-label">
-                            Invoice Number
-                        </label>
-
-                        <select name="productId" id="productDdl" required="" class="form-control populate selectddl" autofocus style="width:100%">
-
-                            <option value="">Select an Option</option>
-
-                            @foreach (var data in Model.PriDdl)
-                            {
-                                <option value="@data.">@data.Text</option>
-
-                            }
-
-
-
-
-
-                        </select>
-                    </div>
-                </div>
-            </div>*@
+          
                                 <div class="row">
 
                                     <div class="col-md-4 col-lg-offset-2">
@@ -373,30 +349,7 @@
             $('.selectddl').select2();
             
         });
-        @*$('#productDdl').on("change",
-            function () {
-                var val = $(this).val();
-                if (val !== '') {
-                    $.ajax({
-                        url: "@Url.Action("GetProductInfo","PurchaseOrders")",
-                        type: "GET",
-                        data: { id: val },
-                        success: function(data) {
-                            $('#disQty').text(data.PurchaseUnit);
-                            $('#disQty1').text(data.StorageUnit);
-                            $('#disQty2').text(data.IngredientUnit);
-                            $('#price').val(data.CostPrice);
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-
-                    });
-                } else {
-                    $('#disQty').text('-');
-                    $('#price').val('');
-                }
-            });*@
+      
         $('#purchaseDdl').on("change",
             function () {
                 var val = $(this).val();

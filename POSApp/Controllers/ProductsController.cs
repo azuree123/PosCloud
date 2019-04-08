@@ -1858,24 +1858,25 @@ namespace POSApp.Controllers
         [HttpPost]
         public ActionResult AddCombo(ComboViewModel productVm, HttpPostedFileBase file)
         {
-            var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
-            productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo").OrderBy(a => a.Name)
-                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-
-            productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId).OrderBy(a => a.Name)
-                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId).OrderBy(a => a.Name)
-                .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId).OrderBy(a => a.Name)
-                .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
-            productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId).OrderBy(a => a.Name)
-                .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
+           
             ViewBag.edit = "AddCombo";
             try
             {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                productVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Combo").OrderBy(a => a.Name)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
 
-              
+                productVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit((int)user.StoreId).OrderBy(a => a.Name)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.TaxDdl = _unitOfWork.TaxRepository.GetTaxes((int)user.StoreId).OrderBy(a => a.Name)
+                    .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId).OrderBy(a => a.Name)
+                    .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
+                productVm.SizeDdl = _unitOfWork.SizeRepository.GetSizes((int)user.StoreId).OrderBy(a => a.Name)
+                    .Select(a => new SelectListItem { Value = a.Name.ToString(), Text = a.Name }).AsEnumerable();
+
+
                 if (!ModelState.IsValid)
                 {
                     var message = string.Join(" | ", ModelState.Values

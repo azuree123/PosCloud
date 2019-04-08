@@ -1,7 +1,13 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.TransMasterViewModel>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.ViewModels.TransMasterViewModel>
 
 @{
     ViewBag.Title = "PurchasingList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
 @*<header class="page-header">
@@ -86,7 +92,7 @@
                         <th>Supplier</th>
                         <th>Order Date</th>
                         <th>Invoice</th>
-                        <th ">Total Price</th>
+                        <th>Total Price</th>
                         <th>Type</th>
                         <th width="15%">Action</th>
 
@@ -101,11 +107,12 @@
                             <td>@purchaseOrder.BusinessPartnerName</td>
                             <td>@purchaseOrder.TransDate</td>
                             <td>@purchaseOrder.TransCode</td>
-                            <td>@purchaseOrder.TotalPrice</td>
+                            <td>@String.Format("{0:n2} ", purchaseOrder.TotalPrice)</td>
                             <td>@purchaseOrder.Type</td>
                             <td>
                                 @Html.ActionLink(" ", "PreviewPurchasing", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
-                                @Html.ActionLink(" ", "UpdatePurchasing", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = "Edit !" })
+                                @* @Html.ActionLink(" ", "UpdatePurchasing", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = "Edit !" })*@
+                                @Html.ActionLink(" ", "DeletePurchasing", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
 
                             </td>
                         </tr>

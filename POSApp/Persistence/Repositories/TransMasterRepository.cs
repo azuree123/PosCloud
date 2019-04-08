@@ -77,8 +77,10 @@ namespace POSApp.Persistence.Repositories
         public IEnumerable<TransMaster> GetTransMasters(int storeId)
         {
             //return _context.PurchaseOrder;
-            return _context.TransMasters.Include(a=>a.Store).Include(a=>a.BusinessPartner).Include(a => a.Warehouse)
+            var tt= _context.TransMasters.Include(a=>a.Store).Include(a=>a.BusinessPartner).Include(a => a.Warehouse)
                 .Where(a => a.StoreId == storeId  && !a.IsDisabled);
+
+            return tt;
 
         }
         public IEnumerable<TransMaster> GetWareTransMasters(int storeId,int warehouseId)
@@ -176,10 +178,13 @@ namespace POSApp.Persistence.Repositories
        
         public void DeleteTransMaster(int id, int storeId)
         {
+            var transDetails = _context.TransDetails.Where(a => a.TransMasterId == id && a.StoreId == storeId)
+                .ToList();
+            _context.TransDetails.RemoveRange(transDetails);
             var transMaster = _context.TransMasters.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            transMaster.IsDisabled = true;
-            _context.TransMasters.Attach(transMaster);
-            _context.Entry(transMaster).State = EntityState.Modified;
+          
+            _context.TransMasters.Remove(transMaster);
+            _context.Entry(transMaster).State = EntityState.Deleted;
         }
         public void AddTransMaster(TransMaster optcategory)
         {
@@ -247,6 +252,32 @@ namespace POSApp.Persistence.Repositories
             _context.TransMasters.Attach(transMaster);
             _context.Entry(transMaster).State = EntityState.Modified;
         }
+        public void UpdatePurchasing(int id, int storeid, TransMaster transMaster)
+        {
+            var transDetails = _context.TransDetails.Where(a => a.TransMasterId == id && a.StoreId == storeid)
+                .ToList();
+            _context.TransDetails.RemoveRange(transDetails);
+            transMaster.StoreId = storeid;
+            _context.TransMasters.Attach(transMaster);
+            foreach (var transMasterTransDetail in transMaster.TransDetails)
+            {
+                _context.TransDetails.Add(transMasterTransDetail);
+            }
+            _context.Entry(transMaster).State = EntityState.Modified;
+        }
+        public void UpdateExpiry(int id, int storeid, TransMaster transMaster)
+        {
+            var transDetails = _context.TransDetails.Where(a => a.TransMasterId == id && a.StoreId == storeid)
+                .ToList();
+            _context.TransDetails.RemoveRange(transDetails);
+            transMaster.StoreId = storeid;
+            _context.TransMasters.Attach(transMaster);
+            foreach (var transMasterTransDetail in transMaster.TransDetails)
+            {
+                _context.TransDetails.Add(transMasterTransDetail);
+            }
 
+            _context.Entry(transMaster).State = EntityState.Modified;
+        }
     }
 }

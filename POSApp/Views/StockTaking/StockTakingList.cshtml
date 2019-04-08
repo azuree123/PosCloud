@@ -86,6 +86,7 @@
                             <td>@purchaseOrder.Type</td>
                             <td>
                                 @Html.ActionLink(" ", "PreviewStockTaking", "StockTaking", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
+                                @Html.ActionLink(" ", "DeleteStockStaking", "StockTaking", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
 
                             </td>
                         </tr>

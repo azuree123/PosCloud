@@ -1,7 +1,13 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.TransMasterViewModel>
+﻿@using POSApp.Core.Models
+@model IEnumerable<POSApp.Core.ViewModels.TransMasterViewModel>
 
 @{
     ViewBag.Title = "StockList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
 @*<header class="page-header">
@@ -104,6 +110,8 @@
                             <td>@purchaseOrder.Type</td>
                             <td>
                                 @Html.ActionLink(" ", "PreviewStock", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
+                                @Html.ActionLink(" ", "DeleteStock", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+
                             </td>
                         </tr>
                     }
@@ -123,12 +131,12 @@
     <script>
         $('#datatable-default').dataTable();
 
-        $('#datatable-default').on('click','a.modalShow', function () {
+        $('#datatable-default').on('click', 'a.modalShow', function () {
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();
@@ -142,7 +150,7 @@
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();
@@ -157,7 +165,7 @@
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();

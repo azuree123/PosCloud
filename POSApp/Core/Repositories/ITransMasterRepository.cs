@@ -40,5 +40,8 @@ namespace POSApp.Core.Repositories
 
         decimal GetSaleInvoicesTotalBySessionCode(string userId, int sessionCode, int storeId, DateTime dateFrom,
             DateTime dateTo);
+
+        void UpdatePurchasing(int id, int storeid, TransMaster transMaster);
+        void UpdateExpiry(int id, int storeid, TransMaster transMaster);
     }
 }

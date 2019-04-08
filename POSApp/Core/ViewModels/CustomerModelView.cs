@@ -16,7 +16,7 @@ namespace POSApp.Core.ViewModels
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Entered phone format like (abc@example.com)")]
         public string Email { get; set; }
         [Required]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{7})$", ErrorMessage = "Entered phone format like (050xxxxxxx)")]
+        [RegularExpression(@"^\(?([0-9])\)?[-. ]?([0-9])$", ErrorMessage = "Entered phone format like (050xxxxxxx)")]
         public string PhoneNumber { get; set; }
         //public string Referral { get; set; }
         //public string Gender { get; set; }

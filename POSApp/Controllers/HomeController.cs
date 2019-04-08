@@ -124,7 +124,7 @@ namespace POSApp.Controllers
                     DateTime dateFrom=new DateTime(year-i,1,1);
                     DateTime dateTo = dateFrom.AddYears(1);
                     morrisGraph.a = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
-                        .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice).Sum();
+                        .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice - a.Discount).Sum();
                     morrisGraph.b = _unitOfWork.ExpenseRepository.GetExpenses((int) user.StoreId)
                         .Where(a => a.Date >= dateFrom && a.Date < dateTo).Select(a => a.Amount).Sum();
                     graph.Morris.Add(morrisGraph);
