@@ -107,7 +107,14 @@
 
 
     <!--===============================================================================================-->
-    <script src="/wp-content/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="/wp-content/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script>
+    window.onkeydown = function( event ) {
+        if ( event.keyCode === 27 ) {
+            window.close();
+        }
+    };
+</script>
     <!--===============================================================================================-->
     <script src="/wp-content/vendor/bootstrap/js/popper.js"></script>
 
@@ -118,6 +125,6 @@
 			scale: 1.1
 		})</script>
     <!--===============================================================================================-->
-    <script src="wp-content/js/main.js"></script>
+
 </body>
 </html>
