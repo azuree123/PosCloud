@@ -11,9 +11,10 @@
         <ul class="snip1189">
 
             <li><a href="@Url.Action("InventoryItemsList","Products")">Inventory Items</a></li>
+            <li><a href="@Url.Action("OpeningStockList","OpeningStock")">Opening Stock</a></li>
             <li class="current"><a href="#">Material issuance</a></li>
 
-           
+
 
 
         </ul>
@@ -68,6 +69,7 @@
                             <th>Amount</th>
                             
                             
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -108,7 +110,7 @@
             "order": [[3, "desc"],[ 2, "desc" ]],
             "ajax": {
 
-                "url": "@Url.Action("MIFData", "SaleOrders")",
+                "url": "@Url.Action("MIFDataListData", "SaleOrders")",
                 "type": "POST",
                 "datatype": "json"
             }, "language": {
@@ -120,12 +122,13 @@
             "columns": [
                 { "data": "TransCode", "name": "TransCode", "autoWidth": true },
                 { "data": "BusinessPartnerName", "name": "BusinessPartnerName", "autoWidth": true },
-
+                
                 { "data": "TransDate", "name": "TransDate", "autoWidth": true }
                 , { "data": "TransTime", "name": "TransTime", "autoWidth": true },
                 { "data": "Tax", "name": "Tax", "autoWidth": true },
                 { "data": "Discount", "name": "Discount", "autoWidth": true },
-                { "data": "TotalPrice", "name": "TotalPrice", "autoWidth": true },
+                { "data": "TotalPrice", "name": "TotalPrice", "autoWidth": true }
+               
                
 
                 
@@ -139,7 +142,7 @@
             ]
         });
         //function DisplayDetails(a) {
-        //    window.location.href = "/SaleOrders/MIFDataDetailList?miforderIdId="+a;
+        //    window.location.href = "/SaleOrders/MIFDataDetailList?miforderId="+a;
 
         //}
 

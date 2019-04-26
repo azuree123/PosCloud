@@ -11,7 +11,9 @@ namespace POSApp
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Content/vendor/jquery/jquery.js",
                 "~/Scripts/blockUI.js"));
-
+            bundles.Add(new ScriptBundle("~/bundles/Scripts").Include(
+                "~/Scripts/hijri-date-picker.js"
+               ));
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*",
                         "~/Scripts/jquery.unobtrusive*"));
@@ -23,6 +25,7 @@ namespace POSApp
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Content/vendor/bootstrap/js/bootstrap.js",
+                      "~/Scripts/bootbox.js",
                       "~/Scripts/respond.js"));
             
             bundles.Add(new ScriptBundle("~/bundles/vendor").Include(
@@ -98,7 +101,7 @@ namespace POSApp
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       //"~/Content/bootstrap.css",
                       //"~/Content/site.css",
-                      "~/Content/vendor/bootstrap/css/bootstrap.css",
+                      
                       "~/Content/vendor/font-awesome/css/font-awesome.css",
                        "~/Content/vendor/nanoscroller/nanoscroller.css",
                       "~/Content/vendor/magnific-popup/magnific-popup.css",

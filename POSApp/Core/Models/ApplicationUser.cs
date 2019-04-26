@@ -23,15 +23,14 @@ namespace POSApp.Core.Models
 
         // public int StoreId { get; set; }
         public string PasswordEncrypt { get; set; }
-        public int? EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
         
         public int? StoreId { get; set; }
         public Store Store { get; set; }
         public int? POSTerminalId { get; set; }
         public POSTerminal POSTerminal { get; set; }
-        public int? ShiftId { get; set; }
-        public Shift Shift { get; set; }
+       
         [Column(TypeName = "DateTime2")]
         public DateTime CreatedOn { get; set; }
         public bool IsDisabled { get; set; }

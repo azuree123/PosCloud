@@ -15,7 +15,7 @@ using POSApp.Core.ViewModels;
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class PurchaseOrdersController : Controller
+    public class PurchaseOrdersController : LanguageController
     {
         private IUnitOfWork _unitOfWork;
         private ApplicationUserManager _userManager;

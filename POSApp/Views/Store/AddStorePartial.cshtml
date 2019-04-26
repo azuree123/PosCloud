@@ -65,7 +65,7 @@
 
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.Contact, htmlAttributes: new { @class = "control-label required1 " })
-                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "050xxxxxxx", @pattern = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{8})$" } })
+                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "050xxxxxxx" } })
                                             @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-6">
@@ -122,34 +122,7 @@
                                     </div>
                                 </div>
 
-                                @*<div class="row">
-            <div class="form-group">
-                <div class="col-md-2">
-                    @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label " })
-                </div>
-                <div class="col-md-1">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.Active)
-                        @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group">
-                <div class="col-md-2">
-                    @Html.LabelFor(model => model.Deactive, htmlAttributes: new { @class = "control-label " })
-                </div>
-                <div class="col-md-1">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.Deactive)
-                        @Html.ValidationMessageFor(model => model.Deactive, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-            </div>
-        </div>*@
+            
 
 
                             </div>

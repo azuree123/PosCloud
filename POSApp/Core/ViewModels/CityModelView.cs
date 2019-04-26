@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using POSApp.Resources;
 
 namespace POSApp.Core.ViewModels
 {
@@ -10,11 +11,13 @@ namespace POSApp.Core.ViewModels
     {
         public int? Id { get; set; }
         [Required]
+        [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Name { get; set; }
       
         public string ArabicName { get; set; }
-        [DisplayName("State")]
+        [Display(Name = "State", ResourceType = typeof(Resource))]
         public int StateId { get; set; }
+        [Display(Name = "Code", ResourceType = typeof(Resource))]
         public string Code { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
@@ -23,6 +26,7 @@ namespace POSApp.Core.ViewModels
     public class CityListModelView
     {
         public int? Id { get; set; }
+
         public string Name { get; set; }
         public string StateName { get; set; }
     }

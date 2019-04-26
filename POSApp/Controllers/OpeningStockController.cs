@@ -14,7 +14,7 @@ using POSApp.Core.ViewModels;
 
 namespace POSApp.Controllers
 {
-    public class OpeningStockController : Controller
+    public class OpeningStockController : LanguageController
     {
         // GET: OpeningStock
         private IUnitOfWork _unitOfWork;

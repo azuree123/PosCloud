@@ -15,6 +15,7 @@ namespace POSApp.Core.Models
         public string ArabicName { get; set; }
         public ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public ICollection<TillOperation> TillOperations { get; set; }
+        public ICollection<Employee> Employees { get; set; }
 
     }
 }

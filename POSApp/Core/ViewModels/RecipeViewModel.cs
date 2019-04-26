@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using POSApp.Core.Models;
+using POSApp.Resources;
 
 namespace POSApp.Core.ViewModels
 {
@@ -16,9 +17,11 @@ namespace POSApp.Core.ViewModels
         public string ProductCode { get; set; }
         [DisplayName("Ingredient")]
         public string IngredientCode { get; set; }
+        [Display(Name = "Quantity", ResourceType = typeof(Resource))]
         public decimal Quantity { get; set; }
         
         public decimal? Calories { get; set; }
+        [Display(Name = "Code", ResourceType = typeof(Resource))]
         public string Code { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }

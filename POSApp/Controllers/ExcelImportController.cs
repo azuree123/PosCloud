@@ -17,7 +17,7 @@ using POSApp.Services;
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class ExcelImportController : Controller
+    public class ExcelImportController : LanguageController
     {
         private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;

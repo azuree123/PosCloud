@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using POSApp.Resources;
 
 namespace POSApp.Core.ViewModels
 {
@@ -6,7 +7,7 @@ namespace POSApp.Core.ViewModels
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Email", ResourceType = typeof(Resource))]
         public string Email { get; set; }
 
         [Required]
@@ -21,15 +22,18 @@ namespace POSApp.Core.ViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         [Required]
+        [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Name { get; set; }
+
         public string CompanyName { get; set; }
         [Required]
-        [RegularExpression(@"^\(?([0-9])\)?[-. ]?([0-9])$", ErrorMessage = "Entered phone format like (03211234567)")]
+        [Display(Name = "Contact", ResourceType = typeof(Resource))]
         public string PhoneNumber { get; set; }
         public bool IsAdmin { get; set; }
         [Display(Name = "Photo/Logo")]
         public string CompanyLogo { get; set; }
         [Required]
+        [Display(Name = "Address", ResourceType = typeof(Resource))]
         public string Address { get; set; }
         public string Type { get; set; }
         public string Slug { get; set; }

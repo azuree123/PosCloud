@@ -16,7 +16,7 @@ using POSApp.Services;
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : LanguageController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

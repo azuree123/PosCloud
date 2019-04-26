@@ -3,23 +3,7 @@
     ViewBag.Title = "PurchaseOrdersDetailsList";
 }
 <section role="main" class="content-body">
-    @*<header class="page-header">
-        <h2>PurchaseOrdersDetails</h2>
-
-        <div class="right-wrapper pull-right">
-            <ol class="breadcrumbs">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <i class="fa fa-home"></i>
-                    </a>
-                </li>
-                <li><span>PurchaseOrdersDetail</span></li>
-                
-            </ol>
-
-            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-        </div>
-    </header>*@
+  
 
     <!-- start: page -->
     <section class="panel">
@@ -34,14 +18,14 @@
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
-                        <th width="5%">ID</th>
-                        <th width="15%">PurchaseOrder</th>
-                        <th width="15%">Product</th>
-                        <th width="15%">Quantity</th>
-                        @*<th width="5%">Retail Price</th>*@
-                        <th width="15%">Discount</th>
-                        <th width="10%">Unit Price</th>
-                        <th width="5%">Action</th>
+                        <th width="5%">@POSApp.Resources.Resource.ID</th>
+                        <th width="15%">@POSApp.Resources.Resource.PurchaseOrder</th>
+                        <th width="15%">@POSApp.Resources.Resource.product</th>
+                        <th width="15%">@POSApp.Resources.Resource.Quantity</th>
+                        
+                        <th width="15%">@POSApp.Resources.Resource.Discount</th>
+                        <th width="10%">@POSApp.Resources.Resource.Unit Price</th>
+                        <th width="5%">@POSApp.Resources.Resource.Action</th>
 
                     </tr>
                 </thead>
@@ -54,7 +38,7 @@
                             <td>@purchaseOrderDetail.TransCode</td>
                             <td>@purchaseOrderDetail.ProductId</td>
                             <td>@purchaseOrderDetail.Quantity</td>
-                            @*<td>@purchaseOrderDetail.RetailPrice</td>*@
+                            
                             <td>@purchaseOrderDetail.Discount</td>
                             <td>@purchaseOrderDetail.UnitPrice</td>
                             <td>

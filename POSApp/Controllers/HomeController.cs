@@ -9,11 +9,12 @@ using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : LanguageController
     {
         private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;
@@ -21,6 +22,12 @@ namespace POSApp.Controllers
         public HomeController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+        }
+
+        public ActionResult ChangeLanguage(string lang)
+        {
+            new MultiLanguage().SetLanguage(lang);
+            return RedirectToAction("Index", "Home");
         }
         public ActionResult Index()
         {

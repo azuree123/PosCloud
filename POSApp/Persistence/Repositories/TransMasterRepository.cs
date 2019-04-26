@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
@@ -134,6 +135,53 @@ namespace POSApp.Persistence.Repositories
             return await _context.TransMasters.Include(a => a.BusinessPartner)
                 .Where(a => a.StoreId == storeId && !a.Issued && !a.IsDisabled).ToListAsync();
 
+        }
+        public IEnumerable<WeeklyTimeSalesViewModel> GetTimeSale()
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", DateTime.Today.AddDays(-7)) };
+            var sql = @"select Top 1 ISNULL((Sum(a.TotalPrice) +Sum(a.Tax)) -Sum(a.Discount),0) as Amount,CONVERT(time(0),(CONVERT(VARCHAR(2),
+	   a.TransDate, 108))+':00') as Time
+			from PosCloud.TransMaster as a 
+            
+           
+             where a.Transdate >= @p1 and a.Type= 'INV' and ((a.TransStatus = 'Paid' or a.TransStatus = 'Complete') or a.TransStatus = 'Complete')
+		
+            group by CONVERT(time(0),(CONVERT(VARCHAR(2), a.TransDate, 108)+':00')) 
+			ORDER BY Amount DESC";
+
+            return _context.Database.SqlQuery<WeeklyTimeSalesViewModel>(sql, parameters.ToArray()).ToList();
+
+        }
+        public IEnumerable<TopEmployeeSaleViewModel> GetTopEmployeeSale()
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", DateTime.Today.AddDays(-7)) };
+            var sql = @"select Top 1 ISNULL((Sum(a.TotalPrice) + Sum(a.Tax)) -Sum(a.Discount),0) as Amount,e.Name as EmployeeName
+	   
+			from PosCloud.TransMaster as a 
+            
+            LEFT OUTER JOIN AspNetUsers as u on a.Id = u.CreatedById
+			LEFT OUTER JOIN PosCloud.Employees as e on u.EmployeeId = e.Id
+            where a.Transdate >= @p1 and  a.Type= 'INV' and ((a.TransStatus = 'Paid' or a.TransStatus = 'Complete') or a.TransStatus = 'Complete')
+		
+            group by e.Name
+			ORDER BY Amount DESC";
+
+            return _context.Database.SqlQuery<TopEmployeeSaleViewModel>(sql, parameters.ToArray()).ToList();
+
+        }
+        public decimal GetWeeklyIncome()
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", DateTime.Today.AddDays(-7)) };
+            var sql =
+                " Select ISNULL((Sum(a.TotalPrice) +Sum(a.Tax)) -Sum(a.Discount),0) as Income From PosCloud.TransMaster as a where a.Transdate >= @p1 and a.Type= 'INV' and ((a.TransStatus = 'Paid' or a.TransStatus = 'Complete') or a.TransStatus = 'Complete')";
+            return _context.Database.SqlQuery<decimal>(sql, parameters.ToArray()).FirstOrDefault();
+        }
+        public decimal GetBeforeWeeklyIncome()
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", DateTime.Today.AddDays(-14)) };
+            var sql =
+                "Select ISNULL((Sum(a.TotalPrice) +Sum(a.Tax)) -Sum(a.Discount),0) as Income From PosCloud.TransMaster as a where a.Transdate >= @p1 and a.Type= 'INV' and ((a.TransStatus = 'Paid' or a.TransStatus = 'Complete') or a.TransStatus = 'Complete')";
+            return _context.Database.SqlQuery<decimal>(sql, parameters.ToArray()).Sum();
         }
         public IEnumerable<TransMaster> GetTransMastersByDate(int storeId)
         {

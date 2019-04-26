@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using POSApp.Resources;
 
 namespace POSApp.Core.ViewModels
 {
     public class ProductSubViewModel
     {
         public string ComboProductCode { get; set; }
+        [Display(Name = "Price", ResourceType = typeof(Resource))]
         public decimal Price { get; set; }
+
         public bool Modifiable { get; set; }
         public int StoreId { get; set; }
-        [DisplayName("Product")]
+        [Display(Name = "product", ResourceType = typeof(Resource))]
         public string ProductCode { get; set; }
-        [DisplayName("Quantity")]
+        [Display(Name = "Quantity", ResourceType = typeof(Resource))]
         public float Qty { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }

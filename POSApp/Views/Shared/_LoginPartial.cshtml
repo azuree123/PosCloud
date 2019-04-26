@@ -12,7 +12,7 @@
               
                 <div class="profile-info" data-lock-name="@User.Identity.Name" data-lock-email="@User.Identity.GetUserName()">
                     <span class="name">@User.Identity.Name</span>
-                    <span class="role">admin</span>
+                    <span class="role">Admin</span>
                 </div>
 
                 <i class="fa custom-caret"></i>
@@ -21,13 +21,22 @@
             <div class="dropdown-menu">
                 <ul class="list-unstyled" style=" margin-top: -36px;">
                     @*<li>
-                        <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> My Profile</a>
-                    </li>*@
+            <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> My Profile</a>
+        </li>*@
                     <li>
                         @*<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>*@
                     </li>
                     <li>
-                        
+                        @{
+                            foreach (var i in POSApp.Services.MultiLanguage.AvailableLanguages)
+                            {
+                                @Html.ActionLink(i.LanguageFullName, "ChangeLanguage", "Home", new { lang = i.LanguageCultureName }, null) <text> </text>
+                            }
+                        }
+                    </li>
+                   
+                    <li>
+
                         <a role="menuitem" tabindex="-1" href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-power-off"></i> Logout</a>
                     </li>
                 </ul>

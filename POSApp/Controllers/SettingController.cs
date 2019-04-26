@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class SettingController : Controller
+    public class SettingController : LanguageController
     {
         // GET: Setting
         public ActionResult BusinessSetting()

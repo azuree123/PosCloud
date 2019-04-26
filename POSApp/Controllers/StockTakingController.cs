@@ -14,7 +14,7 @@ using POSApp.Core.ViewModels;
 
 namespace POSApp.Controllers
 {
-    public class StockTakingController : Controller
+    public class StockTakingController : LanguageController
     {
         // GET: StockTaking
         private IUnitOfWork _unitOfWork;

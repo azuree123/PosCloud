@@ -23,7 +23,7 @@ using POSApp.Services;
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class PointOfSaleController : Controller
+    public class PointOfSaleController : LanguageController
     {
         private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;
@@ -484,7 +484,7 @@ namespace POSApp.Controllers
         public ActionResult OpenTill(decimal cash_in_hand,string returnUrl = "")
         {
             var userid = User.Identity.GetUserId();
-            var user = UserManager.FindById(userid);
+            var user = _unitOfWork.UserRepository.GetUserById(userid);
             if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(user.StoreId)))
             {
                 TillOperation data = new TillOperation
@@ -500,7 +500,7 @@ namespace POSApp.Controllers
                     TillOperationType = "Open",
                     SessionCode =
                         _unitOfWork.TillOperationRepository.GetTillSessionCode(userid, Convert.ToInt32(user.StoreId)),
-                    ShiftId = user.ShiftId
+                    ShiftId = _unitOfWork.EmployeeRepository.GetEmployeeById(user.EmployeeId,(int)user.StoreId).ShiftId
 
                 };
                 _unitOfWork.TillOperationRepository.AddTillOperation(data);

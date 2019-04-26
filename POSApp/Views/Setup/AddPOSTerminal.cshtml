@@ -87,8 +87,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                        <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal"*@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>Close</button>
+                        <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>@POSApp.Resources.Resource.Save</button>
+                        <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal"*@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>@POSApp.Resources.Resource.Close</button>
                     </div>
                 </div>
             </div>
@@ -97,23 +97,7 @@
     }
     <div id="ModalData1"></div>
     <script>
-        @*function UpdateDdlDineTable() {
-            $.ajax({
-                url: "@Url.Action("GetDineTableDdl", "Setup")",
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    var $dropdown = $("#@Html.IdFor(a=>a.FloorId)");
-                    $dropdown.empty();
-                    $dropdown.append($("<option />").val('').text("Select an Option"));
-                    $.each(result, function (index, value) {
-                        $dropdown.append($("<option />").val(value.Id).text(value.Name));
-                    });
-
-                }
-            });
-
-        }*@
+      
         function UpdateDdlSection() {
             $.ajax({
                 url: "@Url.Action("GetSectionDdl", "Products")",

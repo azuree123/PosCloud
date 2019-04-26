@@ -10,30 +10,14 @@
 }
 
 
-    @*<header class="page-header">
-            <h2>Coupons</h2>
-
-            <div class="right-wrapper pull-right">
-                <ol class="breadcrumbs">
-                    <li>
-                        <a href="@Url.Action("Index","Home")">
-                            <i class="fa fa-home"></i>
-                        </a>
-                    </li>
-                    <li><span>Discount</span></li>
-                    <li><span>Setup</span></li>
-                </ol>
-
-                <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-            </div>
-        </header>*@
+ 
 
     <!-- start: page -->
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li><a href="@Url.Action("CustomerList","Setup")">Customer</a></li>
-            <li><a href="@Url.Action("EmployeeList","Setup")">Employee</a></li>
+            <li><a href="@Url.Action("CustomerList","Setup")">@POSApp.Resources.Resource.Customer</a></li>
+            <li><a href="@Url.Action("EmployeeList","Setup")">@POSApp.Resources.Resource.Employee</a></li>
 
             <li><a href="@Url.Action("SupplierList","Setup")">Supplier</a></li>
 
@@ -58,6 +42,8 @@
             <li><a href="@Url.Action("SectionList","Products")">Sections</a></li>
             <li><a href="@Url.Action("SizeList","Setup")">Size</a></li>
             <li><a href="@Url.Action("WarehouseList","Setup")">Warehouse</a></li>
+            <li><a href="@Url.Action("DeviceList", "Device")">@POSApp.Resources.Resource.Devices</a></li>
+            <li><a href="@Url.Action("StoresList","Store")">@POSApp.Resources.Resource.Branches</a></li>
         </ul>
         <hr />
 

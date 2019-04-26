@@ -4,23 +4,7 @@
     ViewBag.Title = "SaleReport";
 }
 
-@*<header class="page-header">
-        <h2>Customers</h2>
 
-        <div class="right-wrapper pull-right">
-            <ol class="breadcrumbs">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <i class="fa fa-home"></i>
-                    </a>
-                </li>
-                <li><span>Customers</span></li>
-                <li><span>Setup</span></li>
-            </ol>
-
-            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-        </div>
-    </header>*@
 
 <!-- start: page -->
 <div class="container-fluid">
@@ -30,14 +14,14 @@
 
                 <li class="current"><a href="#">Sales</a></li>
 
-                <li><a href="@Url.Action("InventoryReport","Reports")">Inventory</a></li>
+                <li><a href="@Url.Action("InventoryReport","Reports")">@POSApp.Resources.Resource.Inventory</a></li>
 
 
                 <li><a href="@Url.Action("MiscellaneousReport","Reports")">Miscellaneous</a></li>
 
-                <li><a href="@Url.Action("ExportingReport","Reports")">Exporting</a></li>
+                <li><a href="@Url.Action("ExportingReport","Reports")">@POSApp.Resources.Resource.Exporting</a></li>
 
-                <li><a href="@Url.Action("MyReports","Reports")">My Reports</a></li>
+                <li><a href="@Url.Action("MyReports","Reports")">@POSApp.Resources.Resource.Myreport</a></li>
 
 
 

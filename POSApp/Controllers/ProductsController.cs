@@ -17,7 +17,7 @@ using Remotion.Linq.Clauses;
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class ProductsController : Controller
+    public class ProductsController : LanguageController
     {
         private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;

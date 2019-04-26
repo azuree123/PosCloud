@@ -13,11 +13,12 @@ using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
 using POSApp.Persistence;
 using System.Data.Entity.Validation;
+using POSApp.Persistence.Repositories;
 
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class SetupController : Controller
+    public class SetupController : LanguageController
     {
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
@@ -680,6 +681,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             employee.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            employee.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddEmployeePartial";
             return View(employee);
         }
@@ -687,6 +690,8 @@ namespace POSApp.Controllers
         public ActionResult AddEmployeePartial(EmployeeModelView employeeMv)
         {
             ViewBag.edit = "AddEmployeePartial";
+            if (ModelState.ContainsKey("JoinDate"))
+                ModelState["JoinDate"].Errors.Clear();
             try
             {
                 var userid = User.Identity.GetUserId();
@@ -763,6 +768,20 @@ namespace POSApp.Controllers
                 throw;
             }
         }
+        public JsonResult GetShiftDdl()
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                return Json(Mapper.Map<EmployeeModelView[]>(_unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
         //Add Employee
         [HttpGet]
         public ActionResult AddEmployee()
@@ -779,6 +798,8 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
             employee.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            employee.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddEmployee";
             return View(employee);
         }
@@ -792,6 +813,10 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            employeeMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
+            if (ModelState.ContainsKey("JoinDate"))
+                ModelState["JoinDate"].Errors.Clear();
             try
             {
                 
@@ -872,6 +897,9 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            employeeMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
+
             return View("AddEmployee",employeeMv);
         }
         [HttpPost]
@@ -884,6 +912,10 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            employeeMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+                .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
+            if (ModelState.ContainsKey("JoinDate"))
+                ModelState["JoinDate"].Errors.Clear();
             try
             {
                 if (!ModelState.IsValid)
@@ -993,7 +1025,83 @@ namespace POSApp.Controllers
             return RedirectToAction("EmployeeList", "Setup");
 
         }
+        public ActionResult AddShiftPartial()
+        {
+            var isAjax = Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                return RedirectToAction("ShiftList");
+            }
+            ViewBag.edit = "AddShiftPartial";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddShiftPartial(ShiftViewModel Shiftvm)
+        {
+            ViewBag.edit = "AddShiftPartial";
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage));
+                    TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                }
+                else
+                {
 
+                    var userid = User.Identity.GetUserId();
+                    var user = UserManager.FindById(userid);
+                    Shiftvm.StoreId = user.StoreId;
+                    Shift Shift = Mapper.Map<Shift>(Shiftvm);
+                    _unitOfWork.ShiftRepository.AddShift(Shift);
+                    _unitOfWork.Complete();
+                    TempData["Alert"] = new AlertModel("The Shift added successfully", AlertType.Success);
+                    return PartialView("Test");
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                foreach (var entityValidationError in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationError.ValidationErrors)
+                    {
+                        TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
+
+                    }
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+                else
+                {
+                    TempData["Alert"] = new AlertModel(e.Message, AlertType.Error);
+                }
+            }
+
+            return PartialView("Test");
+
+
+        }
         public ActionResult CustomerList()
         {
 
@@ -1016,6 +1124,8 @@ namespace POSApp.Controllers
         public ActionResult AddCustomer(CustomerModelView customerMv)
         {
             ViewBag.edit = "AddCustomer";
+            if (ModelState.ContainsKey("Birthday"))
+            ModelState["Birthday"].Errors.Clear();
             try
             {
                 if (!ModelState.IsValid)
@@ -1098,6 +1208,8 @@ namespace POSApp.Controllers
         public ActionResult UpdateCustomer(int id, CustomerModelView customerMv)
         {
             ViewBag.edit = "UpdateCustomer";
+            if (ModelState.ContainsKey("Birthday"))
+                ModelState["Birthday"].Errors.Clear();
             try
             {
                 if (!ModelState.IsValid)
@@ -3054,6 +3166,11 @@ namespace POSApp.Controllers
             timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             ViewBag.edit = "AddTimedEvent";
+            if (ModelState.ContainsKey("FromDate"))
+                ModelState["FromDate"].Errors.Clear();
+            ModelState["ToDate"].Errors.Clear();
+            ModelState["ToHour"].Errors.Clear();
+            ModelState["FromHour"].Errors.Clear();
             try
             {
                 
@@ -3202,6 +3319,11 @@ namespace POSApp.Controllers
             timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             ViewBag.edit = "UpdateTimedEvent";
+            if (ModelState.ContainsKey("FromDate"))
+                ModelState["FromDate"].Errors.Clear();
+            ModelState["ToDate"].Errors.Clear();
+            ModelState["ToHour"].Errors.Clear();
+            ModelState["FromHour"].Errors.Clear();
             try
             {
                 

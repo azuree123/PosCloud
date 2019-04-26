@@ -1,5 +1,6 @@
 ﻿@using POSApp.Core.Enums
 @using POSApp.Core.Models
+@using POSApp.Services
 @model POSApp.Core.ViewModels.CustomerModelView
 
 @{
@@ -28,9 +29,9 @@
 
                 @if (s.Contains("Add"))
                 {
-                    <h4 class="modal-title">
-                        Add Customer
-                    </h4>
+                <h4 class="modal-title">
+                    @POSApp.Resources.Resource.AddCustomer
+                </h4>
                 }
                 else
                 {
@@ -82,15 +83,45 @@
                                 <div class="form-group">
                                     <div class="col-md-4">
                                         @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label required1" })
-                                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "050xxxxxxx", @required = "required", @pattern = @"^\(?([0-9])\)?[-. ]?([0-9])$" } })
+                                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "050xxxxxxx", @required = "required" } })
                                         @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-4">
                                         @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label required1" })
-                                        @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control unstyled", @required = "true" } })
+                                       
+                                            @{
+                                                if (Global.GetLang().Contains("Ar"))
+                                                {
+
+                                                    <hijri-date-picker input-name="DownloadedDate" selected-date="@Model.Birthday.ToString("yyyy/MM/dd")" class-name="form-control" date-format="iYYYY/iMM/iDD"></hijri-date-picker>
+                                                }
+                                                else
+                                                {
+
+                                                    @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control unstyled", @required = "true" } })
+
+                                                    <input type="hidden" id="birthday_date" value="@Model.Birthday" />
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            debugger;
+                                                            var date = $('#birthday_date').val();
+                                                            if (date !== '1/1/0001 12:00:00 AM' && date !== '') {
+                                                                var displayDate = new Date(date);
+                                                                displayDate.setDate(displayDate.getDate() + 1);
+                                                                document.getElementById("@Html.IdFor(a=>a.Birthday)").valueAsDate = displayDate;
+                                                            } else {
+                                                                document.getElementById("@Html.IdFor(a=>a.Birthday)").valueAsDate = new Date();
+
+                                                            }
+                                                        });
+                                                    </script>
+
+                                                }
+                                            }
+                                        
                                         @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
                                     </div>
-                                    <input type="hidden" id="birthday_date" value="@Model.Birthday" />
+                                    
 
 
                                     
@@ -120,8 +151,8 @@
                 </div>
             </div>
             <div class="modal-footer modalFooter">
-                <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                <button type="button" class="btn btn-default btn-lg btnPro1"  onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>Close</button>
+                <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>@POSApp.Resources.Resource.Save</button>
+                <button type="button" class="btn btn-default btn-lg btnPro1" onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>@POSApp.Resources.Resource.Close</button>
             </div>
         </div>
     </div>
@@ -129,21 +160,6 @@
 </div>
 
 
-
-    <script>
-        $(document).ready(function () {
-            var date = $('#birthday_date').val();
-            if (date !== '1/1/0001 12:00:00 AM' && date!=='') {
-                var displayDate = new Date(date);
-                displayDate.setDate(displayDate.getDate()+1);
-                document.getElementById("@Html.IdFor(a=>a.Birthday)").valueAsDate = displayDate;
-            }else {
-                document.getElementById("@Html.IdFor(a=>a.Birthday)").valueAsDate = new Date();
-
-            }
-        });
-
-    </script>
     <script>
         $("input").on("keypress", function (e) {
             if (e.which === 32 && !this.value.length)

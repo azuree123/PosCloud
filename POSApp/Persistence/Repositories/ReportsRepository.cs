@@ -23,7 +23,7 @@ namespace POSApp.Persistence.Repositories
             var sql = @"select a.Name as CompanyName,a.Contact as PhoneNumber,a.Address as Address
 			from PosCloud.Clients as a 
             inner join PosCloud.Stores as d on a.Id=d.ClientId
-            where d.Id = @p1
+            where d.Id = @p1 and a.IsDisabled = 0
             group by a.Name,a.Contact,a.Address
                 ";
             var data = _context.Database.SqlQuery<SubReportViewModel>(sql,parameters.ToArray()).ToList();
@@ -57,7 +57,7 @@ namespace POSApp.Persistence.Repositories
 			from PosCloud.Employees as a 
             inner join PosCloud.Designations as c on a.DesignationId  = c.Id
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
-            where a.StoreId = @p1 and a.DesignationId = @p2
+            where a.StoreId = @p1 and a.DesignationId = @p2 and a.IsDisabled = 0
             group by a.Name,c.Name
                 ";
             var data = _context.Database.SqlQuery<AgentIncomeReportViewModel>(sql, parameters.ToArray()).ToList();
@@ -420,7 +420,7 @@ namespace POSApp.Persistence.Repositories
            
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
 			
-            where a.StoreId=@p1 and a.Type = 'C'
+            where a.StoreId=@p1 and a.Type = 'C' and a.IsDisabled = 0
 
             group by a.Name, d.Name,a.Email,a.PhoneNumber,a.Address,a.City,a.State
 
@@ -443,7 +443,7 @@ namespace POSApp.Persistence.Repositories
            
 			inner join PosCloud.Stores as d on a.StoreId=d.Id
 			
-            where a.StoreId=@p1
+            where a.StoreId=@p1 and a.IsDisabled = 0
             group by a.Name, d.Name,a.CostPrice
                 ";
 
@@ -534,7 +534,7 @@ namespace POSApp.Persistence.Repositories
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", dateFrom), new SqlParameter("@p3", dateTo) };
             var sql = @"    Select s.Name as BranchName,a.Name as Name, a.Rate,ISNULL(a.IsPercentage,0) as Percentage From PosCloud.Taxes as a 
             inner join PosCloud.Stores as s on a.StoreId = s.Id
-            where a.StoreId=@p1 and a.CreatedOn >=@p2 and a.CreatedOn<=@p3
+            where a.StoreId=@p1 and a.CreatedOn >=@p2 and a.CreatedOn<=@p3 and a.IsDisabled
             group by a.Name, a.Rate,a.IsPercentage,s.Name
            
                 ";
@@ -582,7 +582,7 @@ namespace POSApp.Persistence.Repositories
             inner join PosCloud.TransDetails as t on p.ProductCode = t.ProductCode
             inner join PosCloud.TransMaster as m on t.TransMasterId = m.Id
             inner join PosCloud.Stores as s on p.StoreId = s.Id
-            where p.InventoryItem = 1 and p.StoreId=@p1 and m.TransDate >=@p2 and m.TransDate<=@p3
+            where p.InventoryItem = 1 and p.StoreId=@p1 and m.TransDate >=@p2 and m.TransDate<=@p3 and p.IsDisabled = 0
              
             group by p.Name,p.CostPrice,CONVERT(date, m.TransDate, 103)
             

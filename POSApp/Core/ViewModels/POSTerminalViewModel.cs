@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using POSApp.Resources;
 
 namespace POSApp.Core.ViewModels
 {
@@ -12,9 +14,11 @@ namespace POSApp.Core.ViewModels
         //[ForeignKey("ApplicationUser")]
         public int StoreId { get; set; }
         public int? SectionId { get; set; }
+        [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Name { get; set; }
         
         public string ArabicName { get; set; }
+        [Display(Name = "IsActive", ResourceType = typeof(Resource))]
         public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }

@@ -1,4 +1,5 @@
 ﻿@using POSApp.Core.Models
+@using POSApp.Services
 @model POSApp.Core.ViewModels.ExpenseViewModel
 
 @{
@@ -25,9 +26,9 @@
 
                     @if (s.Contains("Add"))
                     {
-                        <h4 class="modal-title">
-                            Add Expense
-                        </h4>
+                    <h4 class="modal-title">
+                        @POSApp.Resources.Resource.AddExpense
+                    </h4>
                     }
                     else
                     {
@@ -82,10 +83,35 @@
                                     <div class="form-group">
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label required1" })
+                                            @{
+                                                if (Global.GetLang().Contains("Ar"))
+                                                {
+
+                                            <hijri-date-picker input-name="Date" selected-date="@Model.Date.ToString("yyyy/MM/dd")"  class-name="form-control" date-format="iYYYY/iMM/iDD"></hijri-date-picker>
+                                                }
+                                                else
+                                                {
+
                                             @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control unstyled", @required = true } })
+                                        <input type="hidden" id="expense_date" value="@Model.Date" />
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            var date = $('#expense_date').val();
+                                                            if (date !== '1/1/0001 12:00:00 AM' && date !== '') {
+                                                                var displayDate = new Date(date);
+                                                                displayDate.setDate(displayDate.getDate() + 1);
+                                                                document.getElementById("@Html.IdFor(a=>a.Date)").valueAsDate = displayDate;
+                                                            } else {
+                                                                document.getElementById("@Html.IdFor(a=>a.Date)").valueAsDate = new Date();
+
+                                                            }
+                                                        });
+                                                    </script>
+
+                                                }
+                                            }
                                             @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                                         </div>
-                                        <input type="hidden" id="expense_date" value="@Model.Date" />
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label required1" })
                                             @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
@@ -108,7 +134,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-lg btnPro">Save</button>
+                    <button type="submit" class="btn btn-default btn-lg btnPro">@POSApp.Resources.Resource.Save</button>
                     <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal"*@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );">Close</button>
                 </div>
             </div>
@@ -179,17 +205,7 @@
 
             return false;
         });
-        $(document).ready(function () {
-            var date = $('#expense_date').val();
-            if (date !== '1/1/0001 12:00:00 AM' && date !== '') {
-                var displayDate = new Date(date);
-                displayDate.setDate(displayDate.getDate() + 1);
-                document.getElementById("@Html.IdFor(a=>a.Date)").valueAsDate = displayDate;
-            } else {
-                document.getElementById("@Html.IdFor(a=>a.Date)").valueAsDate = new Date();
-
-            }
-        });
+      
 
     </script>
     <script>

@@ -40,12 +40,12 @@
                     <div class="col-md-2 ">
                         <div class="form-group">
                             <label class="control-label">
-                                Inventory Item
+                                @POSApp.Resources.Resource.Inventory @POSApp.Resources.Resource.Item
                             </label>
 
                             <select name="productId" id="productDdl" required="" class="form-control populate selectddl" autofocus style="width:100%">
                             
-                                <option value="">Select an Option</option>
+                                <option value="">@POSApp.Resources.Resource.SelectanOption</option>
 
                                 @foreach (var data in Model)
                                 {
@@ -63,7 +63,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label class="control-label">
-                                Quantity (Purchase)
+                                @POSApp.Resources.Resource.Quantity (Purchase)
                             </label>
                             <div class="input-group">
                                 <input class="form-control" id="quty" type="number" min="1" required="" name="purchaseQuantity" placeholder="Purchase" />
@@ -79,7 +79,7 @@
                     <div class="col-md-2 ">
                         <div class="form-group">
                             <label class="control-label">
-                                Quantity (Storage)
+                                @POSApp.Resources.Resource.Quantity (Storage)
                             </label>
                             <div class="input-group">
                                 <input class="form-control" id="quty1" type="number" min="0" required="" name="storageQuantity" placeholder="Storage" />
@@ -95,7 +95,7 @@
                     <div class="col-md-2 ">
                         <div class="form-group">
                             <label class="control-label">
-                                Quantity (Ingredient)
+                                @POSApp.Resources.Resource.Quantity (Ingredient)
                             </label>
                             <div class="input-group">
                                 <input class="form-control" id="quty2" type="number" min="0" required="" name="ingredientQuantity" placeholder="Ingredient" />
@@ -111,7 +111,7 @@
                     <div class="col-md-2 ">
                         <div class="form-group">
                             <label class="control-label">
-                                Cost
+                                @POSApp.Resources.Resource.Cost
                             </label>
                             <input type="number" class="form-control" id="price" min="1" name="cost" placeholder="Enter Cost" Required="" />
                         </div>

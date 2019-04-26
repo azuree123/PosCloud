@@ -23,9 +23,9 @@
 
                     @if (s.Contains("Add"))
                     {
-                        <h4 class="modal-title">
-                            Add Supplier
-                        </h4>
+                    <h4 class="modal-title">
+                        @POSApp.Resources.Resource.AddSupplier
+                    </h4>
                     }
                     else
                     {
@@ -72,7 +72,7 @@
 
                             <div class="col-md-4">
                                 @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label required1" })
-                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "050xxxxxxxx", @required = "true", @pattern = @"^\(?([0-9])\)?[-. ]?([0-9])$" } })
+                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "050xxxxxxxx", @required = "true" } })
                                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                             </div>
 
@@ -112,8 +112,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                    <button type="button" class="btn btn-default btn-lg btnPro1" onclick="$('#ordine2').modal('hide');"><span class="fa fa-close"></span>Close</button>
+                    <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>@POSApp.Resources.Resource.Save</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" onclick="$('#ordine2').modal('hide');"><span class="fa fa-close"></span>@POSApp.Resources.Resource.Close</button>
                 </div>
             </div>
         </div>

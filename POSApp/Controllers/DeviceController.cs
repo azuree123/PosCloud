@@ -14,7 +14,7 @@ using POSApp.Core.ViewModels;
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class DeviceController : Controller
+    public class DeviceController : LanguageController
     {
         private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;
@@ -64,7 +64,7 @@ namespace POSApp.Controllers
            
            
             DeviceMv.StoreDDl = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
-
+         
             try
             {
                 if (!ModelState.IsValid)
@@ -157,7 +157,7 @@ namespace POSApp.Controllers
            
             ViewBag.edit = "UpdateDevice";
             DeviceMv.StoreDDl = _unitOfWork.StoreRepository.GetStores().Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
-
+         
             try
             {
                 if (!ModelState.IsValid)

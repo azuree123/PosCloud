@@ -12,25 +12,44 @@
     @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
-@*<header class="page-header">
-        <h2>Stores</h2>
-
-        <div class="right-wrapper pull-right">
-            <ol class="breadcrumbs">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <i class="fa fa-home"></i>
-                    </a>
-                </li>
-                <li><span>Stores</span></li>
-
-            </ol>
-
-            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-        </div>
-    </header>*@
 
 <!-- start: page -->
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
+            <li><a href="@Url.Action("CustomerList","Setup")">Customer</a></li>
+            <li><a href="@Url.Action("EmployeeList","Setup")">Employee</a></li>
+
+            <li><a href="@Url.Action("SupplierList","Setup")">Supplier</a></li>
+
+            <li><a href="@Url.Action("DepartmentList","Setup")">Department</a></li>
+
+            <li><a href="@Url.Action("DesignationList","Setup")">Desigantion</a></li>
+
+            @*<li><a href="@Url.Action("CouponList","Setup")">Coupon</a></li>*@
+
+            <li class="hidden"><a href="@Url.Action("DiscountList","Setup")">Discount</a></li>
+            <li><a href="@Url.Action("TaxList","Setup")">Tax</a></li>
+            <li><a href="@Url.Action("StateList","Setup")">State</a></li>
+            <li><a href="@Url.Action("CityList","Setup")">City</a></li>
+            @*<li><a href="@Url.Action("ClientList","Setup")">Client</a></li>*@
+            <li><a href="@Url.Action("UnitList","Setup")">Unit</a></li>
+            <li><a href="@Url.Action("TimedEventList","Setup")">Discount</a></li>
+            <li><a href="@Url.Action("DineTableList","Setup")">Dine Table</a></li>
+            <li><a href="@Url.Action("FloorList","Setup")">Floor</a></li>
+            <li><a href="@Url.Action("POSTerminalList","Setup")">POS Terminal</a></li>
+            <li><a href="@Url.Action("ShiftList","Setup")">Shifts</a></li>
+            <li><a href="@Url.Action("TillOperationList","Setup")">Till Operation</a></li>
+            <li><a href="@Url.Action("SectionList","Products")">Sections</a></li>
+            <li><a href="@Url.Action("SizeList","Setup")">Size</a></li>
+            <li><a href="@Url.Action("WarehouseList","Setup")">Warehouse</a></li>
+            <li><a href="@Url.Action("DeviceList", "Device")">@POSApp.Resources.Resource.Devices</a></li>
+            <li class="current"><a href="@Url.Action("StoresList","Store")">@POSApp.Resources.Resource.Branches</a></li>
+        </ul>
+        <hr />
+
+    </div>
+</div>
 <section class="panel">
     <header class="panel-heading">
         <div class="row">
@@ -38,16 +57,16 @@
 
 
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Branches </b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Branches </b></h3>
 
 
                     <a href="@Url.Action("AddStore", "Store")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Branch</button>
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddBranch</button>
 
                     </a>
 
                     <a href="@Url.Action("StoreExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
-                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.ImportData</button>
 
                     </a>
 
@@ -63,13 +82,13 @@
         <table class="table  table-striped mb-none" style="width:100%" id="datatable-default">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Contact</th>
-                    <th>Address</th>
-                    <th>State</th>
-                    <th>City</th>
-                    <th>Action</th>
+                    <th>@POSApp.Resources.Resource.ID</th>
+                    <th>@POSApp.Resources.Resource.name</th>
+                    <th>@POSApp.Resources.Resource.Contact</th>
+                    <th>@POSApp.Resources.Resource.Address</th>
+                    <th>@POSApp.Resources.Resource.State</th>
+                    <th>@POSApp.Resources.Resource.City</th>
+                    <th>@POSApp.Resources.Resource.Action</th>
                 </tr>
             </thead>
             <tbody>

@@ -14,7 +14,7 @@ using POSApp.Core.ViewModels;
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class ExpenseController : Controller
+    public class ExpenseController : LanguageController
     {
         private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;
@@ -69,6 +69,7 @@ namespace POSApp.Controllers
             expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             expenseVm.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
                 .AsEnumerable();
+            
             try
             {
                 
@@ -156,6 +157,7 @@ namespace POSApp.Controllers
             expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             expenseVm.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
                 .AsEnumerable();
+           
             try
             {
                
@@ -325,7 +327,6 @@ namespace POSApp.Controllers
                     foreach (var validationError in entityValidationError.ValidationErrors)
                     {
                         TempData["Alert"] = new AlertModel(validationError.PropertyName + " Error :" + validationError.ErrorMessage, AlertType.Error);
-
                     }
                 }
 

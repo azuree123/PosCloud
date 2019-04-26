@@ -14,7 +14,7 @@ using POSApp.Core.ViewModels;
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class TransMasterPaymentMethodController : Controller
+    public class TransMasterPaymentMethodController : LanguageController
     {
         private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;

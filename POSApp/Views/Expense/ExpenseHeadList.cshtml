@@ -11,23 +11,7 @@
     @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
-@*<header class="page-header">
-        <h2>ExpenseHeads</h2>
 
-        <div class="right-wrapper pull-right">
-            <ol class="breadcrumbs">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <i class="fa fa-home"></i>
-                    </a>
-                </li>
-                <li><span>ExpenseHead</span></li>
-                <li><span>Expense</span></li>
-            </ol>
-
-            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-        </div>
-    </header>*@
 
 <!-- start: page -->
 <section class="panel">
@@ -36,9 +20,9 @@
             <div class="col-md-12">
 
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Expense Heads </b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.ExpenseHeads </b></h3>
                     <a href="@Url.Action("ExpenseHeadExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.ImportData</button>
 
                     </a>
                     <a href="@Url.Action("AddExpenseHead", "Expense")" class="modalShow" style="flex-grow: 0.2">
@@ -60,10 +44,10 @@
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Details</th>
-                        <th>Action</th>
+                        <th>@POSApp.Resources.Resource.ID</th>
+                        <th>@POSApp.Resources.Resource.name</th>
+                        <th>@POSApp.Resources.Resource.Details</th>
+                        <th>@POSApp.Resources.Resource.Action</th>
 
 
                     </tr>

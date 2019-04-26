@@ -28,25 +28,25 @@
 
 
                     <tr>
-                        <th class="text-center">Customer Name</th>
+                        <th class="text-center">@POSApp.Resources.Resource.Customer @POSApp.Resources.Resource.name</th>
                         <td class="text-center" width="70%">@Model.BusinessPartner.Name</td>
 
 
                     </tr>
                     <tr>
-                        <th class="text-center">Sale Id</th>
+                        <th class="text-center">@POSApp.Resources.Resource.Code</th>
                         <td class="text-center">@Model.TransCode</td>
 
 
                     </tr>
                     <tr>
-                        <th class="text-center">Date & Time</th>
+                        <th class="text-center">@POSApp.Resources.Resource.Date & @POSApp.Resources.Resource.Time</th>
                         <td class="text-center">@Model.TransDate</td>
 
 
                     </tr>
                     <tr>
-                        <th class="text-center">Order Type</th>
+                        <th class="text-center">@POSApp.Resources.Resource.Type</th>
                         @{
                             string s = "";
                             if (@Model.DeliveryType == "Dine In")
@@ -91,7 +91,7 @@
 
                     </tr>
                 <tr>
-                    <th class="text-center">PaymentMethod</th>
+                    <th class="text-center">@POSApp.Resources.Resource.PaymentMethod</th>
                     <td class="text-center">
                         @string.Join(",", Model.TransMasterPaymentMethods.Select(a=>a.Method+" ("+a.Amount+")"))
                     </td>
@@ -99,25 +99,25 @@
                 </tr>
                
                 <tr>
-                    <th class="text-center">Invoice Gross</th>
+                    <th class="text-center">@POSApp.Resources.Resource.Invoice Gross</th>
                     <td class="text-center">@(Model.Discount+Model.TotalPrice)</td>
 
 
                 </tr>
                 <tr>
-                    <th class="text-center">Invoice Tax</th>
+                    <th class="text-center">@POSApp.Resources.Resource.Invoice @POSApp.Resources.Resource.Tax</th>
                     <td class="text-center">@(Model.Tax)</td>
 
 
                 </tr>
                     <tr>
-                        <th class="text-center">Invoice Discount</th>
+                        <th class="text-center">@POSApp.Resources.Resource.Invoice @POSApp.Resources.Resource.Discount</th>
                         <td class="text-center">@(Model.Discount)</td>
 
 
                     </tr>
                     <tr>
-                        <th class="text-center">Invoice Total</th>
+                        <th class="text-center">@POSApp.Resources.Resource.Invoice Total</th>
                         <td class="text-center">@(Model.TotalPrice)</td>
 
 
@@ -131,15 +131,15 @@
                     <table class="table mb-none" style="width: 100%" id="datatable-default">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Product</th>
-                                <th>Size</th>
-                                <th>Modifiers</th>
-                                <th>Qty</th>
-                                <th>Price</th>
-                                <th>Tax</th>
+                                <th>@POSApp.Resources.Resource.ID</th>
+                                <th>@POSApp.Resources.Resource.product</th>
+                                <th>@POSApp.Resources.Resource.size</th>
+                                <th>@POSApp.Resources.Resource.Modifiers</th>
+                                <th>@POSApp.Resources.Resource.Quantity</th>
+                                <th>@POSApp.Resources.Resource.Price</th>
+                                <th>@POSApp.Resources.Resource.Tax</th>
 
-                                <th>Discount</th>
+                                <th>@POSApp.Resources.Resource.Discount</th>
 
                                 <th>Total</th>
 

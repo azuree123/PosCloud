@@ -14,7 +14,7 @@ using POSApp.Core.ViewModels;
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class UserController : Controller
+    public class UserController : LanguageController
     {
         private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;
@@ -48,7 +48,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             UserViewModel userMv =
-                Mapper.Map<UserViewModel>(_unitOfWork.UserRepository.GetUserById(id, (int)user.StoreId));
+                Mapper.Map<UserViewModel>(_unitOfWork.UserRepository.GetUserById(id));
             return View(userMv);
         }
         [HttpPost]

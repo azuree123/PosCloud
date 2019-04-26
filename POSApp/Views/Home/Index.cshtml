@@ -2,7 +2,7 @@
 @model POSApp.Core.ViewModels.DashBoardViewModel
 @{
     ViewBag.Title = "Home Page";
-  
+
 }
 
 <style>
@@ -15,51 +15,31 @@
         margin-left: -20px;
     }
 </style>
-
-@*<header class="page-header">
-        <h2>Dashboard</h2>
-
-        <div class="right-wrapper pull-right">
-            <ol class="breadcrumbs">
-                <li>
-                    <a href="index.html">
-                        <i class="fa fa-home"></i>
-                    </a>
-                </li>
-                <li><span>Dashboard</span></li>
-            </ol>
-
-            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-        </div>
-    </header>*@
-
-<!-- start: page -->
-
-
+<br />
+<a class="btn btn-danger" onclick="SendEmail()">Click to send an email</a>
 <br />
 <div class="row">
     <div class="col-md-6 col-lg-12 col-xl-6">
         <section class="panel">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-lg-6">
                         <div class="chart-data-selector" id="salesSelectorWrapper">
                             <h2>
-                                Monthly Sales
+                                @POSApp.Resources.Resource.MonthlySales
                                 @*<strong>
-                                    <select class="form-control" id="salesSelector">
-                                        @if (Model.StoreDatas != null)
-                                        {
-
-                                            foreach (var s in Model.StoreDatas)
+                                        <select class="form-control" id="salesSelector">
+                                            @if (Model.StoreDatas != null)
                                             {
-                                                <option value="Cosmic 1">@s.StoreName</option>
-                                            }
-                                        }
-                                    </select>
-                                </strong>*@
-                            </h2>
 
+                                                foreach (var s in Model.StoreDatas)
+                                                {
+                                                    <option value="Cosmic 1">@s.StoreName</option>
+                                                }
+                                            }
+                                        </select>
+                                    </strong>*@
+                            </h2>
                             <div id="salesSelectorItems" class="chart-data-selector-items mt-sm">
                                 <div class="chart chart-md chart-active" data-sales-rel="Cosmic 1" id="flotDashSales1"></div>
                                 <script>
@@ -80,63 +60,60 @@
 
 
                                 </script>
-
                                 @*<div class="chart chart-md" data-sales-rel="Cosmic 2" id="flotDashSales2" class="chart-hidden"></div>
-                                <script>
+                                    <script>
 
-                                    var flotDashSales2Data = [{
-                                        data: [
-                                            //["Jan", 240],
-                                            //["Feb", 240],
-                                            //["Mar", 290],
-                                            //["Apr", 540],
-                                            //["May", 480],
-                                            //["Jun", 220],
-                                            //["Jul", 170],
-                                            //["Aug", 190]
-                                        ],
-                                        color: "#d2322d"
-                                    }];
-
-
-                                </script>
-
-                                <div class="chart chart-md" data-sales-rel="Cosmic 3" id="flotDashSales3" class="chart-hidden"></div>
-                                <script>
-
-                                    var flotDashSales3Data = [{
-                                        data: [
-                                            //["Jan", 840],
-                                            //["Feb", 740],
-                                            //["Mar", 690],
-                                            //["Apr", 940],
-                                            //["May", 1180],
-                                            //["Jun", 820],
-                                            //["Jul", 570],
-                                            //["Aug", 780]
-                                        ],
-                                        color: "#d2322d"
-                                    }];
+                                        var flotDashSales2Data = [{
+                                            data: [
+                                                //["Jan", 240],
+                                                //["Feb", 240],
+                                                //["Mar", 290],
+                                                //["Apr", 540],
+                                                //["May", 480],
+                                                //["Jun", 220],
+                                                //["Jul", 170],
+                                                //["Aug", 190]
+                                            ],
+                                            color: "#d2322d"
+                                        }];
 
 
-                                </script>*@
+                                    </script>
+
+                                    <div class="chart chart-md" data-sales-rel="Cosmic 3" id="flotDashSales3" class="chart-hidden"></div>
+                                    <script>
+
+                                        var flotDashSales3Data = [{
+                                            data: [
+                                                //["Jan", 840],
+                                                //["Feb", 740],
+                                                //["Mar", 690],
+                                                //["Apr", 940],
+                                                //["May", 1180],
+                                                //["Jun", 820],
+                                                //["Jul", 570],
+                                                //["Aug", 780]
+                                            ],
+                                            color: "#d2322d"
+                                        }];
+
+
+                                    </script>*@
                             </div>
                             <span class="center row">
-                                <i class="fa fa-dot-circle-o col-md-4" style="color: #0aaa5a">  Purchases</i>
-                                <i class="fa fa-dot-circle-o col-md-4" style="color: #bbb">  Expenses</i>
-                                <i class="fa fa-dot-circle-o col-md-4" style="color: #d2322d">  Sales</i>
+                                <i class="fa fa-dot-circle-o col-md-4" style="color: #0aaa5a">  @POSApp.Resources.Resource.Purchases</i>
+                                <i class="fa fa-dot-circle-o col-md-4" style="color: #bbb">  @POSApp.Resources.Resource.Expense</i>
+                                <i class="fa fa-dot-circle-o col-md-4" style="color: #d2322d">  @POSApp.Resources.Resource.Sales</i>
                             </span>
                         </div>
                     </div>
-
-                    <div class="col-md-6 ">
-                        <h2 class="panel-title">Yearly Sales vs Expenses</h2>
+                    <div class="col-lg-6 ">
+                        <h2 class="panel-title">@POSApp.Resources.Resource.YearlySalesvsExpenses</h2>
                         <!-- Morris: Bar -->
                         <div class="chart  pt-sm" id="morrisBar" style="height:392px"></div>
                         <script type="text/javascript">
 
                             var morrisBarData = [
-
                                 //    {
                                 //    c: '2004',
                                 //    a: 10,
@@ -186,74 +163,65 @@
 
 
                         </script>
-
                     </div>
-
                 </div>
             </div>
         </section>
     </div>
-    
-        <div class="col-md-6 col-lg-12 col-xl-6">
-            <div class="row">
-                <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
-                    <section class="panel panel-featured-left panel-featured-primary">
-                        <a href="@Url.Action("DailySales","SaleOrders")">
-                            <div class="panel-body">
-                                <div class="widget-summary">
-                                    <div class="widget-summary-col widget-summary-col-icon">
-                                        <div class="summary-icon">
-                                            <img src="~/Content/images/icons/saleicon.png" />
 
+    <div class="col-md-6 col-lg-12 col-xl-6">
+        <div class="row">
+            <div class="col-xs-12 col-lg-3 col-xl-3">
+                <section class="panel panel-featured-left panel-featured-primary">
+                    <a href="@Url.Action("DailySales","SaleOrders")">
+                        <div class="panel-body">
+                            <div class="widget-summary">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon">
+                                        <img src="~/Content/images/icons/saleicon.png" />
 
-
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">@POSApp.Resources.Resource.DailySales</h4>
+                                        <div class="info">
+                                            <strong class="amount">@string.Format("{0:N2}", Model.Sales)</strong>
+                                            @*<a href="#" class="text-xs"> (view more)</a>*@
                                         </div>
                                     </div>
-
-                                    <div class="widget-summary-col">
-                                        <div class="summary">
-                                            <h4 class="title">Daily Sales</h4>
-                                            <div class="info">
-                                                <strong class="amount">@string.Format("{0:N2}", Model.Sales)</strong>
-                                                @*<a href="#" class="text-xs"> (view more)</a>*@
-                                            </div>
-                                        </div>
-
-                                    </div>
-
                                 </div>
-                            </div>
-                        </a>
-                    </section>
-                </div>
-   
-            <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
-                <section class="panel panel-featured-left panel-featured-secondary">
-                    <a href="@Url.Action("DailyExpenseList","Expense")">
-                    <div class="panel-body">
-                        <div class="widget-summary">
-                            <div class="widget-summary-col widget-summary-col-icon">
-                                <div class="summary-icon">
-                                    <img src="~/Content/images/icons/expenceicon.png"/>
-
-                                </div>
-                            </div>
-                            <div class="widget-summary-col">
-                                <div class="summary">
-                                    <h4 class="title">Daily Expense</h4>
-                                    <div class="info">
-                                        <strong class="amount">@string.Format("{0:N2}", Model.Expenses)</strong>
-                                        @*<a href="#" class="text-danger text-xs"> (view more)</a>*@
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
-                    </div>
                     </a>
                 </section>
             </div>
-            <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
+
+            <div class="col-xs-12 col-lg-3 col-xl-3">
+                <section class="panel panel-featured-left panel-featured-secondary">
+                    <a href="@Url.Action("DailyExpenseList","Expense")">
+                        <div class="panel-body">
+                            <div class="widget-summary">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon">
+                                        <img src="~/Content/images/icons/expenceicon.png" />
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">@POSApp.Resources.Resource.DailyExpense</h4>
+                                        <div class="info">
+                                            <strong class="amount">@string.Format("{0:N2}", Model.Expenses)</strong>
+                                            @*<a href="#" class="text-danger text-xs"> (view more)</a>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </section>
+            </div>
+            <div class="col-xs-12 col-lg-3 col-xl-3">
                 <section class="panel panel-featured-left panel-featured-tertiary">
                     <a href="@Url.Action("DailyPurchaseOrderList","PurchaseOrders")">
                         <div class="panel-body">
@@ -261,61 +229,65 @@
                                 <div class="widget-summary-col widget-summary-col-icon">
                                     <div class="summary-icon">
                                         <img src="~/Content/images/icons/ordericon.png" />
-
                                     </div>
                                 </div>
                                 <div class="widget-summary-col">
                                     <div class="summary">
-                                        <h4 class="title">Daily purchases</h4>
+                                        <h4 class="title">@POSApp.Resources.Resource.Dailypurchases</h4>
                                         <div class="info">
                                             <strong class="amount">@string.Format("{0:N2}", Model.PurchaseOrders)</strong>
                                             @*<a href="#" class="text-xs" style="color:#337ab7"> (view more)</a>*@
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </a>
                 </section>
             </div>
-                <div class="col-md-3 col-xs-12 col-lg-3 col-xl-3">
-                    <section class="panel panel-featured-left panel-featured-quartenary">
-                        <a href="@Url.Action("DailyFunds","SaleOrders")">
-                            <div class="panel-body">
-                                <div class="widget-summary">
-                                    <div class="widget-summary-col widget-summary-col-icon">
-                                        <div class="summary-icon">
-                                            <img src="~/Content/images/icons/refundicon.png" />
-
-                                            @*<i class="fa fa-undo"></i>*@
-                                        </div>
+            <div class="col-xs-12 col-lg-3 col-xl-3">
+                <section class="panel panel-featured-left panel-featured-quartenary">
+                    <a href="@Url.Action("DailyFunds","SaleOrders")">
+                        <div class="panel-body">
+                            <div class="widget-summary">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon">
+                                        <img src="~/Content/images/icons/refundicon.png" />
+                                        @*<i class="fa fa-undo"></i>*@
                                     </div>
-                                    <div class="widget-summary-col">
-                                        <div class="summary">
-                                            <h4 class="title">Total Refunds</h4>
-                                            <div class="info">
-                                                <strong class="amount">@string.Format("{0:N2}", Model.Refunds)</strong>
-                                                @*<a href="#" class="text-xs" style="color:#777777"> (view more)</a>*@
-                                            </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">@POSApp.Resources.Resource.TotalRefunds</h4>
+                                        <div class="info">
+                                            <strong class="amount">@string.Format("{0:N2}", Model.Refunds)</strong>
+                                            @*<a href="#" class="text-xs" style="color:#777777"> (view more)</a>*@
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-                        </a>
-                    </section>
-                </div>
+                        </div>
+                    </a>
+                </section>
+            </div>
         </div>
     </div>
 </div>
-<br />
-<br />
 
 
 @section scripts{
-@Scripts.Render("~/bundles/charts")
-
+    @Scripts.Render("~/bundles/charts")
+    <script>
+        var SendEmail = function () {
+            $.ajax({
+                type: "Post",
+                url: "/ReportMail/SendUserMail",
+                success: function (data) {
+                    alert("success");
+                }
+            });
+        }
+    </script>
     <script>
 
         $(document).ready(function() {
@@ -323,11 +295,11 @@
                 url: "@Url.Action("GetGraphData","Home")",
                 type: "GET",
                 success: function (data) {
-                    
+
                     changeMorrisData(data.Morris);
                     changeLineGraphData(data.Line);
-                   
-                  
+
+
                 },
                 error: function(error) {
                     console.log(error);

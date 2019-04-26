@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using POSApp.Resources;
 
 namespace POSApp.Core.ViewModels
 {
     public class RoleViewModel
     {
         public string Id { get; set; }
+        [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Name { get; set; }
         public int? StoreId { get; set; }
         public DateTime? CreatedOn { get; set; }

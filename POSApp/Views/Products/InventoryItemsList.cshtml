@@ -14,6 +14,7 @@
     <div class="col-md-12">
         <ul class="snip1189">
             <li class="current"><a href="#">Inventory Items</a></li>
+            <li><a href="@Url.Action("OpeningStockList","OpeningStock")">Opening Stock</a></li>
             <li><a href="@Url.Action("MIFDataList","SaleOrders")">Material issuance</a></li>
         </ul>
         <hr />
@@ -28,7 +29,7 @@
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>Items</b></h3>
 
-
+                  
 
                     <a href="@Url.Action("AddInventoryItems", "Products")" class="modalShow" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Item</button>

@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using POSApp.Resources;
 
 namespace POSApp.Core.ViewModels
 {
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Email", ResourceType = typeof(Resource))]
         [EmailAddress]
         public string Email { get; set; }
 

@@ -13,7 +13,7 @@ namespace POSApp.Controllers
 {
 
     [Authorize]
-    public class ServicesController : Controller
+    public class ServicesController : LanguageController
     {
         private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;

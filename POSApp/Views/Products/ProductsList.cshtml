@@ -112,24 +112,7 @@
 @section scripts
 {
     <script>
-        //$('#datatable-default').dataTable();
-
-        //$('#datatable-default').on('click', 'a.modalShow', function () {
-        //    $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
-
-        //    $.ajax({
-        //        url: this.href,
-        //        type: 'GET',
-        //        cache: false,
-        //        success: function (result) {
-        //            $('#ModalData').html(result).find('#ordine').modal('show');
-        //            $.unblockUI();
-
-        //        }
-        //    });
-
-        //    return false;
-        //});
+      
         $('a.modalShow').on('click', function () {
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
@@ -156,11 +139,11 @@
         }
 
 
-        // Abfangen von Mehrfachklicks auf Buttons für asynchrone Postbacks im Updatepanel
+        
         function InitializeRequestBuchung(sender, args) {
             var arrButtonIds = ["ButtonInsert", "ButtonUpdate"];
 
-            // Get a reference to the PageRequestManager.
+            
             var prm = Sys.WebForms.PageRequestManager.getInstance();
             if (prm.get_isInAsyncPostBack() & jQuery.inArray(args.get_postBackElement().id, arrButtonIds) > -1) {
                 args.set_cancel(true);
@@ -266,7 +249,10 @@
 
             }
             function DeleteProduct(a) {
-                window.location.href = "/Products/DeleteProduct?id="+a;
+                
+                    window.location.href = "/Products/DeleteProduct?id=" + a;
+                
+                
 
             }
 

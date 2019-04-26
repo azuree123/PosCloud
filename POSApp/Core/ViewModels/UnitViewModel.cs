@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using POSApp.Resources;
 
 namespace POSApp.Core.ViewModels
 {
@@ -11,6 +12,7 @@ namespace POSApp.Core.ViewModels
     {
         public int? Id { get; set; }
         public int? StoreId { get; set; }
+        [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Name { get; set; }
         public string ArabicName { get; set; }
 

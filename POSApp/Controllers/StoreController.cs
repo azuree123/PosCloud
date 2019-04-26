@@ -13,7 +13,7 @@ using POSApp.Core.ViewModels;
 namespace POSApp.Controllers
 {
     [Authorize]
-    public class StoreController : Controller
+    public class StoreController : LanguageController
     {
         private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;
@@ -37,7 +37,7 @@ namespace POSApp.Controllers
             
 
             var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
-            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId).Where(a=>!a.IsDisabled);
             return View(clientStores);
         }
 
@@ -55,6 +55,8 @@ namespace POSApp.Controllers
         public ActionResult AddStorePartial(StoreViewModel storevm)
         {
             ViewBag.edit = "AddStorePartial";
+            if (ModelState.ContainsKey("BusinessStartTime"))
+            ModelState["BusinessStartTime"].Errors.Clear();
             if (!ModelState.IsValid)
             {
                 return View(storevm);
@@ -84,6 +86,8 @@ namespace POSApp.Controllers
         public ActionResult AddStore(StoreViewModel storeVm)
         {
             ViewBag.edit = "AddStore";
+            if (ModelState.ContainsKey("BusinessStartTime"))
+                ModelState["BusinessStartTime"].Errors.Clear();
             try
             {
                 if (!ModelState.IsValid)
@@ -169,6 +173,8 @@ namespace POSApp.Controllers
         public ActionResult UpdateStore(int id, StoreViewModel storeVm, int clientId)
         {
             ViewBag.edit = "UpdateStore";
+            if (ModelState.ContainsKey("BusinessStartTime"))
+                ModelState["BusinessStartTime"].Errors.Clear();
             try
             {
                 if (!ModelState.IsValid)

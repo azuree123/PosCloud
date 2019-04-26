@@ -106,6 +106,9 @@
     <Reference Include="Ninject.Web.WebApi.WebHost, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Web.WebApi.WebHost.3.3.0\lib\net45\Ninject.Web.WebApi.WebHost.dll</HintPath>
     </Reference>
+    <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.10.0\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
     <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\packages\Remotion.Linq.2.1.1\lib\net45\Remotion.Linq.dll</HintPath>
     </Reference>
@@ -335,11 +338,13 @@
     <Compile Include="Controllers\ExcelImportController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OpeningStockController.cs" />
     <Compile Include="Controllers\PointOfSaleController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
+    <Compile Include="Controllers\ReportMailController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SaleOrdersController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
@@ -471,13 +476,16 @@
     <Compile Include="Core\ViewModels\ClientViewModel.cs" />
     <Compile Include="Core\ViewModels\ComboProductsTransDetailViewModel.cs" />
     <Compile Include="Core\ViewModels\ComboReportSaleViewModel.cs" />
+    <Compile Include="Core\ViewModels\EmailFormViewModel.cs" />
     <Compile Include="Core\ViewModels\ExpiryReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\GenerateReportViewModel.cs" />
     <Compile Include="Core\ViewModels\InventoryCostReportViewModel.cs" />
     <Compile Include="Core\ViewModels\OrderDiscountViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductDiscountViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductHelperViewModel.cs" />
     <Compile Include="Core\ViewModels\ReturnReportViewModel.cs" />
     <Compile Include="Core\ViewModels\TaxReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\TopEmployeeSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\VoidReasonsReportViewModel.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerSaleReportViewModel.cs" />
@@ -519,6 +527,7 @@
     <Compile Include="Core\ViewModels\TransMasterPaymentMethodViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
     <Compile Include="Core\ViewModels\WarehouseViewModel.cs" />
+    <Compile Include="Core\ViewModels\WeeklyTimeSalesViewModel.cs" />
     <Compile Include="Migrations\201902061331430_init-1.cs" />
     <Compile Include="Migrations\201902061331430_init-1.Designer.cs">
       <DependentUpon>201902061331430_init-1.cs</DependentUpon>
@@ -642,6 +651,34 @@
     <Compile Include="Migrations\201904020934139_nbb.cs" />
     <Compile Include="Migrations\201904020934139_nbb.Designer.cs">
       <DependentUpon>201904020934139_nbb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904120605075_vat.cs" />
+    <Compile Include="Migrations\201904120605075_vat.Designer.cs">
+      <DependentUpon>201904120605075_vat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904120636085_psw.cs" />
+    <Compile Include="Migrations\201904120636085_psw.Designer.cs">
+      <DependentUpon>201904120636085_psw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904151039446_cr.cs" />
+    <Compile Include="Migrations\201904151039446_cr.Designer.cs">
+      <DependentUpon>201904151039446_cr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904151049357_cr1.cs" />
+    <Compile Include="Migrations\201904151049357_cr1.Designer.cs">
+      <DependentUpon>201904151049357_cr1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904180531232_shiftinemployee.cs" />
+    <Compile Include="Migrations\201904180531232_shiftinemployee.Designer.cs">
+      <DependentUpon>201904180531232_shiftinemployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904180638316_usershiftemployee.cs" />
+    <Compile Include="Migrations\201904180638316_usershiftemployee.Designer.cs">
+      <DependentUpon>201904180638316_usershiftemployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904250942225_path.cs" />
+    <Compile Include="Migrations\201904250942225_path.Designer.cs">
+      <DependentUpon>201904250942225_path.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
@@ -1014,10 +1051,22 @@
       <DependentUpon>VoidReasonsReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Resources\Resource.Ar.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.Ar.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\ExcelService.cs" />
     <Compile Include="Services\ExtensionMethods.cs" />
+    <Compile Include="Services\Global.cs" />
     <Compile Include="Services\ImportService.cs" />
     <Compile Include="Services\IUserInfoService.cs" />
+    <Compile Include="Services\MultiLanguage.cs" />
     <Compile Include="Services\Security.cs" />
     <Compile Include="Services\SecurityFilter.cs" />
     <Compile Include="Startup.cs" />
@@ -1198,6 +1247,7 @@
     <Content Include="Content\images\blog-image-1.jpg" />
     <Content Include="Content\images\blog-image-2.jpg" />
     <Content Include="Content\images\blog-image-3.jpg" />
+    <Content Include="Content\images\cosmic-logo1.png" />
     <Content Include="Content\images\cosmic.png" />
     <Content Include="Content\images\device.png" />
     <Content Include="Content\images\favicon.ico" />
@@ -2591,6 +2641,8 @@
     <Content Include="Pos\scripts.min.js" />
     <Content Include="Pos\style.css" />
     <Content Include="Scripts\blockUI.js" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -2961,7 +3013,9 @@
     <Content Include="Content\ImportFormats\UnitImport.xls" />
     <Content Include="Content\ImportFormats\SectionImport.xls" />
     <Content Include="Content\ImportFormats\ShiftImport.xls" />
+    <Content Include="Scripts\hijri-date-picker.js" />
     <Content Include="signup.html" />
+    <Content Include="Views\SaleOrders\MIFDataList.cshtml" />
     <Content Include="wp-content\css\login.css" />
     <Content Include="wp-content\css\style.css" />
     <Content Include="wp-content\css\util.css" />
@@ -3679,14 +3733,16 @@
     <Content Include="Views\StockTaking\AddTransactionItem.cshtml" />
     <Content Include="Views\StockTaking\GenerateStockTakingReceipt.cshtml" />
     <Content Include="Views\StockTaking\PoTable.cshtml" />
-    <Content Include="Views\SaleOrders\MIFDataList.cshtml" />
     <Content Include="Views\SaleOrders\MIFDataDetailList.cshtml" />
+    <Content Include="Views\ReportMail\mail.cshtml" />
+    <Content Include="Views\Setup\AddShiftPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
     <Folder Include="Images\Data\Product\" />
     <Folder Include="Images\Data\Service\" />
+    <Folder Include="Views\Language\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -3935,6 +3991,35 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904020934139_nbb.resx">
       <DependentUpon>201904020934139_nbb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904120605075_vat.resx">
+      <DependentUpon>201904120605075_vat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904120636085_psw.resx">
+      <DependentUpon>201904120636085_psw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904151039446_cr.resx">
+      <DependentUpon>201904151039446_cr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904151049357_cr1.resx">
+      <DependentUpon>201904151049357_cr1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904180531232_shiftinemployee.resx">
+      <DependentUpon>201904180531232_shiftinemployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904180638316_usershiftemployee.resx">
+      <DependentUpon>201904180638316_usershiftemployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904250942225_path.resx">
+      <DependentUpon>201904250942225_path.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Resource.Ar.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Ar.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

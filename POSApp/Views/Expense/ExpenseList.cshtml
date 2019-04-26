@@ -10,23 +10,7 @@
 {
     @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
-@*<header class="page-header">
-        <h2>Expenses</h2>
 
-        <div class="right-wrapper pull-right">
-            <ol class="breadcrumbs">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <i class="fa fa-home"></i>
-                    </a>
-                </li>
-                <li><span>Expense</span></li>
-                <li><span>Expense</span></li>
-            </ol>
-
-            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-        </div>
-    </header>*@
 
 <!-- start: page -->
 <section class="panel">
@@ -37,15 +21,15 @@
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>Expense  </b></h3>
                     <a href="@Url.Action("ExpenseExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.ImportData</button>
 
                     </a>
                     <a href="@Url.Action("AddExpense", "Expense")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Expense</button>
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddExpense</button>
 
                     </a>
                     <a href="@Url.Action("ExpenseHeadList","Expense")" style="flex-grow: 0">
-                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Expense Head List</button>
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.ExpenseHeadList</button>
 
                     </a>
                 </div>
@@ -60,13 +44,13 @@
             <table class="table mb-none" style="width: 100%" id="datatable-default">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Expense Head</th>
-                        <th>Employee</th>
-                        <th>Amount</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                        <th>Action</th>
+                        <th>@POSApp.Resources.Resource.ID</th>
+                        <th>@POSApp.Resources.Resource.ExpenseHead</th>
+                        <th>@POSApp.Resources.Resource.Employee</th>
+                        <th>@POSApp.Resources.Resource.amount</th>
+                        <th>@POSApp.Resources.Resource.Description</th>
+                        <th>@POSApp.Resources.Resource.Date</th>
+                        <th>@POSApp.Resources.Resource.Action</th>
 
 
                     </tr>
@@ -84,10 +68,6 @@
                             <td>@expense.Date.ToShortDateString()</td>
                             <td class="center">
                                 <div class="btn-group">
-
-                                    @*<a class="btn btn-default text-success btn-sm fa fa-download" href="#" data-toggle="tooltip" title="Download !"></a>
-                                        <a href="#" class="btn btn-default text-danger  btn-sm fa fa-trash" data-toggle="tooltip" title="Delete !" onclick="return confirm('Are you sure?');"></a>*@
-
                                     @Html.ActionLink(" ", "UpdateExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
                                     @Html.ActionLink(" ", "DeleteExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
 

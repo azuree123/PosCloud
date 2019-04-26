@@ -22,27 +22,7 @@
             <div class="tabs  tabs-left">
                 <div class="row">
                     <div class="col-md-12 text-center  col-xs-12 mb-xlg">
-                        <ul class=" snip1189 ">
-                            @*<li class="mt-xs  current" id="basicInfo">
-                                    <a href="#basicdata" id="basic" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
-                                        Basic Data
-                                    </a>
-                                </li>*@
-                            @*<li id="tranInfo">
-                                    <a href="#transactionitems" id="transact" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
-                                        Transaction Items
-
-                                    </a>
-                                </li>*@
-
-                            @*<li id="tranInfo">
-                                    <a href="#transactionitems" id="transact" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
-                                        Transaction Items
-
-                                    </a>
-                                </li>*@
-
-                        </ul>
+                       
 
                         <div class="row mt-md">
                             <div class="col-md-12">
@@ -56,7 +36,7 @@
 
                         <div class="row mb-xlg">
                             <div class="col-md-12">
-                                <button type="button" class="btn outline-success btn-sm" style="float:right;font-size:13px;margin-left: 7px;" onclick="$('#basicSubmit').click();"><i class="fa fa-save  pr-md"></i> Save</button>
+                                <button type="button" class="btn outline-success btn-sm" style="float:right;font-size:13px;margin-left: 7px;" onclick="$('#basicSubmit').click();"><i class="fa fa-save  pr-md"></i> @POSApp.Resources.Resource.Save</button>
                                 <a href="@Url.Action("StockList","PurchaseOrders")" style="float:right">
                                     <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Stock List</button>
 
@@ -67,15 +47,15 @@
                         <div id="transactionitems" class="tab-pane active">
                             @using (Html.BeginForm())
                             {
-                                <button type="submit" class="btn outline-success btn-sm hidden" id="basicSubmit" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> Save</button>
+                            <button type="submit" class="btn outline-success btn-sm hidden" id="basicSubmit" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> @POSApp.Resources.Resource.Save</button>
 
-                                <h4 class="mt-none mb-lg text-weight-semibold ">Basic Data</h4>
+                            <h4 class="mt-none mb-lg text-weight-semibold ">@POSApp.Resources.Resource.BasicData</h4>
 
                                 <div class="row">
                                     <div class="col-md-4 col-lg-offset-2">
                                         <div class="form-group">
                                             <label class="control-label">
-                                                Warehouse <span class="text-danger">*</span>
+                                                @POSApp.Resources.Resource.warehouse <span class="text-danger">*</span>
                                             </label>
                                            
                                             
@@ -86,7 +66,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="control-label"> Purchase order Date</label>
+                                            <label class="control-label"> Stock Taking Date</label>
 
                                             <div class="input-group">
                                                 @*@Html.TextBoxFor(a => a.TransDate, new { @class = "form-control unstyled", @data_plugin_datepicker = "true", @required = "true" })*@
@@ -106,7 +86,7 @@
                                     <div class="col-md-8 col-lg-offset-2">
                                         <div class="form-group">
                                             <label class="control-label">
-                                                Remarks
+                                                @POSApp.Resources.Resource.Remarks
                                             </label>
                                             @Html.TextAreaFor(a => a.TransRef, new { @rows = "3", @class = "form-control ", @placeholder = "Enter Remarks" })
                                         </div>
@@ -117,7 +97,7 @@
                             }
                             @*<div id="transactionitems" class="tab-pane">*@
                             <div class=" mb-lg" id="header-flex">
-                                <h4 class="mt-xs   text-weight-semibold " style="flex-grow: 8">Transaction Items</h4>
+                                <h4 class="mt-xs   text-weight-semibold " style="flex-grow: 8">@POSApp.Resources.Resource.TransactionItems</h4>
                                 @*<a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
                                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm" id="#arrButtonIds"></i>Add New</button>
 
@@ -131,17 +111,17 @@
                                         <table class="table mb-none" style="width: 100%" id="datatable-default">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
-                                                    <th>Name</th>
-                                                    <th>Quantity</th>
-                                                    <th>Unit</th>
-                                                    <th>Cost</th>
-                                                    <th>Action</th>
+                                                    <th>@POSApp.Resources.Resource.ID</th>
+                                                    <th>@POSApp.Resources.Resource.name</th>
+                                                    <th>@POSApp.Resources.Resource.Quantity</th>
+                                                    <th>@POSApp.Resources.Resource.Unit</th>
+                                                    <th>@POSApp.Resources.Resource.Cost</th>
+                                                    <th>@POSApp.Resources.Resource.Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td colspan="5" class="text-center">No records found</td>
+                                                    <td colspan="5" class="text-center">@POSApp.Resources.Resource.Norecordsfound</td>
                                                 </tr>
 
                                             </tbody>

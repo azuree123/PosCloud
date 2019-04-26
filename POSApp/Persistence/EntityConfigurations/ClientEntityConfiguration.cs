@@ -21,7 +21,8 @@ namespace POSApp.Persistence.EntityConfigurations
             //******************************************************************************************* PROPERTIES ***************
             Property(x => x.Name).HasColumnType("varchar").IsRequired().HasMaxLength(150);
             Property(x => x.ArabicName).HasColumnType("nvarchar").HasMaxLength(150).IsOptional();
-
+            
+            Property(x => x.VatNumber).HasColumnType("varchar").IsOptional().HasMaxLength(150);
             Property(x => x.Address).HasColumnType("varchar").IsRequired().HasMaxLength(150);
             Property(x => x.Contact).HasColumnType("varchar").IsRequired().HasMaxLength(150);
             Property(x => x.City).HasColumnType("varchar").IsOptional().HasMaxLength(150);

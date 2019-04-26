@@ -28,9 +28,9 @@ namespace POSApp.Persistence.Repositories
             return _context.Users.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
 
-        public ApplicationUser GetUserById(string id, int storeid)
+        public ApplicationUser GetUserById(string id)
         {
-            return _context.Users.FirstOrDefault(a=>a.Id==id && a.StoreId==storeid);
+            return _context.Users.Include(a=>a.Employee).Include(a=>a.Employee.Shift).FirstOrDefault(a=>a.Id==id);
         }
             public async Task<ApplicationUser> GetUserByIdAsync(string id, int storeid)
             {
@@ -89,9 +89,9 @@ namespace POSApp.Persistence.Repositories
                 }
                 return send;
             }
-            public int? GetShiftId(string userId, int storeId)
+            public int GetShiftId(string userId, int storeId)
             {
-                return _context.Users.FirstOrDefault(a => a.Id == userId && a.StoreId == storeId).ShiftId;
+                return _context.Users.Include(a=>a.Employee).FirstOrDefault(a => a.Id == userId && a.StoreId == storeId).Employee.ShiftId;
             }
     }
 }

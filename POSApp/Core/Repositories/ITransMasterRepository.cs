@@ -41,7 +41,11 @@ namespace POSApp.Core.Repositories
         decimal GetSaleInvoicesTotalBySessionCode(string userId, int sessionCode, int storeId, DateTime dateFrom,
             DateTime dateTo);
 
+        IEnumerable<TopEmployeeSaleViewModel> GetTopEmployeeSale();
+        decimal GetWeeklyIncome();
+        IEnumerable<WeeklyTimeSalesViewModel> GetTimeSale();
         void UpdatePurchasing(int id, int storeid, TransMaster transMaster);
         void UpdateExpiry(int id, int storeid, TransMaster transMaster);
+        decimal GetBeforeWeeklyIncome();
     }
 }

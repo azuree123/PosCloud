@@ -9,7 +9,8 @@ namespace POSApp.Core.Models
         public int Id { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
-
+        public int ShiftId { get; set; }
+        public virtual Shift Shift { get; set; }
         public string Name { get; set; }
         public string ArabicName { get; set; }
         public string Email { get; set; }
@@ -27,7 +28,7 @@ namespace POSApp.Core.Models
         public virtual Designation Designation { get; set; }
         public string Address { get; set; }
         public virtual ICollection<Expense> Expenses { get; set; }
-
+        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public byte[] Image { get; set; }
 
     }
