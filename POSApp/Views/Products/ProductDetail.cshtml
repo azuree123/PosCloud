@@ -5,9 +5,9 @@
 }
 <div class="mt-md pull-right">
 
-    <input type='button' id='btnP' class="btn outline-success btn-sm" value='Print' onclick='printDiv();'>
+    <input type='button' id='btnP' class="btn outline-success btn-sm" value='@POSApp.Resources.Resource.Print' onclick='printDiv();'>
     <a href="@Url.Action("ProductsList", "Products")" style="flex-grow: 0">
-        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Product List</button>
+        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.ProductList</button>
 
     </a>
 </div>
@@ -16,26 +16,26 @@
     {
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <h3 class="text-center"><strong>Product Details</strong></h3>
+                <h3 class="text-center"><strong>@POSApp.Resources.Resource.ProductDetails</strong></h3>
                 <table class="table table-bordered">
                     <thead>
                     </thead>
                     <tbody>
 
                         <tr>
-                            <th class="text-center">Product Name</th>
+                            <th class="text-center">@POSApp.Resources.Resource.ProductName</th>
                             <td class="text-center" >@Model.Name</td>
 
 
                         </tr>
                         <tr>
-                            <th class="text-center">Product code</th>
+                            <th class="text-center">@POSApp.Resources.Resource.Productcode</th>
                             <td class="text-center">@Model.ProductCode</td>
 
 
                         </tr>
                         <tr>
-                            <th class="text-center">Cost Price</th>
+                            <th class="text-center">@POSApp.Resources.Resource.CostPrice</th>
                             <td class="text-center">
                                 @*@(Model.CostPrice.ToString("0.00"))*@
                                 @String.Format("{0:#,##0.00}", Model.CostPrice)
@@ -44,16 +44,16 @@
 
                         </tr>
                         <tr>
-                            <th class="text-center">Price</th>
+                            <th class="text-center">@POSApp.Resources.Resource.Price</th>
                             <td class="text-center">@Model.UnitPrice</td>
 
                         </tr> <tr>
-                        <th class="text-center">Size</th>
+                                  <th class="text-center">@POSApp.Resources.Resource.size</th>
                         <td class="text-center">@Model.Size</td>
 
                     </tr>
                     <tr>
-                        <th class="text-center">Calories</th>
+                        <th class="text-center">@POSApp.Resources.Resource.Calories</th>
                         
                         <td class="text-center">
                             @(Model.Recipes.Select(a => a.Calories).Sum())
@@ -65,7 +65,7 @@
 
                     </tr>
                     <tr>
-                        <th class="text-center">Description</th>
+                        <th class="text-center">@POSApp.Resources.Resource.Description</th>
                         
                         <td class="text-center">
                       @Model.Attribute
@@ -89,12 +89,12 @@
                         <table class="table mb-none" style="width: 100%" id="datatable-default">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Ingredient</th>
+                                    <th>@POSApp.Resources.Resource.ID</th>
+                                    <th>@POSApp.Resources.Resource.Ingredient</th>
                                     
-                                    <th>Qty</th>
-                                    <th>Calories</th>
-                                    <th>Expiry Date</th>
+                                    <th>@POSApp.Resources.Resource.Quantity</th>
+                                    <th>@POSApp.Resources.Resource.Calories</th>
+                                    <th>@POSApp.Resources.Resource.ExpiryDate</th>
 
 
 
@@ -126,7 +126,7 @@
     {
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <h3 class="text-center"><strong>Product Details</strong></h3>
+                <h3 class="text-center"><strong>@POSApp.Resources.Resource.ProductDetails</strong></h3>
                 <table class="table table-bordered">
                     <thead>
 
@@ -139,25 +139,25 @@
 
 
                     <tr>
-                        <th class="text-center">Product Name</th>
+                        <th class="text-center">@POSApp.Resources.Resource.ProductName</th>
                         <td class="text-center">@Model.Name</td>
 
 
                     </tr>
                     <tr>
-                        <th class="text-center">Product code</th>
+                        <th class="text-center">@POSApp.Resources.Resource.Productcode</th>
                         <td class="text-center">@Model.ProductCode</td>
 
 
                     </tr>
                     <tr>
-                        <th class="text-center">Cost Price</th>
+                        <th class="text-center">@POSApp.Resources.Resource.CostPrice</th>
                         <td class="text-center">@Model.CostPrice</td>
 
 
                     </tr>
                     <tr>
-                        <th class="text-center">Price</th>
+                        <th class="text-center">@POSApp.Resources.Resource.Price</th>
                         <td class="text-center">@Model.UnitPrice</td>
 
                     </tr>

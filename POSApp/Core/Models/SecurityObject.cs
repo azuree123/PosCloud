@@ -15,11 +15,11 @@ namespace POSApp.Core.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SecurityObjectId { get; set; }
         [MaxLength(150)]
-        public string Name { get; set; }// varchar 150
+        public string Name { get; set; }
         [MaxLength(150)]
-        public string Type { get; set; }// Form, report etc // varchar 15
+        public string Type { get; set; }
         [MaxLength(150)]
-        public string Module { get; set; }//HR, Finane etc 50
+        public string Module { get; set; }
 
         public virtual ICollection<SecurityRight> SecurityRights { get; set; }
 

@@ -60,7 +60,7 @@
                                     <div class="col-md-6">
                                         @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label required1" })
                                         <div class="input-group">
-                                            @Html.DropDownListFor(model => model.Type, (IEnumerable<SelectListItem>)ViewBag.ddl, "Select an Option", new { @id = "TypeDdl",@class = "form-control", @required = true  })
+                                            @Html.DropDownListFor(model => model.Type, (IEnumerable<SelectListItem>)ViewBag.ddl, @POSApp.Resources.Resource.SelectanOption, new { @id = "TypeDdl",@class = "form-control", @required = true  })
                                             <span class="input-group-addon" style="   ">
                                                 <a href="@Url.Action("AddProductCategoryGroupPartial","Products")" class="modalShow2"><i class="fa fa-plus "></i></a>
                                             </span>
@@ -75,8 +75,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                    <button type="button" class="btn btn-default btn-lg btnPro1" onclick="$('#ordine2').modal('hide');"><span class="fa fa-close"></span>Close</button>
+                    <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>@POSApp.Resources.Resource.Save</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" onclick="$('#ordine2').modal('hide');"><span class="fa fa-close"></span>@POSApp.Resources.Resource.Close</button>
                 </div>
             </div>
         </div>

@@ -59,7 +59,7 @@
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.ExpenseHeadId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
-                                                @Html.DropDownListFor(model => model.ExpenseHeadId, Model.ExpHeadDdl, "Select an Option", new { @class = "form-control", @required = true, autofocus = "" })
+                                                @Html.DropDownListFor(model => model.ExpenseHeadId, Model.ExpHeadDdl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control", @required = true, autofocus = "" })
                                                 <span class="input-group-addon" style="   ">
                                                     <a href="@Url.Action("AddExpenseHeadPartial","Expense")" class="modalShow2" id="#arrButtonIds">   <i class="fa fa-plus "></i></a>
                                                 </span>
@@ -69,7 +69,7 @@
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
-                                                @Html.DropDownListFor(model => model.EmployeeId, Model.EmpDdl, "Select an Option", new { @class = "form-control", @required = true })
+                                                @Html.DropDownListFor(model => model.EmployeeId, Model.EmpDdl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control", @required = true })
                                                 <span class="input-group-addon" style="   ">
                                                     <a href="@Url.Action("AddEmployeePartial","Setup")" class="modalShow5" id="#arrButtonIds">   <i class="fa fa-plus "></i></a>
                                                 </span>

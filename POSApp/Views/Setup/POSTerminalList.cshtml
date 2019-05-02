@@ -37,13 +37,13 @@
             <li><a href="@Url.Action("TimedEventList","Setup")">@POSApp.Resources.Resource.Discount</a></li>
             <li><a href="@Url.Action("DineTableList","Setup")">DineTable</a></li>
             <li><a href="@Url.Action("FloorList","Setup")">Floor</a></li>
-            <li class="current"><a href="#">@POSApp.Resources.Resource.posterminal</a></li>
+            <li class="current"><a href="#">@POSApp.Resources.Resource.POSTerminal</a></li>
 
-            <li><a href="@Url.Action("ShiftList","Setup")">Shifts</a></li>
-            <li><a href="@Url.Action("TillOperationList","Setup")">Till Operation</a></li>
-            <li><a href="@Url.Action("SectionList","Products")">Sections</a></li>
-            <li><a href="@Url.Action("SizeList","Setup")">Size</a></li>
-            <li><a href="@Url.Action("WarehouseList","Setup")">Warehouse</a></li>
+            <li><a href="@Url.Action("ShiftList","Setup")">@POSApp.Resources.Resource.SHIFTS</a></li>
+            <li><a href="@Url.Action("TillOperationList","Setup")">@POSApp.Resources.Resource.TillOperation</a></li>
+            <li><a href="@Url.Action("SectionList","Products")">@POSApp.Resources.Resource.Section</a></li>
+            <li><a href="@Url.Action("SizeList","Setup")">@POSApp.Resources.Resource.size</a></li>
+            <li><a href="@Url.Action("WarehouseList","Setup")">@POSApp.Resources.Resource.warehouse</a></li>
             <li><a href="@Url.Action("DeviceList", "Device")">@POSApp.Resources.Resource.Devices</a></li>
             <li><a href="@Url.Action("StoresList","Store")">@POSApp.Resources.Resource.Branches</a></li>
         </ul>
@@ -56,7 +56,7 @@
         <div class="row">
 
             <div class="" id="header-flex">
-                <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.posterminal</b></h3>
+                <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.POSTerminal</b></h3>
 
 
                 <a href="@Url.Action("AddPOSTerminal", "Setup")" class="modalShow" style="flex-grow: 0.2">
@@ -95,9 +95,9 @@
                             <td class="center">
                                 <div class="btn-group">
 
-                                    @Html.ActionLink(" ", "UpdatePOSTerminal", "Setup", new { id = @terminal.POSTerminalId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "UpdatePOSTerminal", "Setup", new { id = @terminal.POSTerminalId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", @POSApp.Resources.Resource.EDIT })
 
-                                    @Html.ActionLink(" ", "DeletePOSTerminal", "Setup", new { id = @terminal.POSTerminalId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    @Html.ActionLink(" ", "DeletePOSTerminal", "Setup", new { id = @terminal.POSTerminalId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
                                 </div>
 
                             </td>

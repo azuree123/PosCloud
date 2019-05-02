@@ -23,30 +23,15 @@
                 <div class="row">
                     <div class="col-md-12 text-center  col-xs-12 mb-xlg">
                         <ul class=" snip1189 ">
-                            @*<li class="mt-xs  current" id="basicInfo">
-                                <a href="#basicdata" id="basic" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
-                                    Basic Data
-                                </a>
-                            </li>*@
-                            @*<li id="tranInfo">
-                                <a href="#transactionitems" id="transact" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
-                                    Transaction Items
-
-                                </a>
-                            </li>*@
+                           
                             
-                            @*<li id="tranInfo">
-                                <a href="#transactionitems" id="transact" data-toggle="tab" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">
-                                    Transaction Items
-
-                                </a>
-                            </li>*@
+                           
 
                         </ul>
                         
                         <div class="row mt-md">
                             <div class="col-md-12">
-                                <h4 class=" wb-color  text-center">@POSApp.Resources.Resource.NewPurchaseOrder</h4>
+                                <h4 class=" wb-color  text-center">@POSApp.Resources.Resource.NewPurchaseOrdar</h4>
 
 
                             </div>
@@ -78,7 +63,7 @@
                                                 @POSApp.Resources.Resource.Supplier <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
-                                                @Html.DropDownListFor(a => a.BusinessPartnerId, Model.SupplierDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                @Html.DropDownListFor(a => a.BusinessPartnerId, Model.SupplierDdl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control", @required = "true" })
                                                 <span class="input-group-addon" style="">
                                                     <a href="@Url.Action("AddSupplierPartial", "Setup")" class="modalShow1" id="#arrButtonIds"> <i class="fa fa-plus "></i></a>
                                                 </span>
@@ -109,20 +94,17 @@
                                             <label class="control-label">
                                                 @POSApp.Resources.Resource.Remarks
                                             </label>
-                                            @Html.TextAreaFor(a => a.TransRef, new { @rows = "3", @class = "form-control ", @placeholder = "Enter Remarks" })
+                                            @Html.TextAreaFor(a => a.TransRef, new { @rows = "3", @class = "form-control ", @placeholder = @POSApp.Resources.Resource.EnterRemarks })
                                         </div>
                                     </div>
                                 </div>
 
 
                             }
-                            @*<div id="transactionitems" class="tab-pane">*@
+                      
                             <div class=" mb-lg" id="header-flex">
                                 <h4 class="mt-xs   text-weight-semibold " style="flex-grow: 8">@POSApp.Resources.Resource.TransactionItems</h4>
-                                @*<a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
-                <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm" id="#arrButtonIds"></i>Add New</button>
-
-            </a>*@
+                 
 
                             </div>
                             @{Html.RenderAction("AddTransactionItem", "PurchaseOrders");}

@@ -18,7 +18,7 @@
 
                 
                     <h4 class="modal-title">
-                        Add Product
+                        @POSApp.Resources.Resource.AddProduct
                     </h4>
                
                
@@ -56,18 +56,18 @@
                                     <div class="form-group">
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "Enter Name", autofocus = "" } })
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = @POSApp.Resources.Resource.EnterName, autofocus = "" } })
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.ArabicName, htmlAttributes: new { @class = "control-label " })
-                                            @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", autofocus = "" } })
+                                            @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterName, autofocus = "" } })
                                             @Html.ValidationMessageFor(model => model.ArabicName, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
-                                                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryDdl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control", @required = "true" })
 
                                                 <span class="input-group-addon" style="">
                                                     <a href="@Url.Action("AddProductCategoryPartial", "Products")" class="modalShow1"><i class="fa fa-plus "></i></a>
@@ -90,7 +90,7 @@
                                         <div class="col-md-4">
                                             @Html.LabelFor(a => a.UnitId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
-                                                @Html.DropDownListFor(a => a.UnitId, Model.UnitDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                @Html.DropDownListFor(a => a.UnitId, Model.UnitDdl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control", @required = "true" })
                                                 <span class="input-group-addon">
                                                     <a href="@Url.Action("AddUnitPartial", "Setup")" class="modalShow4"> <i class="fa fa-plus "></i></a>
                                                 </span>
@@ -100,7 +100,7 @@
                                         <div class="col-md-4">
                                             @Html.LabelFor(a => a.SectionId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
-                                                @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                                @Html.DropDownListFor(a => a.SectionId, Model.SectionDdl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control", @required = "true" })
                                                 <span class="input-group-addon">
                                                     <a href="@Url.Action("AddSectionPartial", "Products")" class="modalShow3"> <i class="fa fa-plus "></i></a>
                                                 </span>
@@ -109,32 +109,14 @@
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Attribute, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Description" } })
+                                            @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterDescription } })
                                             @Html.ValidationMessageFor(model => model.Attribute, "", new { @class = "text-danger" })
                                         </div>
-                                        @*<div class="col-md-4">
-                            @Html.Label("Size", htmlAttributes: new { @class = "control-label required1" })
-                            <div class="input-group">
-                                @Html.DropDownListFor(a => a.Size, Model.SizeDdl, "Select an Option", new { @class = "form-control", @required = "true" })
-                                <span class="input-group-addon">
-                                    <a href="@Url.Action("AddSizePartial", "Setup")" class="modalShow5"> <i class="fa fa-plus "></i></a>
-                                </span>
-                            </div>
-                            @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
-                        </div>*@
+                              
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group ">
-
-
-
-
-                                        @*<div class="col-md-4">
-                            @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label required1" })
-                            @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
-                            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
-                        </div>*@
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label" })
@@ -171,7 +153,7 @@
                                         </script>
                                         <div class="col-md-4" style="display: none" id="taxDdl">
                                             @Html.LabelFor(a => a.TaxId, htmlAttributes: new { @class = "control-label" })
-                                            @Html.DropDownListFor(model => model.TaxId, Model.TaxDdl, "Select an Option", new { @class = "form-control" })
+                                            @Html.DropDownListFor(model => model.TaxId, Model.TaxDdl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.TaxId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -184,11 +166,8 @@
                                 </div>
                                 <hr />
                                 <div class=" mb-md">
-                                    <h4 class="text-center font-weight-bold" style="font-weight: bold">Add Modifiers</h4>
-                                    @*<a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm" id="#arrButtonIds"></i>Add New</button>
-
-                    </a>*@
+                                    <h4 class="text-center font-weight-bold" style="font-weight: bold">@POSApp.Resources.Resource.AddModifier</h4>
+                          
 
                                 </div>
                                 <div class="row">
@@ -219,11 +198,8 @@
 
                 <hr />
                 <div class=" mb-md">
-                    <h4 class="text-center font-weight-bold" style="font-weight: bold">Sizes and Price</h4>
-                    @*<a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
-                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm" id="#arrButtonIds"></i>Add New</button>
-
-                        </a>*@
+                    <h4 class="text-center font-weight-bold" style="font-weight: bold">@POSApp.Resources.Resource.SizesandPrices</h4>
+                   
 
                 </div>
 
@@ -236,16 +212,16 @@
                                 <thead>
                                     <tr>
 
-                                        <th>Size</th>
+                                        <th>@POSApp.Resources.Resource.size</th>
 
-                                        <th>Price</th>
-                                        <th>Barcode</th>
-                                        <th>Action</th>
+                                        <th>@POSApp.Resources.Resource.Price</th>
+                                        <th>@POSApp.Resources.Resource.Barcode</th>
+                                        <th>@POSApp.Resources.Resource.Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="5" class="text-center">No records found</td>
+                                        <td colspan="5" class="text-center">@POSApp.Resources.Resource.Norecordsfound</td>
                                     </tr>
 
                                 </tbody>
@@ -257,8 +233,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="$('#productSubmit').click()" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Save</button>
-                <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal"*@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>Close</button>
+                <button type="button" onclick="$('#productSubmit').click()" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>@POSApp.Resources.Resource.Save</button>
+                <button type="button" class="btn btn-default btn-lg btnPro1" @*data-dismiss="modal"*@ onclick="$('#ordine').modal('hide'); removeElements = (elms) => [...elms].forEach(el => el.remove());removeElements( document.querySelectorAll('.modal-backdrop') );"><span class="fa fa-close"></span>@POSApp.Resources.Resource.Close</button>
             </div>
         </div>
     </div>

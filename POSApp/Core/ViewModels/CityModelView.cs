@@ -13,7 +13,7 @@ namespace POSApp.Core.ViewModels
         [Required]
         [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Name { get; set; }
-      
+        [Display(Name = "ArabicName", ResourceType = typeof(Resource))]
         public string ArabicName { get; set; }
         [Display(Name = "State", ResourceType = typeof(Resource))]
         public int StateId { get; set; }

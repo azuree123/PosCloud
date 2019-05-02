@@ -1,6 +1,7 @@
 ﻿@using POSApp.Core.Enums
 @using POSApp.Core.Models
 @using POSApp.Core.ViewModels
+@using POSApp.Services
 @model POSApp.Core.ViewModels.RecipeViewModel
 
 @{
@@ -27,9 +28,9 @@
 
                     @if (s.Contains("Add"))
                     {
-                        <h4 class="modal-title">
-                            Add Recipe
-                        </h4>
+                    <h4 class="modal-title">
+                        @POSApp.Resources.Resource.AddRecipe
+                    </h4>
                     }
                     else
                     {
@@ -63,7 +64,7 @@
                                 <div class="col-md-3">
                                     @Html.LabelFor(model => model.IngredientCode, htmlAttributes: new {@class = "control-label required1"})
                                     <div class="">
-                                        @Html.DropDownListFor(model => model.IngredientCode, Model.ProductDDl, "Select an Option", new {@class = "form-control",@id="hello", @required = "true" })
+                                        @Html.DropDownListFor(model => model.IngredientCode, Model.ProductDDl, @POSApp.Resources.Resource.SelectanOption, new {@class = "form-control",@id="hello", @required = "true" })
                                         @Html.ValidationMessageFor(model => model.IngredientCode, "", new {@class = "text-danger"})
 
                                     </div>
@@ -73,7 +74,7 @@
                                 <div class="col-md-2">
                                     @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label" })
                                     <div class="input-group">
-                                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @id = "quty2", @placeholder = "Enter Quantity" } })
+                                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @id = "quty2", @placeholder = @POSApp.Resources.Resource.EnterQuantity } })
                                        
 
                                         @*<input class="form-control" id="quty" type="number" min="1" required="" name="purchaseQuantity" placeholder="Purchase" />*@
@@ -93,9 +94,35 @@
 
                                 </div>
                                 <div class="col-md-2">
-                                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new {@class = "control-label required1"})
-                                    @Html.EditorFor(model => model.ExpiryDate, new {htmlAttributes = new {@class = "form-control unstyled", @required = true}})
-                                    @Html.ValidationMessageFor(model => model.ExpiryDate, "", new {@class = "text-danger"})
+                                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label required1" })
+                                    @{
+                                        if (Global.GetLang().Contains("Ar"))
+                                        {
+
+                                            <hijri-date-picker input-name="ExpiryDate" selected-date="@Model.ExpiryDate.ToString("yyyy/MM/dd")" class-name="form-control" date-format="iYYYY/iMM/iDD"></hijri-date-picker>
+                                        }
+                                        else
+                                        {
+
+                                            @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control unstyled", @required = true } })
+                                            <input type="hidden" id="expiry_date" value="@Model.ExpiryDate" />
+                                            <script>
+                                                        $(document).ready(function () {
+                                                            var date = $('#expiry_date').val();
+                                                            if (date !== '1/1/0001 12:00:00 AM' && date !== '') {
+                                                                var displayDate = new Date(date);
+                                                                displayDate.setDate(displayDate.getDate() + 1);
+                                                                document.getElementById("@Html.IdFor(a=>a.ExpiryDate)").valueAsDate = displayDate;
+                                                            } else {
+                                                                document.getElementById("@Html.IdFor(a=>a.ExpiryDate)").valueAsDate = new Date();
+
+                                                            }
+                                                        });
+                                            </script>
+
+                                        }
+                                    }
+                                    @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1 ">
                                     <div class="pull-right" style="margin-top: 24px;">
@@ -104,8 +131,6 @@
                                     </div>
                                 </div>
 
-
-                                <input type="hidden" id="expiry_date" value="@Model.ExpiryDate"/>
                             </div>
                         </div>
                     </div>
@@ -113,13 +138,13 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Ingredient</th>
+                                    <th>@POSApp.Resources.Resource.Ingredient</th>
                                     
-                                    <th>Quantity</th>
-                                    <th>Unit</th>
-                                    <th>Calories</th>
-                                    <th>Expiry Date</th>
-                                    <th>Action</th>
+                                    <th>@POSApp.Resources.Resource.Quantity</th>
+                                    <th>@POSApp.Resources.Resource.Unit</th>
+                                    <th>@POSApp.Resources.Resource.Calories</th>
+                                    <th>@POSApp.Resources.Resource.Expiry Date</th>
+                                    <th>@POSApp.Resources.Resource.Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,7 +159,7 @@
                                     <td>@data.ExpiryDate.ToShortDateString()</td>
 
                                     <td>
-                                        @Ajax.ActionLink(" ", "DeleteRecipe", "Products", new { id = data.Id, code = data.ProductCode }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "renderData" }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                        @Ajax.ActionLink(" ", "DeleteRecipe", "Products", new { id = data.Id, code = data.ProductCode }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "renderData" }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
                                     </td>
 
                                 </tr>
@@ -144,7 +169,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="$('.modal-backdrop').remove();" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="$('.modal-backdrop').remove();" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">@POSApp.Resources.Resource.Close</button>
 
                 </div>
             </div>
@@ -152,19 +177,7 @@
     }
 
 </div>
-<script>
-    $(document).ready(function () {
-        var date = $('#expiry_date').val();
-        if (date !== '1/1/0001 12:00:00 AM' && date !== '') {
-            var displayDate = new Date(date);
-            displayDate.setDate(displayDate.getDate() + 1);
-            document.getElementById("@Html.IdFor(a=>a.ExpiryDate)").valueAsDate = displayDate;
-        } else {
-            document.getElementById("@Html.IdFor(a=>a.ExpiryDate)").valueAsDate = new Date();
 
-        }
-    });
-</script>
 <script>
     $("input").on("keypress", function (e) {
         if (e.which === 32 && !this.value.length)

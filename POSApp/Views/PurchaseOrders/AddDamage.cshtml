@@ -26,7 +26,7 @@
 
                         <div class="row mt-md">
                             <div class="col-md-12">
-                                <h4 class=" wb-color  text-center">New Damage</h4>
+                                <h4 class=" wb-color  text-center">@POSApp.Resources.Resource.Damage</h4>
 
 
                             </div>
@@ -38,7 +38,7 @@
                             <div class="col-md-12">
                                 <button type="button" class="btn outline-success btn-sm" style="float:right;font-size:13px;margin-left: 7px;" onclick="$('#basicSubmit').click();"><i class="fa fa-save  pr-md"></i> @POSApp.Resources.Resource.Save</button>
                                 <a href="@Url.Action("DamageList","PurchaseOrders")" style="float:right">
-                                    <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Damage List</button>
+                                    <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.DamageList</button>
 
                                 </a>
                             </div>
@@ -55,7 +55,7 @@
                                     
                                     <div class="col-md-4 col-lg-offset-2">
                                         <div class="form-group">
-                                            <label class="control-label"> Damage Date</label>
+                                            <label class="control-label"> @POSApp.Resources.Resource.Damagedate</label>
 
                                             <div class="input-group">
                                                 @*@Html.TextBoxFor(a => a.TransDate, new { @class = "form-control unstyled", @data_plugin_datepicker = "true", @required = "true" })*@
@@ -77,20 +77,17 @@
                                             <label class="control-label">
                                                 @POSApp.Resources.Resource.Remarks
                                             </label>
-                                            @Html.TextAreaFor(a => a.TransRef, new { @rows = "3", @class = "form-control ", @placeholder = "Enter Remarks" })
+                                            @Html.TextAreaFor(a => a.TransRef, new { @rows = "3", @class = "form-control ", @placeholder = @POSApp.Resources.Resource.EnterRemarks })
                                         </div>
                                     </div>
                                 </div>
 
 
                             }
-                            @*<div id="transactionitems" class="tab-pane">*@
+                     
                             <div class=" mb-lg" id="header-flex">
                                 <h4 class="mt-xs   text-weight-semibold " style="flex-grow: 8">@POSApp.Resources.Resource.TransactionItems</h4>
-                                @*<a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
-                                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm" id="#arrButtonIds"></i>Add New</button>
-
-                                    </a>*@
+       
 
                             </div>
                             @{Html.RenderAction("AddDamageItem", "PurchaseOrders");}
@@ -110,7 +107,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td colspan="5" class="text-center">No records found</td>
+                                                    <td colspan="5" class="text-center">@POSApp.Resources.Resource.Norecordsfound</td>
                                                 </tr>
 
                                             </tbody>

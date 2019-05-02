@@ -34,7 +34,7 @@ namespace POSApp.Persistence.Repositories
                 
                 .Where(a => a.StoreId == storeId)
                 .Where(g => g.IsDisabled==false)
-                .Select(a => new ProductCategoryGroupViewModel { Id = a.Id, Name = a.Name, StoreId = a.StoreId })
+                .Select(a => new ProductCategoryGroupViewModel { Id = a.Id, Name = a.Name, StoreId = a.StoreId, ArabicName = a.ArabicName })
                 .ToList();
         }
         public async Task<IEnumerable<ProductCategoryGroupViewModel>> GetProductCategoryGroupsAsync(int storeId)
@@ -45,7 +45,7 @@ namespace POSApp.Persistence.Repositories
 
                 .Where(a => a.StoreId == storeId)
                 .Where(g => g.IsDisabled == false)
-                .Select(a => new ProductCategoryGroupViewModel { Id = a.Id, Name = a.Name, StoreId = a.StoreId })
+                .Select(a => new ProductCategoryGroupViewModel { Id = a.Id, Name = a.Name, StoreId = a.StoreId ,ArabicName = a.ArabicName})
                 .ToListAsync();
         }
         public IEnumerable<ProductCategoryGroupViewModel> GetProductCategoryGroupsFiltered(string query, int storeId)
@@ -54,14 +54,14 @@ namespace POSApp.Persistence.Repositories
             query = query.ToUpper();
             return _context.ProductCategoryGroups
                     .Where(x => x.Name.ToUpper().Contains(query) && x.StoreId == storeId)
-                    .Select(a => new ProductCategoryGroupViewModel { Id = a.Id, Name = a.Name, StoreId = a.StoreId })
+                    .Select(a => new ProductCategoryGroupViewModel { Id = a.Id, Name = a.Name, StoreId = a.StoreId, ArabicName = a.ArabicName })
                 ;
         }
         public IEnumerable<ProductCategoryGroupViewModel> GetProductCategoryGroupsFiltered(int query, int storeId)
         {
             return _context.ProductCategoryGroups
                     .Where(x => x.Id == query && x.StoreId == storeId)
-                    .Select(a => new ProductCategoryGroupViewModel { Id = a.Id, Name = a.Name, StoreId = a.StoreId })
+                    .Select(a => new ProductCategoryGroupViewModel { Id = a.Id, Name = a.Name, StoreId = a.StoreId, ArabicName = a.ArabicName })
 
                 ;
         }

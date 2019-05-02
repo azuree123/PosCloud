@@ -1,5 +1,6 @@
 ﻿@using POSApp.Core.Enums
 @using POSApp.Core.Models
+@using POSApp.Services
 @model POSApp.Core.ViewModels.RecipeViewModel
 @{
     Layout = null;
@@ -27,7 +28,7 @@
             <div class="col-md-3">
                 @Html.LabelFor(model => model.IngredientCode, htmlAttributes: new { @class = "control-label required1" })
                 <div class="">
-                    @Html.DropDownListFor(model => model.IngredientCode, Model.ProductDDl, "Select an Option", new { @class = "form-control", @required = "true" })
+                    @Html.DropDownListFor(model => model.IngredientCode, Model.ProductDDl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control", @required = "true" })
                     @Html.ValidationMessageFor(model => model.IngredientCode, "", new { @class = "text-danger" })
 
                 </div>
@@ -36,7 +37,7 @@
 
             <div class="col-md-2">
                 @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Quantity" } })
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterQuantity } })
                 @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
 
             </div>
@@ -49,7 +50,20 @@
             </div>
             <div class="col-md-2">
                 @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label required1" })
-                @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control unstyled", @required = true } })
+                @{
+                    if (Global.GetLang().Contains("Ar"))
+                    {
+
+                        <hijri-date-picker input-name="ExpiryDate" selected-date="@Model.ExpiryDate.ToString("yyyy/MM/dd")" class-name="form-control" date-format="iYYYY/iMM/iDD"></hijri-date-picker>
+                    }
+                    else
+                    {
+
+                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control unstyled", @required = true } })
+                                         
+
+                    }
+                }
                 @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-1 ">
@@ -68,12 +82,12 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Ingredient</th>
+                <th>@POSApp.Resources.Resource.Ingredient</th>
 
-                <th>Quantity</th>
-                <th>Calories</th>
-                <th>Expiry Date</th>
-                <th>Action</th>
+                <th>@POSApp.Resources.Resource.Quantity</th>
+                <th>@POSApp.Resources.Resource.Calories</th>
+                <th>@POSApp.Resources.Resource.Expiry Date</th>
+                <th>@POSApp.Resources.Resource.Action</th>
             </tr>
         </thead>
         <tbody>
@@ -87,7 +101,7 @@
                     <td>@data.ExpiryDate.ToShortDateString()</td>
 
                     <td>
-                        @Ajax.ActionLink(" ", "DeleteRecipe", "Products", new { id = data.Id, code = data.ProductCode }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "renderData" }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                        @Ajax.ActionLink(" ", "DeleteRecipe", "Products", new { id = data.Id, code = data.ProductCode }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "renderData" }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete , onclick = "return confirm('Are you sure?');" })
                     </td>
 
                 </tr>

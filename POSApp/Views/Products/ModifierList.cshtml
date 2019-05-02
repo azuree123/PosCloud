@@ -11,34 +11,18 @@
 }
 
 
-@*<header class="page-header">
-        <h2>PurchaseOrders</h2>
 
-        <div class="right-wrapper pull-right">
-            <ol class="breadcrumbs">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <i class="fa fa-home"></i>
-                    </a>
-                </li>
-                <li><span>PurchaseOrder</span></li>
-
-            </ol>
-
-            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-        </div>
-    </header>*@
 
 <!-- start: page -->
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li><a href="@Url.Action("ProductsList","Products")">Products</a></li>
+            <li><a href="@Url.Action("ProductsList","Products")">@POSApp.Resources.Resource.Products</a></li>
             <li><a class="hidden" href="@Url.Action("ServicesList", "Services")">Services</a></li>
-            <li class="current"><a href="#">Modifiers</a></li>
-            <li><a href="@Url.Action("CombosList","Products")">Combos</a></li>
-            <li><a href="@Url.Action("ProductCategoryList","Products")">Product Categories</a></li>
-            <li><a href="@Url.Action("ProductCategoryGroupList","Products")">Product Categories Group</a></li>
+            <li class="current"><a href="#">@POSApp.Resources.Resource.Modifiers</a></li>
+            <li><a href="@Url.Action("CombosList","Products")">@POSApp.Resources.Resource.Combos</a></li>
+            <li><a href="@Url.Action("ProductCategoryList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
+            <li><a href="@Url.Action("ProductCategoryGroupList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
 
         </ul>
         <hr />
@@ -53,18 +37,15 @@
 
 
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Modifiers</b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Modifiers</b></h3>
 
                     <a href="@Url.Action("AddModifier","Products")" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Modifier </button>
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddModifier </button>
 
                     </a>
 
 
                 </div>
-
-
-
 
 
             </div>
@@ -78,13 +59,13 @@
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
-                        <th width="5%">ID</th>
-                        <th width="15%">Name</th>
-                        <th width="15%">Barcode</th>
+                        <th width="5%">@POSApp.Resources.Resource.ID</th>
+                        <th width="15%">@POSApp.Resources.Resource.name</th>
+                        <th width="15%">@POSApp.Resources.Resource.Barcode</th>
                         <th width="15%">Modifer Options</th>
-                        <th width="15%">Products Linked</th>
+                        <th width="15%">@POSApp.Resources.Resource.LinkedProducts</th>
 
-                        <th width="30%">Action</th>
+                        <th width="30%">@POSApp.Resources.Resource.Action</th>
 
                     </tr>
                 </thead>
@@ -104,10 +85,10 @@
                         <td class="center">
                             <div class="btn-group">
 
-                                @Html.ActionLink(" ", "UpdateModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "UpdateModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
+                                @Html.ActionLink(" ", "DeleteModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
                                 @Html.ActionLink(" ", "AddModifierLinkProduct", "Products", new { modifierId = @modifier.Id }, new { @class = "btn btn-default text-success  btn-sm fa fa-plus modalShow", data_toggle = "tooltip", title = "Link Modifier Products !" })
-                                @Html.ActionLink(" ", "ModifierDetails", "Products", new { modifierId = @modifier.Id }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
+                                @Html.ActionLink(" ", "ModifierDetails", "Products", new { modifierId = @modifier.Id }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview })
 
                             </div>
                         </td>

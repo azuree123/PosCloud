@@ -23,7 +23,7 @@ namespace POSApp.Controllers.WebApi
         // GET: api/ProductCategoryGroups
         public async Task<IHttpActionResult> GetProductCategoryGroups(int storeId)
         {
-            return Ok(Mapper.Map<ProductCategoryGroupViewModel[]>(await _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroupsAsync(storeId)));
+            return Ok(Mapper.Map<ProductCategoryGroupViewModel[]>(await _unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroupsAsync(storeId))); 
         }
 
         // GET: api/ProductCategoryGroupCategoriesSync/5

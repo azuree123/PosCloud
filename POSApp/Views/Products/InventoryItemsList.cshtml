@@ -13,9 +13,9 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li class="current"><a href="#">Inventory Items</a></li>
-            <li><a href="@Url.Action("OpeningStockList","OpeningStock")">Opening Stock</a></li>
-            <li><a href="@Url.Action("MIFDataList","SaleOrders")">Material issuance</a></li>
+            <li class="current"><a href="#">@POSApp.Resources.Resource.Inventoryitems</a></li>
+            <li><a href="@Url.Action("OpeningStockList","OpeningStock")">@POSApp.Resources.Resource.OpeningStock</a></li>
+            <li><a href="@Url.Action("MIFDataList","SaleOrders")">@POSApp.Resources.Resource.MaterialIssuance</a></li>
         </ul>
         <hr />
 
@@ -27,7 +27,7 @@
             <div class="col-md-12">
 
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Items</b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Items</b></h3>
 
                   
 
@@ -37,10 +37,7 @@
                     </a>
                   
                    
-                    @*<a href="@Url.Action("DeviceExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
-            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
-
-        </a>*@
+            
 
                 </div>
             </div>
@@ -53,10 +50,10 @@
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Cost Price</th>
-                        <th>Action</th>
+                        <th>@POSApp.Resources.Resource.ID</th>
+                        <th>@POSApp.Resources.Resource.name</th>
+                        <th>@POSApp.Resources.Resource.Cost Price</th>
+                        <th>@POSApp.Resources.Resource.Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,8 +67,8 @@
                         <td class="center">
                             <div class="btn-group">
 
-                                @Html.ActionLink(" ", "UpdateInventoryItems", "Products", new { productId = @s.ProductCode }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteInventoryItems", "Products", new { id = @s.ProductCode }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "UpdateInventoryItems", "Products", new { productId = @s.ProductCode }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
+                                @Html.ActionLink(" ", "DeleteInventoryItems", "Products", new { id = @s.ProductCode }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete , onclick = "return confirm('Are you sure?');" })
                             </div>
                         </td>
                     </tr>

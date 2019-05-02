@@ -1124,8 +1124,7 @@ namespace POSApp.Controllers
         public ActionResult AddCustomer(CustomerModelView customerMv)
         {
             ViewBag.edit = "AddCustomer";
-            if (ModelState.ContainsKey("Birthday"))
-            ModelState["Birthday"].Errors.Clear();
+            
             try
             {
                 if (!ModelState.IsValid)
@@ -1208,8 +1207,7 @@ namespace POSApp.Controllers
         public ActionResult UpdateCustomer(int id, CustomerModelView customerMv)
         {
             ViewBag.edit = "UpdateCustomer";
-            if (ModelState.ContainsKey("Birthday"))
-                ModelState["Birthday"].Errors.Clear();
+    
             try
             {
                 if (!ModelState.IsValid)

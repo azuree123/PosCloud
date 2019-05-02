@@ -17,15 +17,15 @@
     <div class="col-md-12">
         <ul class="snip1189">
 
-            <li><a href="@Url.Action("StockTakingList","StockTaking")">Stock Taking</a></li>
-            <li class="current"><a href="#">Purchasing</a></li>
-            <li><a href="@Url.Action("StockList","PurchaseOrders")">Stock In</a></li>
-            <li><a href="@Url.Action("TransferList","PurchaseOrders")">Transfer</a></li>
-            <li><a href="@Url.Action("OtherInList","PurchaseOrders")">Others In</a></li>
-            <li><a href="@Url.Action("OtherOutList","PurchaseOrders")">Other Out</a></li>
-            <li><a href="@Url.Action("ExpiryList","PurchaseOrders")">Expiry</a></li>
-            <li><a href="@Url.Action("WasteList","PurchaseOrders")">Waste</a></li>
-            <li><a href="@Url.Action("DamageList","PurchaseOrders")">Damage</a></li>
+            <li><a href="@Url.Action("StockTakingList","StockTaking")">@POSApp.Resources.Resource.stocktaking</a></li>
+            <li class="current"><a href="#">@POSApp.Resources.Resource.Purchasing</a></li>
+            <li><a href="@Url.Action("StockList","PurchaseOrders")">@POSApp.Resources.Resource.StockIn</a></li>
+            <li><a href="@Url.Action("TransferList","PurchaseOrders")">@POSApp.Resources.Resource.Transfer</a></li>
+            <li><a href="@Url.Action("OtherInList","PurchaseOrders")">@POSApp.Resources.Resource.OtherIn</a></li>
+            <li><a href="@Url.Action("OtherOutList","PurchaseOrders")">@POSApp.Resources.Resource.Otherout</a></li>
+            <li><a href="@Url.Action("ExpiryList","PurchaseOrders")">@POSApp.Resources.Resource.Expiry</a></li>
+            <li><a href="@Url.Action("WasteList","PurchaseOrders")">@POSApp.Resources.Resource.Waste</a></li>
+            <li><a href="@Url.Action("DamageList","PurchaseOrders")">@POSApp.Resources.Resource.Damage</a></li>
 
 
 
@@ -42,12 +42,12 @@
 
 
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Purchasing </b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Purchasing </b></h3>
 
 
 
                     <a href="@Url.Action("AddPurchasing","PurchaseOrders")" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Add Purchasing</button>
+                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddPurchasing</button>
 
                     </a>
                     
@@ -91,8 +91,8 @@
                             <td>@String.Format("{0:n2} ", purchaseOrder.TotalPrice)</td>
                             <td>@purchaseOrder.Type</td>
                             <td>
-                                @Html.ActionLink(" ", "PreviewPurchasing", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
-                                @Html.ActionLink(" ", "DeletePurchasing", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "PreviewPurchasing", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview  })
+                                @Html.ActionLink(" ", "DeletePurchasing", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete , onclick = "return confirm('Are you sure?');" })
 
                             </td>
                         </tr>

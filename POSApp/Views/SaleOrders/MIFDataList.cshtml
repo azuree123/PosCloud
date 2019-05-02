@@ -1,6 +1,4 @@
 ﻿
-
-
 @{
 
     ViewBag.Title = "MIFDataList";
@@ -10,9 +8,9 @@
     <div class="col-md-12">
         <ul class="snip1189">
 
-            <li><a href="@Url.Action("InventoryItemsList","Products")">Inventory Items</a></li>
-            <li><a href="@Url.Action("OpeningStockList","OpeningStock")">Opening Stock</a></li>
-            <li class="current"><a href="#">Material issuance</a></li>
+            <li><a href="@Url.Action("InventoryItemsList","Products")">@POSApp.Resources.Resource.Inventoryitems</a></li>
+            <li><a href="@Url.Action("OpeningStockList","OpeningStock")">@POSApp.Resources.Resource.OpeningStock</a></li>
+            <li class="current"><a href="#">@POSApp.Resources.Resource.MaterialIssuance</a></li>
 
 
 
@@ -36,7 +34,7 @@
 
 
                     <a href="@Url.Action("MIFData", "SaleOrders")" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-sign-out pr-sm"></i>Material Issuance</button>
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-sign-out pr-sm"></i>@POSApp.Resources.Resource.MaterialIssuance</button>
 
                     </a>
                     
@@ -60,13 +58,13 @@
                 <table class="table mb-none " id="datatable-default">
                     <thead>
                         <tr>
-                            <th>Code</th>
-                            <th>Customer</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Tax</th>
-                            <th>Discount</th>
-                            <th>Amount</th>
+                            <th>@POSApp.Resources.Resource.Code</th>
+                            <th>@POSApp.Resources.Resource.Customer</th>
+                            <th>@POSApp.Resources.Resource.Date</th>
+                            <th>@POSApp.Resources.Resource.Time</th>
+                            <th>@POSApp.Resources.Resource.Tax</th>
+                            <th>@POSApp.Resources.Resource.Discount</th>
+                            <th>@POSApp.Resources.Resource.amount</th>
                             
                             
                             

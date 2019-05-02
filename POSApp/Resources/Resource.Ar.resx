@@ -576,7 +576,7 @@
   <data name="name" xml:space="preserve">
     <value>الاسم</value>
   </data>
-  <data name="NewPurchaseOrder" xml:space="preserve">
+  <data name="NewPurchaseOrdar" xml:space="preserve">
     <value>طلب شراء جديد</value>
   </data>
   <data name="Next" xml:space="preserve">
@@ -915,19 +915,427 @@
   <data name="YearlySalesvsExpenses" xml:space="preserve">
     <value>المبيعات السنوية مقابل المصروفات</value>
   </data>
-  <data name="PurchaseOrder" xml:space="preserve">
+  <data name="AddRole" xml:space="preserve">
+    <value>إضاقة صلاحية</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>الصلاحيات</value>
+  </data>
+  <data name="addsecurityobject" xml:space="preserve">
+    <value>إضاقة صلاحية</value>
+  </data>
+  <data name="SecurityObjects" xml:space="preserve">
+    <value>الصلاحيات</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>الإعدادات</value>
+  </data>
+  <data name="Adddamage" xml:space="preserve">
+    <value>إضافة ضرر</value>
+  </data>
+  <data name="AddDiscountsandTimedEvents" xml:space="preserve">
+    <value>إضافة الخصومات</value>
+  </data>
+  <data name="AddExpenseHead" xml:space="preserve">
+    <value>إضافة المصروفات</value>
+  </data>
+  <data name="AddExpiry" xml:space="preserve">
+    <value>إضافة انتهاء الصلاحية</value>
+  </data>
+  <data name="AddInventoryitems" xml:space="preserve">
+    <value>إضافة منتجات للمخزن</value>
+  </data>
+  <data name="AddopeningStock" xml:space="preserve">
+    <value>إضافة منتجات موجودة سابقاً</value>
+  </data>
+  <data name="AddOtherIn" xml:space="preserve">
+    <value>إضافة</value>
+  </data>
+  <data name="AddOtherOut" xml:space="preserve">
+    <value>إضافة</value>
+  </data>
+  <data name="AddPromotions" xml:space="preserve">
+    <value>إضافة عرض</value>
+  </data>
+  <data name="AddPurchasing" xml:space="preserve">
+    <value>إضافة عملية شراء جديدة</value>
+  </data>
+  <data name="AddStockIn" xml:space="preserve">
+    <value>إضافة منتج للمخزون</value>
+  </data>
+  <data name="AddStockTaking" xml:space="preserve">
+    <value>إضافة عملية جرد جديدة</value>
+  </data>
+  <data name="AddWaste" xml:space="preserve">
+    <value>إضافة تلفية</value>
+  </data>
+  <data name="ArabicName" xml:space="preserve">
+    <value>الاسم العربي</value>
+  </data>
+  <data name="Birthday" xml:space="preserve">
+    <value>تاريخ الميلاد</value>
+  </data>
+  <data name="BussinessStartTime" xml:space="preserve">
+    <value>تاريخ بدء العمل</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>العملة</value>
+  </data>
+  <data name="CustomerName" xml:space="preserve">
+    <value>اسم العميل</value>
+  </data>
+  <data name="Damage" xml:space="preserve">
+    <value>المتضرر</value>
+  </data>
+  <data name="Damagedate" xml:space="preserve">
+    <value>تاريخ الضرر</value>
+  </data>
+  <data name="DamageList" xml:space="preserve">
+    <value>القائمة</value>
+  </data>
+  <data name="Dateandtime" xml:space="preserve">
+    <value>التاريخ والوقت</value>
+  </data>
+  <data name="Discounts" xml:space="preserve">
+    <value>الخصومات</value>
+  </data>
+  <data name="EditDevice" xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="EditExpense" xml:space="preserve">
+    <value>تعديل المصروفات</value>
+  </data>
+  <data name="EmployeeCommission" xml:space="preserve">
+    <value>عمولة الموظف</value>
+  </data>
+  <data name="EmployeesIncome" xml:space="preserve">
+    <value>دخل الموظفين</value>
+  </data>
+  <data name="etc" xml:space="preserve">
+    <value>اخرى</value>
+  </data>
+  <data name="ExchangePin" xml:space="preserve">
+    <value>الرقم السري للإستبدال</value>
+  </data>
+  <data name="ExpenseList" xml:space="preserve">
+    <value>قائمة المصروفات</value>
+  </data>
+  <data name="Expiry" xml:space="preserve">
+    <value>انتهاء الصلاحية</value>
+  </data>
+  <data name="ExpiryDate" xml:space="preserve">
+    <value>تاريخ انتهاء الصلاحية</value>
+  </data>
+  <data name="Expirylist" xml:space="preserve">
+    <value>قائمة انتهاء الصلاحية</value>
+  </data>
+  <data name="ExportingReports" xml:space="preserve">
+    <value>تحميل التقارير</value>
+  </data>
+  <data name="FixedPrice" xml:space="preserve">
+    <value>سعر ثابت</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>من</value>
+  </data>
+  <data name="Ingredient" xml:space="preserve">
+    <value>المكونات</value>
+  </data>
+  <data name="IngredientUnit" xml:space="preserve">
+    <value>وحدة المكونات</value>
+  </data>
+  <data name="Inventoryitems" xml:space="preserve">
+    <value>منتجات المخزون</value>
+  </data>
+  <data name="InvoiceGross" xml:space="preserve">
+    <value>الفاتورة الكلية</value>
+  </data>
+  <data name="InvoiceTax" xml:space="preserve">
+    <value>قيمة الضريبة</value>
+  </data>
+  <data name="InvoiceTotal" xml:space="preserve">
+    <value>الفاتورة الإجمالية</value>
+  </data>
+  <data name="IsFixedPrice" xml:space="preserve">
+    <value>سعر ثابت</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>المنتج</value>
+  </data>
+  <data name="JoinDate" xml:space="preserve">
+    <value>تاريخ الإنضمام</value>
+  </data>
+  <data name="MaterialIssuance" xml:space="preserve">
+    <value>نقل المواد</value>
+  </data>
+  <data name="Miscellaneous" xml:space="preserve">
+    <value>متنوع</value>
+  </data>
+  <data name="Monthlysalary" xml:space="preserve">
+    <value>الراتب الشهري</value>
+  </data>
+  <data name="NewOpeningStock" xml:space="preserve">
+    <value>جديد</value>
+  </data>
+  <data name="NewPromotion" xml:space="preserve">
+    <value>عرض جديد</value>
+  </data>
+  <data name="OpeningStock" xml:space="preserve">
+    <value>المنتجات الموجودة سابقاً</value>
+  </data>
+  <data name="OpeningStockDate" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="OpeningStockList" xml:space="preserve">
+    <value>القائمة</value>
+  </data>
+  <data name="OtherIn" xml:space="preserve">
+    <value>الشراء من غير الموردين</value>
+  </data>
+  <data name="OtherInDate" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="OtherInList" xml:space="preserve">
+    <value>القائمة</value>
+  </data>
+  <data name="Otherout" xml:space="preserve">
+    <value>نقل المنتجات من فرع الى مكان آخر</value>
+  </data>
+  <data name="OtherOutDate" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="OtherOutList" xml:space="preserve">
+    <value>القائمة</value>
+  </data>
+  <data name="PrchaseOrder" xml:space="preserve">
     <value>المشتريات</value>
+  </data>
+  <data name="PromotionDetails" xml:space="preserve">
+    <value>تفاصيل العرض</value>
+  </data>
+  <data name="PromotionList" xml:space="preserve">
+    <value>قائمة العروض</value>
+  </data>
+  <data name="Promotions" xml:space="preserve">
+    <value>العروض</value>
+  </data>
+  <data name="PromotionsCost" xml:space="preserve">
+    <value>تكلفة العروض</value>
+  </data>
+  <data name="PromotionsOptions" xml:space="preserve">
+    <value>خيارات العروض</value>
+  </data>
+  <data name="PromotionTimelySales" xml:space="preserve">
+    <value>مبيعات العروض بناء على الوقت</value>
+  </data>
+  <data name="PurchasetoStorageFactor" xml:space="preserve">
+    <value>شراء بناء على عامل التخزين</value>
+  </data>
+  <data name="PurchaseUnit" xml:space="preserve">
+    <value>وحدة الشراء</value>
+  </data>
+  <data name="Purchasing" xml:space="preserve">
+    <value>المشتريات</value>
+  </data>
+  <data name="PurchasingDate" xml:space="preserve">
+    <value>تاريخ الشراء</value>
+  </data>
+  <data name="PurchasingList" xml:space="preserve">
+    <value>قائمة المشتريات</value>
+  </data>
+  <data name="ReceiptFooter" xml:space="preserve">
+    <value>اسفل الفاتورة</value>
+  </data>
+  <data name="ReceiptHeader" xml:space="preserve">
+    <value>اعلى الفاتورة</value>
+  </data>
+  <data name="Refund" xml:space="preserve">
+    <value>المسترجع</value>
+  </data>
+  <data name="RefundDetails" xml:space="preserve">
+    <value>تفاصيل الإسترجاع</value>
+  </data>
+  <data name="RefundPin" xml:space="preserve">
+    <value>الرقم السري للإرجاع</value>
+  </data>
+  <data name="Salary" xml:space="preserve">
+    <value>الراتب</value>
+  </data>
+  <data name="Saleid" xml:space="preserve">
+    <value>رقم عملية البيع</value>
+  </data>
+  <data name="SaleOrderDetails" xml:space="preserve">
+    <value>تفاصيل المبيعات</value>
+  </data>
+  <data name="SaleOrderList" xml:space="preserve">
+    <value>قائمة  المبيعات</value>
+  </data>
+  <data name="SelectGender" xml:space="preserve">
+    <value>اختر الجنس</value>
+  </data>
+  <data name="ServiceCost" xml:space="preserve">
+    <value>تكلفة الخدمة</value>
+  </data>
+  <data name="ServiceDetails" xml:space="preserve">
+    <value>تفاصيل الخدمة</value>
+  </data>
+  <data name="ServiceSales" xml:space="preserve">
+    <value>مبيعات الخدمات</value>
+  </data>
+  <data name="ServiceTimelySales" xml:space="preserve">
+    <value>مبيعات الخدمات بناء على الوقت</value>
+  </data>
+  <data name="Signature" xml:space="preserve">
+    <value>التوقيع</value>
+  </data>
+  <data name="SizeAndDuration" xml:space="preserve">
+    <value>الحجم والمدة</value>
+  </data>
+  <data name="SizesandPrices" xml:space="preserve">
+    <value>الأحجام والأسعار</value>
+  </data>
+  <data name="StockIn" xml:space="preserve">
+    <value>الداخل للمخزون</value>
+  </data>
+  <data name="StockInDate" xml:space="preserve">
+    <value>تاريخ الإضافة</value>
+  </data>
+  <data name="StockInList" xml:space="preserve">
+    <value>قائمة المنتجات المضافة</value>
+  </data>
+  <data name="StockTakingDate" xml:space="preserve">
+    <value>تاريخ عملية الجرد</value>
+  </data>
+  <data name="StockTakingList" xml:space="preserve">
+    <value>قائمة عمليات الجرد</value>
+  </data>
+  <data name="Storage" xml:space="preserve">
+    <value>التخزين</value>
+  </data>
+  <data name="StorageUnit" xml:space="preserve">
+    <value>وحدة التخزين</value>
+  </data>
+  <data name="SubTotal" xml:space="preserve">
+    <value>المجموع الفرعي</value>
+  </data>
+  <data name="Termsandconditions" xml:space="preserve">
+    <value>الشروط والأحكام</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>إلى</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>المجموع</value>
   </data>
   <data name="Transactions" xml:space="preserve">
     <value>العمليات</value>
   </data>
+  <data name="Transfer" xml:space="preserve">
+    <value>نقل المنتجات من فرع الى آخر</value>
+  </data>
+  <data name="TransferItems" xml:space="preserve">
+    <value>نقل المنتجات</value>
+  </data>
+  <data name="TransferitemsList" xml:space="preserve">
+    <value>قائمة المنتجات</value>
+  </data>
+  <data name="TransferTo" xml:space="preserve">
+    <value>نقل الى</value>
+  </data>
+  <data name="Waste" xml:space="preserve">
+    <value>التفليات</value>
+  </data>
+  <data name="WasteDate" xml:space="preserve">
+    <value>تاريخ التلفية</value>
+  </data>
+  <data name="WasteList" xml:space="preserve">
+    <value>قائمة التلفيات</value>
+  </data>
+  <data name="AddCombo" xml:space="preserve">
+    <value>إضافة وجبة</value>
+  </data>
+  <data name="AddModifier" xml:space="preserve">
+    <value>اضافة الخيارات</value>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>إضافة جديد</value>
+  </data>
+  <data name="AddRecipe" xml:space="preserve">
+    <value>إضافة وصفة</value>
+  </data>
+  <data name="Calories" xml:space="preserve">
+    <value>السعرات الحرارية</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>اسم الصنف</value>
+  </data>
+  <data name="Combo" xml:space="preserve">
+    <value>وجبة</value>
+  </data>
+  <data name="ComboList" xml:space="preserve">
+    <value>قائمة الوجبات</value>
+  </data>
+  <data name="ComboOptions" xml:space="preserve">
+    <value>مكونات الوجبة</value>
+  </data>
+  <data name="Combos" xml:space="preserve">
+    <value>الوجبات</value>
+  </data>
+  <data name="CostType" xml:space="preserve">
+    <value>نوع التكلفة</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>المجموعة</value>
+  </data>
+  <data name="LinkedProducts" xml:space="preserve">
+    <value>المنتجات المرتبطة</value>
+  </data>
+  <data name="Modifiable" xml:space="preserve">
+    <value>قابلة لإضافات خيارات</value>
+  </data>
+  <data name="modifierlist" xml:space="preserve">
+    <value>قائمة الخيارات</value>
+  </data>
+  <data name="ModifierOptions" xml:space="preserve">
+    <value>تعديل الخيارات</value>
+  </data>
   <data name="Modifiers" xml:space="preserve">
     <value>الخيارات</value>
   </data>
-  <data name="product" xml:space="preserve">
-    <value>المنتج</value>
+  <data name="NewCombo" xml:space="preserve">
+    <value>وجبة جديدة</value>
   </data>
-  <data name="posterminal" xml:space="preserve">
+  <data name="NewModifier" xml:space="preserve">
+    <value>إضافة خيار جديد</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>الوصفة</value>
+  </data>
+  <data name="Purchase" xml:space="preserve">
+    <value>المشتريات</value>
+  </data>
+  <data name="DailyRefund" xml:space="preserve">
+    <value>المسترجعيوميا</value>
+  </data>
+  <data name="DailySaleOrder" xml:space="preserve">
+    <value>المبيعاتيوميا</value>
+  </data>
+  <data name="PointOfSale" xml:space="preserve">
+    <value>نقاط البيع</value>
+  </data>
+  <data name="RefundList" xml:space="preserve">
+    <value>القائمة المستردة</value>
+  </data>
+  <data name="PRODUCTCATEGORIESGROUP" xml:space="preserve">
+    <value>مجموعة فئات المنتجات</value>
+  </data>
+  <data name="productcategorygrouplist" xml:space="preserve">
+    <value>قائمة مجموعة فئات المنتجات</value>
+  </data>
+  <data name="POSTerminal" xml:space="preserve">
     <value>جهاز نقطة البيع</value>
+  </data>
+  <data name="Section" xml:space="preserve">
+    <value>القسم</value>
   </data>
 </root>

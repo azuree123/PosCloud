@@ -50,12 +50,12 @@
 
                                     <div class="col-lg-offset-2 col-md-8">
                                         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1" })
-                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter State Name", @required = true, autofocus = "" } })
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = POSApp.Resources.Resource.EnterStateName, @required = true, autofocus = "" } })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-lg-offset-2 col-md-8">
                                         @Html.LabelFor(model => model.ArabicName, htmlAttributes: new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter State Name" } })
+                                        @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = POSApp.Resources.Resource.EnterStateName } })
                                         @Html.ValidationMessageFor(model => model.ArabicName, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

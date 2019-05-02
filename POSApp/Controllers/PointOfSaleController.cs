@@ -314,7 +314,7 @@ namespace POSApp.Controllers
                     name = productVm.Name + " (" + productVm.Size + ")",
                     category_id = productVm.CategoryId.ToString(),
                     price = productVm.UnitPrice.ToString(),
-                    image = ImageReturn(productVm.Image),
+                   
                     tax = productVm.TaxId==null?"0":_unitOfWork.TaxRepository.GetTaxById((int)productVm.TaxId,(int)productVm.StoreId).Rate.ToString(),
                     tax_method = "0",
                     quantity = "0",

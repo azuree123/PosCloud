@@ -5,9 +5,9 @@
 }
 <div class="mt-md pull-right">
 
-    <input type='button' id='btnP' class="btn outline-success btn-sm" value='Print' onclick='printDiv();'>
+    <input type='button' id='btnP' class="btn outline-success btn-sm" value='@POSApp.Resources.Resource.Print' onclick='printDiv();'>
     <a href="@Url.Action("CombosList", "Products")" style="flex-grow: 0">
-        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Combo List</button>
+        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.ComboList</button>
 
     </a>
 </div>
@@ -23,24 +23,24 @@
 
 
                     <tr>
-                        <th class="text-center" width="50%">Name</th>
+                        <th class="text-center" width="50%">@POSApp.Resources.Resource.name</th>
                         <td class="text-center">@Model.Name</td>
 
 
                     </tr>
                     <tr>
-                        <th class="text-center" width="50%">Barcode</th>
+                        <th class="text-center" width="50%">@POSApp.Resources.Resource.Barcode</th>
                         <td class="text-center">@Model.Barcode</td>
 
 
                     </tr>
                 <tr>
-                    <th class="text-center" width="50%">Price</th>
+                    <th class="text-center" width="50%">@POSApp.Resources.Resource.Price</th>
                     <td class="text-center">@(Model.ComboProducts.Select(a=>a.Price).Sum())</td>
                 </tr>
 
                 <tr>
-                    <th class="text-center" width="50%">Description</th>
+                    <th class="text-center" width="50%">@POSApp.Resources.Resource.Description</th>
                     <td class="text-center">@Model.Attribute</td>
 
 
@@ -53,13 +53,13 @@
         </div>
         
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <h3 class="text-center"><strong>Combo options</strong></h3>
+            <h3 class="text-center"><strong>@POSApp.Resources.Resource.ComboOptions</strong></h3>
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-center" width="40%">Name</th>
-                        <th class="text-center" width="40%">Quantity</th>
-                        <th class="text-center" width="20%">Price</th>
+                        <th class="text-center" width="40%">@POSApp.Resources.Resource.name</th>
+                        <th class="text-center" width="40%">@POSApp.Resources.Resource.Quantity</th>
+                        <th class="text-center" width="20%">@POSApp.Resources.Resource.Price</th>
                     </tr>
                 </thead>
                 <tbody>

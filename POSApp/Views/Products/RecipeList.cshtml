@@ -8,11 +8,11 @@
         <table class="table mb-none" style="width: 100%" id="datatable-default">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Ingredient</th>
-                    <th>Quantity</th>
-                    <th>Unit</th>
-                    <th>Calories</th>
+                    <th>@POSApp.Resources.Resource.ID</th>
+                    <th>@POSApp.Resources.Resource.Ingredient</th>
+                    <th>@POSApp.Resources.Resource.Quantity</th>
+                    <th>@POSApp.Resources.Resource.Unit</th>
+                    <th>@POSApp.Resources.Resource.Calories</th>
 
 
                     <th>Action</th>
@@ -31,7 +31,7 @@
                         <td>@recipe.Calories</td>
 
                         <td>
-                            @Html.ActionLink(" ", "DeleteRecipe", "Products", new { id = @recipe.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                            @Html.ActionLink(" ", "DeleteRecipe", "Products", new { id = @recipe.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
 
                         </td>
                     </tr>

@@ -47,7 +47,8 @@ namespace POSApp.Persistence.Repositories
                 CompanyName = a.Store.Client.Name,
                 Currency = a.Store.Currency,
                 RefundPin = a.RefundPin,
-                
+                ArabicCompanyName = a.ArabicName,
+                DeviceArabicName = a.ArabicName,
                 ReceiptHeader = a.ReceiptHeader,
                 ReceiptFooter = a.ReceiptFooter,
                 DeviceName = a.Name,

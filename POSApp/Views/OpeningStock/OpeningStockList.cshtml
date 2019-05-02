@@ -15,10 +15,10 @@
     <div class="col-md-12">
         <ul class="snip1189">
 
-            <li><a href="@Url.Action("InventoryItemsList","Products")">Inventory Items</a></li>
-            <li class="current"><a href="@Url.Action("OpeningStockList","OpeningStock")">Opening Stock</a></li>
+            <li><a href="@Url.Action("InventoryItemsList","Products")">@POSApp.Resources.Resource.Inventoryitems</a></li>
+            <li class="current"><a href="@Url.Action("OpeningStockList","OpeningStock")">@POSApp.Resources.Resource.OpeningStock</a></li>
           
-            <li><a href="@Url.Action("MIFDataList","SaleOrders")">Material issuance</a></li>
+            <li><a href="@Url.Action("MIFDataList","SaleOrders")">@POSApp.Resources.Resource.MaterialIssuance</a></li>
 
 
 
@@ -36,12 +36,12 @@
 
 
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Opening Stock </b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.OpeningStock </b></h3>
 
 
 
                     <a href="@Url.Action("AddOpeningStock","OpeningStock")" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Add Opening Stock</button>
+                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddopeningStock</button>
 
                     </a>
                  
@@ -85,8 +85,8 @@
                             <td>@purchaseOrder.TotalPrice</td>
                             <td>@purchaseOrder.Type</td>
                             <td>
-                                @Html.ActionLink(" ", "PreviewOpeningStock", "OpeningStock", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
-                                @Html.ActionLink(" ", "DeleteOpeningStock", "OpeningStock", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "PreviewOpeningStock", "OpeningStock", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview  })
+                                @Html.ActionLink(" ", "DeleteOpeningStock", "OpeningStock", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete , onclick = "return confirm('Are you sure?');" })
 
                             </td>
                         </tr>

@@ -16,7 +16,8 @@ namespace POSApp.Core.ViewModels
         [Required]
         [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Name { get; set; }
-        [Required]
+        [Display(Name = "ArabicName", ResourceType = typeof(Resource))]
+
         public string ArabicName { get; set; }
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Entered phone format like (abc@example.com)")]
         [Display(Name = "Email", ResourceType = typeof(Resource))]
@@ -32,6 +33,8 @@ namespace POSApp.Core.ViewModels
         public string City { get; set; }
         
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [Display(Name = "Birthday", ResourceType = typeof(Resource))]
         public DateTime Birthday { get; set; }= DateTime.Today;
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }

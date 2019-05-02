@@ -14,12 +14,12 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li><a href="@Url.Action("ProductsList","Products")">Products</a></li>
-            <li><a class="hidden" href="@Url.Action("ServicesList","Services")">Services</a></li>
-            <li><a href="@Url.Action("ModifierList","Products")">Modifiers</a></li>
-            <li class="current"><a href="#">Combo</a></li>
-            <li><a href="@Url.Action("ProductCategoryList","Products")">Product Categories</a></li>
-            <li><a href="@Url.Action("ProductCategoryGroupList","Products")">Product Categories Group</a></li>
+            <li><a href="@Url.Action("ProductsList","Products")">@POSApp.Resources.Resource.Products</a></li>
+            <li><a class="hidden" href="@Url.Action("ServicesList","Services")">@POSApp.Resources.Resource.Services</a></li>
+            <li><a href="@Url.Action("ModifierList","Products")">@POSApp.Resources.Resource.Modifiers</a></li>
+            <li class="current"><a href="#">@POSApp.Resources.Resource.Combo</a></li>
+            <li><a href="@Url.Action("ProductCategoryList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
+            <li><a href="@Url.Action("ProductCategoryGroupList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
         </ul>
         <hr />
 
@@ -30,16 +30,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Combos</b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Combos</b></h3>
 
 
 
                     <a href="@Url.Action("AddCombo", "Products")" class="" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Combo</button>
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddCombo</button>
 
                     </a>
                     <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
-                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Category List</button>
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.categorylist</button>
                     </a>
                 </div>
             </div>
@@ -53,11 +53,11 @@
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
-                        <th width="10%">ID</th>
-                        <th width="20%">Name</th>
-                        <th width="20%">Image</th>
-                        <th width="20%">Price</th>
-                        <th width="20%">Actions</th>
+                        <th width="10%">@POSApp.Resources.Resource.ID</th>
+                        <th width="20%">@POSApp.Resources.Resource.name</th>
+                        <th width="20%">@POSApp.Resources.Resource.Image</th>
+                        <th width="20%">@POSApp.Resources.Resource.Price</th>
+                        <th width="20%">@POSApp.Resources.Resource.Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,9 +84,9 @@
                         <td class="center">
                             <div class="btn-group">
 
-                                @Html.ActionLink(" ", "UpdateCombo", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteCombo", "Products", new { id = @product.ProductCode, storeId = @product.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                                @Html.ActionLink(" ", "CombosDetails", "Products", new { comboId = @product.Id }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
+                                @Html.ActionLink(" ", "UpdateCombo", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
+                                @Html.ActionLink(" ", "DeleteCombo", "Products", new { id = @product.ProductCode, storeId = @product.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete , onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "CombosDetails", "Products", new { comboId = @product.Id }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview  })
 
                             </div>
                         </td>

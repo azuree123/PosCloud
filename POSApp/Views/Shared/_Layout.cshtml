@@ -24,19 +24,20 @@
                   integrity="sha384-cSfiDrYfMj9eYCidq//oGXEkMc0vuTxHXizrMOFAaPsLt1zoCUVnSsURN+nef1lj"
                   crossorigin="anonymous">
             <style>
-                html{direction: rtl}
+                html {
+                    direction: rtl;
+                }
+
+
+
                 .picked-time-wrapper .picked-time {
                     background-position: 3% !important;
                 }
 
                 .header-right {
                     float: left !important;
-                    margin-left: 25px;
                 }
-                .togl {
-                    float: left !important;
-                    margin-left: 15px;
-                }
+
                 .logo-container {
                     float: right !important;
                 }
@@ -44,11 +45,7 @@
 
                 .header .toggle-sidebar-left {
                     right: unset !important;
-                    left: 0 !important;
-                }
-                .tgl {
-                    right: unset !important;
-                    left: 0 !important;
+                    left: 15px !important;
                 }
 
                 ul.nav-main li i {
@@ -59,13 +56,37 @@
                     text-align: center !important;
                     vertical-align: middle !important;
                 }
+
+                .sidebar-left .sidebar-header .sidebar-toggle {
+                    left: 0 !important;
+                    right: unset !important;
+                }
+                .dataTables_filter {
+                    float: left !important;
+                }
+                .dataTables_length {
+                    float: right;
+                }
+                .navbar-right {
+                    margin-left: 10px !important;
+                }
+               
+               
+                .togl {
+                    float: left !important;
+                    margin-left: 15px;
+                }
+               
+                .tgl {
+                    right: unset !important;
+                    left: 0 !important;
+                }
+
+               
                 .cos {
                     margin-right: auto;
                 }
-                input-group-addon {
-                    border-bottom-right-radius: 0 !important;
-                    border-top-right-radius: 0 !important;
-                }
+                
             </style>
         }
         else
@@ -112,12 +133,7 @@
                 <div class="header-right">
 
                     <form action="pages-search-results.html" class="search nav-form">
-                        @*<div class="input-group input-search">
-                                    <input type="text" class="form-control" name="q" id="q" placeholder="Search...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>*@
+                       
                     </form>
 
 
@@ -155,18 +171,18 @@
                         <div class="nano">
                             <div class="nano-content">
                                 <nav id="menu" class="nav-main" role="navigation">
-                                    <ul class="nav nav-main">
-                                        <li class="nav-active">
+                                    <ul class="nav nav-main ">
+                                        <li >
                                             <a href="@Url.Action("Index","Home")">
                                                 <i class="fa fa-home" aria-hidden="true"></i>
                                                 <span> @POSApp.Resources.Resource.Dashboard </span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li >
                                             <a href="@Url.Action("Index","PointOfSale")">
                                                 <i class="fa fa-desktop " aria-hidden="true"></i>
 
-                                                <span>Point Of Sale</span>
+                                                <span>@POSApp.Resources.Resource.PointOfSale</span>
 
                                             </a>
 
@@ -184,7 +200,7 @@
                                         <li>
                                             <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")">
                                                 <i class="fa fa-shopping-cart " aria-hidden="true"></i>
-                                                <span>@POSApp.Resources.Resource.PurchaseOrder</span>
+                                                <span>@POSApp.Resources.Resource.purchaseorders</span>
                                             </a>
 
                                         </li>
@@ -340,7 +356,7 @@
         //        e.preventDefault();
         //    });
         //});
-
+        
 
 
         $('html').bind('keypress', function (e) {
@@ -353,8 +369,35 @@
                 e.preventDefault();
             }
         });
+        //var header = document.getElementsByClassName("nav");
+        //var btns = header[0].getElementsByTagName("li");
+        //for (var i = 0; i < btns.length; i++) {
+        //    btns[i].addEventListener("click", function () {
+        //        debugger;
+        //        var current = document.getElementsByClassName("nav-active");
+        //        if (current.length > 0) { 
+        //            current[0].className = current[0].className.replace(" nav-active", "");
+        //        }
+        //        this.className += " nav-active";
+        //    });
+        //}
+        var currentPath = window.location.pathname;
+        $(".nav li a[href='" + currentPath + "']").parent().addClass("nav-active");
     </script>
-
+<script>
+    var url = '@Url.Action("ChangeLanguage", "Home")';
+    $('.setculture').click(function (e) {
+        e.preventDefault();
+        $.get(this.href, function(data) {
+            if (data) {
+                location.reload();
+            } else {
+                alert('Change Language Failed');
+            }
+        });
+        
+    });
+</script>
 
 </body>
 </html>

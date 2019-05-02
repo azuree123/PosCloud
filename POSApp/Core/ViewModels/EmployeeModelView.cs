@@ -13,7 +13,8 @@ namespace POSApp.Core.ViewModels
         public int? StoreId { get; set; }
         [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Name { get; set; }
-        
+        [Display(Name = "ArabicName", ResourceType = typeof(Resource))]
+
         public string ArabicName { get; set; }
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Entered email format like (waqar@example.com)")]
         [Display(Name = "Email", ResourceType = typeof(Resource))]

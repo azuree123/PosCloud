@@ -97,11 +97,29 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Combo.
+        /// </summary>
+        public static string AddCombo {
+            get {
+                return ResourceManager.GetString("AddCombo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Customer.
         /// </summary>
         public static string AddCustomer {
             get {
                 return ResourceManager.GetString("AddCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Damage.
+        /// </summary>
+        public static string Adddamage {
+            get {
+                return ResourceManager.GetString("Adddamage", resourceCulture);
             }
         }
         
@@ -133,6 +151,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Discounts/Timed Events.
+        /// </summary>
+        public static string AddDiscountsandTimedEvents {
+            get {
+                return ResourceManager.GetString("AddDiscountsandTimedEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Employee.
         /// </summary>
         public static string AddEmployee {
@@ -151,11 +178,92 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Expense Head.
+        /// </summary>
+        public static string AddExpenseHead {
+            get {
+                return ResourceManager.GetString("AddExpenseHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Expiry.
+        /// </summary>
+        public static string AddExpiry {
+            get {
+                return ResourceManager.GetString("AddExpiry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Inventory items.
+        /// </summary>
+        public static string AddInventoryitems {
+            get {
+                return ResourceManager.GetString("AddInventoryitems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Modifier.
+        /// </summary>
+        public static string AddModifier {
+            get {
+                return ResourceManager.GetString("AddModifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add New.
+        /// </summary>
+        public static string AddNew {
+            get {
+                return ResourceManager.GetString("AddNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Opening Stock.
+        /// </summary>
+        public static string AddopeningStock {
+            get {
+                return ResourceManager.GetString("AddopeningStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add OtherIn.
+        /// </summary>
+        public static string AddOtherIn {
+            get {
+                return ResourceManager.GetString("AddOtherIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add OtherOut.
+        /// </summary>
+        public static string AddOtherOut {
+            get {
+                return ResourceManager.GetString("AddOtherOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Product.
         /// </summary>
         public static string AddProduct {
             get {
                 return ResourceManager.GetString("AddProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Promotions.
+        /// </summary>
+        public static string AddPromotions {
+            get {
+                return ResourceManager.GetString("AddPromotions", resourceCulture);
             }
         }
         
@@ -169,11 +277,47 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Purchasing.
+        /// </summary>
+        public static string AddPurchasing {
+            get {
+                return ResourceManager.GetString("AddPurchasing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Recipe.
+        /// </summary>
+        public static string AddRecipe {
+            get {
+                return ResourceManager.GetString("AddRecipe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Address {
             get {
                 return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Role.
+        /// </summary>
+        public static string AddRole {
+            get {
+                return ResourceManager.GetString("AddRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add security object .
+        /// </summary>
+        public static string addsecurityobject {
+            get {
+                return ResourceManager.GetString("addsecurityobject", resourceCulture);
             }
         }
         
@@ -192,6 +336,24 @@ namespace POSApp.Resources {
         public static string addsize {
             get {
                 return ResourceManager.GetString("addsize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add StockIn.
+        /// </summary>
+        public static string AddStockIn {
+            get {
+                return ResourceManager.GetString("AddStockIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Stock Taking.
+        /// </summary>
+        public static string AddStockTaking {
+            get {
+                return ResourceManager.GetString("AddStockTaking", resourceCulture);
             }
         }
         
@@ -232,6 +394,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Waste.
+        /// </summary>
+        public static string AddWaste {
+            get {
+                return ResourceManager.GetString("AddWaste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Agent income.
         /// </summary>
         public static string Agentincome {
@@ -268,6 +439,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Arabic Name.
+        /// </summary>
+        public static string ArabicName {
+            get {
+                return ResourceManager.GetString("ArabicName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attribute.
         /// </summary>
         public static string Attribute {
@@ -300,6 +480,15 @@ namespace POSApp.Resources {
         public static string BasicData {
             get {
                 return ResourceManager.GetString("BasicData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Birthday.
+        /// </summary>
+        public static string Birthday {
+            get {
+                return ResourceManager.GetString("Birthday", resourceCulture);
             }
         }
         
@@ -345,6 +534,24 @@ namespace POSApp.Resources {
         public static string Brand {
             get {
                 return ResourceManager.GetString("Brand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bussiness Start Time.
+        /// </summary>
+        public static string BussinessStartTime {
+            get {
+                return ResourceManager.GetString("BussinessStartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Calories.
+        /// </summary>
+        public static string Calories {
+            get {
+                return ResourceManager.GetString("Calories", resourceCulture);
             }
         }
         
@@ -403,6 +610,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Category Name.
+        /// </summary>
+        public static string CategoryName {
+            get {
+                return ResourceManager.GetString("CategoryName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose File.
         /// </summary>
         public static string ChooseFile {
@@ -453,6 +669,42 @@ namespace POSApp.Resources {
         public static string Color {
             get {
                 return ResourceManager.GetString("Color", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Combo.
+        /// </summary>
+        public static string Combo {
+            get {
+                return ResourceManager.GetString("Combo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Combo List.
+        /// </summary>
+        public static string ComboList {
+            get {
+                return ResourceManager.GetString("ComboList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Combo Options.
+        /// </summary>
+        public static string ComboOptions {
+            get {
+                return ResourceManager.GetString("ComboOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Combos.
+        /// </summary>
+        public static string Combos {
+            get {
+                return ResourceManager.GetString("Combos", resourceCulture);
             }
         }
         
@@ -520,6 +772,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CostType.
+        /// </summary>
+        public static string CostType {
+            get {
+                return ResourceManager.GetString("CostType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CountryOfOrigin.
         /// </summary>
         public static string CountryOfOrigin {
@@ -556,11 +817,29 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Currency.
+        /// </summary>
+        public static string Currency {
+            get {
+                return ResourceManager.GetString("Currency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer.
         /// </summary>
         public static string Customer {
             get {
                 return ResourceManager.GetString("Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CustomerName.
+        /// </summary>
+        public static string CustomerName {
+            get {
+                return ResourceManager.GetString("CustomerName", resourceCulture);
             }
         }
         
@@ -601,11 +880,56 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Daily Refunds.
+        /// </summary>
+        public static string DailyRefund {
+            get {
+                return ResourceManager.GetString("DailyRefund", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Daily SaleOrders.
+        /// </summary>
+        public static string DailySaleOrder {
+            get {
+                return ResourceManager.GetString("DailySaleOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Daily Sales.
         /// </summary>
         public static string DailySales {
             get {
                 return ResourceManager.GetString("DailySales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Damage.
+        /// </summary>
+        public static string Damage {
+            get {
+                return ResourceManager.GetString("Damage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Damage Date.
+        /// </summary>
+        public static string Damagedate {
+            get {
+                return ResourceManager.GetString("Damagedate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Damage List.
+        /// </summary>
+        public static string DamageList {
+            get {
+                return ResourceManager.GetString("DamageList", resourceCulture);
             }
         }
         
@@ -633,6 +957,15 @@ namespace POSApp.Resources {
         public static string Date {
             get {
                 return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date &amp; time.
+        /// </summary>
+        public static string Dateandtime {
+            get {
+                return ResourceManager.GetString("Dateandtime", resourceCulture);
             }
         }
         
@@ -754,6 +1087,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discounts.
+        /// </summary>
+        public static string Discounts {
+            get {
+                return ResourceManager.GetString("Discounts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Downloaded Date.
         /// </summary>
         public static string DownloadedDate {
@@ -790,6 +1132,24 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Device.
+        /// </summary>
+        public static string EditDevice {
+            get {
+                return ResourceManager.GetString("EditDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Expense.
+        /// </summary>
+        public static string EditExpense {
+            get {
+                return ResourceManager.GetString("EditExpense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Email {
@@ -808,6 +1168,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee Commission.
+        /// </summary>
+        public static string EmployeeCommission {
+            get {
+                return ResourceManager.GetString("EmployeeCommission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EmployeeId.
         /// </summary>
         public static string EmployeeId {
@@ -822,6 +1191,15 @@ namespace POSApp.Resources {
         public static string Employees {
             get {
                 return ResourceManager.GetString("Employees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employees Income.
+        /// </summary>
+        public static string EmployeesIncome {
+            get {
+                return ResourceManager.GetString("EmployeesIncome", resourceCulture);
             }
         }
         
@@ -979,7 +1357,7 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter Password.
+        ///   Looks up a localized string similar to  Enter Password.
         /// </summary>
         public static string EnterPassword {
             get {
@@ -1011,6 +1389,24 @@ namespace POSApp.Resources {
         public static string EnterStateName {
             get {
                 return ResourceManager.GetString("EnterStateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to etc.
+        /// </summary>
+        public static string etc {
+            get {
+                return ResourceManager.GetString("etc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exchange Pin.
+        /// </summary>
+        public static string ExchangePin {
+            get {
+                return ResourceManager.GetString("ExchangePin", resourceCulture);
             }
         }
         
@@ -1069,6 +1465,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expense List.
+        /// </summary>
+        public static string ExpenseList {
+            get {
+                return ResourceManager.GetString("ExpenseList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expenses.
         /// </summary>
         public static string Expenses {
@@ -1087,11 +1492,56 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expiry.
+        /// </summary>
+        public static string Expiry {
+            get {
+                return ResourceManager.GetString("Expiry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiry Date.
+        /// </summary>
+        public static string ExpiryDate {
+            get {
+                return ResourceManager.GetString("ExpiryDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiry list.
+        /// </summary>
+        public static string Expirylist {
+            get {
+                return ResourceManager.GetString("Expirylist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exporting.
         /// </summary>
         public static string Exporting {
             get {
                 return ResourceManager.GetString("Exporting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exporting Reports.
+        /// </summary>
+        public static string ExportingReports {
+            get {
+                return ResourceManager.GetString("ExportingReports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fixed Price.
+        /// </summary>
+        public static string FixedPrice {
+            get {
+                return ResourceManager.GetString("FixedPrice", resourceCulture);
             }
         }
         
@@ -1110,6 +1560,15 @@ namespace POSApp.Resources {
         public static string Friday {
             get {
                 return ResourceManager.GetString("Friday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From.
+        /// </summary>
+        public static string From {
+            get {
+                return ResourceManager.GetString("From", resourceCulture);
             }
         }
         
@@ -1137,6 +1596,15 @@ namespace POSApp.Resources {
         public static string GenerateReport {
             get {
                 return ResourceManager.GetString("GenerateReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group.
+        /// </summary>
+        public static string Group {
+            get {
+                return ResourceManager.GetString("Group", resourceCulture);
             }
         }
         
@@ -1177,6 +1645,24 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ingredient.
+        /// </summary>
+        public static string Ingredient {
+            get {
+                return ResourceManager.GetString("Ingredient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ingredient Unit.
+        /// </summary>
+        public static string IngredientUnit {
+            get {
+                return ResourceManager.GetString("IngredientUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Login Attempt.
         /// </summary>
         public static string invalidloginattempt {
@@ -1200,6 +1686,15 @@ namespace POSApp.Resources {
         public static string inventorycontrol {
             get {
                 return ResourceManager.GetString("inventorycontrol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory items.
+        /// </summary>
+        public static string Inventoryitems {
+            get {
+                return ResourceManager.GetString("Inventoryitems", resourceCulture);
             }
         }
         
@@ -1249,11 +1744,47 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invoice Gross.
+        /// </summary>
+        public static string InvoiceGross {
+            get {
+                return ResourceManager.GetString("InvoiceGross", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invoice Tax.
+        /// </summary>
+        public static string InvoiceTax {
+            get {
+                return ResourceManager.GetString("InvoiceTax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invoice Total.
+        /// </summary>
+        public static string InvoiceTotal {
+            get {
+                return ResourceManager.GetString("InvoiceTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IsActive.
         /// </summary>
         public static string IsActive {
             get {
                 return ResourceManager.GetString("IsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IsFixedPrice.
+        /// </summary>
+        public static string IsFixedPrice {
+            get {
+                return ResourceManager.GetString("IsFixedPrice", resourceCulture);
             }
         }
         
@@ -1312,6 +1843,24 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Items.
+        /// </summary>
+        public static string Items {
+            get {
+                return ResourceManager.GetString("Items", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Join Date.
+        /// </summary>
+        public static string JoinDate {
+            get {
+                return ResourceManager.GetString("JoinDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Joining Date.
         /// </summary>
         public static string JoiningDate {
@@ -1339,6 +1888,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Linked Products.
+        /// </summary>
+        public static string LinkedProducts {
+            get {
+                return ResourceManager.GetString("LinkedProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Locations sales.
         /// </summary>
         public static string Locationssales {
@@ -1353,6 +1911,15 @@ namespace POSApp.Resources {
         public static string LOGIN {
             get {
                 return ResourceManager.GetString("LOGIN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material Issuance.
+        /// </summary>
+        public static string MaterialIssuance {
+            get {
+                return ResourceManager.GetString("MaterialIssuance", resourceCulture);
             }
         }
         
@@ -1375,6 +1942,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Miscellaneous.
+        /// </summary>
+        public static string Miscellaneous {
+            get {
+                return ResourceManager.GetString("Miscellaneous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Miscellaneous Report.
         /// </summary>
         public static string MiscellaneousReport {
@@ -1389,6 +1965,33 @@ namespace POSApp.Resources {
         public static string MobileNumber {
             get {
                 return ResourceManager.GetString("MobileNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modifiable.
+        /// </summary>
+        public static string Modifiable {
+            get {
+                return ResourceManager.GetString("Modifiable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to modifier list.
+        /// </summary>
+        public static string modifierlist {
+            get {
+                return ResourceManager.GetString("modifierlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modifier Options.
+        /// </summary>
+        public static string ModifierOptions {
+            get {
+                return ResourceManager.GetString("ModifierOptions", resourceCulture);
             }
         }
         
@@ -1438,6 +2041,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Salary/Month.
+        /// </summary>
+        public static string Monthlysalary {
+            get {
+                return ResourceManager.GetString("Monthlysalary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monthly Sales:.
         /// </summary>
         public static string MonthlySales {
@@ -1465,11 +2077,47 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Combo.
+        /// </summary>
+        public static string NewCombo {
+            get {
+                return ResourceManager.GetString("NewCombo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Modifier.
+        /// </summary>
+        public static string NewModifier {
+            get {
+                return ResourceManager.GetString("NewModifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Opening Stock.
+        /// </summary>
+        public static string NewOpeningStock {
+            get {
+                return ResourceManager.GetString("NewOpeningStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Promotion.
+        /// </summary>
+        public static string NewPromotion {
+            get {
+                return ResourceManager.GetString("NewPromotion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Purchase Order.
         /// </summary>
-        public static string NewPurchaseOrder {
+        public static string NewPurchaseOrdar {
             get {
-                return ResourceManager.GetString("NewPurchaseOrder", resourceCulture);
+                return ResourceManager.GetString("NewPurchaseOrdar", resourceCulture);
             }
         }
         
@@ -1519,6 +2167,33 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Opening Stock.
+        /// </summary>
+        public static string OpeningStock {
+            get {
+                return ResourceManager.GetString("OpeningStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opening Stock Date.
+        /// </summary>
+        public static string OpeningStockDate {
+            get {
+                return ResourceManager.GetString("OpeningStockDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opening Stock List.
+        /// </summary>
+        public static string OpeningStockList {
+            get {
+                return ResourceManager.GetString("OpeningStockList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OperationDate.
         /// </summary>
         public static string OperationDate {
@@ -1560,6 +2235,60 @@ namespace POSApp.Resources {
         public static string ordertypesales {
             get {
                 return ResourceManager.GetString("ordertypesales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other In.
+        /// </summary>
+        public static string OtherIn {
+            get {
+                return ResourceManager.GetString("OtherIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OtherIn Date.
+        /// </summary>
+        public static string OtherInDate {
+            get {
+                return ResourceManager.GetString("OtherInDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other In List.
+        /// </summary>
+        public static string OtherInList {
+            get {
+                return ResourceManager.GetString("OtherInList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other out.
+        /// </summary>
+        public static string Otherout {
+            get {
+                return ResourceManager.GetString("Otherout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OtherOut Date.
+        /// </summary>
+        public static string OtherOutDate {
+            get {
+                return ResourceManager.GetString("OtherOutDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OtherOut List.
+        /// </summary>
+        public static string OtherOutList {
+            get {
+                return ResourceManager.GetString("OtherOutList", resourceCulture);
             }
         }
         
@@ -1636,6 +2365,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Point Of Sale.
+        /// </summary>
+        public static string PointOfSale {
+            get {
+                return ResourceManager.GetString("PointOfSale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to POS Cloud.
         /// </summary>
         public static string POSCloud {
@@ -1647,9 +2385,18 @@ namespace POSApp.Resources {
         /// <summary>
         ///   Looks up a localized string similar to POS Terminal.
         /// </summary>
-        public static string posterminal {
+        public static string POSTerminal {
             get {
-                return ResourceManager.GetString("posterminal", resourceCulture);
+                return ResourceManager.GetString("POSTerminal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PrchaseOrder.
+        /// </summary>
+        public static string PrchaseOrder {
+            get {
+                return ResourceManager.GetString("PrchaseOrder", resourceCulture);
             }
         }
         
@@ -1690,20 +2437,29 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Product.
-        /// </summary>
-        public static string product {
-            get {
-                return ResourceManager.GetString("product", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to PRODUCT CATEGORIES.
         /// </summary>
         public static string PRODUCTCATEGORIES {
             get {
                 return ResourceManager.GetString("PRODUCTCATEGORIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product Category Group.
+        /// </summary>
+        public static string PRODUCTCATEGORIESGROUP {
+            get {
+                return ResourceManager.GetString("PRODUCTCATEGORIESGROUP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product Category Group List.
+        /// </summary>
+        public static string productcategorygrouplist {
+            get {
+                return ResourceManager.GetString("productcategorygrouplist", resourceCulture);
             }
         }
         
@@ -1870,11 +2626,65 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Purchase Order.
+        ///   Looks up a localized string similar to Promotion Details.
         /// </summary>
-        public static string PurchaseOrder {
+        public static string PromotionDetails {
             get {
-                return ResourceManager.GetString("PurchaseOrder", resourceCulture);
+                return ResourceManager.GetString("PromotionDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Promotion List.
+        /// </summary>
+        public static string PromotionList {
+            get {
+                return ResourceManager.GetString("PromotionList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Promotions.
+        /// </summary>
+        public static string Promotions {
+            get {
+                return ResourceManager.GetString("Promotions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Promotions Cost.
+        /// </summary>
+        public static string PromotionsCost {
+            get {
+                return ResourceManager.GetString("PromotionsCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Promotions Options.
+        /// </summary>
+        public static string PromotionsOptions {
+            get {
+                return ResourceManager.GetString("PromotionsOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Promotion TimelyS ales.
+        /// </summary>
+        public static string PromotionTimelySales {
+            get {
+                return ResourceManager.GetString("PromotionTimelySales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Purchase.
+        /// </summary>
+        public static string Purchase {
+            get {
+                return ResourceManager.GetString("Purchase", resourceCulture);
             }
         }
         
@@ -1924,6 +2734,51 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Purchase to Storage Factor.
+        /// </summary>
+        public static string PurchasetoStorageFactor {
+            get {
+                return ResourceManager.GetString("PurchasetoStorageFactor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Purchase Unit.
+        /// </summary>
+        public static string PurchaseUnit {
+            get {
+                return ResourceManager.GetString("PurchaseUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Purchasing.
+        /// </summary>
+        public static string Purchasing {
+            get {
+                return ResourceManager.GetString("Purchasing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Purchasing Date.
+        /// </summary>
+        public static string PurchasingDate {
+            get {
+                return ResourceManager.GetString("PurchasingDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Purchasing List.
+        /// </summary>
+        public static string PurchasingList {
+            get {
+                return ResourceManager.GetString("PurchasingList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quantity.
         /// </summary>
         public static string Quantity {
@@ -1942,6 +2797,69 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Receipt Footer.
+        /// </summary>
+        public static string ReceiptFooter {
+            get {
+                return ResourceManager.GetString("ReceiptFooter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Receipt Header.
+        /// </summary>
+        public static string ReceiptHeader {
+            get {
+                return ResourceManager.GetString("ReceiptHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recipe.
+        /// </summary>
+        public static string Recipe {
+            get {
+                return ResourceManager.GetString("Recipe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refund.
+        /// </summary>
+        public static string Refund {
+            get {
+                return ResourceManager.GetString("Refund", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refund Details.
+        /// </summary>
+        public static string RefundDetails {
+            get {
+                return ResourceManager.GetString("RefundDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refund List.
+        /// </summary>
+        public static string RefundList {
+            get {
+                return ResourceManager.GetString("RefundList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refund Pin.
+        /// </summary>
+        public static string RefundPin {
+            get {
+                return ResourceManager.GetString("RefundPin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remarks.
         /// </summary>
         public static string Remarks {
@@ -1956,6 +2874,51 @@ namespace POSApp.Resources {
         public static string Reports {
             get {
                 return ResourceManager.GetString("Reports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roles.
+        /// </summary>
+        public static string Roles {
+            get {
+                return ResourceManager.GetString("Roles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salary.
+        /// </summary>
+        public static string Salary {
+            get {
+                return ResourceManager.GetString("Salary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sale Id.
+        /// </summary>
+        public static string Saleid {
+            get {
+                return ResourceManager.GetString("Saleid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sale Order Details.
+        /// </summary>
+        public static string SaleOrderDetails {
+            get {
+                return ResourceManager.GetString("SaleOrderDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sale Order List.
+        /// </summary>
+        public static string SaleOrderList {
+            get {
+                return ResourceManager.GetString("SaleOrderList", resourceCulture);
             }
         }
         
@@ -2023,6 +2986,24 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Section.
+        /// </summary>
+        public static string Section {
+            get {
+                return ResourceManager.GetString("Section", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security Objects.
+        /// </summary>
+        public static string SecurityObjects {
+            get {
+                return ResourceManager.GetString("SecurityObjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select All.
         /// </summary>
         public static string SelectAll {
@@ -2059,6 +3040,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Gender.
+        /// </summary>
+        public static string SelectGender {
+            get {
+                return ResourceManager.GetString("SelectGender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to semi finished item cost.
         /// </summary>
         public static string semifinisheditemcost {
@@ -2077,11 +3067,56 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Service Cost.
+        /// </summary>
+        public static string ServiceCost {
+            get {
+                return ResourceManager.GetString("ServiceCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service Details.
+        /// </summary>
+        public static string ServiceDetails {
+            get {
+                return ResourceManager.GetString("ServiceDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Services.
         /// </summary>
         public static string Services {
             get {
                 return ResourceManager.GetString("Services", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service Sales.
+        /// </summary>
+        public static string ServiceSales {
+            get {
+                return ResourceManager.GetString("ServiceSales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service Timely Sales.
+        /// </summary>
+        public static string ServiceTimelySales {
+            get {
+                return ResourceManager.GetString("ServiceTimelySales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
         
@@ -2131,11 +3166,38 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Signature.
+        /// </summary>
+        public static string Signature {
+            get {
+                return ResourceManager.GetString("Signature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to size.
         /// </summary>
         public static string size {
             get {
                 return ResourceManager.GetString("size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size and Duration.
+        /// </summary>
+        public static string SizeAndDuration {
+            get {
+                return ResourceManager.GetString("SizeAndDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sizes and Prices.
+        /// </summary>
+        public static string SizesandPrices {
+            get {
+                return ResourceManager.GetString("SizesandPrices", resourceCulture);
             }
         }
         
@@ -2176,11 +3238,83 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to StockIn.
+        /// </summary>
+        public static string StockIn {
+            get {
+                return ResourceManager.GetString("StockIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StockIn Date.
+        /// </summary>
+        public static string StockInDate {
+            get {
+                return ResourceManager.GetString("StockInDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StockIn List.
+        /// </summary>
+        public static string StockInList {
+            get {
+                return ResourceManager.GetString("StockInList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stock Taking.
         /// </summary>
         public static string stocktaking {
             get {
                 return ResourceManager.GetString("stocktaking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stock  Taking Date.
+        /// </summary>
+        public static string StockTakingDate {
+            get {
+                return ResourceManager.GetString("StockTakingDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stock Taking List.
+        /// </summary>
+        public static string StockTakingList {
+            get {
+                return ResourceManager.GetString("StockTakingList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storage.
+        /// </summary>
+        public static string Storage {
+            get {
+                return ResourceManager.GetString("Storage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storage Unit.
+        /// </summary>
+        public static string StorageUnit {
+            get {
+                return ResourceManager.GetString("StorageUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SubTotal.
+        /// </summary>
+        public static string SubTotal {
+            get {
+                return ResourceManager.GetString("SubTotal", resourceCulture);
             }
         }
         
@@ -2248,6 +3382,15 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Terms and conditions.
+        /// </summary>
+        public static string Termsandconditions {
+            get {
+                return ResourceManager.GetString("Termsandconditions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thursday.
         /// </summary>
         public static string Thursday {
@@ -2302,11 +3445,29 @@ namespace POSApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To.
+        /// </summary>
+        public static string To {
+            get {
+                return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To Hour.
         /// </summary>
         public static string ToHour {
             get {
                 return ResourceManager.GetString("ToHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        public static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
             }
         }
         
@@ -2361,6 +3522,42 @@ namespace POSApp.Resources {
         public static string Transactions {
             get {
                 return ResourceManager.GetString("Transactions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transfer.
+        /// </summary>
+        public static string Transfer {
+            get {
+                return ResourceManager.GetString("Transfer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transfer Items.
+        /// </summary>
+        public static string TransferItems {
+            get {
+                return ResourceManager.GetString("TransferItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transfer Items List.
+        /// </summary>
+        public static string TransferitemsList {
+            get {
+                return ResourceManager.GetString("TransferitemsList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transfer To.
+        /// </summary>
+        public static string TransferTo {
+            get {
+                return ResourceManager.GetString("TransferTo", resourceCulture);
             }
         }
         
@@ -2496,6 +3693,33 @@ namespace POSApp.Resources {
         public static string warehouse {
             get {
                 return ResourceManager.GetString("warehouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waste.
+        /// </summary>
+        public static string Waste {
+            get {
+                return ResourceManager.GetString("Waste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waste Date.
+        /// </summary>
+        public static string WasteDate {
+            get {
+                return ResourceManager.GetString("WasteDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waste List.
+        /// </summary>
+        public static string WasteList {
+            get {
+                return ResourceManager.GetString("WasteList", resourceCulture);
             }
         }
         

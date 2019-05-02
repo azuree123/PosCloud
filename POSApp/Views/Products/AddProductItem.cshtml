@@ -16,20 +16,7 @@
 }, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @*<div class="modal-dialog modal-block-md">
-        <div class="modal-content ">
-            <div class="modal-header modalheader">
 
-                <button type="button" class="close modalheader" data-dismiss="modal">×</button>
-
-                <h4 class="modal-title">
-                    Add Item
-                </h4>
-
-
-
-            </div>
-            <div class="modal-body">*@
     <div class="panel panel-bd lobidrag">
         <div class="panel-body">
             <div class="">
@@ -41,10 +28,10 @@
                     <div class="col-md-offset-1 col-md-3">
                         <div class="form-group">
                             <label class="control-label">
-                                Size 
+                                @POSApp.Resources.Resource.size
                             </label>
                            
-                                <input class="form-control" id="size" type="text" required="" name="size" placeholder="Size" />
+                                <input class="form-control" id="size" type="text" required="" name="size" placeholder="@POSApp.Resources.Resource.size" />
 
 
                             
@@ -55,10 +42,10 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">
-                                Price
+                                @POSApp.Resources.Resource.Price
                             </label>
                            
-                                <input class="form-control" id="price" type="number" min="1" required="" name="price" placeholder="Price" />
+                                <input class="form-control" id="price" type="number" min="1" required="" name="price" placeholder="@POSApp.Resources.Resource.Price" />
 
                                 
 
@@ -69,10 +56,10 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">
-                                Barcode
+                                @POSApp.Resources.Resource.Barcode
                             </label>
                            
-                            <input class="form-control" id="barcode" type="text" name="barcode" placeholder="Barcode" />
+                            <input class="form-control" id="barcode" type="text" name="barcode" placeholder="@POSApp.Resources.Resource.Barcode" />
 
                                 
 

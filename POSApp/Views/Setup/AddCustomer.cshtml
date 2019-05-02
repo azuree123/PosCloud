@@ -60,12 +60,12 @@
                                 <div class="form-group">
                                     <div class="col-md-4">
                                         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1" })
-                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", @required = true, autofocus = "" } })
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterName, @required = true, autofocus = "" } })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-4">
                                         @Html.LabelFor(model => model.ArabicName, htmlAttributes: new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name" } })
+                                        @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterName } })
                                         @Html.ValidationMessageFor(model => model.ArabicName, "", new { @class = "text-danger" })
                                     </div>
 
@@ -93,12 +93,12 @@
                                                 if (Global.GetLang().Contains("Ar"))
                                                 {
 
-                                                    <hijri-date-picker input-name="DownloadedDate" selected-date="@Model.Birthday.ToString("yyyy/MM/dd")" class-name="form-control" date-format="iYYYY/iMM/iDD"></hijri-date-picker>
+                                                    <hijri-date-picker input-name="Birthday" selected-date="@Model.Birthday.ToString("yyyy/MM/dd")" class-name="form-control" date-format="iYYYY/iMM/iDD"></hijri-date-picker>
                                                 }
                                                 else
                                                 {
 
-                                                    @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control unstyled", @required = "true" } })
+                                                    @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control unstyled", @required = "true", type="date" } })
 
                                                     <input type="hidden" id="birthday_date" value="@Model.Birthday" />
                                                     <script>
@@ -127,7 +127,7 @@
                                     
                                     <div class="col-md-4">
                                         @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter City" } })
+                                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterCityName } })
                                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -136,12 +136,12 @@
                                 <div class="form-group">
                                     <div class="col-md-4">
                                         @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter State" } })
+                                        @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterStateName } })
                                         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-4">
                                         @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
-                                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @rows = "3", @placeholder = "Enter Address" })
+                                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @rows = "3", @placeholder = @POSApp.Resources.Resource.EnterAddress })
                                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

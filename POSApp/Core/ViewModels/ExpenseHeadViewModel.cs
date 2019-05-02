@@ -10,7 +10,8 @@ namespace POSApp.Core.ViewModels
         public int? StoreId { get; set; }
         [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Name { get; set; }
-        
+        [Display(Name = "ArabicName", ResourceType = typeof(Resource))]
+
         public string ArabicName { get; set; }
         [Display(Name = "Details", ResourceType = typeof(Resource))]
         public string Details { get; set; }

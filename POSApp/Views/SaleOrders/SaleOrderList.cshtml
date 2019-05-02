@@ -9,12 +9,7 @@
     <div class="col-md-12">
         <ul class="snip1189">
             <li class="current"><a href="#"> @POSApp.Resources.Resource.SalesOrder</a></li>
-            <li><a href="@Url.Action("RefundList","SaleOrders")">Refund</a></li>
-
-
-            @*<li><a href="@Url.Action("ProductCategoryList","Products")">Product Categories</a></li>
-        <li><a href="@Url.Action("ProductCategoryGroupList","Products")">Product Categories Group</a></li>*@
-
+            <li><a href="@Url.Action("RefundList","SaleOrders")">@POSApp.Resources.Resource.Refund</a></li>
 
         </ul>
         <hr />
@@ -114,7 +109,7 @@
                    
                 {
                     "data": "Id", "autoWidth": true, render: function (data, type, full, meta) {
-                        return '<span data-toggle="tooltip" title="Preview !"   class=" btn btn-default text-default btn-sm fa fa-eye  "   onclick="DisplayDetails(' + data +')"  ></span>';
+                        return '<span data-toggle="tooltip" title=@POSApp.Resources.Resource.Preview   class=" btn btn-default text-default btn-sm fa fa-eye  "   onclick="DisplayDetails(' + data +')"  ></span>';
                     }
                 }
 

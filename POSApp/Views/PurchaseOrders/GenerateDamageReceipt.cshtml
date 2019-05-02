@@ -49,9 +49,9 @@
 </style>
 <div class="mt-md pull-right">
 
-    <input type='button' id='btnP' class="btn outline-success btn-sm" value='Print' onclick='printDiv();'>
+    <input type='button' id='btnP' class="btn outline-success btn-sm" value='@POSApp.Resources.Resource.Print' onclick='printDiv();'>
     <a href="@Url.Action("DamageList", "PurchaseOrders")" style="flex-grow: 0">
-        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Damage List</button>
+        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.DamageList</button>
 
     </a>
 </div>
@@ -71,11 +71,11 @@
                     </div>
                     <div class="col-md-9 col-sm-9 col-xs-9">
                         <p class="m-none">
-                            DATE : <strong>@Model.TransMasterViewModel.TransDate</strong>
+                            @POSApp.Resources.Resource.Date : <strong>@Model.TransMasterViewModel.TransDate</strong>
 
                         </p>
                         <p class="m-none">
-                            TIME : <strong>@Model.TransMasterViewModel.TransTime</strong>
+                            @POSApp.Resources.Resource.Time : <strong>@Model.TransMasterViewModel.TransTime</strong>
 
                         </p>
 
@@ -97,10 +97,10 @@
             <table class="table table-striped table-responsive">
                 <thead>
                     <tr>
-                        <th width="50%" class="text-left">ITEMS</th>
-                        <th width="20%">QUANTITY</th>
+                        <th width="50%" class="text-left">@POSApp.Resources.Resource.Items</th>
+                        <th width="20%">@POSApp.Resources.Resource.Quantity</th>
                        
-                        <th width="25%" class="text-right">PRICE</th>
+                        <th width="25%" class="text-right">@POSApp.Resources.Resource.Price</th>
 
                     </tr>
                 </thead>
@@ -126,7 +126,7 @@
                             <br />
                             <br />
                             <br />
-                            <h4 class="text-left mt-none text-weight-bold">TERMS AND CONDITIONS</h4>
+                            <h4 class="text-left mt-none text-weight-bold">@POSApp.Resources.Resource.Termsandconditions</h4>
                             <p class="text-left conditions text-justify">
                                 Each Purchase Order placed by buyer for goods and/or services is subject to these standard purchase terms and the terms of the applicable Purchase Order, and is conditional upon Supplier’s agreement to such terms. Supplier shall be deemed to have agreed to be bound by such terms by accepting the Purchase Order, delivering the goods, and/or performing the services.
                             </p>
@@ -137,7 +137,7 @@
                             <br />
                             <br />
                             <br />
-                            <strong>SUBTOTAL:</strong>
+                            <strong>@POSApp.Resources.Resource.SubTotal:</strong>
                         </td>
                         <td class="text-right">
 
@@ -150,23 +150,22 @@
                     </tr>
                     <tr>
 
-                        @*<td style="border-bottom: 1px solid lightgrey"><strong>TAX (20%):</strong></td>
-                            <td style="border-bottom: 1px solid lightgrey" class="text-right">0 USD</td>*@
+                        
                     </tr>
                     <tr>
 
-                        <td class="text-capitalize text-xl"><strong>Total </strong></td>
+                        <td class="text-capitalize text-xl"><strong>@POSApp.Resources.Resource.Total </strong></td>
                         <td class="text-right text-xl"><strong>  @String.Format("{0:#,##0.00}", Model.TotalAmount)</strong></td>
                     </tr>
                     <tr>
                         <td class="text-left pb-xx">
-                            <h4 class="text-left mt-none text-weight-bold">PAYMENT METHODS:</h4>
+                            <h4 class="text-left mt-none text-weight-bold">@POSApp.Resources.Resource.paymentmethods:</h4>
 
                             <img src="~/Content/images/invoice-41.png" class="pay" width="200" />
 
                         </td>
                         <td colspan="2">
-                            <h4 class="text-center sig pt-sm"> signature</h4>
+                            <h4 class="text-center sig pt-sm"> @POSApp.Resources.Resource.Signature</h4>
 
 
                         </td>

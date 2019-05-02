@@ -44,9 +44,9 @@
                                     <div class="col-md-8 col-md-offset-2 ">
                                         <div class="form-group">
                                             <label class="control-label">
-                                                Product Name
+                                                @POSApp.Resources.Resource.ProductName
                                             </label>
-                                            @Html.DropDownListFor(a => a.ProductCode, Model.ProductDdl, "Select an Option", new { @id = "productCode", @required = "", @class = "form-control populate selectddl ", @autofocus = "autofocus", @style = "width:100%" })
+                                            @Html.DropDownListFor(a => a.ProductCode, Model.ProductDdl, @POSApp.Resources.Resource.SelectanOption, new { @id = "productCode", @required = "", @class = "form-control populate selectddl ", @autofocus = "autofocus", @style = "width:100%" })
 
                                         </div>
                                     </div>
@@ -81,8 +81,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-lg btnPro">Save</button>
-                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-default btn-lg btnPro">@POSApp.Resources.Resource.Save</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">@POSApp.Resources.Resource.Close</button>
                 </div>
             </div>
         </div>

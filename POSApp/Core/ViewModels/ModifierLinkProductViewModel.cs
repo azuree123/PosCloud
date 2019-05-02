@@ -12,7 +12,7 @@ namespace POSApp.Core.ViewModels
     public class ModifierLinkProductViewModel
     {
         public int ModifierId { get; set; }
-        [Display(Name = "product", ResourceType = typeof(Resource))]
+        [Display(Name = "Productcode", ResourceType = typeof(Resource))]
 
         public string ProductCode { get; set; }
         public int ProductStoreId { get; set; }

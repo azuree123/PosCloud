@@ -24,11 +24,12 @@ namespace POSApp.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public ActionResult ChangeLanguage(string lang)
+        public JsonResult ChangeLanguage(string lang)
         {
             new MultiLanguage().SetLanguage(lang);
-            return RedirectToAction("Index", "Home");
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult Index()
         {
             try

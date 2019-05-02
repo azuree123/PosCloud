@@ -17,7 +17,7 @@
         </div>
 
         <h2 class="panel-title">
-            <h3 class="wb-color"><b>Daily Sale Orders</b></h3>
+            <h3 class="wb-color"><b>@POSApp.Resources.Resource.DailySales</b></h3>
         </h2>
     </header>
     <div class="panel-body">
@@ -100,7 +100,7 @@
 
                 {
                     "data": "Id", "autoWidth": true, render: function (data, type, full, meta) {
-                        return '<span data-toggle="tooltip" title="Preview !"   class=" btn btn-default text-default btn-sm fa fa-eye  "   onclick="DisplayDetails(' + data +')"  ></span>';
+                        return '<span data-toggle="tooltip" title=@POSApp.Resources.Resource.Preview   class=" btn btn-default text-default btn-sm fa fa-eye  "   onclick="DisplayDetails(' + data +')"  ></span>';
                     }
                 }
 

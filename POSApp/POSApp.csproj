@@ -680,6 +680,14 @@
     <Compile Include="Migrations\201904250942225_path.Designer.cs">
       <DependentUpon>201904250942225_path.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905021052270_ayth.cs" />
+    <Compile Include="Migrations\201905021052270_ayth.Designer.cs">
+      <DependentUpon>201905021052270_ayth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905021202066_mi.cs" />
+    <Compile Include="Migrations\201905021202066_mi.Designer.cs">
+      <DependentUpon>201905021202066_mi.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ClientEntityConfiguration.cs" />
@@ -3743,6 +3751,7 @@
     <Folder Include="Images\Data\Product\" />
     <Folder Include="Images\Data\Service\" />
     <Folder Include="Views\Language\" />
+    <Folder Include="Views\Unauthorised\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -4012,6 +4021,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904250942225_path.resx">
       <DependentUpon>201904250942225_path.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905021052270_ayth.resx">
+      <DependentUpon>201905021052270_ayth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905021202066_mi.resx">
+      <DependentUpon>201905021202066_mi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resource.Ar.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

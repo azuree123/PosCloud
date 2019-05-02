@@ -77,22 +77,14 @@
                                             @Html.DropDownListFor(model => model.UnitId, Model.UnitDdl, "Select an Option", new { @class = "form-control", @required = "true" })
                                             @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
                                         </div>
-                                        @*<div class="col-md-4">
-                                                @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control", @required = true } })
-                                                @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
-                                            </div>*@
+                                     
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control", @required = true } })
                                             @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
                                         </div>
-                                        @*<div class="col-md-4">
-                                                @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control", @required = true, @placeholder = "Enter Stock" } })
-                                                @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
-                                            </div>*@
+                                     
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Attribute, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.Attribute, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Attribute" } })
@@ -179,10 +171,7 @@
                                 <hr />
                                 <div class=" mb-md">
                                     <h4 class="text-center font-weight-bold" style="font-weight: bold">Add Modifiers</h4>
-                                    @*<a href="@Url.Action("AddTransactionItem", "PurchaseOrders")" class="modalShow" style="flex-grow: 0">
-                                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm" id="#arrButtonIds"></i>Add New</button>
-
-                                        </a>*@
+                                  
 
                                 </div>
                                 <div class="row">

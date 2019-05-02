@@ -7,7 +7,7 @@
 
     <input type='button' id='btnP' class="btn outline-success btn-sm" value='Print' onclick='printDiv();'>
     <a href="@Url.Action("SaleOrderList", "SaleOrders")" style="flex-grow: 0">
-        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Sale Order List</button>
+        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.SaleOrderList</button>
 
     </a>
 </div>
@@ -15,12 +15,9 @@
 
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <h3 class="text-center"><strong>Sale Order Details</strong></h3>
+            <h3 class="text-center"><strong>@POSApp.Resources.Resource.SaleOrderDetails</strong></h3>
             <table class="table table-bordered">
-                <thead>
-                    
-
-                </thead>
+               
 
                 <tbody>
 
@@ -99,13 +96,13 @@
                 </tr>
                
                 <tr>
-                    <th class="text-center">@POSApp.Resources.Resource.Invoice Gross</th>
+                    <th class="text-center">@POSApp.Resources.Resource.InvoiceGross</th>
                     <td class="text-center">@(Model.Discount+Model.TotalPrice)</td>
 
 
                 </tr>
                 <tr>
-                    <th class="text-center">@POSApp.Resources.Resource.Invoice @POSApp.Resources.Resource.Tax</th>
+                    <th class="text-center">@POSApp.Resources.Resource.InvoiceTax</th>
                     <td class="text-center">@(Model.Tax)</td>
 
 
@@ -117,7 +114,7 @@
 
                     </tr>
                     <tr>
-                        <th class="text-center">@POSApp.Resources.Resource.Invoice Total</th>
+                        <th class="text-center">@POSApp.Resources.Resource.InvoiceTotal</th>
                         <td class="text-center">@(Model.TotalPrice)</td>
 
 
@@ -132,7 +129,7 @@
                         <thead>
                             <tr>
                                 <th>@POSApp.Resources.Resource.ID</th>
-                                <th>@POSApp.Resources.Resource.product</th>
+                                <th>@POSApp.Resources.Resource.Products</th>
                                 <th>@POSApp.Resources.Resource.size</th>
                                 <th>@POSApp.Resources.Resource.Modifiers</th>
                                 <th>@POSApp.Resources.Resource.Quantity</th>
@@ -141,7 +138,7 @@
 
                                 <th>@POSApp.Resources.Resource.Discount</th>
 
-                                <th>Total</th>
+                                <th>@POSApp.Resources.Resource.Total</th>
 
                             </tr>
                         </thead>

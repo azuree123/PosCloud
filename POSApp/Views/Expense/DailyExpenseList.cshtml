@@ -47,8 +47,8 @@
                             <td>@expense.Date.ToShortDateString()</td>
                             <td class="center">
                                 <div class="btn-group">
-                                    @Html.ActionLink(" ", "UpdateExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                    @Html.ActionLink(" ", "DeleteExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    @Html.ActionLink(" ", "UpdateExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
+                                    @Html.ActionLink(" ", "DeleteExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
 
                                 </div>
 

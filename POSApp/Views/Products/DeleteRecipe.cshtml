@@ -5,11 +5,11 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Ingredient</th>
-        <th>Unit</th>
-        <th>Quantity</th>
-        <th>Calories</th>
-        <th>Action</th>
+        <th>@POSApp.Resources.Resource.Ingredient</th>
+        <th>@POSApp.Resources.Resource.Unit</th>
+        <th>@POSApp.Resources.Resource.Quantity</th>
+        <th>@POSApp.Resources.Resource.Calories</th>
+        <th>@POSApp.Resources.Resource.Action</th>
     </tr>
     </thead>
     <tbody>
@@ -23,7 +23,7 @@
                                     
 
             <td>
-                @Ajax.ActionLink(" ", "DeleteRecipe", "Products", new { id = data.Id,code=data.ProductCode },new AjaxOptions{HttpMethod = "GET",UpdateTargetId = "renderData" }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                @Ajax.ActionLink(" ", "DeleteRecipe", "Products", new { id = data.Id,code=data.ProductCode },new AjaxOptions{HttpMethod = "GET",UpdateTargetId = "renderData" }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
             </td>
                                     
         </tr>

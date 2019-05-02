@@ -330,7 +330,8 @@ p.drop-caps.colored.secundary:first-child:first-letter {
 }
 /* Navigation */
 ul.nav-main > li.nav-active > a {
-	box-shadow: 2px 0 0 #0baa5a inset;
+    box-shadow: 2px 0 0 #0baa5a inset;
+    background-color: #ffe0df;
 }
 
 ul.nav-main > li.nav-active > i {

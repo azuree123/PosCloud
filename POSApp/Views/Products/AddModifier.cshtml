@@ -32,18 +32,18 @@
                                 <li class="mt-xs  current" id="basicInfo">
                                     <a href="#basicdata" class="" data-toggle="tab" onclick="$('#basicInfo').addClass('current'); $('#tranInfo').removeClass('current');">
 
-                                        Basic Data 
+                                        @POSApp.Resources.Resource.BasicData
                                     </a>
                                 </li>
 
                                 <li id="tranInfo">
-                                    <a href="#transactionitems" data-toggle="tab" id="modifierOption" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">ModifierOptions </a>
+                                    <a href="#transactionitems" data-toggle="tab" id="modifierOption" onclick="$('#tranInfo').addClass('current'); $('#basicInfo').removeClass('current');">@POSApp.Resources.Resource.ModifierOptions </a>
                                 </li>
                             </ul>
                             <hr />
                             <div class="row mt-md">
                                 <div class="col-md-12">
-                                    <h4 class=" wb-color  text-center">New Modifier</h4>
+                                    <h4 class=" wb-color  text-center">@POSApp.Resources.Resource.NewModifier</h4>
                                 </div>
                             </div>
                         </div>
@@ -52,28 +52,28 @@
                                 <div class="col-md-12">
                               
 
-                                    <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><span class="fa fa-save mr-md"></span> Save</button>
+                                    <button type="submit" class="btn outline-success btn-sm" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><span class="fa fa-save mr-md"></span> @POSApp.Resources.Resource.Save</button>
                                     <a href="@Url.Action("ModifierList","Products")" style="float:right">
-                                        <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Modifier List</button>
+                                        <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.modifierlist</button>
 
                                     </a>
                                 </div>
                             </div>
                             <div id="basicdata" class="tab-pane active">
-                                <h4 class="mt-none mb-lg ">Basic Data</h4>
+                                <h4 class="mt-none mb-lg ">@POSApp.Resources.Resource.BasicData</h4>
                                 <div class="row">
                                     <div class="col-md-9 col-lg-offset-2">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2 required1" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control",@placeholder = "Enter Name",@required="true", autofocus = "" } })
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control",@placeholder = @POSApp.Resources.Resource.EnterName,@required="true", autofocus = "" } })
                                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.ArabicName, htmlAttributes: new { @class = "control-label col-md-2 " })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name", autofocus = "" } })
+                                                @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterName, autofocus = "" } })
                                                 @Html.ValidationMessageFor(model => model.ArabicName, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -91,9 +91,9 @@
                             </div>
                             <div id="transactionitems" class="tab-pane">
                                 <div class=" mb-lg" id="header-flex">
-                                    <h4 class="mt-xs  " style="flex-grow: 8">Modifier Options</h4>
+                                    <h4 class="mt-xs  " style="flex-grow: 8">@POSApp.Resources.Resource.ModifierOptions</h4>
                                     <a href="@Url.Action("AddModifierOption", "Products")" class="modalShow" style="flex-grow: 0">
-                                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New</button>
+                                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddNew</button>
 
                                     </a>
                                 </div>
@@ -103,11 +103,11 @@
                                             <table class="table mb-none" style="width:100%" id="datatable-default">
                                                 <thead>
                                                     <tr>
-                                                        <th>ID</th>
-                                                        <th>Name</th>
-                                                        <th>Cost</th>
-                                                        <th>Price</th>
-                                                        <th>Action</th>
+                                                        <th>@POSApp.Resources.Resource.ID</th>
+                                                        <th>@POSApp.Resources.Resource.name</th>
+                                                        <th>@POSApp.Resources.Resource.Cost</th>
+                                                        <th>@POSApp.Resources.Resource.Price</th>
+                                                        <th>@POSApp.Resources.Resource.Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -143,7 +143,7 @@
                                                 else
                                                 {
                                                     <tr>
-                                                        <td colspan="5" class="text-center">No records found</td>
+                                                        <td colspan="5" class="text-center">@POSApp.Resources.Resource.Norecordsfound</td>
                                                     </tr>
                                                 }
                                                 }

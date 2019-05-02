@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using POSApp.Resources;
 
 namespace POSApp.Core.ViewModels
 {
@@ -13,6 +14,8 @@ namespace POSApp.Core.ViewModels
         public string Name { get; set; }
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+        [Display(Name = "ArabicName", ResourceType = typeof(Resource))]
+
         public string ArabicName { get; set; }
         public string Address { get; set; }
         public string Password { get; set; }

@@ -16,7 +16,7 @@ namespace POSApp.Core.ViewModels
         [Display(Name = "name", ResourceType = typeof(Resource))]
 
         public string Name { get; set; }
-        
+        [Display(Name = "ArabicName", ResourceType = typeof(Resource))]
         public string ArabicName { get; set; }
         [Display(Name = "Cost", ResourceType = typeof(Resource))]
         public double Cost { get; set; }

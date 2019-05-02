@@ -10,38 +10,22 @@
     @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
 
-@*<header class="page-header">
-        <h2>PurchaseOrders</h2>
 
-        <div class="right-wrapper pull-right">
-            <ol class="breadcrumbs">
-                <li>
-                    <a href="@Url.Action("Index","Home")">
-                        <i class="fa fa-home"></i>
-                    </a>
-                </li>
-                <li><span>PurchaseOrder</span></li>
-
-            </ol>
-
-            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-        </div>
-    </header>*@
 
 <!-- start: page -->
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li><a href="@Url.Action("StockTakingList","StockTaking")">Stock Taking</a></li>
-            <li><a href="@Url.Action("PurchasingList","PurchaseOrders")">Purchasing</a></li>
-            <li><a href="@Url.Action("StockList","PurchaseOrders")">Stock In</a></li>
-            <li><a href="@Url.Action("TransferList","PurchaseOrders")">Transfer</a></li>
-            <li><a href="@Url.Action("OtherInList","PurchaseOrders")">Other In</a></li>
-            <li class="current"><a href="#">Others Out</a></li>
+            <li><a href="@Url.Action("StockTakingList","StockTaking")">@POSApp.Resources.Resource.stocktaking</a></li>
+            <li><a href="@Url.Action("PurchasingList","PurchaseOrders")">@POSApp.Resources.Resource.Purchasing</a></li>
+            <li><a href="@Url.Action("StockList","PurchaseOrders")">@POSApp.Resources.Resource.Stock In</a></li>
+            <li><a href="@Url.Action("TransferList","PurchaseOrders")">@POSApp.Resources.Resource.Transfer</a></li>
+            <li><a href="@Url.Action("OtherInList","PurchaseOrders")">@POSApp.Resources.Resource.OtherIn</a></li>
+            <li class="current"><a href="#">@POSApp.Resources.Resource.Otherout</a></li>
 
-            <li><a href="@Url.Action("ExpiryList","PurchaseOrders")">Expiry</a></li>
-            <li><a href="@Url.Action("WasteList","PurchaseOrders")">Waste</a></li>
-            <li><a href="@Url.Action("DamageList","PurchaseOrders")">Damage</a></li>
+            <li><a href="@Url.Action("ExpiryList","PurchaseOrders")">@POSApp.Resources.Resource.Expiry</a></li>
+            <li><a href="@Url.Action("WasteList","PurchaseOrders")">@POSApp.Resources.Resource.Waste</a></li>
+            <li><a href="@Url.Action("DamageList","PurchaseOrders")">@POSApp.Resources.Resource.Damage</a></li>
         </ul>
         <hr />
 
@@ -55,18 +39,15 @@
 
 
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Other Out </b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Otherout </b></h3>
 
 
 
                     <a href="@Url.Action("AddOtherOut","PurchaseOrders")" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Add OtherOut</button>
+                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddOtherOut</button>
 
                     </a>
-                    @*<a href="@Url.Action("GenerateReceipt","PurchaseOrders")">
-                            <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Generate Receipt</button>
-
-                        </a>*@
+                   
 
                 </div>
 
@@ -107,8 +88,8 @@
                             <td>@purchaseOrder.TotalPrice</td>
                             <td>@purchaseOrder.Type</td>
                             <td>
-                                @Html.ActionLink(" ", "PreviewOtherOut", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = "Preview !" })
-                                @Html.ActionLink(" ", "DeleteOtherOut", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                @Html.ActionLink(" ", "PreviewOtherOut", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview })
+                                @Html.ActionLink(" ", "DeleteOtherOut", "PurchaseOrders", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete , onclick = "return confirm('Are you sure?');" })
 
                             </td>
                         </tr>

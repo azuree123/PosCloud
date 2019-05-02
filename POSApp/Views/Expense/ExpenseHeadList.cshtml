@@ -26,11 +26,11 @@
 
                     </a>
                     <a href="@Url.Action("AddExpenseHead", "Expense")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>Add Expense Head</button>
+                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddExpenseHead</button>
 
                     </a>
                     <a href="@Url.Action("ExpenseList","Expense")" style="flex-grow: 0">
-                        <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>Expense List</button>
+                        <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.ExpenseList</button>
 
                     </a>
                 </div>
@@ -63,8 +63,8 @@
                             <td>
                                 <div class="btn-group">
 
-                                    @Html.ActionLink(" ", "UpdateExpenseHead", "Expense", new { id = @expenseHead.Id, storId = @expenseHead.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
-                                    @Html.ActionLink(" ", "DeleteExpenseHead", "Expense", new { id = @expenseHead.Id, storeId = @expenseHead.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    @Html.ActionLink(" ", "UpdateExpenseHead", "Expense", new { id = @expenseHead.Id, storId = @expenseHead.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
+                                    @Html.ActionLink(" ", "DeleteExpenseHead", "Expense", new { id = @expenseHead.Id, storeId = @expenseHead.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
                                 </div>
                             </td>
                         </tr>

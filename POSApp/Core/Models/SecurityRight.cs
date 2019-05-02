@@ -9,7 +9,7 @@ namespace POSApp.Core.Models
     public class SecurityRight
     {
         public string IdentityUserRoleId { get; set; }       
-        public ApplicationRole   Role { get; set; }
+        public ApplicationRole Role { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
         public int SecurityObjectId { get; set; }

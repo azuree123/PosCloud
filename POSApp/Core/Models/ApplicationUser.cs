@@ -35,9 +35,9 @@ namespace POSApp.Core.Models
         public DateTime CreatedOn { get; set; }
         public bool IsDisabled { get; set; }
         public string CreatedById { get; set; }
-        //public ApplicationUser CreatedBy { get; set; }
+       
         public string UpdatedById { get; set; }
-        //public ApplicationUser UpdatedBy { get; set; }
+       
 
         [Column(TypeName = "DateTime2")]
         public DateTime UpdatedOn { get; set; }

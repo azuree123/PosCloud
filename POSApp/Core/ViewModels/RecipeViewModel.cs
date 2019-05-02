@@ -14,21 +14,24 @@ namespace POSApp.Core.ViewModels
     {
         public int? Id { get; set; }
         public int StoreId { get; set; }
+        [Display(Name = "Productcode", ResourceType = typeof(Resource))]
         public string ProductCode { get; set; }
-        [DisplayName("Ingredient")]
+        [Display(Name = "Ingredient", ResourceType = typeof(Resource))]
         public string IngredientCode { get; set; }
         [Display(Name = "Quantity", ResourceType = typeof(Resource))]
         public decimal Quantity { get; set; }
-        
+        [Display(Name = "Calories", ResourceType = typeof(Resource))]
         public decimal? Calories { get; set; }
         [Display(Name = "Code", ResourceType = typeof(Resource))]
         public string Code { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         [DataType(DataType.Date)]
-        public DateTime ExpiryDate { get; set; }
+        [Display(Name = "ExpiryDate", ResourceType = typeof(Resource))]
+        public DateTime ExpiryDate { get; set; } = DateTime.Today;
         public IEnumerable<SelectListItem> ProductDDl { get; set; }
         public IEnumerable<SelectListItem> UnitDdl { get; set; }
+
         public string ProductsDisplay { get; set; }
         public string[] Products { get; set; }
 
@@ -37,13 +40,19 @@ namespace POSApp.Core.ViewModels
     }
     public class RecipeListViewModel
     {
+        [Display(Name = "Productcode", ResourceType = typeof(Resource))]
         public string ProductCode { get; set; }
         public int? Id { get; set; }
         public int StoreId { get; set; }
+        [Display(Name = "Quantity", ResourceType = typeof(Resource))]
         public decimal Quantity { get; set; }
+        [Display(Name = "ExpiryDate", ResourceType = typeof(Resource))]
         public DateTime ExpiryDate { get; set; }
+        [Display(Name = "Calories", ResourceType = typeof(Resource))]
         public decimal? Calories { get; set; }
+        [Display(Name = "Ingredient", ResourceType = typeof(Resource))]
         public string IngredientName { get; set; }
+        [Display(Name = "Unit", ResourceType = typeof(Resource))]
         public string Unit { get; set; }
        
 

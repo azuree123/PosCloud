@@ -14,11 +14,11 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li><a href="@Url.Action("ProductsList","Products")">Products</a></li>
-            <li><a href="@Url.Action("ModifierList","Products")">Modifiers</a></li>
-            <li><a href="@Url.Action("CombosList","Products")">Combos</a></li>
-            <li class="current"><a href="#">Product Categories</a></li>
-            <li><a href="@Url.Action("ProductCategoryGroupList", "Products")">Product Category Group</a></li>
+            <li><a href="@Url.Action("ProductsList","Products")">@POSApp.Resources.Resource.Products</a></li>
+            <li><a href="@Url.Action("ModifierList","Products")">@POSApp.Resources.Resource.Modifiers</a></li>
+            <li><a href="@Url.Action("CombosList","Products")">@POSApp.Resources.Resource.Combos</a></li>
+            <li class="current"><a href="#">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
+            <li><a href="@Url.Action("ProductCategoryGroupList", "Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
         </ul>
         <hr />
 
@@ -30,10 +30,10 @@
             <div class="col-md-12">
 
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Product Categories</b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.PRODUCTCATEGORIES</b></h3>
 
                     <a href="@Url.Action("ProductCategoryExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.ImportData</button>
 
                     </a>
                     <a href="@Url.Action("AddProductCategory", "Products")" class="modalShow" style="flex-grow: 0.2">
@@ -41,11 +41,11 @@
 
                     </a>
                     <a href="@Url.Action("ProductCategoryGroupList", "Products")" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Category Group List</button>
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.productcategorygrouplist</button>
 
                     </a>
                     <a href="@Url.Action("ProductsList","Products")" style="flex-grow: 0">
-                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>Product List</button>
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.ProductList</button>
 
                     </a>
                 </div>
@@ -59,11 +59,11 @@
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
-                        <th width="5%">ID</th>
-                        <th width="30%">Name</th>
-                        <th width="30%">Images</th>
-                        <th width="25%">Group</th>
-                        <th width="10%">Action</th>
+                        <th width="5%">@POSApp.Resources.Resource.ID</th>
+                        <th width="30%">@POSApp.Resources.Resource.name</th>
+                        <th width="30%">@POSApp.Resources.Resource.Image</th>
+                        <th width="25%">@POSApp.Resources.Resource.Group</th>
+                        <th width="10%">@POSApp.Resources.Resource.Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,7 +86,7 @@
                                 <div class="btn-group">
 
                                     @Html.ActionLink(" ", "UpdateProductCategory", "Products", new { id = productCategory.Id, storeId = @productCategory.StoreId }, new { @class = "btn btn-default btn-sm fa fa-pencil modalShow", })
-                                    @Html.ActionLink(" ", "DeleteProductCategory", "Products", new { id = productCategory.Id, storeId = @productCategory.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    @Html.ActionLink(" ", "DeleteProductCategory", "Products", new { id = productCategory.Id, storeId = @productCategory.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
                                 </div>
                             </td>
                         </tr>

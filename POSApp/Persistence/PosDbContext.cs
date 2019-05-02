@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using POSApp.Core.Models;
 using POSApp.Persistence.EntityConfigurations;
+
 using RedirectToRouteResult = System.Web.Http.Results.RedirectToRouteResult;
 
 namespace POSApp.Persistence
@@ -65,7 +66,7 @@ namespace POSApp.Persistence
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<ComboProductsTransDetail> ComboProductsTransDetails { get; set; }
-       
+        
 
         public void SetCommandTimeOut(int Timeout)
         {
@@ -130,9 +131,11 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new WarehouseEntityConfiguration());
             modelBuilder.Configurations.Add(new ClientEntityConfiguration());
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-            
-            base.OnModelCreating(modelBuilder);
 
+            base.OnModelCreating(modelBuilder);
+        
+           
+           
         }
         public override int SaveChanges()
         {

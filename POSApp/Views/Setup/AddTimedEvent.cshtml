@@ -61,12 +61,12 @@
 
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1"  })
-                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder="Enter Name",autofocus = "" } })
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder= POSApp.Resources.Resource.EnterName, autofocus = "" } })
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
                                             @Html.LabelFor(model => model.ArabicName, htmlAttributes: new { @class = "control-label",  })
-                                            @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Name" } })
+                                            @Html.EditorFor(model => model.ArabicName, new { htmlAttributes = new { @class = "form-control", @placeholder = POSApp.Resources.Resource.EnterName } })
                                             @Html.ValidationMessageFor(model => model.ArabicName, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-4">
@@ -137,8 +137,8 @@
                                         @Html.LabelFor(model => model.Days, htmlAttributes: new { @class = "control-label required1" })
                                         @Html.DropDownListFor(model => model.Days, Ddl, new { @class = "form-control", @required = "true", @multiple = "multiple" })
                                         @Html.ValidationMessageFor(model => model.Days, "", new { @class = "text-danger" })
-                                        <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Days)');"  />
-                                        Select All
+                                        <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Days)');" />
+                                        @POSApp.Resources.Resource.SelectAll
                                     </div>
                                     
                                        
@@ -173,7 +173,7 @@
 
 
                                                 <input type="checkbox" onclick="Select_All($(this).prop('checked'),'@Html.IdFor(a=>a.Categories)');" />
-                                                Select All
+                                                POSApp.Resources.Resource.SelectAll
                                             </div>
 
                                         </div>
@@ -187,7 +187,7 @@
 
 
                                                 <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Products)');" />
-                                                Select All
+                                                @POSApp.Resources.Resource.SelectAll
                                             </div>
                                         </div>
                                         <input type="hidden" id="branchesDispaly" value="@Model.BranchesDisplay" />
@@ -200,7 +200,7 @@
 
 
                                                 <input type="checkbox" onclick="Select_All($(this).prop('checked'), '@Html.IdFor(a=>a.Branches)');" />
-                                                Select All
+                                                @POSApp.Resources.Resource.SelectAll
                                             </div>
 
                                         </div>

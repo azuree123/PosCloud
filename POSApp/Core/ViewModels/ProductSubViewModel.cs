@@ -14,7 +14,7 @@ namespace POSApp.Core.ViewModels
         public string ComboProductCode { get; set; }
         [Display(Name = "Price", ResourceType = typeof(Resource))]
         public decimal Price { get; set; }
-
+        [Display(Name = "Modifiable", ResourceType = typeof(Resource))]
         public bool Modifiable { get; set; }
         public int StoreId { get; set; }
         [Display(Name = "product", ResourceType = typeof(Resource))]
