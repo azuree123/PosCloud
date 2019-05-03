@@ -17311,5 +17311,6 @@
             e.exports = n("./src/demo/index.js")
         }
     })
-});
+    });
+
 //# sourceMappingURL=index.js.map

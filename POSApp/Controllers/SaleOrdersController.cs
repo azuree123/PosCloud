@@ -28,27 +28,6 @@ namespace POSApp.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        //public ActionResult DailySales(string _Year, string _Month)
-        //{
-
-        //    int year = 0;
-        //    int month = 0;
-
-        //    if (string.IsNullOrWhiteSpace(_Year) && _Month != null)
-        //    {
-        //        year = DateTime.Now.Date.Year;
-        //        month = Convert.ToInt32(_Month.Trim());
-        //    }
-        //    else
-        //    {
-        //        year = Convert.ToInt32(_Year.Trim());
-        //        month = Convert.ToInt32(_Month.Trim());
-        //    }
-
-        //    int daysInMonth = DateTime.DaysInMonth(year, month);
-        //    var days = Enumerable.Range(1, daysInMonth);
-        //    var sale = _unitOfWork.TransMasterRepository.GetTransMasters().Where(a => a.)
-        //}
         // GET: SaleOrders
         public ActionResult SaleOrderList()
         {

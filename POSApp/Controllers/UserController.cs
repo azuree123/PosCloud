@@ -4,12 +4,14 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.SecurityFilters;
 
 namespace POSApp.Controllers
 {
@@ -363,6 +365,77 @@ namespace POSApp.Controllers
 
             return RedirectToAction("SecurityObjectList", "User");
 
+        }
+        [HttpPost]
+        public JsonResult GetDdlEnum(Config.SecurityRights id)
+        {
+            try
+            {
+                IList<SelectListItem> send = new List<SelectListItem>();
+                if (id == Config.SecurityRights.SaleOrders)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.SaleOrders));
+                }
+                else if (id == Config.SecurityRights.PurchaseOrders)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.PurchaseOrders));
+                }
+                else if (id == Config.SecurityRights.Expense)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.Expense));
+                }
+                else if (id == Config.SecurityRights.ExcelImport)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.ExcelImport));
+                }
+                else if (id == Config.SecurityRights.Device)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.Device));
+                }
+                else if (id == Config.SecurityRights.OpeningStock)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.OpeningStock));
+                }
+                else if (id == Config.SecurityRights.Reports)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.Reports));
+                }
+                else if (id == Config.SecurityRights.Setup)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.Setup));
+                }
+                else if (id == Config.SecurityRights.PointOfSale)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.PointOfSale));
+                }
+                else if (id == Config.SecurityRights.Account)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.Account));
+                }
+                else if (id == Config.SecurityRights.StockTaking)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.StockTaking));
+                }
+                else if (id == Config.SecurityRights.Store)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.Store));
+                }
+                else if (id == Config.SecurityRights.User)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.User));
+                }
+                else if (id == Config.SecurityRights.Products)
+                {
+                    send = EnumHelper.GetSelectList(typeof(Config.Products));
+                }
+                else { }
+                return Json(send, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

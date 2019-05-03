@@ -1,4 +1,5 @@
-﻿@model POSApp.Core.ViewModels.SecurityObjectViewModel
+﻿@using POSApp.SecurityFilters
+@model POSApp.Core.ViewModels.SecurityObjectViewModel
 @{
     Layout = null;
 }
@@ -42,31 +43,37 @@
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="row">
                                     <div class="form-group">
-
+                                        
+                                        
                                         <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "true", autofocus = "" } })
-                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                               
+                                            <label>Select Access <i style="color: red">*</i></label>
+                                            @Html.DropDownList("Accesses", EnumHelper.GetSelectList(typeof(Config.SecurityRights)),"Select an Option..", new { @class = "form-control input-sm selectddl", @id = "AccessesSelect", @required = "true" })
                                         </div>
 
+                                            
 
 
-
-
-
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Module, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Module, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Module, "", new { @class = "text-danger" })
+                                      
+                                       
+                                        <div class="col-md-8">
+                                               
+                                            <label>Select Features <i style="color: red">*</i></label>
+                                            @Html.DropDownList("FeatureIds", new List<SelectListItem>(), new { @class = "form-control input-lg", @id = "Features" ,@multiple = "true", @required = "true" })
                                         </div>
-                                        <div class="col-md-4">
-                                            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
-                                            @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
-                                        </div>
-
-
                                     </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
+                                                @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                    
+
+
+                                    
                                 </div>
 
 
@@ -82,11 +89,60 @@
                 </div>
             </div>
         </div>
+
     }
+    
 </div>
 <script>
-    $("input").on("keypress", function (e) {
-        if (e.which === 32 && !this.value.length)
-            e.preventDefault();
+    $(document).ready(function () {
+        $('.selectddl').select2();
     });
 </script>
+
+<script>
+    $.populateDDL = function (elementId, apiUrl, methodType, id, enableMultiSelectOnElement) {
+        debugger;
+        var elemEnt = $("#" + elementId);
+        elemEnt.empty();
+        apiUrl = apiUrl + "/" + id;
+        if (id == undefined || id == 'undefined' || id == 'null') {
+            if (enableMultiSelectOnElement == true) {
+                $.enableMultiselectOf(elementId);
+            }
+            return;
+        }
+        $.ajax({
+            type: methodType,
+            data: { ids: id },
+            async: false,
+            url: apiUrl,
+            success: function (divdata) {
+                $.each(divdata, function (index, data) {
+                    elemEnt.append($('<option/>', { value: data.Value, text: data.Text }));
+                });
+
+            }
+        });
+        if (enableMultiSelectOnElement == true) {
+            $.enableMultiselectOf(elementId);
+        }
+
+
+    }
+    $('#AccessesSelect').on("change",
+        function () {
+            debugger;
+            $.populateDDL("Features", "@Url.Action("GetDdlEnum", "User")", "POST", $(this).val(), false);
+        });
+</script>
+        <script>
+            $("input").on("keypress",
+                function(e) {
+                    if (e.which === 32 && !this.value.length)
+                        e.preventDefault();
+                });
+
+        </script>
+
+
+                                                                           

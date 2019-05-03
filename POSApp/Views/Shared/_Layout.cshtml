@@ -351,14 +351,7 @@
     }
 
     <script>
-        //$(document).ready(function () {
-        //    $("*").dblclick(function (e) {
-        //        e.preventDefault();
-        //    });
-        //});
-        
-
-
+       
         $('html').bind('keypress', function (e) {
             if (e.keyCode === 13) {
                 return false;
@@ -369,18 +362,7 @@
                 e.preventDefault();
             }
         });
-        //var header = document.getElementsByClassName("nav");
-        //var btns = header[0].getElementsByTagName("li");
-        //for (var i = 0; i < btns.length; i++) {
-        //    btns[i].addEventListener("click", function () {
-        //        debugger;
-        //        var current = document.getElementsByClassName("nav-active");
-        //        if (current.length > 0) { 
-        //            current[0].className = current[0].className.replace(" nav-active", "");
-        //        }
-        //        this.className += " nav-active";
-        //    });
-        //}
+      
         var currentPath = window.location.pathname;
         $(".nav li a[href='" + currentPath + "']").parent().addClass("nav-active");
     </script>

@@ -1069,6 +1069,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="SecurityFilters\Config.cs" />
     <Compile Include="Services\ExcelService.cs" />
     <Compile Include="Services\ExtensionMethods.cs" />
     <Compile Include="Services\Global.cs" />

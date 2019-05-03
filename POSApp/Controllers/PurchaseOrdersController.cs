@@ -705,23 +705,7 @@ namespace POSApp.Controllers
                     _unitOfWork.TransMasterRepository.UpdatePurchasing(id, Convert.ToInt32(user.StoreId),transMaster);
 
                     _unitOfWork.Complete();
-                    //purchasingVm.TransDetailViewModels = _unitOfWork.TransDetailRepository
-                    //    .GetTransDetails(id, Convert.ToInt32(user.StoreId)).ToList();
-
-                    //foreach (var modifierVmModifierOptionViewModel in purchasingVm.TransDetailViewModels)
-                    //{
-                    //    _unitOfWork.TransDetailRepository.DeleteTransDetail(modifierVmModifierOptionViewModel.Id,modifierVmModifierOptionViewModel.StoreId);
-                    //}
-                    //_unitOfWork.Complete();
-                    //foreach (var productSubViewModel in poItems)
-                    //{
-                    //    productSubViewModel.StoreId = transMaster.StoreId;
-                    //    productSubViewModel.TransMasterId = transMaster.Id;
-                    //    _unitOfWork.TransDetailRepository.AddTransDetail(Mapper.Map<TransDetail>(productSubViewModel));
-
-                    //}
                    
-                    //_unitOfWork.Complete();
                     
 
                     TempData["Alert"] = new AlertModel("The Purchasing updated successfully", AlertType.Success);
