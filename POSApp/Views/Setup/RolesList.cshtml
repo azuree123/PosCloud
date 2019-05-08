@@ -32,22 +32,28 @@
         <div class="row">
             <div class="col-md-12">
 
-
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Roles </b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Roles</b></h3>
 
 
 
-                    <a href="@Url.Action("AddRole","Setup")">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New </button>
+                    <a href="@Url.Action("AddShift", "Setup")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddRole</button>
+
+                    </a>
+                    <a href="@Url.Action("AssignRolesToUsers", "Setup")"  style="flex-grow: 0">
+                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Assign Roles</button>
 
                     </a>
 
                 </div>
 
+
+
+
+
             </div>
         </div>
-
 
         <h2 class="panel-title"></h2>
     </header>
@@ -121,6 +127,7 @@
 
         return false;
     });
+    
 </script>
 }
 

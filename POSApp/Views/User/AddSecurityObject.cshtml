@@ -48,7 +48,7 @@
                                         <div class="col-md-4">
                                                
                                             <label>Select Access <i style="color: red">*</i></label>
-                                            @Html.DropDownList("Accesses", EnumHelper.GetSelectList(typeof(Config.SecurityRights)),"Select an Option..", new { @class = "form-control input-sm selectddl", @id = "AccessesSelect", @required = "true" })
+                                            @Html.DropDownListFor(a=>a.Module, EnumHelper.GetSelectList(typeof(Config.SecurityRights)),"Select an Option..", new { @class = "form-control input-sm selectddl", @id = "AccessesSelect", @required = "true" })
                                         </div>
 
                                             
@@ -56,13 +56,13 @@
 
                                       
                                        
-                                        <div class="col-md-8">
+                                        <div class="col-md-4">
                                                
                                             <label>Select Features <i style="color: red">*</i></label>
-                                            @Html.DropDownList("FeatureIds", new List<SelectListItem>(), new { @class = "form-control input-lg", @id = "Features" ,@multiple = "true", @required = "true" })
+                                            @Html.DropDownListFor(a => a.Name, new List<SelectListItem>(), new { @class = "form-control input-lg", @id = "Features", @required = "true" })
                                         </div>
-                                    </div>
-                                        <div class="row">
+                                  
+                                       
                                             <div class="col-md-4">
                                                 @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
                                                 @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
@@ -101,7 +101,6 @@
 
 <script>
     $.populateDDL = function (elementId, apiUrl, methodType, id, enableMultiSelectOnElement) {
-        debugger;
         var elemEnt = $("#" + elementId);
         elemEnt.empty();
         apiUrl = apiUrl + "/" + id;
@@ -118,7 +117,7 @@
             url: apiUrl,
             success: function (divdata) {
                 $.each(divdata, function (index, data) {
-                    elemEnt.append($('<option/>', { value: data.Value, text: data.Text }));
+                    elemEnt.append($('<option/>', { value: data.Text, text: data.Text }));
                 });
 
             }

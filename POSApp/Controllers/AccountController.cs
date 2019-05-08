@@ -194,7 +194,6 @@ namespace POSApp.Controllers
                 {
 
                     int storeId = _unitOfWork.StoreRepository.GetStores().Select(a => a.Id).FirstOrDefault();
-
                     var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StoreId = storeId, PasswordEncrypt = Security.EncryptString(model.Password, "E546C8DF278CD5931069B522E695D4F2") };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();

@@ -94,6 +94,7 @@
 
 
 <div id="ModalData"></div>
+<div id="ModalData1"></div>
 @section scripts
 {
     <script>
@@ -121,6 +122,34 @@
                 success: function(result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('#datatable-default').on('click','a.modalShow1', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function (result) {
+                    $('#ModalData1').html(result);
+                    $('#ordine1').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+        });
+        $('a.modalShow1').on('click', function () {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function(result) {
+                    $('#ModalData1').html(result);
+                    $('#ordine1l').modal('show');
                     $.unblockUI();
                 }
             });

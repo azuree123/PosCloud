@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -14,6 +15,7 @@ using POSApp.Core.ViewModels;
 using POSApp.Persistence;
 using System.Data.Entity.Validation;
 using POSApp.Persistence.Repositories;
+using POSApp.SecurityFilters;
 
 namespace POSApp.Controllers
 {
@@ -4363,7 +4365,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("RolesList", "Setup");
+            return RedirectToAction("UserList", "User");
 
         }
 
@@ -4418,7 +4420,52 @@ namespace POSApp.Controllers
 
 
         }
+        //Assign Role
+        [HttpGet]
+        public ActionResult AssignRolesToUsers()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
 
+            AssignRoleViewModel asignRole = new AssignRoleViewModel();
+            asignRole.Userlist = _unitOfWork.UserRepository.GetUsers((int) user.StoreId)
+                .Select(a => new SelectListItem {Text = a.UserName, Value = a.Id});
+            asignRole.UserRolesList = RoleManager.Roles.Select(a => new SelectListItem {Text = a.Name, Value = a.Name});
+             
+            return View(asignRole);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignRolesToUsers(AssignRoleViewModel _assignRole)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            _assignRole.Userlist = _unitOfWork.UserRepository.GetUsers((int)user.StoreId)
+                .Select(a => new SelectListItem { Text = a.UserName, Value = a.Id });
+            _assignRole.UserRolesList = RoleManager.Roles.Select(a => new SelectListItem { Text = a.Name, Value = a.Name });
+            if (ModelState.IsValid)
+            {
+                if (!UserManager.IsInRole(_assignRole.UserName, _assignRole.RoleName))
+                {
+
+                UserManager.AddToRole(_assignRole.UserName, _assignRole.RoleName);
+                    TempData["Alert"] = new AlertModel("Username added to role successfully !", AlertType.Success);
+                _unitOfWork.Complete();
+                }
+                else
+                {
+                    TempData["Alert"] = new AlertModel("Username already exist in role!", AlertType.Information);
+
+                    return View(_assignRole);
+                }
+
+
+                
+            }
+           
+            return RedirectToAction("RolesList","Setup");
+        }
+       
         //POSTerminal
 
         public ActionResult POSTerminalList()

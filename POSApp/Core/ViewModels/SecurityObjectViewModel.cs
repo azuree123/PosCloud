@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using POSApp.Resources;
+using POSApp.SecurityFilters;
 
 namespace POSApp.Core.ViewModels
 {
@@ -15,6 +16,6 @@ namespace POSApp.Core.ViewModels
         [Display(Name = "Type", ResourceType = typeof(Resource))]
         public string Type { get; set; }// Form, report etc // varchar 15
         [Display(Name = "Module", ResourceType = typeof(Resource))]
-        public string Module { get; set; }//HR, Finane etc 50
+        public Config.SecurityRights Module { get; set; }//HR, Finane etc 50
     }
 }

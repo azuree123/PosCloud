@@ -468,6 +468,7 @@
     <Compile Include="Core\Shared\ProductHelper.cs" />
     <Compile Include="Core\Shared\TakingHelper.cs" />
     <Compile Include="Core\ViewModels\AppInfoViewModel.cs" />
+    <Compile Include="Core\ViewModels\AssignRoleViewModel.cs" />
     <Compile Include="Core\ViewModels\BranchReportSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\BranchTimelyReportViewModel.cs" />
     <Compile Include="Core\ViewModels\BusinessPartnerViewModel.cs" />
@@ -3745,6 +3746,8 @@
     <Content Include="Views\SaleOrders\MIFDataDetailList.cshtml" />
     <Content Include="Views\ReportMail\mail.cshtml" />
     <Content Include="Views\Setup\AddShiftPartial.cshtml" />
+    <Content Include="Views\Setup\AssignRole.cshtml" />
+    <Content Include="Views\Setup\AssignRolesToUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
