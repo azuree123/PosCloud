@@ -9,7 +9,19 @@
 {
     @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
 }
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
 
+           
+            <li class="current"><a href="@Url.Action("AssignRolesToUsers","Setup")">Assign Roles</a></li>
+            <li><a href="@Url.Action("UsersWithRoles", "Setup")">Users With Roles</a></li>
+
+        </ul>
+        <hr />
+
+    </div>
+</div>
 <div class="panel">
     <div class="panel-heading">
         <h3 class="wb-color" style="flex-grow: 8"><b>Assign Roles</b></h3>

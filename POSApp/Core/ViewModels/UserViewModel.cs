@@ -17,8 +17,10 @@ namespace POSApp.Core.ViewModels
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "Entered phone format like (waqar@gmail.com)")]
         [Display(Name = "Email", ResourceType = typeof(Resource))]
         public string Email { get; set; }
+
+        public string RoleName { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
-        
+        public List<RoleViewModel> RoleViewModels { get; set; }
     }
 }

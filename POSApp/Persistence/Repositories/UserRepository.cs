@@ -25,7 +25,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<ApplicationUser> GetUsers(int storeid)
         {
-            return _context.Users.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
+            return _context.Users.Include(a=>a.Roles).Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();
         }
 
         public ApplicationUser GetUserById(string id)

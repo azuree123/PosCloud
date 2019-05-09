@@ -16,40 +16,22 @@
             <li class="current"><a href="@Url.Action("UserList", "User")">Users</a></li>
             <li class=""><a href="@Url.Action("RolesList", "Setup")">Roles</a></li>
             <li class=""><a href="@Url.Action("SecurityObjectList", "User")">SecurityObjects</a></li>
-
-
         </ul>
         <hr />
-
     </div>
 </div>
 <section class="panel">
     <header class="panel-heading">
         <div class="row">
             <div class="col-md-12">
-
-
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>Users </b></h3>
-
-
-
                     <a href="@Url.Action("Register","Account")">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add New </button>
-
                     </a>
-
-
                 </div>
-
-
-
-
-
             </div>
         </div>
-
-
         <h2 class="panel-title"></h2>
     </header>
     <div class="panel-body">
@@ -61,7 +43,6 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
-                        
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -73,10 +54,8 @@
                             <td>@(i++)</td>
                             <td>@user.Name</td>
                             <td>@user.Email</td>
-                            
                             <td class="center">
                                 <div class="btn-group">
-
                                     @Html.ActionLink(" ", "UpdateUser", "User", new { id = @user.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow  ", data_toggle = "tooltip", title = "Edit !" })
                                     @Html.ActionLink(" ", "DeleteUser", "User", new { id = @user.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                                 </div>
