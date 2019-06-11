@@ -13,6 +13,7 @@ using POSApp.Core.Shared;
 using POSApp.Core.ViewModels;
 using System.Linq.Dynamic;
 using Remotion.Linq.Clauses;
+using POSApp.SecurityFilters;
 
 namespace POSApp.Controllers
 {
@@ -79,6 +80,8 @@ namespace POSApp.Controllers
             }
         }
         //Product Partial
+        [Manage(Config.Products.Products)]
+
         public ActionResult AddProductPartial()
         {
             var userid = User.Identity.GetUserId();
@@ -106,6 +109,8 @@ namespace POSApp.Controllers
             return View(product);
         }
         [HttpPost]
+        [Manage(Config.Products.Products)]
+
         public ActionResult AddProductPartial(ProductCreateViewModel productVm, HttpPostedFileBase file)
         {
             ViewBag.edit = "AddProductPartial";
@@ -213,6 +218,8 @@ namespace POSApp.Controllers
             }
         }
         //Add Product
+        [Manage(Config.Products.Products)]
+
         public ActionResult AddProduct()
         {
 
@@ -250,6 +257,8 @@ namespace POSApp.Controllers
             return View(product);
         }
         [HttpPost]
+        [Manage(Config.Products.Products)]
+
         public ActionResult AddProduct(ProductCreateViewModel productVm, HttpPostedFileBase file)
         {
             var userid = User.Identity.GetUserId();
@@ -396,6 +405,8 @@ namespace POSApp.Controllers
                 throw;
             }
         }
+        [Manage(Config.Products.Products)]
+
         public ActionResult AddProductItem()
         {
            
@@ -403,6 +414,8 @@ namespace POSApp.Controllers
             return View(phVm);
         }
         [HttpPost]
+        [Manage(Config.Products.Products)]
+
         public ActionResult AddProductItem( string size,string barcode,decimal price)
         {
             if (ProductHelper.temptProduct == null)
@@ -416,6 +429,9 @@ namespace POSApp.Controllers
             ProductHelper.AddToTemptProduct(size, barcode,price, user.Id,Convert.ToInt32(user.StoreId));
             return View("PoProductTable", ProductHelper.temptProduct);
         }
+
+        [Manage(Config.Products.Products)]
+
         public ActionResult RemoveProductItem(string size, string barcode,decimal price)
         {
             if (ProductHelper.temptProduct == null)
@@ -428,6 +444,8 @@ namespace POSApp.Controllers
             ProductHelper.RemoveFromTemptProduct(size, barcode,price, (int)user.StoreId, user.Id);
             return View("PoProductTable", ProductHelper.temptProduct);
         }
+        [Manage(Config.Products.Products)]
+
         public ActionResult UpdateProduct(string productId)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -471,6 +489,8 @@ namespace POSApp.Controllers
             return View( productVm);
         }
         [HttpPost]
+        [Manage(Config.Products.Products)]
+
         public ActionResult UpdateProduct(string productId, ProductCreateViewModel productVm,HttpPostedFileBase file)
         {
             var userid = User.Identity.GetUserId();
@@ -572,6 +592,9 @@ namespace POSApp.Controllers
 
 
         }
+
+        [Manage(Config.Products.Products)]
+
         public ActionResult DeleteProduct(string id)
         {
             try
@@ -627,6 +650,7 @@ namespace POSApp.Controllers
             return RedirectToAction("ProductsList", "Products");
 
         }
+        [View(Config.Products.ProductCategory)]
 
         public ActionResult ProductCategoryList()
         {
@@ -634,6 +658,9 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).OrderByDescending(a => a.Id));
         }
+
+        [Manage(Config.Products.ProductCategory)]
+
         public ActionResult AddProductCategoryPartial()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -652,6 +679,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Products.ProductCategory)]
+
         public ActionResult AddProductCategoryPartial(ProductCategoryViewModel productcategoryvm)
         {
            
@@ -679,6 +708,7 @@ namespace POSApp.Controllers
             }
 
         }
+        [Manage(Config.Products.ProductCategory)]
 
         public ActionResult AddProductCategory()
         {
@@ -697,6 +727,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Products.ProductCategory)]
+
         public ActionResult AddProductCategory(ProductCategoryViewModel productCategory, HttpPostedFileBase file)
         {
             var userid = User.Identity.GetUserId();
@@ -784,6 +816,9 @@ namespace POSApp.Controllers
             return View(productCategory);
 
         }
+
+        [Manage(Config.Products.ProductCategory)]
+
         public ActionResult UpdateProductCategory(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -805,6 +840,8 @@ namespace POSApp.Controllers
             return View("AddProductCategory", product);
         }
         [HttpPost]
+        [Manage(Config.Products.ProductCategory)]
+
         public ActionResult UpdateProductCategory(int id, ProductCategoryViewModel productCategoryVm, HttpPostedFileBase file)
         {
             var userid = User.Identity.GetUserId();
@@ -890,6 +927,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Products.ProductCategory)]
 
         public ActionResult DeleteProductCategory(int id, int storeid)
         {
@@ -959,12 +997,17 @@ namespace POSApp.Controllers
             }
         }
 
+        [View(Config.Products.ProductCategoryGroup)]
+
         public ActionResult ProductCategoryGroupList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.ProductCategoryGroupRepository.GetProductCategoryGroups((int)user.StoreId).OrderByDescending(a => a.Id));
         }
+
+        [Manage(Config.Products.ProductCategoryGroup)]
+
         public ActionResult AddProductCategoryGroupPartial()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -976,6 +1019,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Products.ProductCategoryGroup)]
+
         public ActionResult AddProductCategoryGroupPartial(ProductCategoryGroupViewModel ProductCategoryGroupvm)
         {
             ViewBag.edit = "AddProductCategoryGroupPartial";
@@ -996,6 +1041,7 @@ namespace POSApp.Controllers
             }
 
         }
+        [Manage(Config.Products.ProductCategoryGroup)]
 
         public ActionResult AddProductCategoryGroup()
         {
@@ -1008,6 +1054,9 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+
+        [Manage(Config.Products.ProductCategoryGroup)]
+
         public ActionResult AddProductCategoryGroup(ProductCategoryGroupViewModel productCategoryGroup)
         {
             ViewBag.edit = "AddProductCategoryGroup";
@@ -1075,6 +1124,9 @@ namespace POSApp.Controllers
             return View(productCategoryGroup);
 
         }
+
+        [Manage(Config.Products.ProductCategoryGroup)]
+
         public ActionResult UpdateProductCategoryGroup(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -1090,6 +1142,8 @@ namespace POSApp.Controllers
             return View("AddProductCategoryGroup", product);
         }
         [HttpPost]
+        [Manage(Config.Products.ProductCategoryGroup)]
+
         public ActionResult UpdateProductCategoryGroup(int id, ProductCategoryGroupViewModel productCategoryGroupVm)
         {
             ViewBag.edit = "UpdateProductCategoryGroup";
@@ -1156,6 +1210,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Products.ProductCategoryGroup)]
 
         public ActionResult DeleteProductCategoryGroup(int id, int storeid)
         {
@@ -1210,12 +1265,15 @@ namespace POSApp.Controllers
         }
 
         //ModifierOption
+        [View(Config.Products.Modifiers)]
+
         public ActionResult ModifierOptionList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.ModifierOptionRepository.GetModifierOptions((int)user.StoreId).ToList().OrderByDescending(a => a.Id));
         }
+        [Manage(Config.Products.Modifiers)]
 
         public ActionResult AddModifierOption()
         {
@@ -1228,6 +1286,8 @@ namespace POSApp.Controllers
             return View(modifieroption);
         }
         [HttpPost]
+        [Manage(Config.Products.Modifiers)]
+
         public ActionResult AddModifierOption(ModifierOptionViewModel modifieroptionVm)
         {
             if (Helper.TempModifierOptions == null)
@@ -1250,6 +1310,9 @@ namespace POSApp.Controllers
             }
 
         }
+
+        [Manage(Config.Products.Modifiers)]
+
         public ActionResult UpdateModifierOption(string name)
         {
             
@@ -1261,6 +1324,8 @@ namespace POSApp.Controllers
             return View("AddModifierOption", modifieroptionVm);
         }
         [HttpPost]
+        [Manage(Config.Products.Modifiers)]
+
         public ActionResult UpdateModifierOption(string name, ModifierOptionViewModel modifieroptionVm)
         {
             ViewBag.edit = "UpdateModifierOption";
@@ -1284,6 +1349,9 @@ namespace POSApp.Controllers
             }
 
         }
+
+        [Manage(Config.Products.Modifiers)]
+
         public ActionResult DeleteModifierOption(string name, int storeid)
         {
             if (Helper.TempModifierOptions == null)
@@ -1313,12 +1381,15 @@ namespace POSApp.Controllers
                 throw;
             }
         }
+        [View(Config.Products.Modifiers)]
+
         public ActionResult ModifierList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<ModifierListViewModel[]>(_unitOfWork.ModifierRepository.GetModifiers((int)user.StoreId).OrderByDescending(a => a.Id)));
         }
+        [View(Config.Products.Modifiers)]
 
         public ActionResult ModifierDetails(int modifierId)
         {
@@ -1328,6 +1399,8 @@ namespace POSApp.Controllers
             return View(data);
         }
         [HttpGet]
+        [Manage(Config.Products.Modifiers)]
+
         public ActionResult AddModifier()
         {
         
@@ -1343,6 +1416,8 @@ namespace POSApp.Controllers
             return View(new ModifierViewModel());
         }
         [HttpPost]
+        [Manage(Config.Products.Modifiers)]
+
         public ActionResult AddModifier(ModifierViewModel modifierVm)
         {
             ViewBag.edit = "AddModifier";
@@ -1417,6 +1492,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Products.Modifiers)]
+
         public ActionResult UpdateModifier(int id)
         {
          
@@ -1446,6 +1523,8 @@ namespace POSApp.Controllers
             return View("AddModifier", modifierVm);
         }
         [HttpPost]
+        [Manage(Config.Products.Modifiers)]
+
         public ActionResult UpdateModifier(int id, ModifierViewModel modifierVm)
         {
             ViewBag.edit = "UpdateModifier";
@@ -1518,6 +1597,9 @@ namespace POSApp.Controllers
 
 
         }
+
+        [Manage(Config.Products.Modifiers)]
+
         public ActionResult DeleteModifier(int id)
         {
             try
@@ -1578,6 +1660,9 @@ namespace POSApp.Controllers
         //    return View(_unitOfWork.ModifierLinkProductRepository.GetModifierLinkProducts());
         //}
         [HttpGet]
+
+        [Manage(Config.Products.ModifierLinkProduct)]
+
         public ActionResult AddModifierLinkProduct(int modifierId)
         {
             ModifierLinkProductViewModel ModifierLinkProduct = new ModifierLinkProductViewModel();
@@ -1598,6 +1683,8 @@ namespace POSApp.Controllers
             return View(ModifierLinkProduct);
         }
         [HttpPost]
+        [Manage(Config.Products.ModifierLinkProduct)]
+
         public ActionResult AddModifierLinkProduct(ModifierLinkProductViewModel ModifierLinkProductMv)
         {
 
@@ -1677,19 +1764,25 @@ namespace POSApp.Controllers
 
 
         }
-       
+        [View(Config.Products.Combo)]
+
         public ActionResult CombosList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.Type == "Combo").ToList().OrderByDescending(a => a.Id));
         }
+        [View(Config.Products.Combo)]
+
         public ActionResult CombosDetails(int comboId)
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.ProductRepository.GetProductById(comboId, (int)user.StoreId));
         }
+
+        [Manage(Config.Products.Combo)]
+
         public ActionResult AddCombo()
         {
 
@@ -1725,6 +1818,8 @@ namespace POSApp.Controllers
             return View(product);
         }
         [HttpPost]
+        [Manage(Config.Products.Combo)]
+
         public ActionResult AddCombo(ComboViewModel productVm, HttpPostedFileBase file)
         {
            
@@ -1833,6 +1928,9 @@ namespace POSApp.Controllers
 
 
         }
+
+        [Manage(Config.Products.Combo)]
+
         public ActionResult UpdateCombo(int id)
         {
 
@@ -1875,6 +1973,8 @@ namespace POSApp.Controllers
             return View("AddCombo", productVm);
         }
         [HttpPost]
+        [Manage(Config.Products.Combo)]
+
         public ActionResult UpdateCombo(string id, ComboViewModel productVm, HttpPostedFileBase file)
         {
             ViewBag.edit = "UpdateCombo";
@@ -1969,6 +2069,9 @@ namespace POSApp.Controllers
 
 
         }
+
+        [Manage(Config.Products.Combo)]
+
         public ActionResult DeleteCombo(string id, int storeid)
         {
             try
@@ -2020,6 +2123,9 @@ namespace POSApp.Controllers
             return RedirectToAction("CombosList", "Products");
 
         }
+
+        [Manage(Config.Products.ComboOption)]
+
         public ActionResult AddComboOption()
         {
             var userid = User.Identity.GetUserId();
@@ -2032,6 +2138,8 @@ namespace POSApp.Controllers
             return View(Combooption);
         }
         [HttpPost]
+        [Manage(Config.Products.ComboOption)]
+
         public ActionResult AddComboOption(ProductSubViewModel CombooptionVm)
         {
             if (Helper.TempComboOptions == null)
@@ -2059,6 +2167,8 @@ namespace POSApp.Controllers
             }
 
         }
+        [Manage(Config.Products.ComboOption)]
+
         public ActionResult UpdateComboOption(string productId, int storeId)
         {
 
@@ -2072,6 +2182,8 @@ namespace POSApp.Controllers
             return View("AddComboOption", CombooptionVm);
         }
         [HttpPost]
+        [Manage(Config.Products.ComboOption)]
+
         public ActionResult UpdateComboOption(string productId, string cpid, ProductSubViewModel productSubVm)
         {
             ViewBag.edit = "UpdateComboOption";
@@ -2100,6 +2212,9 @@ namespace POSApp.Controllers
             }
 
         }
+
+        [Manage(Config.Products.ComboOption)]
+
         public ActionResult DeleteComboOption(string productId, int storeid)
         {
             if (Helper.TempComboOptions == null)
@@ -2117,6 +2232,9 @@ namespace POSApp.Controllers
 
         }
         //Section
+
+        [Manage(Config.Products.Sections)]
+
         public ActionResult AddSectionPartial()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2128,6 +2246,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Products.Sections)]
+
         public ActionResult AddSectionPartial(SectionViewModel sectionVm)
         {
             ViewBag.edit = "AddSectionPartial";
@@ -2209,6 +2329,8 @@ namespace POSApp.Controllers
                 throw;
             }
         }
+        [View(Config.Products.Sections)]
+
         public ActionResult SectionList()
         {
             var userid = User.Identity.GetUserId();
@@ -2216,6 +2338,8 @@ namespace POSApp.Controllers
             return View(_unitOfWork.SectionRepository.GetSections((int)user.StoreId).OrderByDescending(a => a.SectionId));
         }
         [HttpGet]
+        [Manage(Config.Products.Sections)]
+
         public ActionResult AddSection()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2230,6 +2354,8 @@ namespace POSApp.Controllers
             return View(Section);
         }
         [HttpPost]
+        [Manage(Config.Products.Sections)]
+
         public ActionResult AddSection(SectionViewModel SectionMv)
         {
 
@@ -2297,6 +2423,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Products.Sections)]
+
         public ActionResult UpdateSection(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2312,6 +2440,8 @@ namespace POSApp.Controllers
             return View("AddSection", SectionMv);
         }
         [HttpPost]
+        [Manage(Config.Products.Sections)]
+
         public ActionResult UpdateSection(int id, SectionViewModel SectionMv)
         {
             ViewBag.edit = "UpdateSate";
@@ -2377,6 +2507,9 @@ namespace POSApp.Controllers
 
 
         }
+
+        [Manage(Config.Products.Sections)]
+
         public ActionResult DeleteSection(int id)
         {
             try
@@ -2430,6 +2563,8 @@ namespace POSApp.Controllers
 
 
         //Recipe
+        [View(Config.Products.Recipe)]
+
         public JsonResult RecipeList(string productCode)
         {
             var userid = User.Identity.GetUserId();
@@ -2437,6 +2572,8 @@ namespace POSApp.Controllers
             return Json(Mapper.Map<RecipeListViewModel[]>(_unitOfWork.RecipeRepository.GetRecipes((int)user.StoreId, productCode)), JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
+        [Manage(Config.Products.Recipe)]
+
         public ActionResult AddRecipe(string code)
         {
             RecipeViewModel RecipeVm = new RecipeViewModel();
@@ -2454,6 +2591,8 @@ namespace POSApp.Controllers
            
         }
         [HttpPost]
+        [Manage(Config.Products.Recipe)]
+
         public ActionResult AddRecipe(RecipeViewModel RecipeVm)
         {
             ViewBag.edit = "AddRecipe";
@@ -2549,6 +2688,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Products.Recipe)]
 
         public ActionResult DeleteRecipe(int id,string code)
         {
@@ -2614,6 +2754,9 @@ namespace POSApp.Controllers
 
 
         }
+
+        [View(Config.Products.Products)]
+
         public ActionResult ProductDetail(string productId)
         {
             var userid = User.Identity.GetUserId();
@@ -2621,6 +2764,7 @@ namespace POSApp.Controllers
             var data = _unitOfWork.ProductRepository.GetProductByCode(productId, (int)user.StoreId);
             return View(data);
         }
+        [View(Config.Products.InventoryItems)]
 
         public ActionResult InventoryItemsList()
         {
@@ -2629,6 +2773,8 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.InventoryItem).ToList().OrderByDescending(a => a.Id));
         }
         [HttpGet]
+        [Manage(Config.Products.InventoryItems)]
+
         public ActionResult AddInventoryItems()
         {
             var userid = User.Identity.GetUserId();
@@ -2646,6 +2792,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.Products.InventoryItems)]
+
         public ActionResult AddInventoryItems(ItemsViewModel itemVm)
         {
             ViewBag.edit = "AddInventoryItems";
@@ -2718,6 +2866,8 @@ namespace POSApp.Controllers
             return View(itemVm);
 
         }
+        [Manage(Config.Products.InventoryItems)]
+
         public ActionResult UpdateInventoryItems(string productId)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2733,6 +2883,8 @@ namespace POSApp.Controllers
             return View("AddInventoryItems", itemVm);
         }
         [HttpPost]
+        [Manage(Config.Products.InventoryItems)]
+
         public ActionResult UpdateInventoryItems(string productId, ItemsViewModel itemVm)
         {
             var userid = User.Identity.GetUserId();
@@ -2804,6 +2956,9 @@ namespace POSApp.Controllers
 
 
         }
+
+        [Manage(Config.Products.InventoryItems)]
+
         public ActionResult DeleteInventoryItems(string id)
         {
             try

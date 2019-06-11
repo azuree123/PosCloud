@@ -37,6 +37,7 @@ namespace POSApp.Controllers
             }
         }
         // GET: User
+
         public ActionResult UserList()
         {
             var userid = User.Identity.GetUserId();
@@ -52,13 +53,15 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             UserViewModel userMv =
-                Mapper.Map<UserViewModel>(_unitOfWork.UserRepository.GetUserById(id));
+                Mapper.Map<UserViewModel>(_unitOfWork.UserRepository.GetUserById(id, user.StoreId));
             return View(userMv);
         }
         [HttpPost]
+        [Manage(Config.User.User)]
+
         public ActionResult UpdateUser(string id, UserViewModel userMv)
         {
-           
+
             ViewBag.edit = "UpdateUser";
             try
             {
@@ -122,6 +125,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.User.User)]
+
         public ActionResult DeleteUser(string id)
         {
             try
@@ -176,6 +181,8 @@ namespace POSApp.Controllers
 
 
         }
+        //[View(Config.User.SecurityObject)]
+
         public ActionResult SecurityObjectList()
         {
             return View(Mapper.Map<SecurityObjectViewModel[]>(_unitOfWork.SecurityObjectRepository.GetSecurityObjects()));
@@ -187,6 +194,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        //[Manage(Config.User.SecurityObject)]
+
         public ActionResult AddSecurityObject(SecurityObjectViewModel securityObjectMv)
         {
             ViewBag.edit = "AddSecurityObject";
@@ -250,14 +259,19 @@ namespace POSApp.Controllers
 
 
         }
-        public ActionResult UpdateSecurityObject(int id)
+        //[Manage(Config.User.SecurityObject)]
+
+        public ActionResult UpdateSecurityObject(SecurityObjectViewModel sO, int id)
         {
             ViewBag.edit = "UpdateSecurityObject";
             SecurityObjectViewModel securityObjectMv = Mapper.Map<SecurityObjectViewModel>(_unitOfWork.SecurityObjectRepository.GetSecurityObject(id));
+
             return View("AddSecurityObject", securityObjectMv);
         }
         [HttpPost]
-        public ActionResult UpdateSecurityObject(int id,SecurityObjectViewModel securityObjectMv)
+        //[Manage(Config.User.SecurityObject)]
+
+        public ActionResult UpdateSecurityObject(int id, SecurityObjectViewModel securityObjectMv)
         {
             ViewBag.edit = "UpdateSecurityObject";
             try
@@ -319,6 +333,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.User.SecurityObject)]
+
         public ActionResult DeleteSecurityObject(int id)
         {
             try
@@ -424,7 +440,7 @@ namespace POSApp.Controllers
                 }
                 else if (id == Config.SecurityRights.User)
                 {
-                    send = EnumHelper.GetSelectList(typeof(Config.User));
+                    //send = EnumHelper.GetSelectList(typeof(Config.User));
                 }
                 else if (id == Config.SecurityRights.Products)
                 {

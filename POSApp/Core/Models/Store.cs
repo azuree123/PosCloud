@@ -8,7 +8,7 @@ namespace POSApp.Core.Models
         public int Id { get; set; }
 
        // public string Reference { get; set; } //code
-        public int? ClientId { get; set; }
+        public int ClientId { get; set; }
         public Client Client { get; set; }
         public string Name { get; set; }
         public string ArabicName { get; set; }
@@ -40,6 +40,7 @@ namespace POSApp.Core.Models
         public virtual ICollection<ModifierOption> ModifierOptions { get; set; }
 
         public virtual ICollection<TimedEvent> TimedEvents { get; set; }
+        public virtual ICollection<IncrementalSyncronization> IncrementalSyncronizations { get; set; }
         public virtual ICollection<ProductsSub> ProductsSubs { get; set; }
         public virtual ICollection<TimedEventProducts> TimedEventProducts { get; set; }
         public virtual ICollection<Floor> Floors { get; set; }

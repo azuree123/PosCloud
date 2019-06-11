@@ -11,6 +11,7 @@ using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.Shared;
 using POSApp.Core.ViewModels;
+using POSApp.SecurityFilters;
 
 namespace POSApp.Controllers
 {
@@ -29,18 +30,25 @@ namespace POSApp.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: PurchaseOrders
+        [View(Config.PurchaseOrders.PurchaseOrder)]
+
         public ActionResult PurchaseOrderList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "PRO").OrderByDescending(a => a. Id)));
         }
+        [View(Config.PurchaseOrders.PurchaseOrder)]
+
         public ActionResult DailyPurchaseOrderList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMastersByDate((int)user.StoreId).Where(a => a.Type == "PRI").OrderByDescending(a => a.Id)));
         }
+
+        [View(Config.PurchaseOrders.PurchaseOrder)]
+
         public ActionResult PreviewPurchaseOrder(int id)
         {
             var userid = User.Identity.GetUserId();
@@ -63,11 +71,14 @@ namespace POSApp.Controllers
 
     }
 
-    public ActionResult PurchaseOrderDetailList(int purchaseOrderId)
+        [View(Config.PurchaseOrders.PurchaseOrder)]
+
+        public ActionResult PurchaseOrderDetailList(int purchaseOrderId)
     {
         return View();
     }
-        
+        [Manage(Config.PurchaseOrders.PurchaseOrder)]
+
         public ActionResult AddPurchaseOrder()
         {
             TransMasterViewModel po=new TransMasterViewModel();
@@ -83,6 +94,8 @@ namespace POSApp.Controllers
             return View(po);
         }
         [HttpPost]
+        [Manage(Config.PurchaseOrders.PurchaseOrder)]
+
         public ActionResult AddPurchaseOrder(TransMasterViewModel po)
         {
             var userid = User.Identity.GetUserId();
@@ -130,6 +143,8 @@ namespace POSApp.Controllers
             
 
         }
+        [Manage(Config.PurchaseOrders.PurchaseOrder)]
+
 
         public ActionResult AddTransactionItem()
         {
@@ -138,7 +153,9 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>(a.PurchaseItem||a.InventoryItem)).OrderBy(a=>a.Name).Select(a=>new SelectListItem{Text = a.Name+"("+a.ProductCode+")",Value = a.Id.ToString()}));
         }
         [HttpPost]
-        public ActionResult AddTransactionItem(int productId,int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
+        [Manage(Config.PurchaseOrders.PurchaseOrder)]
+
+        public ActionResult AddTransactionItem(int productId,int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost, string batchNumber, DateTime? manufactureDate, DateTime? expiryDate)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -152,9 +169,12 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity,cost,user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity,cost,batchNumber,manufactureDate,expiryDate,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+
+        [Manage(Config.PurchaseOrders.PurchaseOrder)]
+
         public ActionResult RemoveTransactionItem(string productId)
         {
             if (PoHelper.temptTransDetail == null)
@@ -169,6 +189,7 @@ namespace POSApp.Controllers
         }
 
         //Stock
+        [View(Config.PurchaseOrders.Stock)]
 
         public ActionResult PreviewStock(int id)
         {
@@ -191,12 +212,16 @@ namespace POSApp.Controllers
             return RedirectToAction("GenerateStockReceipt", "PurchaseOrders");
 
         }
+        [View(Config.PurchaseOrders.Stock)]
+
         public ActionResult StockList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "STI").OrderByDescending(a => a.Id)));
         }
+        [Manage(Config.PurchaseOrders.Stock)]
+
         public ActionResult AddStock()
         {
             TransMasterViewModel po = new TransMasterViewModel();
@@ -212,6 +237,8 @@ namespace POSApp.Controllers
             return View(po);
         }
         [HttpPost]
+        [Manage(Config.PurchaseOrders.Stock)]
+
         public ActionResult AddStock(TransMasterViewModel po)
         {
             var userid = User.Identity.GetUserId();
@@ -260,6 +287,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.PurchaseOrders.Stock)]
 
         public ActionResult AddStockItem()
         {
@@ -268,7 +296,9 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => (a.PurchaseItem || a.InventoryItem)).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }));
         }
         [HttpPost]
-        public ActionResult AddStockItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
+        [Manage(Config.PurchaseOrders.Stock)]
+
+        public ActionResult AddStockItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost,string batchNumber,DateTime? manufactureDate, DateTime? expiryDate)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -281,9 +311,11 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost,batchNumber,manufactureDate,expiryDate ,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+        [Manage(Config.PurchaseOrders.Stock)]
+
         public ActionResult DeleteStock(int id, int storeid)
         {
             try
@@ -336,6 +368,8 @@ namespace POSApp.Controllers
 
         }
         //Transfer
+        [View(Config.PurchaseOrders.Transfer)]
+
         public ActionResult PreviewTransferOrder(int id)
         {
             var userid = User.Identity.GetUserId();
@@ -356,12 +390,17 @@ namespace POSApp.Controllers
             return RedirectToAction("GenerateTransferReceipt", "PurchaseOrders");
 
         }
+
+        [View(Config.PurchaseOrders.Transfer)]
+
         public ActionResult TransferList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "TRS").OrderByDescending(a => a.Id)));
         }
+        [Manage(Config.PurchaseOrders.Transfer)]
+
         public ActionResult AddTransfer()
         {
             TransMasterViewModel po = new TransMasterViewModel();
@@ -388,6 +427,8 @@ namespace POSApp.Controllers
             return View(po);
         }
         [HttpPost]
+        [Manage(Config.PurchaseOrders.Transfer)]
+
         public ActionResult AddTransfer(TransMasterViewModel po)
         {
             var userid = User.Identity.GetUserId();
@@ -435,6 +476,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.PurchaseOrders.Transfer)]
 
         public ActionResult AddTransferItem()
         {
@@ -443,7 +485,9 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => (a.PurchaseItem || a.InventoryItem)).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }));
         }
         [HttpPost]
-        public ActionResult AddTransferItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
+        [Manage(Config.PurchaseOrders.Transfer)]
+
+        public ActionResult AddTransferItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost,string batchNumber,DateTime? manufactureDate, DateTime? expiryDate)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -457,9 +501,10 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost, batchNumber,manufactureDate,expiryDate,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+        [Manage(Config.PurchaseOrders.Transfer)]
 
         public ActionResult DeleteTransfer(int id, int storeid)
         {
@@ -513,6 +558,7 @@ namespace POSApp.Controllers
 
         }
         //Purchasing
+        [View(Config.PurchaseOrders.Purchasing)]
 
         public ActionResult PreviewPurchasing(int id)
         {
@@ -535,12 +581,17 @@ namespace POSApp.Controllers
             return RedirectToAction("GeneratePurchasingReceipt", "PurchaseOrders");
 
         }
+        [View(Config.PurchaseOrders.Purchasing)]
+
         public ActionResult PurchasingList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "PRI").OrderByDescending(a => a.Id)));
         }
+
+        [Manage(Config.PurchaseOrders.Purchasing)]
+
         public ActionResult AddPurchasing()
         {
             TransMasterViewModel po = new TransMasterViewModel();
@@ -558,6 +609,8 @@ namespace POSApp.Controllers
             return View(po);
         }
         [HttpPost]
+        [Manage(Config.PurchaseOrders.Purchasing)]
+
         public ActionResult AddPurchasing(TransMasterViewModel po)
         {
             var userid = User.Identity.GetUserId();
@@ -609,6 +662,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.PurchaseOrders.Purchasing)]
 
         public ActionResult AddPurchasingItem()
         {
@@ -617,7 +671,9 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => (a.PurchaseItem || a.InventoryItem)).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }));
         }
         [HttpPost]
-        public ActionResult AddPurchasingItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
+        [Manage(Config.PurchaseOrders.Purchasing)]
+
+        public ActionResult AddPurchasingItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost,string batchNumber, DateTime? manufactureDate, DateTime? expireDate)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -631,9 +687,12 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
-            return View("PoTable", PoHelper.temptTransDetail);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost,batchNumber,manufactureDate,expireDate, user.Id);
+            return View("PoPurchasing", PoHelper.temptTransDetail);
         }
+
+        [Manage(Config.PurchaseOrders.Purchasing)]
+
         public ActionResult UpdatePurchasing(int id)
         {
 
@@ -659,7 +718,7 @@ namespace POSApp.Controllers
 
             foreach (var modifierVmModifierOptionViewModel in productVm.TransDetailViewModels)
             {
-                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode,modifierVmModifierOptionViewModel.StoreId),modifierVmModifierOptionViewModel.Quantity,modifierVmModifierOptionViewModel.UnitPrice,userid);
+                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode,modifierVmModifierOptionViewModel.StoreId),modifierVmModifierOptionViewModel.Quantity,modifierVmModifierOptionViewModel.UnitPrice, modifierVmModifierOptionViewModel.BatchNumber, modifierVmModifierOptionViewModel.ManufactureDate, modifierVmModifierOptionViewModel.ExpiryDate, userid);
             }
 
             productVm.TransDetailViewModels = PoHelper.temptTransDetail;
@@ -667,6 +726,8 @@ namespace POSApp.Controllers
             return View("AddPurchasing", productVm);
         }
         [HttpPost]
+        [Manage(Config.PurchaseOrders.Purchasing)]
+
         public ActionResult UpdatePurchasing(int id, TransMasterViewModel purchasingVm)
         {
             var userid = User.Identity.GetUserId();
@@ -754,6 +815,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.PurchaseOrders.Purchasing)]
 
         public ActionResult DeletePurchasing(int id, int storeid)
         {
@@ -807,6 +869,8 @@ namespace POSApp.Controllers
 
         }
         //End Purchasing
+        [View(Config.PurchaseOrders.Purchasing)]
+
         public ActionResult GetPurchaseOrder(int id)
         {
 
@@ -835,13 +899,15 @@ namespace POSApp.Controllers
                 .GetTransDetails(id, Convert.ToInt32(user.StoreId)).ToList();
             foreach (var modifierVmModifierOptionViewModel in productVm.TransDetailViewModels)
             {
-                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode, modifierVmModifierOptionViewModel.StoreId), modifierVmModifierOptionViewModel.Quantity, modifierVmModifierOptionViewModel.UnitPrice, userid);
+                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode, modifierVmModifierOptionViewModel.StoreId), modifierVmModifierOptionViewModel.Quantity, modifierVmModifierOptionViewModel.UnitPrice, modifierVmModifierOptionViewModel.BatchNumber, modifierVmModifierOptionViewModel.ManufactureDate, modifierVmModifierOptionViewModel.ExpiryDate, userid);
             }
 
             ViewBag.js = "<script>ChangeTableFill();</script>";
             return View("AddPurchasing", productVm);
         }
         [HttpPost]
+        [View(Config.PurchaseOrders.Purchasing)]
+
         public ActionResult GetPurchaseOrder(int id, TransMasterViewModel purchasingVm)
         {
             var userid = User.Identity.GetUserId();
@@ -941,6 +1007,7 @@ namespace POSApp.Controllers
         }
 
         //Other In
+        [View(Config.PurchaseOrders.OtherIn)]
 
         public ActionResult OtherInList()
         {
@@ -948,7 +1015,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "OTI").OrderByDescending(a => a.Id)));
         }
-       
+        [View(Config.PurchaseOrders.OtherIn)]
+
         public ActionResult PreviewOtherIn(int id)
         {
             var userid = User.Identity.GetUserId();
@@ -969,7 +1037,8 @@ namespace POSApp.Controllers
 
         }
 
-       
+
+        [Manage(Config.PurchaseOrders.OtherIn)]
 
         public ActionResult AddOtherIn()
         {
@@ -985,6 +1054,8 @@ namespace POSApp.Controllers
             return View(po);
         }
         [HttpPost]
+        [Manage(Config.PurchaseOrders.OtherIn)]
+
         public ActionResult AddOtherIn(TransMasterViewModel po)
         {
             var userid = User.Identity.GetUserId();
@@ -1029,6 +1100,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.PurchaseOrders.OtherIn)]
 
         public ActionResult AddOtherInItem()
         {
@@ -1037,7 +1109,9 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.InventoryItem).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }));
         }
         [HttpPost]
-        public ActionResult AddOtherInItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
+        [Manage(Config.PurchaseOrders.OtherIn)]
+
+        public ActionResult AddOtherInItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost, string batchNumber, DateTime? manufactureDate, DateTime? expiryDate)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -1051,9 +1125,11 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost, batchNumber,manufactureDate,expiryDate, user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+        [Manage(Config.PurchaseOrders.OtherIn)]
+
         public ActionResult DeleteOtherIn(int id, int storeid)
         {
             try
@@ -1107,6 +1183,7 @@ namespace POSApp.Controllers
         }
 
         //Other Out
+        [View(Config.PurchaseOrders.OtherOut)]
 
         public ActionResult OtherOutList()
         {
@@ -1114,6 +1191,7 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "OTO").OrderByDescending(a => a.Id)));
         }
+        [View(Config.PurchaseOrders.OtherIn)]
 
         public ActionResult PreviewOtherOut(int id)
         {
@@ -1136,6 +1214,7 @@ namespace POSApp.Controllers
         }
 
 
+        [Manage(Config.PurchaseOrders.OtherOut)]
 
         public ActionResult AddOtherOut()
         {
@@ -1151,6 +1230,8 @@ namespace POSApp.Controllers
             return View(po);
         }
         [HttpPost]
+        [Manage(Config.PurchaseOrders.OtherOut)]
+
         public ActionResult AddOtherOut(TransMasterViewModel po)
         {
             var userid = User.Identity.GetUserId();
@@ -1195,6 +1276,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.PurchaseOrders.OtherOut)]
 
         public ActionResult AddOtherOutItem()
         {
@@ -1203,7 +1285,10 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.InventoryItem).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }));
         }
         [HttpPost]
-        public ActionResult AddOtherOutItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
+        [Manage(Config.PurchaseOrders.OtherOut)]
+        [Manage(Config.PurchaseOrders.OtherOut)]
+
+        public ActionResult AddOtherOutItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost, string batchNumber,DateTime? manufactureDate, DateTime? expiryDate)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -1217,9 +1302,12 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost,batchNumber,manufactureDate,expiryDate, user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+
+        [Manage(Config.PurchaseOrders.OtherOut)]
+
         public ActionResult DeleteOtherOut(int id, int storeid)
         {
             try
@@ -1271,6 +1359,9 @@ namespace POSApp.Controllers
             return RedirectToAction("OtherOutList");
 
         }
+
+        [Manage(Config.PurchaseOrders.OtherOut)]
+
         public ActionResult GenerateOtherOutReceipt()
         {
             GeneratePurchaseOrderViewModel po = (GeneratePurchaseOrderViewModel)TempData["po"];
@@ -1282,6 +1373,7 @@ namespace POSApp.Controllers
         }
 
         //Expiry
+        [View(Config.PurchaseOrders.Expiry)]
 
         public ActionResult ExpiryList()
         {
@@ -1289,6 +1381,7 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "EXP").OrderByDescending(a => a.Id)));
         }
+        [View(Config.PurchaseOrders.Expiry)]
 
         public ActionResult PreviewExpiry(int id)
         {
@@ -1312,6 +1405,7 @@ namespace POSApp.Controllers
         }
 
 
+        [Manage(Config.PurchaseOrders.Expiry)]
 
         public ActionResult AddExpiry()
         {
@@ -1329,6 +1423,9 @@ namespace POSApp.Controllers
             return View(po);
         }
         [HttpPost]
+
+        [Manage(Config.PurchaseOrders.Expiry)]
+
         public ActionResult AddExpiry(TransMasterViewModel po)
         {
             var userid = User.Identity.GetUserId();
@@ -1376,6 +1473,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.PurchaseOrders.Expiry)]
+
         public ActionResult UpdateExpiry(int id)
         {
 
@@ -1401,7 +1500,7 @@ namespace POSApp.Controllers
 
             foreach (var modifierVmModifierOptionViewModel in productVm.TransDetailViewModels)
             {
-                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode, modifierVmModifierOptionViewModel.StoreId), modifierVmModifierOptionViewModel.Quantity, modifierVmModifierOptionViewModel.UnitPrice, userid);
+                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode, modifierVmModifierOptionViewModel.StoreId), modifierVmModifierOptionViewModel.Quantity, modifierVmModifierOptionViewModel.UnitPrice,  modifierVmModifierOptionViewModel.BatchNumber, modifierVmModifierOptionViewModel.ManufactureDate, modifierVmModifierOptionViewModel.ExpiryDate,userid);
             }
 
             productVm.TransDetailViewModels = PoHelper.temptTransDetail;
@@ -1409,6 +1508,8 @@ namespace POSApp.Controllers
             return View("AddExpiry", productVm);
         }
         [HttpPost]
+        [Manage(Config.PurchaseOrders.Expiry)]
+
         public ActionResult UpdateExpiry(int id, TransMasterViewModel purchasingVm)
         {
             var userid = User.Identity.GetUserId();
@@ -1496,6 +1597,9 @@ namespace POSApp.Controllers
 
 
         }
+
+        [Manage(Config.PurchaseOrders.Expiry)]
+
         public ActionResult AddExpiryItem()
         {
             var userid = User.Identity.GetUserId();
@@ -1503,7 +1607,9 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.InventoryItem).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }));
         }
         [HttpPost]
-        public ActionResult AddExpiryItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
+        [Manage(Config.PurchaseOrders.Expiry)]
+
+        public ActionResult AddExpiryItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost, string batchNumber, DateTime? manufactureDate, DateTime? expiryDate)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -1517,9 +1623,10 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost, batchNumber,manufactureDate,expiryDate,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+        [Manage(Config.PurchaseOrders.Expiry)]
 
         public ActionResult GenerateExpiryReceipt()
         {
@@ -1530,6 +1637,8 @@ namespace POSApp.Controllers
             }
             return View(po);
         }
+        [Manage(Config.PurchaseOrders.Expiry)]
+
         public ActionResult DeleteExpiry(int id, int storeid)
         {
             try
@@ -1582,6 +1691,7 @@ namespace POSApp.Controllers
 
         }
         //Waste
+        [View(Config.PurchaseOrders.Waste)]
 
         public ActionResult WasteList()
         {
@@ -1589,6 +1699,7 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "WST").OrderByDescending(a => a.Id)));
         }
+        [View(Config.PurchaseOrders.Waste)]
 
         public ActionResult PreviewWaste(int id)
         {
@@ -1611,6 +1722,7 @@ namespace POSApp.Controllers
         }
 
 
+        [Manage(Config.PurchaseOrders.Waste)]
 
         public ActionResult AddWaste()
         {
@@ -1626,6 +1738,8 @@ namespace POSApp.Controllers
             return View(po);
         }
         [HttpPost]
+        [Manage(Config.PurchaseOrders.Waste)]
+
         public ActionResult AddWaste(TransMasterViewModel po)
         {
             var userid = User.Identity.GetUserId();
@@ -1670,6 +1784,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.PurchaseOrders.Waste)]
 
         public ActionResult AddWasteItem()
         {
@@ -1678,7 +1793,9 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.InventoryItem).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }));
         }
         [HttpPost]
-        public ActionResult AddWasteItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
+        [Manage(Config.PurchaseOrders.Waste)]
+
+        public ActionResult AddWasteItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost, string batchNumber,DateTime? manufactureDate, DateTime? expiryDate)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -1692,9 +1809,10 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost, batchNumber,manufactureDate,expiryDate,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+        [Manage(Config.PurchaseOrders.Waste)]
 
         public ActionResult GenerateWasteReceipt()
         {
@@ -1705,6 +1823,9 @@ namespace POSApp.Controllers
             }
             return View(po);
         }
+
+        [Manage(Config.PurchaseOrders.Waste)]
+
         public ActionResult DeleteWaste(int id, int storeid)
         {
             try
@@ -1757,6 +1878,7 @@ namespace POSApp.Controllers
 
         }
         //Damage
+        [View(Config.PurchaseOrders.Damage)]
 
         public ActionResult DamageList()
         {
@@ -1764,6 +1886,7 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "DMG").OrderByDescending(a => a.Id)));
         }
+        [View(Config.PurchaseOrders.Damage)]
 
         public ActionResult PreviewDamage(int id)
         {
@@ -1787,6 +1910,7 @@ namespace POSApp.Controllers
         }
 
 
+        [Manage(Config.PurchaseOrders.Damage)]
 
         public ActionResult AddDamage()
         {
@@ -1802,6 +1926,8 @@ namespace POSApp.Controllers
             return View(po);
         }
         [HttpPost]
+        [Manage(Config.PurchaseOrders.Damage)]
+
         public ActionResult AddDamage(TransMasterViewModel po)
         {
             var userid = User.Identity.GetUserId();
@@ -1846,6 +1972,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.PurchaseOrders.Damage)]
 
         public ActionResult AddDamageItem()
         {
@@ -1854,7 +1981,9 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.InventoryItem).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }));
         }
         [HttpPost]
-        public ActionResult AddDamageItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
+        [Manage(Config.PurchaseOrders.Damage)]
+
+        public ActionResult AddDamageItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost, string batchNumber, DateTime? manufactureDate,DateTime? expiryDate)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -1868,9 +1997,12 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost, batchNumber,manufactureDate,expiryDate ,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
+
+        [Manage(Config.PurchaseOrders.Damage)]
+
         public ActionResult DeleteDamage(int id, int storeid)
         {
             try
@@ -1922,6 +2054,8 @@ namespace POSApp.Controllers
             return RedirectToAction("DamageList");
 
         }
+        [Manage(Config.PurchaseOrders.Damage)]
+
         public ActionResult GenerateDamageReceipt()
         {
             GeneratePurchaseOrderViewModel po = (GeneratePurchaseOrderViewModel)TempData["po"];
@@ -1952,6 +2086,7 @@ namespace POSApp.Controllers
             }
             return View(po);
         }
+
         public ActionResult GenerateStockReceipt()
         {
             GeneratePurchaseOrderViewModel po = (GeneratePurchaseOrderViewModel)TempData["po"];

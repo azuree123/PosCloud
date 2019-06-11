@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using POSApp.Resources;
 
 namespace POSApp.Models
 {
@@ -68,7 +69,7 @@ namespace POSApp.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Email { get; set; }
 
         [Required]
@@ -83,16 +84,21 @@ namespace POSApp.Models
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         [Required]
+        [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Name { get; set; }
         public string CompanyName { get; set; }
         [Required]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{8})$", ErrorMessage = "Entered phone format like (050xxxxxxxx)")]
+        [Display(Name = "MobileNumber", ResourceType = typeof(Resource))]
+
         public string PhoneNumber { get; set; }
         public bool IsAdmin { get; set; }
+        [Display(Name = "Address", ResourceType = typeof(Resource))]
+
         public string Address { get; set; }
         [DisplayName("Select Employee")]
         public int EmployeeId { get; set; }
-        public IEnumerable<SelectListItem> EmpDdl { get; set; }
+        public IEnumerable<SelectListItem> EmpDdl { get; set; } = new List<SelectListItem>();
     }
 
     public class RegisterListViewModel
@@ -102,6 +108,14 @@ namespace POSApp.Models
         public string Email { get; set; }
         public string UserPassword { get; set; }
         public int? EmployeeId { get; set; }
+    }
+
+    public class UserRoleDataViewModel
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string ManageData { get; set; }
+        public string ViewData { get; set; }
     }
 
     public class ResetPasswordViewModel

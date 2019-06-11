@@ -4,33 +4,84 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
 using POSApp.Core.ViewModels.Sync;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace POSApp.Controllers.WebApi
 {
     public class ProductsController : ApiController
     {
+        private ApplicationUserManager _userManager;
         private IUnitOfWork _unitOfWork;
         public ProductsController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetProducts(int storeId)
+        public async Task<IHttpActionResult> GetProducts(int storeId, bool forceFull, int deviceId)
+        {
+            var data=new object();
+            if (forceFull)
+            {
+                 data = await _unitOfWork.ProductRepository.GetAllProductsAsync(storeId);
+
+                
+                return Ok(Mapper.Map<ProductSyncViewModel[]>(data));
+
+            }
+            else
+            {
+                
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId);
+                if (lastSync == null)
+                {
+                 data = await _unitOfWork.ProductRepository.GetAllProductsAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.ProductRepository.GetAllProductsAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                 _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<ProductSyncViewModel[]>(data));
+
+
+            }
+
+
+        }
+
+        public async Task<IHttpActionResult> GetProductsByLicenec(string licence,int storeId)
         {
             var data = await _unitOfWork.ProductRepository.GetAllProductsAsync(storeId);
             return Ok(Mapper.Map<ProductSyncViewModel[]>(data));
         }
 
         // GET: api/ProductsSync/5
+
+
         public async Task<IHttpActionResult> GetProduct(int id, int storeId)
         {
             return Ok(await _unitOfWork.ProductRepository.GetProductByIdAsync(id,storeId));
         }
+
+      
 
         // POST: api/ProductsSync
         public async Task<IHttpActionResult> AddProducts([FromBody]SyncObject sync)
@@ -97,5 +148,7 @@ namespace POSApp.Controllers.WebApi
         public void DeleteProduct(int id)
         {
         }
+
+        
     }
 }

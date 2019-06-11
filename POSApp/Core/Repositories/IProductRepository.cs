@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using POSApp.Core.Models;
@@ -22,5 +23,6 @@ namespace POSApp.Core.Repositories
        Task AddProductAsync(Product product);
        IEnumerable<Product> GetSaleProducts(int productCategoryId, int storeId);
        IEnumerable<Product> GetSaleProductsQuery(int storeId,string term);
+       Task<IEnumerable<Product>> GetAllProductsAsyncIncremental(int storeId, DateTime date);
    }
 }

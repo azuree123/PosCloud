@@ -1,4 +1,6 @@
 ﻿@using POSApp.Core.Models
+@using POSApp.SecurityFilters
+@using POSApp.Services
 @model IEnumerable<POSApp.Core.Models.Product>
 
 @{
@@ -13,9 +15,21 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li class="current"><a href="#">@POSApp.Resources.Resource.Inventoryitems</a></li>
-            <li><a href="@Url.Action("OpeningStockList","OpeningStock")">@POSApp.Resources.Resource.OpeningStock</a></li>
-            <li><a href="@Url.Action("MIFDataList","SaleOrders")">@POSApp.Resources.Resource.MaterialIssuance</a></li>
+            @if (Config.Products.InventoryItems.CheckAccess())
+            {
+
+                <li class="current"><a href="#">@POSApp.Resources.Resource.Inventoryitems</a></li>
+            }
+            @if (Config.OpeningStock.OpeningStock.CheckAccess())
+            {
+
+                <li><a href="@Url.Action("OpeningStockList", "OpeningStock")">@POSApp.Resources.Resource.OpeningStock</a></li>
+            }
+            @if (Config.SaleOrders.MIFData.CheckAccess())
+            {
+
+            <li><a href="@Url.Action("MIFDataList", "SaleOrders")">@POSApp.Resources.Resource.MaterialIssuance</a></li>
+            }
         </ul>
         <hr />
 
@@ -28,13 +42,16 @@
 
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Items</b></h3>
-
-                  
-
+                    @if (Config.Products.InventoryItems.ManageAccess())
+                    {
                     <a href="@Url.Action("AddInventoryItems", "Products")" class="modalShow" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Item</button>
 
                     </a>
+
+                    }
+                  
+
                   
                    
             
@@ -53,7 +70,11 @@
                         <th>@POSApp.Resources.Resource.ID</th>
                         <th>@POSApp.Resources.Resource.name</th>
                         <th>@POSApp.Resources.Resource.Cost Price</th>
+                        @if (Config.Products.InventoryItems.ManageAccess())
+                        {
                         <th>@POSApp.Resources.Resource.Action</th>
+
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -64,13 +85,16 @@
                         <td>@(i++)</td>
                         <td>@s.Name</td>
                         <td>@s.CostPrice</td>
+                                @if (Config.Products.InventoryItems.ManageAccess())
+                                {
                         <td class="center">
                             <div class="btn-group">
-
                                 @Html.ActionLink(" ", "UpdateInventoryItems", "Products", new { productId = @s.ProductCode }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
                                 @Html.ActionLink(" ", "DeleteInventoryItems", "Products", new { id = @s.ProductCode }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete , onclick = "return confirm('Are you sure?');" })
+
                             </div>
                         </td>
+                                }
                     </tr>
                 }
                 </tbody>

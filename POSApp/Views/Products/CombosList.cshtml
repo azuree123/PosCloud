@@ -1,4 +1,6 @@
 ﻿@using POSApp.Core.Models
+@using POSApp.SecurityFilters
+@using POSApp.Services
 @model IEnumerable<POSApp.Core.Models.Product>
 @{
     ViewBag.Title = "ProductsList";
@@ -14,12 +16,33 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li><a href="@Url.Action("ProductsList","Products")">@POSApp.Resources.Resource.Products</a></li>
-            <li><a class="hidden" href="@Url.Action("ServicesList","Services")">@POSApp.Resources.Resource.Services</a></li>
-            <li><a href="@Url.Action("ModifierList","Products")">@POSApp.Resources.Resource.Modifiers</a></li>
-            <li class="current"><a href="#">@POSApp.Resources.Resource.Combo</a></li>
-            <li><a href="@Url.Action("ProductCategoryList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
-            <li><a href="@Url.Action("ProductCategoryGroupList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
+            @if (Config.Products.Products.CheckAccess())
+            {
+                <li><a href="@Url.Action("ProductsList", "Products")">@POSApp.Resources.Resource.Products</a></li>
+
+            }
+            @if (Config.Products.Modifiers.CheckAccess())
+            {
+                <li class=""><a href="@Url.Action("CombosList","Products")">@POSApp.Resources.Resource.Modifiers</a></li>
+
+            }
+            <li><a class="hidden" href="@Url.Action("ServicesList", "Services")">Services</a></li>
+            @if (Config.Products.Combo.CheckAccess())
+            {
+                <li class="current"><a href="#">@POSApp.Resources.Resource.Combos</a></li>
+
+            }
+            @if (Config.Products.Products.CheckAccess())
+            {
+                <li><a href="@Url.Action("ProductCategoryList", "Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
+
+            }
+            @if (Config.Products.Products.CheckAccess())
+            {
+                <li><a href="@Url.Action("ProductCategoryGroupList", "Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
+
+            }
+
         </ul>
         <hr />
 
@@ -33,14 +56,22 @@
                     <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Combos</b></h3>
 
 
+                    @if (Config.Products.Combo.ManageAccess())
+                    {
 
-                    <a href="@Url.Action("AddCombo", "Products")" class="" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddCombo</button>
+                        <a href="@Url.Action("AddCombo", "Products")" class="" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddCombo</button>
 
-                    </a>
+                        </a>
+                    }
+
+                    @if (Config.Products.ProductCategory.ViewAccess())
+                    {
+
                     <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
                         <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.categorylist</button>
                     </a>
+                    }
                 </div>
             </div>
         </div>
@@ -83,10 +114,18 @@
                         </td>
                         <td class="center">
                             <div class="btn-group">
+                                @if (Config.Products.Combo.ManageAccess())
+                                {
 
-                                @Html.ActionLink(" ", "UpdateCombo", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
-                                @Html.ActionLink(" ", "DeleteCombo", "Products", new { id = @product.ProductCode, storeId = @product.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete , onclick = "return confirm('Are you sure?');" })
-                                @Html.ActionLink(" ", "CombosDetails", "Products", new { comboId = @product.Id }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview  })
+                                    @Html.ActionLink(" ", "UpdateCombo", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
+                                    @Html.ActionLink(" ", "DeleteCombo", "Products", new { id = @product.ProductCode, storeId = @product.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
+                                }
+
+                                @if (Config.Products.Combo.ViewAccess())
+                                {
+                                @Html.ActionLink(" ", "CombosDetails", "Products", new { comboId = @product.Id }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview })
+
+                                }
 
                             </div>
                         </td>

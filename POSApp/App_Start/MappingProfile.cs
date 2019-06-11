@@ -144,6 +144,8 @@ namespace POSApp
             CreateMap<ProductSubViewModel, ProductsSub>();
             CreateMap<ModifierLinkProduct, ModifierLinkProductViewModel>();
             CreateMap<ModifierLinkProductViewModel, ModifierLinkProduct>();
+            CreateMap<IncrementalSyncronizationViewModel, IncrementalSyncronization>();
+            CreateMap<IncrementalSyncronization, IncrementalSyncronizationViewModel>();
 
 
 

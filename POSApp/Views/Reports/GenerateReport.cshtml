@@ -1,4 +1,5 @@
-﻿
+﻿@using POSApp.Services
+
 
 @{
     Layout = null;
@@ -35,7 +36,21 @@
                                         <label class="control-label">
                                             @POSApp.Resources.Resource.DateForm
                                         </label>
-                                        <input type="date" class="form-control unstyled" name="dateFrom" required />
+                                        
+                                        @{
+                                            
+                                            if (Global.GetLang().Contains("Ar"))
+                                            {
+
+                                                <hijri-date-picker input-name="dateFrom" selected-date="@DateTime.Today.ToString("yyyy/MM/dd")" class-name="form-control" date-format="iYYYY/iMM/iDD"></hijri-date-picker>
+                                            }
+                                            else
+                                            {
+                                                <input type="date" class="form-control unstyled" name="DateFrom" required/>
+
+                                            }
+
+                                        }   
                                     </div>
                                 </div>
 
@@ -46,7 +61,21 @@
                                         <label class="control-label">
                                             @POSApp.Resources.Resource.Dateto
                                         </label>
-                                        <input type="date" class="form-control unstyled" name="dateTo" required />
+
+                                        @{
+
+                                            if (Global.GetLang().Contains("Ar"))
+                                            {
+
+                                                <hijri-date-picker input-name="dateFrom" selected-date="@DateTime.Today.ToString("yyyy/MM/dd")" class-name="form-control" date-format="iYYYY/iMM/iDD"></hijri-date-picker>
+                                            }
+                                            else
+                                            {
+                                                <input type="date" class="form-control unstyled" name="DateFrom" required />
+
+                                            }
+
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-md-12">

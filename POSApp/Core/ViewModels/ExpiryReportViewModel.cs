@@ -9,6 +9,8 @@ namespace POSApp.Core.ViewModels
     {
         public string BranchName { get; set; }
         public string Products { get; set; }
+        public string BatchNumber { get; set; }
+        public DateTime? ExpiryDate  { get; set; }
         public string TransCode { get; set; }
         public decimal Qty { get; set; }
         public decimal Amount { get; set; }

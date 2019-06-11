@@ -38,12 +38,17 @@ namespace POSApp.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: Setup
+        [View(Config.Setup.Department)]
+
         public ActionResult DepartmentList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId).OrderByDescending(a => a.Id));
         }
+
+        [Manage(Config.Setup.Department)]
+
         public ActionResult AddDepartmentPartial()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -55,6 +60,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Department)]
+
         public ActionResult AddDepartmentPartial(DepartmentViewModel Departmentvm)
         {
             ViewBag.edit = "AddDepartmentPartial";
@@ -122,6 +129,7 @@ namespace POSApp.Controllers
 
         }
 
+        [Manage(Config.Setup.Designation)]
 
         public ActionResult AddDesignationPartial()
         {
@@ -134,6 +142,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Designation)]
+
         public ActionResult AddDesignationPartial(DesignationViewModel Designationvm)
         {
             ViewBag.edit = "AddDesignationPartial";
@@ -203,6 +213,7 @@ namespace POSApp.Controllers
 
 
 
+        [Manage(Config.Setup.State)]
 
         public ActionResult AddStatePartial()
         {
@@ -215,6 +226,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.State)]
+
         public ActionResult AddStatePartial(StateModelView statevm)
         {
             ViewBag.edit = "AddStatePartial";
@@ -232,9 +245,10 @@ namespace POSApp.Controllers
 
         }
 
-       
 
 
+
+        [Manage(Config.Setup.Supplier)]
 
         public ActionResult AddSupplierPartial()
         {
@@ -247,6 +261,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Supplier)]
+
         public ActionResult AddSupplierPartial(SupplierModelView suppliervm)
         {
             ViewBag.edit = "AddSupplierPartial";
@@ -271,6 +287,9 @@ namespace POSApp.Controllers
         }
 
         [HttpGet]
+
+        [Manage(Config.Setup.Department)]
+
         public ActionResult AddDepartment()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -282,6 +301,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Department)]
+
         public ActionResult AddDepartment(DepartmentViewModel departmentVm)
         {
             ViewBag.edit = "AddDepartment";
@@ -347,6 +368,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Department)]
+
         public ActionResult UpdateDepartment(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -362,6 +385,8 @@ namespace POSApp.Controllers
             return View("AddDepartment", departmentVm);
         }
         [HttpPost]
+        [Manage(Config.Setup.Department)]
+
         public ActionResult UpdateDepartment(int id, DepartmentViewModel departmentVm)
         {
             ViewBag.edit = "UpdateDepartment";
@@ -409,6 +434,8 @@ namespace POSApp.Controllers
 
             return View("AddDepartment", departmentVm);
         }
+        [Manage(Config.Setup.Department)]
+
         public ActionResult DeleteDepartment( int id)
         {
             try
@@ -461,6 +488,8 @@ namespace POSApp.Controllers
             return RedirectToAction("DepartmentList", "Setup");
 
         }
+        [View(Config.Setup.Designation)]
+
         public ActionResult DesignationList()
         {
             var userid = User.Identity.GetUserId();
@@ -468,6 +497,8 @@ namespace POSApp.Controllers
             return View(_unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         [HttpGet]
+        [Manage(Config.Setup.Designation)]
+
         public ActionResult AddDesignation()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -479,6 +510,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Designation)]
+
         public ActionResult AddDesignation(DesignationViewModel DesignationVm)
         {
             ViewBag.edit = "AddDesignation";
@@ -544,6 +577,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Designation)]
+
         public ActionResult UpdateDesignation(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -559,6 +594,8 @@ namespace POSApp.Controllers
             return View("AddDesignation", DesignationVm);
         }
         [HttpPost]
+        [Manage(Config.Setup.Designation)]
+
         public ActionResult UpdateDesignation(int id, DesignationViewModel DesignationVm)
         {
             ViewBag.edit = "UpdateDesignation";
@@ -606,6 +643,9 @@ namespace POSApp.Controllers
 
             return View("AddDesignation", DesignationVm);
         }
+
+        [Manage(Config.Setup.Designation)]
+
         public ActionResult DeleteDesignation(int id)
         {
             try
@@ -661,6 +701,8 @@ namespace POSApp.Controllers
 
         
         [HttpGet]
+        [View(Config.Setup.Employee)]
+
         public ActionResult EmployeeList()
         {
             var userid = User.Identity.GetUserId();
@@ -669,6 +711,8 @@ namespace POSApp.Controllers
         }
         //Add partial
         [HttpGet]
+        [Manage(Config.Setup.Employee)]
+
         public ActionResult AddEmployeePartial()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -689,6 +733,8 @@ namespace POSApp.Controllers
             return View(employee);
         }
         [HttpPost]
+        [Manage(Config.Setup.Employee)]
+
         public ActionResult AddEmployeePartial(EmployeeModelView employeeMv)
         {
             ViewBag.edit = "AddEmployeePartial";
@@ -786,6 +832,8 @@ namespace POSApp.Controllers
         }
         //Add Employee
         [HttpGet]
+        [Manage(Config.Setup.Employee)]
+
         public ActionResult AddEmployee()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -806,6 +854,8 @@ namespace POSApp.Controllers
             return View(employee);
         }
         [HttpPost]
+        [Manage(Config.Setup.Employee)]
+
         public ActionResult AddEmployee(EmployeeModelView employeeMv)
         {
             var userid = User.Identity.GetUserId();
@@ -882,6 +932,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Employee)]
+
         public ActionResult UpdateEmployee(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -905,6 +957,8 @@ namespace POSApp.Controllers
             return View("AddEmployee",employeeMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.Employee)]
+
         public ActionResult UpdateEmployee(int id, EmployeeModelView employeeMv)
         {
             var userid = User.Identity.GetUserId();
@@ -977,6 +1031,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Setup.Employee)]
+
         public ActionResult DeleteEmployee(int id, int storeid)
         {
             try
@@ -1027,6 +1083,8 @@ namespace POSApp.Controllers
             return RedirectToAction("EmployeeList", "Setup");
 
         }
+        [Manage(Config.Setup.Shift)]
+
         public ActionResult AddShiftPartial()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -1038,6 +1096,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Shift)]
+
         public ActionResult AddShiftPartial(ShiftViewModel Shiftvm)
         {
             ViewBag.edit = "AddShiftPartial";
@@ -1104,6 +1164,8 @@ namespace POSApp.Controllers
 
 
         }
+        [View(Config.Setup.Customer)]
+
         public ActionResult CustomerList()
         {
 
@@ -1112,6 +1174,8 @@ namespace POSApp.Controllers
             return View(Mapper.Map<CustomerModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("C",(int)user.StoreId).OrderByDescending(a => a.Id)));
         }
         [HttpGet]
+        [Manage(Config.Setup.Customer)]
+
         public ActionResult AddCustomer()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -1123,6 +1187,8 @@ namespace POSApp.Controllers
             return View(new CustomerModelView());
         }
         [HttpPost]
+        [Manage(Config.Setup.Customer)]
+
         public ActionResult AddCustomer(CustomerModelView customerMv)
         {
             ViewBag.edit = "AddCustomer";
@@ -1191,6 +1257,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Customer)]
+
         public ActionResult UpdateCustomer(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -1206,6 +1274,8 @@ namespace POSApp.Controllers
             return View("AddCustomer",customerMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.Customer)]
+
         public ActionResult UpdateCustomer(int id, CustomerModelView customerMv)
         {
             ViewBag.edit = "UpdateCustomer";
@@ -1275,6 +1345,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Setup.Customer)]
+
         public ActionResult DeleteCustomer(int id, int storeid)
         {
             try
@@ -1328,6 +1400,7 @@ namespace POSApp.Controllers
 
 
         }
+        [View(Config.Setup.Supplier)]
 
         public ActionResult SupplierList()
         {
@@ -1337,6 +1410,8 @@ namespace POSApp.Controllers
             return View(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).OrderByDescending(a => a.Id)));
         }
         [HttpGet]
+        [Manage(Config.Setup.Supplier)]
+
         public ActionResult AddSupplier()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -1348,6 +1423,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Supplier)]
+
         public ActionResult AddSupplier(SupplierModelView supplierMv)
         {
             ViewBag.edit = "AddSupplier";
@@ -1417,6 +1494,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Supplier)]
+
         public ActionResult UpdateSupplier(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -1432,6 +1511,8 @@ namespace POSApp.Controllers
             return View("AddSupplier",supplierVm);
         }
         [HttpPost]
+        [Manage(Config.Setup.Supplier)]
+
         public ActionResult UpdateSupplier(int id, SupplierModelView supplierVm)
         {
             ViewBag.edit = "UpdateSupplier";
@@ -1500,6 +1581,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Setup.Supplier)]
+
         public ActionResult DeleteSupplier(int id, int storeid)
         {
             try
@@ -1551,12 +1634,15 @@ namespace POSApp.Controllers
             return RedirectToAction("SupplierList", "Setup");
 
         }
+        [View(Config.Setup.State)]
 
         public ActionResult StateList()
         {
             return View(_unitOfWork.StateRepository.GetStates().OrderByDescending(a => a.Id));
         }
         [HttpGet]
+        [Manage(Config.Setup.State)]
+
         public ActionResult AddState()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -1568,6 +1654,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.State)]
+
         public ActionResult AddState(StateModelView stateMv)
         {
             ViewBag.edit = "AddState";
@@ -1632,6 +1720,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.State)]
+
         public ActionResult UpdateState(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -1644,6 +1734,8 @@ namespace POSApp.Controllers
             return View("AddState",sateMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.State)]
+
         public ActionResult UpdateState(int id, StateModelView stateMv)
         {
             ViewBag.edit = "UpdateSate";
@@ -1708,6 +1800,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Setup.State)]
+
         public ActionResult DeleteState(int id)
         {
             try
@@ -1757,6 +1851,8 @@ namespace POSApp.Controllers
             return RedirectToAction("StateList", "Setup");
 
         }
+        [View(Config.Setup.City)]
+
         public ActionResult CityList(int stateId=0)
         {
 
@@ -1766,6 +1862,8 @@ namespace POSApp.Controllers
             }
             return View(_unitOfWork.CityRepository.GetCities(stateId).Select(a => new CityListModelView { Id = a.Id, Name = a.Name, StateName = a.State.Name }));
         }
+        [Manage(Config.Setup.City)]
+
         public ActionResult AddCity()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -1781,6 +1879,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.Setup.City)]
+
         public ActionResult AddCity(CityModelView cityVm)
         {
             ViewBag.edit = "AddCity";
@@ -1848,6 +1948,8 @@ namespace POSApp.Controllers
         }
        
         [HttpGet]
+        [Manage(Config.Setup.City)]
+
         public ActionResult UpdateCity(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -1862,6 +1964,8 @@ namespace POSApp.Controllers
             return View("AddCity",cityMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.City)]
+
         public ActionResult UpdateCity(int id, CityModelView cityVm)
         {
             ViewBag.edit = "UpdateCity";
@@ -1926,6 +2030,8 @@ namespace POSApp.Controllers
             return View("AddCity", cityVm);
 
         }
+        [Manage(Config.Setup.City)]
+
         public ActionResult DeleteCity(int id)
         {
             try
@@ -1975,12 +2081,15 @@ namespace POSApp.Controllers
             return RedirectToAction("CityList", "Setup");
 
         }
+        [View(Config.Setup.Location)]
 
         public ActionResult LocationList()
         {
             return View(_unitOfWork.LocationRepository.GetLocations());
         }
         [HttpGet]
+        [Manage(Config.Setup.Location)]
+
         public ActionResult AddLocation()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -1992,6 +2101,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Location)]
+
         public ActionResult AddLocation(LocationModelView locationMv)
         {
             ViewBag.edit = "AddLocation";
@@ -2009,6 +2120,8 @@ namespace POSApp.Controllers
             
         }
         [HttpGet]
+        [Manage(Config.Setup.Location)]
+
         public ActionResult UpdateLocation(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2022,6 +2135,8 @@ namespace POSApp.Controllers
             return View("AddLocation",locationMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.Location)]
+
         public ActionResult UpdateLocation(int id, LocationModelView locationMv)
         {
             ViewBag.edit = "UpdateLocation";
@@ -2038,12 +2153,15 @@ namespace POSApp.Controllers
             }
             
         }
+        [Manage(Config.Setup.Location)]
+
         public ActionResult DeleteLocation(int id)
         {
             _unitOfWork.LocationRepository.DeleteLocation(id);
             _unitOfWork.Complete();
             return RedirectToAction("LocationList", "Setup");
         }
+        [View(Config.Setup.Discount)]
 
         public ActionResult DiscountList()
         {
@@ -2052,6 +2170,8 @@ namespace POSApp.Controllers
             return View(_unitOfWork.DiscountRepository.GetDiscounts((int)user.StoreId));
         }
         [HttpGet]
+        [Manage(Config.Setup.Discount)]
+
         public ActionResult AddDiscount()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2063,6 +2183,8 @@ namespace POSApp.Controllers
             return View(new DiscountViewModel());
         }
         [HttpPost]
+        [Manage(Config.Setup.Discount)]
+
         public ActionResult AddDiscount(DiscountViewModel dicountMv)
         {
             ViewBag.edit = "AddDiscount";
@@ -2132,6 +2254,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Discount)]
+
         public ActionResult UpdateDiscount(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2148,6 +2272,8 @@ namespace POSApp.Controllers
             return View("AddDiscount", discountMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.Discount)]
+
         public ActionResult UpdateDiscount(int id, DiscountViewModel discountMv)
         {
             ViewBag.edit = "UpdateDiscount";
@@ -2213,6 +2339,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Setup.Discount)]
+
         public ActionResult DeleteDiscount(int id)
         {
             try
@@ -2264,6 +2392,7 @@ namespace POSApp.Controllers
             return RedirectToAction("DiscountList", "Setup");
 
         }
+        [View(Config.Setup.Tax)]
 
         public ActionResult TaxList()
         {
@@ -2272,6 +2401,8 @@ namespace POSApp.Controllers
             return View(_unitOfWork.TaxRepository.GetTaxes((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         [HttpGet]
+        [Manage(Config.Setup.Tax)]
+
         public ActionResult AddTax()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2283,6 +2414,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Tax)]
+
         public ActionResult AddTax(TaxViewModel taxMv)
         {
 
@@ -2351,6 +2484,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Tax)]
+
         public ActionResult UpdateTax(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2366,6 +2501,8 @@ namespace POSApp.Controllers
             return View("AddTax", taxMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.Tax)]
+
         public ActionResult UpdateTax(int id, TaxViewModel taxMv)
         {
 
@@ -2432,6 +2569,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Setup.Tax)]
+
         public ActionResult DeleteTax(int id)
         {
             try
@@ -2556,6 +2695,8 @@ namespace POSApp.Controllers
         //    _unitOfWork.Complete();
         //    return RedirectToAction("CouponList", "Setup");
         //}
+        [View(Config.Setup.Unit)]
+
         public ActionResult UnitList()
         {
             var userid = User.Identity.GetUserId();
@@ -2564,6 +2705,8 @@ namespace POSApp.Controllers
         }
         //Unit Partial
         [HttpGet]
+        [Manage(Config.Setup.Unit)]
+
         public ActionResult AddUnitPartial()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2575,6 +2718,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Unit)]
+
         public ActionResult AddUnitPartial(UnitViewModel unitMv)
         {
             ViewBag.edit = "AddUnitPartial";
@@ -2659,6 +2804,8 @@ namespace POSApp.Controllers
         }
         //Add unit
         [HttpGet]
+        [Manage(Config.Setup.Unit)]
+
         public ActionResult AddUnit()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2670,6 +2817,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Unit)]
+
         public ActionResult AddUnit(UnitViewModel unitMv)
         {
             ViewBag.edit = "AddUnit";
@@ -2738,6 +2887,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Unit)]
+
         public ActionResult UpdateUnit(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2753,6 +2904,8 @@ namespace POSApp.Controllers
             return View("AddUnit", unitMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.Unit)]
+
         public ActionResult UpdateUnit(int id, UnitViewModel unitMv)
         {
             ViewBag.edit = "UpdateUnit";
@@ -2818,6 +2971,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Setup.Unit)]
+
         public ActionResult DeleteUnit(int id)
         {
             try
@@ -2870,6 +3025,8 @@ namespace POSApp.Controllers
 
 
         }
+        [View(Config.Setup.Client)]
+
         public ActionResult ClientList()
         {
             var userid = User.Identity.GetUserId();
@@ -2877,6 +3034,8 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ClientRepository.GetClients().OrderByDescending(a => a.Id));
         }
         [HttpGet]
+        [Manage(Config.Setup.Client)]
+
         public ActionResult AddClient()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2888,6 +3047,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Setup.Client)]
+
         public ActionResult AddClient(ClientViewModel clientMv, HttpPostedFileBase file)
         {
             ViewBag.edit = "AddClient";
@@ -2975,6 +3136,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Client)]
+
         public ActionResult UpdateClient(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -2989,6 +3152,8 @@ namespace POSApp.Controllers
             return View("AddClient", clientMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.Client)]
+
         public ActionResult UpdateClient(int id, ClientViewModel clientMv, HttpPostedFileBase file)
         {
             ViewBag.edit = "UpdateClient";
@@ -3074,6 +3239,9 @@ namespace POSApp.Controllers
 
 
         }
+
+        [Manage(Config.Setup.Client)]
+
         public ActionResult DeleteClient(int id)
         {
             try
@@ -3127,6 +3295,7 @@ namespace POSApp.Controllers
         }
 
         //TimedEvents
+        [View(Config.Setup.TimedEvent)]
 
         public ActionResult TimedEventList()
         {
@@ -3135,6 +3304,8 @@ namespace POSApp.Controllers
             return View(_unitOfWork.TimedEventRepository.GetTimedEvents((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         [HttpGet]
+        [Manage(Config.Setup.TimedEvent)]
+
         public ActionResult AddTimedEvent()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -3155,6 +3326,8 @@ namespace POSApp.Controllers
             return View(model);
         }
         [HttpPost]
+        [Manage(Config.Setup.TimedEvent)]
+
         public ActionResult AddTimedEvent(TimedEventViewModel timeeventVm)
         {
             var userid = User.Identity.GetUserId();
@@ -3285,6 +3458,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.TimedEvent)]
+
         public ActionResult UpdateTimedEvent(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -3308,6 +3483,8 @@ namespace POSApp.Controllers
             return View("AddTimedEvent", timeeventVm);
         }
         [HttpPost]
+        [Manage(Config.Setup.TimedEvent)]
+
         public ActionResult UpdateTimedEvent(int id, TimedEventViewModel timeeventVm)
         {
             var userid = User.Identity.GetUserId();
@@ -3462,7 +3639,8 @@ namespace POSApp.Controllers
 
 
         }
-        
+        [Manage(Config.Setup.TimedEvent)]
+
         public ActionResult DeleteTimedEvent(int id)
         {
             try
@@ -3516,6 +3694,7 @@ namespace POSApp.Controllers
         }
 
         //Floor
+        [View(Config.Setup.Floor)]
 
         public ActionResult FloorList()
         {
@@ -3525,6 +3704,8 @@ namespace POSApp.Controllers
         }
         //Floor Partial
         [HttpGet]
+        [Manage(Config.Setup.Floor)]
+
         public ActionResult AddFloorPartial()
         {
             var userid = User.Identity.GetUserId();
@@ -3539,6 +3720,8 @@ namespace POSApp.Controllers
             return View(floor);
         }
         [HttpPost]
+        [Manage(Config.Setup.Floor)]
+
         public ActionResult AddFloorPartial(FloorViewModel FloorMv)
         {
 
@@ -3607,6 +3790,8 @@ namespace POSApp.Controllers
         }
         //Add Floor
         [HttpGet]
+        [Manage(Config.Setup.Floor)]
+
         public ActionResult AddFloor()
         {
             var userid = User.Identity.GetUserId();
@@ -3621,6 +3806,8 @@ namespace POSApp.Controllers
             return View(floor);
         }
         [HttpPost]
+        [Manage(Config.Setup.Floor)]
+
         public ActionResult AddFloor(FloorViewModel FloorMv)
         {
             
@@ -3689,6 +3876,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Floor)]
+
         public ActionResult UpdateFloor(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -3704,6 +3893,8 @@ namespace POSApp.Controllers
             return View("AddFloor", floorMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.Floor)]
+
         public ActionResult UpdateFloor(int id, FloorViewModel FloorMv)
         {
             ViewBag.edit = "UpdateFloor";
@@ -3770,6 +3961,9 @@ namespace POSApp.Controllers
 
 
         }
+
+        [Manage(Config.Setup.Floor)]
+
         public ActionResult DeleteFloor(int id)
         {
             try
@@ -3823,6 +4017,7 @@ namespace POSApp.Controllers
         }
 
         //DineTale
+        [View(Config.Setup.DineTable)]
 
         public ActionResult DineTableList()
         {
@@ -3830,6 +4025,9 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.DineTableRepository.GetDineTables((int)user.StoreId).Select(a => new DineTableListModelView { Id = a.Id, DineTableNumber = a.DineTableNumber, FloorNumber =a.Floor.FloorNumber }).OrderByDescending(a => a.Id));
         }
+
+        [Manage(Config.Setup.DineTable)]
+
         public ActionResult AddDineTable()
         {
             var userid = User.Identity.GetUserId();
@@ -3847,6 +4045,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.Setup.DineTable)]
+
         public ActionResult AddDineTable(DineTableViewModel DineTableVm)
         {
             var userid = User.Identity.GetUserId();
@@ -3919,6 +4119,8 @@ namespace POSApp.Controllers
         }
 
         [HttpGet]
+        [Manage(Config.Setup.DineTable)]
+
         public ActionResult UpdateDineTable(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -3935,6 +4137,8 @@ namespace POSApp.Controllers
             return View("AddDineTable", DineTableMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.DineTable)]
+
         public ActionResult UpdateDineTable(int id, DineTableViewModel DineTableVm,int storeId)
         {
             var userid = User.Identity.GetUserId();
@@ -4004,6 +4208,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Setup.DineTable)]
+
         public ActionResult DeleteDineTable(int id)
         {
             try
@@ -4177,18 +4383,18 @@ namespace POSApp.Controllers
         {
             return View(RoleManager.Roles);
         }
-    
 
         public ActionResult AddRole()
         {
-            RoleViewModel role=new RoleViewModel();
-            role.RoleSecurityRightViewModels = _unitOfWork.SecurityObjectRepository.GetSecurityObjects().Select(a=>new RoleSecurityRightViewModel
+            RoleViewModel role = new RoleViewModel();
+            role.RoleSecurityRightViewModels = _unitOfWork.SecurityObjectRepository.GetSecurityObjects().Select(a => new RoleSecurityRightViewModel
             {
                 Manage = false,
                 Module = a.Module,
                 SecurityObject = a.Name,
                 SecurityObjectId = a.SecurityObjectId
-              ,View = true
+              ,
+                View = true
             }).ToList();
             return View(role);
         }
@@ -4286,11 +4492,17 @@ namespace POSApp.Controllers
         {
             var userId = this.HttpContext.User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
-            return View("AddRole", RoleManager.Roles.Select(a=>new RoleViewModel{StoreId = a.StoreId,
-                Id = a.Id,Name = a.Name,CreatedBy = a.CreatedById,CreatedOn = a.CreatedOn}).FirstOrDefault(a=>a.StoreId==(int)user.StoreId && a.Id==id));
+            return View("AddRole", RoleManager.Roles.Select(a => new RoleViewModel
+            {
+                StoreId = a.StoreId,
+                Id = a.Id,
+                Name = a.Name,
+                CreatedBy = a.CreatedById,
+                CreatedOn = a.CreatedOn
+            }).FirstOrDefault(a => a.StoreId == (int)user.StoreId && a.Id == id));
         }
         [HttpPost]
-        public ActionResult UpdateRole(string id,RoleViewModel role)
+        public ActionResult UpdateRole(string id, RoleViewModel role)
         {
             try
             {
@@ -4421,7 +4633,7 @@ namespace POSApp.Controllers
 
         }
         //Assign Role
-     
+
         [HttpGet]
         public ActionResult AssignRolesToUsers()
         {
@@ -4429,10 +4641,10 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
 
             AssignRoleViewModel asignRole = new AssignRoleViewModel();
-            asignRole.Userlist = _unitOfWork.UserRepository.GetUsers((int) user.StoreId)
-                .Select(a => new SelectListItem {Text = a.UserName, Value = a.Id});
-            asignRole.UserRolesList = RoleManager.Roles.Select(a => new SelectListItem {Text = a.Name, Value = a.Name});
-             
+            asignRole.Userlist = _unitOfWork.UserRepository.GetUsers((int)user.StoreId)
+                .Select(a => new SelectListItem { Text = a.UserName, Value = a.Id });
+            asignRole.UserRolesList = RoleManager.Roles.Select(a => new SelectListItem { Text = a.Name, Value = a.Name });
+
             return View(asignRole);
         }
         [HttpPost]
@@ -4449,9 +4661,11 @@ namespace POSApp.Controllers
                 if (!UserManager.IsInRole(_assignRole.UserName, _assignRole.RoleName))
                 {
 
-                UserManager.AddToRole(_assignRole.UserName, _assignRole.RoleName);
+                    var userRoles = UserManager.GetRoles(userid);
+                    UserManager.RemoveFromRoles(userid, userRoles.ToArray());
+                    UserManager.AddToRole(_assignRole.UserName, _assignRole.RoleName);
                     TempData["Alert"] = new AlertModel("Username added to role successfully !", AlertType.Success);
-                _unitOfWork.Complete();
+                    _unitOfWork.Complete();
                 }
                 else
                 {
@@ -4461,13 +4675,15 @@ namespace POSApp.Controllers
                 }
 
 
-                
+
             }
-           
-            return RedirectToAction("RolesList","Setup");
+
+            return RedirectToAction("RolesList", "Setup");
         }
-       
+
+
         //POSTerminal
+        [View(Config.Setup.PosTerminal)]
 
         public ActionResult POSTerminalList()
         {
@@ -4475,6 +4691,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<POSTerminalListModelView[]>(_unitOfWork.POSTerminalRepository.GetPOSTerminals((int)user.StoreId)).OrderByDescending(a => a.POSTerminalId));
         }
+        [Manage(Config.Setup.PosTerminal)]
+
         public ActionResult AddPOSTerminal()
         {
             var userid = User.Identity.GetUserId();
@@ -4492,6 +4710,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.Setup.PosTerminal)]
+
         public ActionResult AddPOSTerminal(POSTerminalViewModel POSTerminalVm)
         {
             var userid = User.Identity.GetUserId();
@@ -4563,6 +4783,8 @@ namespace POSApp.Controllers
         }
 
         [HttpGet]
+        [Manage(Config.Setup.PosTerminal)]
+
         public ActionResult UpdatePOSTerminal(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -4579,6 +4801,8 @@ namespace POSApp.Controllers
             return View("AddPOSTerminal", POSTerminalMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.PosTerminal)]
+
         public ActionResult UpdatePOSTerminal(int id, POSTerminalViewModel POSTerminalVm, int storeId)
         {
             var userid = User.Identity.GetUserId();
@@ -4646,6 +4870,8 @@ namespace POSApp.Controllers
             return View("AddPOSTerminal", POSTerminalVm);
 
         }
+        [Manage(Config.Setup.PosTerminal)]
+
         public ActionResult DeletePOSTerminal(int id)
         {
             try
@@ -4700,6 +4926,7 @@ namespace POSApp.Controllers
         }
 
         //Shift
+        [View(Config.Setup.Shift)]
 
         public ActionResult ShiftList()
         {
@@ -4708,6 +4935,8 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ShiftRepository.GetShifts((int)user.StoreId).OrderByDescending(a => a.ShiftId));
         }
         [HttpGet]
+        [Manage(Config.Setup.Shift)]
+
         public ActionResult AddShift()
         {
             var userid = User.Identity.GetUserId();
@@ -4722,6 +4951,8 @@ namespace POSApp.Controllers
             return View(Shift);
         }
         [HttpPost]
+        [Manage(Config.Setup.Shift)]
+
         public ActionResult AddShift(ShiftViewModel ShiftMv)
         {
 
@@ -4789,6 +5020,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Shift)]
+
         public ActionResult UpdateShift(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -4804,6 +5037,8 @@ namespace POSApp.Controllers
             return View("AddShift", ShiftMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.Shift)]
+
         public ActionResult UpdateShift(int id, ShiftViewModel ShiftMv)
         {
             ViewBag.edit = "UpdateShift";
@@ -4868,6 +5103,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Setup.Shift)]
 
         public ActionResult DeleteShift(int id)
         {
@@ -4918,6 +5154,7 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("ShiftList", "Setup");
         }
+        [View(Config.Setup.TillOperation)]
 
         public ActionResult TillOperationList()
         {
@@ -4947,6 +5184,8 @@ namespace POSApp.Controllers
         
 
         [HttpGet]
+        [Manage(Config.Setup.TillOperation)]
+
         public ActionResult AddTillOperation()
         {
             var userid = User.Identity.GetUserId();
@@ -4958,6 +5197,7 @@ namespace POSApp.Controllers
             return View(tillMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.TillOperation)]
 
         public ActionResult AddTillOperation(TillOperationViewModel tillMv)
         {
@@ -5026,6 +5266,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.TillOperation)]
+
         public ActionResult UpdateTillOperation(int id)
         {
             ViewBag.edit = "UpdateTillOperation";
@@ -5036,6 +5278,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.Setup.TillOperation)]
+
         public ActionResult UpdateTillOperation(int id,TillOperationViewModel tillVm)
         {
             ViewBag.edit = "UpdateShift";
@@ -5100,6 +5344,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Setup.TillOperation)]
 
         public ActionResult DeleteTillOperation(int id)
         {
@@ -5154,6 +5399,7 @@ namespace POSApp.Controllers
         }
 
         //Size
+        [View(Config.Setup.Size)]
 
         public ActionResult SizeList()
         {
@@ -5163,6 +5409,8 @@ namespace POSApp.Controllers
         }
         //Size Partial
         [HttpGet]
+        [Manage(Config.Setup.Size)]
+
         public ActionResult AddSizePartial()
         {
             var userid = User.Identity.GetUserId();
@@ -5177,6 +5425,8 @@ namespace POSApp.Controllers
             return View(size);
         }
         [HttpPost]
+        [Manage(Config.Setup.Size)]
+
         public ActionResult AddSizePartial(SizeViewModel SizeMv)
         {
 
@@ -5245,6 +5495,8 @@ namespace POSApp.Controllers
         }
         //Add Size
         [HttpGet]
+        [Manage(Config.Setup.Size)]
+
         public ActionResult AddSize()
         {
             var userid = User.Identity.GetUserId();
@@ -5259,6 +5511,8 @@ namespace POSApp.Controllers
             return View(size);
         }
         [HttpPost]
+        [Manage(Config.Setup.Size)]
+
         public ActionResult AddSize(SizeViewModel SizeMv)
         {
 
@@ -5327,6 +5581,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Setup.Size)]
+
         public ActionResult UpdateSize(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -5342,6 +5598,8 @@ namespace POSApp.Controllers
             return View("AddSize", sizeMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.Size)]
+
         public ActionResult UpdateSize(int id, SizeViewModel SizeMv)
         {
             ViewBag.edit = "UpdateSize";
@@ -5408,6 +5666,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Setup.Size)]
+
         public ActionResult DeleteSize(int id)
         {
             try
@@ -5461,6 +5721,7 @@ namespace POSApp.Controllers
         }
 
         //Warehouse
+        [View(Config.Setup.WareHouse)]
 
         public ActionResult WarehouseList()
         {
@@ -5469,6 +5730,8 @@ namespace POSApp.Controllers
 
             return View(_unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new WarehouseListModelView { Id = a.Id, Name = a.Name, ClientName = a.Client.Name }).OrderByDescending(a => a.Id));
         }
+        [Manage(Config.Setup.WareHouse)]
+
         public ActionResult AddWarehouse()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -5488,6 +5751,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.Setup.WareHouse)]
+
         public ActionResult AddWarehouse(WarehouseViewModel warehouseVm)
         {
             ViewBag.edit = "AddWarehouse";
@@ -5555,6 +5820,8 @@ namespace POSApp.Controllers
         }
 
         [HttpGet]
+        [Manage(Config.Setup.WareHouse)]
+
         public ActionResult UpdateWarehouse(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -5569,6 +5836,8 @@ namespace POSApp.Controllers
             return View("AddWarehouse", warehouseMv);
         }
         [HttpPost]
+        [Manage(Config.Setup.WareHouse)]
+
         public ActionResult UpdateWarehouse(int id, WarehouseViewModel warehouseVm)
         {
             ViewBag.edit = "UpdateWarehouse";
@@ -5633,6 +5902,8 @@ namespace POSApp.Controllers
             return View("AddWarehouse", warehouseVm);
 
         }
+        [Manage(Config.Setup.WareHouse)]
+
         public ActionResult DeleteWarehouse(int id)
         {
             try

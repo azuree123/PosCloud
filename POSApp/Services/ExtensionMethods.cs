@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using POSApp.Models;
+using POSApp.SecurityFilters;
 
 namespace POSApp.Services
 {
     public static class ExtensionMethod
     {
-        //public static bool UserHasAccess(this Config.Permission permission)
+        //public static bool UserHasAccess(this Config.Reports permission)
         //{
-        //    string data = new AuthHelper().UserData(HttpContext.Current.Request.RequestContext.HttpContext);
+        //    UserRoleDataViewModel data = new AuthHelper().UserAccessData();
         //    if (data == null) return false;
         //    string[] str = new[] { "" };
         //    if (string.IsNullOrEmpty(data))
@@ -32,31 +34,121 @@ namespace POSApp.Services
 
         //    return false;
         //}
-        //public static bool InventoryAccess(this Config.Inventory permission)
-        //{
-        //    string data = new AuthHelper().UserFunctionalitiesData(HttpContext.Current.Request.RequestContext.HttpContext);
-        //    if (data == null) return false;
-        //    string[] str = new[] { "" };
-        //    if (string.IsNullOrEmpty(data))
-        //    {
+        public static bool CheckAccess(this object permission)
+        {
+            UserRoleDataViewModel user = new AuthHelper().UserAccessData();
+            string data = user.ViewData;
+            string data1 = user.ManageData;
+            if (data == null) return false;
+            string[] str = new[] { "" };
+            if (string.IsNullOrEmpty(data))
+            {
 
-        //    }
-        //    else
-        //    {
-        //        str = data.Split(',');
-        //    }
+            }
+            else
+            {
+                str = data.Split(',');
+            }
 
-        //    foreach (var s in str)
-        //    {
-        //        if (s == permission.ToString())
-        //        {
-        //            return true;
-        //        }
-        //        else { }
-        //    }
+            foreach (var s in str)
+            {
+                if (s.Trim() == permission.ToString())
+                {
+                    return true;
+                }
+                else { }
+            }
+            if (data1 == null) return false;
+            string[] str1 = new[] { "" };
+            if (string.IsNullOrEmpty(data1))
+            {
 
-        //    return false;
-        //}
+            }
+            else
+            {
+                str1 = data1.Split(',');
+            }
+
+            foreach (var s in str1)
+            {
+                if (s.Trim() == permission.ToString())
+                {
+                    return true;
+                }
+                else { }
+            }
+
+            return false;
+        }
+
+
+
+        public static bool ManageAccess(this object permission)
+        {
+            UserRoleDataViewModel user = new AuthHelper().UserAccessData();
+            string data1 = user.ManageData;
+            string[] str = new[] { "" };
+
+
+
+
+            if (data1 == null) return false;
+            string[] str1 = new[] { "" };
+            if (string.IsNullOrEmpty(data1))
+            {
+
+            }
+            else
+            {
+                str1 = data1.Split(',');
+            }
+
+            foreach (var s in str1)
+            {
+                if (s.Trim() == permission.ToString())
+                {
+                    return true;
+                }
+                else { }
+            }
+
+            return false;
+        }
+
+
+        public static bool ViewAccess(this object permission)
+        {
+            UserRoleDataViewModel user = new AuthHelper().UserAccessData();
+            string data = user.ViewData;
+            if (data == null) return false;
+            string[] str = new[] { "" };
+            if (string.IsNullOrEmpty(data))
+            {
+
+            }
+            else
+            {
+                str = data.Split(',');
+            }
+
+            foreach (var s in str)
+            {
+                if (s.Trim() == permission.ToString())
+                {
+                    return true;
+                }
+
+            }
+
+
+
+            return false;
+        }
+
+
+
+
+
         //public static bool PurchasesAccess(this Config.Purchases permission)
         //{
         //    string data = new AuthHelper().UserFunctionalitiesData(HttpContext.Current.Request.RequestContext.HttpContext);
@@ -82,9 +174,9 @@ namespace POSApp.Services
 
         //    return false;
         //}
-        //public static bool SalesAccess(this Config.Sales permission)
+        //public static bool ReportsAccess(this Config.Reports permission)
         //{
-        //    string data = new AuthHelper().UserFunctionalitiesData(HttpContext.Current.Request.RequestContext.HttpContext);
+        //    string data = new UserRoleDataViewModel().ManageData;
         //    if (data == null) return false;
         //    string[] str = new[] { "" };
         //    if (string.IsNullOrEmpty(data))

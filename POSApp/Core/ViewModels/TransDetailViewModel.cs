@@ -26,7 +26,7 @@ namespace POSApp.Core.ViewModels
         [Display(Name = "UnitPrice", ResourceType = typeof(Resource))]
         public decimal UnitPrice { get; set; }
         public string CreatedByUserId { get; set; }
-        [Display(Name = "product", ResourceType = typeof(Resource))]
+        [Display(Name = "Products", ResourceType = typeof(Resource))]
         public string ProductName { get; set; }
         [DefaultValue(0)]
         [Display(Name = "Tax", ResourceType = typeof(Resource))]
@@ -37,7 +37,11 @@ namespace POSApp.Core.ViewModels
 
         public decimal ModifiersPrice { get; set; }
         [Display(Name = "Unit", ResourceType = typeof(Resource))]
-        public string UnitName { get; set; } 
+        public string UnitName { get; set; }
+
+        public string BatchNumber { get; set; }
+        public DateTime? ExpiryDate { get; set; }
+        public DateTime? ManufactureDate { get; set; }
     }
  
 }

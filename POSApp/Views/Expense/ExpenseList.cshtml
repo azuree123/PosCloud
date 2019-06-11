@@ -1,4 +1,6 @@
 ﻿@using POSApp.Core.Models
+@using POSApp.SecurityFilters
+@using POSApp.Services
 @model IEnumerable<POSApp.Core.Models.Expense>
 
 @{
@@ -20,18 +22,31 @@
 
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Expense  </b></h3>
+                  
+                    @if (Config.ExcelImport.ExpenseExcelImport.ManageAccess())
+                    {
+
                     <a href="@Url.Action("ExpenseExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.ImportData</button>
 
                     </a>
+                    }
+                    @if (Config.Expense.Expense.ManageAccess())
+                    {
+
                     <a href="@Url.Action("AddExpense", "Expense")" class="modalShow" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddExpense</button>
 
                     </a>
+                    }
+                    @if (Config.Expense.ExpenseHead.ViewAccess())
+                    {
+
                     <a href="@Url.Action("ExpenseHeadList","Expense")" style="flex-grow: 0">
                         <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.ExpenseHeadList</button>
 
                     </a>
+                    }
                 </div>
             </div>
         </div>
@@ -50,7 +65,10 @@
                         <th>@POSApp.Resources.Resource.amount</th>
                         <th>@POSApp.Resources.Resource.Description</th>
                         <th>@POSApp.Resources.Resource.Date</th>
+                        @if (Config.Expense.Expense.ManageAccess())
+                        {
                         <th>@POSApp.Resources.Resource.Action</th>
+                        }
 
 
                     </tr>
@@ -66,14 +84,19 @@
                             <td>@expense.Amount</td>
                             <td>@expense.Description</td>
                             <td>@expense.Date.ToShortDateString()</td>
+                                @if (Config.Expense.Expense.ManageAccess())
+                                {
                             <td class="center">
+                                
+
                                 <div class="btn-group">
-                                    @Html.ActionLink(" ", "UpdateExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
-                                    @Html.ActionLink(" ", "DeleteExpense", "Expense", new { id = @expense.Id, storeId = @expense.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
+                                    @Html.ActionLink(" ", "UpdateExpense", "Expense", new {id = @expense.Id, storeId = @expense.StoreId}, new {@class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT})
+                                    @Html.ActionLink(" ", "DeleteExpense", "Expense", new {id = @expense.Id, storeId = @expense.StoreId}, new {@class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');"})
 
                                 </div>
 
                             </td>
+                                }
 
                         </tr>
                     }

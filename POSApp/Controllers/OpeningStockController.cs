@@ -11,6 +11,7 @@ using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.Shared;
 using POSApp.Core.ViewModels;
+using POSApp.SecurityFilters;
 
 namespace POSApp.Controllers
 {
@@ -29,13 +30,16 @@ namespace POSApp.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: PurchaseOrders
+        [View(Config.OpeningStock.OpeningStock)]
+
         public ActionResult OpeningStockList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).OrderByDescending(a => a.Id).Where(a => a.Type == "OPS")));
         }
-        
+        [View(Config.OpeningStock.OpeningStock)]
+
         public ActionResult PreviewOpeningStock(int id)
         {
             var userid = User.Identity.GetUserId();
@@ -57,7 +61,8 @@ namespace POSApp.Controllers
 
         }
 
-        
+
+        [Manage(Config.OpeningStock.OpeningStock)]
 
         public ActionResult AddOpeningStock()
         {
@@ -75,6 +80,8 @@ namespace POSApp.Controllers
             return View(po);
         }
         [HttpPost]
+        [Manage(Config.OpeningStock.OpeningStock)]
+
         public ActionResult AddOpeningStock(TransMasterViewModel po)
         {
             var userid = User.Identity.GetUserId();
@@ -124,6 +131,10 @@ namespace POSApp.Controllers
 
         }
 
+
+
+        [Manage(Config.OpeningStock.TransactionItems)]
+
         public ActionResult AddTransactionItem()
         {
             var userid = User.Identity.GetUserId();
@@ -131,6 +142,8 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => (a.PurchaseItem || a.InventoryItem)).OrderBy(a => a.Name).Select(a => new SelectListItem { Text = a.Name + "(" + a.ProductCode + ")", Value = a.Id.ToString() }));
         }
         [HttpPost]
+        [Manage(Config.OpeningStock.TransactionItems)]
+
         public ActionResult AddTransactionItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
         {
             if (OpeningHelper.temptTransDetail == null)
@@ -148,6 +161,9 @@ namespace POSApp.Controllers
             OpeningHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
             return View("PoTable", OpeningHelper.temptTransDetail);
         }
+
+        [Manage(Config.OpeningStock.TransactionItems)]
+
         public ActionResult RemoveTransactionItem(string productId)
         {
             if (OpeningHelper.temptTransDetail == null)
@@ -160,6 +176,7 @@ namespace POSApp.Controllers
             OpeningHelper.RemoveFromTemptTransDetail(productId, (int)user.StoreId, user.Id);
             return View("PoTable", OpeningHelper.temptTransDetail);
         }
+        [Manage(Config.OpeningStock.TransactionItems)]
 
         public ActionResult DeleteOpeningStock(int id, int storeid)
         {
@@ -212,6 +229,8 @@ namespace POSApp.Controllers
             return RedirectToAction("OpeningStockList");
 
         }
+        [Manage(Config.OpeningStock.OpeningStock)]
+
         public ActionResult GenerateOpeningStockReceipt()
         {
             GeneratePurchaseOrderViewModel po = (GeneratePurchaseOrderViewModel)TempData["po"];

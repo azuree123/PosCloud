@@ -1,4 +1,6 @@
 ﻿@using POSApp.Core.Models
+@using POSApp.SecurityFilters
+@using POSApp.Services
 @model IEnumerable<POSApp.Core.ViewModels.ModifierListViewModel>
 
 @{
@@ -17,12 +19,32 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li><a href="@Url.Action("ProductsList","Products")">@POSApp.Resources.Resource.Products</a></li>
+            @if (Config.Products.Products.CheckAccess())
+            {
+                <li><a href="@Url.Action("ProductsList", "Products")">@POSApp.Resources.Resource.Products</a></li>
+
+            }
+            @if (Config.Products.Modifiers.CheckAccess())
+            {
+                <li class="current"><a href="#">@POSApp.Resources.Resource.Modifiers</a></li>
+
+            }
             <li><a class="hidden" href="@Url.Action("ServicesList", "Services")">Services</a></li>
-            <li class="current"><a href="#">@POSApp.Resources.Resource.Modifiers</a></li>
-            <li><a href="@Url.Action("CombosList","Products")">@POSApp.Resources.Resource.Combos</a></li>
-            <li><a href="@Url.Action("ProductCategoryList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
-            <li><a href="@Url.Action("ProductCategoryGroupList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
+            @if (Config.Products.Combo.CheckAccess())
+            {
+                <li><a href="@Url.Action("CombosList", "Products")">@POSApp.Resources.Resource.Combos</a></li>
+
+            }
+            @if (Config.Products.Products.CheckAccess())
+            {
+                <li><a href="@Url.Action("ProductCategoryList", "Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
+
+            }
+            @if (Config.Products.Products.CheckAccess())
+            {
+            <li><a href="@Url.Action("ProductCategoryGroupList", "Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
+
+            }
 
         </ul>
         <hr />
@@ -38,11 +60,14 @@
 
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Modifiers</b></h3>
+                    @if (Config.Products.Modifiers.ManageAccess())
+                    {
 
                     <a href="@Url.Action("AddModifier","Products")" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddModifier </button>
 
                     </a>
+                    }
 
 
                 </div>
@@ -59,13 +84,28 @@
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
-                        <th width="5%">@POSApp.Resources.Resource.ID</th>
-                        <th width="15%">@POSApp.Resources.Resource.name</th>
-                        <th width="15%">@POSApp.Resources.Resource.Barcode</th>
-                        <th width="15%">Modifer Options</th>
-                        <th width="15%">@POSApp.Resources.Resource.LinkedProducts</th>
 
-                        <th width="30%">@POSApp.Resources.Resource.Action</th>
+                        @if (Config.Setup.Supplier.ManageAccess())
+                        {
+                            <th width="5%">@POSApp.Resources.Resource.ID</th>
+                            <th width="15%">@POSApp.Resources.Resource.name</th>
+                            <th width="15%">@POSApp.Resources.Resource.Barcode</th>
+                            <th width="15%">Modifer Options</th>
+                            <th width="15%">@POSApp.Resources.Resource.LinkedProducts</th>
+                            <th width="30%">@POSApp.Resources.Resource.Action</th>
+
+                        }
+                      
+
+                        @if (Config.Products.Modifiers.ViewAccess())
+                        {
+                            <th width="5%">@POSApp.Resources.Resource.ID</th>
+                            <th width="20%">@POSApp.Resources.Resource.name</th>
+                            <th width="20%">@POSApp.Resources.Resource.Barcode</th>
+                            <th width="25%">Modifer Options</th>
+                            <th width="25%">@POSApp.Resources.Resource.LinkedProducts</th>
+                            <th width="10%">@POSApp.Resources.Resource.Action</th>
+                        }
 
                     </tr>
                 </thead>
@@ -84,11 +124,18 @@
 
                         <td class="center">
                             <div class="btn-group">
+                                @if (Config.Products.Modifiers.ManageAccess())
+                                {
 
                                 @Html.ActionLink(" ", "UpdateModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
                                 @Html.ActionLink(" ", "DeleteModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
                                 @Html.ActionLink(" ", "AddModifierLinkProduct", "Products", new { modifierId = @modifier.Id }, new { @class = "btn btn-default text-success  btn-sm fa fa-plus modalShow", data_toggle = "tooltip", title = "Link Modifier Products !" })
+                                }
+                                @if (Config.Products.Modifiers.ViewAccess())
+                                {
                                 @Html.ActionLink(" ", "ModifierDetails", "Products", new { modifierId = @modifier.Id }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview })
+
+                                }
 
                             </div>
                         </td>

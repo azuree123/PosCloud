@@ -1,4 +1,6 @@
-﻿@model IEnumerable<POSApp.Core.ViewModels.TransMasterViewModel>
+﻿@using POSApp.SecurityFilters
+@using POSApp.Services
+@model IEnumerable<POSApp.Core.ViewModels.TransMasterViewModel>
 
 @{
     ViewBag.Title = "StockTakingList";
@@ -7,18 +9,51 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li class="current"><a href="#">@POSApp.Resources.Resource.stocktaking</a></li>
+            @if (Config.StockTaking.StockTaking.CheckAccess())
+            {
+                <li class="current"><a href="#">@POSApp.Resources.Resource.stocktaking</a></li>
 
-            <li><a href="@Url.Action("PurchasingList", "PurchaseOrders")">@POSApp.Resources.Resource.Purchasing</a></li>
-            <li><a href="@Url.Action("StockList","PurchaseOrders")">@POSApp.Resources.Resource.StockIn</a></li>
-            <li><a href="@Url.Action("TransferList", "PurchaseOrders")">@POSApp.Resources.Resource.Transfer</a></li>
-            <li><a href="@Url.Action("OtherInList", "PurchaseOrders")">@POSApp.Resources.Resource.OtherIn</a></li>
-            <li><a href="@Url.Action("OtherOutList", "PurchaseOrders")">@POSApp.Resources.Resource.Otherout</a></li>
+            }
+            @if (Config.PurchaseOrders.PurchaseOrder.CheckAccess())
+            {
+                <li><a href="@Url.Action("PurchasingList", "PurchaseOrders")">@POSApp.Resources.Resource.Purchasing</a></li>
 
-            <li><a href="@Url.Action("ExpiryList", "PurchaseOrders")">@POSApp.Resources.Resource.Expiry</a></li>
-            
-            <li><a href="@Url.Action("WasteList", "PurchaseOrders")">@POSApp.Resources.Resource.Waste</a></li>
+            }
+            @if (Config.PurchaseOrders.Stock.CheckAccess())
+            {
+
+                <li><a href="@Url.Action("StockList", "PurchaseOrders")">@POSApp.Resources.Resource.StockIn</a></li>
+            }
+            @if (Config.PurchaseOrders.Transfer.CheckAccess())
+            {
+
+                <li><a href="@Url.Action("TransferList", "PurchaseOrders")">@POSApp.Resources.Resource.Transfer</a></li>
+            }
+            @if (Config.PurchaseOrders.OtherIn.CheckAccess())
+            {
+                <li><a href="@Url.Action("OtherInList", "PurchaseOrders")">@POSApp.Resources.Resource.OtherIn</a></li>
+
+            }
+            @if (Config.PurchaseOrders.OtherOut.CheckAccess())
+            {
+                <li><a href="@Url.Action("OtherOutList", "PurchaseOrders")">@POSApp.Resources.Resource.Otherout</a></li>
+
+            }
+            @if (Config.PurchaseOrders.Expiry.CheckAccess())
+            {
+                <li><a href="@Url.Action("ExpiryList", "PurchaseOrders")">@POSApp.Resources.Resource.Expiry</a></li>
+
+            }
+            @if (Config.PurchaseOrders.Waste.CheckAccess())
+            {
+                <li><a href="@Url.Action("WasteList", "PurchaseOrders")">@POSApp.Resources.Resource.Waste</a></li>
+
+            }
+            @if (Config.PurchaseOrders.Damage.CheckAccess())
+            {
             <li><a href="@Url.Action("DamageList", "PurchaseOrders")">@POSApp.Resources.Resource.Damage</a></li>
+
+            }
         </ul>
         <hr />
 
@@ -35,12 +70,15 @@
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.stocktaking </b></h3>
 
+                @if (Config.StockTaking.StockTaking.ManageAccess())
+                {
 
 
                     <a href="@Url.Action("AddStockTaking","StockTaking")" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddStockTaking</button>
 
                     </a>
+                }
                   
 
                 </div>
@@ -82,9 +120,16 @@
                             <td>@purchaseOrder.TotalPrice</td>
                             <td>@purchaseOrder.Type</td>
                             <td>
-                                @Html.ActionLink(" ", "PreviewStockTaking", "StockTaking", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview  })
-                                @Html.ActionLink(" ", "DeleteStockStaking", "StockTaking", new { id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete , onclick = "return confirm('Are you sure?');" })
+                            @if (Config.StockTaking.StockTaking.ViewAccess())
+                            {
+                                @Html.ActionLink(" ", "PreviewStockTaking", "StockTaking", new {id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId}, new {@class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview})
 
+                            }
+                                
+                            @if (Config.StockTaking.StockTaking.ManageAccess())
+                            {
+                                @Html.ActionLink(" ", "DeleteStockStaking", "StockTaking", new {id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId}, new {@class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');"})
+                            }
                             </td>
                         </tr>
                     }

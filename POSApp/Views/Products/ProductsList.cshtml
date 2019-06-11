@@ -1,4 +1,6 @@
 ﻿@using POSApp.Core.Models
+@using POSApp.SecurityFilters
+@using POSApp.Services
 @{
     ViewBag.Title = "ProductsList";
     AlertModel alertModel = (AlertModel)TempData["Alert"];
@@ -21,10 +23,27 @@
         <ul class="snip1189">
             <li class="current"><a href="#">@POSApp.Resources.Resource.Products</a></li>
             <li><a class="hidden" href="@Url.Action("ServicesList","Services")">@POSApp.Resources.Resource.Services</a></li>
+           
+            @if (Config.Products.Modifiers.CheckAccess())
+            {
             <li><a href="@Url.Action("ModifierList","Products")">@POSApp.Resources.Resource.Modifiers</a></li>
+
+            }
+            @if (Config.Products.Combo.CheckAccess())
+            {
             <li><a href="@Url.Action("CombosList","Products")">@POSApp.Resources.Resource.Combos</a></li>
+
+            }
+        @if (Config.Products.ProductCategory.CheckAccess())
+        {
             <li><a href="@Url.Action("ProductCategoryList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
-            <li><a href="@Url.Action("ProductCategoryGroupList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
+
+        }
+        @if (Config.Products.ProductCategoryGroup.CheckAccess())
+        {
+             <li><a href="@Url.Action("ProductCategoryGroupList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
+
+        }
 
         </ul>
         <hr />
@@ -37,24 +56,41 @@
             <div class="col-md-12">
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Products</b></h3>
-                   
+                   @if (Config.ExcelImport.ProductExcelImport.ManageAccess())
+                   {
+
                     <a href="@Url.Action("ProductExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.ImportData</button>
 
                     </a>
+                   }
+                    @if (Config.Products.Products.ManageAccess())
+                    {
+
 
                     <a href="@Url.Action("AddProduct", "Products")" class="modalShow" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddProduct</button>
 
                     </a>
+                    }
+                    @if (Config.Products.ProductCategoryGroup.ViewAccess())
+                    {
+
+
                     <a href="@Url.Action("ProductCategoryGroupList","Products")" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.productcategorygrouplist</button>
 
                     </a>
+                    }
+                    @if (Config.Products.ProductCategory.ViewAccess())
+                    {
+
+
                     <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
                         <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.categorylist</button>
 
                     </a>
+                    }
                 </div>
             </div>
         </div>

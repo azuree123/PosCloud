@@ -1,4 +1,6 @@
 ﻿@using POSApp.Core.ViewModels
+@using POSApp.SecurityFilters
+@using POSApp.Services
 @model IEnumerable<POSApp.Core.ViewModels.RecipeListViewModel>
 @{
     Layout = null;
@@ -29,11 +31,15 @@
                         <td>@recipe.Quantity</td>
                         <td>@recipe.Unit</td>
                         <td>@recipe.Calories</td>
+                        
+                        @if (Config.Products.Recipe.ManageAccess())
+                        {
 
                         <td>
                             @Html.ActionLink(" ", "DeleteRecipe", "Products", new { id = @recipe.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
 
                         </td>
+                        }
                     </tr>
                 }
             </tbody>

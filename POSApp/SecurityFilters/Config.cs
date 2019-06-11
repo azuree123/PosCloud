@@ -1,9 +1,18 @@
 ﻿
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using POSApp.Models;
+using POSApp.Persistence;
+using Newtonsoft.Json;
+
 namespace POSApp.SecurityFilters
 {
     public class Config
     {
-       
+        
+
         public enum SecurityRights
         {
             SaleOrders = 1,
@@ -63,7 +72,10 @@ namespace POSApp.SecurityFilters
             Sections=4,
             ProductCategory=5,
             ProductCategoryGroup=6,
-            InventoryItems = 7
+            InventoryItems = 7,
+            ModifierLinkProduct=8,
+            ComboOption=9,
+            Recipe=10,
 
         }
          public enum Setup
@@ -86,13 +98,19 @@ namespace POSApp.SecurityFilters
             TillOperation = 16,
             Size = 17,
             WareHouse = 18,
-            Roles = 19
+            Roles = 19,
+            Location =20,
+            Discount=21,
+            Client=22,
+
 
 
         }
          public enum OpeningStock
         {
-            OpeningStock = 1
+            OpeningStock = 1,
+            TransactionItems=2
+
           
            
 
@@ -138,8 +156,21 @@ namespace POSApp.SecurityFilters
             ProductDiscountsReport = 30,
             CustomerReports = 31,
             InventoryTransactionsReports = 32,
-            PurchaseOrdersReports = 33
-
+            PurchaseOrdersReports = 33,
+            StockReport=34,
+            StockTakingReport=35,
+            PurchasesPerSupplierReport=36,
+            ServiceCostReport=37,
+            PromotionCostReport=38,
+            ExpensesReport=39,
+            ServiceSalesReport=40,
+            ServiceDurationSalesReport=41,
+            ServiceTimelySalesReport=42,
+            PromotionTimelySalesReport=43,
+            EmployeeMonthlyIncomeReport=44,
+            EmployeeCommissionReport=45,
+            TableSalesReport= 46,
+            OrderTypeSaleReport=47,
         }
          public enum StockTaking
         {
@@ -207,5 +238,19 @@ namespace POSApp.SecurityFilters
 
 
 
+    }
+
+    public static class UserData
+    {
+        public static UserRoleDataViewModel GetUserRoleData(HttpContextBase httpContext)
+        {
+            var cookie = HttpContext.Current.Request.Cookies["UserRoleData"];
+            string val = string.Empty;
+            if (cookie != null)
+            {
+                val = AuthHelper.Decrypt(cookie.Value);
+            }
+            return JsonConvert.DeserializeObject<UserRoleDataViewModel>(val);
+        }
     }
 }

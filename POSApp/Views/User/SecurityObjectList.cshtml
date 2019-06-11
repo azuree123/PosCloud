@@ -31,12 +31,12 @@
             <div class="" id="header-flex">
                 <h3 class="wb-color" style="flex-grow: 8"><b>Security Objects</b></h3>
 
-                
+
                 <a href="@Url.Action("AddSecurityObject", "User")" class="modalShow" style="flex-grow: 0.1">
                     <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add SecurityObject</button>
 
                 </a>
-              
+
             </div>
         </div>
 
@@ -51,7 +51,6 @@
                         <th>ID</th>
                         <th>Module</th>
                         <th>Feature</th>
-                        <th>Type</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -59,19 +58,18 @@
                     @{ int i = 1;}
                     @foreach (var user in Model)
                     {
-                    <tr>
-                        <td>@(i++)</td>
-                        <td>@user.Module</td>
-                        <td>@user.Name</td>
-                        <td>@user.Type</td>
-                        <td class="center">
-                            <div class="btn-group">
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@user.Module</td>
+                            <td>@user.Name</td>
+                            <td class="center">
+                                <div class="btn-group">
 
-                                @Html.ActionLink(" ", "UpdateSecurityObject", "User", new { id = @user.SecurityObjectId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow  ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteSecurityObject", "User", new { id = @user.SecurityObjectId }, new { @class = "btn btn-default text-danger   btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                            </div>
-                        </td>
-                    </tr>
+                                    @Html.ActionLink(" ", "UpdateSecurityObject", "User", new { id = @user.SecurityObjectId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow  ", data_toggle = "tooltip", title = "Edit !" })
+                                    @Html.ActionLink(" ", "DeleteSecurityObject", "User", new { id = @user.SecurityObjectId }, new { @class = "btn btn-default text-danger   btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                </div>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -89,7 +87,7 @@
     <script>
         $('#datatable-default').dataTable();
 
-        $('#datatable-default').on('click','a.modalShow', function () {
+        $('#datatable-default').on('click', 'a.modalShow', function () {
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
@@ -97,18 +95,18 @@
                 cache: false,
                 success: function (result) {
                     $('#ModalData').html(result).find('#ordine').modal('show');
-            $.unblockUI();
+                    $.unblockUI();
                 }
             });
 
             return false;
         });
         $('a.modalShow').on('click', function () {
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();

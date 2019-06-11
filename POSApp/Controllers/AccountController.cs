@@ -7,10 +7,12 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Newtonsoft.Json;
 using POSApp.Core.Models;
 using POSApp.Models;
 using POSApp;
 using POSApp.Core;
+using POSApp.SecurityFilters;
 using POSApp.Services;
 
 namespace POSApp.Controllers
@@ -86,6 +88,20 @@ namespace POSApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    var checkCookie = HttpContext.Request.Cookies["UserRoleData"];
+                    if (checkCookie == null)
+                    {
+                        var cookie = new HttpCookie("UserRoleData");
+                        cookie.Value = AuthHelper.Encrypt(JsonConvert.SerializeObject(_unitOfWork.UserRepository.GetUserLoginData(model.Email)));
+                        cookie.Expires = DateTime.Today.AddDays(2);
+                        HttpContext.Response.Cookies.Add(cookie);
+                    }
+                    else
+                    {
+                        checkCookie.Value = AuthHelper.Encrypt(JsonConvert.SerializeObject(_unitOfWork.UserRepository.GetUserLoginData(model.Email)));
+                        checkCookie.Expires = DateTime.Today.AddDays(2);
+                        HttpContext.Response.Cookies.Set(checkCookie);
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -474,6 +490,18 @@ namespace POSApp.Controllers
             {
                 return RedirectToAction("CloseTill", "PointOfSale");
             }
+
+            var cookies = HttpContext.Request.Cookies;
+            foreach (string cookie in cookies.AllKeys.Where(a => !a.Contains("culture")))
+            {
+                var httpCookie = cookies[cookie];
+                if (httpCookie != null)
+                {
+                    httpCookie.Expires = DateTime.Today.AddDays(-1);
+                    HttpContext.Response.Cookies.Set(httpCookie);
+                }
+            }
+
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login", "Account");
         }
@@ -482,6 +510,16 @@ namespace POSApp.Controllers
         public ActionResult LogOut()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            var cookies = HttpContext.Request.Cookies;
+            foreach (string cookie in cookies.AllKeys.Where(a => !a.Contains("culture")))
+            {
+                var httpCookie = cookies[cookie];
+                if (httpCookie != null)
+                {
+                    httpCookie.Expires = DateTime.Today.AddDays(-1);
+                    HttpContext.Response.Cookies.Set(httpCookie);
+                }
+            }
             return RedirectToAction("Login", "Account");
         }
 

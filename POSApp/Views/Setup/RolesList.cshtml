@@ -16,9 +16,9 @@
     <div class="col-md-12">
         <ul class="snip1189">
 
+            <li class="current"><a href="@Url.Action("RolesList","Setup")">@POSApp.Resources.Resource.Roles</a></li>
             <li><a href="@Url.Action("UserList","User")">@POSApp.Resources.Resource.users</a></li>
-            <li class="current"><a href="@Url.Action("RolesList","Setup")">Roles</a></li>
-            <li><a href="@Url.Action("SecurityObjectList", "User")">SecurityObjects</a></li>
+            <li><a href="@Url.Action("SecurityObjectList", "User")">@POSApp.Resources.Resource.SecurityObjects</a></li>
 
         </ul>
         <hr />
@@ -32,19 +32,21 @@
         <div class="row">
             <div class="col-md-12">
 
+
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Roles</b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Roles </b></h3>
 
 
 
-                    <a href="@Url.Action("AddShift", "Setup")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddRole</button>
+                    <a href="@Url.Action("AddRole","Setup")" style="flex-grow: 0.1">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm "></i>Add New </button>
 
                     </a>
-                    <a href="@Url.Action("AssignRolesToUsers", "Setup")"  style="flex-grow: 0">
+                    <a href="@Url.Action("AssignRolesToUsers","Setup")" style="flex-grow: 0.1">
                         <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Assign Roles</button>
 
                     </a>
+
 
                 </div>
 
@@ -55,34 +57,35 @@
             </div>
         </div>
 
+
         <h2 class="panel-title"></h2>
     </header>
     <div class="panel-body">
         <div class="table-responsive">
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
-                <tr>
-                    <th>@POSApp.Resources.Resource.ID</th>
-                    <th>@POSApp.Resources.Resource.name</th>
-                    <th>@POSApp.Resources.Resource.Action</th>
-                </tr>
+                    <tr>
+                        <th>@POSApp.Resources.Resource.ID</th>
+                        <th>@POSApp.Resources.Resource.name</th>
+                        <th>@POSApp.Resources.Resource.Action</th>
+                    </tr>
                 </thead>
                 <tbody>
-                @{ int i = 1;}
-                @foreach (var role in Model)
-                {
-                    <tr>
-                        <td>@(i++)</td>
-                        <td>@role.Name</td>
-                        <td class="center">
-                            <div class="btn-group">
+                    @{ int i = 1;}
+                    @foreach (var role in Model)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@role.Name</td>
+                            <td class="center">
+                                <div class="btn-group">
 
-                                @Html.ActionLink(" ", "AddRole", "Setup", new { id = @role.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit ", data_toggle = "tooltip", title = "Edit !" })
-                                @Html.ActionLink(" ", "DeleteRole", "Setup", new { id = @role.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                            </div>
-                        </td>
-                    </tr>
-                }
+                                    @Html.ActionLink(" ", "UpdateRole", "Setup", new { id = @role.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit ", data_toggle = "tooltip", title = POSApp.Resources.Resource.EDIT })
+                                    @Html.ActionLink(" ", "DeleteRole", "Setup", new { id = @role.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
@@ -96,11 +99,11 @@
 <div id="ModalData"></div>
 @section scripts
 {
-<script>
+    <script>
     $('#datatable-default').dataTable();
 
     $('#datatable-default').on('click','a.modalShow', function () {
-        $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+        $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
         $.ajax({
             url: this.href,
             type: 'GET',
@@ -114,7 +117,7 @@
         return false;
     });
     $('a.modalShow').on('click', function () {
-        $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
+        $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
         $.ajax({
             url: this.href,
             type: 'GET',
@@ -127,8 +130,7 @@
 
         return false;
     });
-    
-</script>
+    </script>
 }
 
 

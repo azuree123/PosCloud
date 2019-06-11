@@ -2,6 +2,8 @@
 
 
 @using POSApp.Core.Models
+@using POSApp.SecurityFilters
+@using POSApp.Services
 @model IEnumerable<POSApp.Core.Models.ModifierOption>
 
 @{
@@ -26,11 +28,14 @@
                     <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.ModifierOptions </b></h3>
 
 
+                    @if (Config.Products.Modifiers.CheckAccess())
+                    {
 
                     <a href="@Url.Action("AddModifierOption","Products")" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add Modifier Option</button>
 
                     </a>
+                    }
 
 
                 </div>
@@ -71,9 +76,12 @@
 
                             <td class="center">
                                 <div class="btn-group">
+                                    @if (Config.Products.Modifiers.ManageAccess())
+                                    {
 
                                     @*@Html.ActionLink(" ", "UpdateModifierOption", "Products", new { id = @modifieroption.Id, storeId = @modifieroption.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })*@
                                     @Html.ActionLink(" ", "DeleteModifierOption", "Products", new { id = @modifieroption.Id, storeId = @modifieroption.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
+                                    }
                                 </div>
                             </td>
 

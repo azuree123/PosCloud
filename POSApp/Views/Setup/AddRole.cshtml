@@ -30,7 +30,7 @@
         margin-left: 10px;
     }
     .toggable {
-       margin-top:1.4rem !important;
+        margin-top:1.4rem !important;
     }
     .table th.table-fit,.table td.table-fit {
         width: 7% !important;
@@ -38,6 +38,9 @@
     }
     #toggleAll{
         margin-top:unset !important;
+    }
+    .bolding {
+        font-weight: bold !important;
     }
 
 </style>
@@ -85,26 +88,26 @@
                             </div>
                             <div id="basicdata" class="tab-pane active">
                                 <h4 class="mt-none mb-lg  text-weight-semibold ">Basic Data</h4>
-                              <div class="row">
-            <div class="col-md-9 col-lg-offset-2">
-                @Html.HiddenFor(a => a.CreatedBy)
-                @Html.HiddenFor(a => a.CreatedOn)
-                @Html.HiddenFor(a => a.StoreId)
+                                <div class="row">
+                                    <div class="col-md-9 col-lg-offset-2">
+                                        @Html.HiddenFor(a => a.CreatedBy)
+                                        @Html.HiddenFor(a => a.CreatedOn)
+                                        @Html.HiddenFor(a => a.StoreId)
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2 required1" })
-                    <div class="col-md-10">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2 required1" })
+                                            <div class="col-md-10">
 
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control required1",@required="true", autofocus = "" } })
-                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control required1", @required = "true", autofocus = "" } })
+                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
 
 
 
-            </div>
-        </div>
+                                    </div>
+                                </div>
 
                             </div>
                             <div id="authorities" class="tab-pane">
@@ -114,14 +117,21 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-              
+
                                         <div class="table-responsive">
                                             <table id="companyAuthorities" class="table text-left">
                                                 <thead>
                                                     <tr>
                                                         <th class="table-fit">
                                                             <div class="checkbox-holder">
-                                                                <input type="checkbox" id="toggleAll"  class="toggable">
+                                                                @if (Model.RoleSecurityRightViewModels.Where(a => !a.View || !a.Manage).Any())
+                                                                {
+                                                                    <input type="checkbox" id="toggleAll" class="toggable">
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input type="checkbox" id="toggleAll" checked="checked" class="toggable">
+                                                                }
                                                             </div>
                                                         </th>
                                                         <th style="vertical-align: top !important;">
@@ -142,25 +152,26 @@
                                                         <tr>
                                                             <td style="vertical-align: top !important;">
 
-                                                                <input type="checkbox" id="customers" class="toggable">
+                                                                @*<input type="checkbox" id="customers" class="form-check-input">*@
 
                                                             </td>
                                                             <td style="vertical-align: top !important;">
                                                                 <h5 class="">
-                                                                    <label for="customers" class="mb-0">@module.SecurityObject</label>
+                                                                    <label for="customers" class="mb-0" style="text-align: left">@module.SecurityObject</label>
                                                                 </h5>
-                                                                <div class="form-check mb-xs">
-                                                                    @Html.CheckBoxFor(a => a.RoleSecurityRightViewModels[j].View,new {@class="form-check-input"})
-                                                                  
+                                                                <div class="form-check mb-xs col-lg-offset-1 col-lg-5" style="display: inline">
+                                                                    @Html.CheckBoxFor(a => a.RoleSecurityRightViewModels[j].View, new { @class = "form-check-input ", @id = "customers" })
+                                                                    @*<input type="checkbox" id="view-customers" value="view-customers" class="form-check-input">*@
                                                                     <label for="view-customers" class="form-check-label">View</label>
                                                                 </div>
-                                                                <div class="form-check mb-xs">
-                                                                    @Html.CheckBoxFor(a => a.RoleSecurityRightViewModels[j].Manage, new { @class = "form-check-input" })
-                                                                 
+                                                                <div class="form-check mb-xs col-lg-offset-1 col-lg-5" style="display: inline">
+                                                                    @Html.CheckBoxFor(a => a.RoleSecurityRightViewModels[j].Manage, new { @class = "form-check-input ", @id = "customers" })
+                                                                    @*<input type="checkbox" id="manage-customers" value="manage-customers" class="form-check-input">*@
                                                                     <label for="manage-customers" class="form-check-label">Manage</label>
                                                                 </div>
                                                             </td>
                                                         </tr>
+                                                        j++;
                                                     }
 
 
@@ -185,57 +196,64 @@
 @section scripts
 {
     <script>
-        $(':checkbox[class=toggable]').click(function() {
-            $(':checkbox[class=form-check-input]').prop('checked', this.checked);
-            $(':checkbox[class=toggable]').prop('checked', this.checked);
-        });
+        $(function() {
 
-        $('#datatable-default').on('click','a.modalShow', function () {
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
-            $.ajax({
-                url: this.href,
-                type: 'GET',
-                success: function(result) {
-                    $('#ModalData').html(result);
-                    $('#ordine').modal('show');
-                    $.unblockUI();
-                }
+        
+            $(':checkbox[class=toggable],:checkbox[id=toggleAll]').click(function () {
+                $(':checkbox[class=form-check-input],:checkbox[id=customers]').prop('checked', this.checked);
+             
+
+
             });
 
-            return false;
-        });
-        $('a.modalShow').on('click', function () {
-            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } }); 
-            $.ajax({
-                url: this.href,
-                type: 'GET',
-                success: function(result) {
-                    $('#ModalData').html(result);
-                    $('#ordine').modal('show');
-                    $.unblockUI();
-                }
+            $('#datatable-default').on('click',
+                'a.modalShow',
+                function() {
+                    $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+                    $.ajax({
+                        url: this.href,
+                        type: 'GET',
+                        success: function(result) {
+                            $('#ModalData').html(result);
+                            $('#ordine').modal('show');
+                            $.unblockUI();
+                        }
+                    });
+
+                    return false;
+                });
+            $('a.modalShow').on('click',
+                function() {
+                    $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+                    $.ajax({
+                        url: this.href,
+                        type: 'GET',
+                        success: function(result) {
+                            $('#ModalData').html(result);
+                            $('#ordine').modal('show');
+                            $.unblockUI();
+                        }
+                    });
+
+                    return false;
+                });
+            $('#datatable-default').dataTable();
+
+
+            $("#ms_example7-toggle").click(function(e) {
+                e.preventDefault();
+                MultiSelect($("#ms_example7"), $(this));
             });
-
-            return false;
         });
-        $('#datatable-default').dataTable();
-
-
-
-        $("#ms_example7-toggle").click(function (e) {
-            e.preventDefault();
-            MultiSelect($("#ms_example7"), $(this));
-        });
-
     </script>
     <script>
-        $("input").on("keypress", function (e) {
-            if (e.which === 32 && !this.value.length)
-                e.preventDefault();
-        });
+        $("input").on("keypress",
+            function(e) {
+                if (e.which === 32 && !this.value.length)
+                    e.preventDefault();
+            });
     </script>
 }
-
 
 
 

@@ -21,13 +21,13 @@ namespace POSApp.Core.ViewModels
             get;
             set;
         }
-        [Required(ErrorMessage = "Users")]
+
         public IEnumerable<SelectListItem> Userlist
         {
             get;
             set;
         }
-        [Required(ErrorMessage = "Roles")]
+
         public IEnumerable<SelectListItem> UserRolesList
         {
             get;

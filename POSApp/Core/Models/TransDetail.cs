@@ -26,7 +26,9 @@ namespace POSApp.Core.Models
         public int? DiscountId { get; set; }
         [DefaultValue(0)]
         public decimal Balance { get; set; }
-
+        public string BatchNumber { get; set; }
+        public DateTime? ExpiryDate { get; set; }
+        public DateTime? ManufactureDate { get; set; }
         public bool Waste { get; set; }
         public virtual TimedEvent TimedEvent { get; set; }
 

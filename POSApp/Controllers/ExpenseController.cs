@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.SecurityFilters;
 
 namespace POSApp.Controllers
 {
@@ -29,6 +30,8 @@ namespace POSApp.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: Expense
+        [View(Config.Expense.Expense)]
+
         public ActionResult ExpenseList()
         {
             var userid = User.Identity.GetUserId();
@@ -36,6 +39,7 @@ namespace POSApp.Controllers
             
             return View( _unitOfWork.ExpenseRepository.GetExpenses((int)user.StoreId).OrderByDescending(a => a.Id));
         }
+        [View(Config.Expense.Expense)]
 
         public ActionResult DailyExpenseList()
         {
@@ -43,6 +47,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.ExpenseRepository.GetExpensesByDate((int)user.StoreId).OrderByDescending(a => a.Id));
         }
+        [View(Config.Expense.Expense)]
+
         public ActionResult AddExpense()
         {
             ExpenseViewModel expense=new ExpenseViewModel();
@@ -61,6 +67,8 @@ namespace POSApp.Controllers
             return View(expense);
         }
         [HttpPost]
+        [Manage(Config.Expense.Expense)]
+
         public ActionResult AddExpense(ExpenseViewModel expenseVm)
         {
             ViewBag.edit = "AddExpense";
@@ -132,6 +140,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Expense.Expense)]
+
         public ActionResult UpdateExpense(int id)
         {
             var userid = User.Identity.GetUserId();
@@ -149,6 +159,8 @@ namespace POSApp.Controllers
             return View("AddExpense",expense);
         }
         [HttpPost]
+        [Manage(Config.Expense.Expense)]
+
         public ActionResult UpdateExpense(int id,ExpenseViewModel expenseVm)
         {
             var userid = User.Identity.GetUserId();
@@ -221,6 +233,9 @@ namespace POSApp.Controllers
             
 
         }
+
+        [Manage(Config.Expense.Expense)]
+
         public ActionResult DeleteExpense(int id, int storeid)
         {
             try
@@ -273,6 +288,9 @@ namespace POSApp.Controllers
 
         }
 
+
+        [View(Config.Expense.Expense)]
+
         public ActionResult ExpenseHeadList()
         {
             var userid = User.Identity.GetUserId();
@@ -282,6 +300,7 @@ namespace POSApp.Controllers
 
 
 
+        [Manage(Config.Expense.Expense)]
 
         public ActionResult AddExpenseHeadPartial()
         {
@@ -294,6 +313,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Expense.Expense)]
+
         public ActionResult AddExpenseHeadPartial(ExpenseHeadViewModel expenseheadvm)
         {
             ViewBag.edit = "AddExpenseHeadPartial";
@@ -359,6 +380,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Expense.Expense)]
 
         public JsonResult GetExpenseHeadDdl()
         {
@@ -374,6 +396,7 @@ namespace POSApp.Controllers
                 throw;
             }
         }
+        [Manage(Config.Expense.Expense)]
 
         public ActionResult AddExpenseHead()
         {
@@ -386,6 +409,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Expense.Expense)]
+
         public ActionResult AddExpenseHead(ExpenseHeadViewModel expenseHeadVm)
         {
             ViewBag.edit = "AddExpenseHead";
@@ -451,6 +476,9 @@ namespace POSApp.Controllers
             return View(expenseHeadVm);
 
         }
+
+        [Manage(Config.Expense.Expense)]
+
         public ActionResult UpdateExpenseHead(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -466,6 +494,8 @@ namespace POSApp.Controllers
             return View("AddExpenseHead", expenseHeadVm);
         }
         [HttpPost]
+        [Manage(Config.Expense.Expense)]
+
         public ActionResult UpdateExpenseHead(int id,ExpenseHeadViewModel expenseHeadVm)
         {
             ViewBag.edit = "UpdateExpenseHead";
@@ -530,6 +560,9 @@ namespace POSApp.Controllers
             return View("AddExpenseHead",expenseHeadVm);
 
         }
+
+        [Manage(Config.Expense.Expense)]
+
         public ActionResult DeleteExpenseHead(int id, int storeid)
         {
             try

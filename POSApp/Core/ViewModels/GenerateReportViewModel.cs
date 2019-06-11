@@ -12,5 +12,7 @@ namespace POSApp.Core.ViewModels
         public DateTime DateFrom { get; set; } = DateTime.Today;
         [DataType(DataType.Date)]
         public DateTime DateTo { get; set; } = DateTime.Today;
+
+      
     }
 }

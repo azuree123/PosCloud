@@ -481,38 +481,38 @@ namespace POSApp.Controllers
             }
         }
         [HttpPost]
-        public ActionResult OpenTill(decimal cash_in_hand,string returnUrl = "")
-        {
-            var userid = User.Identity.GetUserId();
-            var user = _unitOfWork.UserRepository.GetUserById(userid);
-            if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(user.StoreId)))
-            {
-                TillOperation data = new TillOperation
-                {
-                    StoreId = Convert.ToInt32(user.StoreId),
-                    ApplicationUserId = userid,
-                    OpeningAmount = cash_in_hand,
-                    SystemAmount = 0,
-                    PhysicalAmount = 0,
-                    OperationDate = DateTime.Now,
-                    Remarks = "",
-                    Status = false,
-                    TillOperationType = "Open",
-                    SessionCode =
-                        _unitOfWork.TillOperationRepository.GetTillSessionCode(userid, Convert.ToInt32(user.StoreId)),
-                    ShiftId = _unitOfWork.EmployeeRepository.GetEmployeeById(user.EmployeeId,(int)user.StoreId).ShiftId
+        //public ActionResult OpenTill(decimal cash_in_hand,string returnUrl = "")
+        //{
+        //    var userid = User.Identity.GetUserId();
+        //    var user = _unitOfWork.UserRepository.GetUserById(userid);
+        //    if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(user.StoreId)))
+        //    {
+        //        TillOperation data = new TillOperation
+        //        {
+        //            StoreId = Convert.ToInt32(user.StoreId),
+        //            ApplicationUserId = userid,
+        //            OpeningAmount = cash_in_hand,
+        //            SystemAmount = 0,
+        //            PhysicalAmount = 0,
+        //            OperationDate = DateTime.Now,
+        //            Remarks = "",
+        //            Status = false,
+        //            TillOperationType = "Open",
+        //            SessionCode =
+        //                _unitOfWork.TillOperationRepository.GetTillSessionCode(userid, Convert.ToInt32(user.StoreId)),
+        //            ShiftId = _unitOfWork.EmployeeRepository.GetEmployeeById(user.EmployeeId,(int)user.StoreId).ShiftId
 
-                };
-                _unitOfWork.TillOperationRepository.AddTillOperation(data);
-                _unitOfWork.Complete();
-            }
+        //        };
+        //        _unitOfWork.TillOperationRepository.AddTillOperation(data);
+        //        _unitOfWork.Complete();
+        //    }
 
-            if (string.IsNullOrEmpty(returnUrl))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            return Redirect(returnUrl);
-        }
+        //    if (string.IsNullOrEmpty(returnUrl))
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    return Redirect(returnUrl);
+        //}
 
         public ActionResult CloseTill()
         {

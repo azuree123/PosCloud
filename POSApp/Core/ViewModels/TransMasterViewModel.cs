@@ -42,6 +42,9 @@ namespace POSApp.Core.ViewModels
         public string Code { get; set; }
         [DefaultValue(0)]
         public decimal Tax { get; set; }
+        public string BatchNumber { get; set; }
+        public DateTime? ExpiryDate { get; set; }
+        public DateTime? ManufactureDate { get; set; }
         public IEnumerable<SelectListItem> SupplierDdl { get; set; }
         public IEnumerable<SelectListItem> WarehouseDdl { get; set; }
         public IEnumerable<SelectListItem> StoreDdl { get; set; }

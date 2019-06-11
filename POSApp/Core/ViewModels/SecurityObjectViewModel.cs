@@ -16,6 +16,6 @@ namespace POSApp.Core.ViewModels
         [Display(Name = "Type", ResourceType = typeof(Resource))]
         public string Type { get; set; }// Form, report etc // varchar 15
         [Display(Name = "Module", ResourceType = typeof(Resource))]
-        public Config.SecurityRights Module { get; set; }//HR, Finane etc 50
+        public string Module { get; set; }//HR, Finane etc 50
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.SecurityFilters;
 
 namespace POSApp.Controllers
 {
@@ -27,6 +28,7 @@ namespace POSApp.Controllers
             _unitOfWork = unitOfWork;
         }
         //Device
+        [View(Config.Device.Device)]
 
         public ActionResult DeviceList()
         {
@@ -35,6 +37,8 @@ namespace POSApp.Controllers
             return View(_unitOfWork.DeviceRepository.GetDevices((int)user.StoreId).OrderByDescending(a => a.Id));
         }
         [HttpGet]
+        [Manage(Config.Device.Device)]
+
         public ActionResult AddDevice()
         {
             var userid = User.Identity.GetUserId();
@@ -57,6 +61,8 @@ namespace POSApp.Controllers
             return View(Device);
         }
         [HttpPost]
+        [Manage(Config.Device.Device)]
+
         public ActionResult AddDevice(DeviceViewModel DeviceMv)
         {
 
@@ -130,6 +136,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Device.Device)]
+
         public ActionResult UpdateDevice(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -151,6 +159,8 @@ namespace POSApp.Controllers
             return View("AddDevice", DeviceMv);
         }
         [HttpPost]
+        [Manage(Config.Device.Device)]
+
         public ActionResult UpdateDevice(int id, DeviceViewModel DeviceMv)
         {
            
@@ -222,6 +232,8 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.Device.Device)]
+
         public ActionResult DeleteDevice(int id)
         {
             try

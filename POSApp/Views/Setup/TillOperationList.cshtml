@@ -1,4 +1,6 @@
 ﻿@using POSApp.Core.Models
+@using POSApp.SecurityFilters
+@using POSApp.Services
 @model IEnumerable<POSApp.Core.ViewModels.TillOperationListModelView>
 
 @{
@@ -15,37 +17,116 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li class=""><a href="@Url.Action("CustomerList","Setup")">@POSApp.Resources.Resource.Customer</a></li>
-            <li><a href="@Url.Action("EmployeeList","Setup")">@POSApp.Resources.Resource.Employee</a></li>
+            @if (Config.Setup.Customer.CheckAccess())
+            {
+                <li class=""><a href="@Url.Action("CustomerList", "Setup")">@POSApp.Resources.Resource.Customer</a></li>
 
-            <li><a href="@Url.Action("SupplierList","Setup")">@POSApp.Resources.Resource.Supplier</a></li>
+            }
+            @if (Config.Setup.Employee.CheckAccess())
+            {
 
-            <li><a href="@Url.Action("DepartmentList","Setup")">@POSApp.Resources.Resource.Department</a></li>
+                <li class=""><a href="@Url.Action("EmployeeList", "Setup")">@POSApp.Resources.Resource.Employee</a></li>
+            }
+            @if (Config.Setup.Supplier.CheckAccess())
+            {
+                <li class=""><a href="@Url.Action("SupplierList", "Setup")">@POSApp.Resources.Resource.Supplier</a></li>
 
-            <li><a href="@Url.Action("DesignationList","Setup")">@POSApp.Resources.Resource.Designation</a></li>
+            }
+            @if (Config.Setup.Department.CheckAccess())
+            {
+                <li class=""><a href="@Url.Action("DepartmentList", "Setup")">@POSApp.Resources.Resource.Department</a></li>
 
-            @*<li><a href="@Url.Action("CouponList","Setup")">Coupon</a></li>*@
+            }
+            @if (Config.Setup.Designation.CheckAccess())
+            {
 
-            <li class="hidden"><a href="@Url.Action("DiscountList","Setup")">@POSApp.Resources.Resource.Discount</a></li>
-            <li><a href="@Url.Action("TaxList","Setup")">@POSApp.Resources.Resource.Tax</a></li>
-            <li><a href="@Url.Action("StateList","Setup")">@POSApp.Resources.Resource.State</a></li>
-            <li><a href="@Url.Action("CityList","Setup")">@POSApp.Resources.Resource.City</a></li>
+                <li class=""><a href="@Url.Action("DesignationList", "Setup")">@POSApp.Resources.Resource.Designation</a></li>
+            }
+            @if (Config.Setup.Discount.CheckAccess())
+            {
+                <li class="hidden"><a href="@Url.Action("DiscountList", "Setup")">@POSApp.Resources.Resource.Discount</a></li>
+
+            }
+
+
+            @if (Config.Setup.Tax.CheckAccess())
+            {
+                <li class=""><a href="@Url.Action("TaxList", "Setup")">@POSApp.Resources.Resource.Tax</a></li>
+
+            }
+            @if (Config.Setup.State.CheckAccess())
+            {
+                <li><a href="@Url.Action("StateList", "Setup")">@POSApp.Resources.Resource.State</a></li>
+
+            }
+            @if (Config.Setup.City.CheckAccess())
+            {
+                <li class=""><a href="@Url.Action("CityList", "Setup")">@POSApp.Resources.Resource.City</a></li>
+
+            }
             @*<li><a href="@Url.Action("ClientList","Setup")">Client</a></li>*@
-            <li><a href="@Url.Action("UnitList","Setup")">@POSApp.Resources.Resource.Unit</a></li>
-            <li><a href="@Url.Action("TimedEventList","Setup")">@POSApp.Resources.Resource.Discount</a></li>
+            @if (Config.Setup.Unit.CheckAccess())
+            {
+                <li class=""><a href="@Url.Action("UnitList", "Setup")">@POSApp.Resources.Resource.Unit</a></li>
+
+            }
+            @if (Config.Setup.TimedEvent.CheckAccess())
+            {
+                <li class=""><a href="@Url.Action("TimedEventList", "Setup")">@POSApp.Resources.Resource.Discount</a></li>
+
+            }
             @*<li><a href="@Url.Action("RolesList","Setup")">Roles</a></li>*@
 
-            <li><a href="@Url.Action("DineTableList","Setup")">Dine Table</a></li>
-            <li><a href="@Url.Action("FloorList","Setup")">Floor</a></li>
-            <li><a href="@Url.Action("POSTerminalList","Setup")">@POSApp.Resources.Resource.POSTerminal</a></li>
-            <li><a href="@Url.Action("ShiftList","Setup")">@POSApp.Resources.Resource.SHIFTS</a></li>
+            @if (Config.Setup.DineTable.CheckAccess())
+            {
+                <li class=""><a href="@Url.Action("DineTableList", "Setup")">Dine Table</a></li>
 
-            <li class="current"><a href="@Url.Action("TillOperationList","Setup")">@POSApp.Resources.Resource.tilloperations</a></li>
-            <li><a href="@Url.Action("SectionList","Products")">@POSApp.Resources.Resource.Section</a></li>
-            <li><a href="@Url.Action("SizeList","Setup")">@POSApp.Resources.Resource.size</a></li>
-            <li><a href="@Url.Action("WarehouseList","Setup")">@POSApp.Resources.Resource.warehouse</a></li>
-            <li><a href="@Url.Action("DeviceList", "Device")">@POSApp.Resources.Resource.Devices</a></li>
-            <li><a href="@Url.Action("StoresList","Store")">@POSApp.Resources.Resource.Branches</a></li>
+            }
+            @if (Config.Setup.Floor.CheckAccess())
+            {
+                <li class=""><a href="@Url.Action("FloorList", "Setup")">Floor</a></li>
+
+            }
+            @if (Config.Setup.PosTerminal.CheckAccess())
+            {
+                <li class=""><a href="@Url.Action("POSTerminalList", "Setup")">@POSApp.Resources.Resource.POSTerminal</a></li>
+
+            }
+            @if (Config.Setup.Shift.CheckAccess())
+            {
+
+                <li class=""><a href="@Url.Action("ShiftList", "Setup")">@POSApp.Resources.Resource.SHIFTS</a></li>
+            }
+            @if (Config.Setup.TillOperation.CheckAccess())
+            {
+                <li class="current"><a href="@Url.Action("TillOperationList", "Setup")">@POSApp.Resources.Resource.tilloperations</a></li>
+
+            }
+            @if (Config.Products.Sections.CheckAccess())
+            {
+                <li><a href="@Url.Action("SectionList", "Products")">@POSApp.Resources.Resource.Section</a></li>
+
+            }
+            @if (Config.Setup.Size.CheckAccess())
+            {
+
+                <li><a href="@Url.Action("SizeList", "Setup")">@POSApp.Resources.Resource.size</a></li>
+            }
+            @if (Config.Setup.WareHouse.CheckAccess())
+            {
+                <li><a href="@Url.Action("WarehouseList", "Setup")">@POSApp.Resources.Resource.warehouse</a></li>
+
+            }
+            @if (Config.Device.Device.CheckAccess())
+            {
+
+                <li><a href="@Url.Action("DeviceList", "Device")">@POSApp.Resources.Resource.Devices</a></li>
+            }
+            @if (Config.Store.Store.CheckAccess())
+            {
+                <li><a href="@Url.Action("StoresList", "Store")">@POSApp.Resources.Resource.Branches</a></li>
+
+            }
         </ul>
         <hr />
 
@@ -58,7 +139,7 @@
 
 
                 <div class="" id="header-flex">
-                    <h3 class="wb-color" style="flex-grow: 8"><b>Till Operations</b></h3>
+                    <h3 class="wb-color" style="flex-grow: 8"><b>TillOperations</b></h3>
 
 
                     @*<a href="@Url.Action("AddTillOperation", "Setup")" class="modalShow" style="flex-grow: 0.2">
@@ -92,7 +173,12 @@
                         
                         <th>Shift</th>
                         <th>Status</th>
+                            
+                        @if (Config.Setup.TillOperation.ManageAccess())
+                        {
                         <th>Action</th>
+
+                        }
 
                     </tr>
                 </thead>
@@ -111,13 +197,16 @@
                         <td>@till.ShiftName</td>
                         <td>@till.Status</td>
 
+                            @if (Config.Setup.TillOperation.ManageAccess())
+                            {
                         <td class="center">
                             <div class="btn-group">
 
                                 @*@Html.ActionLink(" ", "UpdateTillOperation", "Setup", new { id = @till.Id, storeId = @till.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })*@
-                                @Html.ActionLink(" ", "DeleteTillOperation", "Setup", new { id = @till.Id, storeId = @till.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                            </div>
+                                @Html.ActionLink(" ", "DeleteTillOperation", "Setup", new {id = @till.Id, storeId = @till.StoreId}, new {@class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');"})
+                                </div>
                         </td>
+                            }
                     </tr>
                     }
 

@@ -7,8 +7,7 @@ using Ninject.Extensions.Conventions;
 using Ninject.Web.Common;
 using Ninject.Web.Common.WebHost;
 using POSApp;
-using POSApp.Core;
-using POSApp.Persistence;
+
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
@@ -16,20 +15,20 @@ using POSApp.Persistence;
 namespace POSApp
 
 {
-    public static class NinjectWebCommon 
+    public static class NinjectWebCommon
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
         /// </summary>
-        public static void Start() 
+        public static void Start()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             bootstrapper.Initialize(CreateKernel);
         }
-        
+
         /// <summary>
         /// Stops the application.
         /// </summary>
@@ -37,7 +36,7 @@ namespace POSApp
         {
             bootstrapper.ShutDown();
         }
-        
+
         /// <summary>
         /// Creates the kernel that will manage your application.
         /// </summary>
@@ -58,7 +57,7 @@ namespace POSApp
                         .BindDefaultInterface();
                 })
                 ;
-                
+
                 return kernel;
             }
             catch
@@ -77,6 +76,6 @@ namespace POSApp
             //kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
 
             //kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
-        }        
+        }
     }
 }

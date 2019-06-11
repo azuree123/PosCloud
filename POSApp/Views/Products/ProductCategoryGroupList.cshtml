@@ -1,4 +1,6 @@
 ﻿@using POSApp.Core.Models
+@using POSApp.SecurityFilters
+@using POSApp.Services
 @model IEnumerable<POSApp.Core.ViewModels.ProductCategoryGroupViewModel>
 @{
     AlertModel alertModel = (AlertModel)TempData["Alert"];
@@ -11,11 +13,32 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-            <li><a href="@Url.Action("ProductsList","Products")">@POSApp.Resources.Resource.Products</a></li>
-            <li><a href="@Url.Action("ModifierList","Products")">@POSApp.Resources.Resource.Modifiers</a></li>
-            <li><a href="@Url.Action("CombosList","Products")">@POSApp.Resources.Resource.Combos</a></li>
-            <li><a href="@Url.Action("ProductCategoryList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
+            @if (Config.Products.Products.CheckAccess())
+            {
+                <li><a href="@Url.Action("ProductsList", "Products")">@POSApp.Resources.Resource.Products</a></li>
+
+            }
+
+            @if (Config.Products.Products.CheckAccess())
+            {
+
+                <li><a href="@Url.Action("ModifierList", "Products")">@POSApp.Resources.Resource.Modifiers</a></li>
+            }
+            @if (Config.Products.Products.CheckAccess())
+            {
+                <li><a href="@Url.Action("CombosList", "Products")">@POSApp.Resources.Resource.Combos</a></li>
+
+            }
+            @if (Config.Products.Products.CheckAccess())
+            {
+                <li><a href="@Url.Action("ProductCategoryList", "Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
+
+            }
+            @if (Config.Products.Products.CheckAccess())
+            {
             <li class="current"><a href="#">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
+
+            }
         </ul>
         <hr />
 
@@ -27,19 +50,31 @@
             <div class="col-md-12">
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</b></h3>
-             
+                    @if (Config.ExcelImport.ProductCategoryGroupExcelImport.ManageAccess())
+                    {
+
                     <a href="@Url.Action("ProductCategoryGroupExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.ImportData</button>
 
                     </a>
+                    }
+                    
+                    @if (Config.Products.ProductCategoryGroup.ManageAccess())
+                    {
+
                     <a href="@Url.Action("AddProductCategoryGroup", "Products")" class="modalShow" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add ProductCategoryGroup</button>
 
                     </a>
+                    }
+                    @if (Config.Products.ProductCategory.ViewAccess())
+                    {
+
                     <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
                         <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.categorylist</button>
 
                     </a>
+                    }
                 </div>
             </div>
         </div>
@@ -54,7 +89,10 @@
                     <tr>
                         <th width="10%">@POSApp.Resources.Resource.ID</th>
                         <th width="20%">@POSApp.Resources.Resource.name</th>
+                    @if (Config.Products.ProductCategory.ManageAccess())
+                    {
                         <th width="10%">@POSApp.Resources.Resource.Actions</th>
+                    }
                     </tr>
                 </thead>
                 <tbody>
@@ -66,13 +104,17 @@
                             <td>
                                 @product.Name
                             </td>
+                                    @if (Config.Products.Products.ManageAccess())
+                                    {
                             <td class="center">
+
                                 <div class="btn-group">
-                                     
-                                @Html.ActionLink(" ", "UpdateProductCategoryGroup", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
-                                @Html.ActionLink(" ", "DeleteProductCategoryGroup", "Products", new { id = @product.Id, storeId = @product.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
+
+                                    @Html.ActionLink(" ", "UpdateProductCategoryGroup", "Products", new {id = @product.Id, storeId = @product.StoreId}, new {@class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT})
+                                    @Html.ActionLink(" ", "DeleteProductCategoryGroup", "Products", new {id = @product.Id, storeId = @product.StoreId}, new {@class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');"})
                                 </div>
                             </td>
+                                    }
                         </tr>
                     }
 

@@ -28,7 +28,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.IsOperational).HasColumnType("bit").IsOptional();
             Property(x => x.BusinessStartTime).HasColumnType("datetime").IsRequired();
             Property(x => x.Currency).HasColumnType("varchar").HasMaxLength(150).IsOptional();
-            HasOptional(a=>a.Client).WithMany(a=>a.Stores).HasForeignKey(a=>a.ClientId).WillCascadeOnDelete(false);
+            HasRequired(a=>a.Client).WithMany(a=>a.Stores).HasForeignKey(a=>a.ClientId).WillCascadeOnDelete(false);
         }
     }
 }

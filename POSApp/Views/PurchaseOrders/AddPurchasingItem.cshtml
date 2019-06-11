@@ -20,97 +20,149 @@
         <div class="panel-body">
             <div class="">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="row">
+              
+            
+                    <div class="row">
 
 
-                    <div class="col-md-2 ">
-                        <div class="form-group">
-                            <label class="control-label">
-                                @POSApp.Resources.Resource.Inventory @POSApp.Resources.Resource.Item
-                            </label>
+                        <div class="col-md-2 ">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    @POSApp.Resources.Resource.Inventory @POSApp.Resources.Resource.Item
+                                </label>
 
-                            <select name="productId" id="productDdl" required="" class="form-control populate selectddl" autofocus style="width:100%">
-                                
-                                <option value="">@POSApp.Resources.Resource.SelectanOption</option>
+                                <select name="productId" id="productDdl" required="" class="form-control populate selectddl" autofocus style="width:100%">
 
-                                @foreach (var data in Model)
-                                {
-                                    <option value="@data.Value">@data.Text</option>
+                                    <option value="">@POSApp.Resources.Resource.SelectanOption</option>
 
-                                }
-                                
+                                    @foreach (var data in Model)
+                                    {
+                                        <option value="@data.Value">@data.Text</option>
 
+                                    }
 
 
 
-                            </select>
+
+
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label class="control-label">
-                                @POSApp.Resources.Resource.Quantity (@POSApp.Resources.Resource.Purchase)
-                            </label>
-                            <div class="input-group">
-                                <input class="form-control" id="quty" type="number" min="1" required="" name="purchaseQuantity" placeholder="@POSApp.Resources.Resource.Purchase" />
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    @POSApp.Resources.Resource.Quantity (@POSApp.Resources.Resource.Purchase)
+                                </label>
+                                <div class="input-group">
+                                    <input class="form-control" id="quty" type="number" min="1" required="" name="purchaseQuantity" placeholder="@POSApp.Resources.Resource.Purchase" />
 
-                                <span class="input-group-addon" style="   ">
-                                    <span id="disQty" class="input-group-text">-</span>
-                                </span>
+                                    <span class="input-group-addon" style="   ">
+                                        <span id="disQty" class="input-group-text">-</span>
+                                    </span>
+
+                                </div>
 
                             </div>
-
                         </div>
-                    </div>
-                    <div class="col-md-2 ">
-                        <div class="form-group">
-                            <label class="control-label">
-                                @POSApp.Resources.Resource.Quantity (@POSApp.Resources.Resource.Storage)
-                            </label>
-                            <div class="input-group">
-                                <input class="form-control" id="quty1" type="number" min="0" required="" name="storageQuantity" placeholder="@POSApp.Resources.Resource.Storage" />
+                        <div class="col-md-2 ">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    @POSApp.Resources.Resource.Quantity (@POSApp.Resources.Resource.Storage)
+                                </label>
+                                <div class="input-group">
+                                    <input class="form-control" id="quty1" type="number" min="0" required="" name="storageQuantity" placeholder="@POSApp.Resources.Resource.Storage" />
 
-                                <span class="input-group-addon" style="   ">
-                                    <span id="disQty1" class="input-group-text">-</span>
-                                </span>
+                                    <span class="input-group-addon" style="   ">
+                                        <span id="disQty1" class="input-group-text">-</span>
+                                    </span>
+
+                                </div>
 
                             </div>
-
                         </div>
-                    </div>
-                    <div class="col-md-2 ">
-                        <div class="form-group">
-                            <label class="control-label">
-                                @POSApp.Resources.Resource.Quantity (@POSApp.Resources.Resource.Ingredient)
-                            </label>
-                            <div class="input-group">
-                                <input class="form-control" id="quty2" type="number" min="0" required="" name="ingredientQuantity" placeholder="@POSApp.Resources.Resource.Ingredient" />
+                        <div class="col-md-2 ">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    @POSApp.Resources.Resource.Quantity (@POSApp.Resources.Resource.Ingredient)
+                                </label>
+                                <div class="input-group">
+                                    <input class="form-control" id="quty2" type="number" min="0" required="" name="ingredientQuantity" placeholder="@POSApp.Resources.Resource.Ingredient" />
 
-                                <span class="input-group-addon" style="   ">
-                                    <span id="disQty2" class="input-group-text">-</span>
-                                </span>
+                                    <span class="input-group-addon" style="   ">
+                                        <span id="disQty2" class="input-group-text">-</span>
+                                    </span>
+
+                                </div>
 
                             </div>
-
                         </div>
+                        <div class="col-md-2 ">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    @POSApp.Resources.Resource.Cost
+                                </label>
+                                <input type="number" class="form-control" id="price" min="1" name="cost" placeholder="@POSApp.Resources.Resource.EnterCost" Required="" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 " style="margin-top: 25px">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-default btn-sm btnPro"><span class="glyphicon glyphicon-plus"></span></button>
+                            </div>
+                        </div>
+
+
                     </div>
-                    <div class="col-md-2 ">
+             
+                
+
+                    <div class="row ">
                         <div class="form-group">
-                            <label class="control-label">
-                                @POSApp.Resources.Resource.Cost
-                            </label>
-                            <input type="number" class="form-control" id="price" min="1" name="cost" placeholder="@POSApp.Resources.Resource.EnterCost" Required="" />
+
+
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        BatchNumber
+                                    </label>
+
+                                    <input class="form-control" id="quty1" type="text" min="0" required="" name="BatchNumber" placeholder="BatchNumber" style="width:100%" style="width:100%" />
+
+
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        ManufactureDate
+                                    </label>
+
+                                    <input class="form-control unstyled" id="quty1" type="date" min="0" required="" name="ManufactureDate" placeholder="BatchNumber" />
+
+
+
+
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        ExpiryDate
+                                    </label>
+
+                                    <input class="form-control unstyled" type="date" required="" name="ExpiryDate" placeholder="BatchNumber" />
+
+
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-2 " style="margin-top: 25px">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-default btn-sm btnPro"><span class="glyphicon glyphicon-plus"></span></button>
-                        </div>
-                    </div>
-
-
-                </div>
-
+             
 
 
             </div>

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.SecurityFilters;
 
 namespace POSApp.Controllers
 {
@@ -27,6 +28,9 @@ namespace POSApp.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+
+        [View(Config.Store.Store)]
+
         public ActionResult StoresList()
         {
             var userid = User.Identity.GetUserId();
@@ -40,6 +44,7 @@ namespace POSApp.Controllers
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId).Where(a=>!a.IsDisabled);
             return View(clientStores);
         }
+        [Manage(Config.Store.Store)]
 
         public ActionResult AddStorePartial()
         {
@@ -52,6 +57,8 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
+        [Manage(Config.Store.Store)]
+
         public ActionResult AddStorePartial(StoreViewModel storevm)
         {
             ViewBag.edit = "AddStorePartial";
@@ -72,6 +79,8 @@ namespace POSApp.Controllers
         }
 
         [HttpGet]
+        [Manage(Config.Store.Store)]
+
         public ActionResult AddStore()
         {
             var isAjax = Request.IsAjaxRequest();
@@ -83,6 +92,8 @@ namespace POSApp.Controllers
             return View(new StoreViewModel());
         }
         [HttpPost]
+        [Manage(Config.Store.Store)]
+
         public ActionResult AddStore(StoreViewModel storeVm)
         {
             ViewBag.edit = "AddStore";
@@ -153,6 +164,8 @@ namespace POSApp.Controllers
 
         }
         [HttpGet]
+        [Manage(Config.Store.Store)]
+
         public ActionResult UpdateStore(int id)
         {
             var isAjax = Request.IsAjaxRequest();
@@ -170,6 +183,8 @@ namespace POSApp.Controllers
             return View("AddStore", storeVm);
         }
         [HttpPost]
+        [Manage(Config.Store.Store)]
+
         public ActionResult UpdateStore(int id, StoreViewModel storeVm, int clientId)
         {
             ViewBag.edit = "UpdateStore";
@@ -240,6 +255,9 @@ namespace POSApp.Controllers
 
 
         }
+
+        [Manage(Config.Store.Store)]
+
         public ActionResult DeleteStore(int id)
         {
             try

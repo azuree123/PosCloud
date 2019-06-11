@@ -65,6 +65,7 @@ namespace POSApp.Persistence
         public DbSet<Size> Sizes { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<IncrementalSyncronization>  IncrementalSyncronizations { get; set; }
         public DbSet<ComboProductsTransDetail> ComboProductsTransDetails { get; set; }
         
 
@@ -130,6 +131,8 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new RecipeEntityConfiguration());
             modelBuilder.Configurations.Add(new WarehouseEntityConfiguration());
             modelBuilder.Configurations.Add(new ClientEntityConfiguration());
+            modelBuilder.Configurations.Add(new IncrementalSyncronizationEntityConfiguration());
+            
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             base.OnModelCreating(modelBuilder);

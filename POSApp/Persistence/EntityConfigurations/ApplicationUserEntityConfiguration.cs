@@ -13,7 +13,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.PasswordEncrypt).HasColumnType("varchar").HasMaxLength(150).IsOptional(); 
            
 
-            HasOptional(x => x.Store).WithMany().HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
+            HasRequired(x => x.Store).WithMany().HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
             HasOptional(x => x.POSTerminal).WithMany(a=>a.ApplicationUsers).HasForeignKey(x => new {x.POSTerminalId ,x.StoreId }).WillCascadeOnDelete(false);
             HasRequired(x=>x.Employee).WithMany(x=>x.ApplicationUsers).HasForeignKey(x=> new{x.EmployeeId,x.StoreId} ).WillCascadeOnDelete(false);
             

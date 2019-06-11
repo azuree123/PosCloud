@@ -32,6 +32,10 @@ namespace POSApp.Persistence.Repositories
         {
             return await _context.Products.Include(a => a.ProductCategory).Where(a => a.StoreId == storeId && !a.IsDisabled).ToListAsync();
         }
+        public async Task<IEnumerable<Product>> GetAllProductsAsyncIncremental(int storeId,DateTime date)
+        {
+            return await _context.Products.Include(a => a.ProductCategory).Where(a => a.StoreId == storeId  &&  !a.IsDisabled && (a.UpdatedOn>=date || a.CreatedOn>=date)  ).ToListAsync();
+        }
 
         public IEnumerable<Product> GetSaleProducts(int productCategoryId,int storeId)
         {

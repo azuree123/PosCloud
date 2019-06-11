@@ -1,4 +1,6 @@
-﻿
+﻿@using POSApp.SecurityFilters
+@using POSApp.Services
+
 @{
 
     ViewBag.Title = "MIFDataList";
@@ -7,10 +9,22 @@
 <div class="row mt-md">
     <div class="col-md-12">
         <ul class="snip1189">
-
+            @if (Config.Products.InventoryItems.CheckAccess())
+            {
             <li><a href="@Url.Action("InventoryItemsList","Products")">@POSApp.Resources.Resource.Inventoryitems</a></li>
+
+            }
+            
+            @if (Config.OpeningStock.OpeningStock.CheckAccess())
+            {
+
             <li><a href="@Url.Action("OpeningStockList","OpeningStock")">@POSApp.Resources.Resource.OpeningStock</a></li>
-            <li class="current"><a href="#">@POSApp.Resources.Resource.MaterialIssuance</a></li>
+            }
+            @if (Config.SaleOrders.MIFData.CheckAccess())
+            {
+             <li class="current"><a href="#">@POSApp.Resources.Resource.MaterialIssuance</a></li>
+
+            }
 
 
 
@@ -31,12 +45,15 @@
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>Issued Orders </b></h3>
 
+                    @if (Config.SaleOrders.MIFData.ManageAccess())
+                    {
 
 
                     <a href="@Url.Action("MIFData", "SaleOrders")" style="flex-grow: 0.2">
                         <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-sign-out pr-sm"></i>@POSApp.Resources.Resource.MaterialIssuance</button>
 
                     </a>
+                    }
                     
 
                 </div>

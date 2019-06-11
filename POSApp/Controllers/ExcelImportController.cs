@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
+using POSApp.SecurityFilters;
 using POSApp.Services;
 
 namespace POSApp.Controllers
@@ -32,6 +33,8 @@ namespace POSApp.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+        [View(Config.ExcelImport.DesignationExcelImport)]
+
         public ActionResult DesignationExcelImport()
         {
             ViewBag.edit = "DesignationExcelImport";
@@ -39,6 +42,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.DesignationExcelImport)]
+
         public ActionResult DesignationExcelImport(HttpPostedFileBase file)
         {
 
@@ -112,6 +117,11 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+
+
+        [Manage(Config.ExcelImport.StateExcelImport)]
+
+
         public ActionResult StateExcelImport(HttpPostedFileBase file)
         {
             
@@ -175,12 +185,16 @@ namespace POSApp.Controllers
         }
 
         [HttpGet]
+        [Manage(Config.ExcelImport.CityExcelImport)]
+
         public ActionResult CityExcelImport()
         {
             ViewBag.edit = "CityExcelImport";
             return View();
         }
         [HttpPost]
+        [Manage(Config.ExcelImport.CityExcelImport)]
+
         public ActionResult CityExcelImport(HttpPostedFileBase file)
         {
             
@@ -245,6 +259,7 @@ namespace POSApp.Controllers
 
             return RedirectToAction("CityList", "Setup");
         }
+        [Manage(Config.ExcelImport.TaxExcelImport)]
 
         public ActionResult TaxExcelImport()
         {
@@ -253,6 +268,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.TaxExcelImport)]
+
         public ActionResult TaxExcelImport(HttpPostedFileBase file)
         {
             
@@ -318,6 +335,7 @@ namespace POSApp.Controllers
 
             return RedirectToAction("TaxList", "Setup");
         }
+        [Manage(Config.ExcelImport.DiscountExcelImport)]
 
         public ActionResult DiscountExcelImport()
         {
@@ -326,6 +344,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.DiscountExcelImport)]
+
         public ActionResult DiscountExcelImport(HttpPostedFileBase file)
         {
             
@@ -396,6 +416,9 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("DiscountList", "Setup");
         }
+
+        [Manage(Config.ExcelImport.CouponExcelImport)]
+
         public ActionResult CouponExcelImport()
         {
             ViewBag.edit = "CouponExcelImport";
@@ -404,7 +427,7 @@ namespace POSApp.Controllers
 
         //public ActionResult CouponExcelImport(HttpPostedFileBase file)
         //{
-            
+
         //    DataTable dt = ImportService.GetExcelData(file);
 
         //    var userid = User.Identity.GetUserId();
@@ -427,9 +450,10 @@ namespace POSApp.Controllers
         //        }
         //        _unitOfWork.Complete();
 
-            
+
         //    return RedirectToAction("CouponList", "Setup");
         //}
+        [Manage(Config.ExcelImport.CustomerExcelImport)]
 
         public ActionResult CustomerExcelImport()
         {
@@ -438,6 +462,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.CustomerExcelImport)]
+
         public ActionResult CustomerExcelImport(HttpPostedFileBase file)
         {
             
@@ -503,6 +529,7 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("CustomerList", "Setup");
         }
+        [Manage(Config.ExcelImport.DepartmentExcelImport)]
 
         public ActionResult DepartmentExcelImport()
         {
@@ -511,6 +538,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.DepartmentExcelImport)]
+
         public ActionResult DepartmentExcelImport(HttpPostedFileBase file)
         {
             
@@ -574,6 +603,8 @@ namespace POSApp.Controllers
         }
 
         //Employee
+        [Manage(Config.ExcelImport.EmployeeExcelImport)]
+
         public ActionResult EmployeeExcelImport()
         {
             ViewBag.edit = "EmployeeExcelImport";
@@ -581,6 +612,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.EmployeeExcelImport)]
+
         public ActionResult EmployeeExcelImport(HttpPostedFileBase file)
         {
             
@@ -650,6 +683,7 @@ namespace POSApp.Controllers
         }
 
         //Expense
+        [Manage(Config.ExcelImport.ExpenseExcelImport)]
 
         public ActionResult ExpenseExcelImport()
         {
@@ -658,6 +692,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.ExpenseExcelImport)]
+
         public ActionResult ExpenseExcelImport(HttpPostedFileBase file)
         {
             
@@ -724,6 +760,7 @@ namespace POSApp.Controllers
         }
 
         //ExpenseHead
+        [Manage(Config.ExcelImport.ExpenseHeadExcelImport)]
 
         public ActionResult ExpenseHeadExcelImport()
         {
@@ -732,6 +769,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.ExpenseHeadExcelImport)]
+
         public ActionResult ExpenseHeadExcelImport(HttpPostedFileBase file)
         {
             
@@ -797,6 +836,7 @@ namespace POSApp.Controllers
         }
 
         //Store
+        [Manage(Config.ExcelImport.StoreExcelImport)]
 
         public ActionResult StoreExcelImport()
         {
@@ -805,6 +845,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.StoreExcelImport)]
+
         public ActionResult StoreExcelImport(HttpPostedFileBase file)
         {
             
@@ -869,6 +911,7 @@ namespace POSApp.Controllers
         }
 
         //Supplier
+        [Manage(Config.ExcelImport.SupplierExcelImport)]
 
         public ActionResult SupplierExcelImport()
         {
@@ -877,6 +920,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.SupplierExcelImport)]
+
         public ActionResult SupplierExcelImport(HttpPostedFileBase file)
         {
             
@@ -945,6 +990,7 @@ namespace POSApp.Controllers
         }
 
         //Product
+        [Manage(Config.ExcelImport.ProductExcelImport)]
 
         public ActionResult ProductExcelImport()
         {
@@ -953,6 +999,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.ProductExcelImport)]
+
         public ActionResult ProductExcelImport(HttpPostedFileBase file)
         {
                 
@@ -1032,6 +1080,7 @@ namespace POSApp.Controllers
         }
 
         //ProductCategory
+        [Manage(Config.ExcelImport.ProductCategoryExcelImport)]
 
         public ActionResult ProductCategoryExcelImport()
         {
@@ -1040,6 +1089,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.ProductCategoryExcelImport)]
+
         public ActionResult ProductCategoryExcelImport(HttpPostedFileBase file)
         {
 
@@ -1104,6 +1155,7 @@ namespace POSApp.Controllers
         }
 
         //ProductCategory Group
+        [Manage(Config.ExcelImport.ProductCategoryGroupExcelImport)]
 
         public ActionResult ProductCategoryGroupExcelImport()
         {
@@ -1112,6 +1164,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.ProductCategoryGroupExcelImport)]
+
         public ActionResult ProductCategoryGroupExcelImport(HttpPostedFileBase file)
         {
 
@@ -1173,6 +1227,9 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("ProductCategoryGroupList", "Products");
         }
+
+        [Manage(Config.ExcelImport.DeviceExcelImport)]
+
         public ActionResult DeviceExcelImport()
         {
             ViewBag.edit = "DeviceExcelImport";
@@ -1180,6 +1237,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.DeviceExcelImport)]
+
         public ActionResult DeviceExcelImport(HttpPostedFileBase file)
         {
 
@@ -1249,12 +1308,17 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("DeviceList", "Device");
         }
+
+        [Manage(Config.ExcelImport.FloorExcelImport)]
+
         public ActionResult FloorExcelImport()
         {
             ViewBag.edit = "FloorExcelImport";
             return View();
         }
         [HttpPost]
+        [Manage(Config.ExcelImport.FloorExcelImport)]
+
         public ActionResult FloorExcelImport(HttpPostedFileBase file)
         {
 
@@ -1318,12 +1382,17 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("FloorList", "Setup");
         }
+
+        [Manage(Config.ExcelImport.DineTableExcelImport)]
+
         public ActionResult DineTableExcelImport()
         {
             ViewBag.edit = "DineTableExcelImport";
             return View();
         }
         [HttpPost]
+        [Manage(Config.ExcelImport.DineTableExcelImport)]
+
         public ActionResult DineTableExcelImport(HttpPostedFileBase file)
         {
 
@@ -1399,6 +1468,8 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("DineTableList", "Setup");
         }
+        [Manage(Config.ExcelImport.ClientExcelImport)]
+
         public ActionResult ClientExcelImport()
         {
             ViewBag.edit = "ClientExcelImport";
@@ -1406,6 +1477,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.ClientExcelImport)]
+
         public ActionResult ClientExcelImport(HttpPostedFileBase file)
         {
 
@@ -1468,6 +1541,9 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("ClientList", "Setup");
         }
+
+        [Manage(Config.ExcelImport.UnitExcelImport)]
+
         public ActionResult UnitExcelImport()
         {
             ViewBag.edit = "UnitExcelImport";
@@ -1475,6 +1551,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.UnitExcelImport)]
+
         public ActionResult UnitExcelImport(HttpPostedFileBase file)
         {
 
@@ -1537,12 +1615,17 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("UnitList", "Setup");
         }
+
+        [Manage(Config.ExcelImport.SectionExcelImport)]
+
         public ActionResult SectionExcelImport()
         {
             ViewBag.edit = "SectionExcelImport";
             return View();
         }
         [HttpPost]
+        [Manage(Config.ExcelImport.SectionExcelImport)]
+
         public ActionResult SectionExcelImport(HttpPostedFileBase file)
         {
 
@@ -1605,6 +1688,7 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("SectionList", "Products");
         }
+        [Manage(Config.ExcelImport.ShiftExcelImport)]
 
         public ActionResult ShiftExcelImport()
         {
@@ -1613,6 +1697,8 @@ namespace POSApp.Controllers
         }
 
         [HttpPost]
+        [Manage(Config.ExcelImport.ShiftExcelImport)]
+
         public ActionResult ShiftExcelImport(HttpPostedFileBase file)
         {
 
@@ -1675,12 +1761,16 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("ShiftList", "Setup");
         }
+        [Manage(Config.ExcelImport.SizeExcelImport)]
+
         public ActionResult SizeExcelImport()
         {
             ViewBag.edit = "SizeExcelImport";
             return View();
         }
         [HttpPost]
+        [Manage(Config.ExcelImport.SizeExcelImport)]
+
         public ActionResult SizeExcelImport(HttpPostedFileBase file)
         {
 

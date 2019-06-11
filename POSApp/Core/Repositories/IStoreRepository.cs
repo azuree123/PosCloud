@@ -12,7 +12,7 @@ namespace POSApp.Core.Repositories
         IEnumerable<Store> GetStores();
         Store GetStoreById(int id);
         void AddStore(Store state);
-        void UpdateStore(int id, Store state, int clientId);
+        void UpdateStore(int id, Store store, int clientId);
         void DeleteStore(int id);
     }
 }

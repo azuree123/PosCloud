@@ -56,6 +56,7 @@ namespace POSApp.Core
         ISizeRepository SizeRepository { get; }
         IRecipeRepository RecipeRepository { get; }
         IWarehouseRepository WarehouseRepository { get; }
+        IIncrementalSyncronizationRepository IncrementalSyncronizationRepository { get; }
         IComboProductTransDetailRepository ComboProductTransDetailRepository { get; }
         void Complete();
         Task<bool> CompleteAsync();

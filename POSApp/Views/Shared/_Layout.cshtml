@@ -1,4 +1,5 @@
-﻿@using POSApp.Services
+﻿@using POSApp.SecurityFilters
+@using POSApp.Services
 <!DOCTYPE html>
 
 
@@ -172,13 +173,13 @@
                             <div class="nano-content">
                                 <nav id="menu" class="nav-main" role="navigation">
                                     <ul class="nav nav-main ">
-                                        <li >
+                                        <li>
                                             <a href="@Url.Action("Index","Home")">
                                                 <i class="fa fa-home" aria-hidden="true"></i>
                                                 <span> @POSApp.Resources.Resource.Dashboard </span>
                                             </a>
                                         </li>
-                                        <li >
+                                        <li>
                                             <a href="@Url.Action("Index","PointOfSale")">
                                                 <i class="fa fa-desktop " aria-hidden="true"></i>
 
@@ -204,7 +205,7 @@
                                             </a>
 
                                         </li>
-                                       
+
                                         <li>
                                             <a href="@Url.Action("StockTakingList","StockTaking")">
                                                 <i class="fa fa-tasks " aria-hidden="true"></i>
@@ -212,14 +213,22 @@
                                             </a>
 
                                         </li>
-                                        <li>
-                                            <a href="@Url.Action("ExpenseList","Expense")">
-                                                <i class="fa fa-dollar" aria-hidden="true"></i>
-                                                <span>@POSApp.Resources.Resource.Expenses</span>
-                                            </a>
 
-                                        </li>
-                                       
+
+                                        @if (Config.Expense.Expense.CheckAccess())
+                                        {
+
+                                            <li>
+                                                <a href="@Url.Action("ExpenseList","Expense")">
+                                                    <i class="fa fa-dollar" aria-hidden="true"></i>
+                                                    <span>@POSApp.Resources.Resource.Expenses</span>
+                                                </a>
+
+                                            </li>
+
+                                        }
+
+
 
                                         <li>
                                             <a href="@Url.Action("ProductsList","Products")">
@@ -228,7 +237,7 @@
                                             </a>
 
                                         </li>
-                                       
+
                                         <li>
                                             <a href="@Url.Action("CustomerList","Setup")">
                                                 <i class="fa fa-cubes" aria-hidden="true"></i>

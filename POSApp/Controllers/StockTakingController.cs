@@ -11,6 +11,7 @@ using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.Shared;
 using POSApp.Core.ViewModels;
+using POSApp.SecurityFilters;
 
 namespace POSApp.Controllers
 {
@@ -29,12 +30,15 @@ namespace POSApp.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: PurchaseOrders
+        [View(Config.StockTaking.StockTaking)]
+
         public ActionResult StockTakingList()
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).OrderBy(a => a.TransDate).Where(a => a.Type == "STK").OrderByDescending(a => a.Id)));
         }
+        [View(Config.StockTaking.StockTaking)]
 
         public ActionResult PreviewStockTaking(int id)
         {
@@ -59,6 +63,7 @@ namespace POSApp.Controllers
         }
 
 
+        [Manage(Config.StockTaking.StockTaking)]
 
         public ActionResult AddStockTaking()
         {
@@ -77,6 +82,8 @@ namespace POSApp.Controllers
             return View(po);
         }
         [HttpPost]
+        [Manage(Config.StockTaking.StockTaking)]
+
         public ActionResult AddStockTaking(TransMasterViewModel po)
         {
             var userid = User.Identity.GetUserId();
@@ -125,6 +132,7 @@ namespace POSApp.Controllers
 
 
         }
+        [Manage(Config.StockTaking.StockTaking)]
 
         public ActionResult AddTransactionItem()
         {
@@ -133,6 +141,8 @@ namespace POSApp.Controllers
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => (a.PurchaseItem || a.InventoryItem)).OrderBy(a => a.Name).Select(a => new SelectListItem { Text = a.Name + "(" + a.ProductCode + ")", Value = a.Id.ToString() }));
         }
         [HttpPost]
+        [Manage(Config.StockTaking.StockTaking)]
+
         public ActionResult AddTransactionItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
         {
             if (TakingHelper.temptTransDetail == null)
@@ -150,6 +160,8 @@ namespace POSApp.Controllers
             TakingHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
             return View("PoTable", TakingHelper.temptTransDetail);
         }
+        [Manage(Config.StockTaking.StockTaking)]
+
         public ActionResult RemoveTransactionItem(string productId)
         {
             if (TakingHelper.temptTransDetail == null)
@@ -162,6 +174,9 @@ namespace POSApp.Controllers
             TakingHelper.RemoveFromTemptTransDetail(productId, (int)user.StoreId, user.Id);
             return View("PoTable", TakingHelper.temptTransDetail);
         }
+
+        [Manage(Config.StockTaking.StockTaking)]
+
         public ActionResult DeleteStockStaking(int id, int storeid)
         {
             try
@@ -213,6 +228,8 @@ namespace POSApp.Controllers
             return RedirectToAction("StockTakingList", "StockTaking");
 
         }
+        [Manage(Config.StockTaking.StockTaking)]
+
         public ActionResult GenerateStockTakingReceipt()
         {
             GeneratePurchaseOrderViewModel po = (GeneratePurchaseOrderViewModel)TempData["po"];

@@ -14,7 +14,7 @@ namespace POSApp.Core.ViewModels
         public string Name { get; set; }
         [Display(Name = "Clients", ResourceType = typeof(Resource))]
 
-        public int? ClientId { get; set; }
+        public int ClientId { get; set; }
         [Display(Name = "ArabicName", ResourceType = typeof(Resource))]
 
         public string ArabicName { get; set; }

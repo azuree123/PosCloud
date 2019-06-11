@@ -10,9 +10,11 @@ using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 using POSApp.Core.ViewModels;
 using POSApp.Core.ViewModels.Sync;
+using POSApp.Persistence;
+
 namespace POSApp.Persistence.Repositories
 {
-    public class StoreRepository:IStoreRepository
+    public class StoreRepository : IStoreRepository
     {
         private PosDbContext _context;
 
@@ -23,7 +25,7 @@ namespace POSApp.Persistence.Repositories
 
         public IEnumerable<Store> GetStores()
         {
-            return _context.Stores.Where(a=> !a.IsDisabled).ToList();
+            return _context.Stores.Where(a => !a.IsDisabled).ToList();
         }
 
         public Store GetStoreById(int id)
@@ -53,7 +55,7 @@ namespace POSApp.Persistence.Repositories
             }
         }
 
-        public void UpdateStore(int id, Store store,int clientId)
+        public void UpdateStore(int id, Store store, int clientId)
         {
             if (store.Id != id)
             {
@@ -61,7 +63,7 @@ namespace POSApp.Persistence.Repositories
             }
             else
             {
-                
+
             }
 
             store.ClientId = clientId;

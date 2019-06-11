@@ -43,37 +43,33 @@
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="row">
                                     <div class="form-group">
-                                        
-                                        
+
+
                                         <div class="col-md-4">
-                                               
+
                                             <label>Select Access <i style="color: red">*</i></label>
-                                            @Html.DropDownListFor(a=>a.Module, EnumHelper.GetSelectList(typeof(Config.SecurityRights)),"Select an Option..", new { @class = "form-control input-sm selectddl", @id = "AccessesSelect", @required = "true" })
+                                            @Html.DropDownListFor(a => a.Module, EnumHelper.GetSelectList(typeof(Config.SecurityRights)), "Select an Option..", new { @class = "form-control input-sm selectddl", @id = "AccessesSelect", @required = "true" })
                                         </div>
 
-                                            
 
 
-                                      
-                                       
+
+
+
                                         <div class="col-md-4">
-                                               
+
                                             <label>Select Features <i style="color: red">*</i></label>
                                             @Html.DropDownListFor(a => a.Name, new List<SelectListItem>(), new { @class = "form-control input-lg", @id = "Features", @required = "true" })
                                         </div>
-                                  
-                                       
-                                            <div class="col-md-4">
-                                                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
-                                                @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-
-                                    
 
 
-                                    
+
+                                    </div>
+
+
+
+
+
                                 </div>
 
 
@@ -84,14 +80,14 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-lg btnPro">Save</button>
-                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-default btn-lg btnPro">@POSApp.Resources.Resource.Save</button>
+                    <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">@POSApp.Resources.Resource.Close</button>
                 </div>
             </div>
         </div>
 
     }
-    
+
 </div>
 <script>
     $(document).ready(function () {
@@ -128,20 +124,20 @@
 
 
     }
+
     $('#AccessesSelect').on("change",
         function () {
             debugger;
             $.populateDDL("Features", "@Url.Action("GetDdlEnum", "User")", "POST", $(this).val(), false);
         });
 </script>
-        <script>
-            $("input").on("keypress",
-                function(e) {
-                    if (e.which === 32 && !this.value.length)
-                        e.preventDefault();
-                });
+<script>
+    $("input").on("keypress",
+        function (e) {
+            if (e.which === 32 && !this.value.length)
+                e.preventDefault();
+        });
 
-        </script>
+</script>
 
 
-                                                                           
