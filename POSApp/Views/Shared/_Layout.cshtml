@@ -179,6 +179,9 @@
                                                 <span> @POSApp.Resources.Resource.Dashboard </span>
                                             </a>
                                         </li>
+                                    @if (Config.PointOfSale.PointOfSale.CheckAccess())
+                                    {
+
                                         <li>
                                             <a href="@Url.Action("Index","PointOfSale")">
                                                 <i class="fa fa-desktop " aria-hidden="true"></i>
@@ -188,7 +191,10 @@
                                             </a>
 
                                         </li>
-
+                                         }
+                                        
+                                    @if (Config.SaleOrders.DailySales.CheckAccess())
+                                    {
                                         <li>
                                             <a href="@Url.Action("SaleOrderList","SaleOrders")">
                                                 <i class="fa fa-calculator " aria-hidden="true"></i>
@@ -198,6 +204,10 @@
                                             </a>
 
                                         </li>
+                                         }
+                                        @if (Config.PurchaseOrders.PurchaseOrder.CheckAccess())
+                                        {
+
                                         <li>
                                             <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")">
                                                 <i class="fa fa-shopping-cart " aria-hidden="true"></i>
@@ -205,7 +215,9 @@
                                             </a>
 
                                         </li>
-
+                                        }
+                                    @if (Config.StockTaking.StockTaking.CheckAccess())
+                                    {
                                         <li>
                                             <a href="@Url.Action("StockTakingList","StockTaking")">
                                                 <i class="fa fa-tasks " aria-hidden="true"></i>
@@ -213,7 +225,7 @@
                                             </a>
 
                                         </li>
-
+                                         }
 
                                         @if (Config.Expense.Expense.CheckAccess())
                                         {
@@ -228,7 +240,8 @@
 
                                         }
 
-
+                                    @if (Config.Products.Products.CheckAccess())
+                                    {
 
                                         <li>
                                             <a href="@Url.Action("ProductsList","Products")">
@@ -237,7 +250,9 @@
                                             </a>
 
                                         </li>
-
+                                         }
+                                    @if (Config.Setup.Customer.CheckAccess())
+                                    {
                                         <li>
                                             <a href="@Url.Action("CustomerList","Setup")">
                                                 <i class="fa fa-cubes" aria-hidden="true"></i>
@@ -245,6 +260,9 @@
                                             </a>
 
                                         </li>
+                                         }
+                                    @if (Config.Products.InventoryItems.CheckAccess())
+                                    {
                                         <li>
                                             <a href="@Url.Action("InventoryItemsList","Products")">
                                                 <i class="fa fa-database" aria-hidden="true"></i>
@@ -253,7 +271,7 @@
 
                                         </li>
 
-
+                                         }
 
                                         @{
                                             if (Request.IsAuthenticated)
@@ -268,13 +286,16 @@
 
                                                 </li>
 
-                                                <li>
-                                                    <a href="@Url.Action("SaleReport","Reports")">
-                                                        <i class="fa fa-indent" aria-hidden="true"></i>
-                                                        <span>@POSApp.Resources.Resource.Reports</span>
-                                                    </a>
+                                                if (Config.Reports.SalesReport.CheckAccess())
+                                                 {
+                                                     <li>
+                                                         <a href="@Url.Action("SaleReport","Reports")">
+                                                             <i class="fa fa-indent" aria-hidden="true"></i>
+                                                             <span>@POSApp.Resources.Resource.Reports</span>
+                                                         </a>
 
-                                                </li>
+                                                     </li>
+                                                     }
                                                 <li class="hidden">
                                                     <a href="@Url.Action("BusinessSetting","Setting")">
                                                         <i class="fa fa-gears" aria-hidden="true"></i>
