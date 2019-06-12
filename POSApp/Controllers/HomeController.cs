@@ -187,6 +187,12 @@ namespace POSApp.Controllers
                 throw;
             }
         }
+
+        public ActionResult Error(AuthorizationContext filterContext)
+        {
+            return View();
+        }
+
         public ApplicationUserManager UserManager
         {
             get
@@ -198,5 +204,7 @@ namespace POSApp.Controllers
                 _userManager = value;
             }
         }
+
+       
     }
 }

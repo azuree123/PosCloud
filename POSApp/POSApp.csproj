@@ -4022,6 +4022,7 @@
     <Content Include="Views\Setup\AssignRole.cshtml" />
     <Content Include="Views\Setup\AssignRolesToUsers.cshtml" />
     <Content Include="Views\PurchaseOrders\PoPurchasing.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

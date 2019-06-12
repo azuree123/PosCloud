@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Error";
+}
+
+@{
+
+    var name = HttpContext.Current.User.Identity.Name;
+    <h2 style="text-decoration-color: red">@name Does Not Have Access</h2>
+}
+
