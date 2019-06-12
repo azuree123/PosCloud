@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -70,14 +72,14 @@ namespace POSApp.SecurityFilters
         //    }
         //}
 
-        //public static string Encrypt(string input)
-        //{
-        //    return (MachineKey.Encode(GetBytes(input), MachineKeyProtection.All));
-        //}
-        //public static string Decrypt(string encodedData)
-        //{
-        //    return GetString(MachineKey.Decode(encodedData, MachineKeyProtection.All));
-        //}
+        public static string Encrypt(string input)
+        {
+            return (MachineKey.Encode(GetBytes(input), MachineKeyProtection.All));
+        }
+        public static string Decrypt(string encodedData)
+        {
+            return GetString(MachineKey.Decode(encodedData, MachineKeyProtection.All));
+        }
         private static byte[] GetBytes(string str)
         {
             byte[] bytes = new byte[str.Length * sizeof(char)];
@@ -94,13 +96,22 @@ namespace POSApp.SecurityFilters
 
         public UserRoleDataViewModel UserAccessData()
         {
-            var cookie = HttpContext.Current.Request.Cookies["UserRoleData"];
+            var cookie = HttpContext.Current.Request.Cookies.AllKeys.Where(a => a.Contains("UserRoleData"));
             string val = string.Empty;
-            if (cookie != null)
+            string test = string.Empty;
+            if (cookie.Any())
             {
-                val = AuthHelper.Decrypt(cookie.Value);
+                foreach (var cook in cookie)
+                {
+                    var getVal = HttpContext.Current.Request.Cookies[cook];
+                    if (getVal != null)
+                    {
+                        val += getVal.Value;
+                    }
+                }
+                test = val;
             }
-            return JsonConvert.DeserializeObject<UserRoleDataViewModel>(val);
+            return JsonConvert.DeserializeObject<UserRoleDataViewModel>(test);
         }
         //public string UserFunctionalitiesData(HttpContextBase httpContext)
         //{
@@ -133,36 +144,42 @@ namespace POSApp.SecurityFilters
         /// <param name="strToEncrypt">The string to be encrypted.</param>
         /// <returns>The encrypted string.</returns>
         ///
-        private static string _key = "POSCLOUD_381_FutureField";
-        public static string Encrypt(string strToEncrypt)
-        {
-            try
-            {
-                return Encrypt(strToEncrypt, _key);
-            }
+        //private static string _key = "POSCLOUD_381_FutureField";
 
-            catch (Exception ex)
-            {
-                return "Wrong Input. " + ex.Message;
-            }
+        public static IEnumerable<string> Split(string str, int chunkSize)
+        {
+            return Enumerable.Range(0, str.Length / chunkSize)
+                .Select(i => str.Substring(i * chunkSize, chunkSize));
         }
+        //public static string Encrypt(string strToEncrypt)
+        //{
+        //    try
+        //    {
+        //        return Encrypt(strToEncrypt, _key);
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        return "Wrong Input. " + ex.Message;
+        //    }
+        //}
 
         /// <summary>
         /// Decrypt the given string using the default key.
         /// </summary>
         /// <param name="strEncrypted">The string to be decrypted.</param>
         /// <returns>The decrypted string.</returns>
-        public static string Decrypt(string strEncrypted)
-        {
-            try
-            {
-                return Decrypt(strEncrypted, _key);
-            }
-            catch (Exception ex)
-            {
-                return "Wrong Input. " + ex.Message;
-            }
-        }
+        //public static string Decrypt(string strEncrypted)
+        //{
+        //    try
+        //    {
+        //        return Decrypt(strEncrypted, _key);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return "Wrong Input. " + ex.Message;
+        //    }
+        //}
 
         /// <summary>
         /// Encrypt the given string using the specified key.
@@ -170,28 +187,28 @@ namespace POSApp.SecurityFilters
         /// <param name="strToEncrypt">The string to be encrypted.</param>
         /// <param name="strKey">The encryption key.</param>
         /// <returns>The encrypted string.</returns>
-        public static string Encrypt(string strToEncrypt, string strKey)
-        {
-            try
-            {
-                TripleDESCryptoServiceProvider objDESCrypto =
-                    new TripleDESCryptoServiceProvider();
-                MD5CryptoServiceProvider objHashMD5 = new MD5CryptoServiceProvider();
-                byte[] byteHash, byteBuff;
-                string strTempKey = strKey;
-                byteHash = objHashMD5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(strTempKey));
-                objHashMD5 = null;
-                objDESCrypto.Key = byteHash;
-                objDESCrypto.Mode = CipherMode.ECB; //CBC, CFB
-                byteBuff = ASCIIEncoding.ASCII.GetBytes(strToEncrypt);
-                return Convert.ToBase64String(objDESCrypto.CreateEncryptor().
-                    TransformFinalBlock(byteBuff, 0, byteBuff.Length));
-            }
-            catch (Exception ex)
-            {
-                return "Wrong Input. " + ex.Message;
-            }
-        }
+        //public static string Encrypt(string strToEncrypt, string strKey)
+        //{
+        //    try
+        //    {
+        //        TripleDESCryptoServiceProvider objDESCrypto =
+        //            new TripleDESCryptoServiceProvider();
+        //        MD5CryptoServiceProvider objHashMD5 = new MD5CryptoServiceProvider();
+        //        byte[] byteHash, byteBuff;
+        //        string strTempKey = strKey;
+        //        byteHash = objHashMD5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(strTempKey));
+        //        objHashMD5 = null;
+        //        objDESCrypto.Key = byteHash;
+        //        objDESCrypto.Mode = CipherMode.ECB; //CBC, CFB
+        //        byteBuff = ASCIIEncoding.ASCII.GetBytes(strToEncrypt);
+        //        return Convert.ToBase64String(objDESCrypto.CreateEncryptor().
+        //            TransformFinalBlock(byteBuff, 0, byteBuff.Length));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return "Wrong Input. " + ex.Message;
+        //    }
+        //}
 
         /// <summary>
         /// Decrypt the given string using the specified key.
@@ -199,30 +216,30 @@ namespace POSApp.SecurityFilters
         /// <param name="strEncrypted">The string to be decrypted.</param>
         /// <param name="strKey">The decryption key.</param>
         /// <returns>The decrypted string.</returns>
-        public static string Decrypt(string strEncrypted, string strKey)
-        {
-            try
-            {
-                TripleDESCryptoServiceProvider objDESCrypto =
-                    new TripleDESCryptoServiceProvider();
-                MD5CryptoServiceProvider objHashMD5 = new MD5CryptoServiceProvider();
-                byte[] byteHash, byteBuff;
-                string strTempKey = strKey;
-                byteHash = objHashMD5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(strTempKey));
-                objHashMD5 = null;
-                objDESCrypto.Key = byteHash;
-                objDESCrypto.Mode = CipherMode.ECB; //CBC, CFB
-                byteBuff = Convert.FromBase64String(strEncrypted);
-                string strDecrypted = ASCIIEncoding.ASCII.GetString
-                (objDESCrypto.CreateDecryptor().TransformFinalBlock
-                (byteBuff, 0, byteBuff.Length));
-                objDESCrypto = null;
-                return strDecrypted;
-            }
-            catch (Exception ex)
-            {
-                return "Wrong Input. " + ex.Message;
-            }
-        }
+        //public static string Decrypt(string strEncrypted, string strKey)
+        //{
+        //    try
+        //    {
+        //        TripleDESCryptoServiceProvider objDESCrypto =
+        //            new TripleDESCryptoServiceProvider();
+        //        MD5CryptoServiceProvider objHashMD5 = new MD5CryptoServiceProvider();
+        //        byte[] byteHash, byteBuff;
+        //        string strTempKey = strKey;
+        //        byteHash = objHashMD5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(strTempKey));
+        //        objHashMD5 = null;
+        //        objDESCrypto.Key = byteHash;
+        //        objDESCrypto.Mode = CipherMode.ECB; //CBC, CFB
+        //        byteBuff = Convert.FromBase64String(strEncrypted);
+        //        string strDecrypted = ASCIIEncoding.ASCII.GetString
+        //        (objDESCrypto.CreateDecryptor().TransformFinalBlock
+        //        (byteBuff, 0, byteBuff.Length));
+        //        objDESCrypto = null;
+        //        return strDecrypted;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return "Wrong Input. " + ex.Message;
+        //    }
+        //}
     }
 }
