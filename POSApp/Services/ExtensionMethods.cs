@@ -37,8 +37,8 @@ namespace POSApp.Services
         public static bool CheckAccess(this object permission)
         {
             UserRoleDataViewModel user = new AuthHelper().UserAccessData();
-            string data = user.ViewData;
-            string data1 = user.ManageData;
+            string data = user!=null?user.ViewData:"";
+            string data1 = user != null ? user.ManageData : "";
             if (data == null) return false;
             string[] str = new[] { "" };
             if (string.IsNullOrEmpty(data))
@@ -86,7 +86,7 @@ namespace POSApp.Services
         public static bool ManageAccess(this object permission)
         {
             UserRoleDataViewModel user = new AuthHelper().UserAccessData();
-            string data1 = user.ManageData;
+            string data1 = user!=null?user.ManageData:"";
             string[] str = new[] { "" };
 
 
@@ -119,7 +119,7 @@ namespace POSApp.Services
         public static bool ViewAccess(this object permission)
         {
             UserRoleDataViewModel user = new AuthHelper().UserAccessData();
-            string data = user.ViewData;
+            string data = user!=null?user.ViewData:"";
             if (data == null) return false;
             string[] str = new[] { "" };
             if (string.IsNullOrEmpty(data))

@@ -10,5 +10,6 @@ namespace POSApp.Core.Repositories
     public interface ISecurityRightRepository
     {
         void AddSecurityRight(SecurityRight SecurityRight);
+        void DeleteSecurityRightbyRole(string id, int storeid);
     }
 }

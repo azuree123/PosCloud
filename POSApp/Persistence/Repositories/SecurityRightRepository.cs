@@ -46,6 +46,11 @@ namespace POSApp.Persistence.Repositories
 
             
         }
-        
+        public void DeleteSecurityRightbyRole(string id, int storeid)
+        {
+            var securityRights =_context.SecurityRights.Where(a=>a.IdentityUserRoleId==id && a.StoreId==storeid);
+            _context.SecurityRights.RemoveRange(securityRights);
+
+        }
     }
 }
