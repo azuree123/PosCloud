@@ -94,6 +94,14 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Users.Include(a => a.Employee).FirstOrDefault(a => a.Id == userId && a.StoreId == storeId).Employee.ShiftId;
         }
+        public void UpdateRole(ApplicationRole role)
+        {
+            var rights = _context.SecurityRights.Where(a => a.IdentityUserRoleId == role.Id).ToList();
+            _context.SecurityRights.RemoveRange(rights);
+            _context.Roles.Attach(role);
+            _context.Entry(role).State = EntityState.Modified;
+            _context.SecurityRights.AddRange(role.SecurityRights);
+        }
 
         public UserRoleDataViewModel GetUserLoginData(string userId)
         {

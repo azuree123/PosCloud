@@ -19,5 +19,6 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<RegisterListViewModel>> GetApiUsersAsync(int storeid);
         int GetShiftId(string userId, int storeId);
         UserRoleDataViewModel GetUserLoginData(string userId);
+        void UpdateRole(ApplicationRole role);
     }
 }

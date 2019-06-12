@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -4492,14 +4493,30 @@ namespace POSApp.Controllers
         {
             var userId = this.HttpContext.User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
-            return View("AddRole", RoleManager.Roles.Select(a => new RoleViewModel
+            var role = RoleManager.Roles.Include(a=>a.SecurityRights).Include(a=>a.SecurityRights.Select(g=>g.SecurityObject)).Select(a => new RoleViewModel
             {
+               
                 StoreId = a.StoreId,
                 Id = a.Id,
                 Name = a.Name,
+                
                 CreatedBy = a.CreatedById,
-                CreatedOn = a.CreatedOn
-            }).FirstOrDefault(a => a.StoreId == (int)user.StoreId && a.Id == id));
+                CreatedOn = a.CreatedOn,
+                RoleSecurityRightViewModels = a.SecurityRights.Select(b=>new RoleSecurityRightViewModel
+                {
+                    Manage = b.Manage,
+                    Module = b.SecurityObject.Module,
+                    SecurityObject = b.SecurityObject.Name,
+                    SecurityObjectId = b.SecurityObjectId
+                    ,
+                    View = b.View
+                }).ToList()
+                
+
+
+            }).FirstOrDefault(a => a.StoreId == (int)user.StoreId && a.Id == id);
+          
+            return View("AddRole", role);
         }
         [HttpPost]
         public ActionResult UpdateRole(string id, RoleViewModel role)
@@ -4515,27 +4532,36 @@ namespace POSApp.Controllers
                 }
                 else
                 {
-                    if (RoleManager.RoleExists(role.Name))
-                    {
-                        ModelState.AddModelError("Role Already Exists", "");
-                        return View("AddRole", role);
-                    }
-                    else
-                    {
+                   
                         var userId = this.HttpContext.User.Identity.GetUserId();
                         var user = UserManager.FindById(userId);
-
-                        RoleManager.Update(new ApplicationRole
+                    _unitOfWork.SecurityRightRepository.DeleteSecurityRightbyRole(id, user.StoreId);
+                    _unitOfWork.Complete();
+                    ApplicationRole roleUpdate =new ApplicationRole
+                    {
+                        Id = id,
+                        Name = role.Name,
+                        StoreId = user.StoreId,
+                        CreatedOn = Convert.ToDateTime(role.CreatedOn),
+                        CreatedById = role.CreatedBy,
+                        UpdatedOn = DateTime.Now,
+                        UpdatedById = userId,
+                    };
+                    RoleManager.Update(roleUpdate);
+                    foreach (var roleRoleSecurityRightViewModel in role.RoleSecurityRightViewModels)
+                    {
+                        _unitOfWork.SecurityRightRepository.AddSecurityRight(new SecurityRight
                         {
-                            Id = id,
-                            Name = role.Name,
-                            StoreId = user.StoreId,
-                            CreatedOn = Convert.ToDateTime(role.CreatedOn),
-                            CreatedById = role.CreatedBy,
-                            UpdatedOn = DateTime.Now,
-                            UpdatedById = userId
+                            IdentityUserRoleId = roleUpdate.Id,
+                            Manage = roleRoleSecurityRightViewModel.Manage,
+                            SecurityObjectId = roleRoleSecurityRightViewModel.SecurityObjectId,
+                            View = roleRoleSecurityRightViewModel.View,
+                            StoreId = (int)user.StoreId
                         });
                     }
+                    _unitOfWork.Complete();
+                        //RoleManager.Roles.(roleUpdate);
+                    
                     TempData["Alert"] = new AlertModel("The role updated successfully", AlertType.Success);
                     return RedirectToAction("RolesList");
                 }
