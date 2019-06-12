@@ -244,13 +244,22 @@ namespace POSApp.SecurityFilters
     {
         public static UserRoleDataViewModel GetUserRoleData(HttpContextBase httpContext)
         {
-            var cookie = HttpContext.Current.Request.Cookies["UserRoleData"];
+            var cookie = HttpContext.Current.Request.Cookies.AllKeys.Where(a => a.Contains("UserRoleData"));
             string val = string.Empty;
-            if (cookie != null)
+            string test = string.Empty;
+            if (cookie.Any())
             {
-                val = AuthHelper.Decrypt(cookie.Value);
+                foreach (var cook in cookie)
+                {
+                    var getVal = HttpContext.Current.Request.Cookies[cook];
+                    if (getVal != null)
+                    {
+                        val += getVal.Value;
+                    }
+                }
+                test = val;
             }
-            return JsonConvert.DeserializeObject<UserRoleDataViewModel>(val);
+            return JsonConvert.DeserializeObject<UserRoleDataViewModel>(test);
         }
     }
 }

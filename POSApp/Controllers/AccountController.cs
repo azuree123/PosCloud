@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -88,19 +89,58 @@ namespace POSApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    var checkCookie = HttpContext.Request.Cookies["UserRoleData"];
-                    if (checkCookie == null)
+                    var checkCookie = HttpContext.Request.Cookies.AllKeys.Where(a=>a.Contains("UserRoleData"));
+                    if (!checkCookie.Any())
                     {
-                        var cookie = new HttpCookie("UserRoleData");
-                        cookie.Value = AuthHelper.Encrypt(JsonConvert.SerializeObject(_unitOfWork.UserRepository.GetUserLoginData(model.Email)));
+                        string data =
+                           
+                                JsonConvert.SerializeObject(_unitOfWork.UserRepository.GetUserLoginData(model.Email));
+                        if (data.Length >= 4000)
+                        {
+                            var miniData = AuthHelper.Split(data, 4000);
+                            int ind = 0;
+                            foreach (var mini in miniData)
+                            {
+                        var cookie = new HttpCookie("UserRoleData-"+ind);
+                        cookie.Value = mini;
                         cookie.Expires = DateTime.Today.AddDays(2);
                         HttpContext.Response.Cookies.Add(cookie);
+                                ind++;
+                            }
+                        }
+                        else
+                        {
+                            var cookie = new HttpCookie("UserRoleData-0");
+                            cookie.Value = data;
+                            cookie.Expires = DateTime.Today.AddDays(2);
+                            HttpContext.Response.Cookies.Add(cookie);
+                        }
                     }
                     else
                     {
-                        checkCookie.Value = AuthHelper.Encrypt(JsonConvert.SerializeObject(_unitOfWork.UserRepository.GetUserLoginData(model.Email)));
-                        checkCookie.Expires = DateTime.Today.AddDays(2);
-                        HttpContext.Response.Cookies.Set(checkCookie);
+                        string data =
+                           
+                                JsonConvert.SerializeObject(_unitOfWork.UserRepository.GetUserLoginData(model.Email));
+                        if (data.Length >= 2096)
+                        {
+                            var miniData = AuthHelper.Split(data, 2096);
+                            int ind = 0;
+                            foreach (var mini in miniData)
+                            {
+                                var cookie = new HttpCookie("UserRoleData-" + ind);
+                                cookie.Value = mini;
+                                cookie.Expires = DateTime.Today.AddDays(2);
+                                HttpContext.Response.Cookies.Set(cookie);
+                                ind++;
+                            }
+                        }
+                        else
+                        {
+                            var cookie = new HttpCookie("UserRoleData-0");
+                            cookie.Value = data;
+                            cookie.Expires = DateTime.Today.AddDays(2);
+                            HttpContext.Response.Cookies.Add(cookie);
+                        }
                     }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
