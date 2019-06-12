@@ -4547,7 +4547,7 @@ namespace POSApp.Controllers
                         UpdatedOn = DateTime.Now,
                         UpdatedById = userId,
                     };
-                    RoleManager.Update(roleUpdate);
+                    _unitOfWork.UserRepository.UpdateRole(roleUpdate);
                     foreach (var roleRoleSecurityRightViewModel in role.RoleSecurityRightViewModels)
                     {
                         _unitOfWork.SecurityRightRepository.AddSecurityRight(new SecurityRight
