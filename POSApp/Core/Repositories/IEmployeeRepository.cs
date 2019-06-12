@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using POSApp.Core.Models;
 
@@ -15,5 +16,6 @@ namespace POSApp.Core.Repositories
        Task<IEnumerable<Employee>> GetEmployeesAsync(int storeId);
        Task<Employee> GetEmployeeByIdAsync(int id, int storeid);
        Task AddEmployeeAsync(Employee employee);
+       Task<IEnumerable<Employee>> GetAllEmployeesAsyncIncremental(int storeId, DateTime date);
    }
 }

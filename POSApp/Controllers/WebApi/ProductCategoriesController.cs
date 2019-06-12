@@ -20,9 +20,47 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetProductCategories(int storeId)
+        public async Task<IHttpActionResult> GetProductCategories(int storeId, bool forceFull, int deviceId)
         {
-            return Ok(Mapper.Map<ProductCategoryViewModel[]>(await _unitOfWork.ProductCategoryRepository.GetProductCategoriesAsync(storeId)));
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.ProductCategoryRepository.GetProductCategoriesAsync(storeId);
+
+
+                return Ok(Mapper.Map<ProductCategoryViewModel[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "ProductCategories");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.ProductCategoryRepository.GetProductCategoriesAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.ProductCategoryRepository.GetAllProductCategoryAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "ProductCategories"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<ProductCategoryViewModel[]>(data));
+
+
+            }
+
+
         }
 
         // GET: api/ProductCategoryCategoriesSync/5

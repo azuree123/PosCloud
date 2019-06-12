@@ -18,6 +18,11 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
+
+        public async Task<IEnumerable<BusinessPartner>> GetAllUsersAsyncIncremental(int storeId, DateTime date)
+        {
+            return await _context.BusinessPartners.Where(a => a.StoreId == storeId && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
+        }
         public BusinessPartner GetBusinessPartner(int id, int StoreId)
         {
             return _context.BusinessPartners.FirstOrDefault(x => x.Id == id && x.StoreId == StoreId );

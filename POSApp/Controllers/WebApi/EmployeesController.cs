@@ -21,9 +21,47 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetEmployees(int storeId)
+        public async Task<IHttpActionResult> GetEmployees(int storeId, bool forceFull, int deviceId)
         {
-            return Ok(Mapper.Map<EmployeeModelView[]>(await _unitOfWork.EmployeeRepository.GetEmployeesAsync(storeId)));
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.EmployeeRepository.GetEmployeesAsync(storeId);
+
+
+                return Ok(Mapper.Map<EmployeeModelView[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "Employees");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.EmployeeRepository.GetEmployeesAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.EmployeeRepository.GetAllEmployeesAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "Employees"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<EmployeeModelView[]>(data));
+
+
+            }
+
+
         }
 
         // GET: api/EmployeesSync/5

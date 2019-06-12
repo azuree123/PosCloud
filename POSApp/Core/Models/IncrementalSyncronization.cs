@@ -13,5 +13,6 @@ namespace POSApp.Core.Models
         public Device Device { get; set; }
         public int StoreId { get; set; }
         public Store Store { get; set; }
+        public string TableName { get; set; }
     }
 }

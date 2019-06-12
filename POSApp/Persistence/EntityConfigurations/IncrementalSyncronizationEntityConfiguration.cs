@@ -19,6 +19,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(a => a.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             Property(a => a.LastSynced).HasColumnType("datetime").IsRequired();
+            Property(a => a.TableName).HasColumnType("varchar").HasMaxLength(100).IsRequired();
 
             HasRequired(x => x.Store).WithMany(a=>a.IncrementalSyncronizations).HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(true);
             HasRequired(x => x.Device).WithMany(a =>a.IncrementalSyncronizations).HasForeignKey(x => new { x.DeviceId,x.StoreId }).WillCascadeOnDelete(true);

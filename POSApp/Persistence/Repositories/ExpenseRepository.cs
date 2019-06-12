@@ -17,7 +17,10 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
-
+        public async Task<IEnumerable<Expense>> GetAllExpensesAsyncIncremental(int storeId, DateTime date)
+        {
+            return await _context.Expenses.Include(a => a.ExpenseHead).Where(a => a.StoreId == storeId && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
+        }
         public IEnumerable<Expense> GetExpenses(int storeId)
         {
             return _context.Expenses.Where(a=>a.StoreId==storeId && !a.IsDisabled).ToList();

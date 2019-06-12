@@ -24,7 +24,7 @@ namespace POSApp.Persistence.Repositories
             _context.IncrementalSyncronizations.Add(incrementalSyncronization);
 
         }
-        public async Task<IncrementalSyncronization> GetLastIncrementalSyncronization(int storeId, int deviceId)
+        public async Task<IncrementalSyncronization> GetLastIncrementalSyncronization(int storeId, int deviceId, string tableName)
         {
 
             return await _context.IncrementalSyncronizations.Where(a => a.DeviceId == deviceId && a.StoreId == storeId)
