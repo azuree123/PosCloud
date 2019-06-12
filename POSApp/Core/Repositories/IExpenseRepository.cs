@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using POSApp.Core.Models;
 
@@ -16,5 +17,6 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<Expense>> GetExpensesAsync(int storeId);
         Task<Expense> GetExpenseByIdAsync(int id, int storeid);
         Task AddExpenseAsync(Expense expense);
+        Task<IEnumerable<Expense>> GetAllExpensesAsyncIncremental(int storeId, DateTime date);
     }
 }

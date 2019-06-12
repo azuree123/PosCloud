@@ -21,11 +21,52 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetDiscounts(int storeId)
+        //public async Task<IHttpActionResult> GetDiscounts(int storeId)
+        //{
+        //    return Ok(Mapper.Map<DiscountViewModel[]>(await _unitOfWork.DiscountRepository.GetDiscountsAsync(storeId)));
+        //}
+        public async Task<IHttpActionResult> GetDiscounts(int storeId, bool forceFull, int deviceId)
         {
-            return Ok(Mapper.Map<DiscountViewModel[]>(await _unitOfWork.DiscountRepository.GetDiscountsAsync(storeId)));
-        }
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.DiscountRepository.GetDiscountsAsync(storeId);
 
+
+                return Ok(Mapper.Map<DiscountViewModel[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "Discount");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.DiscountRepository.GetDiscountsAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.DiscountRepository.GetAllDiscountsAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "Discount"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<DiscountViewModel[]>(data));
+
+
+            }
+
+
+        }
         // GET: api/DiscountsSync/5
         public async Task<IHttpActionResult> GetDiscount(int id, int storeId)
         {

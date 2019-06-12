@@ -22,5 +22,6 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<Tax>> GetTaxesAsync(int storeId);
         Task<Tax> GetTaxByIdAsync(int id, int storeId);
         Task AddTaxAsync(Tax optcategory);
+        Task<IEnumerable<Tax>> GetAllTaxesAsyncIncremental(int storeId, DateTime date);
     }
 }

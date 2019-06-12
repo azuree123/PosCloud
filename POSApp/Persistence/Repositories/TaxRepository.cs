@@ -17,6 +17,11 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
+
+        public async Task<IEnumerable<Tax>> GetAllTaxesAsyncIncremental(int storeId, DateTime date)
+        {
+            return await _context.Taxes.Where(a => a.StoreId == storeId && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
+        }
         public Tax GetTaxById(int id,int storeId)
         {
             return _context.Taxes.FirstOrDefault(x => x.Id == id && x.StoreId==storeId);

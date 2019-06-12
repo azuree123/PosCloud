@@ -20,9 +20,47 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetTaxes(int storeId)
+        public async Task<IHttpActionResult> GetTax(int storeId, bool forceFull, int deviceId)
         {
-            return Ok(Mapper.Map<TaxViewModel[]>(await _unitOfWork.TaxRepository.GetTaxesAsync(storeId)));
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.TaxRepository.GetTaxesAsync(storeId);
+
+
+                return Ok(Mapper.Map<TaxViewModel[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "Tax");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.TaxRepository.GetTaxesAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.TaxRepository.GetAllTaxesAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "Tax"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<TaxViewModel[]>(data));
+
+
+            }
+
+
         }
 
         // GET: api/TaxCategoriesSync/5

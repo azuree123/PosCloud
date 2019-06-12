@@ -10,6 +10,6 @@ namespace POSApp.Core.Repositories
    public interface IIncrementalSyncronizationRepository
     {
         void AddIncrementalSyncronization(IncrementalSyncronization incrementalSyncronization);
-        Task<IncrementalSyncronization> GetLastIncrementalSyncronization(int storeId, int deviceId);
+        Task<IncrementalSyncronization> GetLastIncrementalSyncronization(int storeId, int deviceId, string tableName);
     }
 }

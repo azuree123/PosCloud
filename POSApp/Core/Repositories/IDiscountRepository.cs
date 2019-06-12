@@ -21,5 +21,6 @@ namespace POSApp.Core.Repositories
         Task<Discount> GetDiscountByIdAsync(int id, int storeId);
         Task<IEnumerable<Discount>> GetDiscountsAsync(int storeId);
         Task AddDiscountAsync(Discount optcategory);
+        Task<IEnumerable<Discount>> GetAllDiscountsAsyncIncremental(int storeId, DateTime date);
     }
 }

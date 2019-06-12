@@ -10,6 +10,7 @@ using POSApp.Core.Models;
 using POSApp.Core.Repositories;
 using POSApp.Core.ViewModels;
 using POSApp.Models;
+using POSApp.SecurityFilters;
 using POSApp.Services;
 
 namespace POSApp.Persistence.Repositories
@@ -22,6 +23,11 @@ namespace POSApp.Persistence.Repositories
         public UserRepository(PosDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetAllUsersAsyncIncremental(int storeId, DateTime date)
+        {
+            return await _context.Users.Where(a => a.StoreId == storeId && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
         }
 
         public IEnumerable<ApplicationUser> GetUsers(int storeid)

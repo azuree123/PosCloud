@@ -20,5 +20,6 @@ namespace POSApp.Core.Repositories
         int GetShiftId(string userId, int storeId);
         UserRoleDataViewModel GetUserLoginData(string userId);
         void UpdateRole(ApplicationRole role);
+        Task<IEnumerable<ApplicationUser>> GetAllUsersAsyncIncremental(int storeId, DateTime date);
     }
 }
