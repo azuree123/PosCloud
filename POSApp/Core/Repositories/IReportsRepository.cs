@@ -30,7 +30,7 @@ namespace POSApp.Core.Repositories
        List<StockReportViewModel> GenerateStockData(List<int> storeIds);
        decimal GetProductSalesDiscount(List<int> storeIds, DateTime dateFrom, DateTime dateTo);
        List<AgentIncomeReportViewModel> GenerateEmployeeIncomeData(List<int> storeIds, int designationId);
-
+       List<BatchWiseExpReportViewModel> BatchWiseExpiryData(List<int> storeIds, DateTime dateFrom, DateTime dateTo);
        List<PaymentMethodTimelySaleViewModel> GeneratePaymentMethodTimeWiseSalesData(List<int> storeIds, DateTime dateFrom,
            DateTime dateTo);
 

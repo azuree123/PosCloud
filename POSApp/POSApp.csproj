@@ -471,6 +471,7 @@
     <Compile Include="Core\Shared\TakingHelper.cs" />
     <Compile Include="Core\ViewModels\AppInfoViewModel.cs" />
     <Compile Include="Core\ViewModels\AssignRoleViewModel.cs" />
+    <Compile Include="Core\ViewModels\BatchWiseExpReportViewModel.cs" />
     <Compile Include="Core\ViewModels\BranchReportSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\BranchTimelyReportViewModel.cs" />
     <Compile Include="Core\ViewModels\BusinessPartnerViewModel.cs" />
@@ -880,6 +881,18 @@
     <Compile Include="Persistence\Repositories\WarehouseRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\BatchWiseExpiry.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BatchWiseExpiry.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\دفعة الحكيم انتهاء.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>دفعة الحكيم انتهاء.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\وصفات المنتجات.cs">
       <DependentUpon>وصفات المنتجات.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -4343,6 +4356,10 @@
     <EmbeddedResource Include="Migrations\201906101702230_increv.resx">
       <DependentUpon>201906101702230_increv.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\BatchWiseExpiry.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BatchWiseExpiry.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\StockTakingReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>StockTakingReport.cs</LastGenOutput>
@@ -4414,6 +4431,10 @@
     <EmbeddedResource Include="Reports\خصومات المنتجات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>خصومات المنتجات.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\دفعة الحكيم انتهاء.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>دفعة الحكيم انتهاء.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\طرق الدفع بناء على الوقت.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
