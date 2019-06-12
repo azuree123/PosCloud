@@ -1598,6 +1598,67 @@ namespace POSApp.Controllers
         [HttpPost]
         //  [Manage(Config.Reports.ExpirationReport)]
 
+        public ActionResult BatchWiseExpiryReport(GenerateReportViewModel gr, int branchId)
+        {
+            try
+            {
+
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                List<int> storeIds = new List<int>();
+                if (branchId == 0)
+                {
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+
+
+                    storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
+                }
+                else
+                {
+                    storeIds.Add(branchId);
+
+
+                }
+                if (Global.GetLang().Contains("Ar"))
+                {
+                    string details = "من تاريخ: " + gr.DateFrom.ToShortDateString() + " إلى: " + gr.DateTo.ToShortDateString();
+                    int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.BatchWiseExpiryData(storeIds, gr.DateFrom, gr.DateTo),
+                        "دفعة الحكيم انتهاء", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "دفعة الحكيم انتهاء.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                }
+                else
+                {
+                    string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
+                    int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.BatchWiseExpiryData(storeIds, gr.DateFrom, gr.DateTo),
+                        "BatchWiseExpiry", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
+                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "BatchWiseExpiry.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                }
+
+            }
+            catch (Exception e)
+            {
+                TempData["Alert"] = new AlertModel("Exception Error", AlertType.Error);
+                if (e.InnerException != null)
+                    if (!string.IsNullOrWhiteSpace(e.InnerException.Message))
+                    {
+                        if (e.InnerException.InnerException != null)
+                            if (!string.IsNullOrWhiteSpace(e.InnerException.InnerException.Message))
+                            {
+                                TempData["Alert"] = new AlertModel(e.InnerException.InnerException.Message, AlertType.Error);
+                            }
+                    }
+                    else
+                    {
+
+                        TempData["Alert"] = new AlertModel(e.InnerException.Message, AlertType.Error);
+                    }
+            }
+
+            return RedirectToAction("MyReports");
+        }
+
         public ActionResult GenerateExpirationReport(GenerateReportViewModel gr, int branchId)
         {
             try

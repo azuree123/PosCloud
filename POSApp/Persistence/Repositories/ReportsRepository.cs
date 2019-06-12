@@ -36,6 +36,30 @@ namespace POSApp.Persistence.Repositories
             }
             return data;
         }
+
+        public List<BatchWiseExpReportViewModel> BatchWiseExpiryData(List<int> storeIds, DateTime dateFrom, DateTime dateTo)
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-UK");
+            IFormatProvider UK = new CultureInfo("en-UK").DateTimeFormat;
+            dateFrom = Convert.ToDateTime(dateFrom, UK);
+            dateTo = Convert.ToDateTime(dateTo, UK);
+
+            var parameters = new List<SqlParameter> { new SqlParameter("@p3", dateFrom),
+                new SqlParameter("@p4", dateTo),
+            };
+
+            parameters.AddRange(storeIds.Select((id, i) => new SqlParameter("d" + i, id)));
+            var sql = @" select d.Name as BranchName,a.TransCode as TransCode,SUM(b.Quantity) as Qty,SUM(b.UnitPrice*b.Quantity)as Amount 
+            ,p.Name as Products ,b.BatchNumber as BatchNumber, b.ManufactureDate as ManufactureDate,b.ExpiryDate as ExpiryDate
+			from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+			inner join PosCloud.Products as p on b.ProductCode = p.ProductCode
+			inner join PosCloud.Stores as d on a.StoreId=d.Id
+             where  p.StoreId in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("d")).Select(p => "@" + p.ParameterName)) + @") and  CONVERT(VARCHAR(20), b.ManufactureDate, 101) >=@p3 and  CONVERT(VARCHAR(20), b.ExpiryDate, 101)<=@p4 and a.Type = 'PRI'
+            group by d.Name,a.TransCode,p.Name, b.BatchNumber, b.ManufactureDate,b.ExpiryDate
+                ";
+            return _context.Database.SqlQuery<BatchWiseExpReportViewModel>(sql, parameters.ToArray()).ToList();
+        }
         public List<ProductSalesReportViewModel> GenerateProductSalesData(List<int> storeIds,DateTime dateFrom,DateTime dateTo)
         {
 

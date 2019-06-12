@@ -39,17 +39,21 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-              
+
                 <div class="col-md-4 mb-lg">
                     <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateInventoryItemTotalCostReport"})" class="modalShow" id=""><button type="button" class="btn outline-success chart ">@POSApp.Resources.Resource.inventoryitemtotalcost </button></a>
                 </div>
-              
+
                 <div class="col-md-4 mb-lg">
                     <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateConsumptionReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">@POSApp.Resources.Resource.consumption</button></a>
                 </div>
-               
+
                 <div class="col-md-4 mb-lg">
                     <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateExpirationReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">@POSApp.Resources.Resource.expiration</button></a>
+                </div>
+
+                <div class="col-md-4 mb-lg">
+                    <a href="@Url.Action("GenerateReport", "Reports",new{target="BatchWiseExpiryReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">Batch Wise Expiry</button></a>
                 </div>
                 <div class="col-md-4 mb-lg">
                     <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateTransferReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">@POSApp.Resources.Resource.totaltransfers </button></a>
@@ -57,11 +61,11 @@
                 <div class="col-md-4 mb-lg">
                     <a href="@Url.Action("GenerateReport", "Reports",new{target="GenerateTotalPurchaseReport"})" class="modalShow" id=""><button type="button" class="btn outline-success chart "> @POSApp.Resources.Resource.totalpurchases </button></a>
                 </div>
-             
+
                 <div class="col-md-4 mb-lg">
                     <a href="@Url.Action("GenerateCustomerReport", "Reports",new{target="GenerateProductRecipeReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart "> @POSApp.Resources.Resource.productsrecipe </button></a>
                 </div>
-              
+
                 <div class="col-md-4 mb-lg">
                     <a href="@Url.Action("GeneratePurchasePerSupplierReport", "Reports",new{target="GeneratePurchasePerSupplierReport"})" class="modalShow" id=""> <button type="button" class="btn outline-success chart ">@POSApp.Resources.Resource.purchasespersupplier  </button></a>
                 </div>

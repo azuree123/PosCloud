@@ -4500,7 +4500,6 @@ namespace POSApp.Controllers
                 CreatedBy = a.CreatedById,
                 CreatedOn = a.CreatedOn
             }).FirstOrDefault(a => a.StoreId == (int)user.StoreId && a.Id == id));
-
         }
         [HttpPost]
         public ActionResult UpdateRole(string id, RoleViewModel role)
