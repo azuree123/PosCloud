@@ -28,41 +28,51 @@ namespace POSApp.Controllers.WebApi
         public async Task<IHttpActionResult> GetProducts(int storeId, bool forceFull, int deviceId)
         {
             var data=new object();
-            if (forceFull)
+            try
             {
-                 data = await _unitOfWork.ProductRepository.GetAllProductsAsync(storeId);
 
-                
-                return Ok(Mapper.Map<ProductSyncViewModel[]>(data));
-
-            }
-            else
-            {
-                
-                var lastSync =
-                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
-                        deviceId, "Products");
-                if (lastSync == null)
+                if (forceFull)
                 {
-                 data = await _unitOfWork.ProductRepository.GetAllProductsAsync(storeId);
+                    data = await _unitOfWork.ProductRepository.GetAllProductsAsync(storeId);
+
+
+                    return Ok(Mapper.Map<ProductSyncViewModel[]>(data));
+
                 }
                 else
                 {
-                    data = await _unitOfWork.ProductRepository.GetAllProductsAsyncIncremental(storeId,
-                        lastSync.LastSynced);
+
+                    var lastSync =
+                        await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                            deviceId, "Products");
+                    if (lastSync == null)
+                    {
+                        data = await _unitOfWork.ProductRepository.GetAllProductsAsync(storeId);
+                    }
+                    else
+                    {
+                        data = await _unitOfWork.ProductRepository.GetAllProductsAsyncIncremental(storeId,
+                            lastSync.LastSynced);
+                    }
+
+                    _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(
+                        new IncrementalSyncronization
+                        {
+                            StoreId = storeId,
+                            DeviceId = deviceId,
+                            TableName = "Products",
+                            LastSynced = DateTime.Now
+
+                        });
+                    _unitOfWork.Complete();
+                    return Ok(Mapper.Map<ProductSyncViewModel[]>(data));
                 }
-                 _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization
-                {
-                    StoreId = storeId,
-                    DeviceId = deviceId,
-                    TableName = "Products",
-                    LastSynced = DateTime.Now
-
-                });
-                _unitOfWork.Complete();
-                return Ok(Mapper.Map<ProductSyncViewModel[]>(data));
 
 
+            }
+            catch (Exception e)
+            {
+                return null;
             }
 
 
