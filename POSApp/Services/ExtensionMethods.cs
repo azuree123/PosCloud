@@ -9,31 +9,7 @@ namespace POSApp.Services
 {
     public static class ExtensionMethod
     {
-        //public static bool UserHasAccess(this Config.Reports permission)
-        //{
-        //    UserRoleDataViewModel data = new AuthHelper().UserAccessData();
-        //    if (data == null) return false;
-        //    string[] str = new[] { "" };
-        //    if (string.IsNullOrEmpty(data))
-        //    {
-
-        //    }
-        //    else
-        //    {
-        //        str = data.Split(',');
-        //    }
-
-        //    foreach (var s in str)
-        //    {
-        //        if (s == permission.ToString())
-        //        {
-        //            return true;
-        //        }
-        //        else { }
-        //    }
-
-        //    return false;
-        //}
+        
         public static bool CheckAccess(this object permission)
         {
             UserRoleDataViewModel user = new AuthHelper().UserAccessData();

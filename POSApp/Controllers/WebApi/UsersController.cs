@@ -26,49 +26,63 @@ namespace POSApp.Controllers.WebApi
         // GET: api/Users
 
         // GET: api/Users
-
-        public async Task<IHttpActionResult> GetUsers(int storeId, bool forceFull, int deviceId)
+        public async Task<IHttpActionResult> GetUser(int storeId)
         {
-            var data = new object();
-            if (forceFull)
-            {
-                data = await _unitOfWork.UserRepository.GetApiUsersAsync(storeId);
-
-
-                return Ok(Mapper.Map<UserViewModel[]>(data));
-
-            }
-            else
-            {
-
-                var lastSync =
-                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
-                        deviceId, "Users");
-                if (lastSync == null)
-                {
-                    data = await _unitOfWork.UserRepository.GetApiUsersAsync(storeId);
-                }
-                else
-                {
-                    data = await _unitOfWork.UserRepository.GetAllUsersAsyncIncremental(storeId,
-                        lastSync.LastSynced);
-                }
-                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
-                {
-                    StoreId = storeId,
-                    DeviceId = deviceId,
-                    LastSynced = DateTime.Now,
-                    TableName = "Users"
-
-                });
-                _unitOfWork.Complete();
-                return Ok(Mapper.Map<UserViewModel[]>(data));
-
-
-            }
-
-
+            return Ok(await _unitOfWork.UserRepository.GetApiUsersAsync(storeId));
         }
+        //public async Task<IHttpActionResult> GetUsers(int storeId, bool forceFull, int deviceId)
+        //{
+        //    var data = new object();
+
+        //    try
+        //    {
+
+        //        if (forceFull)
+        //        {
+        //            data = await _unitOfWork.UserRepository.GetApiUsersAsync(storeId);
+
+
+        //            return Ok(Mapper.Map<UserViewModel[]>(data));
+
+        //        }
+        //        else
+        //        {
+
+        //            var lastSync =
+        //                await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+        //                    deviceId, "Users");
+        //            if (lastSync == null)
+        //            {
+        //                data = await _unitOfWork.UserRepository.GetApiUsersAsync(storeId);
+        //            }
+        //            else
+        //            {
+        //                data = await _unitOfWork.UserRepository.GetAllUsersAsyncIncremental(storeId,
+        //                    lastSync.LastSynced);
+        //            }
+
+        //            _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(
+        //                new IncrementalSyncronization()
+        //                {
+        //                    StoreId = storeId,
+        //                    DeviceId = deviceId,
+        //                    LastSynced = DateTime.Now,
+        //                    TableName = "Users"
+
+        //                });
+        //            _unitOfWork.Complete();
+        //            return Ok(Mapper.Map<UserViewModel[]>(data));
+
+
+        //        }
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return null;
+        //    }
+
+        //}
 
         // GET: api/Users/5
         public async Task<IHttpActionResult> GetUser(string id, int storeId)
