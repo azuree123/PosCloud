@@ -48,8 +48,8 @@
                             <td>@s.UnitName</td>
                             <td>@s.UnitPrice</td>
                             <td>@s.BatchNumber</td>
-                            <td>@s.ManufactureDate</td>
-                            <td>@s.ExpiryDate</td>
+                            <td>@Convert.ToDateTime(s.ManufactureDate).ToShortDateString()</td>
+                            <td>@Convert.ToDateTime(s.ExpiryDate).ToShortDateString()</td>
                         }
                         <td>
                             @Ajax.ActionLink(" ", "RemoveTransactionItem", "PurchaseOrders", new {productId = @s.ProductCode}, new AjaxOptions

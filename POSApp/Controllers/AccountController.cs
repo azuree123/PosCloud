@@ -121,9 +121,9 @@ namespace POSApp.Controllers
                         string data =
                            
                                 JsonConvert.SerializeObject(_unitOfWork.UserRepository.GetUserLoginData(model.Email));
-                        if (data.Length >= 2096)
+                        if (data.Length >= 4000)
                         {
-                            var miniData = AuthHelper.Split(data, 2096);
+                            var miniData = AuthHelper.Split(data, 4000);
                             int ind = 0;
                             foreach (var mini in miniData)
                             {
