@@ -723,6 +723,10 @@
     <Compile Include="Migrations\201906121526382_tableName.Designer.cs">
       <DependentUpon>201906121526382_tableName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906121653441_entityfadsf.cs" />
+    <Compile Include="Migrations\201906121653441_entityfadsf.Designer.cs">
+      <DependentUpon>201906121653441_entityfadsf.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ClientEntityConfiguration.cs" />
@@ -4363,6 +4367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906121526382_tableName.resx">
       <DependentUpon>201906121526382_tableName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906121653441_entityfadsf.resx">
+      <DependentUpon>201906121653441_entityfadsf.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BatchWiseExpiry.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
