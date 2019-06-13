@@ -1,11 +1,48 @@
 ﻿
 @{
     ViewBag.Title = "Error";
+    Layout = null;
 }
+<link href="~/Content/Error.css" rel="stylesheet" />
 
 @{
 
-    var name = HttpContext.Current.User.Identity.Name;
-    <h2 style="text-decoration-color: red">@name Does Not Have Access</h2>
+<div class="container">
+    <h1>
+        4<div class="lock">
+            <div class="top"></div><div class="bottom"></div>
+        </div>3
+    </h1><p>Access denied</p>
+    <a href="@Url.Action("Index","Home")">Please Go to <span class="fa fa-home"></span>Home</a>
+</div>
 }
 
+
+    <script>
+
+    var interval = 500;
+
+    function generateLocks() {
+    var lock = document.createElement('div'),
+    position = generatePosition();
+    lock.innerHTML = '<div class="top"></div><div class="bottom"></div>';
+    lock.style.top = position[0];
+    lock.style.left = position[1];
+    lock.classList = 'lock'// generated';
+    document.body.appendChild(lock);
+    setTimeout(()=>{
+    lock.style.opacity = '1';
+    lock.classList.add('generated');
+    },100);
+    setTimeout(()=>{
+    lock.parentElement.removeChild(lock);
+    }, 2000);
+    }
+    function generatePosition() {
+    var x = Math.round((Math.random() * 100) - 10) + '%';
+    var y = Math.round(Math.random() * 100) + '%';
+    return [x,y];
+    }
+    setInterval(generateLocks,interval);
+    generateLocks();
+    </script>

@@ -1524,6 +1524,7 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\Error.css" />
     <Content Include="Content\fontStyle.css" />
     <Content Include="Content\images\!happy-face.png" />
     <Content Include="Content\images\!logged-user.jpg" />
