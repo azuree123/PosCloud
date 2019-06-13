@@ -445,7 +445,6 @@ namespace POSApp.Controllers
             return View("PoProductTable", ProductHelper.temptProduct);
         }
         [Manage(Config.Products.Products)]
-
         public ActionResult UpdateProduct(string productId)
         {
             var isAjax = Request.IsAjaxRequest();

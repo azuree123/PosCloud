@@ -84,28 +84,30 @@
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
                     <tr>
+                        @{
+                            if (Config.Products.Modifiers.ManageAccess() && Config.Products.Modifiers.ViewAccess())
+                            {
+                                <th width="5%">@POSApp.Resources.Resource.ID</th>
+                                <th width="15%">@POSApp.Resources.Resource.name</th>
+                                <th width="15%">@POSApp.Resources.Resource.Barcode</th>
+                                <th width="15%">Modifer Options</th>
+                                <th width="15%">@POSApp.Resources.Resource.LinkedProducts</th>
+                                <th width="30%">@POSApp.Resources.Resource.Action</th>
 
-                        @if (Config.Setup.Supplier.ManageAccess())
-                        {
-                            <th width="5%">@POSApp.Resources.Resource.ID</th>
-                            <th width="15%">@POSApp.Resources.Resource.name</th>
-                            <th width="15%">@POSApp.Resources.Resource.Barcode</th>
-                            <th width="15%">Modifer Options</th>
-                            <th width="15%">@POSApp.Resources.Resource.LinkedProducts</th>
-                            <th width="30%">@POSApp.Resources.Resource.Action</th>
-
-                        }
+                            }
                       
 
-                        @if (Config.Products.Modifiers.ViewAccess())
-                        {
-                            <th width="5%">@POSApp.Resources.Resource.ID</th>
-                            <th width="20%">@POSApp.Resources.Resource.name</th>
-                            <th width="20%">@POSApp.Resources.Resource.Barcode</th>
-                            <th width="25%">Modifer Options</th>
-                            <th width="25%">@POSApp.Resources.Resource.LinkedProducts</th>
-                            <th width="10%">@POSApp.Resources.Resource.Action</th>
+                            else if (Config.Products.Modifiers.ViewAccess())
+                            {
+                                <th width="5%">@POSApp.Resources.Resource.ID</th>
+                                <th width="20%">@POSApp.Resources.Resource.name</th>
+                                <th width="20%">@POSApp.Resources.Resource.Barcode</th>
+                                <th width="25%">Modifer Options</th>
+                                <th width="25%">@POSApp.Resources.Resource.LinkedProducts</th>
+                                <th width="30%">@POSApp.Resources.Resource.Action</th>
+                            }
                         }
+                       
 
                     </tr>
                 </thead>
@@ -124,18 +126,21 @@
 
                         <td class="center">
                             <div class="btn-group">
-                                @if (Config.Products.Modifiers.ManageAccess())
-                                {
+                                @{
+                                    if (Config.Products.Modifiers.ManageAccess() && Config.Products.Modifiers.ViewAccess())
+                                    {
 
-                                @Html.ActionLink(" ", "UpdateModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
-                                @Html.ActionLink(" ", "DeleteModifier", "Products", new { id = @modifier.Id, storeId = @modifier.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
-                                @Html.ActionLink(" ", "AddModifierLinkProduct", "Products", new { modifierId = @modifier.Id }, new { @class = "btn btn-default text-success  btn-sm fa fa-plus modalShow", data_toggle = "tooltip", title = "Link Modifier Products !" })
-                                }
-                                @if (Config.Products.Modifiers.ViewAccess())
-                                {
-                                @Html.ActionLink(" ", "ModifierDetails", "Products", new { modifierId = @modifier.Id }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview })
+                                        @Html.ActionLink(" ", "UpdateModifier", "Products", new {id = @modifier.Id, storeId = @modifier.StoreId}, new {@class = "btn btn-default text-success btn-sm fa fa-edit  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT})
+                                        @Html.ActionLink(" ", "DeleteModifier", "Products", new {id = @modifier.Id, storeId = @modifier.StoreId}, new {@class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');"})
+                                        @Html.ActionLink(" ", "AddModifierLinkProduct", "Products", new {modifierId = @modifier.Id}, new {@class = "btn btn-default text-success  btn-sm fa fa-plus modalShow", data_toggle = "tooltip", title = "Link Modifier Products !"})
+                                    }
+                                    else if (Config.Products.Modifiers.ViewAccess())
+                                    {
+                                        @Html.ActionLink(" ", "ModifierDetails", "Products", new {modifierId = @modifier.Id}, new {@class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview})
 
+                                    }
                                 }
+                               
 
                             </div>
                         </td>

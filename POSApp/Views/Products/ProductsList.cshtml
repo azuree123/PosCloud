@@ -102,14 +102,29 @@
         <div class="table-responsive">
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
-                    <tr>
+                <tr>
+                    @{
+                        if (Config.Products.Products.ManageAccess() && Config.Products.Products.ViewAccess())
+                        {
                         <th>@POSApp.Resources.Resource.ID</th>
                         <th>@POSApp.Resources.Resource.name</th>
-                      
+
                         <th>@POSApp.Resources.Resource.size</th>
                         <th>@POSApp.Resources.Resource.UnitPrice</th>
-                        <th>@POSApp.Resources.Resource.Actions</th>
-                    </tr>
+                            <th>@POSApp.Resources.Resource.Actions</th>
+                        }
+                        else if (Config.Products.Products.ViewAccess())
+                        {
+                            <th>@POSApp.Resources.Resource.ID</th>
+                            <th>@POSApp.Resources.Resource.name</th>
+
+                            <th>@POSApp.Resources.Resource.size</th>
+                            <th>@POSApp.Resources.Resource.UnitPrice</th>
+                            <th>@POSApp.Resources.Resource.Actions</th>
+                        }
+                    }
+                   
+                </tr>
                 </thead>
                 <tbody>
                   
@@ -200,6 +215,7 @@
                     "data": "ProductCode", "autoWidth": true, render: function (data, type, full, meta) {
                         
                         var str = '';
+                 
                         if (full.InventoryItem) {
                             str =
                                 
