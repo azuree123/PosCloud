@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
@@ -14,6 +16,12 @@ namespace POSApp.Persistence.Repositories
         public AppCountersRepository(PosDbContext context)
         {
             _context = context;
+        }
+
+
+        public async Task<IEnumerable<AppCounter>> GetAppCounterAsync(int storeId, int deviceId)
+        {
+            return await _context.AppCounters.Where(a => a.StoreId == storeId && a.DeviceId == deviceId).ToListAsync();
         }
 
         public int GetId(string dbSetIs)

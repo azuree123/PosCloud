@@ -12,6 +12,6 @@ namespace POSApp.Core.Repositories
         int GetId(string dbSetIs);
         void SetId(int intId, string dbSetIs);
         AppCounter GetAppCounter();
-
+        Task<IEnumerable<AppCounter>> GetAppCounterAsync(int storeId, int deviceId);
     }
 }

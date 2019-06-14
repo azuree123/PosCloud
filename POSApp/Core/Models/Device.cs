@@ -33,6 +33,7 @@ namespace POSApp.Core.Models
         public string City { get; set; }
 
         public string State { get; set; }
+        public virtual ICollection<AppCounter> AppCounters { get; set; } = new List<AppCounter>();
         public virtual ICollection<IncrementalSyncronization> IncrementalSyncronizations { get; set; }=new List<IncrementalSyncronization>();
 
     }

@@ -354,10 +354,12 @@
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\TransMasterPaymentMethodController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WebApi\AppCountersController.cs" />
     <Compile Include="Controllers\WebApi\DesignationsController.cs" />
     <Compile Include="Controllers\WebApi\ModifiersController.cs" />
     <Compile Include="Controllers\WebApi\PurchaseController.cs" />
     <Compile Include="Controllers\WebApi\RecipesController.cs" />
+    <Compile Include="Controllers\WebApi\TransMasterController.cs" />
     <Compile Include="Controllers\WebApi\UsersController.cs" />
     <Compile Include="Controllers\WebApi\CitiesController.cs" />
     <Compile Include="Controllers\WebApi\ClientsController.cs" />
@@ -726,6 +728,22 @@
     <Compile Include="Migrations\201906121653441_entityfadsf.cs" />
     <Compile Include="Migrations\201906121653441_entityfadsf.Designer.cs">
       <DependentUpon>201906121653441_entityfadsf.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906141107361_app1.cs" />
+    <Compile Include="Migrations\201906141107361_app1.Designer.cs">
+      <DependentUpon>201906141107361_app1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906141138127_deviceId.cs" />
+    <Compile Include="Migrations\201906141138127_deviceId.Designer.cs">
+      <DependentUpon>201906141138127_deviceId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906141140550_app11.cs" />
+    <Compile Include="Migrations\201906141140550_app11.Designer.cs">
+      <DependentUpon>201906141140550_app11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906141237352_tilloperations.cs" />
+    <Compile Include="Migrations\201906141237352_tilloperations.Designer.cs">
+      <DependentUpon>201906141237352_tilloperations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
@@ -4371,6 +4389,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906121653441_entityfadsf.resx">
       <DependentUpon>201906121653441_entityfadsf.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906141107361_app1.resx">
+      <DependentUpon>201906141107361_app1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906141138127_deviceId.resx">
+      <DependentUpon>201906141138127_deviceId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906141140550_app11.resx">
+      <DependentUpon>201906141140550_app11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906141237352_tilloperations.resx">
+      <DependentUpon>201906141237352_tilloperations.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BatchWiseExpiry.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

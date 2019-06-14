@@ -22,6 +22,12 @@ namespace POSApp.Core.Models
 
         public decimal PhysicalAmount { get; set; }
 
+
+        public decimal CarryOut { get; set; }
+
+        public decimal AdjustedCashAmount { get; set; }
+        public decimal AdjustedCreditAmount { get; set; }
+        public decimal AdjustedCreditNoteAmount { get; set; }
         public string ApplicationUserId { get; set; }
         public ApplicationUser Cashier { get; set; }
 

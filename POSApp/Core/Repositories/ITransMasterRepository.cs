@@ -11,6 +11,8 @@ namespace POSApp.Core.Repositories
 {
     public interface ITransMasterRepository
     {
+
+        Task<TransMaster> GetLastTransactionINV(string storeId);
         TransMaster GetTransMaster(int id, int storeId);
         IEnumerable<TransMaster> GetTransMasters(int storeId);
         IEnumerable<InvoiceViewModel> GetInvoice(int id, int storeId);

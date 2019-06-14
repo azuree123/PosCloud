@@ -23,6 +23,13 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(a => a.SystemAmount).HasColumnType("decimal").IsRequired();
             Property(a => a.PhysicalAmount).HasColumnType("decimal").IsRequired();
             Property(x => x.SessionCode).HasColumnType("int").IsRequired();
+            Property(x => x.CarryOut).HasColumnType("decimal").IsRequired();
+            Property(x => x.AdjustedCashAmount).HasColumnType("decimal").IsRequired();
+            Property(x => x.AdjustedCreditAmount).HasColumnType("decimal").IsRequired();
+            Property(x => x.AdjustedCreditNoteAmount).HasColumnType("decimal").IsRequired();
+
+
+
             HasOptional(a => a.Shift).WithMany(a => a.TillOperations).HasForeignKey(a => new {a.ShiftId, a.StoreId})
                 .WillCascadeOnDelete(false);
             HasRequired(a=>a.Cashier).WithMany(a=>a.TillOperations).HasForeignKey(a=> new{a.ApplicationUserId}).WillCascadeOnDelete(false);
