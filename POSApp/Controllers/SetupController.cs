@@ -5180,6 +5180,15 @@ namespace POSApp.Controllers
             }
             return RedirectToAction("ShiftList", "Setup");
         }
+
+        public ActionResult TillOperationDetails(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            var data = _unitOfWork.TillOperationRepository.GetTillOperationsById(id, user.StoreId);
+            return View(data);
+        }
+
         [View(Config.Setup.TillOperation)]
 
         public ActionResult TillOperationList()

@@ -41,7 +41,7 @@ namespace POSApp.Core.Models
 
         [Column(TypeName = "DateTime2")]
         public DateTime UpdatedOn { get; set; }
-        public ICollection<TillOperation> TillOperations { get; set; }
+        public virtual ICollection<TillOperation> TillOperations { get; set; }
     }
 
    

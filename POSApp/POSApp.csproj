@@ -745,6 +745,14 @@
     <Compile Include="Migrations\201906141237352_tilloperations.Designer.cs">
       <DependentUpon>201906141237352_tilloperations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906141402462_ dfdsa.cs" />
+    <Compile Include="Migrations\201906141402462_ dfdsa.Designer.cs">
+      <DependentUpon>201906141402462_ dfdsa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906141443575_nhuj.cs" />
+    <Compile Include="Migrations\201906141443575_nhuj.Designer.cs">
+      <DependentUpon>201906141443575_nhuj.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ClientEntityConfiguration.cs" />
@@ -4046,6 +4054,7 @@
     <Content Include="Views\Setup\AssignRolesToUsers.cshtml" />
     <Content Include="Views\PurchaseOrders\PoPurchasing.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Setup\TillOperationDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4401,6 +4410,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906141237352_tilloperations.resx">
       <DependentUpon>201906141237352_tilloperations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906141402462_ dfdsa.resx">
+      <DependentUpon>201906141402462_ dfdsa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906141443575_nhuj.resx">
+      <DependentUpon>201906141443575_nhuj.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BatchWiseExpiry.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

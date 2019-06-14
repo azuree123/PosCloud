@@ -17,7 +17,8 @@ namespace POSApp.Core.Models
         public TransMaster TransMaster { get; set; }
         public string ProductCode { get; set; }
         public Product Product { get; set; }
-
+        public int? EmployeeId { get; set; }
+        public Employee Employee { get; set; }
         [DefaultValue(0)]
         public decimal Quantity { get; set; }
         [DefaultValue(0)]

@@ -28,7 +28,8 @@ namespace POSApp.Core.Models
         public virtual Designation Designation { get; set; }
         public string Address { get; set; }
         public virtual ICollection<Expense> Expenses { get; set; }
-        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual ICollection<TransDetail> TransDetails { get; set; }
         public byte[] Image { get; set; }
 
     }

@@ -29,13 +29,12 @@ namespace POSApp.Core.ViewModels
         [DisplayName("TillOperation Type")]
         public string TillOperationType { get; set; }//Open or Close
         public DateTime? CreatedOn { get; set; }
-        public string CreatedBy { get; set; }
-
         public decimal CarryOut { get; set; }
 
         public decimal AdjustedCashAmount { get; set; }
         public decimal AdjustedCreditAmount { get; set; }
         public decimal AdjustedCreditNoteAmount { get; set; }
+        public string CreatedBy { get; set; }
         public IEnumerable<SelectListItem> ShiftDdl { get; set; }
 
     }
@@ -53,14 +52,12 @@ namespace POSApp.Core.ViewModels
         public decimal SystemAmount { get; set; }
         public decimal PhysicalAmount { get; set; }
         public bool Status { get; set; }
-
+        public string TillOperationType { get; set; }//Open or Close
+        public int? StoreId { get; set; }
         public decimal CarryOut { get; set; }
 
         public decimal AdjustedCashAmount { get; set; }
         public decimal AdjustedCreditAmount { get; set; }
         public decimal AdjustedCreditNoteAmount { get; set; }
-        public string TillOperationType { get; set; }//Open or Close
-        public int? StoreId { get; set; }
-       
     }
 }

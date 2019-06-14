@@ -1,0 +1,127 @@
+﻿@using System.ServiceModel.Channels
+@model POSApp.Core.Models.TillOperation
+@{
+    //Layout = null;
+}
+<div class="mt-md pull-right">
+
+    <input type='button' id='btnP' class="btn outline-success btn-sm" value='@POSApp.Resources.Resource.Print' onclick='printDiv();'>
+    <a href="@Url.Action("TillOperationList", "Setup")" style="flex-grow: 0">
+        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-list-ol pr-sm"></i>TillOperation List</button>
+
+    </a>
+</div>
+<div class="container-fluid " id="DivIdToPrint">
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h3 class="text-center"><strong> Till Operation Details </strong></h3>
+            <table class="table table-bordered">
+
+
+                <tbody>
+
+
+
+
+                    <tr>
+                        <th class="text-center">@POSApp.Resources.Resource.Date</th>
+                        <td class="text-center" width="70%">@Model.OperationDate</td>
+
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">@POSApp.Resources.Resource.OpeningAmount</th>
+                        <td class="text-center">@Model.OpeningAmount</td>
+
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">@POSApp.Resources.Resource.SystemAmount</th>
+                        <td class="text-center">@Model.SystemAmount</td>
+
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">@POSApp.Resources.Resource.PhysicalAmount</th>
+                        <td class="text-center">@Model.PhysicalAmount</td>
+
+                    </tr>
+
+                    <tr>
+                        <th class="text-center">@POSApp.Resources.Resource.Type</th>
+                        <td class="text-center">@Model.TillOperationType</td>
+
+                    </tr>
+
+                    <tr>
+                        <th class="text-center">Employee Name</th>
+                        <td class="text-center">@Model.Cashier.Employee.Name</td>
+
+                    </tr>
+
+
+                    <tr>
+                        <th class="text-center">Adjusted Cash Amount</th>
+                        <td class="text-center">@Model.AdjustedCashAmount</td>
+
+                    </tr>
+
+                    <tr>
+                        <th class="text-center">Adjusted Credit Value Amount</th>
+                        <td class="text-center">@Model.AdjustedCreditNoteAmount</td>
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">CarryOut</th>
+                        <td class="text-center">@Model.CarryOut</td>
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">@POSApp.Resources.Resource.Shift</th>
+                        <td class="text-center">@Model.Shift.Name</td>
+
+                    </tr>
+                    <tr>
+                        <th class="text-center">@POSApp.Resources.Resource.Status</th>
+                        <td class="text-center">@Model.Status</td>
+
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+@section scripts{
+
+    <script>
+        function printDiv() {
+
+            var divToPrint = document.getElementById('DivIdToPrint');
+
+            var newWin = window.open('', 'Print-Window');
+
+            newWin.document.open();
+
+
+            newWin.document.write(
+                '<html>  <link href = "/../Content/bootstrap.min.css" rel = "stylesheet" /><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">' +
+                '<style>table>thead>tr>th {text-align: center;} table>tbody>tr>td {text-align: center;} </style><body onload="window.print() " width="1024">' +
+                divToPrint.innerHTML +
+                '</body></html>');
+
+            newWin.document.close();
+
+            setTimeout(function() { newWin.close(); }, 10);
+
+        }
+    </script>
+}
+

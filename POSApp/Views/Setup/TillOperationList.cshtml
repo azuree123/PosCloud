@@ -142,14 +142,7 @@
                     <h3 class="wb-color" style="flex-grow: 8"><b>TillOperations</b></h3>
 
 
-                    @*<a href="@Url.Action("AddTillOperation", "Setup")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Add TillOperation</button>
-
-                    </a>*@
-                    @*<a href="@Url.Action("CustomerExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0">
-                        <button type="button" class="btn outline-danger btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
-
-                    </a*@
+                 
 
 
                 </div>
@@ -169,14 +162,13 @@
                         <th>OpeningAmount</th>
                         <th>SystemAmount</th>
                         <th>PhysicalAmount</th>
+                        <th>CarryOut</th>
                         <th>TillOperationType</th>
-                        
                         <th>Shift</th>
-                        <th>Status</th>
-                            
+
                         @if (Config.Setup.TillOperation.ManageAccess())
                         {
-                        <th>Action</th>
+                            <th>Action</th>
 
                         }
 
@@ -192,21 +184,23 @@
                         <td>@till.OpeningAmount</td>
                         <td>@till.SystemAmount</td>
                         <td>@till.PhysicalAmount</td>
+                        <td>@till.CarryOut</td>
 
                         <td>@till.TillOperationType</td>
                         <td>@till.ShiftName</td>
-                        <td>@till.Status</td>
 
-                            @if (Config.Setup.TillOperation.ManageAccess())
-                            {
-                        <td class="center">
-                            <div class="btn-group">
+                       
+                            <td class="center">
+                                <div class="btn-group">
 
-                                @*@Html.ActionLink(" ", "UpdateTillOperation", "Setup", new { id = @till.Id, storeId = @till.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })*@
-                                @Html.ActionLink(" ", "DeleteTillOperation", "Setup", new {id = @till.Id, storeId = @till.StoreId}, new {@class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');"})
+                                    @*@Html.ActionLink(" ", "UpdateTillOperation", "Setup", new { id = @till.Id, storeId = @till.StoreId }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })*@
+                                    @*@Html.ActionLink(" ", "DeleteTillOperation", "Setup", new { id = @till.Id, storeId = @till.StoreId }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })*@
+                                @Html.ActionLink(" ", "TillOperationDetails", "Setup", new { id = @till.Id }, new { @class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = POSApp.Resources.Resource.Preview })
+
+                                
                                 </div>
-                        </td>
-                            }
+                            </td>
+                        
                     </tr>
                     }
 

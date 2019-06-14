@@ -5,7 +5,7 @@ using System.Web;
 
 namespace POSApp.Core.Models
 {
-    public class TillOperation:AuditableEntity
+    public class TillOperation : AuditableEntity
     {
         public int Id { get; set; }
         public int StoreId { get; set; }
@@ -21,7 +21,6 @@ namespace POSApp.Core.Models
         public decimal SystemAmount { get; set; }
 
         public decimal PhysicalAmount { get; set; }
-
 
         public decimal CarryOut { get; set; }
 
