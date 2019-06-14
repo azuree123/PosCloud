@@ -28,7 +28,7 @@ namespace POSApp.Persistence.Repositories
         }
         public TillOperation GetTillOperationsById(int id, int storeId)
         {
-            return _context.TillOperations.Include(a => a.Shift).Include(a => a.Cashier.Employee).Where(a => a.Id == id && a.StoreId == storeId).ToList().FirstOrDefault();
+            return _context.TillOperations.Include(a => a.Shift).Include(a => a.Cashier).Include(a=>a.Cashier.Employee).Where(a => a.Id == id && a.StoreId == storeId).FirstOrDefault();
 
         }
         public TillOperation GetOpenedTill(string userId, int storeId)
