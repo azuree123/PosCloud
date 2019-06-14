@@ -23,6 +23,12 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
+        public async Task<TransMaster> GetLastTransactionINV(string storeId)
+        {
+
+            return await _context.TransMasters.Where(a => a.TransCode.EndsWith(storeId) && a.Type == "INV").OrderByDescending(a => a.Id).FirstOrDefaultAsync();
+        }
+
         public TransMaster GetTransMaster(int id, int storeId)
         {
          var data= _context.TransMasters.Include(a => a.BusinessPartner).Include(a=>a.DineTable).Include(a=>a.TimedEvent)
