@@ -44,6 +44,8 @@ namespace POSApp.Persistence.EntityConfigurations
             HasOptional(x => x.DineTable).WithMany(c=>c.TransMasters).HasForeignKey(x => new { x.DineTableId, x.StoreId }).WillCascadeOnDelete(false);
             HasOptional(x => x.TimedEvent).WithMany(x => x.TransMasters).HasForeignKey(x => new { x.DiscountId, x.StoreId }).WillCascadeOnDelete(true);
             HasOptional(a=>a.Warehouse).WithMany(a=>a.TransMasters).HasForeignKey(x=> new {x.WarehouseId}).WillCascadeOnDelete(false);
+            HasOptional(a => a.Device).WithMany(a => a.TransMasters).HasForeignKey(x => new { x.DeviceId, x.StoreId }).WillCascadeOnDelete(false);
+
 
         }
     }

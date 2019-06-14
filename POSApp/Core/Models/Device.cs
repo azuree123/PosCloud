@@ -34,6 +34,7 @@ namespace POSApp.Core.Models
 
         public string State { get; set; }
         public virtual ICollection<IncrementalSyncronization> IncrementalSyncronizations { get; set; }=new List<IncrementalSyncronization>();
+        public virtual ICollection<TransMaster> TransMasters { get; set; } = new List<TransMaster>();
 
     }
 }

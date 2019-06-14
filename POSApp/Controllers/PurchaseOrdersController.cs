@@ -169,7 +169,7 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity,cost,batchNumber,manufactureDate,expiryDate,user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity,cost,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
 
@@ -298,7 +298,7 @@ namespace POSApp.Controllers
         [HttpPost]
         [Manage(Config.PurchaseOrders.Stock)]
 
-        public ActionResult AddStockItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost,string batchNumber,DateTime? manufactureDate, DateTime? expiryDate)
+        public ActionResult AddStockItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -311,7 +311,7 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost,batchNumber,manufactureDate,expiryDate ,user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
         [Manage(Config.PurchaseOrders.Stock)]
@@ -487,7 +487,7 @@ namespace POSApp.Controllers
         [HttpPost]
         [Manage(Config.PurchaseOrders.Transfer)]
 
-        public ActionResult AddTransferItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost,string batchNumber,DateTime? manufactureDate, DateTime? expiryDate)
+        public ActionResult AddTransferItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -501,7 +501,7 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, batchNumber,manufactureDate,expiryDate,user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
         [Manage(Config.PurchaseOrders.Transfer)]
@@ -616,7 +616,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
-
+            
             GeneratePurchaseOrderViewModel temp = new GeneratePurchaseOrderViewModel();
             po.Type = "PRI";
             if (!ModelState.IsValid)
@@ -673,7 +673,7 @@ namespace POSApp.Controllers
         [HttpPost]
         [Manage(Config.PurchaseOrders.Purchasing)]
 
-        public ActionResult AddPurchasingItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost,string batchNumber, DateTime? manufactureDate, DateTime? expireDate)
+        public ActionResult AddPurchasingItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -682,12 +682,13 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             var product = _unitOfWork.ProductRepository.GetProductById(productId, (int)user.StoreId);
-            ;
+            
+            
             decimal quantity = 0;
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost,batchNumber,manufactureDate,expireDate, user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
             return View("PoPurchasing", PoHelper.temptTransDetail);
         }
 
@@ -718,7 +719,7 @@ namespace POSApp.Controllers
 
             foreach (var modifierVmModifierOptionViewModel in productVm.TransDetailViewModels)
             {
-                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode,modifierVmModifierOptionViewModel.StoreId),modifierVmModifierOptionViewModel.Quantity,modifierVmModifierOptionViewModel.UnitPrice, modifierVmModifierOptionViewModel.BatchNumber, modifierVmModifierOptionViewModel.ManufactureDate, modifierVmModifierOptionViewModel.ExpiryDate, userid);
+                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode,modifierVmModifierOptionViewModel.StoreId),modifierVmModifierOptionViewModel.Quantity,modifierVmModifierOptionViewModel.UnitPrice, userid);
             }
 
             productVm.TransDetailViewModels = PoHelper.temptTransDetail;
@@ -899,7 +900,7 @@ namespace POSApp.Controllers
                 .GetTransDetails(id, Convert.ToInt32(user.StoreId)).ToList();
             foreach (var modifierVmModifierOptionViewModel in productVm.TransDetailViewModels)
             {
-                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode, modifierVmModifierOptionViewModel.StoreId), modifierVmModifierOptionViewModel.Quantity, modifierVmModifierOptionViewModel.UnitPrice, modifierVmModifierOptionViewModel.BatchNumber, modifierVmModifierOptionViewModel.ManufactureDate, modifierVmModifierOptionViewModel.ExpiryDate, userid);
+                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode, modifierVmModifierOptionViewModel.StoreId), modifierVmModifierOptionViewModel.Quantity, modifierVmModifierOptionViewModel.UnitPrice, userid);
             }
 
             ViewBag.js = "<script>ChangeTableFill();</script>";
@@ -1111,7 +1112,7 @@ namespace POSApp.Controllers
         [HttpPost]
         [Manage(Config.PurchaseOrders.OtherIn)]
 
-        public ActionResult AddOtherInItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost, string batchNumber, DateTime? manufactureDate, DateTime? expiryDate)
+        public ActionResult AddOtherInItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -1125,7 +1126,7 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, batchNumber,manufactureDate,expiryDate, user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
         [Manage(Config.PurchaseOrders.OtherIn)]
@@ -1288,7 +1289,7 @@ namespace POSApp.Controllers
         [Manage(Config.PurchaseOrders.OtherOut)]
         [Manage(Config.PurchaseOrders.OtherOut)]
 
-        public ActionResult AddOtherOutItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost, string batchNumber,DateTime? manufactureDate, DateTime? expiryDate)
+        public ActionResult AddOtherOutItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -1302,7 +1303,7 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost,batchNumber,manufactureDate,expiryDate, user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
 
@@ -1500,7 +1501,7 @@ namespace POSApp.Controllers
 
             foreach (var modifierVmModifierOptionViewModel in productVm.TransDetailViewModels)
             {
-                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode, modifierVmModifierOptionViewModel.StoreId), modifierVmModifierOptionViewModel.Quantity, modifierVmModifierOptionViewModel.UnitPrice,  modifierVmModifierOptionViewModel.BatchNumber, modifierVmModifierOptionViewModel.ManufactureDate, modifierVmModifierOptionViewModel.ExpiryDate,userid);
+                PoHelper.AddToTemptTransDetail(_unitOfWork.ProductRepository.GetProductByCode(modifierVmModifierOptionViewModel.ProductCode, modifierVmModifierOptionViewModel.StoreId), modifierVmModifierOptionViewModel.Quantity, modifierVmModifierOptionViewModel.UnitPrice,userid);
             }
 
             productVm.TransDetailViewModels = PoHelper.temptTransDetail;
@@ -1609,7 +1610,7 @@ namespace POSApp.Controllers
         [HttpPost]
         [Manage(Config.PurchaseOrders.Expiry)]
 
-        public ActionResult AddExpiryItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost, string batchNumber, DateTime? manufactureDate, DateTime? expiryDate)
+        public ActionResult AddExpiryItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -1623,7 +1624,7 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, batchNumber,manufactureDate,expiryDate,user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
         [Manage(Config.PurchaseOrders.Expiry)]
@@ -1795,7 +1796,7 @@ namespace POSApp.Controllers
         [HttpPost]
         [Manage(Config.PurchaseOrders.Waste)]
 
-        public ActionResult AddWasteItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost, string batchNumber,DateTime? manufactureDate, DateTime? expiryDate)
+        public ActionResult AddWasteItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -1809,7 +1810,7 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, batchNumber,manufactureDate,expiryDate,user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
         [Manage(Config.PurchaseOrders.Waste)]
@@ -1983,7 +1984,7 @@ namespace POSApp.Controllers
         [HttpPost]
         [Manage(Config.PurchaseOrders.Damage)]
 
-        public ActionResult AddDamageItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost, string batchNumber, DateTime? manufactureDate,DateTime? expiryDate)
+        public ActionResult AddDamageItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
         {
             if (PoHelper.temptTransDetail == null)
             {
@@ -1997,7 +1998,7 @@ namespace POSApp.Controllers
             quantity += purchaseQuantity;
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
-            PoHelper.AddToTemptTransDetail(product, quantity, cost, batchNumber,manufactureDate,expiryDate ,user.Id);
+            PoHelper.AddToTemptTransDetail(product, quantity, cost,user.Id);
             return View("PoTable", PoHelper.temptTransDetail);
         }
 

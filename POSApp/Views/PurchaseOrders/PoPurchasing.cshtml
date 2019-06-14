@@ -31,26 +31,18 @@
                 @foreach (var s in Model)
                 {
                     <tr>
-                        @if (s.BatchNumber == null)
-                        {
-                            <td>@(count++)</td>
-                            <td>@s.ProductName</td>
-                            <td>@String.Format("{0:#,##0.00}", s.Quantity)</td>
-                            <td>@s.UnitName</td>
-                            <td>@s.UnitPrice</td>
-                        }
-                        else
-                        {
+                        
 
                             <td>@(count++)</td>
                             <td>@s.ProductName</td>
                             <td>@String.Format("{0:#,##0.00}", s.Quantity)</td>
                             <td>@s.UnitName</td>
                             <td>@s.UnitPrice</td>
-                            <td>@s.BatchNumber</td>
-                            <td>@Convert.ToDateTime(s.ManufactureDate).ToShortDateString()</td>
-                            <td>@Convert.ToDateTime(s.ExpiryDate).ToShortDateString()</td>
-                        }
+                            <th width="15%"><input class="form-control" type="text" min="0" required="" name="BatchNumber" placeholder="BatchNumber" style="width:100%" style="width:100%" />
+                            </th>
+                            <th width="15%"> <input class="form-control unstyled" type="date" min="0" required="" name="ManufactureDate"  /></th>
+                            <th width="15%"><input class="form-control unstyled" type="date" required="" name="expireDate" /></th>
+                        
                         <td>
                             @Ajax.ActionLink(" ", "RemoveTransactionItem", "PurchaseOrders", new {productId = @s.ProductCode}, new AjaxOptions
                             {

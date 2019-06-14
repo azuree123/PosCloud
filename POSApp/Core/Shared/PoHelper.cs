@@ -12,7 +12,7 @@ namespace POSApp.Core.Shared
         public static List<TransDetailViewModel> temptTransDetail;
        
 
-        public static void AddToTemptTransDetail(Product product,decimal qty,decimal cost ,string batchNumber, DateTime? manufactureDate, DateTime? expiryDate, string userId)
+        public static void AddToTemptTransDetail(Product product,decimal qty,decimal cost , string userId)
         {
             TransDetailViewModel checkTrans = temptTransDetail
                 .Where(a => a.ProductCode == product.ProductCode && a.UnitPrice == cost && a.CreatedByUserId == userId).ToList()
@@ -34,9 +34,7 @@ namespace POSApp.Core.Shared
                 UnitPrice = cost,
                 CreatedByUserId = userId,
                 ProductName = product.Name,
-                BatchNumber = batchNumber,
-                ManufactureDate = manufactureDate,
-                ExpiryDate = expiryDate
+                
 
 
             };
