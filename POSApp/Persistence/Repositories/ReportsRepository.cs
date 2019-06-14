@@ -728,18 +728,68 @@ in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("d")).Se
 
 
 
-            var sql = @"   select t.Name as BranchName,b.Email as UserEmail,a.OperationDate as operationDate, a.OpeningAmount as OpeningAmount,
-             a.SystemAmount as SystemAmount,a.PhysicalAmount as PhysicalAmount,s.Name as ShiftName,a.TillOperationType as TillOperationType
+            var sql = @"    select t.Name as BranchName,b.UserName as UserName,a.OperationDate as operationDate, a.OpeningAmount as OpeningAmount,
+ 
+	 a.CarryOut as CarryOut
+            , a.SystemAmount as SystemAmount,a.PhysicalAmount as ClosingAmount,
+			s.Name as ShiftName,a.AdjustedCashAmount as AdjustedCashAmount,
+			 a.AdjustedCreditAmount as AdjustedCreditAmount,a.AdjustedCreditNoteAmount as AdjustedCreditNoteAmount,
+			(a.AdjustedCashAmount+a.AdjustedCreditAmount+a.AdjustedCreditNoteAmount)-(a.SystemAmount+ a.OpeningAmount) as Deficit
+			
              From   PosCloud.TillOperations as a
              inner join PosCloud.Shifts as s on a.ShiftId = s.ShiftId
              inner join AspNetUsers as b on a.ApplicationUserId = b.Id
              inner join PosCloud.Stores as t on a.StoreId = s.StoreId
-             where a.StoreId in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("d")).Select(p => "@" + p.ParameterName)) + @") and a.OperationDate >= @p3 and a.OperationDate <= @p4
-             group by b.Email,a.OperationDate,a.OpeningAmount,a.SystemAmount,a.PhysicalAmount,s.Name,a.TillOperationType,t.Name
+        
+where a.StoreId in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("d")).Select(p => "@" + p.ParameterName)) + @") and a.OperationDate >= @p3 and a.OperationDate <= @p4
+         
+             group by b.UserName,a.OperationDate,a.OpeningAmount,a.SystemAmount,a.PhysicalAmount,s.Name,t.Name, a.CarryOut ,
+			 a.AdjustedCashAmount,a.AdjustedCreditAmount,a.AdjustedCreditNoteAmount
                 ";
 
             return _context.Database.SqlQuery<TillOperationReportViewModel>(sql, parameters.ToArray()).ToList();
         }
+
+
+
+
+
+
+
+
+
+
+
+        //public List<TillOperationReportViewModel> GenerateTillOperationData(List<int> storeIds, DateTime dateFrom, DateTime dateTo)
+        //{
+
+
+        //    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-UK");
+        //    IFormatProvider UK = new CultureInfo("en-UK").DateTimeFormat;
+        //    dateFrom = Convert.ToDateTime(dateFrom, UK);
+        //    dateTo = Convert.ToDateTime(dateTo, UK);
+        //    var parameters = new List<SqlParameter> { new SqlParameter("@p3", dateFrom),
+        //        new SqlParameter("@p4", dateTo),
+        //    };
+
+        //    parameters.AddRange(storeIds.Select((id, i) => new SqlParameter("d" + i, id)));
+
+
+
+
+        //    var sql = @"   select t.Name as BranchName,b.Email as UserEmail,a.OperationDate as operationDate, a.OpeningAmount as OpeningAmount,
+        //     a.SystemAmount as SystemAmount,a.PhysicalAmount as PhysicalAmount,s.Name as ShiftName,a.TillOperationType as TillOperationType
+        //     From   PosCloud.TillOperations as a
+        //     inner join PosCloud.Shifts as s on a.ShiftId = s.ShiftId
+        //     inner join AspNetUsers as b on a.ApplicationUserId = b.Id
+        //     inner join PosCloud.Stores as t on a.StoreId = s.StoreId
+        //     where a.StoreId in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("d")).Select(p => "@" + p.ParameterName)) + @") and a.OperationDate >= @p3 and a.OperationDate <= @p4
+        //     group by b.Email,a.OperationDate,a.OpeningAmount,a.SystemAmount,a.PhysicalAmount,s.Name,a.TillOperationType,t.Name
+        //        ";
+
+        //    return _context.Database.SqlQuery<TillOperationReportViewModel>(sql, parameters.ToArray()).ToList();
+        //}
+
         public List<SalesReportViewModel> GenerateConsumptionData(List<int> storeIds, DateTime dateFrom, DateTime dateTo)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-UK");
