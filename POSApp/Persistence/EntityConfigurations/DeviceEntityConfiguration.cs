@@ -35,7 +35,7 @@ namespace POSApp.Persistence.EntityConfigurations
 
             // *******************************************************************************************RELATIONS*****************
             HasRequired(x => x.Store).WithMany(x => x.Devices).HasForeignKey(x => new { x.StoreId }).WillCascadeOnDelete(false);
-
+            
         }
     }
 }

@@ -129,9 +129,9 @@
                                                     <th>@POSApp.Resources.Resource.Quantity</th>
                                                     <th>@POSApp.Resources.Resource.Unit</th>
                                                     <th>@POSApp.Resources.Resource.Cost</th>
-                                                    <th width="15%">Batch Number</th>
-                                                    <th width="15%">ManufactureDate</th>
-                                                    <th width="15%">ExpiryDate</th>
+                                                    <th width="15%"> Batch Number</th>
+                                                    <th width="15%"> ManufactureDate</th>
+                                                    <th width="15%"> ExpiryDate</th>
                                                     <th>@POSApp.Resources.Resource.Action</th>
                                                 </tr>
                                             </thead>
@@ -150,13 +150,14 @@
                                                     <td>@item.Quantity</td>
                                                     <td>@item.UnitName</td>
                                                     <td>@item.UnitPrice</td>
-                                                    <td>@item.BatchNumber</td>
-                                                    <td>@Convert.ToDateTime(item.ManufactureDate).ToShortDateString()</td>
-                                                    <td>@Convert.ToDateTime(item.ExpiryDate).ToShortDateString()</td>
+                                                    <th width="15%"><input class="form-control" type="text" min="0" required="" name="BatchNumber" placeholder="BatchNumber" style="width:100%" style="width:100%" />
+                                                    </th>
+                                                    <th width="15%"> <input class="form-control unstyled" type="date" min="0" required="" name="ManufactureDate"  /></th>
+                                                    <th width="15%"><input class="form-control unstyled" type="date" required="" name="expireDate" /></th>
                                                     <td class="center">
                                                         <div class="btn-group">
                                                             @*<a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@item.ProductCode.ToString()','@item.StoreId.ToString()')" data-toggle="tooltip" title="Edit !"></a>*@
-                                                            @Ajax.ActionLink(" ", "DeletePurchasingItem", "Products", new { productId = item.ProductCode, storeId = item.StoreId }, new AjaxOptions { HttpMethod = "GET",
+                                                            @Ajax.ActionLink(" ", "RemoveTransactionItem", "PurchaseOrders", new { productId = item.ProductCode, storeId = item.StoreId }, new AjaxOptions { HttpMethod = "GET",
                                                                 UpdateTargetId = "AjaxUpdate"
                                                             },new{
                                                                 @onclick = "return confirm('Are you sure?')",
@@ -358,7 +359,7 @@
                 var val = $(this).val();
                 if (val !== '') {
                     $.ajax({
-                        url: "@Url.Action("GetPurchasingInfo","PurchaseOrders")",
+                        url: "@Url.Action("GetProductInfo", "PurchaseOrders")",
                         type: "GET",
                         data: { id: val },
                         success: function(data) {
