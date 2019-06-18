@@ -202,10 +202,10 @@
 
             return false;
         });
-        // Using that prm reference, hook _initializeRequest
+     
         Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(InitializeRequestBuchung);
 
-        // Abfangen von Mehrfachklicks auf Buttons für asynchrone Postbacks im Updatepanel
+        
         function InitializeRequestBuchung(sender, args) {
             var arrButtonIds = ["ButtonInsert", "ButtonUpdate"];
 
