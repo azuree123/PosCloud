@@ -49,5 +49,6 @@ namespace POSApp.Core.Repositories
         void UpdatePurchasing(int id, int storeid, TransMaster transMaster);
         void UpdateExpiry(int id, int storeid, TransMaster transMaster);
         decimal GetBeforeWeeklyIncome();
+        IEnumerable<TransMaster> GetTransMasterProducts(int id, int storeId);
     }
 }

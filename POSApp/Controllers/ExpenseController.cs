@@ -54,7 +54,10 @@ namespace POSApp.Controllers
             ExpenseViewModel expense=new ExpenseViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            expense.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem{Text = a.Name, Value = a.Id.ToString()}).AsEnumerable();
+
+            expense.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
+                .AsEnumerable();
+            
             expense.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem {Text = a.Name,Value = a.Id.ToString()})
                 .AsEnumerable();
             var isAjax = Request.IsAjaxRequest();
@@ -74,7 +77,9 @@ namespace POSApp.Controllers
             ViewBag.edit = "AddExpense";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+            expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
+                .AsEnumerable();
+
             expenseVm.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
                 .AsEnumerable();
             
@@ -91,7 +96,7 @@ namespace POSApp.Controllers
                 }
                 else
                 {
-                    expenseVm.StoreId = user.StoreId;
+                    
                     Expense expense = Mapper.Map<Expense>(expenseVm);
                     _unitOfWork.ExpenseRepository.AddExpense(expense);
                     _unitOfWork.Complete();
@@ -146,8 +151,10 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+
             ExpenseViewModel expense = Mapper.Map<ExpenseViewModel>(_unitOfWork.ExpenseRepository.GetExpenseById(id, Convert.ToInt32(user.StoreId)));
-            expense.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+            expense.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
+                .AsEnumerable();
             expense.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
                 .AsEnumerable();
             var isAjax = Request.IsAjaxRequest();
@@ -166,7 +173,8 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = "UpdateExpense";
-            expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+            expenseVm.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
+                .AsEnumerable();
             expenseVm.ExpHeadDdl = _unitOfWork.ExpenseHeadRepository.GetExpenseHeads((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() })
                 .AsEnumerable();
            
@@ -304,12 +312,18 @@ namespace POSApp.Controllers
 
         public ActionResult AddExpenseHeadPartial()
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             var isAjax = Request.IsAjaxRequest();
             if (!isAjax)
             {
                 return RedirectToAction("ExpenseHeadList");
             }
             ViewBag.edit = "AddExpenseHeadPartial";
+            ExpenseHeadViewModel expenseHead = new ExpenseHeadViewModel();
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            expenseHead.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             return View();
         }
         [HttpPost]
@@ -317,6 +331,11 @@ namespace POSApp.Controllers
 
         public ActionResult AddExpenseHeadPartial(ExpenseHeadViewModel expenseheadvm)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            expenseheadvm.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             ViewBag.edit = "AddExpenseHeadPartial";
             try
             {
@@ -330,10 +349,10 @@ namespace POSApp.Controllers
                 else
                 {
 
-                    var userid = User.Identity.GetUserId();
-                    var user = UserManager.FindById(userid);
+                   
                     expenseheadvm.StoreId = user.StoreId;
                     ExpenseHead expensehead = Mapper.Map<ExpenseHead>(expenseheadvm);
+                   
                     _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expensehead);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Expense added successfully", AlertType.Success);
@@ -400,12 +419,18 @@ namespace POSApp.Controllers
 
         public ActionResult AddExpenseHead()
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             var isAjax = Request.IsAjaxRequest();
             if (!isAjax)
             {
                 return RedirectToAction("ExpenseHeadList");
             }
             ViewBag.edit = "AddExpenseHead";
+            ExpenseHeadViewModel expenseHead = new ExpenseHeadViewModel();
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            expenseHead.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             return View();
         }
         [HttpPost]
@@ -413,7 +438,13 @@ namespace POSApp.Controllers
 
         public ActionResult AddExpenseHead(ExpenseHeadViewModel expenseHeadVm)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "AddExpenseHead";
+            
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            expenseHeadVm.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             try
             {
                 if (!ModelState.IsValid)
@@ -426,8 +457,7 @@ namespace POSApp.Controllers
                 }
                 else
                 {
-                    var userid = User.Identity.GetUserId();
-                    var user = UserManager.FindById(userid);
+                  
                     expenseHeadVm.StoreId = user.StoreId;
                     ExpenseHead expenseHead = Mapper.Map<ExpenseHead>(expenseHeadVm);
                     _unitOfWork.ExpenseHeadRepository.AddExpenseHead(expenseHead);
@@ -491,6 +521,10 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             ExpenseHeadViewModel expenseHeadVm =
                 Mapper.Map<ExpenseHeadViewModel>(_unitOfWork.ExpenseHeadRepository.GetExpenseHeadById(id, Convert.ToInt32(user.StoreId)));
+           
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            expenseHeadVm.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             return View("AddExpenseHead", expenseHeadVm);
         }
         [HttpPost]
@@ -498,7 +532,13 @@ namespace POSApp.Controllers
 
         public ActionResult UpdateExpenseHead(int id,ExpenseHeadViewModel expenseHeadVm)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             ViewBag.edit = "UpdateExpenseHead";
+            
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            expenseHeadVm.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             try
             {
                 if (!ModelState.IsValid)
@@ -512,8 +552,7 @@ namespace POSApp.Controllers
                 else
                 {
                     ExpenseHead expenseHead = Mapper.Map<ExpenseHead>(expenseHeadVm);
-                    var userid = User.Identity.GetUserId();
-                    var user = UserManager.FindById(userid);
+                    
                     _unitOfWork.ExpenseHeadRepository.UpdateExpenseHead(id, Convert.ToInt32(user.StoreId), expenseHead);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Expense head updated successfully", AlertType.Success);
@@ -614,6 +653,34 @@ namespace POSApp.Controllers
             return RedirectToAction("ExpenseHeadList");
 
         }
+
+        public ActionResult GetEmployeeInfo(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            //try
+            //{
+            //    var userid = User.Identity.GetUserId();
+            //    var user = UserManager.FindById(userid);
+            //    var storeEmployees = _unitOfWork.EmployeeRepository.GetStoreEmployee(user.StoreId);
+
+            //    EmployeeDdl employee =
+            //        Mapper.Map<EmployeeDdl>(
+            //            storeEmployees.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable());
+            //    return Json(employee, JsonRequestBehavior.AllowGet);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw;
+            //}
+            List<Employee> employee = new List<Employee>();
+           
+            employee = _unitOfWork.EmployeeRepository.GetEmployees(user.StoreId).Where(a => a.StoreId == id).ToList();
+            SelectList employeeSelect = new SelectList(employee, "Id", "Name", 0);
+            return Json(employeeSelect);
+        }
+
         public ApplicationUserManager UserManager
         {
             get

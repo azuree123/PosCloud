@@ -558,6 +558,7 @@ namespace POSApp.Controllers
 
         }
         //Purchasing
+
         [View(Config.PurchaseOrders.Purchasing)]
 
         public ActionResult PreviewPurchasing(int id)
@@ -589,7 +590,7 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).Where(a => a.Type == "PRI").OrderByDescending(a => a.Id)));
         }
-
+       
         [Manage(Config.PurchaseOrders.Purchasing)]
 
         public ActionResult AddPurchasing()
@@ -600,6 +601,8 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             po.PriDdl = _unitOfWork.TransMasterRepository.GetPurchaseInvoices((int) user.StoreId)
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.TransCode});
+            
+            
             po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
             if (PoHelper.temptTransDetail != null)
             {
@@ -616,7 +619,6 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
-            
             GeneratePurchaseOrderViewModel temp = new GeneratePurchaseOrderViewModel();
             po.Type = "PRI";
             if (!ModelState.IsValid)
@@ -635,19 +637,14 @@ namespace POSApp.Controllers
 
                 var savePo = Mapper.Map<TransMaster>(po);
 
-                IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid && a.StoreId == user.StoreId);
+                IEnumerable<TransDetailViewModel> poItems = po.TransDetailViewModels;
 
                 savePo.TotalPrice = (from a in poItems
                                      select a.Quantity * a.UnitPrice).Sum();
                 _unitOfWork.TransMasterRepository.AddTransMaster(savePo);
                 _unitOfWork.Complete();
 
-                foreach (var transDetailViewModel in poItems)
-                {
-                    transDetailViewModel.TransMasterId = savePo.Id;
-                    _unitOfWork.TransDetailRepository.AddTransDetail(Mapper.Map<TransDetail>(transDetailViewModel));
-                }
-                _unitOfWork.Complete();
+              
                 temp.TransMasterViewModel = po;
                 temp.TransMasterViewModel.TransDate = Convert.ToDateTime(savePo.TransDate).ToString("dd-MMM-yyyy");
                 temp.TransMasterViewModel.TransTime = Convert.ToDateTime(savePo.TransDate).ToShortTimeString();
@@ -673,12 +670,15 @@ namespace POSApp.Controllers
         [HttpPost]
         [Manage(Config.PurchaseOrders.Purchasing)]
 
-        public ActionResult AddPurchasingItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity, decimal cost)
+        public ActionResult AddPurchasingItem(int productId, int purchaseQuantity, int storageQuantity, int ingredientQuantity ,decimal cost)
         {
+            TransMasterViewModel po=new TransMasterViewModel();
             if (PoHelper.temptTransDetail == null)
             {
                 PoHelper.temptTransDetail = new List<TransDetailViewModel>();
             }
+
+ 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             var product = _unitOfWork.ProductRepository.GetProductById(productId, (int)user.StoreId);
@@ -689,7 +689,27 @@ namespace POSApp.Controllers
             quantity += storageQuantity / Convert.ToDecimal(product.PtoSFactor);
             quantity += (ingredientQuantity / Convert.ToDecimal(product.StoIFactor)) / Convert.ToDecimal(product.PtoSFactor);
             PoHelper.AddToTemptTransDetail(product, quantity, cost, user.Id);
-            return View("PoPurchasing", PoHelper.temptTransDetail);
+            po.TransDetailViewModels = PoHelper.temptTransDetail;
+            return View("PoPurchasing", po);
+        }
+        [Manage(Config.PurchaseOrders.Purchasing)]
+
+        public ActionResult RemovePurchasingItem(string productId)
+        {
+            TransMasterViewModel po = new TransMasterViewModel();
+
+            if (PoHelper.temptTransDetail == null)
+            {
+                PoHelper.temptTransDetail = new List<TransDetailViewModel>();
+                po.TransDetailViewModels = PoHelper.temptTransDetail;
+                return View("PoPurchasing", po);
+            }
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            PoHelper.RemoveFromTemptTransDetail(productId, (int)user.StoreId, user.Id);
+            po.TransDetailViewModels = PoHelper.temptTransDetail;
+            return View("PoPurchasing", po);
+
         }
 
         [Manage(Config.PurchaseOrders.Purchasing)]

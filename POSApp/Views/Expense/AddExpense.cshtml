@@ -55,7 +55,7 @@
 
                                 <div class="row">
                                     <div class="form-group">
-
+                                       
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.ExpenseHeadId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
@@ -66,17 +66,25 @@
                                                 @Html.ValidationMessageFor(model => model.ExpenseHeadId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
+                                      
                                         <div class="col-md-6">
                                             @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label required1" })
                                             <div class="input-group">
-                                                @Html.DropDownListFor(model => model.EmployeeId, Model.EmpDdl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control", @required = true })
+                                                @Html.DropDownListFor(model => model.EmployeeId, Model.EmpDdl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control",@id = "employeeDdl", @required = true })
                                                 <span class="input-group-addon" style="   ">
                                                     <a href="@Url.Action("AddEmployeePartial","Setup")" class="modalShow5" id="#arrButtonIds">   <i class="fa fa-plus "></i></a>
                                                 </span>
                                                 @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
                                             </div>
+                                            
                                         </div>
 
+                                    </div>
+                                 
+                                    <div class="col-md-6">
+                                        @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label required1" })
+                                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
+                                        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="row">
@@ -112,12 +120,8 @@
                                             }
                                             @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                                         </div>
+                                       
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @type = "number", @min = "0", @class = "form-control", @required = true } })
-                                            @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-12">
                                             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
                                             @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @cols = "8", @rows = "3" })
                                             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
@@ -143,6 +147,7 @@
 
     <div id="ModalData1"></div>
     <div id="ModalData2"></div>
+    
     <script>
         function UpdateDdlExpenseHead() {
             $.ajax({

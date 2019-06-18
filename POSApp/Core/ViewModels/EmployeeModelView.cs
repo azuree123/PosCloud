@@ -48,4 +48,6 @@ namespace POSApp.Core.ViewModels
         public IEnumerable<SelectListItem> ShiftDdl { get; set; }
         public IEnumerable<SelectListItem> DesignationDdl { get; set; }
     }
+
+    
 }

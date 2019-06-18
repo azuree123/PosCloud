@@ -16,7 +16,7 @@ namespace POSApp.Core.ViewModels
         public int? StoreId { get; set; }
         
         public string Name { get; set; }
-
+        public string ProductCode { get; set; }
         public string TransferTo { get; set; }
         public int? WarehouseId { get; set; }
         public string WarehouseName { get; set; }
@@ -59,6 +59,6 @@ namespace POSApp.Core.ViewModels
     }
 
   
-  
+
 
 }
