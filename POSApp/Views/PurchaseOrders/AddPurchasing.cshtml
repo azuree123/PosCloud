@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "AddPurchasing";
-    int number = 1;
+
 }
 <style>
     .table > thead > tr > th {
@@ -51,10 +51,10 @@
                         <div id="transactionitems" class="tab-pane active">
                             @using (Html.BeginForm())
                             {
-                                
+
                                 @Html.HiddenFor(a => a.TransCode)
                                 @Html.HiddenFor(a => a.StoreId)
-                            <button type="submit" class="btn outline-success btn-sm hidden" id="basicSubmit" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> @POSApp.Resources.Resource.Save</button>
+                                <button type="submit" class="btn outline-success btn-sm hidden" id="basicSubmit" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> @POSApp.Resources.Resource.Save</button>
 
                                 <h4 class="mt-none mb-lg text-weight-semibold ">@POSApp.Resources.Resource.BasicData</h4>
                                 <div class="row">
@@ -63,7 +63,7 @@
 
 
                                 </div>
-          
+
                                 <div class="row">
 
                                     <div class="col-md-4 col-lg-offset-2">
@@ -108,81 +108,96 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class=" mb-lg" id="header-flex">
+                                    <h4 class="mt-xs   text-weight-semibold " style="flex-grow: 8">@POSApp.Resources.Resource.TransactionItems</h4>
 
 
-                            }
-                          
-                            <div class=" mb-lg" id="header-flex">
-                                <h4 class="mt-xs   text-weight-semibold " style="flex-grow: 8">@POSApp.Resources.Resource.TransactionItems</h4>
-                 
-
-                            </div>
-                            @{Html.RenderAction("AddPurchasingItem", "PurchaseOrders");}
-                            <div id="AjaxUpdate">
-                                <div class="row mb-lg">
-                                    <div class="col-md-12">
-                                        <table class="table mb-none" style="width: 100%" id="datatable-default">
-                                            <thead>
-                                                <tr>
-                                                    <th>@POSApp.Resources.Resource.ID</th>
-                                                    <th>@POSApp.Resources.Resource.name</th>
-                                                    <th>@POSApp.Resources.Resource.Quantity</th>
-                                                    <th>@POSApp.Resources.Resource.Unit</th>
-                                                    <th>@POSApp.Resources.Resource.Cost</th>
-                                                    <th width="15%"> Batch Number</th>
-                                                    <th width="15%"> ManufactureDate</th>
-                                                    <th width="15%"> ExpiryDate</th>
-                                                    <th>@POSApp.Resources.Resource.Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (Model.TransDetailViewModels != null)
-                                                {
-
-                                                    if (Model.TransDetailViewModels.Count() > 0)
+                                </div>
+                                <div id="AjaxUpdate">
+                                    <div class="row mb-lg">
+                                        <div class="col-md-12">
+                                            <table class="table mb-none" style="width: 100%" id="datatable-default">
+                                                <thead>
+                                                    <tr>
+                                                        <th>@POSApp.Resources.Resource.ID</th>
+                                                        <th>@POSApp.Resources.Resource.name</th>
+                                                        <th>@POSApp.Resources.Resource.Quantity</th>
+                                                        <th>@POSApp.Resources.Resource.Unit</th>
+                                                        <th>@POSApp.Resources.Resource.Cost</th>
+                                                        <th width="15%"> Batch Number</th>
+                                                        <th width="15%"> ManufactureDate</th>
+                                                        <th width="15%"> ExpiryDate</th>
+                                                        <th>@POSApp.Resources.Resource.Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model.TransDetailViewModels != null)
                                                     {
 
-                                                        foreach (var item in Model.TransDetailViewModels)
+                                                        if (Model.TransDetailViewModels.Count() > 0)
                                                         {
-                                                <tr>
-                                                    <td>@(number++)</td>
-                                                    <td>@item.ProductName</td>
-                                                    <td>@item.Quantity</td>
-                                                    <td>@item.UnitName</td>
-                                                    <td>@item.UnitPrice</td>
-                                                    <th width="15%"><input class="form-control" type="text" min="0" required="" name="BatchNumber" placeholder="BatchNumber" style="width:100%" style="width:100%" />
-                                                    </th>
-                                                    <th width="15%"> <input class="form-control unstyled" type="date" min="0" required="" name="ManufactureDate"  /></th>
-                                                    <th width="15%"><input class="form-control unstyled" type="date" required="" name="expireDate" /></th>
-                                                    <td class="center">
-                                                        <div class="btn-group">
-                                                            @*<a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@item.ProductCode.ToString()','@item.StoreId.ToString()')" data-toggle="tooltip" title="Edit !"></a>*@
-                                                            @Ajax.ActionLink(" ", "RemoveTransactionItem", "PurchaseOrders", new { productId = item.ProductCode, storeId = item.StoreId }, new AjaxOptions { HttpMethod = "GET",
-                                                                UpdateTargetId = "AjaxUpdate"
-                                                            },new{
-                                                                @onclick = "return confirm('Are you sure?')",
-                                                                @class = "btn btn-danger btn-sm fa fa-trash-o",
-                                                                @style = "color: #ffffff;"
-                                                            })
-                                                        </div>
-                                                    </td>
-                                                </tr>
+
+                                                            for (int number = 0; number < Model.TransDetailViewModels.Count; number++)
+                                                            {
+                                                                @Html.HiddenFor(a => a.TransDetailViewModels[number].ProductCode)
+                                                                @Html.HiddenFor(a => a.TransDetailViewModels[number].StoreId)
+                                                                @Html.HiddenFor(a => a.TransDetailViewModels[number].Id)
+                                                                @Html.HiddenFor(a => a.TransDetailViewModels[number].Quantity)
+                                                                @Html.HiddenFor(a => a.TransDetailViewModels[number].ProductName)
+                                                                @Html.HiddenFor(a => a.TransDetailViewModels[number].UnitName)
+                                                                @Html.HiddenFor(a => a.TransDetailViewModels[number].UnitPrice)
+                                                                <tr>
+                                                                    <td>@(number + 1)</td>
+                                                                    <td>@Html.DisplayFor(a => a.TransDetailViewModels[number].ProductName)</td>
+                                                                    <td>@Html.DisplayFor(a => a.TransDetailViewModels[number].Quantity)</td>
+                                                                    <td>@Html.DisplayFor(a => a.TransDetailViewModels[number].UnitName)</td>
+                                                                    <td>@Html.DisplayFor(a => a.TransDetailViewModels[number].UnitPrice)</td>
+                                                                    <th width="15%">
+                                                                        @Html.TextBoxFor(a => a.TransDetailViewModels[number].BatchNumber, new { @class = "form-control", @type = "text", @required = "", @placeholder = "BatchNumber", @style = "width: 100%" })
+                                                                    </th>
+                                                                    <th width="15%">
+                                                                        @Html.TextBoxFor(a => a.TransDetailViewModels[number].ManufactureDate, new { @class = "form-control unstyled", @type = "date", @required = "", @placeholder = "BatchNumber", @style = "width: 100%" })
+                                                                    </th>
+                                                                    <th width="15%">
+                                                                        @Html.TextBoxFor(a => a.TransDetailViewModels[number].ExpiryDate, new { @class = "form-control unstyled", @type = "date", @required = "", @placeholder = "BatchNumber", @style = "width: 100%" })
+                                                                    </th>
+                                                                    <td class="center">
+                                                                        <div class="btn-group">
+                                                                            @*<a href="#" class="btn btn-default text-success btn-sm fa fa-edit  " onclick="ShowUpdate('@item.ProductCode.ToString()','@item.StoreId.ToString()')" data-toggle="tooltip" title="Edit !"></a>*@
+                                                                            @Ajax.ActionLink(" ", "RemovePurchasingItem", "PurchaseOrders", new {productId = Model.TransDetailViewModels[number].ProductCode, storeId = Model.TransDetailViewModels[number].StoreId}, new AjaxOptions
+                                                                            {
+                                                                                HttpMethod = "GET",
+                                                                                UpdateTargetId = "AjaxUpdate"
+                                                                            }, new
+                                                                            {
+                                                                                @onclick = "return confirm('Are you sure?')",
+                                                                                @class = "btn btn-danger btn-sm fa fa-trash-o",
+                                                                                @style = "color: #ffffff;"
+                                                                            })
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">@POSApp.Resources.Resource.Norecordsfound</td>
+                                                            </tr>
                                                         }
                                                     }
-                                                    else
-                                                    {
-                                                        <tr>
-                                                            <td colspan="8" class="text-center">@POSApp.Resources.Resource.Norecordsfound</td>
-                                                        </tr>
-                                                    }
-                                                }
 
 
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+
+          
+                            @{Html.RenderAction("AddPurchasingItem", "PurchaseOrders");}
+
                             <div class="hidden">
                                 <h4 class="mb-lg ">Add items From Tag</h4>
                                 <div class="row mb-lg">

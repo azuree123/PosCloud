@@ -17,5 +17,6 @@ namespace POSApp.Core.Repositories
        Task<Employee> GetEmployeeByIdAsync(int id, int storeid);
        Task AddEmployeeAsync(Employee employee);
        Task<IEnumerable<Employee>> GetAllEmployeesAsyncIncremental(int storeId, DateTime date);
+       IEnumerable<Employee> GetStoreEmployee(int id);
    }
 }

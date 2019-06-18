@@ -50,7 +50,22 @@ namespace POSApp.Persistence.Repositories
 
             return data;
         }
+        public IEnumerable<TransMaster> GetTransMasterProducts(int id, int storeId)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", id) };
+            var sql = @"select c.Name as ProductName from PosCloud.TransMaster as a 
+            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
+			
+            inner join PosCloud.Products as c on b.ProductCode=c.ProductCode 
+            where c.InventoryItem ='1' and b.Id = @p2 and a.StoreId=@p1
+            group by c.Name,b.Id
+                ";
+            var data =  _context.Database.SqlQuery<TransMaster>(sql, parameters.ToArray()).ToList();
+            return data;
 
+
+
+        }
         public IQueryable<TransMasterViewModel> GetDailyRefundsQuery(int storeId)
         {
             DateTime today = DateTime.Now;

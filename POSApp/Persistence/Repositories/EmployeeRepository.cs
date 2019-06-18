@@ -21,7 +21,10 @@ namespace POSApp.Persistence.Repositories
         {
             return await _context.Employees.Where(a => a.StoreId == storeId && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
         }
-
+        public IEnumerable<Employee> GetStoreEmployee(int id)
+        {
+            return _context.Stores.Include(a => a.Employees).Where(a => a.Id == id).Select(a => a.Employees).FirstOrDefault();
+        }
         public IEnumerable<Employee> GetEmployees(int storeId)
         {
             return _context.Employees.Where(a=>a.StoreId == storeId && !a.IsDisabled).ToList();

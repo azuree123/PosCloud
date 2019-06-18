@@ -127,7 +127,7 @@
 
     $('#AccessesSelect').on("change",
         function () {
-            debugger;
+            
             $.populateDDL("Features", "@Url.Action("GetDdlEnum", "User")", "POST", $(this).val(), false);
         });
 </script>

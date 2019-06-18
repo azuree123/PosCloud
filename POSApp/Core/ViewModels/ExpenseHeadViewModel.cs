@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using POSApp.Resources;
 
 namespace POSApp.Core.ViewModels
@@ -19,5 +21,6 @@ namespace POSApp.Core.ViewModels
         public string CreatedBy { get; set; }
         [Display(Name = "Code", ResourceType = typeof(Resource))]
         public string Code { get; set; }
+        public IEnumerable<SelectListItem> StoreDdl { get; set; }
     }
 }
