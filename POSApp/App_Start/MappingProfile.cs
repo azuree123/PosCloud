@@ -57,7 +57,6 @@ namespace POSApp
             CreateMap<ProductCategoryGroup, ProductCategoryGroupViewModel>();
             CreateMap<UnitViewModel, Unit>();
             CreateMap<Unit, UnitViewModel>();
-            CreateMap<ExpenseViewModel, Employee>();
             CreateMap<ClientViewModel, Client>();
             CreateMap<Client, ClientViewModel>();
             CreateMap<ProductSyncViewModel, Product>() ;

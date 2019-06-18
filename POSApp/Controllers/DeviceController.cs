@@ -45,9 +45,6 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             DeviceViewModel Device = new DeviceViewModel();
             
-          
-
-
             var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
             Device.StoreDDl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();

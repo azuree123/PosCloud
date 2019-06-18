@@ -38,7 +38,24 @@ body, html {
 	height: 100%;
 	font-family: Poppins-Regular, sans-serif;
 }
-
+.boxx {
+    border: #dedcdc solid 1px;
+    height: 148px;
+    width: 287px;
+    overflow-y: scroll;
+    box-shadow: -2px 7px 33px 17px #dedcdc;
+    padding: 25px 25px;
+    overflow-y: scroll;
+    font-weight: bold;
+}
+.lih:hover {
+    background-color: #50b948;
+    color: #ffffff;
+    padding: 3px 612px 3px 6px;
+}
+::-webkit-scrollbar {
+    display: none;
+}
 /*---------------------------------------------*/
 a {
 	font-family: Poppins-Regular;

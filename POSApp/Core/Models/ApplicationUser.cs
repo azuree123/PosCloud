@@ -13,6 +13,11 @@ namespace POSApp.Core.Models
     public class ApplicationUser : IdentityUser
     {
 
+        public ApplicationUser()
+        {
+            this.Stores = new HashSet<Store>();
+        }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -20,9 +25,9 @@ namespace POSApp.Core.Models
             // Add custom user claims here
             return userIdentity;
         }
-
-        // public int StoreId { get; set; }
-        public string PasswordEncrypt { get; set; }
+      
+    // public int StoreId { get; set; }
+    public string PasswordEncrypt { get; set; }
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
         
@@ -42,6 +47,7 @@ namespace POSApp.Core.Models
         [Column(TypeName = "DateTime2")]
         public DateTime UpdatedOn { get; set; }
         public virtual ICollection<TillOperation> TillOperations { get; set; }
+        public virtual ICollection<Store> Stores { get; set; }
     }
 
    

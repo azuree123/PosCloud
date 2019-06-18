@@ -114,6 +114,18 @@ namespace POSApp.Controllers
             return View();
         }
 
+        public ActionResult AllStores()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            
+
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+
+           
+            return View(clientStores);
+        }
         public JsonResult GetGraphData()
         {
             try

@@ -5,6 +5,10 @@ namespace POSApp.Core.Models
 {
     public class Store : AuditableEntity
     {
+        public Store()
+        {
+            this.ApplicationUsers = new HashSet<ApplicationUser>();
+        }
         public int Id { get; set; }
 
        // public string Reference { get; set; } //code

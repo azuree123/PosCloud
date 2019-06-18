@@ -67,8 +67,8 @@ namespace POSApp.Persistence
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<IncrementalSyncronization>  IncrementalSyncronizations { get; set; }
         public DbSet<ComboProductsTransDetail> ComboProductsTransDetails { get; set; }
-        
 
+        public DbSet<UserStore> UserStores { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
           
@@ -85,6 +85,18 @@ namespace POSApp.Persistence
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany<Store>(s => s.Stores)
+                .WithMany(c => c.ApplicationUsers)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("ApplicationUserId");
+                    cs.MapRightKey("StoreId");
+                    cs.ToTable("UserStore");
+                });
+
 
             //modelBuilder.Configurations.Add(new ApplicationUserEntityConfiguration());
             //modelBuilder.Configurations.Add(new UserRoleConfiguration());
