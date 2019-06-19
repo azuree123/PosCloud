@@ -205,6 +205,9 @@ namespace POSApp.Controllers
             RegisterViewModel model = new RegisterViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            model.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             return View(model);
         }
@@ -216,6 +219,8 @@ namespace POSApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
             //if (ModelState.IsValid)
             //{
 
@@ -249,13 +254,17 @@ namespace POSApp.Controllers
                 else
                 {
 
-                    int storeId = _unitOfWork.StoreRepository.GetStores().Select(a => a.Id).FirstOrDefault();
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StoreId = storeId, PasswordEncrypt = Security.EncryptString(model.Password, "E546C8DF278CD5931069B522E695D4F2") };
-                    var result = await UserManager.CreateAsync(user, model.Password);
+                    var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+                    var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+                    model.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+                    var users = new ApplicationUser { UserName = model.Email, Email = model.Email, StoreId = model.StoreId,EmployeeId = model.EmployeeId, PasswordEncrypt = Security.EncryptString(model.Password, "E546C8DF278CD5931069B522E695D4F2") };
+                    var result = await UserManager.CreateAsync(users, model.Password);
                     model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
                     if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        //await SignInManager.SignInAsync(users, isPersistent: false, rememberBrowser: false);
+
+                        
 
 
 

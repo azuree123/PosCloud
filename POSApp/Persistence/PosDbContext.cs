@@ -87,15 +87,7 @@ namespace POSApp.Persistence
         {
 
 
-            modelBuilder.Entity<ApplicationUser>()
-                .HasMany<Store>(s => s.Stores)
-                .WithMany(c => c.ApplicationUsers)
-                .Map(cs =>
-                {
-                    cs.MapLeftKey("ApplicationUserId");
-                    cs.MapRightKey("StoreId");
-                    cs.ToTable("UserStore");
-                });
+        
 
 
             //modelBuilder.Configurations.Add(new ApplicationUserEntityConfiguration());
@@ -144,7 +136,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new WarehouseEntityConfiguration());
             modelBuilder.Configurations.Add(new ClientEntityConfiguration());
             modelBuilder.Configurations.Add(new IncrementalSyncronizationEntityConfiguration());
-            
+            modelBuilder.Configurations.Add(new UserStoreEntityConfiguration());
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             base.OnModelCreating(modelBuilder);

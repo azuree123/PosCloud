@@ -5,10 +5,7 @@ namespace POSApp.Core.Models
 {
     public class Store : AuditableEntity
     {
-        public Store()
-        {
-            this.ApplicationUsers = new HashSet<ApplicationUser>();
-        }
+      
         public int Id { get; set; }
 
        // public string Reference { get; set; } //code
@@ -59,7 +56,7 @@ namespace POSApp.Core.Models
         public virtual ICollection<Warehouse> Warehouses { get; set; }
         public virtual ICollection<ComboProductsTransDetail> ComboProductsTransDetails { get; set; }
         public virtual ICollection<AppCounter> AppCounters { get; set; }=new List<AppCounter>();
-        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; } =new List<ApplicationUser>();
+        public virtual ICollection<UserStore> UserStores { get; set; } =new List<UserStore>();
 
     }
 }

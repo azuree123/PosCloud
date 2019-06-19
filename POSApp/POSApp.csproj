@@ -758,9 +758,9 @@
     <Compile Include="Migrations\201906141501361_adfklsdfgjdsf.Designer.cs">
       <DependentUpon>201906141501361_adfklsdfgjdsf.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906181330171_userStore.cs" />
-    <Compile Include="Migrations\201906181330171_userStore.Designer.cs">
-      <DependentUpon>201906181330171_userStore.cs</DependentUpon>
+    <Compile Include="Migrations\201906190950134_userstores-1.cs" />
+    <Compile Include="Migrations\201906190950134_userstores-1.Designer.cs">
+      <DependentUpon>201906190950134_userstores-1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
@@ -778,6 +778,7 @@
     <Compile Include="Persistence\EntityConfigurations\SizeEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TillOperationEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransMasterPaymentMethodEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\UserStoreEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\WarehouseEntityConfiguration.cs" />
     <Compile Include="Persistence\Repositories\ComboProductTransDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\DesignationRepository.cs" />
@@ -4430,8 +4431,8 @@
     <EmbeddedResource Include="Migrations\201906141501361_adfklsdfgjdsf.resx">
       <DependentUpon>201906141501361_adfklsdfgjdsf.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906181330171_userStore.resx">
-      <DependentUpon>201906181330171_userStore.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906190950134_userstores-1.resx">
+      <DependentUpon>201906190950134_userstores-1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BatchWiseExpiry.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
