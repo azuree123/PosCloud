@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using POSApp.Core.Models;
+using POSApp.Core.ViewModels;
 
 namespace POSApp.Core.Repositories
 {
@@ -18,5 +19,6 @@ namespace POSApp.Core.Repositories
         Task<Client> GetClientAsync(int id);
         Task AddClientAsync(Client client);
         IEnumerable<Store> GetClientStore(int id);
+        IEnumerable<UserStoreViewModel> GetUserStore(string id);
     }
 }

@@ -496,6 +496,7 @@
     <Compile Include="Core\ViewModels\TaxReportViewModel.cs" />
     <Compile Include="Core\ViewModels\TopEmployeeSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\TransferReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\UserStoreViewModel.cs" />
     <Compile Include="Core\ViewModels\VoidReasonsReportViewModel.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerSaleReportViewModel.cs" />
@@ -1392,6 +1393,7 @@
     <Compile Include="Services\MultiLanguage.cs" />
     <Compile Include="Services\Security.cs" />
     <Compile Include="Services\SecurityFilter.cs" />
+    <Compile Include="Services\UserStores.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

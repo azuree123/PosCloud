@@ -1,4 +1,4 @@
-﻿@model IEnumerable<POSApp.Core.Models.Store>
+﻿@model IEnumerable<POSApp.Core.ViewModels.UserStoreViewModel>
 
 @{
     Layout = null;
@@ -56,11 +56,11 @@
                         <div class="col-md-6 boxx">
                            
                             <ul>
-                            @foreach (var device in Model)
+                            @foreach (var store in Model)
                             {
                                
                                    
-                                <a href="#"><li class="lih">@device.Name</li></a>
+                                <a href="#"><li class="lih">@store.StoreName</li></a>
                                    
                                
                             }

@@ -11,6 +11,7 @@ using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
 using POSApp.SecurityFilters;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {

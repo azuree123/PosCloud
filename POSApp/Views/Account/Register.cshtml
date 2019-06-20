@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     @Html.LabelFor(model => model.StoreId, htmlAttributes: new { @class = "control-label required1 " })
-                                    @Html.DropDownListFor(model => model.StoreId, Model.StoreDdl, "Select an store", new { @class = "form-control", @required = true })
+                                    @Html.DropDownListFor(model => model.StoreId, Model.StoreDdl, "Select an store", new { @class = "form-control", @required = true,@onchange= "Changed(this.value)" })
                                     @Html.ValidationMessageFor(model => model.StoreId, "", new { @class = "text-danger" })
                                 </div>
                                
@@ -102,8 +102,13 @@
                                 @Html.TextAreaFor(m => m.Address, new { @class = "form-control ", placeholder = "Enter Address" })
                                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                             </div>
+                            <div class="col-lg-6">
+                                @Html.LabelFor(model => model.StoreIds, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(m => m.StoreIds,Model.StoreDdl,null, new { @class = "form-control " ,@multiple= "multiple" })
+                                @Html.ValidationMessageFor(model => model.StoreIds, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-
+                     
 
                         <div class="row" style="margin-top: 25px">
 
@@ -145,6 +150,7 @@
    
 
 
+
     
 
  
@@ -163,105 +169,6 @@
 
 
 
-@*<section class="body-sign">
-    <div class="center-sign">
-        <a href="/" class="logo pull-left">
-                <img src="~/Content/images/logo.png" height="54" alt="Porto Admin" />
-            </a>
-
-        <div class="panel panel-sign">
-            <div class="panel-title-sign mt-xl text-right">
-                <h2 class="title text-uppercase text-weight-bold m-none">
-                    <i class="fa fa-user mr-xs"></i> User Sign Up
-                </h2>
-            </div>
-            <div class="panel-body">*@
-                @*@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "logoutForm" }))*@
-                @*{*@
-
-                    @*<p class="label bg-default text-danger">
-                        All fields are required.
-
-                    </p>*@
-
-                    @*@Html.AntiForgeryToken()*@
-                    <!-- Regular Signup -->
-                    @*<div class="regular-signup">*@
-
-                        @*<br />
-
-                        <div>
-                            @Html.ValidationSummary("", new { @class = "text-danger" })
-                        </div>
-
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control c-textbox mb-lg", autofocus = "autofocus", placeholder = "Enter your email", @required = true })
-
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control c-textbox mb-lg", placeholder = "Type Password- 6 digits", @required = true })*@
-
-                        @*<a href="javascript:void(0);" class="password-generate pass-actions">
-                                <i class="fa fa-refresh"></i>
-                            </a>
-                            <div class="progress">
-                                <div class="progress-bar password-output" style="width: 0%"></div>
-                            </div>
-                        <div class="clearfix spacer-20"></div>*@
-                        @*@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control c-textbox mb-lg", placeholder = "Confirm your password" })
-
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter your name" })
-                        @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter your company name(if)" })
-                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter your Mobile Number" })
-                        @Html.DropDownListFor(model => model.EmployeeId, Model.EmpDdl, "Select an Option", new { @class = "form-control c-textbox", @required = true })
-                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control c-textbox mb-lg", placeholder = "Enter Address" })*@
-
-
-
-
-
-
-
-
-                        @*<label class="checkbox-inline">@Html.CheckBoxFor(m => m.IsAdmin, new { @class = "checkbox" }) I am a Admin.</label>*@
-
-                        @*<label><input type="checkbox"> By signing up, I agree to the <a href="#">terms &amp; conditions</a> and <a href="#">privacy policy</a></label>*@
-
-
-                        @*<div class="form-group">
-                                <div class="g-recaptcha" data-sitekey="6LfamB4UAAAAAI9PypwbSZZMFdqZi35iWGahWpUr"></div>
-                                <div>
-                                    @if (TempData["recaptcha"] != null)
-                                    {
-                                        <p>TempData["recaptcha"].ToString()</p>
-                                    }
-                                </div>
-                            </div>*@
-                        @*<div class="spacer-20"></div>
-                        <div class="row">
-                            <div class="col-md-6">
-
-
-                                <a href="#" onclick="window.history.go(-1); return false;" style="text-decoration:none"><button type="button" class="btn btn-danger btn-block btn-md " value="">Back </button></a>
-
-
-                            </div>
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-success btn-block btn-md ">Create account</button>
-                            </div>
-                        </div>
-
-
-                    </div>*@
-                    <!-- Social Signup -->
-                    @*<div class="social-signup">
-                            <span class="or-break">or</span>
-                            <button type="button" class="btn btn-block btn-facebook btn-social"><i class="fa fa-facebook"></i> Signup with Facebook</button>
-                            <button type="button" class="btn btn-block btn-twitter btn-social"><i class="fa fa-twitter"></i> Signup with Twitter</button>
-                        </div>*@
-                @*}*@
-            @*</div>
-        </div>
-
-    </div>
-</section>*@
 
 <!-- End Body Content -->
 
@@ -269,24 +176,28 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-        //$('form','#loginForm').on('submit', function (e) {
-        //    var $form = $(this);
-
-        //    if (!$form.data('submitted') && $form.valid()) {
-        //        // mark it so that the next submit can be ignored
-        //        $form.data('submitted', true);
-        //        return;
-        //    }
-
-        //    // form is invalid or previously submitted - skip submit
-        //    e.preventDefault();
-        //});
-
+        $("#@Html.IdFor(a=>a.StoreIds)").select2();
+        function Changed(val) {
+            if (val !== '') {
+                var $dropdown = $('#@Html.IdFor(a=>a.StoreIds)');
+                $dropdown.empty();
+                @foreach (var stores in Model.StoreDdl)
+                {
+                    <text>
+                        if(parseInt(val)!==@stores.Value)
+                            $dropdown.append($("<option />").val(@stores.Value).text('@stores.Text'));
+                    </text>
+                }
+              
+            }
+     
+        }
         //prevent double form submission
         $('form', '#logoutForm').submit(function () {
             if ($(this).valid()) {
                 $(this).find(':submit').attr('disabled', 'disabled');
             }
         });
+
     </script>
 }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using POSApp.Core.Models;
 using POSApp.Core.Repositories;
+using POSApp.Core.ViewModels;
 
 namespace POSApp.Persistence.Repositories
 {
@@ -43,8 +45,21 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Clients.Include(a=>a.Stores).Where(a=>a.Id==id).Select(a=>a.Stores).FirstOrDefault();
         }
+        public IEnumerable<UserStoreViewModel> GetUserStore(string id)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", id) };
+            var sql = @"select b.Id,b.Name as StoreName
+            
+			from PosCloud.UserStores as a 
+            inner join PosCloud.Stores as b on a.StoreId=b.Id
+			
+           where a.ApplicationUserId = @p1
 
-      
+                ";
+            var data = _context.Database.SqlQuery<UserStoreViewModel>(sql, parameters.ToArray()).ToList();
+            return data;
+        }
+
         public void AddClient(Client client)
         {
             var inDb = _context.Clients.FirstOrDefault(a => a.Name == client.Name);
