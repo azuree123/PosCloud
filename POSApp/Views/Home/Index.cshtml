@@ -270,6 +270,34 @@
                     </a>
                 </section>
             </div>
+            
+                   
+            <div class="col-xs-12 col-lg-3 col-xl-3">
+                <section class="panel panel-featured-left panel-featured-secondary">
+                    <a href="@Url.Action("TillOperationList","Setup")">
+                        <div class="panel-body">
+                            <div class="widget-summary">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon">
+                                        <img src="~/Content/images/icons/expenceicon.png"/>
+
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Deficits</h4>
+                                        <div class="info">
+                                            <strong class="amount">@string.Format("{0:N2}", Model.Deficts)</strong>
+                                            @*<a href="#" class="text-danger text-xs"> (view more)</a>*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </section>
+            </div>
         </div>
     </div>
 </div>

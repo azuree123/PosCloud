@@ -17,6 +17,7 @@ namespace POSApp.Core.ViewModels
         [DefaultValue(0)]
         public decimal Refunds { get; set; }
 
+        public decimal Deficts { get; set; }
         public List<StoreData> StoreDatas { get; set; }
 
     }
