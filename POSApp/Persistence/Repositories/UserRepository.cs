@@ -111,7 +111,7 @@ namespace POSApp.Persistence.Repositories
         public UserRoleDataViewModel GetUserLoginData(string userId)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", userId) };
-            var sql = @"SELECT  a.Id,c.Name
+            var sql = @"SELECT  a.Id,c.Name,a.StoreId
          ,ISNULL(STUFF((SELECT ', ' + CAST(e.Name AS VARCHAR(100)) [text()]
          FROM PosCloud.SecurityRights as d  inner join
         PosCloud.SecurityObjects as e on d.SecurityObjectId=e.SecurityObjectId

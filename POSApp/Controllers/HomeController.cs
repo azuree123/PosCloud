@@ -120,6 +120,17 @@ namespace POSApp.Controllers
             return View();
         }
 
+        public ActionResult AllStores()
+        {
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            
+
+            var userStores = _unitOfWork.ClientRepository.GetUserStore(user.Id);
+
+            
+            return View(userStores);
+        }
         public JsonResult GetGraphData()
         {
             try

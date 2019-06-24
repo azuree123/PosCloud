@@ -20,9 +20,9 @@ namespace POSApp.Core.Models
             // Add custom user claims here
             return userIdentity;
         }
-
-        // public int StoreId { get; set; }
-        public string PasswordEncrypt { get; set; }
+      
+    // public int StoreId { get; set; }
+    public string PasswordEncrypt { get; set; }
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
         
@@ -42,6 +42,7 @@ namespace POSApp.Core.Models
         [Column(TypeName = "DateTime2")]
         public DateTime UpdatedOn { get; set; }
         public virtual ICollection<TillOperation> TillOperations { get; set; }
+        public virtual ICollection<UserStore> UserStores { get; set; }=new List<UserStore>();
     }
 
    

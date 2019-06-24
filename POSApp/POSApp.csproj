@@ -429,6 +429,7 @@
     <Compile Include="Core\Models\TransMaster.cs" />
     <Compile Include="Core\Models\TransMasterPaymentMethod.cs" />
     <Compile Include="Core\Models\Unit.cs" />
+    <Compile Include="Core\Models\UserStore.cs" />
     <Compile Include="Core\Models\Warehouse.cs" />
     <Compile Include="Core\Repositories\IAppCountersRepository.cs" />
     <Compile Include="Core\Repositories\IBusinessPartnerRepository.cs" />
@@ -495,6 +496,7 @@
     <Compile Include="Core\ViewModels\TaxReportViewModel.cs" />
     <Compile Include="Core\ViewModels\TopEmployeeSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\TransferReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\UserStoreViewModel.cs" />
     <Compile Include="Core\ViewModels\VoidReasonsReportViewModel.cs" />
     <Compile Include="Core\ViewModels\CustomerModelView.cs" />
     <Compile Include="Core\ViewModels\CustomerSaleReportViewModel.cs" />
@@ -757,9 +759,9 @@
     <Compile Include="Migrations\201906141501361_adfklsdfgjdsf.Designer.cs">
       <DependentUpon>201906141501361_adfklsdfgjdsf.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906141539282_ooptttt.cs" />
-    <Compile Include="Migrations\201906141539282_ooptttt.Designer.cs">
-      <DependentUpon>201906141539282_ooptttt.cs</DependentUpon>
+    <Compile Include="Migrations\201906190950134_userstores-1.cs" />
+    <Compile Include="Migrations\201906190950134_userstores-1.Designer.cs">
+      <DependentUpon>201906190950134_userstores-1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\ApplicationRoleEntityConfiguration.cs" />
@@ -777,6 +779,7 @@
     <Compile Include="Persistence\EntityConfigurations\SizeEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TillOperationEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TransMasterPaymentMethodEntityConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\UserStoreEntityConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\WarehouseEntityConfiguration.cs" />
     <Compile Include="Persistence\Repositories\ComboProductTransDetailRepository.cs" />
     <Compile Include="Persistence\Repositories\DesignationRepository.cs" />
@@ -1390,6 +1393,7 @@
     <Compile Include="Services\MultiLanguage.cs" />
     <Compile Include="Services\Security.cs" />
     <Compile Include="Services\SecurityFilter.cs" />
+    <Compile Include="Services\UserStores.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -4063,6 +4067,7 @@
     <Content Include="Views\PurchaseOrders\PoPurchasing.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Setup\TillOperationDetails.cshtml" />
+    <Content Include="Views\Home\AllStores.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4428,8 +4433,8 @@
     <EmbeddedResource Include="Migrations\201906141501361_adfklsdfgjdsf.resx">
       <DependentUpon>201906141501361_adfklsdfgjdsf.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906141539282_ooptttt.resx">
-      <DependentUpon>201906141539282_ooptttt.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906190950134_userstores-1.resx">
+      <DependentUpon>201906190950134_userstores-1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BatchWiseExpiry.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

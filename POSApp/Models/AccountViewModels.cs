@@ -69,7 +69,7 @@ namespace POSApp.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "name", ResourceType = typeof(Resource))]
+        [Display(Name = "Email", ResourceType = typeof(Resource))]
         public string Email { get; set; }
 
         [Required]
@@ -88,7 +88,7 @@ namespace POSApp.Models
         public string Name { get; set; }
         public string CompanyName { get; set; }
         [Required]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{8})$", ErrorMessage = "Entered phone format like (050xxxxxxxx)")]
+        
         [Display(Name = "MobileNumber", ResourceType = typeof(Resource))]
 
         public string PhoneNumber { get; set; }
@@ -96,9 +96,14 @@ namespace POSApp.Models
         [Display(Name = "Address", ResourceType = typeof(Resource))]
 
         public string Address { get; set; }
-        [DisplayName("Select Employee")]
+        [DisplayName("Employee")]
         public int EmployeeId { get; set; }
+        [DisplayName("Main Store")]
+        public int StoreId { get; set; }
+        [DisplayName("Accessible Store")]
+        public int[] StoreIds { get; set; }
         public IEnumerable<SelectListItem> EmpDdl { get; set; } = new List<SelectListItem>();
+        public IEnumerable<SelectListItem> StoreDdl { get; set; } = new List<SelectListItem>();
     }
 
     public class RegisterListViewModel
@@ -113,6 +118,7 @@ namespace POSApp.Models
     public class UserRoleDataViewModel
     {
         public string Id { get; set; }
+        public int StoreId { get; set; }
         public string Name { get; set; }
         public string ManageData { get; set; }
         public string ViewData { get; set; }

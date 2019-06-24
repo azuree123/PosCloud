@@ -67,8 +67,8 @@ namespace POSApp.Persistence
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<IncrementalSyncronization>  IncrementalSyncronizations { get; set; }
         public DbSet<ComboProductsTransDetail> ComboProductsTransDetails { get; set; }
-        
 
+        public DbSet<UserStore> UserStores { get; set; }
         public void SetCommandTimeOut(int Timeout)
         {
           
@@ -85,6 +85,10 @@ namespace POSApp.Persistence
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
+
+        
+
 
             //modelBuilder.Configurations.Add(new ApplicationUserEntityConfiguration());
             //modelBuilder.Configurations.Add(new UserRoleConfiguration());
@@ -132,7 +136,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new WarehouseEntityConfiguration());
             modelBuilder.Configurations.Add(new ClientEntityConfiguration());
             modelBuilder.Configurations.Add(new IncrementalSyncronizationEntityConfiguration());
-            
+            modelBuilder.Configurations.Add(new UserStoreEntityConfiguration());
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             base.OnModelCreating(modelBuilder);

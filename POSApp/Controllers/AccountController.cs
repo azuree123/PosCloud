@@ -92,9 +92,11 @@ namespace POSApp.Controllers
                     var checkCookie = HttpContext.Request.Cookies.AllKeys.Where(a=>a.Contains("UserRoleData"));
                     if (!checkCookie.Any())
                     {
+                        var userData = _unitOfWork.UserRepository.GetUserLoginData(model.Email);
+                        UserStores.GenerateStoreCookie(userData.StoreId);
                         string data =
                            
-                                JsonConvert.SerializeObject(_unitOfWork.UserRepository.GetUserLoginData(model.Email));
+                                JsonConvert.SerializeObject(userData);
                         if (data.Length >= 4000)
                         {
                             var miniData = AuthHelper.Split(data, 4000);
@@ -115,6 +117,7 @@ namespace POSApp.Controllers
                             cookie.Expires = DateTime.Today.AddDays(2);
                             HttpContext.Response.Cookies.Add(cookie);
                         }
+
                     }
                     else
                     {
@@ -205,7 +208,10 @@ namespace POSApp.Controllers
             RegisterViewModel model = new RegisterViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+            var store = _unitOfWork.StoreRepository.GetStoreById(user.StoreId);
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore(store.ClientId);
+            model.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+            model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees(user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             return View(model);
         }
 
@@ -216,25 +222,9 @@ namespace POSApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            //if (ModelState.IsValid)
-            //{
-
-            //    int storeId = _unitOfWork.StoreRepository.GetStores().Select(a => a.Id).FirstOrDefault();
-
-            //    var user = new ApplicationUser { UserName = model.Email,Email = model.Email, StoreId = storeId,PasswordEncrypt = Security.EncryptString(model.Password, "E546C8DF278CD5931069B522E695D4F2") };
-            //    var result = await UserManager.CreateAsync(user, model.Password);
-            //    if (result.Succeeded)
-            //    {
-            //        await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
-
-
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //    AddErrors(result);
-            //}
-
-            // If we got this far, something failed, redisplay form
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid);
+            
 
             try
             {
@@ -244,19 +234,40 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
+                    var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+                    var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+                    model.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+                    model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+
                     return View(model);
                 }
                 else
                 {
 
-                    int storeId = _unitOfWork.StoreRepository.GetStores().Select(a => a.Id).FirstOrDefault();
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StoreId = storeId, PasswordEncrypt = Security.EncryptString(model.Password, "E546C8DF278CD5931069B522E695D4F2") };
-                    var result = await UserManager.CreateAsync(user, model.Password);
+                    var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+                    var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+                    model.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
                     model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+
+                    var users = new ApplicationUser { UserName = model.Email, Email = model.Email, StoreId = model.StoreId,EmployeeId = model.EmployeeId, PasswordEncrypt = Security.EncryptString(model.Password, "E546C8DF278CD5931069B522E695D4F2") };
+                    users.UserStores.Add(new UserStore
+                    {
+                        StoreId = model.StoreId
+                    });
+                    foreach (var modelStoreId in model.StoreIds)
+                    {
+                    users.UserStores.Add(new UserStore
+                    {
+                        StoreId = modelStoreId
+                    });
+                    }
+                    var result = await UserManager.CreateAsync(users, model.Password);
                     if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        //await SignInManager.SignInAsync(users, isPersistent: false, rememberBrowser: false);
 
+                        
+                        
 
 
                         return RedirectToAction("Index", "Home");

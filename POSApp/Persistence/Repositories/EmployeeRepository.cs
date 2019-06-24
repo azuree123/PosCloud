@@ -27,7 +27,8 @@ namespace POSApp.Persistence.Repositories
         }
         public IEnumerable<Employee> GetEmployees(int storeId)
         {
-            return _context.Employees.Where(a=>a.StoreId == storeId && !a.IsDisabled).ToList();
+            var data = _context.Employees.Where(a => a.StoreId == storeId && !a.IsDisabled).ToList();
+            return data;
         }
         public async Task<IEnumerable<Employee>> GetEmployeesAsync(int storeId)
         {
