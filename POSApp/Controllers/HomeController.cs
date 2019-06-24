@@ -6,9 +6,11 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.SecurityFilters;
 using POSApp.Services;
 
 namespace POSApp.Controllers
@@ -38,25 +40,25 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 DateTime today = DateTime.Now.Date;
                 DashBoardViewModel model = new DashBoardViewModel();
-                if (_unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
+                if (_unitOfWork.TransMasterRepository.GetTransMasters((int) UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                     .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= today).Any())
                 {
-                    model.Sales = _unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
+                    model.Sales = _unitOfWork.TransMasterRepository.GetTransMasters((int) UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                         .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= today).Select(a => a.TotalPrice).Sum();
                 }
-                if (_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                if (_unitOfWork.TransMasterRepository.GetTransMasters((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                     .Where(a => a.Type == "PRI" && a.TransDate >= today).Any())
                 {
-                    model.PurchaseOrders = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                    model.PurchaseOrders = _unitOfWork.TransMasterRepository.GetTransMasters((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                         .Where(a => a.Type == "PRI" && a.TransDate >= today).Select(a => a.TotalPrice).Sum();
                 }
-                if (_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                if (_unitOfWork.TransMasterRepository.GetTransMasters((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                     .Where(a => a.Type == "REF" && a.TransDate >= today).Any())
                 {
-                    model.Refunds = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                    model.Refunds = _unitOfWork.TransMasterRepository.GetTransMasters((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                         .Where(a => a.Type == "REF" && a.TransDate >= today).Select(a => a.TotalPrice).Sum();
                 }
-                model.Expenses = _unitOfWork.ExpenseRepository.GetExpenses((int) user.StoreId)
+                model.Expenses = _unitOfWork.ExpenseRepository.GetExpenses((int) UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                     .Where(a => a.Date == today).Select(a => a.Amount).Sum();
                 model.StoreDatas = _unitOfWork.StoreRepository.GetStores().Select(a => new StoreData
                 {
@@ -125,6 +127,28 @@ namespace POSApp.Controllers
             
             return View(userStores);
         }
+        public ActionResult ChangeStore(string id)
+        {
+
+            var checkCookieStore = HttpContext.Request.Cookies.AllKeys.Where(a => a == "Store");
+            if (!checkCookieStore.Any())
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                var myCookie = new HttpCookie("Store");
+                myCookie.Value = AuthHelper.Encrypt(JsonConvert.SerializeObject((int)user.StoreId));
+                myCookie.Expires = DateTime.Today.AddDays(2);
+                HttpContext.Response.Cookies.Add(myCookie);
+            }
+            else
+            {
+                var myCookie = new HttpCookie("Store");
+                myCookie.Value = AuthHelper.Encrypt(JsonConvert.SerializeObject(Convert.ToInt32(AuthHelper.Decrypt(id))));
+                myCookie.Expires = DateTime.Today.AddDays(2);
+                HttpContext.Response.Cookies.Set(myCookie);
+            }
+            return RedirectToAction("Index");
+        }
         public JsonResult GetGraphData()
         {
             try
@@ -142,9 +166,9 @@ namespace POSApp.Controllers
                     morrisGraph.y = (year - i).ToString();
                     DateTime dateFrom=new DateTime(year-i,1,1);
                     DateTime dateTo = dateFrom.AddYears(1);
-                    morrisGraph.a = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                    morrisGraph.a = _unitOfWork.TransMasterRepository.GetTransMasters((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                         .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice - a.Discount).Sum();
-                    morrisGraph.b = _unitOfWork.ExpenseRepository.GetExpenses((int) user.StoreId)
+                    morrisGraph.b = _unitOfWork.ExpenseRepository.GetExpenses((int) UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                         .Where(a => a.Date >= dateFrom && a.Date < dateTo).Select(a => a.Amount).Sum();
                     graph.Morris.Add(morrisGraph);
                 }
@@ -156,7 +180,7 @@ namespace POSApp.Controllers
                     DateTime dateFrom =  new DateTime(year, i, 1);
                     string x = dateFrom.Date.ToString("MMM");
                     DateTime dateTo = dateFrom.AddMonths(1);
-                    decimal y = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                    decimal y = _unitOfWork.TransMasterRepository.GetTransMasters((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                         .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice).Sum();
                     data.data.Add(new LineData{Month = x,Value = y});
                 }
@@ -170,7 +194,7 @@ namespace POSApp.Controllers
                     DateTime dateFrom = new DateTime(year, i, 1);
                     string x = dateFrom.Date.ToString("MMM");
                     DateTime dateTo = dateFrom.AddMonths(1);
-                    decimal y = _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+                    decimal y = _unitOfWork.TransMasterRepository.GetTransMasters((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                         .Where(a => a.Type == "PRI" && a.TransDate >= dateFrom && a.TransDate < dateTo).Select(a => a.TotalPrice).Sum();
                     data.data.Add(new LineData { Month = x, Value = y });
                 }
@@ -184,7 +208,7 @@ namespace POSApp.Controllers
                     DateTime dateFrom = new DateTime(year, i, 1);
                     string x = dateFrom.Date.ToString("MMM");
                     DateTime dateTo = dateFrom.AddMonths(1);
-                    decimal y = (decimal)_unitOfWork.ExpenseRepository.GetExpenses((int)user.StoreId)
+                    decimal y = (decimal)_unitOfWork.ExpenseRepository.GetExpenses((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                         .Where(a =>  a.Date >= dateFrom && a.Date < dateTo).Select(a => a.Amount).Sum();
                     data.data.Add(new LineData { Month = x, Value = y });
                 }

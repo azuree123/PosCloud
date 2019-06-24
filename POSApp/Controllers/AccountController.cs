@@ -93,13 +93,28 @@ namespace POSApp.Controllers
                     if (!checkCookie.Any())
                     {
                         var userData = _unitOfWork.UserRepository.GetUserLoginData(model.Email);
-                        UserStores.GenerateStoreCookie(userData.StoreId);
+                        var checkCookieStore = HttpContext.Request.Cookies.AllKeys.Where(a => a == "Store");
+                        if (!checkCookieStore.Any())
+                        {
+                            var myCookie = new HttpCookie("Store");
+                            myCookie.Value = AuthHelper.Encrypt(JsonConvert.SerializeObject(userData.StoreId));
+                            myCookie.Expires = DateTime.Today.AddDays(2);
+                            HttpContext.Response.Cookies.Add(myCookie);
+                        }
+                        else
+                        {
+                            var myCookie = new HttpCookie("Store");
+                            myCookie.Value = AuthHelper.Encrypt(JsonConvert.SerializeObject(userData.StoreId));
+                            myCookie.Expires = DateTime.Today.AddDays(2);
+                            HttpContext.Response.Cookies.Set(myCookie);
+                        }
+                        
                         string data =
                            
                                 JsonConvert.SerializeObject(userData);
-                        if (data.Length >= 4000)
+                        if (data.Length >= 3000)
                         {
-                            var miniData = AuthHelper.Split(data, 4000);
+                            var miniData = AuthHelper.EnumByNearestSpace(data, 2000);
                             int ind = 0;
                             foreach (var mini in miniData)
                             {
@@ -121,12 +136,28 @@ namespace POSApp.Controllers
                     }
                     else
                     {
+                        var userData = _unitOfWork.UserRepository.GetUserLoginData(model.Email);
+                        var checkCookieStore = HttpContext.Request.Cookies.AllKeys.Where(a => a == "Store");
+                        if (!checkCookieStore.Any())
+                        {
+                            var myCookie = new HttpCookie("Store");
+                            myCookie.Value = AuthHelper.Encrypt(JsonConvert.SerializeObject(userData.StoreId));
+                            myCookie.Expires = DateTime.Today.AddDays(2);
+                            HttpContext.Response.Cookies.Add(myCookie);
+                        }
+                        else
+                        {
+                            var myCookie = new HttpCookie("Store");
+                            myCookie.Value = AuthHelper.Encrypt(JsonConvert.SerializeObject(userData.StoreId));
+                            myCookie.Expires = DateTime.Today.AddDays(2);
+                            HttpContext.Response.Cookies.Set(myCookie);
+                        }
                         string data =
                            
-                                JsonConvert.SerializeObject(_unitOfWork.UserRepository.GetUserLoginData(model.Email));
-                        if (data.Length >= 4000)
+                                JsonConvert.SerializeObject(userData);
+                        if (data.Length >= 3000)
                         {
-                            var miniData = AuthHelper.Split(data, 4000);
+                            var miniData = AuthHelper.Split(data, 3000);
                             int ind = 0;
                             foreach (var mini in miniData)
                             {
@@ -208,10 +239,10 @@ namespace POSApp.Controllers
             RegisterViewModel model = new RegisterViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            var store = _unitOfWork.StoreRepository.GetStoreById(user.StoreId);
+            var store = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             var clientStores = _unitOfWork.ClientRepository.GetClientStore(store.ClientId);
             model.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
-            model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees(user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+            model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             return View(model);
         }
 
@@ -234,20 +265,20 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
-                    var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+                    var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
                     model.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
-                    model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+                    model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
 
                     return View(model);
                 }
                 else
                 {
 
-                    var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+                    var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
                     model.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
-                    model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+                    model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
 
                     var users = new ApplicationUser { UserName = model.Email, Email = model.Email, StoreId = model.StoreId,EmployeeId = model.EmployeeId, PasswordEncrypt = Security.EncryptString(model.Password, "E546C8DF278CD5931069B522E695D4F2") };
                     users.UserStores.Add(new UserStore
@@ -537,7 +568,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            if (_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(user.StoreId)))
+            if (_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))))
             {
                 return RedirectToAction("CloseTill", "PointOfSale");
             }

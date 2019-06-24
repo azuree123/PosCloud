@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
@@ -30,7 +31,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => a.ProductCategory.Type == "Service").ToList());
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => a.ProductCategory.Type == "Service").ToList());
         }
 
         public ActionResult AddService()
@@ -38,9 +39,9 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ServiceCreateViewModel service = new ServiceCreateViewModel();
-            service.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Service")
+            service.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => a.Type == "Service")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            service.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)user.StoreId)
+            service.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddService";
             return View(service);
@@ -82,7 +83,7 @@ namespace POSApp.Controllers
             }
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            serviceVm.StoreId = user.StoreId;
+            serviceVm.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
             Product service = Mapper.Map<Product>(serviceVm);
             _unitOfWork.ProductRepository.AddProduct(service);
             _unitOfWork.Complete();
@@ -94,10 +95,10 @@ namespace POSApp.Controllers
             ViewBag.edit = "UpdateService";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            ServiceCreateViewModel serviceVm = Mapper.Map<ServiceCreateViewModel>(_unitOfWork.ProductRepository.GetProductByCode(id,Convert.ToInt32(user.StoreId)));
-            serviceVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a => a.Type == "Service")
+            ServiceCreateViewModel serviceVm = Mapper.Map<ServiceCreateViewModel>(_unitOfWork.ProductRepository.GetProductByCode(id,Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
+            serviceVm.CategoryDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => a.Type == "Service")
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            serviceVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)user.StoreId)
+            serviceVm.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddService", serviceVm);
         }
@@ -139,7 +140,7 @@ namespace POSApp.Controllers
                 Product service = Mapper.Map<Product>(serviceVm);
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.ProductRepository.UpdateProduct(id,Convert.ToInt32(user.StoreId) ,service);
+                _unitOfWork.ProductRepository.UpdateProduct(id,Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)) ,service);
                 _unitOfWork.Complete();
                 return RedirectToAction("ServicesList", "Services");
             }
@@ -149,7 +150,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            _unitOfWork.ProductRepository.DeleteProduct(id, Convert.ToInt32(user.StoreId));
+            _unitOfWork.ProductRepository.DeleteProduct(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             _unitOfWork.Complete();
             return RedirectToAction("ServicesList", "Services");
         }
@@ -170,7 +171,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                productcategoryvm.StoreId = user.StoreId;
+                productcategoryvm.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                 ProductCategory productcategory = Mapper.Map<ProductCategory>(productcategoryvm);
                 productcategory.Type = "Service";
                 _unitOfWork.ProductCategoryRepository.AddProductCategory(productcategory);
@@ -183,7 +184,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a=>a.Type=="Service"));
+            return View(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a=>a.Type=="Service"));
         }
 
         public ActionResult AddServiceCategory()
@@ -225,7 +226,7 @@ namespace POSApp.Controllers
                 }
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                serviceCategory.StoreId = user.StoreId;
+                serviceCategory.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                 serviceCategory.Type = "Service";
                 ProductCategory category = Mapper.Map<ProductCategory>(serviceCategory);
                 _unitOfWork.ProductCategoryRepository.AddProductCategory(category);
@@ -239,7 +240,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ServiceCategoryViewModel service =
-                Mapper.Map<ServiceCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id,Convert.ToInt32(user.StoreId)));
+                Mapper.Map<ServiceCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id,Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
             return View("AddServiceCategory", service);
         }
         [HttpPost]
@@ -251,7 +252,7 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 ServiceCategoryViewModel service =
-                    Mapper.Map<ServiceCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id,Convert.ToInt32(user.StoreId)));
+                    Mapper.Map<ServiceCategoryViewModel>(_unitOfWork.ProductCategoryRepository.GetProductCategoryById(id,Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
                 return View("AddServiceCategory", service);
             }
             else if (file != null && file.ContentLength>0)
@@ -283,7 +284,7 @@ namespace POSApp.Controllers
                 ProductCategory category  = Mapper.Map<ProductCategory>(serviceCategoryVm);
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id, Convert.ToInt32(user.StoreId) ,category);
+                _unitOfWork.ProductCategoryRepository.UpdateProductCategory(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)) ,category);
                 _unitOfWork.Complete();
                 return RedirectToAction("ServiceCategoryList");
             }
@@ -293,7 +294,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id, Convert.ToInt32(user.StoreId));
+            _unitOfWork.ProductCategoryRepository.DeleteProductCategory(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             _unitOfWork.Complete();
             return RedirectToAction("ServiceCategoryList", "Services");
         }
@@ -303,7 +304,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return Json(Mapper.Map<ServiceCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId).Where(a=>a.Type=="Service")), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<ServiceCategoryViewModel[]>(_unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a=>a.Type=="Service")), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

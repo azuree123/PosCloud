@@ -179,53 +179,53 @@
                                                 <span> @POSApp.Resources.Resource.Dashboard </span>
                                             </a>
                                         </li>
-                                    @if (Config.PointOfSale.PointOfSale.CheckAccess())
-                                    {
+                                        @if (Config.PointOfSale.PointOfSale.CheckAccess())
+                                        {
 
-                                        <li>
-                                            <a href="@Url.Action("Index","PointOfSale")">
-                                                <i class="fa fa-desktop " aria-hidden="true"></i>
+                                            <li>
+                                                <a href="@Url.Action("Index","PointOfSale")">
+                                                    <i class="fa fa-desktop " aria-hidden="true"></i>
 
-                                                <span>@POSApp.Resources.Resource.PointOfSale</span>
+                                                    <span>@POSApp.Resources.Resource.PointOfSale</span>
 
-                                            </a>
+                                                </a>
 
-                                        </li>
-                                         }
-                                        
-                                    @if (Config.SaleOrders.DailySales.CheckAccess())
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("SaleOrderList","SaleOrders")">
-                                                <i class="fa fa-calculator " aria-hidden="true"></i>
+                                            </li>
+                                        }
 
-                                                <span>@POSApp.Resources.Resource.SalesOrder</span>
+                                        @if (Config.SaleOrders.DailySales.CheckAccess())
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("SaleOrderList","SaleOrders")">
+                                                    <i class="fa fa-calculator " aria-hidden="true"></i>
 
-                                            </a>
+                                                    <span>@POSApp.Resources.Resource.SalesOrder</span>
 
-                                        </li>
-                                         }
+                                                </a>
+
+                                            </li>
+                                        }
                                         @if (Config.PurchaseOrders.PurchaseOrder.CheckAccess())
                                         {
 
-                                        <li>
-                                            <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")">
-                                                <i class="fa fa-shopping-cart " aria-hidden="true"></i>
-                                                <span>@POSApp.Resources.Resource.purchaseorders</span>
-                                            </a>
+                                            <li>
+                                                <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")">
+                                                    <i class="fa fa-shopping-cart " aria-hidden="true"></i>
+                                                    <span>@POSApp.Resources.Resource.purchaseorders</span>
+                                                </a>
 
-                                        </li>
+                                            </li>
                                         }
-                                    @if (Config.StockTaking.StockTaking.CheckAccess())
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("StockTakingList","StockTaking")">
-                                                <i class="fa fa-tasks " aria-hidden="true"></i>
-                                                <span>@POSApp.Resources.Resource.Transactions</span>
-                                            </a>
+                                        @if (Config.StockTaking.StockTaking.CheckAccess())
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("StockTakingList","StockTaking")">
+                                                    <i class="fa fa-tasks " aria-hidden="true"></i>
+                                                    <span>@POSApp.Resources.Resource.Transactions</span>
+                                                </a>
 
-                                        </li>
-                                         }
+                                            </li>
+                                        }
 
                                         @if (Config.Expense.Expense.CheckAccess())
                                         {
@@ -240,38 +240,38 @@
 
                                         }
 
-                                    @if (Config.Products.Products.CheckAccess())
-                                    {
+                                        @if (Config.Products.Products.CheckAccess())
+                                        {
 
-                                        <li>
-                                            <a href="@Url.Action("ProductsList","Products")">
-                                                <i class="fa fa-archive" aria-hidden="true"></i>
-                                                <span>@POSApp.Resources.Resource.ProductsandServices</span>
-                                            </a>
+                                            <li>
+                                                <a href="@Url.Action("ProductsList","Products")">
+                                                    <i class="fa fa-archive" aria-hidden="true"></i>
+                                                    <span>@POSApp.Resources.Resource.ProductsandServices</span>
+                                                </a>
 
-                                        </li>
-                                         }
-                                    @if (Config.Setup.Customer.CheckAccess())
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("CustomerList","Setup")">
-                                                <i class="fa fa-cubes" aria-hidden="true"></i>
-                                                <span>Store Management</span>
-                                            </a>
+                                            </li>
+                                        }
+                                        @if (Config.Setup.Customer.CheckAccess())
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("CustomerList","Setup")">
+                                                    <i class="fa fa-cubes" aria-hidden="true"></i>
+                                                    <span>Store Management</span>
+                                                </a>
 
-                                        </li>
-                                         }
-                                    @if (Config.Products.InventoryItems.CheckAccess())
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("InventoryItemsList","Products")">
-                                                <i class="fa fa-database" aria-hidden="true"></i>
-                                                <span>@POSApp.Resources.Resource.Inventory</span>
-                                            </a>
+                                            </li>
+                                        }
+                                        @if (Config.Products.InventoryItems.CheckAccess())
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("InventoryItemsList","Products")">
+                                                    <i class="fa fa-database" aria-hidden="true"></i>
+                                                    <span>@POSApp.Resources.Resource.Inventory</span>
+                                                </a>
 
-                                        </li>
+                                            </li>
 
-                                         }
+                                        }
 
                                         @{
                                             if (Request.IsAuthenticated)
@@ -286,20 +286,29 @@
 
                                                 </li>
 
-                                                if (Config.Reports.SalesReport.CheckAccess())
-                                                 {
-                                                     <li>
-                                                         <a href="@Url.Action("SaleReport","Reports")">
-                                                             <i class="fa fa-indent" aria-hidden="true"></i>
-                                                             <span>@POSApp.Resources.Resource.Reports</span>
-                                                         </a>
 
-                                                     </li>
-                                                     }
+                                                if (Config.Reports.SalesReport.CheckAccess())
+                                                {
+                                                    <li>
+                                                        <a href="@Url.Action("SaleReport","Reports")">
+                                                            <i class="fa fa-indent" aria-hidden="true"></i>
+                                                            <span>@POSApp.Resources.Resource.Reports</span>
+                                                        </a>
+
+                                                    </li>
+                                                }
                                                 <li class="hidden">
                                                     <a href="@Url.Action("BusinessSetting","Setting")">
                                                         <i class="fa fa-gears" aria-hidden="true"></i>
                                                         <span>Business Setting</span>
+                                                    </a>
+
+                                                </li>
+                                        
+                                                <li class=" ">
+                                                    <a href="@Url.Action("AllStores","Home")">
+                                                        <i class="fa fa-exchange" aria-hidden="true"></i>
+                                                        <span>Switch Store</span>
                                                     </a>
 
                                                 </li>

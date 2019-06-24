@@ -17,6 +17,7 @@ using POSApp.Persistence;
 using System.Data.Entity.Validation;
 using POSApp.Persistence.Repositories;
 using POSApp.SecurityFilters;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
@@ -45,7 +46,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId).OrderByDescending(a => a.Id));
+            return View(_unitOfWork.DepartmentRepository.GetDepartments((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id));
         }
 
         [Manage(Config.Setup.Department)]
@@ -80,7 +81,7 @@ namespace POSApp.Controllers
 
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    Departmentvm.StoreId = user.StoreId;
+                    Departmentvm.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     Department Department = Mapper.Map<Department>(Departmentvm);
                     _unitOfWork.DepartmentRepository.AddDepartment(Department);
                     _unitOfWork.Complete();
@@ -162,7 +163,7 @@ namespace POSApp.Controllers
 
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    Designationvm.StoreId = user.StoreId;
+                    Designationvm.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     Designation Designation = Mapper.Map<Designation>(Designationvm);
                     _unitOfWork.DesignationRepository.AddDesignation(Designation);
                     _unitOfWork.Complete();
@@ -275,9 +276,9 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                suppliervm.StoreId = user.StoreId;
+                suppliervm.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                 BusinessPartner supplier = Mapper.Map<BusinessPartner>(suppliervm);
-                supplier.StoreId = (int) user.StoreId;
+                supplier.StoreId = (int) UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                 supplier.Type = "S";
                 supplier.Birthday=DateTime.Now;
                 _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(supplier);
@@ -319,7 +320,7 @@ namespace POSApp.Controllers
                     Department department = Mapper.Map<Department>(departmentVm);
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    department.StoreId = (int)user.StoreId;
+                    department.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.DepartmentRepository.AddDepartment(department);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("Department Added Successfully",AlertType.Success);
@@ -382,7 +383,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             DepartmentViewModel departmentVm =
-                Mapper.Map<DepartmentViewModel>(_unitOfWork.DepartmentRepository.GetDepartmentById(id, (int)user.StoreId));
+                Mapper.Map<DepartmentViewModel>(_unitOfWork.DepartmentRepository.GetDepartmentById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             return View("AddDepartment", departmentVm);
         }
         [HttpPost]
@@ -403,7 +404,7 @@ namespace POSApp.Controllers
                     Department department = Mapper.Map<Department>(departmentVm);
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    department.StoreId = (int)user.StoreId;
+                    department.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.DepartmentRepository.UpdateDepartment(id, department.StoreId, department);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Department updated successfully", AlertType.Success);
@@ -443,7 +444,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.DepartmentRepository.DeleteDepartment(id, (int)user.StoreId);
+                _unitOfWork.DepartmentRepository.DeleteDepartment(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The Department deleted successfully", AlertType.Success);
                 return RedirectToAction("DepartmentList", "Setup");
@@ -495,7 +496,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId).OrderByDescending(a => a.Id));
+            return View(_unitOfWork.DesignationRepository.GetDesignations((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id));
         }
         [HttpGet]
         [Manage(Config.Setup.Designation)]
@@ -528,7 +529,7 @@ namespace POSApp.Controllers
                     Designation Designation = Mapper.Map<Designation>(DesignationVm);
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    Designation.StoreId = (int)user.StoreId;
+                    Designation.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.DesignationRepository.AddDesignation(Designation);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("Designation Added Successfully", AlertType.Success);
@@ -591,7 +592,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             DesignationViewModel DesignationVm =
-                Mapper.Map<DesignationViewModel>(_unitOfWork.DesignationRepository.GetDesignationById(id, (int)user.StoreId));
+                Mapper.Map<DesignationViewModel>(_unitOfWork.DesignationRepository.GetDesignationById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             return View("AddDesignation", DesignationVm);
         }
         [HttpPost]
@@ -612,7 +613,7 @@ namespace POSApp.Controllers
                     Designation Designation = Mapper.Map<Designation>(DesignationVm);
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    Designation.StoreId = (int)user.StoreId;
+                    Designation.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.DesignationRepository.UpdateDesignation(id, Designation.StoreId, Designation);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Designation updated successfully", AlertType.Success);
@@ -653,7 +654,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.DesignationRepository.DeleteDesignation(id, (int)user.StoreId);
+                _unitOfWork.DesignationRepository.DeleteDesignation(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The Designation deleted successfully", AlertType.Success);
                 return RedirectToAction("DesignationList", "Setup");
@@ -708,7 +709,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View("EmployeeList", _unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId).OrderByDescending(a => a.Id));
+            return View("EmployeeList", _unitOfWork.EmployeeRepository.GetEmployees((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id));
         }
         //Add partial
         [HttpGet]
@@ -724,11 +725,11 @@ namespace POSApp.Controllers
             EmployeeModelView employee = new EmployeeModelView();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
+            employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            employee.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
+            employee.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            employee.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+            employee.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddEmployeePartial";
             return View(employee);
@@ -751,7 +752,7 @@ namespace POSApp.Controllers
                 }
                 else
                 {
-                    employeeMv.StoreId = user.StoreId;
+                    employeeMv.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     Employee employee = Mapper.Map<Employee>(employeeMv);
 
                     _unitOfWork.EmployeeRepository.AddEmployee(employee);
@@ -809,7 +810,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return Json(Mapper.Map<EmployeeModelView[]>(_unitOfWork.EmployeeRepository.GetEmployees((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<EmployeeModelView[]>(_unitOfWork.EmployeeRepository.GetEmployees((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -823,7 +824,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return Json(Mapper.Map<EmployeeModelView[]>(_unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<EmployeeModelView[]>(_unitOfWork.ShiftRepository.GetShifts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -845,11 +846,11 @@ namespace POSApp.Controllers
             EmployeeModelView employee = new EmployeeModelView();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
+            employee.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem {Value = a.Id.ToString(), Text = a.Name}).AsEnumerable();
-            employee.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
+            employee.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            employee.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+            employee.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddEmployee";
             return View(employee);
@@ -862,11 +863,11 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = "AddEmployee";
-            employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
+            employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
+            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            employeeMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+            employeeMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
             if (ModelState.ContainsKey("JoinDate"))
                 ModelState["JoinDate"].Errors.Clear();
@@ -880,7 +881,7 @@ namespace POSApp.Controllers
                 }
                 else
                 {
-                    employeeMv.StoreId = user.StoreId;
+                    employeeMv.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     Employee employee = Mapper.Map<Employee>(employeeMv);
 
                     _unitOfWork.EmployeeRepository.AddEmployee(employee);
@@ -947,12 +948,12 @@ namespace POSApp.Controllers
             ViewBag.edit = "UpdateEmployee";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            EmployeeModelView employeeMv = Mapper.Map<EmployeeModelView>(_unitOfWork.EmployeeRepository.GetEmployeeById(id, Convert.ToInt32(user.StoreId)));
-            employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
+            EmployeeModelView employeeMv = Mapper.Map<EmployeeModelView>(_unitOfWork.EmployeeRepository.GetEmployeeById(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
+            employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
+            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            employeeMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+            employeeMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
 
             return View("AddEmployee",employeeMv);
@@ -965,11 +966,11 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = "UpdateEmployee";
-            employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)
+            employeeMv.DepartmentDdl = _unitOfWork.DepartmentRepository.GetDepartments((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)
+            employeeMv.DesignationDdl = _unitOfWork.DesignationRepository.GetDesignations((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
-            employeeMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+            employeeMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
             if (ModelState.ContainsKey("JoinDate"))
                 ModelState["JoinDate"].Errors.Clear();
@@ -984,7 +985,7 @@ namespace POSApp.Controllers
                 {
                     Employee employee = Mapper.Map<Employee>(employeeMv);
                    
-                    _unitOfWork.EmployeeRepository.UpdateEmployee(id, employee, Convert.ToInt32(user.StoreId));
+                    _unitOfWork.EmployeeRepository.UpdateEmployee(id, employee, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The employee updated successfully", AlertType.Success);
                     return null;
@@ -1116,7 +1117,7 @@ namespace POSApp.Controllers
 
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    Shiftvm.StoreId = user.StoreId;
+                    Shiftvm.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     Shift Shift = Mapper.Map<Shift>(Shiftvm);
                     _unitOfWork.ShiftRepository.AddShift(Shift);
                     _unitOfWork.Complete();
@@ -1172,7 +1173,7 @@ namespace POSApp.Controllers
 
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(Mapper.Map<CustomerModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("C",(int)user.StoreId).OrderByDescending(a => a.Id)));
+            return View(Mapper.Map<CustomerModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("C",(int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id)));
         }
         [HttpGet]
         [Manage(Config.Setup.Customer)]
@@ -1208,7 +1209,7 @@ namespace POSApp.Controllers
                 {
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    customerMv.StoreId = user.StoreId;
+                    customerMv.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     BusinessPartner customer = Mapper.Map<BusinessPartner>(customerMv);
                     customer.Type = "C";
                     _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(customer);
@@ -1271,7 +1272,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             CustomerModelView customerMv =
-                Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(id, Convert.ToInt32(user.StoreId)));
+                Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
             return View("AddCustomer",customerMv);
         }
         [HttpPost]
@@ -1297,7 +1298,7 @@ namespace POSApp.Controllers
                     customer.Type = "C";
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id, Convert.ToInt32(user.StoreId), customer);
+                    _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)), customer);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The customer updated successfully", AlertType.Success);
                     return null;
@@ -1354,7 +1355,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.BusinessPartnerRepository.DeleteBusinessPartner(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.BusinessPartnerRepository.DeleteBusinessPartner(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The customer deleted successfully", AlertType.Success);
                 return RedirectToAction("CustomerList", "Setup");
@@ -1408,7 +1409,7 @@ namespace POSApp.Controllers
         
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).OrderByDescending(a => a.Id)));
+            return View(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id)));
         }
         [HttpGet]
         [Manage(Config.Setup.Supplier)]
@@ -1443,7 +1444,7 @@ namespace POSApp.Controllers
                 {
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    supplierMv.StoreId = user.StoreId;
+                    supplierMv.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
 
                     BusinessPartner supplier = Mapper.Map<BusinessPartner>(supplierMv);
                     supplier.Birthday = DateTime.Now;
@@ -1508,7 +1509,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             SupplierModelView supplierVm =
-                Mapper.Map<SupplierModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(id,Convert.ToInt32(user.StoreId)));
+                Mapper.Map<SupplierModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner(id,Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
             return View("AddSupplier",supplierVm);
         }
         [HttpPost]
@@ -1534,7 +1535,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     supplier.Birthday = DateTime.Now;
-                    _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id, Convert.ToInt32(user.StoreId), supplier);
+                    _unitOfWork.BusinessPartnerRepository.UpdateBusinessPartner(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)), supplier);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The supplier updated successfully", AlertType.Success);
                     return null;
@@ -1590,7 +1591,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.BusinessPartnerRepository.DeleteBusinessPartner(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.BusinessPartnerRepository.DeleteBusinessPartner(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The supplier deleted successfully", AlertType.Success);
                 return RedirectToAction("SupplierList", "Setup");
@@ -2168,7 +2169,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.DiscountRepository.GetDiscounts((int)user.StoreId));
+            return View(_unitOfWork.DiscountRepository.GetDiscounts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
         }
         [HttpGet]
         [Manage(Config.Setup.Discount)]
@@ -2205,7 +2206,7 @@ namespace POSApp.Controllers
                     var user = UserManager.FindById(userid);
 
                     Discount discount = Mapper.Map<Discount>(dicountMv);
-                    discount.StoreId = (int)user.StoreId;
+                    discount.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.DiscountRepository.AddDiscount(discount);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The discount added successfully", AlertType.Success);
@@ -2268,7 +2269,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             DiscountViewModel discountMv =
-                Mapper.Map<DiscountViewModel>(_unitOfWork.DiscountRepository.GetDiscountById(id, (int)user.StoreId));
+                Mapper.Map<DiscountViewModel>(_unitOfWork.DiscountRepository.GetDiscountById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             discountMv.tempDays = discountMv.Days.Split(',');
             return View("AddDiscount", discountMv);
         }
@@ -2293,7 +2294,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Discount discount = Mapper.Map<Discount>(discountMv);
-                    _unitOfWork.DiscountRepository.UpdateDiscount(id, discount, (int)user.StoreId);
+                    _unitOfWork.DiscountRepository.UpdateDiscount(id, discount, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The discount updated successfully", AlertType.Success);
                     return RedirectToAction("DiscountList", "Setup");
@@ -2348,7 +2349,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.DiscountRepository.DeleteDiscount(id, (int)user.StoreId);
+                _unitOfWork.DiscountRepository.DeleteDiscount(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The discount deleted successfully", AlertType.Success);
                 return RedirectToAction("DiscountList", "Setup");
@@ -2399,7 +2400,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TaxRepository.GetTaxes((int)user.StoreId).OrderByDescending(a => a.Id));
+            return View(_unitOfWork.TaxRepository.GetTaxes((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id));
         }
         [HttpGet]
         [Manage(Config.Setup.Tax)]
@@ -2436,7 +2437,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Tax tax = Mapper.Map<Tax>(taxMv);
-                    tax.StoreId = (int)user.StoreId;
+                    tax.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.TaxRepository.AddTax(tax);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The tax added successfully", AlertType.Success);
@@ -2498,7 +2499,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             TaxViewModel taxMv =
-                Mapper.Map<TaxViewModel>(_unitOfWork.TaxRepository.GetTaxById(id, (int)user.StoreId));
+                Mapper.Map<TaxViewModel>(_unitOfWork.TaxRepository.GetTaxById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             return View("AddTax", taxMv);
         }
         [HttpPost]
@@ -2523,7 +2524,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Tax tax = Mapper.Map<Tax>(taxMv);
-                    _unitOfWork.TaxRepository.UpdateTax(id, tax, (int)user.StoreId);
+                    _unitOfWork.TaxRepository.UpdateTax(id, tax, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The tax added successfully", AlertType.Success);
                     return null;
@@ -2578,7 +2579,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.TaxRepository.DeleteTax(id, (int)user.StoreId);
+                _unitOfWork.TaxRepository.DeleteTax(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The tax deleted successfully", AlertType.Success);
                 return RedirectToAction("TaxList", "Setup");
@@ -2628,7 +2629,7 @@ namespace POSApp.Controllers
         //{
         //    var userid = User.Identity.GetUserId();
         //    var user = UserManager.FindById(userid);
-        //    return View(_unitOfWork.CouponRepository.GetCoupons((int)user.StoreId));
+        //    return View(_unitOfWork.CouponRepository.GetCoupons((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
         //}
         //[HttpGet]
         //public ActionResult AddCoupon()
@@ -2650,7 +2651,7 @@ namespace POSApp.Controllers
         //        var userid = User.Identity.GetUserId();
         //        var user = UserManager.FindById(userid);
         //        Coupon location = Mapper.Map<Coupon>(couponMv);
-        //        location.StoreId= (int)user.StoreId;
+        //        location.StoreId= (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
         //        _unitOfWork.CouponRepository.AddCoupon(location);
         //        _unitOfWork.Complete();
         //        return RedirectToAction("CouponList", "Setup");
@@ -2664,7 +2665,7 @@ namespace POSApp.Controllers
         //    var userid = User.Identity.GetUserId();
         //    var user = UserManager.FindById(userid);
         //    CouponModelView couponMv =
-        //        Mapper.Map<CouponModelView>(_unitOfWork.CouponRepository.GetCouponById(id, (int)user.StoreId));
+        //        Mapper.Map<CouponModelView>(_unitOfWork.CouponRepository.GetCouponById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
         //    couponMv.tempDays = couponMv.Days.Split(',');
         //    return View("AddCoupon", couponMv);
         //}
@@ -2682,7 +2683,7 @@ namespace POSApp.Controllers
         //        var userid = User.Identity.GetUserId();
         //        var user = UserManager.FindById(userid);
         //        Coupon location = Mapper.Map<Coupon>(couponMv);
-        //        _unitOfWork.CouponRepository.UpdateCoupon(id, location, (int)user.StoreId);
+        //        _unitOfWork.CouponRepository.UpdateCoupon(id, location, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
         //        _unitOfWork.Complete();
         //        return RedirectToAction("CouponList", "Setup");
         //    }
@@ -2692,7 +2693,7 @@ namespace POSApp.Controllers
         //{
         //    var userid = User.Identity.GetUserId();
         //    var user = UserManager.FindById(userid);
-        //    _unitOfWork.CouponRepository.DeleteCoupon(id, (int)user.StoreId);
+        //    _unitOfWork.CouponRepository.DeleteCoupon(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
         //    _unitOfWork.Complete();
         //    return RedirectToAction("CouponList", "Setup");
         //}
@@ -2702,7 +2703,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.UnitRepository.GetUnit((int)user.StoreId).OrderByDescending(a => a.Id));
+            return View(_unitOfWork.UnitRepository.GetUnit((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id));
         }
         //Unit Partial
         [HttpGet]
@@ -2738,7 +2739,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Unit location = Mapper.Map<Unit>(unitMv);
-                    location.StoreId = (int)user.StoreId;
+                    location.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.UnitRepository.AddUnit(location);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The unit added successfully", AlertType.Success);
@@ -2795,7 +2796,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return Json(Mapper.Map<UnitViewModel[]>(_unitOfWork.UnitRepository.GetUnit((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<UnitViewModel[]>(_unitOfWork.UnitRepository.GetUnit((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -2838,7 +2839,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Unit location = Mapper.Map<Unit>(unitMv);
-                    location.StoreId = (int)user.StoreId;
+                    location.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.UnitRepository.AddUnit(location);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The unit added successfully", AlertType.Success);
@@ -2901,7 +2902,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             UnitViewModel unitMv =
-                Mapper.Map<UnitViewModel>(_unitOfWork.UnitRepository.GetUnitById(id, (int)user.StoreId));
+                Mapper.Map<UnitViewModel>(_unitOfWork.UnitRepository.GetUnitById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             return View("AddUnit", unitMv);
         }
         [HttpPost]
@@ -2925,7 +2926,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Unit location = Mapper.Map<Unit>(unitMv);
-                    _unitOfWork.UnitRepository.UpdateUnit(id, location, (int)user.StoreId);
+                    _unitOfWork.UnitRepository.UpdateUnit(id, location, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The unit updated successfully", AlertType.Success);
                     return null;
@@ -2980,7 +2981,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.UnitRepository.DeleteUnit(id, (int)user.StoreId);
+                _unitOfWork.UnitRepository.DeleteUnit(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 TempData["Alert"] = new AlertModel("The unit deleted successfully", AlertType.Success);
                 _unitOfWork.Complete();
                 return RedirectToAction("UnitList", "Setup");
@@ -3302,7 +3303,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TimedEventRepository.GetTimedEvents((int)user.StoreId).OrderByDescending(a => a.Id));
+            return View(_unitOfWork.TimedEventRepository.GetTimedEvents((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id));
         }
         [HttpGet]
         [Manage(Config.Setup.TimedEvent)]
@@ -3318,9 +3319,9 @@ namespace POSApp.Controllers
             TimedEventViewModel model=new TimedEventViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            model.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int) user.StoreId)
+            model.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int) UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem{Text = a.Name,Value = a.Id.ToString()});
-            model.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a=>!a.InventoryItem && !a.PurchaseItem)
+            model.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a=>!a.InventoryItem && !a.PurchaseItem)
                 .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
             model.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
@@ -3333,9 +3334,9 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
+            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => !a.InventoryItem && !a.PurchaseItem)
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => !a.InventoryItem && !a.PurchaseItem)
                 .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
             timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
@@ -3472,10 +3473,10 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             TimedEventViewModel timeeventVm =
-                Mapper.Map<TimedEventViewModel>(_unitOfWork.TimedEventRepository.GetTimedEventById(id, (int)user.StoreId));
-            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
+                Mapper.Map<TimedEventViewModel>(_unitOfWork.TimedEventRepository.GetTimedEventById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
+            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => !a.InventoryItem && !a.PurchaseItem)
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => !a.InventoryItem && !a.PurchaseItem)
                 .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
             timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
@@ -3490,9 +3491,9 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)user.StoreId)
+            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => !a.InventoryItem && !a.PurchaseItem)
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => !a.InventoryItem && !a.PurchaseItem)
                 .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
             timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
@@ -3522,7 +3523,7 @@ namespace POSApp.Controllers
                 {
 
                     TimedEvent location = Mapper.Map<TimedEvent>(timeeventVm);
-                    _unitOfWork.TimedEventRepository.UpdateTimedEvent(id, location, (int) user.StoreId);
+                    _unitOfWork.TimedEventRepository.UpdateTimedEvent(id, location, (int) UserStores.GetStoreCookie(System.Web.HttpContext.Current));
 
                     _unitOfWork.TimedEventProductsRepository.DeleteTimedEventProducts(location.Id,
                         location.StoreId);
@@ -3648,7 +3649,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.TimedEventRepository.DeleteTimedEvent(id, (int)user.StoreId);
+                _unitOfWork.TimedEventRepository.DeleteTimedEvent(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The timed event deleted successfully", AlertType.Success);
                 return RedirectToAction("TimedEventList", "Setup");
@@ -3701,7 +3702,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.FloorRepository.GetFloors((int)user.StoreId).OrderByDescending(a => a.Id));
+            return View(_unitOfWork.FloorRepository.GetFloors((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id));
         }
         //Floor Partial
         [HttpGet]
@@ -3741,7 +3742,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Floor floor = Mapper.Map<Floor>(FloorMv);
-                    floor.StoreId = (int)user.StoreId;
+                    floor.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.FloorRepository.AddFloor(floor);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The floor added successfully", AlertType.Success);
@@ -3828,7 +3829,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Floor floor = Mapper.Map<Floor>(FloorMv);
-                    floor.StoreId = (int)user.StoreId;
+                    floor.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.FloorRepository.AddFloor(floor);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The floor added successfully", AlertType.Success);
@@ -3890,7 +3891,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             FloorViewModel floorMv =
-                Mapper.Map<FloorViewModel>(_unitOfWork.FloorRepository.GetFloorById(id, (int)user.StoreId));
+                Mapper.Map<FloorViewModel>(_unitOfWork.FloorRepository.GetFloorById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             return View("AddFloor", floorMv);
         }
         [HttpPost]
@@ -3914,7 +3915,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Floor floor = Mapper.Map<Floor>(FloorMv);
-                    _unitOfWork.FloorRepository.UpdateFloor(id, floor, (int)user.StoreId);
+                    _unitOfWork.FloorRepository.UpdateFloor(id, floor, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The floor updated successfully", AlertType.Success);
                     return null;
@@ -3971,7 +3972,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.FloorRepository.DeleteFloor(id, (int)user.StoreId);
+                _unitOfWork.FloorRepository.DeleteFloor(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The floor deleted successfully", AlertType.Success);
                 return RedirectToAction("FloorList", "Setup");
@@ -4024,7 +4025,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.DineTableRepository.GetDineTables((int)user.StoreId).Select(a => new DineTableListModelView { Id = a.Id, DineTableNumber = a.DineTableNumber, FloorNumber =a.Floor.FloorNumber }).OrderByDescending(a => a.Id));
+            return View(_unitOfWork.DineTableRepository.GetDineTables((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new DineTableListModelView { Id = a.Id, DineTableNumber = a.DineTableNumber, FloorNumber =a.Floor.FloorNumber }).OrderByDescending(a => a.Id));
         }
 
         [Manage(Config.Setup.DineTable)]
@@ -4034,7 +4035,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             DineTableViewModel dinetable  = new DineTableViewModel();
-            dinetable.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)user.StoreId)
+            dinetable.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FloorNumber }).AsEnumerable();
             var isAjax = Request.IsAjaxRequest();
             if (!isAjax)
@@ -4053,7 +4054,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = "AddDineTable";
-            DineTableVm.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)user.StoreId)
+            DineTableVm.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FloorNumber }).AsEnumerable();
             try
             {
@@ -4068,7 +4069,7 @@ namespace POSApp.Controllers
                 }
                 else
                 {
-                    DineTableVm.StoreId = (int)user.StoreId;
+                    DineTableVm.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     DineTable DineTable = Mapper.Map<DineTable>(DineTableVm);
                     _unitOfWork.DineTableRepository.AddDineTable(DineTable);
                     _unitOfWork.Complete();
@@ -4132,8 +4133,8 @@ namespace POSApp.Controllers
             ViewBag.edit = "UpdateDineTable";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            DineTableViewModel DineTableMv = Mapper.Map<DineTableViewModel>(_unitOfWork.DineTableRepository.GetDineTableById(id,(int)user.StoreId));
-            DineTableMv.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)user.StoreId)
+            DineTableViewModel DineTableMv = Mapper.Map<DineTableViewModel>(_unitOfWork.DineTableRepository.GetDineTableById(id,(int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
+            DineTableMv.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FloorNumber }).AsEnumerable();
             return View("AddDineTable", DineTableMv);
         }
@@ -4144,7 +4145,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            DineTableVm.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)user.StoreId)
+            DineTableVm.FloorDdl = _unitOfWork.FloorRepository.GetFloors((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.FloorNumber }).AsEnumerable();
             ViewBag.edit = "UpdateDineTable";
             try
@@ -4162,7 +4163,7 @@ namespace POSApp.Controllers
                 {
                     DineTable DineTable = Mapper.Map<DineTable>(DineTableVm);
                    
-                    _unitOfWork.DineTableRepository.UpdateDineTable(id, DineTable, Convert.ToInt32(user.StoreId));
+                    _unitOfWork.DineTableRepository.UpdateDineTable(id, DineTable, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The dine table updated successfully", AlertType.Success);
                     return null;
@@ -4217,7 +4218,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.DineTableRepository.DeleteDineTable(id, (int)user.StoreId);
+                _unitOfWork.DineTableRepository.DeleteDineTable(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The dine table deleted successfully", AlertType.Success);
                 return RedirectToAction("DineTableList", "Setup");
@@ -4269,7 +4270,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return Json(Mapper.Map<DepartmentViewModel[]>(_unitOfWork.DepartmentRepository.GetDepartments((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<DepartmentViewModel[]>(_unitOfWork.DepartmentRepository.GetDepartments((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -4283,7 +4284,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return Json(Mapper.Map<DesignationViewModel[]>(_unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<DesignationViewModel[]>(_unitOfWork.DesignationRepository.GetDesignations((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -4321,7 +4322,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return Json(Mapper.Map<SizeViewModel[]>(_unitOfWork.SizeRepository.GetSizes((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<SizeViewModel[]>(_unitOfWork.SizeRepository.GetSizes((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -4335,7 +4336,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return Json(Mapper.Map<FloorViewModel[]>(_unitOfWork.FloorRepository.GetFloors((int)user.StoreId)), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<FloorViewModel[]>(_unitOfWork.FloorRepository.GetFloors((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -4349,7 +4350,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return Json(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)user.StoreId)), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<SupplierModelView[]>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S",(int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -4425,7 +4426,7 @@ namespace POSApp.Controllers
                         var roleAdd = new ApplicationRole
                         {
                             Name = role.Name,
-                            StoreId = user.StoreId,
+                            StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current),
                             CreatedOn = DateTime.Now,
                             UpdatedOn = DateTime.Now,
                             CreatedById = userId,
@@ -4440,7 +4441,7 @@ namespace POSApp.Controllers
                                 Manage = roleRoleSecurityRightViewModel.Manage,
                                 SecurityObjectId = roleRoleSecurityRightViewModel.SecurityObjectId,
                                 View = roleRoleSecurityRightViewModel.View,
-                                StoreId = (int)user.StoreId
+                                StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)
                             });
                         }
                         _unitOfWork.Complete();
@@ -4493,6 +4494,7 @@ namespace POSApp.Controllers
         {
             var userId = this.HttpContext.User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
+            int storeId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
             var role = RoleManager.Roles.Include(a=>a.SecurityRights).Include(a=>a.SecurityRights.Select(g=>g.SecurityObject)).Select(a => new RoleViewModel
             {
                
@@ -4514,7 +4516,7 @@ namespace POSApp.Controllers
                 
 
 
-            }).FirstOrDefault(a => a.StoreId == (int)user.StoreId && a.Id == id);
+            }).FirstOrDefault(a => a.StoreId == storeId && a.Id == id);
           
             return View("AddRole", role);
         }
@@ -4535,13 +4537,13 @@ namespace POSApp.Controllers
                    
                         var userId = this.HttpContext.User.Identity.GetUserId();
                         var user = UserManager.FindById(userId);
-                    _unitOfWork.SecurityRightRepository.DeleteSecurityRightbyRole(id, user.StoreId);
+                    _unitOfWork.SecurityRightRepository.DeleteSecurityRightbyRole(id, UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     _unitOfWork.Complete();
                     ApplicationRole roleUpdate =new ApplicationRole
                     {
                         Id = id,
                         Name = role.Name,
-                        StoreId = user.StoreId,
+                        StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current),
                         CreatedOn = Convert.ToDateTime(role.CreatedOn),
                         CreatedById = role.CreatedBy,
                         UpdatedOn = DateTime.Now,
@@ -4556,7 +4558,7 @@ namespace POSApp.Controllers
                             Manage = roleRoleSecurityRightViewModel.Manage,
                             SecurityObjectId = roleRoleSecurityRightViewModel.SecurityObjectId,
                             View = roleRoleSecurityRightViewModel.View,
-                            StoreId = (int)user.StoreId
+                            StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)
                         });
                     }
                     _unitOfWork.Complete();
@@ -4613,7 +4615,8 @@ namespace POSApp.Controllers
             {
                 var userId = this.HttpContext.User.Identity.GetUserId();
                 var user = UserManager.FindById(userId);
-                RoleManager.Delete(RoleManager.Roles.FirstOrDefault(a => a.Id == id && a.StoreId == (int)user.StoreId));
+                int storeId = (int) UserStores.GetStoreCookie(System.Web.HttpContext.Current);
+                RoleManager.Delete(RoleManager.Roles.FirstOrDefault(a => a.Id == id && a.StoreId == storeId));
                 TempData["Alert"] = new AlertModel("The role deleted successfully", AlertType.Success);
                 return RedirectToAction("RolesList");
             }
@@ -4667,7 +4670,7 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
 
             AssignRoleViewModel asignRole = new AssignRoleViewModel();
-            asignRole.Userlist = _unitOfWork.UserRepository.GetUsers((int)user.StoreId)
+            asignRole.Userlist = _unitOfWork.UserRepository.GetUsers((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Text = a.UserName, Value = a.Id });
             asignRole.UserRolesList = RoleManager.Roles.Select(a => new SelectListItem { Text = a.Name, Value = a.Name });
 
@@ -4679,7 +4682,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            _assignRole.Userlist = _unitOfWork.UserRepository.GetUsers((int)user.StoreId)
+            _assignRole.Userlist = _unitOfWork.UserRepository.GetUsers((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Text = a.UserName, Value = a.Id });
             _assignRole.UserRolesList = RoleManager.Roles.Select(a => new SelectListItem { Text = a.Name, Value = a.Name });
             if (ModelState.IsValid)
@@ -4715,7 +4718,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(Mapper.Map<POSTerminalListModelView[]>(_unitOfWork.POSTerminalRepository.GetPOSTerminals((int)user.StoreId)).OrderByDescending(a => a.POSTerminalId));
+            return View(Mapper.Map<POSTerminalListModelView[]>(_unitOfWork.POSTerminalRepository.GetPOSTerminals((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))).OrderByDescending(a => a.POSTerminalId));
         }
         [Manage(Config.Setup.PosTerminal)]
 
@@ -4724,7 +4727,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             POSTerminalViewModel POSTerminal = new POSTerminalViewModel();
-            POSTerminal.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+            POSTerminal.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             var isAjax = Request.IsAjaxRequest();
             if (!isAjax)
@@ -4743,7 +4746,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = "AddPOSTerminal";
-            POSTerminalVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+            POSTerminalVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
@@ -4758,7 +4761,7 @@ namespace POSApp.Controllers
                 }
                 else
                 {
-                    POSTerminalVm.StoreId = (int)user.StoreId;
+                    POSTerminalVm.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     POSTerminal POSTerminal = Mapper.Map<POSTerminal>(POSTerminalVm);
                     _unitOfWork.POSTerminalRepository.AddPOSTerminal(POSTerminal);
                     _unitOfWork.Complete();
@@ -4821,8 +4824,8 @@ namespace POSApp.Controllers
             ViewBag.edit = "UpdatePOSTerminal";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            POSTerminalViewModel POSTerminalMv = Mapper.Map<POSTerminalViewModel>(_unitOfWork.POSTerminalRepository.GetPOSTerminalById(id, (int)user.StoreId));
-            POSTerminalMv.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+            POSTerminalViewModel POSTerminalMv = Mapper.Map<POSTerminalViewModel>(_unitOfWork.POSTerminalRepository.GetPOSTerminalById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
+            POSTerminalMv.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddPOSTerminal", POSTerminalMv);
         }
@@ -4834,7 +4837,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = "UpdatePOSTerminal";
-            POSTerminalVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)user.StoreId)
+            POSTerminalVm.SectionDdl = _unitOfWork.SectionRepository.GetSections((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.SectionId.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
@@ -4850,7 +4853,7 @@ namespace POSApp.Controllers
                 {
                     POSTerminal POSTerminal = Mapper.Map<POSTerminal>(POSTerminalVm);
                     
-                    _unitOfWork.POSTerminalRepository.UpdatePOSTerminal(id, POSTerminal, Convert.ToInt32(user.StoreId));
+                    _unitOfWork.POSTerminalRepository.UpdatePOSTerminal(id, POSTerminal, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The posterminal updated successfully", AlertType.Success);
                     return null;
@@ -4904,7 +4907,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.POSTerminalRepository.DeletePOSTerminal(id, (int)user.StoreId);
+                _unitOfWork.POSTerminalRepository.DeletePOSTerminal(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The posterminal deleted successfully", AlertType.Success);
                 return RedirectToAction("POSTerminalList", "Setup");
@@ -4958,7 +4961,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ShiftRepository.GetShifts((int)user.StoreId).OrderByDescending(a => a.ShiftId));
+            return View(_unitOfWork.ShiftRepository.GetShifts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.ShiftId));
         }
         [HttpGet]
         [Manage(Config.Setup.Shift)]
@@ -4995,7 +4998,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Shift Shift = Mapper.Map<Shift>(ShiftMv);
-                    Shift.StoreId = Convert.ToInt32(user.StoreId);
+                    Shift.StoreId = Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     _unitOfWork.ShiftRepository.AddShift(Shift);
                     _unitOfWork.Complete();
                     TempData["Alert"]= new AlertModel("The Shift added successfully", AlertType.Success);
@@ -5059,7 +5062,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ShiftViewModel ShiftMv =
-                Mapper.Map<ShiftViewModel>(_unitOfWork.ShiftRepository.GetShiftById(id, (int)user.StoreId));
+                Mapper.Map<ShiftViewModel>(_unitOfWork.ShiftRepository.GetShiftById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             return View("AddShift", ShiftMv);
         }
         [HttpPost]
@@ -5080,7 +5083,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Shift Shift = Mapper.Map<Shift>(ShiftMv);
-                    _unitOfWork.ShiftRepository.UpdateShift(id, Shift, (int)user.StoreId);
+                    _unitOfWork.ShiftRepository.UpdateShift(id, Shift, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Shift Updated successfully", AlertType.Success);
                     return null;
@@ -5137,7 +5140,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.ShiftRepository.DeleteShift(id, (int) user.StoreId);
+                _unitOfWork.ShiftRepository.DeleteShift(id, (int) UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The Shift Deleted successfully", AlertType.Success);
                 return RedirectToAction("ShiftList", "Setup");
@@ -5185,7 +5188,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            var data = _unitOfWork.TillOperationRepository.GetTillOperationsById(id, user.StoreId);
+            var data = _unitOfWork.TillOperationRepository.GetTillOperationsById(id, UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             return View(data);
         }
 
@@ -5196,7 +5199,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             
-                return View(_unitOfWork.TillOperationRepository.GetTillOperations((int)user.StoreId).Select(a => new TillOperationListModelView
+                return View(_unitOfWork.TillOperationRepository.GetTillOperations((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new TillOperationListModelView
                 {
 
                     Id = a.Id,
@@ -5226,7 +5229,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             TillOperationViewModel tillMv = new TillOperationViewModel();
-            tillMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)user.StoreId)
+            tillMv.ShiftDdl = _unitOfWork.ShiftRepository.GetShifts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.ShiftId.ToString(), Text = a.Name }).AsEnumerable();
             ViewBag.edit = "AddTillOperation";
             return View(tillMv);
@@ -5251,7 +5254,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     TillOperation to = Mapper.Map<TillOperation>(tillMv);
-                    to.StoreId = (int)user.StoreId;
+                    to.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     to.ApplicationUserId = userid;
                     _unitOfWork.TillOperationRepository.AddTillOperation(to);
                     _unitOfWork.Complete();
@@ -5308,7 +5311,7 @@ namespace POSApp.Controllers
             ViewBag.edit = "UpdateTillOperation";
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            TillOperationViewModel tillVm = Mapper.Map<TillOperationViewModel>(_unitOfWork.TillOperationRepository.GetTillOperationsById(id, (int)user.StoreId));
+            TillOperationViewModel tillVm = Mapper.Map<TillOperationViewModel>(_unitOfWork.TillOperationRepository.GetTillOperationsById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             return View("AddTillOperation",tillVm);
         }
 
@@ -5332,7 +5335,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     TillOperation to = Mapper.Map<TillOperation>(tillVm);
-                    _unitOfWork.TillOperationRepository.UpdateTillOperations(id, (int)user.StoreId, to);
+                    _unitOfWork.TillOperationRepository.UpdateTillOperations(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), to);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The tilloperation updated successfully", AlertType.Success);
                     return RedirectToAction("TillOperationList", "Setup");
@@ -5387,7 +5390,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.TillOperationRepository.DeleteTillOperations(id, (int)user.StoreId);
+                _unitOfWork.TillOperationRepository.DeleteTillOperations(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The tilloperation deleted successfully", AlertType.Success);
                 return RedirectToAction("TillOperationList", "Setup");
@@ -5440,7 +5443,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.SizeRepository.GetSizes((int)user.StoreId).OrderByDescending(a => a.Id));
+            return View(_unitOfWork.SizeRepository.GetSizes((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id));
         }
         //Size Partial
         [HttpGet]
@@ -5480,7 +5483,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Size size = Mapper.Map<Size>(SizeMv);
-                    size.StoreId = (int)user.StoreId;
+                    size.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.SizeRepository.AddSize(size);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The size added successfully", AlertType.Success);
@@ -5567,7 +5570,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Size size = Mapper.Map<Size>(SizeMv);
-                    size.StoreId = (int)user.StoreId;
+                    size.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     _unitOfWork.SizeRepository.AddSize(size);
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The size added successfully", AlertType.Success);
@@ -5629,7 +5632,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             SizeViewModel sizeMv =
-                Mapper.Map<SizeViewModel>(_unitOfWork.SizeRepository.GetSizeById(id, (int)user.StoreId));
+                Mapper.Map<SizeViewModel>(_unitOfWork.SizeRepository.GetSizeById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             return View("AddSize", sizeMv);
         }
         [HttpPost]
@@ -5653,7 +5656,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Size size = Mapper.Map<Size>(SizeMv);
-                    _unitOfWork.SizeRepository.UpdateSize(id, size, (int)user.StoreId);
+                    _unitOfWork.SizeRepository.UpdateSize(id, size, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The size updated successfully", AlertType.Success);
                     return null;
@@ -5709,7 +5712,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.SizeRepository.DeleteSize(id, (int)user.StoreId);
+                _unitOfWork.SizeRepository.DeleteSize(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The size deleted successfully", AlertType.Success);
                 return RedirectToAction("SizeList", "Setup");

@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
@@ -32,7 +33,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TransMasterPaymentMethodRepository.GetTransMasterPaymentMethods((int)user.StoreId).OrderByDescending(a => a.Id));
+            return View(_unitOfWork.TransMasterPaymentMethodRepository.GetTransMasterPaymentMethods((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id));
         }
         [HttpGet]
         public ActionResult AddTransMasterPaymentMethod()
@@ -117,7 +118,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             TransMasterPaymentMethodViewModel TransMasterPaymentMethodMv =
-                Mapper.Map<TransMasterPaymentMethodViewModel>(_unitOfWork.TransMasterPaymentMethodRepository.GetTransMasterPaymentMethodById(id, (int)user.StoreId));
+                Mapper.Map<TransMasterPaymentMethodViewModel>(_unitOfWork.TransMasterPaymentMethodRepository.GetTransMasterPaymentMethodById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             return View("AddTransMasterPaymentMethod", TransMasterPaymentMethodMv);
         }
         [HttpPost]
@@ -138,7 +139,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     TransMasterPaymentMethod TransMasterPaymentMethod = Mapper.Map<TransMasterPaymentMethod>(TransMasterPaymentMethodMv);
-                    _unitOfWork.TransMasterPaymentMethodRepository.UpdateTransMasterPaymentMethod(id, TransMasterPaymentMethod, (int)user.StoreId);
+                    _unitOfWork.TransMasterPaymentMethodRepository.UpdateTransMasterPaymentMethod(id, TransMasterPaymentMethod, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The transMasterPaymentMethod updated successfully", AlertType.Success);
                     return RedirectToAction("TransMasterPaymentMethodList", "TransMasterPaymentMethod");
@@ -192,7 +193,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.TransMasterPaymentMethodRepository.DeleteTransMasterPaymentMethod(id, (int)user.StoreId);
+                _unitOfWork.TransMasterPaymentMethodRepository.DeleteTransMasterPaymentMethod(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The transMasterPaymentMethod deleted successfully", AlertType.Success);
                 return RedirectToAction("TransMasterPaymentMethodList", "TransMasterPaymentMethod");

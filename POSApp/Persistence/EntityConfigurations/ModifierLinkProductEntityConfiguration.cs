@@ -15,6 +15,8 @@ namespace POSApp.Persistence.EntityConfigurations
             HasKey(a => new {a.ModifierId, a.ProductCode});
             HasRequired(x => x.Product).WithMany(x => x.ModifierLinkProducts).HasForeignKey(s => new { s.ProductCode,s.ProductStoreId }).WillCascadeOnDelete(true);
             HasRequired(x => x.Modifier).WithMany(x => x.ModifierLinkProducts).HasForeignKey(s => new { s.ModifierId, s.ModifierStoreId }).WillCascadeOnDelete(true);
+            HasRequired(x => x.ModifierStore).WithMany(x => x.ModifierLinkProducts).HasForeignKey(s => new { s.ModifierStoreId }).WillCascadeOnDelete(false);
+            HasRequired(x => x.ProductStore).WithMany(x => x.ProductModifierLinkProducts).HasForeignKey(s => new { s.ProductStoreId }).WillCascadeOnDelete(false);
 
         }
     }

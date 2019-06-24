@@ -40,32 +40,39 @@ namespace POSApp.Controllers
             products.Hold = hold;
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            products.DineTables = _unitOfWork.DineTableRepository.GetDineTables(Convert.ToInt32(user.StoreId)).Select(
+            products.DineTables = _unitOfWork.DineTableRepository.GetDineTables(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))).Select(
                 a => new SelectListItem
                 {
                     Text = a.DineTableNumber,
                     Value = a.Id.ToString()
                 }).ToList();
-            if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(user.StoreId)))
+            if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))))
             {
                 return RedirectToAction("OpenTill", "PointOfSale", new {returnUrl = @Request.Url.AbsoluteUri});
             }
             else
             {
                 products.SessionCode = _unitOfWork.TillOperationRepository
-                    .GetOpenedTill(userid, Convert.ToInt32(user.StoreId)).SessionCode;
+                    .GetOpenedTill(userid, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))).SessionCode;
             }
             products.PosCategories = Mapper.Map<List<PosCategory>>(
-                _unitOfWork.ProductCategoryRepository.GetProductCategories(Convert.ToInt32(user.StoreId)));
+                _unitOfWork.ProductCategoryRepository.GetProductCategories(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
+            if (products.PosCategories.Any())
+            {
             products.PosProducts = Mapper.Map<List<PosProducts>>(
-                _unitOfWork.ProductRepository.GetSaleProducts(products.PosCategories.FirstOrDefault().CategoryId, Convert.ToInt32(user.StoreId)));
+                _unitOfWork.ProductRepository.GetSaleProducts(products.PosCategories.FirstOrDefault().CategoryId, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
+            }
+            else
+            {
+                products.PosProducts=new List<PosProducts>();
+            }
             products.Customers = _unitOfWork.BusinessPartnerRepository
-                .GetBusinessPartners("C", Convert.ToInt32(user.StoreId)).Select(a => new SelectListItem
+                .GetBusinessPartners("C", Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))).Select(a => new SelectListItem
                 {
                     Text = a.Name,
                     Value = a.Id.ToString()
                 }).ToList();
-            products.PosHolds = _unitOfWork.TransMasterRepository.GetHoldTransactions(Convert.ToInt32(user.StoreId))
+            products.PosHolds = _unitOfWork.TransMasterRepository.GetHoldTransactions(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)))
                 .Select(a => new PosHold
                 {
                     Id = a.Id,
@@ -86,7 +93,7 @@ namespace POSApp.Controllers
                     break;
                 default:
                     var holdTrans = _unitOfWork.TransMasterRepository.GetHoldTransaction(hold,
-                        Convert.ToInt32(user.StoreId));
+                        Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                     if (holdTrans.DineTableId!=null)
                     {
                         var selectedTable = products.DineTables.FirstOrDefault(a => a.Value == holdTrans.DineTableId.ToString());
@@ -157,10 +164,10 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                
-                _unitOfWork.TransMasterRepository.DeleteHold(did, Convert.ToInt32(user.StoreId));
+                _unitOfWork.TransMasterRepository.DeleteHold(did, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                 var savePo = new TransMaster();
 
-                savePo.StoreId = Convert.ToInt32(user.StoreId);
+                savePo.StoreId = Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 savePo.BusinessPartnerId = customer_id;
                 savePo.TotalPrice = amount-balance_amount;
                 savePo.Discount = order_discount;
@@ -174,7 +181,7 @@ namespace POSApp.Controllers
                 savePo.SessionCode = eid;
                 if (delete_id)
                 {
-                    if (balance_amount < 0 && _unitOfWork.BusinessPartnerRepository.IsWalkIn(customer_id, Convert.ToInt32(user.StoreId)))
+                    if (balance_amount < 0 && _unitOfWork.BusinessPartnerRepository.IsWalkIn(customer_id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))))
                     {
                         TempData["alert"] = @"<div class='col-lg-12 alerts'>
                         <div class='alert alert-danger alert-dismissable'>
@@ -190,13 +197,13 @@ namespace POSApp.Controllers
                         return RedirectToAction("Index", "PointOfSale");
                     }
                     int TransId = _unitOfWork.AppCountersRepository.GetId("Invoice");
-                    savePo.TransCode = "INV-" + "C-" + TransId.ToString() + "-" + Convert.ToInt32(user.StoreId);
+                    savePo.TransCode = "INV-" + "C-" + TransId.ToString() + "-" + Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     savePo.TransStatus = "Complete";
                 }
                 else
                 {
                     int TransId = _unitOfWork.AppCountersRepository.GetId("HoldInvoice");
-                    savePo.TransCode = "HLDINV-" + "C-" + TransId.ToString() + "-" + Convert.ToInt32(user.StoreId);
+                    savePo.TransCode = "HLDINV-" + "C-" + TransId.ToString() + "-" + Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     savePo.TransStatus = "Hold";
                     
                 }
@@ -205,7 +212,7 @@ namespace POSApp.Controllers
                 savePo.TransMasterPaymentMethods.Add(new TransMasterPaymentMethod
                 {
                     Amount = Convert.ToDouble(amount),
-                    StoreId = Convert.ToInt32(user.StoreId),
+                    StoreId = Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)),
                     Method = paid_by
 
                 });
@@ -216,7 +223,7 @@ namespace POSApp.Controllers
                         Discount = product_discount[i],
                         ProductCode = product_code[i],
                         UnitPrice = real_unit_price[i],
-                        StoreId = Convert.ToInt32(user.StoreId),
+                        StoreId = Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)),
                         Quantity = quantity[i],
                         Tax = 0,
                         Balance = 0,
@@ -259,7 +266,7 @@ namespace POSApp.Controllers
             if (id == 0 && string.IsNullOrEmpty(group))
             {
                 products = Mapper.Map<List<PosProducts>>(
-                    _unitOfWork.ProductRepository.GetAllProducts(Convert.ToInt32(user.StoreId)).Where(a=>!a.PurchaseItem && !a.InventoryItem).Take(5));
+                    _unitOfWork.ProductRepository.GetAllProducts(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))).Where(a=>!a.PurchaseItem && !a.InventoryItem).Take(5));
             }
             else
             {
@@ -279,7 +286,7 @@ namespace POSApp.Controllers
             var products = new List<PosProducts>();
 
             products = Mapper.Map<List<PosProducts>>(
-                _unitOfWork.ProductRepository.GetSaleProducts(category_id, Convert.ToInt32(user.StoreId)));
+                _unitOfWork.ProductRepository.GetSaleProducts(category_id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
 
             return View("GetProducts", products);
         }
@@ -291,7 +298,7 @@ namespace POSApp.Controllers
             var products = new List<PosCategory>();
 
             products = Mapper.Map<List<PosCategory>>(
-                _unitOfWork.ProductCategoryRepository.GetProductCategories(Convert.ToInt32(user.StoreId)));
+                _unitOfWork.ProductCategoryRepository.GetProductCategories(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
 
             return View(products);
         }
@@ -302,7 +309,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                ProductSyncViewModel productVm = Mapper.Map<ProductSyncViewModel>(_unitOfWork.ProductRepository.GetProductByCode(code, Convert.ToInt32(user.StoreId)));
+                ProductSyncViewModel productVm = Mapper.Map<ProductSyncViewModel>(_unitOfWork.ProductRepository.GetProductByCode(code, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
                 RootObject root=new RootObject();
                 root.id = productVm.Id.ToString();
                 root.item_id = productVm.Id.ToString();
@@ -354,7 +361,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                List<ProductSyncViewModel> products = Mapper.Map<List<ProductSyncViewModel>>(_unitOfWork.ProductRepository.GetSaleProductsQuery(Convert.ToInt32(user.StoreId),term));
+                List<ProductSyncViewModel> products = Mapper.Map<List<ProductSyncViewModel>>(_unitOfWork.ProductRepository.GetSaleProductsQuery(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)),term));
                 if (products.Count > 0)
                 {
                     List<RootObject> objects = new List<RootObject>();
@@ -436,7 +443,7 @@ namespace POSApp.Controllers
                 customer.Name = name;
                 customer.Email = email;
                 customer.PhoneNumber = phone;
-                customer.StoreId = (int)user.StoreId;
+                customer.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                 customer.Type = "C";
                 customer.Birthday = DateTime.Now;
                 _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(customer);
@@ -458,7 +465,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TransMasterRepository.GetSaleTransMaster(id,Convert.ToInt32(user.StoreId)));
+            return View(_unitOfWork.TransMasterRepository.GetSaleTransMaster(id,Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
         }
 
         public ActionResult CustomerDisplay()
@@ -470,7 +477,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(user.StoreId)))
+            if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))))
             {
                 ViewBag.ReturnUrl = returnUrl;
                 return View();
@@ -486,11 +493,11 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var users = UserManager.FindById(userid);
             var user = _unitOfWork.UserRepository.GetUserById(userid,users.StoreId);
-            if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(user.StoreId)))
+            if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))))
             {
                 TillOperation data = new TillOperation
                 {
-                    StoreId = Convert.ToInt32(user.StoreId),
+                    StoreId = Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)),
                     ApplicationUserId = userid,
                     OpeningAmount = cash_in_hand,
                     SystemAmount = 0,
@@ -500,8 +507,8 @@ namespace POSApp.Controllers
                     Status = false,
                     TillOperationType = "Open",
                     SessionCode =
-                        _unitOfWork.TillOperationRepository.GetTillSessionCode(userid, Convert.ToInt32(user.StoreId)),
-                    ShiftId = _unitOfWork.EmployeeRepository.GetEmployeeById(user.EmployeeId, (int)user.StoreId).ShiftId
+                        _unitOfWork.TillOperationRepository.GetTillSessionCode(userid, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))),
+                    ShiftId = _unitOfWork.EmployeeRepository.GetEmployeeById(user.EmployeeId, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ShiftId
 
                 };
                 _unitOfWork.TillOperationRepository.AddTillOperation(data);
@@ -522,7 +529,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return View(_unitOfWork.TillOperationRepository.GetOpenedTill(userid, Convert.ToInt32(user.StoreId)));
+                return View(_unitOfWork.TillOperationRepository.GetOpenedTill(userid, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
             }
             catch (Exception e)
             {
@@ -548,7 +555,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                return View(_unitOfWork.TransMasterRepository.GetHoldTransactions(Convert.ToInt32(user.StoreId)).ToList());
+                return View(_unitOfWork.TransMasterRepository.GetHoldTransactions(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))).ToList());
             }
             catch (Exception e)
             {
@@ -562,7 +569,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.TransMasterRepository.DeleteHold(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.TransMasterRepository.DeleteHold(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("Hold order deleted successfully", AlertType.Success);
                 return RedirectToAction("OpenedBills","PointOfSale");

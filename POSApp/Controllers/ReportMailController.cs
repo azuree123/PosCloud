@@ -16,6 +16,7 @@ using Microsoft.AspNet.Identity.Owin;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.Services;
 using RazorEngine;
 using Encoding = System.Text.Encoding;
 
@@ -47,9 +48,9 @@ namespace POSApp.Controllers
             vm.ClientName = _unitOfWork.ClientRepository.GetClients().Select(a => a.Name).FirstOrDefault();
             vm.Currency = _unitOfWork.StoreRepository.GetStores().Select(a => a.City).FirstOrDefault();
             vm.TotalOrders = _unitOfWork.TransMasterRepository
-                .GetTransMasters((int)user.StoreId).Count(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= dateWeekBefore);
+                .GetTransMasters((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Count(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= dateWeekBefore);
            
-            vm.Sales =  _unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
+            vm.Sales =  _unitOfWork.TransMasterRepository.GetTransMasters((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= dateWeekBefore).Select(a => a.TotalPrice).Sum();
             vm.TimeSales = _unitOfWork.TransMasterRepository.GetTimeSale().Select(a=>a.Amount).Sum();
             vm.TimeOrders = _unitOfWork.TransMasterRepository.GetTimeSale().Count();
@@ -60,7 +61,7 @@ namespace POSApp.Controllers
             vm.WeeklySales = _unitOfWork.TransMasterRepository.GetWeeklyIncome();
             vm.WeekBeforeSalesCompare = _unitOfWork.TransMasterRepository.GetBeforeWeeklyIncome() - vm.WeeklySales;
 
-            var client = _unitOfWork.ClientRepository.GetClient((int) user.StoreId);
+            var client = _unitOfWork.ClientRepository.GetClient((int) UserStores.GetStoreCookie(System.Web.HttpContext.Current));
 
 
 

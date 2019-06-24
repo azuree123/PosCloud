@@ -12,6 +12,7 @@ using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
 using POSApp.SecurityFilters;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
@@ -42,9 +43,9 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.UserRepository.GetUsers((int)user.StoreId).Select(a => new UserViewModel() { Id = a.Id, Name = a.UserName, RoleName = a.Roles.ToString() }).OrderByDescending(a => a.Id));
+            return View(_unitOfWork.UserRepository.GetUsers((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new UserViewModel() { Id = a.Id, Name = a.UserName, RoleName = a.Roles.ToString() }).OrderByDescending(a => a.Id));
 
-            //return View(Mapper.Map<UserViewModel[]>(_unitOfWork.UserRepository.GetUsers((int)user.StoreId).Where(a=>!a.IsDisabled).OrderByDescending(a => a.Id)));
+            //return View(Mapper.Map<UserViewModel[]>(_unitOfWork.UserRepository.GetUsers((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a=>!a.IsDisabled).OrderByDescending(a => a.Id)));
         }
         [HttpGet]
         public ActionResult UpdateUser(string id)
@@ -53,7 +54,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             UserViewModel userMv =
-                Mapper.Map<UserViewModel>(_unitOfWork.UserRepository.GetUserById(id, user.StoreId));
+                Mapper.Map<UserViewModel>(_unitOfWork.UserRepository.GetUserById(id, UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             return View(userMv);
         }
         [HttpPost]
@@ -77,7 +78,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     ApplicationUser discount = Mapper.Map<ApplicationUser>(userMv);
-                    _unitOfWork.UserRepository.UpdateUser(id, discount, (int)user.StoreId);
+                    _unitOfWork.UserRepository.UpdateUser(id, discount, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The user updated successfully", AlertType.Success);
                     return RedirectToAction("UserList", "User");
@@ -135,7 +136,7 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 string[] roles = UserManager.GetRoles(id).ToArray();
                 UserManager.RemoveFromRoles(id, roles);
-                _unitOfWork.UserRepository.DeleteUser(id, (int)user.StoreId);
+                _unitOfWork.UserRepository.DeleteUser(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The user deleted successfully", AlertType.Success);
                 return RedirectToAction("UserList", "User");

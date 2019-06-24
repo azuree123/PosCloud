@@ -48,7 +48,6 @@ namespace POSApp.Core.Models
         public decimal? StoIFactor { get; set; }
         public virtual ICollection<TransDetail> TransDetails { get; set; }
 
-        public virtual ICollection<Modifier> Modifiers { get; set; }
         public virtual ICollection<ProductsSub> ProductsSubs { get; set; }
         public virtual ICollection<ProductsSub> ComboProducts { get; set; }
 

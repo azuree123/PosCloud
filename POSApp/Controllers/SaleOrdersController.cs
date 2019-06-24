@@ -9,6 +9,7 @@ using POSApp.Core;
 using System.Linq.Dynamic;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
@@ -56,7 +57,7 @@ namespace POSApp.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
                 int recordsFiltered = 0;
-                var v=_unitOfWork.TransMasterRepository.GetTransMastersQuery((int) user.StoreId);
+                var v=_unitOfWork.TransMasterRepository.GetTransMastersQuery((int) UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 v = v.Where(a => a.Type == "INV");
                 recordsTotal = v.Count();
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))
@@ -108,7 +109,7 @@ namespace POSApp.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
                 int recordsFiltered = 0;
-                var v = _unitOfWork.TransMasterRepository.GetDailyRefundsQuery((int)user.StoreId);
+                var v = _unitOfWork.TransMasterRepository.GetDailyRefundsQuery((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 v = v.Where(a => a.Type == "REF");
                 recordsTotal = v.Count();
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))
@@ -151,7 +152,7 @@ namespace POSApp.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
                 int recordsFiltered = 0;
-                var v = _unitOfWork.TransMasterRepository.GetTransMastersQuery((int)user.StoreId);
+                var v = _unitOfWork.TransMasterRepository.GetTransMastersQuery((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 v = v.Where(a => a.Type == "REF");
                 recordsTotal = v.Count();
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))
@@ -180,7 +181,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            var data = _unitOfWork.TransMasterRepository.GetTransMaster(miforderId, (int)user.StoreId);
+            var data = _unitOfWork.TransMasterRepository.GetTransMaster(miforderId, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             return View(data);
         }
         public ActionResult MIFDataList()
@@ -206,7 +207,7 @@ namespace POSApp.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
                 int recordsFiltered = 0;
-                var v = _unitOfWork.TransMasterRepository.GetTransMastersQuery((int)user.StoreId);
+                var v = _unitOfWork.TransMasterRepository.GetTransMastersQuery((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 v = v.Where(a => a.Type == "MIF");
                 recordsTotal = v.Count();
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))
@@ -239,7 +240,7 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             try
             {
-                var saleorders = _unitOfWork.TransMasterRepository.GetSaleInvoices((int)user.StoreId);
+                var saleorders = _unitOfWork.TransMasterRepository.GetSaleInvoices((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 List<int> transIds = new List<int>();
                 for (int i = 0; i < saleorders.Count(); i++)
                 {
@@ -252,11 +253,11 @@ namespace POSApp.Controllers
                 {
                     TransMaster mif = new TransMaster();
                     mif.Type = "MIF";
-                    mif.TransCode = "MIF-" + transIds[index].ToString() + "-" + user.StoreId;
+                    mif.TransCode = "MIF-" + transIds[index].ToString() + "-" + UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     index++;
                     mif.BusinessPartnerId = saleorder.BusinessPartnerId;
                     mif.TransDate = DateTime.Now;
-                    mif.StoreId = (int)user.StoreId;
+                    mif.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     foreach (var item in saleorder.TransDetails)
                     {
 
@@ -320,7 +321,7 @@ namespace POSApp.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
                 int recordsFiltered = 0;
-                var v = _unitOfWork.TransMasterRepository.GetDailyTransMastersQuery((int)user.StoreId);
+                var v = _unitOfWork.TransMasterRepository.GetDailyTransMastersQuery((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 v = v.Where(a => a.Type == "INV");
                 recordsTotal = v.Count();
                 if (!(string.IsNullOrWhiteSpace(searchColumn)))
@@ -356,14 +357,14 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            var data = _unitOfWork.TransMasterRepository.GetTransMaster(saleOrderId, (int) user.StoreId);
+            var data = _unitOfWork.TransMasterRepository.GetTransMaster(saleOrderId, (int) UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             return View(data);
         }
         public ActionResult RefundDetailList(int saleOrderId)
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            var data = _unitOfWork.TransMasterRepository.GetTransMaster(saleOrderId, (int)user.StoreId);
+            var data = _unitOfWork.TransMasterRepository.GetTransMaster(saleOrderId, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             return View(data);
         }
 

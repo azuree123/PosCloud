@@ -13,7 +13,7 @@ namespace POSApp
     {
         public MappingProfile()
         {
-            CreateMap<ProductCreateViewModel,Product>().ForMember(a => a.Modifiers, o => o.Ignore());
+            CreateMap<ProductCreateViewModel,Product>();
             CreateMap<Product, ProductCreateViewModel>().ForMember(a => a.Modifiers, o => o.MapFrom(g=>g.ModifierLinkProducts.Select(a=>a.ModifierId).ToArray()));
             CreateMap<ProductDtViewModel, Product>();
             CreateMap<Product, ProductDtViewModel>();

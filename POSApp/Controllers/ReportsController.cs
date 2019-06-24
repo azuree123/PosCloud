@@ -44,7 +44,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -61,16 +61,16 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "المبيعات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "المبيعات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "المبيعات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "SalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "Sales.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "Sales.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             
             }
@@ -122,7 +122,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = target;
-            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             if (store.ClientId == null)
             {
                 ViewBag.branches = new List<SelectListItem>(){new SelectListItem
@@ -143,7 +143,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = target;
-            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             if (store.ClientId == null)
             {
                 ViewBag.branches = new List<SelectListItem>(){new SelectListItem
@@ -164,7 +164,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = target;
-            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             if (store.ClientId == null)
             {
                 ViewBag.branches = new List<SelectListItem>(){new SelectListItem
@@ -185,7 +185,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = target;
-            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             if (store.ClientId == null)
             {
                 ViewBag.branches = new List<SelectListItem>(){new SelectListItem
@@ -207,7 +207,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = target;
-            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             if (store.ClientId == null)
             {
                 ViewBag.branches = new List<SelectListItem>(){new SelectListItem
@@ -221,7 +221,7 @@ namespace POSApp.Controllers
                 var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
                 ViewBag.branches = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             }
-            ViewBag.designations = _unitOfWork.DesignationRepository.GetDesignations((int)user.StoreId).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            ViewBag.designations = _unitOfWork.DesignationRepository.GetDesignations((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             return View();
         }
         
@@ -230,7 +230,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = target;
-            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             if (store.ClientId == null)
             {
                 ViewBag.branches = new List<SelectListItem>(){new SelectListItem
@@ -244,7 +244,7 @@ namespace POSApp.Controllers
                 var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
                 ViewBag.branches = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
             }
-            ViewBag.suppliers = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+            ViewBag.suppliers = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
             return View();
         }
         
@@ -253,7 +253,7 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             ViewBag.edit = target;
-            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             if (store.ClientId == null)
             {
                 ViewBag.branches = new List<SelectListItem>(){new SelectListItem
@@ -281,7 +281,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -320,7 +320,7 @@ namespace POSApp.Controllers
                     //    Path = fileName,
                     //    Status = "Ready",
                     //    Details = details,
-                    //    StoreId = (int)user.StoreId
+                    //    StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)
 
                     //});
                     //_unitOfWork.Complete();
@@ -331,7 +331,7 @@ namespace POSApp.Controllers
                         Path = fileName,
                         Status = "Ready",
                         Details = details,
-                        StoreId = (int)user.StoreId
+                        StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)
 
                     };
                     _unitOfWork.ReportsLogRepository.AddReportsLog(report);
@@ -367,7 +367,7 @@ namespace POSApp.Controllers
                 //    Path = fileName,
                 //    Status = "Ready",
                 //    Details = details,
-                //    StoreId = (int)user.StoreId
+                //    StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)
 
                 //});
                 //_unitOfWork.Complete();
@@ -378,7 +378,7 @@ namespace POSApp.Controllers
                     Path = fileName,
                     Status = "Ready",
                     Details = details,
-                    StoreId = (int)user.StoreId
+                    StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)
 
                 };
                 _unitOfWork.ReportsLogRepository.AddReportsLog(report);
@@ -424,7 +424,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -441,16 +441,16 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCategoriesSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "فئات المبيعات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "فئات المبيعات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "فئات المبيعات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCategoriesSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "CategoriesSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "CategoriesSales.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "CategoriesSales.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
 
                
@@ -488,7 +488,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -505,16 +505,16 @@ namespace POSApp.Controllers
                     string details = "Period from: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeWiseSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "مبيعات أحجام المنتجات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "مبيعات أحجام المنتجات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "مبيعات أحجام المنتجات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                   string details = "Period from: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                   int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeWiseSalesData(storeIds, gr.DateFrom, gr.DateTo),
                       "ProductSizeWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                      (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductSizeWiseSales.rpt");
-                  return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                      (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ProductSizeWiseSales.rpt");
+                  return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
 
               
@@ -553,7 +553,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -570,8 +570,8 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateComboSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "مبيعات الوجبات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "مبيعات الوجبات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "مبيعات الوجبات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -579,8 +579,8 @@ namespace POSApp.Controllers
                 string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateComboSalesData(storeIds, gr.DateFrom, gr.DateTo),
                 "ComboSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                (int)user.StoreId, details, Server.MapPath("~/Reports"), "ComboSale.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ComboSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -616,7 +616,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -633,8 +633,8 @@ namespace POSApp.Controllers
                     string details = "من تاريخ: " + gr.DateFrom.ToShortDateString() + " إلى: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeOrderTypeSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "مبيعات أحجام المنتجات بناء على نوعية الطلب", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "مبيعات أحجام المنتجات بناء على نوعية الطلب.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "مبيعات أحجام المنتجات بناء على نوعية الطلب.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -642,8 +642,8 @@ namespace POSApp.Controllers
                 string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductSizeOrderTypeSalesData(storeIds, gr.DateFrom, gr.DateTo),
                     "ProductSizeWiseOrderTypeSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductSizeOrderTypeSales.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ProductSizeOrderTypeSales.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -680,7 +680,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -697,8 +697,8 @@ namespace POSApp.Controllers
                     string details = "من تاريخ: " + gr.DateFrom.ToShortDateString() + " إلى " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateModifierSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "مبيعات الخيارات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "مبيعات الخيارات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "مبيعات الخيارات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -706,8 +706,8 @@ namespace POSApp.Controllers
                 string details = "Period From: " +gr.DateFrom.ToShortDateString() + " To " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateModifierSalesData(storeIds, gr.DateFrom, gr.DateTo),
                     "ModifierWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ModifierSale.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ModifierSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -745,7 +745,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -762,8 +762,8 @@ namespace POSApp.Controllers
                 string details = "Period From: " +gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductModifierSalesData(storeIds, gr.DateFrom, gr.DateTo),
                     "مبيعات الخيارات بناء على المنتجات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "مبيعات الخيارات بناء على المنتجات.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "مبيعات الخيارات بناء على المنتجات.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
 
                 }
                 else
@@ -771,8 +771,8 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductModifierSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "ProductModifierWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductModifierSale.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ProductModifierSale.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -808,7 +808,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -825,8 +825,8 @@ namespace POSApp.Controllers
                     string details = "من تاريخ: " + gr.DateFrom.ToShortDateString() + " إلى: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductTimeWiseSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "مبيعات المنتجات بناء على الوقت", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "مبيعات المنتجات بناء على الوقت.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "مبيعات المنتجات بناء على الوقت.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -834,8 +834,8 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductTimeWiseSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "ProductTimelySaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductTimelySale.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ProductTimelySale.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
 
 
@@ -874,7 +874,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -891,16 +891,16 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateBranchSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "مبيعات الفروع", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "مبيعات الفروع.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "مبيعات الفروع.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateBranchSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "BranchSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "BranchWiseSale.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "BranchWiseSale.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
 
                 }
     
@@ -939,7 +939,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -957,8 +957,8 @@ namespace POSApp.Controllers
 
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTimelyBranchSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "مبيعات الفروع بناء على الوقت", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "مبيعات الفروع بناء على الوقت.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "مبيعات الفروع بناء على الوقت.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -966,8 +966,8 @@ namespace POSApp.Controllers
                                      gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTimelyBranchSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "BranchTimelySaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "BranchTimelySale.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "BranchTimelySale.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
              
 
@@ -1012,7 +1012,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1030,8 +1030,8 @@ namespace POSApp.Controllers
                     string details = "من تاريخ: " + gr.DateFrom.ToShortDateString() + " إلى: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTableWiseSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "مبيعات الطاولات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "مبيعات الطاولات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "مبيعات الطاولات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -1039,8 +1039,8 @@ namespace POSApp.Controllers
                 string details = "Period From: " +gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTableWiseSalesData(storeIds,gr.DateFrom, gr.DateTo),
                     "TableSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "TableWiseSale.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "TableWiseSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
 
             }
@@ -1077,7 +1077,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1094,16 +1094,16 @@ namespace POSApp.Controllers
                     string details = "BranchID: " + branchId.ToString() + "- DesignationId: " + designationId.ToString();
                     int logId = ExcelService.GenerateEmployeeCrystalReport(_unitOfWork.ReportsRepository.GenerateEmployeeIncomeData(storeIds, designationId),
                         "دخل الموظفين", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "دخل الموظفين.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "دخل الموظفين.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                     string details = "BranchID: " + branchId.ToString() + "- DesignationId: " + designationId.ToString();
                     int logId = ExcelService.GenerateEmployeeCrystalReport(_unitOfWork.ReportsRepository.GenerateEmployeeIncomeData(storeIds, designationId),
                         "EmployeeIncomeReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "EmployeeIncomeReport.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "EmployeeIncomeReport.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
               
             }
@@ -1142,7 +1142,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1159,8 +1159,8 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCustomerWiseSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "مبيعات العملاء", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "مبيعات العملاء.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "مبيعات العملاء.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -1168,8 +1168,8 @@ namespace POSApp.Controllers
                 string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCustomerWiseSalesData(storeIds, gr.DateFrom, gr.DateTo),
                     "CustomerWiseSalesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "CustomerSale.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "CustomerSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -1207,7 +1207,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1223,16 +1223,16 @@ namespace POSApp.Controllers
                     string details = "من تاريخ: " + gr.DateFrom.ToShortDateString() + " إلى: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GeneratePaymentMethodWiseSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "طرق الدفع", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "طرق الدفع.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "طرق الدفع.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GeneratePaymentMethodWiseSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "PaymentMethodWiseSaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "PaymentMethodWiseSale.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "PaymentMethodWiseSale.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
 
                 }
              
@@ -1270,7 +1270,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1288,8 +1288,8 @@ namespace POSApp.Controllers
                     string details = "من تاريخ: " + gr.DateFrom.ToShortDateString() + " إلى: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GeneratePaymentMethodTimeWiseSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "طرق الدفع بناء على الوقت", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "طرق الدفع بناء على الوقت.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "طرق الدفع بناء على الوقت.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
 
                 }
                 else
@@ -1297,8 +1297,8 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GeneratePaymentMethodTimeWiseSalesData(storeIds, gr.DateFrom, gr.DateTo),
                         "PaymentMethodTimeWiseSaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "PaymentMethodTimeWiseSale.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "PaymentMethodTimeWiseSale.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
         
 
@@ -1336,7 +1336,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1350,8 +1350,8 @@ namespace POSApp.Controllers
                 string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductOrderTypeSalesData(storeIds, gr.DateFrom, gr.DateTo),
                     "OrderTypeSaleReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "OrderTypeWiseSale.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "OrderTypeWiseSale.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
             }
             catch (Exception e)
             {
@@ -1394,7 +1394,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1413,8 +1413,8 @@ namespace POSApp.Controllers
                     var data = _unitOfWork.ReportsRepository.GenerateStockData(storeIds);
                     int logId = ExcelService.GenerateCrystalReport(data,
                         "المخزون", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "المخزون.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "المخزون.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -1422,8 +1422,8 @@ namespace POSApp.Controllers
                     var data = _unitOfWork.ReportsRepository.GenerateStockData(storeIds);
                     int logId = ExcelService.GenerateCrystalReport(data,
                         "StockReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "Stock.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "Stock.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 
             }
@@ -1465,7 +1465,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1482,16 +1482,16 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateItemsCostData(storeIds, gr.DateFrom, gr.DateTo),
                         "التكلفة الإجمالية للبضائع في المخزون", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "التكلفة الإجمالية للبضائع في المخزون.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "التكلفة الإجمالية للبضائع في المخزون.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                 string details = "Period From: " +gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateItemsCostData(storeIds, gr.DateFrom, gr.DateTo),
                     "InventoryTotalCostReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "InventoryTotalCostReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "InventoryTotalCostReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                     
                 }
             }
@@ -1539,7 +1539,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1556,8 +1556,8 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateConsumptionData(storeIds, gr.DateFrom, gr.DateTo),
                         "استهلاك", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "استهلاك.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "استهلاك.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -1565,8 +1565,8 @@ namespace POSApp.Controllers
             string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateConsumptionData(storeIds, gr.DateFrom, gr.DateTo),
                     "ConsumptionReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ConsumptionReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ConsumptionReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -1608,7 +1608,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1624,16 +1624,16 @@ namespace POSApp.Controllers
                     string details = "من تاريخ: " + gr.DateFrom.ToShortDateString() + " إلى: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.BatchWiseExpiryData(storeIds, gr.DateFrom, gr.DateTo),
                         "دفعة الحكيم انتهاء", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "دفعة الحكيم انتهاء.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "دفعة الحكيم انتهاء.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.BatchWiseExpiryData(storeIds, gr.DateFrom, gr.DateTo),
                         "BatchWiseExpiry", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "BatchWiseExpiry.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "BatchWiseExpiry.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
 
             }
@@ -1670,7 +1670,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1687,16 +1687,16 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateExpiryData(storeIds, gr.DateFrom, gr.DateTo),
                         "انتهاء الصلاحية", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "انتهاء الصلاحية.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "انتهاء الصلاحية.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                 string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateExpiryData(storeIds, gr.DateFrom, gr.DateTo),
                     "ExpiredItemsReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ExpiredItemsReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ExpiredItemsReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                     
                 }
             }
@@ -1738,7 +1738,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1754,16 +1754,16 @@ namespace POSApp.Controllers
                     string details = "من تاريخ: " + gr.DateFrom.ToShortDateString() + " إلى: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTotalPurchasesData(storeIds, gr.DateFrom, gr.DateTo),
                         "اجمالي المشتريات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "اجمالي المشتريات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "اجمالي المشتريات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTotalPurchasesData(storeIds, gr.DateFrom, gr.DateTo),
                         "TotalPurchasesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "TotalPurchasesReport.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "TotalPurchasesReport.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
  
             }
@@ -1809,16 +1809,16 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductRecipeData(branchId, gr.DateFrom, gr.DateTo),
                         "وصفات المنتجات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "وصفات المنتجات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "وصفات المنتجات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductRecipeData(branchId, gr.DateFrom, gr.DateTo),
                         "ProductRecipeReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductRecipe.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ProductRecipe.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
 
                 }
               
@@ -1866,7 +1866,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1883,15 +1883,15 @@ namespace POSApp.Controllers
                 {
                     int logId = ExcelService.GeneratePurchasePerSupplierCrystalReport(_unitOfWork.ReportsRepository.GeneratePurchasesPerSupplierData(storeIds, supplierId),
                         "المشتريات لكل مورد", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "المشتريات لكل مورد.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "المشتريات لكل مورد.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                     int logId = ExcelService.GeneratePurchasePerSupplierCrystalReport(_unitOfWork.ReportsRepository.GeneratePurchasesPerSupplierData(storeIds, supplierId),
                         "PurchasePerSupplierReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "PurchasePerSupplierReport.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "PurchasePerSupplierReport.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                
             }
@@ -1935,7 +1935,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -1952,8 +1952,8 @@ namespace POSApp.Controllers
                     string details = " " + " ";
                     int logId = ExcelService.GenerateCostCrystalReport(_unitOfWork.ReportsRepository.GenerateProductCostData(storeIds),
                         "تكلفة المنتجات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "تكلفة المنتجات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "تكلفة المنتجات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -1961,8 +1961,8 @@ namespace POSApp.Controllers
                 string details = " " +  " ";
                 int logId = ExcelService.GenerateCostCrystalReport(_unitOfWork.ReportsRepository.GenerateProductCostData(storeIds),
                     "ProductsCostReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductsCostReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ProductsCostReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -2000,7 +2000,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -2017,8 +2017,8 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateReturnData(storeIds, gr.DateFrom, gr.DateTo),
                         "إرجاع المنتجات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "إرجاع المنتجات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "إرجاع المنتجات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
 
                 }
                 else
@@ -2027,8 +2027,8 @@ namespace POSApp.Controllers
                 string details = "Period From: " +gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateReturnData(storeIds, gr.DateFrom, gr.DateTo),
                     "ProductReturnReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductReturnReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ProductReturnReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -2073,7 +2073,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -2090,8 +2090,8 @@ namespace POSApp.Controllers
                     string details = "Period from: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTillOperationData(storeIds, gr.DateFrom, gr.DateTo),
                         "عمليات صندوق النقد", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "عمليات صندوق النقد.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "عمليات صندوق النقد.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -2099,8 +2099,8 @@ namespace POSApp.Controllers
                 string details = "Period from: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTillOperationData(storeIds, gr.DateFrom, gr.DateTo),
                     "TilOperationsReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "TilOperationsReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "TilOperationsReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -2138,7 +2138,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -2155,8 +2155,8 @@ namespace POSApp.Controllers
                     string details = "Period from: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateVoidReasonsData(storeIds, gr.DateFrom, gr.DateTo),
                         "أسباب إلغاء الطلبات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "أسباب إلغاء الطلبات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "أسباب إلغاء الطلبات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -2164,8 +2164,8 @@ namespace POSApp.Controllers
                 string details = "Period from: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateVoidReasonsData(storeIds, gr.DateFrom, gr.DateTo),
                     "VoidReasonsReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "VoidReasonsReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "VoidReasonsReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
 
             }
@@ -2204,7 +2204,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -2221,8 +2221,8 @@ namespace POSApp.Controllers
                     string details = " " + " To: ";
                     int logId = ExcelService.GenerateShiftCrystalReport(_unitOfWork.ReportsRepository.GenerateEmployeeShiftData(storeIds),
                         "فترة عمل الموظفين", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "فترة عمل الموظفين.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "فترة عمل الموظفين.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -2230,8 +2230,8 @@ namespace POSApp.Controllers
                 string details = " " + " To: ";
                 int logId = ExcelService.GenerateShiftCrystalReport(_unitOfWork.ReportsRepository.GenerateEmployeeShiftData(storeIds),
                     "EmployeesShiftReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "EmployeeShiftReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "EmployeeShiftReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
 
             }
@@ -2299,7 +2299,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -2316,16 +2316,16 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTaxesData(storeIds, gr.DateFrom, gr.DateTo),
                         "الضرائب", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "الضرائب.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "الضرائب.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                 string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTaxesData(storeIds, gr.DateFrom, gr.DateTo),
                     "TaxesReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "TaxesReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "TaxesReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                     
                 }
             }
@@ -2365,7 +2365,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -2382,8 +2382,8 @@ namespace POSApp.Controllers
                     string details = "من تاريخ: " + gr.DateFrom.ToShortDateString() + " إلى: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateOrderDiscountData(storeIds, gr.DateFrom, gr.DateTo),
                         "خصومات الطلبات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "خصومات الطلبات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "خصومات الطلبات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -2391,8 +2391,8 @@ namespace POSApp.Controllers
                 string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateOrderDiscountData(storeIds, gr.DateFrom, gr.DateTo),
                     "OrderDiscountReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "OrderDiscountReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "OrderDiscountReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -2430,7 +2430,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -2447,16 +2447,16 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductDiscountData(storeIds, gr.DateFrom, gr.DateTo),
                         "خصومات المنتجات", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "خصومات المنتجات.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "خصومات المنتجات.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                 string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateProductDiscountData(storeIds, gr.DateFrom, gr.DateTo),
                     "ProductsDiscountReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "ProductsDiscountReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "ProductsDiscountReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                     
                 }
             }
@@ -2496,7 +2496,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -2513,8 +2513,8 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTransferData(storeIds, gr.DateFrom, gr.DateTo),
                         "التحويلات الإجمالية", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "التحويلات الإجمالية.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "التحويلات الإجمالية.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
 
                 }
                 else
@@ -2522,8 +2522,8 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                    int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTransferData(storeIds, gr.DateFrom, gr.DateTo),
                        "TransferReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                       (int)user.StoreId, details, Server.MapPath("~/Reports"), "TransferReport.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                       (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "TransferReport.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                     
                 }
 
@@ -2590,7 +2590,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -2608,8 +2608,8 @@ namespace POSApp.Controllers
                     string details = " " + " ";
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCustomersData(storeIds),
                         "تقرير العملاء", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "تقرير العملاء.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "تقرير العملاء.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
@@ -2617,8 +2617,8 @@ namespace POSApp.Controllers
                 string details = " " + " ";
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateCustomersData(storeIds),
                     "CustomerReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "CustomerReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "CustomerReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -2662,7 +2662,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -2679,8 +2679,8 @@ namespace POSApp.Controllers
                     string details = "من تاريخ: " + gr.DateFrom.ToShortDateString() + " إلى: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTransactionsData(storeIds, gr.DateFrom, gr.DateTo),
                         "العمليات على المخزون", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "العمليات على المخزون.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "العمليات على المخزون.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                  
                 }
                 else
@@ -2689,8 +2689,8 @@ namespace POSApp.Controllers
                 string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                 int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateTransactionsData(storeIds, gr.DateFrom, gr.DateTo),
                     "TransactionsReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                    (int)user.StoreId, details, Server.MapPath("~/Reports"), "TransactionsReport.rpt");
-                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                    (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "TransactionsReport.rpt");
+                return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
             }
             catch (Exception e)
@@ -2730,7 +2730,7 @@ namespace POSApp.Controllers
                 List<int> storeIds = new List<int>();
                 if (branchId == 0)
                 {
-                    int clientId = _unitOfWork.StoreRepository.GetStoreById(user.StoreId).ClientId;
+                    int clientId = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).ClientId;
 
 
                     storeIds.AddRange(_unitOfWork.ClientRepository.GetClientStore(clientId).Select(a => a.Id).ToList());
@@ -2747,16 +2747,16 @@ namespace POSApp.Controllers
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateStockTakingData(storeIds, gr.DateFrom, gr.DateTo),
                         "جرد المخزون", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "جرد المخزون.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "جرد المخزون.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                 }
                 else
                 {
                     string details = "Period From: " + gr.DateFrom.ToShortDateString() + " To: " + gr.DateTo.ToShortDateString();
                     int logId = ExcelService.GenerateCrystalReport(_unitOfWork.ReportsRepository.GenerateStockTakingData(storeIds, gr.DateFrom, gr.DateTo),
                         "StockTakingReport", this.HttpContext.User.Identity.GetUserId(), _unitOfWork,
-                        (int)user.StoreId, details, Server.MapPath("~/Reports"), "StockTakingReport.rpt");
-                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)user.StoreId });
+                        (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), details, Server.MapPath("~/Reports"), "StockTakingReport.rpt");
+                    return RedirectToAction("MyReportsPreview", "Reports", new { reportId = logId, storeid = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) });
                     
                 }
                

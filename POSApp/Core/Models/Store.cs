@@ -57,6 +57,10 @@ namespace POSApp.Core.Models
         public virtual ICollection<ComboProductsTransDetail> ComboProductsTransDetails { get; set; }
         public virtual ICollection<AppCounter> AppCounters { get; set; }=new List<AppCounter>();
         public virtual ICollection<UserStore> UserStores { get; set; } =new List<UserStore>();
+        public virtual ICollection<ApplicationRole> ApplicationRoles { get; set; } =new List<ApplicationRole>();
+        public virtual ICollection<ModifierLinkProduct> ModifierLinkProducts { get; set; }=new List<ModifierLinkProduct>();
+        public virtual ICollection<ModifierLinkProduct> ProductModifierLinkProducts { get; set; }=new List<ModifierLinkProduct>();
+        public virtual ICollection<Shift> Shifts { get; set; } = new List<Shift>();
 
     }
 }

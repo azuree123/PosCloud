@@ -12,6 +12,7 @@ using POSApp.Core.Models;
 using POSApp.Core.Shared;
 using POSApp.Core.ViewModels;
 using POSApp.SecurityFilters;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
@@ -36,7 +37,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId).OrderBy(a => a.TransDate).Where(a => a.Type == "STK").OrderByDescending(a => a.Id)));
+            return View(Mapper.Map<TransMasterViewModel[]>(_unitOfWork.TransMasterRepository.GetTransMasters((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderBy(a => a.TransDate).Where(a => a.Type == "STK").OrderByDescending(a => a.Id)));
         }
         [View(Config.StockTaking.StockTaking)]
 
@@ -45,16 +46,16 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             GeneratePurchaseOrderViewModel temp = new GeneratePurchaseOrderViewModel();
-            temp.TransMasterViewModel = Mapper.Map<TransMasterViewModel>(_unitOfWork.TransMasterRepository.GetTransMaster(id, (int)user.StoreId));
+            temp.TransMasterViewModel = Mapper.Map<TransMasterViewModel>(_unitOfWork.TransMasterRepository.GetTransMaster(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             temp.TransDetailViewModels =
-                _unitOfWork.TransDetailRepository.GetTransDetails(temp.TransMasterViewModel.Id, (int)user.StoreId);
+                _unitOfWork.TransDetailRepository.GetTransDetails(temp.TransMasterViewModel.Id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             foreach (var tempTransDetailViewModel in temp.TransDetailViewModels)
             {
                 tempTransDetailViewModel.ProductName = _unitOfWork.ProductRepository
                     .GetProductByCode(tempTransDetailViewModel.ProductCode, tempTransDetailViewModel.StoreId).Name;
             }
             temp.BusinessPartnerViewModel =
-                Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner((int)temp.TransMasterViewModel.BusinessPartnerId, (int)user.StoreId));
+                Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner((int)temp.TransMasterViewModel.BusinessPartnerId, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
             temp.TotalAmount = (from a in temp.TransDetailViewModels
                                 select a.Quantity * a.UnitPrice).Sum();
             TempData["po"] = temp;
@@ -72,12 +73,12 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             
-            po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+            po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
             po.WarehouseDdl = _unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name,Selected = a.Id == a.Id});
             if (TakingHelper.temptTransDetail != null)
             {
 
-                TakingHelper.EmptyTemptTransDetail(user.Id, (int)user.StoreId);
+                TakingHelper.EmptyTemptTransDetail(user.Id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             }
             return View(po);
         }
@@ -92,7 +93,7 @@ namespace POSApp.Controllers
             po.Type = "STK";
             if (!ModelState.IsValid)
             {
-                po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)user.StoreId).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+                po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
                 po.WarehouseDdl = _unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
                 return View(po);
             }
@@ -100,12 +101,12 @@ namespace POSApp.Controllers
             {
 
                 int TransId = _unitOfWork.AppCountersRepository.GetId("StockTaking");
-                po.TransCode = "STK-" + "C-" + TransId.ToString() + "-" + user.StoreId;
-                po.StoreId = user.StoreId;
+                po.TransCode = "STK-" + "C-" + TransId.ToString() + "-" + UserStores.GetStoreCookie(System.Web.HttpContext.Current);
+                po.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
 
                 var savePo = Mapper.Map<TransMaster>(po);
 
-                IEnumerable<TransDetailViewModel> poItems = TakingHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid && a.StoreId == user.StoreId);
+                IEnumerable<TransDetailViewModel> poItems = TakingHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid && a.StoreId == UserStores.GetStoreCookie(System.Web.HttpContext.Current));
 
                 savePo.TotalPrice = (from a in poItems
                                      select a.Quantity * a.UnitPrice).Sum();
@@ -122,7 +123,7 @@ namespace POSApp.Controllers
                 temp.TransMasterViewModel.TransDate = Convert.ToDateTime(savePo.TransDate).ToString("dd-MMM-yyyy");
                 temp.TransMasterViewModel.TransTime = Convert.ToDateTime(savePo.TransDate).ToShortTimeString();
                 temp.BusinessPartnerViewModel =
-                    Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner((int)po.BusinessPartnerId, (int)user.StoreId));
+                    Mapper.Map<CustomerModelView>(_unitOfWork.BusinessPartnerRepository.GetBusinessPartner((int)po.BusinessPartnerId, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                 temp.TransDetailViewModels = poItems;
                 temp.TotalAmount = (from a in temp.TransDetailViewModels
                                     select a.Quantity * a.UnitPrice).Sum();
@@ -138,7 +139,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ProductRepository.GetAllProducts((int)user.StoreId).Where(a => (a.PurchaseItem || a.InventoryItem)).OrderBy(a => a.Name).Select(a => new SelectListItem { Text = a.Name + "(" + a.ProductCode + ")", Value = a.Id.ToString() }));
+            return View(_unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => (a.PurchaseItem || a.InventoryItem)).OrderBy(a => a.Name).Select(a => new SelectListItem { Text = a.Name + "(" + a.ProductCode + ")", Value = a.Id.ToString() }));
         }
         [HttpPost]
         [Manage(Config.StockTaking.StockTaking)]
@@ -151,7 +152,7 @@ namespace POSApp.Controllers
             }
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            var product = _unitOfWork.ProductRepository.GetProductById(productId, (int)user.StoreId);
+            var product = _unitOfWork.ProductRepository.GetProductById(productId, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             
             decimal quantity = 0;
             quantity += purchaseQuantity;
@@ -171,7 +172,7 @@ namespace POSApp.Controllers
             }
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            TakingHelper.RemoveFromTemptTransDetail(productId, (int)user.StoreId, user.Id);
+            TakingHelper.RemoveFromTemptTransDetail(productId, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), user.Id);
             return View("PoTable", TakingHelper.temptTransDetail);
         }
 
@@ -183,7 +184,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.TransMasterRepository.DeleteTransMaster(id, Convert.ToInt32(user.StoreId));
+                _unitOfWork.TransMasterRepository.DeleteTransMaster(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The Stocktaking deleted successfully", AlertType.Success);
                 return RedirectToAction("StockTakingList", "StockTaking");
@@ -247,7 +248,7 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 ProductDdlViewModel product =
                     Mapper.Map<ProductDdlViewModel>(
-                        _unitOfWork.ProductRepository.GetProductById(id, (int)user.StoreId));
+                        _unitOfWork.ProductRepository.GetProductById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                 return Json(product, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

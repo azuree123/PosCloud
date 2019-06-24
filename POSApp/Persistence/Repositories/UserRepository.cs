@@ -111,7 +111,7 @@ namespace POSApp.Persistence.Repositories
         public UserRoleDataViewModel GetUserLoginData(string userId)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", userId) };
-            var sql = @"SELECT  a.Id,c.Name,a.StoreId
+            var sql = @"SELECT  a.Id,ISNULL(c.Name,'') as Name,a.StoreId
          ,ISNULL(STUFF((SELECT ', ' + CAST(e.Name AS VARCHAR(100)) [text()]
          FROM PosCloud.SecurityRights as d  inner join
         PosCloud.SecurityObjects as e on d.SecurityObjectId=e.SecurityObjectId
@@ -124,9 +124,9 @@ namespace POSApp.Persistence.Repositories
            where  d.[View]=1 and d.IdentityUserRoleId=c.Id
          FOR XML PATH(''), TYPE)
         .value('.','NVARCHAR(MAX)'),1,2,' '),'') as ViewData  	
-        from AspNetUsers as a inner join
-        AspNetUserRoles as b on a.Id=b.UserId inner join 
-        AspNetRoles as c on b.RoleId=c.Id
+        from AspNetUsers as a left outer join
+        (AspNetUserRoles as b  inner join 
+        AspNetRoles as c on b.RoleId=c.Id)on a.Id=b.UserId
         where a.Email= @p1";
             var data = _context.Database.SqlQuery<UserRoleDataViewModel>(sql, parameters.ToArray()).FirstOrDefault();
 

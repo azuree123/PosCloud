@@ -14,7 +14,7 @@ namespace POSApp.Core.Models
         public string ArabicName { get; set; }
         public string Barcode { get; set; }
         public ICollection<ModifierOption> ModifierOptions { get; set; }      
-        public ICollection<Product> Products { get; set; }
+       
         public ICollection<ModifierLinkProduct> ModifierLinkProducts { get; set; }
     }
 }

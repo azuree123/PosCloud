@@ -35,7 +35,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.DeviceRepository.GetDevices((int)user.StoreId).OrderByDescending(a => a.Id));
+            return View(_unitOfWork.DeviceRepository.GetDevices((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id));
         }
         [HttpGet]
         [Manage(Config.Device.Device)]
@@ -46,7 +46,7 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             DeviceViewModel Device = new DeviceViewModel();
             
-            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
             Device.StoreDDl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
 
@@ -149,8 +149,8 @@ namespace POSApp.Controllers
             
             
             DeviceViewModel DeviceMv =
-                Mapper.Map<DeviceViewModel>(_unitOfWork.DeviceRepository.GetDeviceById(id, (int)user.StoreId));
-            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+                Mapper.Map<DeviceViewModel>(_unitOfWork.DeviceRepository.GetDeviceById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
             DeviceMv.StoreDDl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
 
@@ -182,7 +182,7 @@ namespace POSApp.Controllers
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
                     Device Device = Mapper.Map<Device>(DeviceMv);
-                    _unitOfWork.DeviceRepository.UpdateDevice(id, Device, (int)user.StoreId);
+                    _unitOfWork.DeviceRepository.UpdateDevice(id, Device, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The device updated successfully", AlertType.Success);
                     return null;
@@ -238,7 +238,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                _unitOfWork.DeviceRepository.DeleteDevice(id, (int)user.StoreId);
+                _unitOfWork.DeviceRepository.DeleteDevice(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("The device deleted successfully", AlertType.Success);
                 return RedirectToAction("DeviceList", "Device");

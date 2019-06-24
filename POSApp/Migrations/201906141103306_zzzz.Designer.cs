@@ -7,13 +7,13 @@ namespace POSApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class bbbb : IMigrationMetadata
+    public sealed partial class zzzz : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(bbbb));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(zzzz));
         
         string IMigrationMetadata.Id
         {
-            get { return "201902201245174_bbbb"; }
+            get { return "201906141103306_zzzz"; }
         }
         
         string IMigrationMetadata.Source

@@ -10,6 +10,7 @@ using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
 using POSApp.SecurityFilters;
+using POSApp.Services;
 
 namespace POSApp.Controllers
 {
@@ -40,7 +41,7 @@ namespace POSApp.Controllers
 
             
 
-            var store = _unitOfWork.StoreRepository.GetStoreById((int)user.StoreId);
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId).Where(a=>!a.IsDisabled);
             return View(clientStores);
         }
@@ -113,7 +114,7 @@ namespace POSApp.Controllers
                 {
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    var client = _unitOfWork.ClientRepository.GetClient(Convert.ToInt32(user.StoreId));
+                    var client = _unitOfWork.ClientRepository.GetClient(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                     storeVm.ClientId = client.Id;
                     Store store = Mapper.Map<Store>(storeVm);
                     _unitOfWork.StoreRepository.AddStore(store);
@@ -204,7 +205,7 @@ namespace POSApp.Controllers
                 {
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-                    var client = _unitOfWork.ClientRepository.GetClient(Convert.ToInt32(user.StoreId));
+                    var client = _unitOfWork.ClientRepository.GetClient(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
 
                     Store store = Mapper.Map<Store>(storeVm);
                     _unitOfWork.StoreRepository.UpdateStore(id, store,client.Id);

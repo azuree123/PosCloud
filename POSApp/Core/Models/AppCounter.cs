@@ -17,7 +17,7 @@ namespace POSApp.Core.Models
 
             public int? DeviceId { get; set; }
             public Device Device { get; set; }
-            public int? StoreId { get; set; }
+            public int StoreId { get; set; }
             public Store Store { get; set; }
             [DefaultValue(0)]
             public int InvoiceTransId { get; set; }

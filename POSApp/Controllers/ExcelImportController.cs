@@ -60,7 +60,7 @@ namespace POSApp.Controllers
                     {
                         NewModel.Name = dr["Name"].ToString();
                         
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.DesignationRepository.AddDesignation(NewModel);
                     }
                 }
@@ -286,7 +286,7 @@ namespace POSApp.Controllers
                     {
                         NewModel.Name = dr["Name"].ToString();
                         NewModel.Rate = double.Parse(dr["Rate"].ToString());
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.TaxRepository.AddTax(NewModel);
                     }
                 }
@@ -370,7 +370,7 @@ namespace POSApp.Controllers
                         NewModel.ValidFrom = DateTime.Parse(dr["ValidFrom"].ToString());
                         NewModel.ValidTill = DateTime.Parse(dr["ValidTill"].ToString());
                         NewModel.IsActive = bool.Parse(dr["IsActive"].ToString());
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.DiscountRepository.AddDiscount(NewModel);
                     }
                 }
@@ -444,7 +444,7 @@ namespace POSApp.Controllers
         //                NewModel.Days = dr["Days"].ToString();
         //                NewModel.ValidFrom = DateTime.Parse(dr["ValidFrom"].ToString());
         //                NewModel.ValidFrom = DateTime.Parse(dr["ValidTill"].ToString());
-        //                NewModel.StoreId = (int)user.StoreId;
+        //                NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
         //                _unitOfWork.DiscountRepository.AddDiscount(NewModel);
         //            }
         //        }
@@ -482,7 +482,7 @@ namespace POSApp.Controllers
                         NewModel.PhoneNumber = dr["PhoneNumber"].ToString();
                         NewModel.Birthday = DateTime.Parse(dr["Birthday"].ToString());
                         NewModel.Address = dr["Address"].ToString();
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         NewModel.Type = "C";
                         _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(NewModel);
                     }
@@ -555,7 +555,7 @@ namespace POSApp.Controllers
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
                     {
                         NewModel.Name = dr["Name"].ToString();
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.DepartmentRepository.AddDepartment(NewModel);
                     }
                 }
@@ -635,7 +635,7 @@ namespace POSApp.Controllers
                         NewModel.Salary = double.Parse(dr["Salary"].ToString());
                         NewModel.Commission = double.Parse(dr["Commission"].ToString());
                         NewModel.DepartmentId = Int32.Parse(dr["DepartmentId"].ToString());
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.EmployeeRepository.AddEmployee(NewModel);
                     }
                 }
@@ -712,7 +712,7 @@ namespace POSApp.Controllers
                         NewModel.Amount = double.Parse(dr["Amount"].ToString());
                         NewModel.ExpenseHeadId = Int32.Parse(dr["ExpenseHeadId"].ToString());
                         NewModel.EmployeeId = Int32.Parse(dr["EmployeeId"].ToString());
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.ExpenseRepository.AddExpense(NewModel);
                     }
                 }
@@ -787,7 +787,7 @@ namespace POSApp.Controllers
                     {
                         NewModel.Name = dr["Name"].ToString();
                         NewModel.Details = dr["Details"].ToString();
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.ExpenseHeadRepository.AddExpenseHead(NewModel);
                         _unitOfWork.Complete();
                         TempData["Alert"] = new AlertModel("The data added successfully", AlertType.Success);
@@ -863,7 +863,7 @@ namespace POSApp.Controllers
                     {
                         NewModel.Name = dr["Name"].ToString();
                         NewModel.Address = dr["Address"].ToString();
-                        //NewModel.StoreId = (int)user.StoreId;
+                        //NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.StoreRepository.AddStore(NewModel);
                     }
                 }
@@ -940,7 +940,7 @@ namespace POSApp.Controllers
                         NewModel.ContactPerson = dr["ContactPerson"].ToString();
                         NewModel.PhoneNumber = dr["PhoneNumber"].ToString();
                         NewModel.CpMobileNumber = dr["CpMobileNumber"].ToString();
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         NewModel.Type = "S";
                         NewModel.Birthday = DateTime.Now;
                         _unitOfWork.BusinessPartnerRepository.AddBusinessPartner(NewModel);
@@ -1031,7 +1031,7 @@ namespace POSApp.Controllers
                         NewModel.Barcode = dr["Barcode"].ToString();
                         NewModel.CategoryId = Int32.Parse(dr["CategoryId"].ToString());
                         NewModel.UnitId = Int32.Parse(dr["UnitId"].ToString());
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         NewModel.Type = "Product";
                         _unitOfWork.ProductRepository.AddProduct(NewModel);
                     }
@@ -1107,7 +1107,7 @@ namespace POSApp.Controllers
                     {
                         NewModel.Name = dr["Name"].ToString();
                         NewModel.Type = dr["Type"].ToString();
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.ProductCategoryRepository.AddProductCategory(NewModel);
                     }
                 }
@@ -1181,7 +1181,7 @@ namespace POSApp.Controllers
                     if (!string.IsNullOrWhiteSpace(dr["Name"].ToString()))
                     {
                         NewModel.Name = dr["Name"].ToString();
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.ProductCategoryGroupRepository.AddProductCategoryGroup(NewModel);
                     }
                 }
@@ -1262,7 +1262,7 @@ namespace POSApp.Controllers
                         NewModel.Contact = dr["Contact"].ToString();
                         NewModel.DownloadedDate = DateTime.Parse(dr["DownloadedDate"].ToString());
 
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.DeviceRepository.AddDevice(NewModel);
                     }
                 }
@@ -1336,7 +1336,7 @@ namespace POSApp.Controllers
                         NewModel.FloorNumber = dr["FloorNumber"].ToString();
 
 
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.FloorRepository.AddFloor(NewModel);
                     }
                 }
@@ -1409,10 +1409,10 @@ namespace POSApp.Controllers
                     {
                         NewModel.DineTableNumber = dr["DineTableNumber"].ToString();
                         string floorNames = dr["FloorNumber"].ToString();
-                        Floor checkFloor = _unitOfWork.FloorRepository.GetFloorByFloorNumber(floorNames, (int)user.StoreId);
+                        Floor checkFloor = _unitOfWork.FloorRepository.GetFloorByFloorNumber(floorNames, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                         if (checkFloor == null)
                         {
-                            var data = new Floor { FloorNumber = floorNames, StoreId = (int)user.StoreId };
+                            var data = new Floor { FloorNumber = floorNames, StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current) };
                             _unitOfWork.FloorRepository.AddFloor(data);
                             _unitOfWork.Complete();
                             NewModel.FloorId = data.Id;
@@ -1422,7 +1422,7 @@ namespace POSApp.Controllers
                             NewModel.FloorId = checkFloor.Id;
                         }
 
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.DineTableRepository.AddDineTable(NewModel);
                     }
                 }
@@ -1569,7 +1569,7 @@ namespace POSApp.Controllers
                     {
                         NewModel.Name = dr["Name"].ToString();
                         NewModel.UnitCode = dr["UnitCode"].ToString();
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.UnitRepository.AddUnit(NewModel);
                     }
                 }
@@ -1642,7 +1642,7 @@ namespace POSApp.Controllers
                     {
                         NewModel.Name = dr["Name"].ToString();
                         
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.SectionRepository.AddSection(NewModel);
                     }
                 }
@@ -1715,7 +1715,7 @@ namespace POSApp.Controllers
                     {
                         NewModel.Name = dr["Name"].ToString();
                         
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.ShiftRepository.AddShift(NewModel);
                     }
                 }
@@ -1788,7 +1788,7 @@ namespace POSApp.Controllers
                         NewModel.Name = dr["Name"].ToString();
 
 
-                        NewModel.StoreId = (int)user.StoreId;
+                        NewModel.StoreId = (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                         _unitOfWork.SizeRepository.AddSize(NewModel);
                     }
                 }

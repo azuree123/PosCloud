@@ -137,6 +137,7 @@ namespace POSApp.Persistence
             modelBuilder.Configurations.Add(new ClientEntityConfiguration());
             modelBuilder.Configurations.Add(new IncrementalSyncronizationEntityConfiguration());
             modelBuilder.Configurations.Add(new UserStoreEntityConfiguration());
+            modelBuilder.Configurations.Add(new AppCounterEntityConfiguration());
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             base.OnModelCreating(modelBuilder);
