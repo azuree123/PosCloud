@@ -44,6 +44,12 @@ namespace POSApp.Controllers
                     model.Sales = _unitOfWork.TransMasterRepository.GetTransMasters((int) user.StoreId)
                         .Where(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= today).Select(a => a.TotalPrice).Sum();
                 }
+                if (_unitOfWork.TillOperationRepository.GetTillOperations((int)user.StoreId).Where(a => a.OperationDate >= today).Any())
+                {
+                    model.Deficits = _unitOfWork.TillOperationRepository.GetTillOperations((int)user.StoreId)
+                        .Where(a => a.OperationDate >= today).Select(a => (a.AdjustedCashAmount + a.AdjustedCreditAmount) - Convert.ToDouble(a.SystemAmount + a.OpeningAmount)).Sum();
+                }
+
                 if (_unitOfWork.TransMasterRepository.GetTransMasters((int)user.StoreId)
                     .Where(a => a.Type == "PRI" && a.TransDate >= today).Any())
                 {
