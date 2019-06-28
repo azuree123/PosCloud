@@ -361,7 +361,7 @@ namespace POSApp.Controllers
             {
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-                List<ProductSyncViewModel> products = Mapper.Map<List<ProductSyncViewModel>>(_unitOfWork.ProductRepository.GetSaleProductsQuery(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)),term));
+                List<ProductSyncViewModel> products = Mapper.Map<List<ProductSyncViewModel>>(_unitOfWork.ProductRepository.GetSaleProductsQuery(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)), term));
                 if (products.Count > 0)
                 {
                     List<RootObject> objects = new List<RootObject>();
