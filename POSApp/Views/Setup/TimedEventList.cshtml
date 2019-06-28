@@ -140,10 +140,7 @@
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>Discounts/Timed Events</b></h3>
 
-                    @*<a href="@Url.Action("StateExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                            <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>Import Data</button>
-
-                        </a>*@
+                
                 @if (Config.Setup.TimedEvent.ManageAccess())
                 {
                     <a href="@Url.Action("AddTimedEvent", "Setup")" class="modalShow" style="flex-grow: 0">

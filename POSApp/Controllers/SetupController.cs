@@ -3033,7 +3033,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.ClientRepository.GetClients().OrderByDescending(a => a.Id));
+            return View(_unitOfWork.ClientRepository.GetClients(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).OrderByDescending(a => a.Id));
         }
         [HttpGet]
         [Manage(Config.Setup.Client)]
@@ -5782,7 +5782,7 @@ namespace POSApp.Controllers
            
             
             WarehouseViewModel warehouse = new WarehouseViewModel();
-            warehouse.ClientDdl = _unitOfWork.ClientRepository.GetClients()
+            warehouse.ClientDdl = _unitOfWork.ClientRepository.GetClients(UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name,Selected = a.Id ==a.Id}).AsEnumerable();
             ViewBag.edit = "AddWarehouse";
             return View(warehouse);
@@ -5794,7 +5794,7 @@ namespace POSApp.Controllers
         public ActionResult AddWarehouse(WarehouseViewModel warehouseVm)
         {
             ViewBag.edit = "AddWarehouse";
-            warehouseVm.ClientDdl = _unitOfWork.ClientRepository.GetClients()
+            warehouseVm.ClientDdl = _unitOfWork.ClientRepository.GetClients(UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
@@ -5869,7 +5869,7 @@ namespace POSApp.Controllers
             }
             ViewBag.edit = "UpdateWarehouse";
             WarehouseViewModel warehouseMv = Mapper.Map<WarehouseViewModel>(_unitOfWork.WarehouseRepository.GetWarehouse(id));
-            warehouseMv.ClientDdl = _unitOfWork.ClientRepository.GetClients()
+            warehouseMv.ClientDdl = _unitOfWork.ClientRepository.GetClients(UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             return View("AddWarehouse", warehouseMv);
         }
@@ -5879,7 +5879,7 @@ namespace POSApp.Controllers
         public ActionResult UpdateWarehouse(int id, WarehouseViewModel warehouseVm)
         {
             ViewBag.edit = "UpdateWarehouse";
-            warehouseVm.ClientDdl = _unitOfWork.ClientRepository.GetClients()
+            warehouseVm.ClientDdl = _unitOfWork.ClientRepository.GetClients(UserStores.GetStoreCookie(System.Web.HttpContext.Current))
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             try
             {
@@ -5996,7 +5996,7 @@ namespace POSApp.Controllers
         {
             try
             {
-                return Json(Mapper.Map<ClientViewModel[]>(_unitOfWork.ClientRepository.GetClients()), JsonRequestBehavior.AllowGet);
+                return Json(Mapper.Map<ClientViewModel[]>(_unitOfWork.ClientRepository.GetClients(UserStores.GetStoreCookie(System.Web.HttpContext.Current))), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

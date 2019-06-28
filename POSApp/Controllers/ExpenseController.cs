@@ -97,7 +97,8 @@ namespace POSApp.Controllers
                 }
                 else
                 {
-                    
+                    expenseVm.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
+
                     Expense expense = Mapper.Map<Expense>(expenseVm);
                     _unitOfWork.ExpenseRepository.AddExpense(expense);
                     _unitOfWork.Complete();
@@ -193,6 +194,7 @@ namespace POSApp.Controllers
                 }
                 else
                 {
+                    expenseVm.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
                     Expense expense = Mapper.Map<Expense>(expenseVm);
                     _unitOfWork.ExpenseRepository.UpdateExpense(id, expense, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                     _unitOfWork.Complete();

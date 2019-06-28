@@ -22,6 +22,7 @@ using POSApp.Services;
 
 namespace POSApp.Controllers
 {
+    
     [Authorize]
     public class PointOfSaleController : LanguageController
     {
@@ -33,7 +34,7 @@ namespace POSApp.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: PointOfSale
-        public ActionResult Index(int hold=0,bool IsEmpty=false)
+        public ActionResult Index(int hold = 0, bool IsEmpty = false)
         {
             ViewBag.alert = TempData["alert"];
             var products = new PosScreen();
@@ -48,7 +49,7 @@ namespace POSApp.Controllers
                 }).ToList();
             if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))))
             {
-                return RedirectToAction("OpenTill", "PointOfSale", new {returnUrl = @Request.Url.AbsoluteUri});
+                return RedirectToAction("OpenTill", "PointOfSale", new { returnUrl = @Request.Url.AbsoluteUri });
             }
             else
             {
@@ -57,15 +58,8 @@ namespace POSApp.Controllers
             }
             products.PosCategories = Mapper.Map<List<PosCategory>>(
                 _unitOfWork.ProductCategoryRepository.GetProductCategories(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
-            if (products.PosCategories.Any())
-            {
             products.PosProducts = Mapper.Map<List<PosProducts>>(
                 _unitOfWork.ProductRepository.GetSaleProducts(products.PosCategories.FirstOrDefault().CategoryId, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
-            }
-            else
-            {
-                products.PosProducts=new List<PosProducts>();
-            }
             products.Customers = _unitOfWork.BusinessPartnerRepository
                 .GetBusinessPartners("C", Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))).Select(a => new SelectListItem
                 {
@@ -76,7 +70,7 @@ namespace POSApp.Controllers
                 .Select(a => new PosHold
                 {
                     Id = a.Id,
-                    Description = a.TransDate.ToString("R") +" ("+a.BusinessPartner.Name+") ",
+                    Description = a.TransDate.ToString("R") + " (" + a.BusinessPartner.Name + ") ",
                     Ref = a.TransRef
                 }).ToList();
             switch (hold)
@@ -94,7 +88,7 @@ namespace POSApp.Controllers
                 default:
                     var holdTrans = _unitOfWork.TransMasterRepository.GetHoldTransaction(hold,
                         Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
-                    if (holdTrans.DineTableId!=null)
+                    if (holdTrans.DineTableId != null)
                     {
                         var selectedTable = products.DineTables.FirstOrDefault(a => a.Value == holdTrans.DineTableId.ToString());
                         selectedTable.Selected = true;
@@ -110,7 +104,7 @@ namespace POSApp.Controllers
                         {
                             id = a.Product.Id.ToString(),
                             code = a.Product.ProductCode,
-                            name = a.Product.Name+" ("+a.Product.Size+")",
+                            name = a.Product.Name + " (" + a.Product.Size + ")",
                             category_id = a.Product.CategoryId.ToString(),
                             price = a.UnitPrice.ToString(),
                             image = "/Pos/notfound_placeholder.svg",
@@ -128,57 +122,58 @@ namespace POSApp.Controllers
                             unit_price = a.UnitPrice.ToString()
                         },
                         combo_items = false
-            }).ToList();
+                    }).ToList();
                     JavaScriptSerializer json = new JavaScriptSerializer();
                     string check = json.Serialize(objects.ToArray());
-                    Response.Write("<script>localStorage.setItem('spos_customer'," + holdTrans.BusinessPartnerId+ ");" +
-                                   "localStorage.setItem('spositems', '"+ check.ToString() + "');" +
+                    Response.Write("<script>localStorage.setItem('spos_customer'," + holdTrans.BusinessPartnerId + ");" +
+                                   "localStorage.setItem('spositems', '" + check.ToString() + "');" +
                                    "localStorage.setItem('spos_tax', '0%');" +
-                                   "localStorage.setItem('spos_discount', "+holdTrans.Discount+");</script>");
+                                   "localStorage.setItem('spos_discount', " + holdTrans.Discount + ");</script>");
 
                     break;
             }
 
             if (IsEmpty)
             {
-                
+
                 Response.Write("<script>localStorage.removeItem('spositems');</script>");
             }
-          
+
 
             return View(products);
         }
         [HttpPost]
-        public ActionResult Index(string spos_token,int? table_id, int customer_id,string hold_ref,string code
-            ,int[] product_id,
-            string[] item_comment,string[] product_code,string[] product_name,decimal[] real_unit_price,decimal[] product_discount,
+        public ActionResult Index(string spos_token, int? table_id, int customer_id, string hold_ref, string code
+            , int[] product_id,
+            string[] item_comment, string[] product_code, string[] product_name, decimal[] real_unit_price, decimal[] product_discount,
             decimal[] item_was_ordered, decimal[] quantity,
-            string spos_note,string paid_by,
-            string cc_no,string paying_gift_card_no,string cc_holder,string cheque_no,string cc_month,string cc_year, string cc_type,
-            string cc_cvv2,string balance,string payment_note,int customer,string order_tax,decimal order_discount,string count,
-            int did,int eid,int total_items,int total_quantity,string suspend, bool delete_id=true, decimal amount=0, decimal balance_amount=0)
+            string spos_note, string paid_by,
+            string cc_no, string paying_gift_card_no, string cc_holder, string cheque_no, string cc_month, string cc_year, string cc_type,
+            string cc_cvv2, string balance, string payment_note, int customer, string order_tax, decimal order_discount, string count,
+            int did, int eid, int total_items, int total_quantity, string suspend, bool delete_id = true, decimal amount = 0, decimal balance_amount = 0)
         {
             try
             {
-               
+
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
-               
+
                 _unitOfWork.TransMasterRepository.DeleteHold(did, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                 var savePo = new TransMaster();
 
-                savePo.StoreId = Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+                savePo.StoreId = Convert.ToInt32(user.StoreId);
                 savePo.BusinessPartnerId = customer_id;
-                savePo.TotalPrice = amount-balance_amount;
+                savePo.TotalPrice = amount - balance_amount;
                 savePo.Discount = order_discount;
                 savePo.PaymentMethod = paid_by;
-                savePo.Tax = Convert.ToDecimal(order_tax.Replace("%",String.Empty));
+                savePo.Tax = Convert.ToDecimal(order_tax.Replace("%", String.Empty));
                 savePo.Discount = order_discount;
                 savePo.SessionCode = 1;
                 savePo.Type = "INV";
                 savePo.TransRef = hold_ref;
                 savePo.DineTableId = table_id;
                 savePo.SessionCode = eid;
+
                 if (delete_id)
                 {
                     if (balance_amount < 0 && _unitOfWork.BusinessPartnerRepository.IsWalkIn(customer_id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))))
@@ -191,7 +186,7 @@ namespace POSApp.Controllers
                         </div>";
                         if (did != 0)
                         {
-                            return RedirectToAction("Index", "PointOfSale",new{hold=did});
+                            return RedirectToAction("Index", "PointOfSale", new { hold = did });
 
                         }
                         return RedirectToAction("Index", "PointOfSale");
@@ -205,7 +200,7 @@ namespace POSApp.Controllers
                     int TransId = _unitOfWork.AppCountersRepository.GetId("HoldInvoice");
                     savePo.TransCode = "HLDINV-" + "C-" + TransId.ToString() + "-" + Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current));
                     savePo.TransStatus = "Hold";
-                    
+
                 }
 
                 savePo.TransDate = DateTime.Now;
@@ -225,6 +220,7 @@ namespace POSApp.Controllers
                         UnitPrice = real_unit_price[i],
                         StoreId = Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)),
                         Quantity = quantity[i],
+
                         Tax = 0,
                         Balance = 0,
                         Waste = false,
@@ -246,7 +242,7 @@ namespace POSApp.Controllers
                         <h4><i class='icon fa fa-check'></i> Success</h4>
                         Invoice added to hold. </div>
                         </div>";
-                    return RedirectToAction("Index", "PointOfSale",new{ IsEmpty = true});
+                    return RedirectToAction("Index", "PointOfSale", new { IsEmpty = true });
                 }
             }
 
@@ -254,19 +250,19 @@ namespace POSApp.Controllers
             {
                 return RedirectToAction("Index", "PointOfSale");
             }
-           
-          
+
+
         }
 
         public ActionResult GetProducts(int id = 0, string group = "")
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            var products=new List<PosProducts>();
+            var products = new List<PosProducts>();
             if (id == 0 && string.IsNullOrEmpty(group))
             {
                 products = Mapper.Map<List<PosProducts>>(
-                    _unitOfWork.ProductRepository.GetAllProducts(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))).Where(a=>!a.PurchaseItem && !a.InventoryItem).Take(5));
+                    _unitOfWork.ProductRepository.GetAllProducts(Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))).Where(a => !a.PurchaseItem && !a.InventoryItem).Take(5));
             }
             else
             {
@@ -310,11 +306,12 @@ namespace POSApp.Controllers
                 var userid = User.Identity.GetUserId();
                 var user = UserManager.FindById(userid);
                 ProductSyncViewModel productVm = Mapper.Map<ProductSyncViewModel>(_unitOfWork.ProductRepository.GetProductByCode(code, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
-                RootObject root=new RootObject();
+                RootObject root = new RootObject();
                 root.id = productVm.Id.ToString();
                 root.item_id = productVm.Id.ToString();
                 root.label = productVm.Name + " (" + productVm.ProductCode + ")";
-                root.row=new Row
+              
+                root.row = new Row
                 {
                     id = productVm.Id.ToString(),
                     code = productVm.ProductCode,
@@ -322,7 +319,8 @@ namespace POSApp.Controllers
                     category_id = productVm.CategoryId.ToString(),
                     price = productVm.UnitPrice.ToString(),
                    
-                    tax = productVm.TaxId==null?"0":_unitOfWork.TaxRepository.GetTaxById((int)productVm.TaxId,(int)productVm.StoreId).Rate.ToString(),
+
+                    tax = productVm.TaxId == null ? "0" : _unitOfWork.TaxRepository.GetTaxById((int)productVm.TaxId, (int)productVm.StoreId).Rate.ToString(),
                     tax_method = "0",
                     quantity = "0",
                     barcode_symbology = productVm.Barcode,
@@ -332,6 +330,7 @@ namespace POSApp.Controllers
                     qty = 1,
                     comment = "",
                     discount = "0",
+
                     real_unit_price = productVm.UnitPrice.ToString(),
                     unit_price = productVm.UnitPrice.ToString()
                 };
@@ -366,53 +365,53 @@ namespace POSApp.Controllers
                 {
                     List<RootObject> objects = new List<RootObject>();
                     foreach (var productVm in products)
-                {
-                        RootObject root = new RootObject();
-                    root.id = productVm.Id.ToString();
-                    root.item_id = productVm.Id.ToString();
-                    root.label = productVm.Name + " (" + productVm.ProductCode + ")";
-                    root.row = new Row
                     {
-                        id = productVm.Id.ToString(),
-                        code = productVm.ProductCode,
-                        name = productVm.Name + " (" + productVm.Size + ")",
-                        category_id = productVm.CategoryId.ToString(),
-                        price = productVm.UnitPrice.ToString(),
-                        image = "/Pos/notfound_placeholder.svg",
-                        tax = productVm.TaxId == null ? "0" : _unitOfWork.TaxRepository.GetTaxById((int)productVm.TaxId, (int)productVm.StoreId).Rate.ToString(),
-                        tax_method = "0",
-                        quantity = "0",
-                        barcode_symbology = productVm.Barcode,
-                        type = productVm.Type,
-                        alert_quantity = "0",
-                        store_price = productVm.CostPrice.ToString(),
-                        qty = 1,
-                        comment = "",
-                        discount = "0",
-                        real_unit_price = productVm.UnitPrice.ToString(),
-                        unit_price = productVm.UnitPrice.ToString()
-                    };
-                    root.combo_items = false;
-                    objects.Add(root);
+                        RootObject root = new RootObject();
+                        root.id = productVm.Id.ToString();
+                        root.item_id = productVm.Id.ToString();
+                        root.label = productVm.Name + " (" + productVm.ProductCode + ")";
+                        root.row = new Row
+                        {
+                            id = productVm.Id.ToString(),
+                            code = productVm.ProductCode,
+                            name = productVm.Name + " (" + productVm.Size + ")",
+                            category_id = productVm.CategoryId.ToString(),
+                            price = productVm.UnitPrice.ToString(),
+                            image = "/Pos/notfound_placeholder.svg",
+                            tax = productVm.TaxId == null ? "0" : _unitOfWork.TaxRepository.GetTaxById((int)productVm.TaxId, (int)productVm.StoreId).Rate.ToString(),
+                            tax_method = "0",
+                            quantity = "0",
+                            barcode_symbology = productVm.Barcode,
+                            type = productVm.Type,
+                            alert_quantity = "0",
+                            store_price = productVm.CostPrice.ToString(),
+                            qty = 1,
+                            comment = "",
+                            discount = "0",
+                            real_unit_price = productVm.UnitPrice.ToString(),
+                            unit_price = productVm.UnitPrice.ToString()
+                        };
+                        root.combo_items = false;
+                        objects.Add(root);
 
-                }
+                    }
                     return Json(objects, JsonRequestBehavior.AllowGet);
 
                 }
                 else
                 {
                     List<NoRootObject> objects = new List<NoRootObject>();
-                        objects.Add(new NoRootObject
-                        {
-                            id = 0,
-                            label = "No match found",
-                            value = term
-                        });
-                return Json(objects, "application/json",
-                    Encoding.UTF8,
-                    JsonRequestBehavior.AllowGet);
+                    objects.Add(new NoRootObject
+                    {
+                        id = 0,
+                        label = "No match found",
+                        value = term
+                    });
+                    return Json(objects, "application/json",
+                        Encoding.UTF8,
+                        JsonRequestBehavior.AllowGet);
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -432,7 +431,7 @@ namespace POSApp.Controllers
             };
         }
         [HttpPost]
-        public ActionResult AddCustomer(string name,string email,string phone)
+        public ActionResult AddCustomer(string name, string email, string phone)
         {
 
             try
@@ -465,7 +464,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            return View(_unitOfWork.TransMasterRepository.GetSaleTransMaster(id,Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
+            return View(_unitOfWork.TransMasterRepository.GetSaleTransMaster(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))));
         }
 
         public ActionResult CustomerDisplay()
@@ -484,7 +483,7 @@ namespace POSApp.Controllers
             }
             else
             {
-                return RedirectToAction("Index","PointOfSale");
+                return RedirectToAction("Index", "PointOfSale");
             }
         }
         [HttpPost]
@@ -492,7 +491,7 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var users = UserManager.FindById(userid);
-            var user = _unitOfWork.UserRepository.GetUserById(userid,users.StoreId);
+            var user = _unitOfWork.UserRepository.GetUserById(userid, users.StoreId);
             if (!_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))))
             {
                 TillOperation data = new TillOperation
@@ -524,7 +523,7 @@ namespace POSApp.Controllers
 
         public ActionResult CloseTill()
         {
-          
+
             try
             {
                 var userid = User.Identity.GetUserId();
@@ -535,7 +534,7 @@ namespace POSApp.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            
+
         }
         [HttpPost]
         public ActionResult CloseTill(TillOperation operation)
@@ -543,8 +542,8 @@ namespace POSApp.Controllers
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
             operation.TillOperationType = "Close";
-            operation.SystemAmount = _unitOfWork.TransMasterRepository.GetSaleInvoicesTotalBySessionCode(userid,operation.SessionCode,operation.StoreId,operation.OperationDate,DateTime.Now);
-            _unitOfWork.TillOperationRepository.UpdateTillOperations(operation.Id,operation.StoreId,operation);
+            operation.SystemAmount = _unitOfWork.TransMasterRepository.GetSaleInvoicesTotalBySessionCode(userid, operation.SessionCode, operation.StoreId, operation.OperationDate, DateTime.Now);
+            _unitOfWork.TillOperationRepository.UpdateTillOperations(operation.Id, operation.StoreId, operation);
             _unitOfWork.Complete();
             return RedirectToAction("LogOut", "Account");
         }
@@ -572,7 +571,7 @@ namespace POSApp.Controllers
                 _unitOfWork.TransMasterRepository.DeleteHold(id, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                 _unitOfWork.Complete();
                 TempData["Alert"] = new AlertModel("Hold order deleted successfully", AlertType.Success);
-                return RedirectToAction("OpenedBills","PointOfSale");
+                return RedirectToAction("OpenedBills", "PointOfSale");
             }
             catch (DbEntityValidationException ex)
             {
@@ -609,7 +608,7 @@ namespace POSApp.Controllers
                 }
             }
 
-            return RedirectToAction("OpenedBills","PointOfSale");
+            return RedirectToAction("OpenedBills", "PointOfSale");
 
         }
 
@@ -624,6 +623,6 @@ namespace POSApp.Controllers
                 _userManager = value;
             }
         }
-        
+
     }
 }

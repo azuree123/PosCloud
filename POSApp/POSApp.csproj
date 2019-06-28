@@ -539,9 +539,9 @@
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
     <Compile Include="Core\ViewModels\WarehouseViewModel.cs" />
     <Compile Include="Core\ViewModels\WeeklyTimeSalesViewModel.cs" />
-    <Compile Include="Migrations\201906211224078_init1.cs" />
-    <Compile Include="Migrations\201906211224078_init1.Designer.cs">
-      <DependentUpon>201906211224078_init1.cs</DependentUpon>
+    <Compile Include="Migrations\201906250635532_init1.cs" />
+    <Compile Include="Migrations\201906250635532_init1.Designer.cs">
+      <DependentUpon>201906250635532_init1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\AppCounterEntityConfiguration.cs" />
@@ -4049,8 +4049,8 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>وصفات المنتجات.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Migrations\201906211224078_init1.resx">
-      <DependentUpon>201906211224078_init1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906250635532_init1.resx">
+      <DependentUpon>201906250635532_init1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\BatchWiseExpiry.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

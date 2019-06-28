@@ -45,7 +45,7 @@ namespace POSApp.Controllers
             EmailFormViewModel vm = new EmailFormViewModel();
             vm.CurrentDate = currentDate;
             vm.DateWeekBefore = dateWeekBefore;
-            vm.ClientName = _unitOfWork.ClientRepository.GetClients().Select(a => a.Name).FirstOrDefault();
+            vm.ClientName = _unitOfWork.ClientRepository.GetClients(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => a.Name).FirstOrDefault();
             vm.Currency = _unitOfWork.StoreRepository.GetStores().Select(a => a.City).FirstOrDefault();
             vm.TotalOrders = _unitOfWork.TransMasterRepository
                 .GetTransMasters((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Count(a => a.Type == "INV" && (a.TransStatus == "Paid" || a.TransStatus == "Complete") && a.TransDate >= dateWeekBefore);

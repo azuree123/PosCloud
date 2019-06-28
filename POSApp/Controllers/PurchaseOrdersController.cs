@@ -637,15 +637,14 @@ namespace POSApp.Controllers
                 po.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
 
                 var savePo = Mapper.Map<TransMaster>(po);
-
+                savePo.TransDetails = Mapper.Map<List<TransDetail>>(po.TransDetailViewModels);
                 IEnumerable<TransDetailViewModel> poItems = po.TransDetailViewModels;
-
                 savePo.TotalPrice = (from a in poItems
                                      select a.Quantity * a.UnitPrice).Sum();
                 _unitOfWork.TransMasterRepository.AddTransMaster(savePo);
                 _unitOfWork.Complete();
 
-              
+
                 temp.TransMasterViewModel = po;
                 temp.TransMasterViewModel.TransDate = Convert.ToDateTime(savePo.TransDate).ToString("dd-MMM-yyyy");
                 temp.TransMasterViewModel.TransTime = Convert.ToDateTime(savePo.TransDate).ToShortTimeString();
@@ -654,9 +653,11 @@ namespace POSApp.Controllers
                 temp.TransDetailViewModels = poItems;
                 temp.TotalAmount = (from a in temp.TransDetailViewModels
                                     select a.Quantity * a.UnitPrice).Sum();
+              
                 TempData["po"] = temp;
             }
             return RedirectToAction("GeneratePurchasingReceipt", "PurchaseOrders");
+
 
 
         }
@@ -957,20 +958,16 @@ namespace POSApp.Controllers
                     purchasingVm.StoreId = UserStores.GetStoreCookie(System.Web.HttpContext.Current);
 
                     var savePo = Mapper.Map<TransMaster>(purchasingVm);
+                    savePo.TransDetails = Mapper.Map<List<TransDetail>>(purchasingVm.TransDetailViewModels);
                     savePo.Type = "PRI";
-                    IEnumerable<TransDetailViewModel> poItems = PoHelper.temptTransDetail.Where(a => a.CreatedByUserId == userid && a.StoreId == UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+                    IEnumerable<TransDetailViewModel> poItems = purchasingVm.TransDetailViewModels;
 
                     savePo.TotalPrice = (from a in poItems
                         select a.Quantity * a.UnitPrice).Sum();
                     _unitOfWork.TransMasterRepository.AddTransMaster(savePo);
                     _unitOfWork.Complete();
 
-                    foreach (var transDetailViewModel in poItems)
-                    {
-                        transDetailViewModel.TransMasterId = savePo.Id;
-                        _unitOfWork.TransDetailRepository.AddTransDetail(Mapper.Map<TransDetail>(transDetailViewModel));
-                    }
-                    _unitOfWork.Complete();
+                    
                     temp.TransMasterViewModel = purchasingVm;
                     temp.TransMasterViewModel.TransDate = Convert.ToDateTime(savePo.TransDate).ToString("dd-MMM-yyyy");
                     temp.TransMasterViewModel.TransTime = Convert.ToDateTime(savePo.TransDate).ToShortTimeString();

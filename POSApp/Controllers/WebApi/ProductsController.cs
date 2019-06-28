@@ -25,7 +25,7 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetProducts(int storeId, bool forceFull, int deviceId)
+        public async Task<IHttpActionResult> GetProducts(int storeId, int deviceId, bool forceFull=false, bool imageEnable=false)
         {
             var data=new object();
             try
@@ -36,7 +36,15 @@ namespace POSApp.Controllers.WebApi
                     data = await _unitOfWork.ProductRepository.GetAllProductsAsync(storeId);
 
 
+
+                    if (!imageEnable)
+                    {
                     return Ok(Mapper.Map<ProductSyncViewModel[]>(data));
+                    }
+                    else
+                    {
+                        return Ok(Mapper.Map<ProductSyncWithImageViewModel[]>(data));
+                    }
 
                 }
                 else
@@ -65,14 +73,21 @@ namespace POSApp.Controllers.WebApi
 
                         });
                     _unitOfWork.Complete();
-                    return Ok(Mapper.Map<ProductSyncViewModel[]>(data));
+                    if (!imageEnable)
+                    {
+                        return Ok(Mapper.Map<ProductSyncViewModel[]>(data));
+                    }
+                    else
+                    {
+                        return Ok(Mapper.Map<ProductSyncWithImageViewModel[]>(data));
+                    }
                 }
 
 
             }
             catch (Exception e)
             {
-                return null;
+                return InternalServerError(e);
             }
 
 

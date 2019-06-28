@@ -19,13 +19,14 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
-        public IEnumerable<Client> GetClients()
+        public IEnumerable<Client> GetClients(int storeId)
         {
-            return _context.Clients
-                .Where(a => a.Stores.Any(b => b.Id==3))
-                
-                
-                .Where(a=> !a.IsDisabled).ToList();
+            var cl = _context.Clients
+                .Where(a => a.Stores.Any(b => b.Id == storeId))
+
+
+                .Where(a => !a.IsDisabled).ToList();
+            return cl;
         }
         public async Task<IEnumerable<Client>> GetClientsAsync()
         {

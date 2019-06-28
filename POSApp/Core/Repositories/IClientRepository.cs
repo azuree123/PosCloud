@@ -10,7 +10,7 @@ namespace POSApp.Core.Repositories
 {
     public interface IClientRepository
     {
-        IEnumerable<Client> GetClients();
+        IEnumerable<Client> GetClients(int storeId);
         Client GetClient(int id);
         void AddClient(Client client);
         void UpdateClient(int id, Client client);
