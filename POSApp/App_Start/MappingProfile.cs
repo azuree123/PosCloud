@@ -61,6 +61,9 @@ namespace POSApp
             CreateMap<Client, ClientViewModel>();
             CreateMap<ProductSyncViewModel, Product>() ;
             CreateMap<Product, ProductSyncViewModel>();
+            CreateMap<ProductSyncWithImageViewModel, Product>();
+            CreateMap<Product, ProductSyncWithImageViewModel>();
+
             CreateMap<TransMaster, TransMasterViewModel>().ForMember(d => d.TransDate, o => o.MapFrom(g => g.TransDate.ToString("yyyy-MMM-dd ddd")))
                 .ForMember(d => d.TransTime, o => o.MapFrom(g => g.TransDate.ToShortTimeString()))
                 .ForMember(d => d.PaymentMethod, o => o.MapFrom(g =>string.Join(",", g.TransMasterPaymentMethods.Select(a => a.Method + " (" + a.Amount + ")")) ))

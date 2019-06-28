@@ -30,9 +30,9 @@ namespace POSApp.Core.ViewModels
         [Display(Name = "Code", ResourceType = typeof(Resource))]
         public string Code { get; set; }
         public IEnumerable<SelectListItem> EmpDdl { get; set; }
-        public IEnumerable<SelectListItem> StoreDdl { get; set; }
+        
         public IEnumerable<SelectListItem> ExpHeadDdl { get; set; }
-        public SelectList Employee { get; set; }
+       
 
     }
    

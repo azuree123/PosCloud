@@ -1,8 +1,12 @@
-﻿@model POSApp.Core.ViewModels.DepartmentViewModel
+﻿@using POSApp.Core.Models
+@model POSApp.Core.ViewModels.DepartmentViewModel
 @{
     Layout = null;
 }
-
+@{
+    Layout = null;
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+}
 <div id="ordine2" class="modal fade" role="dialog">
     @{ string s = ViewBag.edit;}
 
@@ -11,7 +15,7 @@
         HttpMethod = "Post",
         OnSuccess = "$('#ordine2').modal('hide');UpdateDdlDepartment();"
        ,
-        UpdateTargetId="ordine2"
+        UpdateTargetId = "ordine2"
     }, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
@@ -23,9 +27,9 @@
 
                     @if (s.Contains("Add"))
                     {
-                    <h4 class="modal-title">
-                        @POSApp.Resources.Resource.AddDepartment
-                    </h4>
+                        <h4 class="modal-title">
+                            @POSApp.Resources.Resource.AddDepartment
+                        </h4>
                     }
                     else
                     {
@@ -40,7 +44,10 @@
                     <div class="panel panel-bd lobidrag">
 
                         <div class="panel-body">
-
+                            @if (alertModel != null)
+                            {
+                                @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+                            }
                             @Html.HiddenFor(a => a.Id)
                             @Html.HiddenFor(a => a.CreatedBy)
                             @Html.HiddenFor(a => a.CreatedOn)

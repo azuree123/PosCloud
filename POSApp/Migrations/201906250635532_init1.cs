@@ -540,7 +540,7 @@ namespace POSApp.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
-                        PasswordEncrypt = c.String(),
+                        PasswordEncrypt = c.String(maxLength: 150, unicode: false),
                         EmployeeId = c.Int(nullable: false),
                         StoreId = c.Int(nullable: false),
                         POSTerminalId = c.Int(),
@@ -560,19 +560,17 @@ namespace POSApp.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
-                        Employee_Id = c.Int(),
-                        Employee_StoreId = c.Int(),
                         Shift_ShiftId = c.Int(),
                         Shift_StoreId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("PosCloud.Employees", t => new { t.Employee_Id, t.Employee_StoreId })
+                .ForeignKey("PosCloud.Employees", t => new { t.EmployeeId, t.StoreId })
                 .ForeignKey("PosCloud.POSTerminals", t => new { t.POSTerminalId, t.StoreId })
                 .ForeignKey("PosCloud.Stores", t => t.StoreId)
                 .ForeignKey("PosCloud.Shifts", t => new { t.Shift_ShiftId, t.Shift_StoreId })
+                .Index(t => new { t.EmployeeId, t.StoreId })
                 .Index(t => new { t.POSTerminalId, t.StoreId })
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex")
-                .Index(t => new { t.Employee_Id, t.Employee_StoreId })
                 .Index(t => new { t.Shift_ShiftId, t.Shift_StoreId });
             
             CreateTable(
@@ -1316,12 +1314,12 @@ namespace POSApp.Migrations
             DropForeignKey("PosCloud.TillOperations", "ApplicationUserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUsers", "StoreId", "PosCloud.Stores");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUsers", new[] { "POSTerminalId", "StoreId" }, "PosCloud.POSTerminals");
             DropForeignKey("PosCloud.POSTerminals", "StoreId", "PosCloud.Stores");
             DropForeignKey("PosCloud.POSTerminals", new[] { "SectionId", "StoreId" }, "PosCloud.Sections");
             DropForeignKey("PosCloud.Sections", "StoreId", "PosCloud.Stores");
-            DropForeignKey("dbo.AspNetUsers", new[] { "POSTerminalId", "StoreId" }, "PosCloud.POSTerminals");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUsers", new[] { "Employee_Id", "Employee_StoreId" }, "PosCloud.Employees");
+            DropForeignKey("dbo.AspNetUsers", new[] { "EmployeeId", "StoreId" }, "PosCloud.Employees");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.ComboProductsTransDetails", new[] { "Id", "StoreId" }, "PosCloud.TransDetails");
             DropForeignKey("dbo.ComboProductsTransDetails", "StoreId", "PosCloud.Stores");
@@ -1380,9 +1378,9 @@ namespace POSApp.Migrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", new[] { "Shift_ShiftId", "Shift_StoreId" });
-            DropIndex("dbo.AspNetUsers", new[] { "Employee_Id", "Employee_StoreId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUsers", new[] { "POSTerminalId", "StoreId" });
+            DropIndex("dbo.AspNetUsers", new[] { "EmployeeId", "StoreId" });
             DropIndex("PosCloud.Employees", new[] { "ShiftId", "StoreId" });
             DropIndex("PosCloud.Employees", new[] { "DesignationId", "StoreId" });
             DropIndex("PosCloud.Employees", new[] { "DepartmentId", "StoreId" });

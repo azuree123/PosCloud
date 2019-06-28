@@ -205,7 +205,7 @@
                 type: 'GET',
                 cache: false,
                 success: function (result) {
-                    var $dropdown = $("#@Html.IdFor(a=>a.ShiftId)");
+                    var $dropdown = $("#@Html.IdFor(a=>a.DepartmentId)");
                     $dropdown.empty();
                     $dropdown.append($("<option />").val('').text("Select an Option"));
                     $.each(result, function (index, value) {
@@ -222,7 +222,7 @@
                 type: 'GET',
                 cache: false,
                 success: function (result) {
-                    var $dropdown = $("#@Html.IdFor(a=>a.DepartmentId)");
+                    var $dropdown = $("#@Html.IdFor(a=>a.ShiftId)");
                     $dropdown.empty();
                     $dropdown.append($("<option />").val('').text("Select an Option"));
                     $.each(result, function (index, value) {

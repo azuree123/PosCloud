@@ -265,10 +265,10 @@ namespace POSApp.Controllers
                         .SelectMany(v => v.Errors)
                         .Select(e => e.ErrorMessage));
                     TempData["Alert"] = new AlertModel("ModelState Failure, try again. " + message, AlertType.Error);
-                    var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
-                    var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+                    var store = _unitOfWork.StoreRepository.GetStoreById(UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+                    var clientStores = _unitOfWork.ClientRepository.GetClientStore(store.ClientId);
                     model.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
-                    model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+                    model.EmpDdl = _unitOfWork.EmployeeRepository.GetEmployees(UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
 
                     return View(model);
                 }
@@ -285,13 +285,27 @@ namespace POSApp.Controllers
                     {
                         StoreId = model.StoreId
                     });
-                    foreach (var modelStoreId in model.StoreIds)
+
+                    if (model.StoreIds!=null)
                     {
-                    users.UserStores.Add(new UserStore
-                    {
-                        StoreId = modelStoreId
-                    });
+                        foreach (var modelStoreId in model.StoreIds)
+                        {
+
+                            users.UserStores.Add(new UserStore
+                            {
+                                StoreId = modelStoreId
+                            });
+                        }
                     }
+                    
+
+                       
+                  
+                    
+                            
+
+
+                    
                     var result = await UserManager.CreateAsync(users, model.Password);
                     if (result.Succeeded)
                     {

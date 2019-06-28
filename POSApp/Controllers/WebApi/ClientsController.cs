@@ -92,13 +92,14 @@ namespace POSApp.Controllers.WebApi
                 
                 client.Stores=new List<Store>(){new Store
                 {
-                    Name = clients.Name,
+                    Name = clients.StoreName,
                     Address = clients.Address,
                     BusinessStartTime = clients.BusinessStartTime,
                     IsOperational = clients.IsOperational,
                     City = clients.City,
                     Currency = clients.Currency,
                     State = clients.State,
+                    
                     Contact = clients.Contact,
                     Shifts = new List<Shift>()
                     {
@@ -126,7 +127,8 @@ namespace POSApp.Controllers.WebApi
                 }};
                 _unitOfWork.ClientRepository.AddClient(client);
                 _unitOfWork.Complete();
-                var emp = new Employee {Name = clients.Name,
+                var emp = new Employee {
+                    Name = clients.Name,
                     Address = clients.Address,
                     ShiftId = client.Stores.FirstOrDefault().Shifts.FirstOrDefault().ShiftId,
                     StoreId = client.Stores.FirstOrDefault().Id,

@@ -257,8 +257,8 @@ namespace POSApp.Persistence.Repositories
         }
         public void AddTransMaster(TransMaster optcategory)
         {
-            _context.TransMasters.Add(optcategory);
-
+             _context.TransMasters.Add(optcategory);
+            
         }
 
         public void DeleteHold (int id,int storeId)

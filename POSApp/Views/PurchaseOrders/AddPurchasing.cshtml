@@ -49,7 +49,7 @@
 
                         </div>
                         <div id="transactionitems" class="tab-pane active">
-                            @using (Html.BeginForm())
+                            @using (Html.BeginForm("AddPurchasing","PurchaseOrders",FormMethod.Post))
                             {
 
                                 @Html.HiddenFor(a => a.TransCode)
@@ -139,6 +139,7 @@
 
                                                             for (int number = 0; number < Model.TransDetailViewModels.Count; number++)
                                                             {
+                                                                <tr>
                                                                 @Html.HiddenFor(a => a.TransDetailViewModels[number].ProductCode)
                                                                 @Html.HiddenFor(a => a.TransDetailViewModels[number].StoreId)
                                                                 @Html.HiddenFor(a => a.TransDetailViewModels[number].Id)
@@ -146,7 +147,6 @@
                                                                 @Html.HiddenFor(a => a.TransDetailViewModels[number].ProductName)
                                                                 @Html.HiddenFor(a => a.TransDetailViewModels[number].UnitName)
                                                                 @Html.HiddenFor(a => a.TransDetailViewModels[number].UnitPrice)
-                                                                <tr>
                                                                     <td>@(number + 1)</td>
                                                                     <td>@Html.DisplayFor(a => a.TransDetailViewModels[number].ProductName)</td>
                                                                     <td>@Html.DisplayFor(a => a.TransDetailViewModels[number].Quantity)</td>
@@ -369,7 +369,7 @@
             
         });
       
-        $('#purchaseDdl').on("change",
+        $('#productDdl').on("change",
             function () {
                 var val = $(this).val();
                 if (val !== '') {

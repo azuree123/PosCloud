@@ -32,7 +32,7 @@ namespace POSApp.Core.ViewModels
     public class ClientApiViewModel{
         public int? Id { get; set; }
         public string Name { get; set; }
-      
+        public string StoreName { get; set; }
         public string Email { get; set; }
         public string ArabicName { get; set; }
         public string Address { get; set; }
