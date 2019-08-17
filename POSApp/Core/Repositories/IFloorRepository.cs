@@ -18,5 +18,6 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<Floor>> GetFloorsAsync(int storeid);
         Task<Floor> GetFloorByIdAsync(int id, int storeid);
         Task AddFloorAsync(Floor Floor);
+        Task<IEnumerable<Floor>> GetAllFloorsAsyncIncremental(int storeId, DateTime date);
     }
 }

@@ -14,7 +14,7 @@ namespace POSApp.Core.Models
         public Store Store { get; set; }
 
         public string Type { get; set; }
-        
+        public string CNICNumber { get; set; }
         public string Name { get; set; }
         public string ArabicName { get; set; }
 

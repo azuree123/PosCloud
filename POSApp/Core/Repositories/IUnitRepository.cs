@@ -17,5 +17,6 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<Unit>> GetUnitAsync(int storeid);
         Task<Unit> GetUnitByIdAsync(int id, int storeid);
         Task AddUnitAsync(Unit unit);
+        Task<IEnumerable<Unit>> GetAllUnitsAsyncIncremental(int storeId, DateTime date);
     }
 }

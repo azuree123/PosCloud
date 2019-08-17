@@ -26,7 +26,10 @@ namespace POSApp.Persistence.Repositories
         {
              return _context.ModifierLinkProducts.FirstOrDefault(a => a.ProductCode == ProductCode && a.ModifierId == ModifierId);
         }
-
+        public IEnumerable<ModifierLinkProduct> GetModifierLinkProductByProductId(string productCode,int storeId)
+        {
+            return _context.ModifierLinkProducts.Where(a => a.ProductCode == productCode && a.ProductStoreId == storeId).ToList();
+        }
         public void AddModifierLinkProducts(ModifierLinkProduct tep)
         {
 
@@ -58,6 +61,18 @@ namespace POSApp.Persistence.Repositories
         {
             List<ModifierLinkProduct> products = _context.ModifierLinkProducts
                 .Where(a=> a.ModifierId == modifierId && a.ModifierStoreId==storeId).ToList();
+            foreach (var timedEventProducts in products)
+            {
+
+                _context.ModifierLinkProducts.Remove(timedEventProducts);
+            }
+
+        }
+
+        public void DeleteModifierLinkProductsOnly(string productId, int storeId)
+        {
+            List<ModifierLinkProduct> products = _context.ModifierLinkProducts
+                .Where(a => a.ProductCode == productId && a.ProductStoreId == storeId).ToList();
             foreach (var timedEventProducts in products)
             {
 

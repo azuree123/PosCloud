@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Security.AccessControl;
 using POSApp.Resources;
@@ -8,6 +9,8 @@ namespace POSApp.Core.ViewModels
     public class CustomerModelView
     {
         public int? Id { get; set; }
+        [DisplayName("CNIC Number")]
+        public string CNICNumber { get; set; }
         public int? StoreId { get; set; }
         [Display(Name = "Branch", ResourceType = typeof(Resource))]
         public string BranchName { get; set; }

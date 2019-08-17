@@ -25,10 +25,53 @@ namespace POSApp.Controllers.WebApi
             _unitOfWork = unitOfWork;
         }
         // GET: api/Modifiers
-        public async Task<IHttpActionResult> GetModifiers(int storeId)
+
+        public async Task<IHttpActionResult> GetModifiers(int storeId, bool forceFull, int deviceId)
         {
-            return Ok(await _unitOfWork.ModifierRepository.GetModifiersAsync(storeId));
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.ModifierRepository.GetModifiersAsync(storeId);
+
+
+                return Ok(Mapper.Map<ModifierViewModel[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "Modifiers");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.ModifierRepository.GetModifiersAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.ModifierRepository.GetAllModifiersAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "Modifiers"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<ModifierViewModel[]>(data));
+
+
+            }
+
+
         }
+        //public async Task<IHttpActionResult> GetModifiers(int storeId)
+        //{
+        //    return Ok(await _unitOfWork.ModifierRepository.GetModifiersAsync(storeId));
+        //}
 
         // GET: api/ModifiersSync/5
         public async Task<IHttpActionResult> GetModifierById(int id, int storeId)

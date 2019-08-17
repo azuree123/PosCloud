@@ -25,8 +25,10 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Products.Include(a=>a.ProductCategory).Where(a=>a.StoreId==storeId && !a.IsDisabled).ToList();
         }
-
-        
+        public IEnumerable<Product> GetProductsNotInventory(int storeId)
+        {
+            return _context.Products.Include(a => a.ProductCategory).Where(a => a.StoreId == storeId && !a.IsDisabled && !a.InventoryItem && a.Type != "Combo").ToList();
+        }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync(int storeId)
         {
@@ -58,9 +60,14 @@ namespace POSApp.Persistence.Repositories
         }
         public Product GetProductByCode(string id, int storeid)
         {
-                var data=_context.Products.Include(a=>a.ModifierLinkProducts).Include(a => a.ComboProducts).Include(a=>a.Recipes)
+                var data=_context.Products.Include(a=>a.ModifierLinkProducts).Include(a => a.ComboProducts).Include(a=>a.Section).Include(a=>a.Tax).Include(a=>a.Recipes)
                 .Include(a => a.Recipes.Select(g => g.Ingredient)).FirstOrDefault(a => a.ProductCode == id && a.StoreId == storeid);
                 return data;
+        }
+        public IEnumerable<Product> GetInventoryProducts(int storeId)
+        {
+            var items = _context.Products.Where(a => a.StoreId == storeId && !a.IsDisabled && a.InventoryItem).ToList();
+            return items;
         }
         public IEnumerable<Product> GetSaleProductsQuery(int storeId,string term)
         {

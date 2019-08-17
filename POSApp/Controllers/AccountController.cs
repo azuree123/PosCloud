@@ -68,6 +68,17 @@ namespace POSApp.Controllers
         {
           
             ViewBag.ReturnUrl = returnUrl;
+
+            var cookies = HttpContext.Request.Cookies;
+            foreach (string cookie in cookies.AllKeys.Where(a => !a.Contains("culture")))
+            {
+                var httpCookie = cookies[cookie];
+                if (httpCookie != null)
+                {
+                    httpCookie.Expires = DateTime.Today.AddDays(-1);
+                    HttpContext.Response.Cookies.Set(httpCookie);
+                }
+            }
             return View();
         }
 
@@ -114,7 +125,7 @@ namespace POSApp.Controllers
                                 JsonConvert.SerializeObject(userData);
                         if (data.Length >= 3000)
                         {
-                            var miniData = AuthHelper.EnumByNearestSpace(data, 2000);
+                            var miniData = AuthHelper.Split(data, 2000);
                             int ind = 0;
                             foreach (var mini in miniData)
                             {
@@ -582,10 +593,10 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            if (_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))))
-            {
-                return RedirectToAction("CloseTill", "PointOfSale");
-            }
+            //if (_unitOfWork.TillOperationRepository.CheckTillOpened(userid, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current))))
+            //{
+            //    return RedirectToAction("CloseTill", "PointOfSale");
+            //}
 
             var cookies = HttpContext.Request.Cookies;
             foreach (string cookie in cookies.AllKeys.Where(a => !a.Contains("culture")))

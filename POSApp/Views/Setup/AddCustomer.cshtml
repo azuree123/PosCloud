@@ -86,9 +86,17 @@
                                         @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "050xxxxxxx", @required = "required" } })
                                         @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-4">
-                                        @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label required1" })
-                                       
+
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.CNICNumber, htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.CNICNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "xxxxx-xxxxxxx-x" } })
+                                            @Html.ValidationMessageFor(model => model.CNICNumber, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label required1" })
+
                                             @{
                                                 if (Global.GetLang().Contains("Ar"))
                                                 {
@@ -98,7 +106,7 @@
                                                 else
                                                 {
 
-                                                    @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control unstyled", @required = "true", type="date" } })
+                                                    @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control unstyled", @required = "true", type = "date" } })
 
                                                     <input type="hidden" id="birthday_date" value="@Model.Birthday" />
                                                     <script>
@@ -118,33 +126,32 @@
 
                                                 }
                                             }
-                                        
-                                        @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
-                                    </div>
-                                    
 
+                                            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+                                        </div>
 
-                                    
-                                    <div class="col-md-4">
-                                        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterCityName } })
-                                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                   
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterStateName } })
-                                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                                
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterCityName } })
+                                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.State, htmlAttributes: new {@class = "control-label"})
+                                            @Html.EditorFor(model => model.State, new {htmlAttributes = new {@class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterStateName}})
+                                            @Html.ValidationMessageFor(model => model.State, "", new {@class = "text-danger"})
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(model => model.Address, htmlAttributes: new {@class = "control-label"})
+                                            @Html.TextAreaFor(model => model.Address, new {@class = "form-control", @rows = "3", @placeholder = @POSApp.Resources.Resource.EnterAddress})
+                                            @Html.ValidationMessageFor(model => model.Address, "", new {@class = "text-danger"})
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
-                                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @rows = "3", @placeholder = @POSApp.Resources.Resource.EnterAddress })
-                                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>

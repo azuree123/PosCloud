@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,9 @@ namespace POSApp.Core.ViewModels
     public class BusinessPartnerViewModel
     {
         public int Id { get; set; }
+        [DisplayName("CNIC Number")]
+        public string CNICNumber { get; set; }
+
         public int StoreId { get; set; }
         [Display(Name = "Branch", ResourceType = typeof(Resource))]
         public string BranchName { get; set; }

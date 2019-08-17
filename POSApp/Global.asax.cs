@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Http;
@@ -6,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using AutoMapper;
+using POSApp.Services;
 
 namespace POSApp
 {
@@ -55,6 +58,8 @@ namespace POSApp
         //        context.Response.Redirect(this.Request.Url.LocalPath + "?action=exception");
         //    }
         //}
+       
+
         protected void Application_Start()
         {
             Mapper.Initialize(c => c.AddProfile<MappingProfile>());
@@ -63,14 +68,20 @@ namespace POSApp
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+          
 
 
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings
                 .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             GlobalConfiguration.Configuration.Formatters
                 .Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
+           
         }
+
+      
+
+
+
 
         //protected void Application_BeginRequest(object sender, EventArgs e)
         //{

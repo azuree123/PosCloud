@@ -17,5 +17,6 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<Modifier>> GetModifiersAsync(int storeId);
         Task<Modifier> GetModifierByIdAsync(int id, int storeId);
         Task AddModifierAsync(Modifier modifier);
+        Task<IEnumerable<Modifier>> GetAllModifiersAsyncIncremental(int storeId, DateTime date);
     }
 }

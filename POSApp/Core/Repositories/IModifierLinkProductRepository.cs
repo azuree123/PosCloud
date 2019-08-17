@@ -14,5 +14,7 @@ namespace POSApp.Core.Repositories
        void AddModifierLinkProducts(ModifierLinkProduct tep);
        void UpdateModifierLinkProducts(string id, int ModifierId, ModifierLinkProduct tep);
        void DeleteModifierLinkProducts(int modifierId, int storeId);
+       IEnumerable<ModifierLinkProduct> GetModifierLinkProductByProductId(string productCode, int storeId);
+       void DeleteModifierLinkProductsOnly(string productId, int storeId);
    }
 }

@@ -23,16 +23,19 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
-        public async Task<TransMaster> GetLastTransactionINV(string storeId)
+        public async Task<IEnumerable<TransMasterListViewModel>> GetLastTransactionINV(string storeId,int deviceId)
         {
+            var parameters = new List<SqlParameter> { new SqlParameter("@d", storeId), new SqlParameter("@e", deviceId) };
+            
+            var sql = @"exec GetLastInvNo @d , @e";
 
-            return await _context.TransMasters.Where(a => a.TransCode.EndsWith(storeId) && a.Type == "INV").OrderByDescending(a => a.Id).FirstOrDefaultAsync();
+            return  _context.Database.SqlQuery<TransMasterListViewModel>(sql, parameters.ToArray()).ToList();
         }
 
         public TransMaster GetTransMaster(int id, int storeId)
         {
          var data= _context.TransMasters.Include(a => a.BusinessPartner).Include(a=>a.DineTable).Include(a=>a.TimedEvent)
-                .Include(a=>a.TransDetails).Include(a=>a.TransDetails.Select(c=>c.Product)).Include(a => a.TransDetails.Select(c => c.ModifierTransDetail))
+                .Include(a=>a.TransDetails).Include(a=>a.Device).Include(a=>a.TransDetails.Select(c=>c.Product)).Include(a => a.TransDetails.Select(c => c.ModifierTransDetail))
              .Include(a => a.TransDetails.Select(c => c.ModifierTransDetail.Select(f=>f.ModifierOption)))
             .Include(a=>a.TransMasterPaymentMethods)
                 .FirstOrDefault(x => x.Id == id && x.StoreId == storeId);
@@ -53,18 +56,24 @@ namespace POSApp.Persistence.Repositories
         public IEnumerable<TransMaster> GetTransMasterProducts(int id, int storeId)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", id) };
-            var sql = @"select c.Name as ProductName from PosCloud.TransMaster as a 
-            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
-			
-            inner join PosCloud.Products as c on b.ProductCode=c.ProductCode 
-            where c.InventoryItem ='1' and b.Id = @p2 and a.StoreId=@p1
-            group by c.Name,b.Id
+            var sql = @" exec GetTransMasterProducts @p2,@p1 
                 ";
             var data =  _context.Database.SqlQuery<TransMaster>(sql, parameters.ToArray()).ToList();
             return data;
 
 
 
+        }
+
+        public decimal ProductStock(string ingredientCode, int storeId)
+        {
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1",storeId), new SqlParameter("@p3", ingredientCode) };
+            
+            var sql = @"exec stock @p3,@p1
+
+			            ";
+            var stk = Convert.ToDecimal(_context.Database.SqlQuery<decimal>(sql, parameters.ToArray()).ToList().Sum());
+            return stk;
         }
         public IQueryable<TransMasterViewModel> GetDailyRefundsQuery(int storeId)
         {
@@ -160,15 +169,7 @@ namespace POSApp.Persistence.Repositories
         public IEnumerable<WeeklyTimeSalesViewModel> GetTimeSale()
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", DateTime.Today.AddDays(-7)) };
-            var sql = @"select Top 1 ISNULL((Sum(a.TotalPrice) +Sum(a.Tax)) -Sum(a.Discount),0) as Amount,CONVERT(time(0),(CONVERT(VARCHAR(2),
-	   a.TransDate, 108))+':00') as Time
-			from PosCloud.TransMaster as a 
-            
-           
-             where a.Transdate >= @p1 and a.Type= 'INV' and ((a.TransStatus = 'Paid' or a.TransStatus = 'Complete') or a.TransStatus = 'Complete')
-		
-            group by CONVERT(time(0),(CONVERT(VARCHAR(2), a.TransDate, 108)+':00')) 
-			ORDER BY Amount DESC";
+            var sql = @"exec GetTimeSale @p1";
 
             return _context.Database.SqlQuery<WeeklyTimeSalesViewModel>(sql, parameters.ToArray()).ToList();
 
@@ -176,16 +177,7 @@ namespace POSApp.Persistence.Repositories
         public IEnumerable<TopEmployeeSaleViewModel> GetTopEmployeeSale()
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", DateTime.Today.AddDays(-7)) };
-            var sql = @"select Top 1 ISNULL((Sum(a.TotalPrice) + Sum(a.Tax)) -Sum(a.Discount),0) as Amount,e.Name as EmployeeName
-	   
-			from PosCloud.TransMaster as a 
-            
-            LEFT OUTER JOIN AspNetUsers as u on a.Id = u.CreatedById
-			LEFT OUTER JOIN PosCloud.Employees as e on u.EmployeeId = e.Id
-            where a.Transdate >= @p1 and  a.Type= 'INV' and ((a.TransStatus = 'Paid' or a.TransStatus = 'Complete') or a.TransStatus = 'Complete')
-		
-            group by e.Name
-			ORDER BY Amount DESC";
+            var sql = @"exec GetTopEmployeeSale @p1";
 
             return _context.Database.SqlQuery<TopEmployeeSaleViewModel>(sql, parameters.ToArray()).ToList();
 
@@ -194,14 +186,14 @@ namespace POSApp.Persistence.Repositories
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", DateTime.Today.AddDays(-7)) };
             var sql =
-                " Select ISNULL((Sum(a.TotalPrice) +Sum(a.Tax)) -Sum(a.Discount),0) as Income From PosCloud.TransMaster as a where a.Transdate >= @p1 and a.Type= 'INV' and ((a.TransStatus = 'Paid' or a.TransStatus = 'Complete') or a.TransStatus = 'Complete')";
+                "exec WeeklyIncome @p1";
             return _context.Database.SqlQuery<decimal>(sql, parameters.ToArray()).FirstOrDefault();
         }
         public decimal GetBeforeWeeklyIncome()
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", DateTime.Today.AddDays(-14)) };
             var sql =
-                "Select ISNULL((Sum(a.TotalPrice) +Sum(a.Tax)) -Sum(a.Discount),0) as Income From PosCloud.TransMaster as a where a.Transdate >= @p1 and a.Type= 'INV' and ((a.TransStatus = 'Paid' or a.TransStatus = 'Complete') or a.TransStatus = 'Complete')";
+                "exec WeeklyBeforeIncome @p1";
             return _context.Database.SqlQuery<decimal>(sql, parameters.ToArray()).Sum();
         }
         public IEnumerable<TransMaster> GetTransMastersByDate(int storeId)
@@ -215,16 +207,7 @@ namespace POSApp.Persistence.Repositories
         public IEnumerable<InvoiceViewModel> GetInvoice(int id, int storeId)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", id), new SqlParameter("@p2", storeId) };
-            var sql = @"SELECT  TransMaster.TransCode, TransMaster.TransDate, TransMaster.TransStatus, TransMaster.PaymentMethod, TransMaster.CreatedOn,
-                TransMaster.CreatedById, Products.ProductCode, Products.Name AS Product, Products.Attribute,Products.Size, BusinessPartners.Name AS Customer,
-                Units.Code AS Unit, ApplicationUsers.UserName,TransDetails.Quantity, TransDetails.UnitPrice
-                FROM TransMaster INNER JOIN
-                TransDetails ON TransMaster.Id = TransDetails.TransMasterId AND TransMaster.StoreId = TransDetails.StoreId INNER JOIN
-                Products ON TransDetails.ProductId = Products.Id AND TransDetails.StoreId = Products.StoreId INNER JOIN
-                BusinessPartners ON TransMaster.BusinessPartnerId = BusinessPartners.Id AND TransMaster.StoreId = BusinessPartners.StoreId INNER JOIN
-                Units ON Products.CategoryId = Units.Id AND Products.StoreId = Units.StoreId INNER JOIN
-                ApplicationUsers ON TransMaster.StoreId = ApplicationUsers.StoreId AND TransMaster.CreatedById = ApplicationUsers.Id
-                WHERE (TransMaster.Id = @p1) AND (TransMaster.StoreId = @p2)";
+            var sql = @"exec GetInvoice @p1 , @p2";
 
             return _context.Database.SqlQuery<InvoiceViewModel>(sql, parameters.ToArray()).ToList();
             
@@ -278,9 +261,7 @@ namespace POSApp.Persistence.Repositories
         {
          
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", storeId), new SqlParameter("@p2", date), new SqlParameter("@p3", ingredientCode) };
-            var sql = @"select SUM(b.UnitPrice*b.Quantity)/SUM(b.Quantity) as Average from PosCloud.TransMaster as a 
-            inner join PosCloud.TransDetails as b on a.id=b.TransMasterId
-            where a.StoreId=@p1 and a.Type='PRI' and b.ProductCode=@p3 and a.TransDate<=@p2
+            var sql = @"exec AvgPrice @p3,@p1,@p2
                 ";
             var data = Convert.ToDecimal(_context.Database.SqlQuery<decimal?>(sql, parameters.ToArray()).ToList().Sum());
             return data;
@@ -294,7 +275,7 @@ namespace POSApp.Persistence.Repositories
         {
             //return _context.PurchaseOrder;
             return Mapper.Map<TransMasterViewModel[]>(_context.TransMasters
-                .Where(a => a.StoreId == storeId).Include(a=>a.BusinessPartner).Include(a=>a.TransMasterPaymentMethods)).AsQueryable();
+                .Where(a => a.StoreId == storeId).Include(a=>a.BusinessPartner).Include(a=>a.Device).Include(a=>a.TransMasterPaymentMethods)).AsQueryable();
 
         }
         public IQueryable<TransMasterViewModel> GetDailyTransMastersQuery(int storeId)
@@ -308,9 +289,9 @@ namespace POSApp.Persistence.Repositories
         public SalesViewModel GetInvoiceById(int id, int storeId)
         {
             SalesViewModel salesViewModel=new SalesViewModel();
-            salesViewModel.TransMaster = _context.TransMasters.FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
-            salesViewModel.TransMaster.TransDetails = _context.TransDetails.Include(a => a.ModifierTransDetail)
-                .Where(a => a.TransMasterId == id).ToList();
+            salesViewModel.TransMaster = _context.TransMasters.Include(a=>a.TransDetails).Include(a=>a.TransDetails.Select(g=>g.ModifierTransDetail)).FirstOrDefault(a => a.Id == id && a.StoreId == storeId);
+            //salesViewModel.TransMaster.TransDetails = _context.TransDetails.Include(a => a.ModifierTransDetail)
+            //    .Where(a => a.TransMasterId == id).ToList();
             salesViewModel.TransMaster.TransMasterPaymentMethods =
                 _context.TransMasterPaymentMethods.Where(a => a.TransMasterId == id).ToList();
             return salesViewModel;

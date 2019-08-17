@@ -17,6 +17,10 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
+        public async Task<IEnumerable<Modifier>> GetAllModifiersAsyncIncremental(int storeId, DateTime date)
+        {
+            return await _context.Modifiers.Include(a => a.ModifierLinkProducts).Include(a => a.ModifierOptions).Where(a => a.StoreId == storeId && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
+        }
 
         public IEnumerable<Modifier> GetModifiers(int storeId)
         {

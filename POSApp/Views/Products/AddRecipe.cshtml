@@ -17,7 +17,7 @@
         HttpMethod = "POST",
         OnSuccess = " $('#changeData').html(data);"
     }
-        , new { enctype = "multipart/form-data", id = "client" }))
+        , new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="modal-dialog modal-lg">
@@ -64,14 +64,14 @@
                                 <div class="col-md-3">
                                     @Html.LabelFor(model => model.IngredientCode, htmlAttributes: new {@class = "control-label required1"})
                                     <div class="">
-                                        @Html.DropDownListFor(model => model.IngredientCode, Model.ProductDDl, @POSApp.Resources.Resource.SelectanOption, new {@class = "form-control",@id="hello", @required = "true" })
+                                        @Html.DropDownListFor(model => model.IngredientCode, Model.ProductDDl, @POSApp.Resources.Resource.SelectanOption, new {@class = "form-control",@id="hello", name = "productId", @required = "true" })
                                         @Html.ValidationMessageFor(model => model.IngredientCode, "", new {@class = "text-danger"})
 
                                     </div>
 
                                 </div>
                                
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label" })
                                     <div class="input-group">
                                         @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @id = "quty2", @placeholder = @POSApp.Resources.Resource.EnterQuantity } })
@@ -79,10 +79,11 @@
 
                                         @*<input class="form-control" id="quty" type="number" min="1" required="" name="purchaseQuantity" placeholder="Purchase" />*@
 
-                                        <span class="input-group-addon" style="   ">
-                                            <span id="disUnit" class="input-group-text">-</span>
+                                        <span class="input-group-addon" style="">
+                                            @Html.TextBoxFor(a=>a.Stock,new{@readonly= "readonly",@id= "disUnit", @class = "form-control hidden" })
+                                            <span id="disUnitText">@(Model.Stock)</span>
                                         </span>
-
+                                        
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
                                 </div>
@@ -127,7 +128,7 @@
                                 <div class="col-md-1 ">
                                     <div class="pull-right" style="margin-top: 24px;">
 
-                                        <button type="submit" class="btn btn-default btn-sm btnPro"><span class="glyphicon glyphicon-plus"></span></button>
+                                        <button type="submit" id="check" class="btn btn-default btn-sm btnPro"><span class="glyphicon glyphicon-plus"></span></button>
                                     </div>
                                 </div>
 
@@ -141,7 +142,6 @@
                                     <th>@POSApp.Resources.Resource.Ingredient</th>
                                     
                                     <th>@POSApp.Resources.Resource.Quantity</th>
-                                    <th>@POSApp.Resources.Resource.Unit</th>
                                     <th>@POSApp.Resources.Resource.Calories</th>
                                     <th>@POSApp.Resources.Resource.Expiry Date</th>
                                     <th>@POSApp.Resources.Resource.Action</th>
@@ -154,7 +154,6 @@
                                     <td>@data.IngredientName</td>
 
                                     <td>@(data.Quantity)</td>
-                                    <td>@(data.Unit)</td>
                                     <td>@data.Calories</td>
                                     <td>@data.ExpiryDate.ToShortDateString()</td>
 
@@ -169,7 +168,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="$('.modal-backdrop').remove();" class="btn btn-default btn-lg btnPro1" data-dismiss="modal">@POSApp.Resources.Resource.Save</button>
+                    <button type="button" onclick="$('.modal-backdrop').remove();"  class="btn btn-default btn-lg btnPro1" data-dismiss="modal">@POSApp.Resources.Resource.Save</button>
 
                 </div>
             </div>
@@ -189,15 +188,17 @@
    
     $('#hello').on("change",
         function () {
+            debugger;
             var val = $(this).val();
             if (val !== '') {
                 $.ajax({
-                    url: "@Url.Action("GetProductInfo","Products")",
+                    url: "@Url.Action("GetProductStock","Products")",
                     type: "GET",
                     data: { id: val },
                     success: function(data) {
                        
-                        $('#disUnit').text(data.IngredientUnit);
+                        $('#disUnit').val(data.Stock);
+                        $('#disUnitText').text(data.Stock);
                        
                     },
                     error: function(error) {
@@ -206,10 +207,16 @@
 
                 });
             } else {
-                $('#disQty').text('-');
+                $('#disUnit').val(0);
+                $('#disUnitText').text('-');
                
             }
+          
         });
+   
+</script>
+<script>
+
 
 </script>
 @Html.Raw(ViewBag.alert)

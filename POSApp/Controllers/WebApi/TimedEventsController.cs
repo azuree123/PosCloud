@@ -22,10 +22,52 @@ namespace POSApp.Controllers.WebApi
             _unitOfWork = unitOfWork;
         }
         // GET: api/TimedEvents
-        public async Task<IHttpActionResult> GetTimedEvents(int storeId)
+        public async Task<IHttpActionResult> GetTimedEvents(int storeId, bool forceFull, int deviceId)
         {
-            return Ok(Mapper.Map<TimedEventViewModel[]>(await _unitOfWork.TimedEventRepository.GetTimedEventsAsync(storeId)));
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.TimedEventRepository.GetTimedEventsAsync(storeId);
+
+
+                return Ok(Mapper.Map<TimedEventViewModel[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "TimedEvents");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.TimedEventRepository.GetTimedEventsAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.TimedEventRepository.GetAllTimedEventsAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "TimedEvents"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<TimedEventViewModel[]>(data));
+
+
+            }
+
+
         }
+        //public async Task<IHttpActionResult> GetTimedEvents(int storeId)
+        //{
+        //    return Ok(Mapper.Map<TimedEventViewModel[]>(await _unitOfWork.TimedEventRepository.GetTimedEventsAsync(storeId)));
+        //}
 
         // GET: api/TimedEvents/5
         public async Task<IHttpActionResult> GetTimedEvent(int id, int storeId)

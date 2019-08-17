@@ -1,0 +1,87 @@
+﻿
+
+@{
+
+    ViewBag.Title = "GetShiftReportDataList ";
+}
+
+
+<!-- start: page -->
+<section class="panel">
+    <header class="panel-heading">
+
+
+        <h2 class="panel-title">
+            <h3 class="wb-color"><b> Shift Report</b></h3>
+        </h2>
+    </header>
+    <div class="panel-body">
+        <div class="">
+
+            <div class="table-responsive">
+                <table class="table mb-none " id="datatable-default">
+                    <thead>
+                        <tr>
+                            <th>Branch Name</th>
+                            <th>Employee Name</th>
+                            <th>Shift</th>
+                            <
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script>
+        $('#datatable-default').DataTable({
+
+            "processing": true, // for show progress bar lBfrtip
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once,
+            "lengthMenu": [[20, 50, 100, 200], [20, 50, 100, 200]],
+            "order": [[3, "desc"],[ 2, "desc" ]],
+            "ajax": {
+
+                "url": "@Url.Action("GetShiftReportsData", "Reports")",
+                "type": "POST",
+                "datatype": "json"
+            }, "language": {
+                "search": "Search: ",
+                "searchPlaceholder": "Search..."
+            }, "search": {
+                "search": ""
+            },
+            "columns": [
+                { "data": "BranchName", "name": "BranchName", "autoWidth": true },
+                { "data": "EmployeeName", "name": "EmployeeName", "autoWidth": true },
+                { "data": "Shift", "name": "Shift", "autoWidth": true },
+                {
+                   
+                }
+
+            ]
+        });
+     
+
+    </script>
+}
+
+
+
+
+

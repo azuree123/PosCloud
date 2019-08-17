@@ -21,10 +21,53 @@ namespace POSApp.Controllers.WebApi
             _unitOfWork = unitOfWork;
         }
         // GET: api/Units
-        public async Task<IHttpActionResult> GetUnits(int storeId)
+
+        public async Task<IHttpActionResult> GetUnits(int storeId, bool forceFull, int deviceId)
         {
-            return Ok(Mapper.Map<UnitViewModel[]>(await _unitOfWork.UnitRepository.GetUnitAsync(storeId)));
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.UnitRepository.GetUnitAsync(storeId);
+
+
+                return Ok(Mapper.Map<UnitViewModel[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "Units");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.UnitRepository.GetUnitAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.UnitRepository.GetAllUnitsAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "Units"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<UnitViewModel[]>(data));
+
+
+            }
+
+
         }
+        //public async Task<IHttpActionResult> GetUnits(int storeId)
+        //{
+        //    return Ok(Mapper.Map<UnitViewModel[]>(await _unitOfWork.UnitRepository.GetUnitAsync(storeId)));
+        //}
 
         // GET: api/UnitCategoriesSync/5
         public async Task<IHttpActionResult> GetUnit(int id, int storeId)

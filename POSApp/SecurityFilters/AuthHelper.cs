@@ -71,8 +71,23 @@ namespace POSApp.SecurityFilters
 
         public static IEnumerable<string> Split(string str, int chunkSize)
         {
-            return Enumerable.Range(0, str.Length / chunkSize)
-                .Select(i => str.Substring(i * chunkSize, chunkSize));
+            int val =(str.Length + (chunkSize-1)) / chunkSize;
+            var nums = Enumerable.Range(0, val);
+            List<string> arr = new List<string>();
+            foreach (var num in nums)
+            {
+                var s=str.Substring(num * chunkSize);
+                if (s.Length < chunkSize)
+                {
+                    arr.Add(s);
+                }
+                else
+                {
+                arr.Add(str.Substring(num*chunkSize, chunkSize)); 
+                }
+            }
+
+            return arr;
         }
         public static IEnumerable<String> EnumByNearestSpace(String value, int length)
         {

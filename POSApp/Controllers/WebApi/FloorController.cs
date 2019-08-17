@@ -22,10 +22,53 @@ namespace POSApp.Controllers.WebApi
             _unitOfWork = unitOfWork;
         }
         // GET: api/FloorApi
-        public async Task<IHttpActionResult> GetFloors(int storeId)
+
+        public async Task<IHttpActionResult> GetFloors(int storeId, bool forceFull, int deviceId)
         {
-            return Ok(Mapper.Map<FloorViewModel[]>(await _unitOfWork.FloorRepository.GetFloorsAsync(storeId)));
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.FloorRepository.GetFloorsAsync(storeId);
+
+
+                return Ok(Mapper.Map<FloorViewModel[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "Floors");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.FloorRepository.GetFloorsAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.FloorRepository.GetAllFloorsAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "Floors"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<FloorViewModel[]>(data));
+
+
+            }
+
+
         }
+        //public async Task<IHttpActionResult> GetFloors(int storeId)
+        //{
+        //    return Ok(Mapper.Map<FloorViewModel[]>(await _unitOfWork.FloorRepository.GetFloorsAsync(storeId)));
+        //}
 
         // GET: api/FloorApi/5
         public async Task<IHttpActionResult> GetFloor(int id, int storeId)

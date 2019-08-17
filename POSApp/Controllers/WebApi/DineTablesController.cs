@@ -22,6 +22,50 @@ namespace POSApp.Controllers.WebApi
             _unitOfWork = unitOfWork;
         }
         // GET: api/DineTables
+
+        public async Task<IHttpActionResult> GetDineTables(int storeId, bool forceFull, int deviceId)
+        {
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.DineTableRepository.GetDineTablesAsync(storeId);
+
+
+                return Ok(Mapper.Map<DineTableViewModel[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "DineTables");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.DineTableRepository.GetDineTablesAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.DineTableRepository.GetAllTablesAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "DineTables"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<DineTableViewModel[]>(data));
+
+
+            }
+
+
+        }
+
         public async Task<IHttpActionResult> GetDineTables(int storeId)
         {
             return Ok(Mapper.Map<DineTableViewModel[]>(await _unitOfWork.DineTableRepository.GetDineTablesAsync(storeId)));

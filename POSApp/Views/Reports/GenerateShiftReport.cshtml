@@ -7,7 +7,12 @@
 <div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     @{ string s = ViewBag.edit;}
 
-    @using (Html.BeginForm(s, "Reports", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Ajax.BeginForm("GetShiftReportsData", "Reports", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "CreateAssetSuccess"
+    }
+        , new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="modal-dialog modal-md">
@@ -32,10 +37,44 @@
 
                                     <div class="form-group">
                                         <label class="control-label">
-                                            @POSApp.Resources.Resource.Branches
+                                            Employees
+                                        </label>
+                                        <select name="employeeId" id="" class="form-control selectddl" required="">
+                                            <option value="0">All</option>
+                                            @foreach (var opt in ViewBag.employees)
+                                            {
+                                                <option value="@opt.Value" selected="@opt.Selected">@opt.Text</option>
+
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Shifts
+                                        </label>
+                                        <select name="shiftId" id="" class="form-control" required="">
+                                            <option value="0">All</option>
+                                            @foreach (var opt in ViewBag.shifts)
+                                            {
+                                                <option value="@opt.Value" selected="@opt.Selected">@opt.Text</option>
+
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Branches
                                         </label>
                                         <select name="branchId" id="" class="form-control" required="">
-                                            <option value="0">@POSApp.Resources.Resource.all</option>
+                                            <option value="0">All</option>
                                             @foreach (var opt in ViewBag.branches)
                                             {
                                                 <option value="@opt.Value" selected="@opt.Selected">@opt.Text</option>
@@ -51,11 +90,16 @@
                     </div>
                     <div class="modal-footer">
 
-                        <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>@POSApp.Resources.Resource.GenerateReport</button>
-                        <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal"><span class="fa fa-close"></span>@POSApp.Resources.Resource.Close</button>
+                        <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Generate Report</button>
+                        <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal"><span class="fa fa-close"></span>Close</button>
                     </div>
                 </div>
             </div>
         </div>
     }
 </div>
+<script>
+    $(document).ready(function () {
+        $('.selectddl').select2();
+    });
+</script>

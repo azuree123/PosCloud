@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using POSApp.Core;
 using POSApp.Core.Models;
 using POSApp.Core.ViewModels;
+using POSApp.Models;
 using POSApp.SecurityFilters;
 using POSApp.Services;
 
@@ -25,13 +26,14 @@ namespace POSApp.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-
+      
         public JsonResult ChangeLanguage(string lang)
         {
             new MultiLanguage().SetLanguage(lang);
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
+   
         public ActionResult Index()
         {
             try
@@ -102,6 +104,8 @@ namespace POSApp.Controllers
             return View(new DashBoardViewModel());
         }
 
+
+        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

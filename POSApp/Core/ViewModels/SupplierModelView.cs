@@ -8,6 +8,8 @@ namespace POSApp.Core.ViewModels
     public class SupplierModelView
     {
         public int? Id { get; set; }
+        [DisplayName("CNIC Number")]
+        public string CNICNumber { get; set; }
         public int? StoreId { get; set; }
         [Display(Name = "name", ResourceType = typeof(Resource))]
         public string Name { get; set; }

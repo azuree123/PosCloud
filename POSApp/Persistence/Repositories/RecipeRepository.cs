@@ -19,6 +19,10 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
+        public async Task<IEnumerable<Recipe>> GetAllRecipesAsyncIncremental(int storeId, DateTime date)
+        {
+            return await _context.Recipes.Where(a => a.StoreId == storeId && a.Product.InventoryItem && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
+        }
 
         public IEnumerable<Recipe> GetRecipes(int storeId)
         {

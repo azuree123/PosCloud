@@ -17,7 +17,10 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
-
+        public async Task<IEnumerable<Floor>> GetAllFloorsAsyncIncremental(int storeId, DateTime date)
+        {
+            return await _context.Floors.Where(a => a.StoreId == storeId && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
+        }
         public IEnumerable<Floor> GetFloors(int storeid)
         {
             return _context.Floors.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();

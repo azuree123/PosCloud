@@ -22,12 +22,56 @@ namespace POSApp.Controllers.WebApi
             _unitOfWork = unitOfWork;
         }
         // GET: api/ProductSubs
-        public async Task<IHttpActionResult> GetProductSubs(int storeId)
+        public async Task<IHttpActionResult> GetProductSubs(int storeId, bool forceFull, int deviceId)
         {
-            return Ok(Mapper.Map<ProductSubViewModel[]>(await _unitOfWork.ProductsSubRepository.GetProductsSubsAsync(storeId)));
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.ProductsSubRepository.GetProductsSubsAsync(storeId);
+
+
+                return Ok(Mapper.Map<ProductSubViewModel[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "ProductSubs");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.ProductsSubRepository.GetProductsSubsAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.ProductsSubRepository.GetAllProductSubsAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "ProductSubs"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<ProductSubViewModel[]>(data));
+
+
+            }
+
+
         }
+        //public async Task<IHttpActionResult> GetProductSubs(int storeId)
+        //{
+        //    return Ok(Mapper.Map<ProductSubViewModel[]>(await _unitOfWork.ProductsSubRepository.GetProductsSubsAsync(storeId)));
+        //}
 
         // GET: api/ProductSubs/5
+
+
         public async Task<IHttpActionResult> GetProductSub(string id, string comboProductId, int storeId)
         {
             return Ok(await _unitOfWork.ProductsSubRepository.GetProductsSubByIdAsync(id, comboProductId, storeId));

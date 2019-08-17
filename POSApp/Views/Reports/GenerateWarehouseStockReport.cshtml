@@ -1,0 +1,86 @@
+﻿
+
+@{
+    Layout = null;
+}
+
+<div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    @{ string s = ViewBag.edit;}
+
+    @using (Html.BeginForm(s, "Reports", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content ">
+                <div class="modal-header modalheader">
+                    <button type="button" class="close modalheader" data-dismiss="modal">×</button>
+
+
+
+
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-bd lobidrag">
+
+                        <div class="panel-body">
+
+
+                            <div class="row">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Products
+                                        </label>
+                                        <select name="productCode" id="" class="form-control selectddl" required="">
+                                            <option value=" ">All</option>
+                                            @foreach (var opt in ViewBag.products)
+                                            {
+                                                <option value="@opt.Value">@opt.Text</option>
+
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Warehouses
+                                        </label>
+                                        <select name="branchId" id="" class="form-control" required="">
+                                            <option value="0">All</option>
+                                            @foreach (var opt in ViewBag.warehouses)
+                                            {
+                                                <option value="@opt.Value">@opt.Text</option>
+
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Generate Report</button>
+                        <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal"><span class="fa fa-close"></span>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.selectddl').select2();
+    });
+</script>

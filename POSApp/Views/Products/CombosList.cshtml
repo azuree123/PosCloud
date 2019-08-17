@@ -23,7 +23,7 @@
             }
             @if (Config.Products.Modifiers.CheckAccess())
             {
-                <li class=""><a href="@Url.Action("CombosList","Products")">@POSApp.Resources.Resource.Modifiers</a></li>
+                <li class=""><a href="@Url.Action("ModifierList","Products")">@POSApp.Resources.Resource.Modifiers</a></li>
 
             }
             <li><a class="hidden" href="@Url.Action("ServicesList", "Services")">Services</a></li>

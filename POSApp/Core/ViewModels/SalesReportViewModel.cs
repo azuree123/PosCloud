@@ -12,6 +12,9 @@ namespace POSApp.Core.ViewModels
         public string InvoiceNumber { get; set; }
         public string SupplierName { get; set; }
         public string BranchName { get; set; }
+        public string ProductName { get; set; }
+        public string Method { get; set; }
+        public string OrderType { get; set; }
         public string CustomerName { get; set; }
         public string IngredientUnit { get; set; }
         public decimal Qty { get; set; }

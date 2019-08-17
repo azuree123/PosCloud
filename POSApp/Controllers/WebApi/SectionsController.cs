@@ -21,17 +21,58 @@ namespace POSApp.Controllers.WebApi
             _unitOfWork = unitOfWork;
         }
         // GET: api/ProductCategoryGroups
-        public async Task<IHttpActionResult> GetSections(int storeId)
-        {
-            return Ok(Mapper.Map<SectionViewModel[]>(await _unitOfWork.SectionRepository.GetSectionsAsync(storeId)));
-        }
+        //public async Task<IHttpActionResult> GetSections(int storeId)
+        //{
+        //    return Ok(Mapper.Map<SectionViewModel[]>(await _unitOfWork.SectionRepository.GetSectionsAsync(storeId)));
+        //}
 
         // GET: api/ProductCategoryGroupCategoriesSync/5
         public async Task<IHttpActionResult> GetSection(int id, int storeId)
         {
             return Ok(await _unitOfWork.SectionRepository.GetSectionByIdAsync(id, storeId));
         }
+        public async Task<IHttpActionResult> GetSections(int storeId, bool forceFull, int deviceId)
+        {
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.SectionRepository.GetSectionsAsync(storeId);
 
+
+                return Ok(Mapper.Map<SectionViewModel[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "Sections");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.SectionRepository.GetSectionsAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.SectionRepository.GetAllSectionsAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "Sections"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<SectionViewModel[]>(data));
+
+
+            }
+
+
+        }
         // POST: api/ProductCategoryGroupCategoriesSync
         public async Task<IHttpActionResult> AddSections([FromBody]SyncObject sync)
         {

@@ -17,5 +17,6 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<DineTable>> GetDineTablesAsync(int storeid);
         Task<DineTable> GetDineTableByIdAsync(int id, int storeid);
         Task AddDineTableAsync(DineTable DineTable);
+        Task<IEnumerable<DineTable>> GetAllTablesAsyncIncremental(int storeId, DateTime date);
     }
 }

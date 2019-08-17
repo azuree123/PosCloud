@@ -1,7 +1,7 @@
 ﻿@using POSApp.Core.Models
 @using POSApp.SecurityFilters
 @using POSApp.Services
-@model IEnumerable<POSApp.Core.ViewModels.WarehouseListModelView>
+@model IEnumerable<POSApp.Core.Models.Warehouse>
 
 @{
     ViewBag.Title = "WarehouseList";
@@ -138,14 +138,14 @@
 
             <div class="" id="header-flex">
                 <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.warehouse</b></h3>
-               
-            @if (Config.Setup.WareHouse.ManageAccess())
-            {
-                <a href="@Url.Action("AddWarehouse", "Setup")" class="modalShow" style="flex-grow: 0.2">
-                    <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.addwarehouse</button>
 
-                </a>
-            }
+                @if (Config.Setup.WareHouse.ManageAccess())
+                {
+                    <a href="@Url.Action("AddWarehouse", "Setup")" class="modalShow" style="flex-grow: 0.2">
+                        <button type="button" class="btn outline-success btn-sm"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.addwarehouse</button>
+
+                    </a>
+                }
             </div>
         </div>
 
@@ -159,11 +159,11 @@
 
                         <th>@POSApp.Resources.Resource.ID</th>
                         <th>@POSApp.Resources.Resource.name</th>
-                        <th>@POSApp.Resources.Resource.Clients</th>
-                            
+                        
+
                         @if (Config.Setup.WareHouse.ManageAccess())
                         {
-                        <th>Action</th>
+                            <th>Action</th>
 
                         }
                     </tr>
@@ -175,18 +175,18 @@
                         <tr>
                             <td>@(i++)</td>
                             <td>@ware.Name</td>
-                            <td>@ware.ClientName</td>
-                                    @if (Config.Setup.WareHouse.ManageAccess())
-                                    {
-                            <td class="center">
-                                <div class="btn-group">
-                                    @Html.ActionLink(" ", "UpdateWarehouse", "Setup", new { id = @ware.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
+                            
+                            @if (Config.Setup.WareHouse.ManageAccess())
+                            {
+                                <td class="center">
+                                    <div class="btn-group">
+                                        @Html.ActionLink(" ", "UpdateWarehouse", "Setup", new { id = @ware.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
 
-                                    @Html.ActionLink(" ", "DeleteWarehouse", "Setup", new { id = @ware.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
-                                </div>
+                                        @Html.ActionLink(" ", "DeleteWarehouse", "Setup", new { id = @ware.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
+                                    </div>
 
-                            </td>
-                                    }
+                                </td>
+                            }
                         </tr>
                     }
                 </tbody>
@@ -205,12 +205,12 @@
     <script>
         $('#datatable-default').dataTable();
 
-        $('#datatable-default').on('click','a.modalShow', function () {
+        $('#datatable-default').on('click', 'a.modalShow', function () {
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();
@@ -224,7 +224,7 @@
             $.ajax({
                 url: this.href,
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     $('#ModalData').html(result);
                     $('#ordine').modal('show');
                     $.unblockUI();

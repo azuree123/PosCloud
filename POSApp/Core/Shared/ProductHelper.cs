@@ -39,10 +39,10 @@ namespace POSApp.Core.Shared
             }
 
         }
-        public static void RemoveFromTemptProduct(string size, string barcode, decimal price, int storeId, string userId)
+        public static void RemoveFromTemptProduct(string size, int storeId, string userId)
         {
             ProductHelperViewModel productDetail = temptProduct
-                .Where(a => a.Size == size && a.Barcode == barcode && a.Price==price && a.UserId == userId && a.StoreId == storeId).ToList()
+                .Where(a => a.Size == size && a.UserId == userId && a.StoreId == storeId).ToList()
                 .FirstOrDefault();
             temptProduct.Remove(productDetail);
         }

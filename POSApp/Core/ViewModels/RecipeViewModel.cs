@@ -24,6 +24,8 @@ namespace POSApp.Core.ViewModels
         public decimal? Calories { get; set; }
         [Display(Name = "Code", ResourceType = typeof(Resource))]
         public string Code { get; set; }
+
+        public decimal Stock { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         [DataType(DataType.Date)]
@@ -31,10 +33,10 @@ namespace POSApp.Core.ViewModels
         public DateTime ExpiryDate { get; set; } = DateTime.Today;
         public IEnumerable<SelectListItem> ProductDDl { get; set; }
         public IEnumerable<SelectListItem> UnitDdl { get; set; }
-
+       
         public string ProductsDisplay { get; set; }
         public string[] Products { get; set; }
-
+        public string Unit { get; set; }
         public List<RecipeListViewModel> RecipeList { get; set; }
         
     }

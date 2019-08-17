@@ -17,7 +17,10 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
-
+        public async Task<IEnumerable<TimedEvent>> GetAllTimedEventsAsyncIncremental(int storeId, DateTime date)
+        {
+            return await _context.TimedEvents.Include(a => a.TimedEventProducts).Where(a => a.StoreId == storeId && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
+        }
         public IEnumerable<TimedEvent> GetTimedEvents(int storeid)
         {
             return _context.TimedEvents.Include(a => a.TimedEventProducts).Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();

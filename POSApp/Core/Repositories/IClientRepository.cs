@@ -20,5 +20,6 @@ namespace POSApp.Core.Repositories
         Task AddClientAsync(Client client);
         IEnumerable<Store> GetClientStore(int id);
         IEnumerable<UserStoreViewModel> GetUserStore(string id);
+        IEnumerable<Warehouse> GetClientWarehouse(int id);
     }
 }

@@ -21,5 +21,6 @@ namespace POSApp.Core.Repositories
         Task<ProductCategoryGroup> GetProductCategoryGroupAsync(int id, int storeId);
         Task<IEnumerable<ProductCategoryGroupViewModel>> GetProductCategoryGroupsAsync(int storeId);
         Task AddProductCategoryGroupAsync(ProductCategoryGroup optcategory);
+        Task<IEnumerable<ProductCategoryGroup>> GetAllProductCategoryGroupsAsyncIncremental(int storeId, DateTime date);
     }
 }

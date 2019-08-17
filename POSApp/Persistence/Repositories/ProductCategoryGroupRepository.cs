@@ -18,6 +18,10 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
+        public async Task<IEnumerable<ProductCategoryGroup>> GetAllProductCategoryGroupsAsyncIncremental(int storeId, DateTime date)
+        {
+            return await _context.ProductCategoryGroups.Where(a => a.StoreId == storeId && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
+        }
         public ProductCategoryGroup GetProductCategoryGroup(int id,int storeId)
         {
             return _context.ProductCategoryGroups.FirstOrDefault(x => x.Id == id && x.StoreId==storeId && !x.IsDisabled);

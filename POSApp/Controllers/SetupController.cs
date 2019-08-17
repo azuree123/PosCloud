@@ -3319,12 +3319,14 @@ namespace POSApp.Controllers
             TimedEventViewModel model=new TimedEventViewModel();
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            model.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int) UserStores.GetStoreCookie(System.Web.HttpContext.Current))
+            model.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int) UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a=>a.Type!="Combo")
                 .Select(a => new SelectListItem{Text = a.Name,Value = a.Id.ToString()});
-            model.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a=>!a.InventoryItem && !a.PurchaseItem)
+            model.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a=>!a.InventoryItem && !a.PurchaseItem && a.Type != "Combo")
                 .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
-            model.BranchDdl = _unitOfWork.StoreRepository.GetStores()
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            model.BranchDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+          
             return View(model);
         }
         [HttpPost]
@@ -3334,12 +3336,13 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
+            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => a.Type != "Combo")
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => !a.InventoryItem && !a.PurchaseItem)
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => !a.InventoryItem && !a.PurchaseItem && a.Type!="Combo")
                 .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
-            timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            timeeventVm.BranchDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             ViewBag.edit = "AddTimedEvent";
             if (ModelState.ContainsKey("FromDate"))
                 ModelState["FromDate"].Errors.Clear();
@@ -3474,12 +3477,13 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             TimedEventViewModel timeeventVm =
                 Mapper.Map<TimedEventViewModel>(_unitOfWork.TimedEventRepository.GetTimedEventById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
-            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
+            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => a.Type != "Combo")
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => !a.InventoryItem && !a.PurchaseItem)
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => !a.InventoryItem && !a.PurchaseItem && a.Type != "Combo")
                 .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
-            timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            timeeventVm.BranchDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             ViewBag.alert = "<script> $(document).ready(function() {$('#CategoriesArea').css('display', 'none');$('#BranchesArea').css('display', 'none');" +
                             @"});</script>";
             return View("AddTimedEvent", timeeventVm);
@@ -3491,12 +3495,13 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current))
+            timeeventVm.CatDdl = _unitOfWork.ProductCategoryRepository.GetProductCategories((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => a.Type != "Combo")
                 .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
-            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => !a.InventoryItem && !a.PurchaseItem)
+            timeeventVm.ProductDdl = _unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => !a.InventoryItem && !a.PurchaseItem && a.Type != "Combo")
                 .Select(a => new SelectListItem { Text = a.Name + " (" + a.Size + ")", Value = a.ProductCode });
-            timeeventVm.BranchDdl = _unitOfWork.StoreRepository.GetStores()
-                .Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() });
+            var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+            var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
+            timeeventVm.BranchDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             ViewBag.edit = "UpdateTimedEvent";
             if (ModelState.ContainsKey("FromDate"))
                 ModelState["FromDate"].Errors.Clear();
@@ -4383,7 +4388,10 @@ namespace POSApp.Controllers
         }
         public ActionResult RolesList()
         {
-            return View(RoleManager.Roles);
+            var userid = User.Identity.GetUserId();
+            var user = UserManager.FindById(userid); 
+            
+            return View(RoleManager.Roles.Where(a=>a.StoreId == user.StoreId));
         }
 
         public ActionResult AddRole()
@@ -5765,8 +5773,12 @@ namespace POSApp.Controllers
         {
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
+            
+            var warehouse = _unitOfWork.WarehouseRepository.GetWarehouse(UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+            var clientwarehouses = _unitOfWork.ClientRepository.GetClientWarehouse(warehouse.ClientId).Where(a => !a.IsDisabled).ToList();
+            return View(clientwarehouses);
 
-            return View(_unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new WarehouseListModelView { Id = a.Id, Name = a.Name, ClientName = a.Client.Name }).OrderByDescending(a => a.Id));
+            //return View(_unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new WarehouseListModelView { Id = a.Id, Name = a.Name, ClientName = a.Client.Name }).OrderByDescending(a => a.Id));
         }
         [Manage(Config.Setup.WareHouse)]
 

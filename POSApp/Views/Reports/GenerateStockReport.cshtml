@@ -1,7 +1,9 @@
 ﻿
 
 @{
-    Layout = null;
+                /**/
+
+                Layout = null;
 }
 
 <div id="ordine" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
@@ -28,15 +30,31 @@
 
                             <div class="row">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
                                 <div class="col-md-12">
 
                                     <div class="form-group">
                                         <label class="control-label">
-                                            @POSApp.Resources.Resource.Branches
+                                            Products
+                                        </label>
+                                        <select name="productCode" id="" class="form-control selectddl" required="">
+                                            <option value=" ">All</option>
+                                            @foreach (var opt in ViewBag.products)
+                                            {
+                                                <option value="@opt.Value">@opt.Text</option>
+
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Branches
                                         </label>
                                         <select name="branchId" id="" class="form-control" required="">
-                                            <option value="0">@POSApp.Resources.Resource.all</option>
+                                            <option value="0">All</option>
                                             @foreach (var opt in ViewBag.branches)
                                             {
                                                 <option value="@opt.Value">@opt.Text</option>
@@ -51,8 +69,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>@POSApp.Resources.Resource.GenerateReport</button>
-                        <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal"><span class="fa fa-close"></span>@POSApp.Resources.Resource.Close</button>
+                        <button type="submit" class="btn btn-default btn-lg btnPro"><span class="fa fa-send"></span>Generate Report</button>
+                        <button type="button" class="btn btn-default btn-lg btnPro1" data-dismiss="modal"><span class="fa fa-close"></span>Close</button>
                     </div>
                 </div>
             </div>
@@ -60,4 +78,8 @@
     }
 </div>
 
-
+<script>
+    $(document).ready(function () {
+        $('.selectddl').select2();
+    });
+</script>

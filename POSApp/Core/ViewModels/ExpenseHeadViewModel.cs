@@ -21,6 +21,6 @@ namespace POSApp.Core.ViewModels
         public string CreatedBy { get; set; }
         [Display(Name = "Code", ResourceType = typeof(Resource))]
         public string Code { get; set; }
-        public IEnumerable<SelectListItem> StoreDdl { get; set; }
+        
     }
 }

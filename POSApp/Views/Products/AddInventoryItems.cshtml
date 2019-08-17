@@ -1,5 +1,6 @@
 ﻿
 @using Newtonsoft.Json
+@using POSApp.Core.Enums
 @using POSApp.Core.Models
 @model POSApp.Core.ViewModels.ItemsViewModel
 
@@ -66,9 +67,8 @@
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-6">
-                                            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label required1 " })
-                                            @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                                            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label " })
+                                            @Html.DropDownListFor(a => a.Type, new SelectList(Enum.GetValues(typeof(InventoryType))), "Select Type", new { @class = "form-control" })
                                         </div>
                                     </div>
                                 </div>
@@ -125,11 +125,16 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-6">
+                                            @Html.LabelFor(model => model.ReOrderLevel, htmlAttributes: new { @class = "control-label" })
+                                            @Html.EditorFor(model => model.ReOrderLevel, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ReOrderLevel, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-6">
                                             @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label" })
                                             @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>

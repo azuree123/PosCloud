@@ -1,4 +1,6 @@
 ﻿@using POSApp.Core.Models
+@using POSApp.SecurityFilters
+@using POSApp.Services
 @model POSApp.Core.ViewModels.DashBoardViewModel
 @{
     ViewBag.Title = "Home Page";
@@ -14,11 +16,62 @@
     .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
         margin-left: -20px;
     }
+    .bgimg {
+       
+        height: 100%;
+        background-position: center;
+        background-size: cover;
+        position: relative;
+        color: white;
+       
+        font-family: "Courier New", Courier, monospace;
+        font-size: 25px;
+    }
+
+    .topleft {
+        position: absolute;
+        top: 0;
+        left: 16px;
+    }
+
+    .bottomleft {
+        position: absolute;
+        bottom: 0;
+        left: 16px;
+    }
+
+    .middle {
+        position: absolute;
+        background-color: #0aaa5a;
+        top: 40%;
+        left: 50%;
+        font-weight: bold;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    .hrr {
+        margin: auto;
+        width: 40%;
+    }
+    .arr {
+        color: white !important;
+
+    }
 </style>
 @*<br />
 <a class="btn btn-danger" onclick="SendEmail()">Click to send an email</a>
 <br />*@
+
 <div class="row">
+    <div class="col-md-12">
+        <div id="notificationsTable"></div>
+    </div>
+</div>
+
+@if (Config.Reports.SalesReport.CheckAccess())
+{
+    <div class="row">
     <div class="col-md-6 col-lg-12 col-xl-6">
         <section class="panel">
             <div class="panel-body">
@@ -44,19 +97,21 @@
                                 <div class="chart chart-md chart-active" data-sales-rel="Cosmic 1" id="flotDashSales1"></div>
                                 <script>
 
-                                    var flotDashSales1Data = [{
-                                        data: [
-                                            //["Jan", 140],
-                                            //["Feb", 240],
-                                            //["Mar", 190],
-                                            //["Apr", 140],
-                                            //["May", 180],
-                                            //["Jun", 320],
-                                            //["Jul", 270],
-                                            //["Aug", 180]
-                                        ],
-                                        color: "#d2322d"
-                                    }];
+                                    var flotDashSales1Data = [
+                                        {
+                                            data: [
+                                                //["Jan", 140],
+                                                //["Feb", 240],
+                                                //["Mar", 190],
+                                                //["Apr", 140],
+                                                //["May", 180],
+                                                //["Jun", 320],
+                                                //["Jul", 270],
+                                                //["Aug", 180]
+                                            ],
+                                            color: "#d2322d"
+                                        }
+                                    ];
 
 
                                 </script>
@@ -101,16 +156,16 @@
                                     </script>*@
                             </div>
                             <span class="center row">
-                                <i class="fa fa-dot-circle-o col-md-4" style="color: #0aaa5a">  @POSApp.Resources.Resource.Purchases</i>
-                                <i class="fa fa-dot-circle-o col-md-4" style="color: #bbb">  @POSApp.Resources.Resource.Expense</i>
-                                <i class="fa fa-dot-circle-o col-md-4" style="color: #d2322d">  @POSApp.Resources.Resource.Sales</i>
+                                <i class="fa fa-dot-circle-o col-md-4" style="color: #0aaa5a"> @POSApp.Resources.Resource.Purchases</i>
+                                <i class="fa fa-dot-circle-o col-md-4" style="color: #bbb"> @POSApp.Resources.Resource.Expense</i>
+                                <i class="fa fa-dot-circle-o col-md-4" style="color: #d2322d"> @POSApp.Resources.Resource.Sales</i>
                             </span>
                         </div>
                     </div>
                     <div class="col-lg-6 ">
                         <h2 class="panel-title">@POSApp.Resources.Resource.YearlySalesvsExpenses</h2>
                         <!-- Morris: Bar -->
-                        <div class="chart  pt-sm" id="morrisBar" style="height:392px"></div>
+                        <div class="chart  pt-sm" id="morrisBar" style="height: 392px"></div>
                         <script type="text/javascript">
 
                             var morrisBarData = [
@@ -171,14 +226,15 @@
 
     <div class="col-md-6 col-lg-12 col-xl-6">
         <div class="row">
+
             <div class="col-xs-12 col-lg-3 col-xl-3">
                 <section class="panel panel-featured-left panel-featured-primary">
-                    <a href="@Url.Action("DailySales","SaleOrders")">
+                    <a href="@Url.Action("DailySales", "SaleOrders")">
                         <div class="panel-body">
                             <div class="widget-summary">
                                 <div class="widget-summary-col widget-summary-col-icon">
                                     <div class="summary-icon">
-                                        <img src="~/Content/images/icons/saleicon.png" />
+                                        <img src="~/Content/images/icons/saleicon.png"/>
 
                                     </div>
                                 </div>
@@ -197,14 +253,16 @@
                 </section>
             </div>
 
+
+
             <div class="col-xs-12 col-lg-3 col-xl-3">
                 <section class="panel panel-featured-left panel-featured-secondary">
-                    <a href="@Url.Action("DailyExpenseList","Expense")">
+                    <a href="@Url.Action("DailyExpenseList", "Expense")">
                         <div class="panel-body">
                             <div class="widget-summary">
                                 <div class="widget-summary-col widget-summary-col-icon">
                                     <div class="summary-icon">
-                                        <img src="~/Content/images/icons/expenceicon.png" />
+                                        <img src="~/Content/images/icons/expenceicon.png"/>
                                     </div>
                                 </div>
                                 <div class="widget-summary-col">
@@ -223,12 +281,12 @@
             </div>
             <div class="col-xs-12 col-lg-3 col-xl-3">
                 <section class="panel panel-featured-left panel-featured-tertiary">
-                    <a href="@Url.Action("DailyPurchaseOrderList","PurchaseOrders")">
+                    <a href="@Url.Action("DailyPurchaseOrderList", "PurchaseOrders")">
                         <div class="panel-body">
                             <div class="widget-summary">
                                 <div class="widget-summary-col widget-summary-col-icon">
                                     <div class="summary-icon">
-                                        <img src="~/Content/images/icons/ordericon.png" />
+                                        <img src="~/Content/images/icons/ordericon.png"/>
                                     </div>
                                 </div>
                                 <div class="widget-summary-col">
@@ -247,12 +305,12 @@
             </div>
             <div class="col-xs-12 col-lg-3 col-xl-3">
                 <section class="panel panel-featured-left panel-featured-quartenary">
-                    <a href="@Url.Action("DailyFunds","SaleOrders")">
+                    <a href="@Url.Action("DailyFunds", "SaleOrders")">
                         <div class="panel-body">
                             <div class="widget-summary">
                                 <div class="widget-summary-col widget-summary-col-icon">
                                     <div class="summary-icon">
-                                        <img src="~/Content/images/icons/refundicon.png" />
+                                        <img src="~/Content/images/icons/refundicon.png"/>
                                         @*<i class="fa fa-undo"></i>*@
                                     </div>
                                 </div>
@@ -270,11 +328,11 @@
                     </a>
                 </section>
             </div>
-            
-                   
+
+
             <div class="col-xs-12 col-lg-3 col-xl-3">
                 <section class="panel panel-featured-left panel-featured-secondary">
-                    <a href="@Url.Action("TillOperationList","Setup")">
+                    <a href="@Url.Action("TillOperationList", "Setup")">
                         <div class="panel-body">
                             <div class="widget-summary">
                                 <div class="widget-summary-col widget-summary-col-icon">
@@ -300,11 +358,28 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+    </div>
+    <div class="bgimg">
 
+        <div class="middle">
+            <h1>You Don't Have Access To See DashBoard </h1>
+            <span class="hrr"></span><hr>
+                                    
+           <p><a class="arr" href="mailto:support@poscosmic.com?Subject=Dashboard%20access" target="_top">Contact Administration</a></p>
+        </div>
+
+    </div>
+}
 
 @section scripts{
     @Scripts.Render("~/bundles/charts")
+   
     <script>
         var SendEmail = function () {
             $.ajax({
@@ -337,5 +412,6 @@
 
 
     </script>
+    
 }
 <!-- end: page -->

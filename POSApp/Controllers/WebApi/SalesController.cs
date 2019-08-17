@@ -46,7 +46,7 @@ namespace POSApp.Controllers.WebApi
                     TransMaster saleOrder = salesViewModel.TransMaster;
                     saleOrder.Code = saleOrder.Id.ToString();
                     var saleOrderAdd = saleOrder;
-                    await _unitOfWork.TransMasterRepository.AddTransMasterAsync(saleOrder);
+                    await _unitOfWork.TransMasterRepository.AddTransMasterAsync(saleOrderAdd);
                     
                   
                 }

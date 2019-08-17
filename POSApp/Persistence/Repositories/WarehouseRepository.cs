@@ -29,7 +29,9 @@ namespace POSApp.Persistence.Repositories
 
         public Warehouse GetWarehouse(int id)
         {
-            return _context.Warehouses.Find(id);
+            
+            var query = _context.Warehouses.Find(id);
+            return query;
         }
         public async Task<Warehouse> GetWarehouseAsync(int id)
         {

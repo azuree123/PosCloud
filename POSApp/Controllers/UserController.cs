@@ -38,7 +38,7 @@ namespace POSApp.Controllers
             }
         }
         // GET: User
-
+        [Manage(Config.User.User)]
         public ActionResult UserList()
         {
             var userid = User.Identity.GetUserId();
@@ -48,6 +48,7 @@ namespace POSApp.Controllers
             //return View(Mapper.Map<UserViewModel[]>(_unitOfWork.UserRepository.GetUsers((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a=>!a.IsDisabled).OrderByDescending(a => a.Id)));
         }
         [HttpGet]
+   
         public ActionResult UpdateUser(string id)
         {
             ViewBag.edit = "UpdateUser";
@@ -182,7 +183,7 @@ namespace POSApp.Controllers
 
 
         }
-        //[View(Config.User.SecurityObject)]
+        [Manage(Config.User.User)]
 
         public ActionResult SecurityObjectList()
         {
@@ -195,7 +196,7 @@ namespace POSApp.Controllers
             return View();
         }
         [HttpPost]
-        //[Manage(Config.User.SecurityObject)]
+        [Manage(Config.User.User)]
 
         public ActionResult AddSecurityObject(SecurityObjectViewModel securityObjectMv)
         {
@@ -260,7 +261,7 @@ namespace POSApp.Controllers
 
 
         }
-        //[Manage(Config.User.SecurityObject)]
+        [Manage(Config.User.User)]
 
         public ActionResult UpdateSecurityObject(SecurityObjectViewModel sO, int id)
         {
@@ -270,7 +271,7 @@ namespace POSApp.Controllers
             return View("AddSecurityObject", securityObjectMv);
         }
         [HttpPost]
-        //[Manage(Config.User.SecurityObject)]
+        [Manage(Config.User.User)]
 
         public ActionResult UpdateSecurityObject(int id, SecurityObjectViewModel securityObjectMv)
         {
@@ -334,7 +335,7 @@ namespace POSApp.Controllers
 
 
         }
-        [Manage(Config.User.SecurityObject)]
+        [Manage(Config.User.User)]
 
         public ActionResult DeleteSecurityObject(int id)
         {
@@ -441,7 +442,7 @@ namespace POSApp.Controllers
                 }
                 else if (id == Config.SecurityRights.User)
                 {
-                    //send = EnumHelper.GetSelectList(typeof(Config.User));
+                    send = EnumHelper.GetSelectList(typeof(Config.User));
                 }
                 else if (id == Config.SecurityRights.Products)
                 {

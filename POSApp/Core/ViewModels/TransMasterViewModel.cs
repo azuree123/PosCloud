@@ -14,7 +14,7 @@ namespace POSApp.Core.ViewModels
         public string Type { get; set; }
         public string TransCode { get; set; }
         public int? StoreId { get; set; }
-        
+        public int? DeviceId { get; set; }
         public string Name { get; set; }
         public string ProductCode { get; set; }
         public string TransferTo { get; set; }
@@ -42,6 +42,8 @@ namespace POSApp.Core.ViewModels
         public string Code { get; set; }
         [DefaultValue(0)]
         public decimal Tax { get; set; }
+        public bool IsPurchased { get; set; }
+
         public string BatchNumber { get; set; }
         public DateTime? ExpiryDate { get; set; }
         public DateTime? ManufactureDate { get; set; }
@@ -58,7 +60,17 @@ namespace POSApp.Core.ViewModels
        
     }
 
-  
+    
+
+    public class TransMasterListViewModel
+    {
+      
+        public string TransCode { get; set; }
+       
+   
+
+    }
+
 
 
 }

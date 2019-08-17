@@ -24,7 +24,7 @@ namespace POSApp.Core.Models
         [DefaultValue(0)]
         public double UnitPrice { get; set; }
         [DefaultValue(0)]
-        public double? CostPrice { get; set; }
+        public double CostPrice { get; set; }
         [DefaultValue(0)]
         public double Stock { get; set; }
         [DefaultValue(0)]

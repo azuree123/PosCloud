@@ -1,0 +1,226 @@
+﻿@using POSApp.Core.Models
+@using POSApp.SecurityFilters
+@using POSApp.Services
+@model IEnumerable<POSApp.Core.Models.Product>
+
+@{
+    ViewBag.Title = "InventoryItemsList";
+    AlertModel alertModel = (AlertModel)TempData["Alert"];
+
+}
+@if (alertModel != null)
+{
+    @Html.Partial("~/Views/Shared/_AlertView.cshtml", alertModel)
+}
+<div class="row mt-md">
+    <div class="col-md-12">
+        <ul class="snip1189">
+            @if (Config.Products.InventoryItems.CheckAccess())
+            {
+
+            <li><a href="@Url.Action("InventoryItemsList", "Products")">@POSApp.Resources.Resource.Inventoryitems</a></li>
+            }
+            @if (Config.OpeningStock.OpeningStock.CheckAccess())
+            {
+
+                <li><a href="@Url.Action("OpeningStockList", "OpeningStock")">@POSApp.Resources.Resource.OpeningStock</a></li>
+            }
+            @if (Config.Products.InventoryItems.CheckAccess())
+            {
+
+                <li class="current"><a href="#">@POSApp.Resources.Resource.Stock</a></li>
+            }
+            @if (Config.SaleOrders.MIFData.CheckAccess())
+            {
+
+                <li><a href="@Url.Action("MIFDataList", "SaleOrders")">@POSApp.Resources.Resource.MaterialIssuance</a></li>
+            }
+        </ul>
+        <hr />
+
+    </div>
+</div>
+<section class="panel">
+   
+    <div class="panel-body">
+
+        <div class="table-responsive">
+            <table class="table mb-none" style="width:100%" id="datatable-default">
+                <thead>
+                <tr>
+                    @{
+                        if (Config.Products.InventoryItems.ManageAccess() && Config.Products.InventoryItems.ViewAccess())
+                        {
+                            <th>ProductCode</th>
+                            <th>Name</th>
+
+                            <th>OpeningStock</th>
+                            <th>StockIn</th>
+                            <th>Consumption</th>
+                            <th>Transferred</th>
+
+                            <th>Refunded</th>
+                            <th>Wasted</th>
+                            <th>Damaged</th>
+                            <th>Expired</th>
+
+                            <th>Unit</th>
+                            <th>Current Stock</th>
+
+                        }
+                        else if (Config.Products.InventoryItems.ViewAccess())
+                        {
+                            <th>ProductCode</th>
+                            <th>Name</th>
+
+                            <th>OpeningStock</th>
+                            <th>StockIn</th>
+                            <th>Consumption</th>
+                            <th>Transferred</th>
+
+                            <th>Refunded</th>
+                            <th>Wasted</th>
+                            <th>Damaged</th>
+                            <th>Expired</th>
+
+                            <th>Unit</th>
+                            <th>Current Stock</th>
+
+                        }
+                    }
+
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+<script>
+    $('#datatable-default').DataTable({
+        "processing": true, // for show progress bar lBfrtip
+        "serverSide": true, // for process server side
+        "filter": true, // this is for disable filter (search box)
+        "orderMulti": false, // for disable multiple column at once,
+        "lengthMenu": [[50, 100, 200], [50, 100, 200]],
+        "order": [[0, "desc"]],
+
+        "ajax": {
+            "url": "@Url.Action("GetStockData", "Products")",
+            "type": "POST",
+            "datatype": "json"
+        }, "language": {
+            "search": "Search: ",
+            "searchPlaceholder": "Search..."
+        }, "search": {
+            "search": ""
+        },
+        "columns": [
+            { "data": "ProductCode", "name": "ProductCode", "autoWidth": true },
+            { "data": "Name", "name": "Name", "autoWidth": true },
+            {
+                "data": "OpeningStock",
+                "name": "OpeningStock",
+                "autoWidth": true,
+                render: function(data, type, full) {
+                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                }
+            },
+            {
+                "data": "StockIn",
+                "name": "StockIn",
+                "autoWidth": true,
+                render: function(data, type, full) {
+                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                }
+            },
+            {
+                "data": "Utilized",
+                "name": "Consumption",
+                "autoWidth": true,
+                render: function(data, type, full) {
+                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                }
+            },
+            {
+                "data": "Transferred",
+                "name": "Transferred",
+                "autoWidth": true,
+                render: function(data, type, full) {
+                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                }
+            },
+            {
+                "data": "Refunded",
+                "name": "Refunded",
+                "autoWidth": true,
+                render: function(data, type, full) {
+                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+
+
+                }
+            },
+            {
+                "data": "Wasted",
+                "name": "Wasted",
+                "autoWidth": true,
+                render: function(data, type, full) {
+                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                }
+            },
+            {
+                "data": "Damaged",
+                "name": "Damaged",
+                "autoWidth": true,
+                render: function(data, type, full) {
+                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                }
+            },
+            {
+                "data": "Expired",
+                "name": "Expired",
+                "autoWidth": true,
+                render: function(data, type, full) {
+                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                }
+            },
+            { "data": "Unit", "name": "Unit", "autoWidth": true },
+            {
+                "data": "Stock", "name": "Current Stock", "autoWidth": true, render: function (data, row, full) {
+                    debugger;
+                    if(full.Stock <= full.ReOrderLevel){
+                        $('td', row).css('background-color', 'blue');
+                    }
+                    
+                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+
+                }
+                
+               
+
+                    
+        
+                }
+
+
+
+               
+
+            ]
+        });
+      
+</script>
+}
+
+
+
+
+
+
+
+
+
+

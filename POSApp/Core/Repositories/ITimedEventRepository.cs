@@ -18,5 +18,6 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<TimedEvent>> GetTimedEventsAsync(int storeid);
         Task<TimedEvent> GetTimedEventByIdAsync(int id, int storeid);
         Task AddTimedEventAsync(TimedEvent TimedEvent);
+        Task<IEnumerable<TimedEvent>> GetAllTimedEventsAsyncIncremental(int storeId, DateTime date);
     }
 }

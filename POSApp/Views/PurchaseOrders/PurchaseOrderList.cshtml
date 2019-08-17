@@ -68,16 +68,31 @@
                             <td>@String.Format("{0:n2} ", purchaseOrder.TotalPrice)</td>
                             <td>@purchaseOrder.Type</td>
                             <td>
-                                @if (Config.PurchaseOrders.PurchaseOrder.ViewAccess())
-                                {
+                                
+                                @{
+                                    if (purchaseOrder.IsPurchased)
+                                    {
+                                        if (Config.PurchaseOrders.PurchaseOrder.ViewAccess())
+                                         {
 
-                                @Html.ActionLink(" ", "PreviewPurchaseOrder", "PurchaseOrders", new {id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId}, new {@class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview})
-                                }
-                                @if (Config.PurchaseOrders.Purchasing.ManageAccess())
-                                {
+                                             @Html.ActionLink(" ", "PreviewPurchaseOrder", "PurchaseOrders", new {id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId}, new {@class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview})
+                                         } 
+                                    }
+                                    else
+                                    {
+                                        if (Config.PurchaseOrders.PurchaseOrder.ViewAccess())
+                                         {
 
-                                @Html.ActionLink(" ", "GetPurchaseOrder", "PurchaseOrders", new {id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId}, new {@class = "btn btn-default text-success btn-sm fa fa-plus  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.AddPurchasing})
+                                             @Html.ActionLink(" ", "PreviewPurchaseOrder", "PurchaseOrders", new {id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId}, new {@class = "btn btn-default  btn-sm fa fa-eye  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Preview})
+                                         }
+                                        if (Config.PurchaseOrders.Purchasing.ManageAccess())
+                                         {
+
+                                             @Html.ActionLink(" ", "GetPurchaseOrder", "PurchaseOrders", new {id = @purchaseOrder.Id, storeId = @purchaseOrder.StoreId}, new {@class = "btn btn-default text-success btn-sm fa fa-plus  ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.AddPurchasing})
+                                         }
+                                    }
                                 }
+                               
                             </td>
                         </tr>
                     }

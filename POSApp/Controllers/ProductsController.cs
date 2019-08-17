@@ -433,7 +433,7 @@ namespace POSApp.Controllers
 
         [Manage(Config.Products.Products)]
 
-        public ActionResult RemoveProductItem(string size, string barcode,decimal price)
+        public ActionResult RemoveProductItem(string size)
         {
             if (ProductHelper.temptProduct == null)
             {
@@ -442,7 +442,7 @@ namespace POSApp.Controllers
             }
             var userid = User.Identity.GetUserId();
             var user = UserManager.FindById(userid);
-            ProductHelper.RemoveFromTemptProduct(size, barcode,price, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), user.Id);
+            ProductHelper.RemoveFromTemptProduct(size, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current), user.Id);
             return View("PoProductTable", ProductHelper.temptProduct);
         }
         [Manage(Config.Products.Products)]
@@ -534,6 +534,13 @@ namespace POSApp.Controllers
                     Product product = Mapper.Map<Product>(productVm);
                     product.Type = "Product";
                     _unitOfWork.ProductRepository.UpdateProduct(product.ProductCode, Convert.ToInt32(UserStores.GetStoreCookie(System.Web.HttpContext.Current)), product);
+
+                        _unitOfWork.ModifierLinkProductRepository.DeleteModifierLinkProductsOnly(product.ProductCode, product.StoreId);
+                    _unitOfWork.Complete();
+
+                  
+                    
+
                     if (productVm.Modifiers != null)
                     {
                         foreach (var modifierm in productVm.Modifiers)
@@ -545,6 +552,11 @@ namespace POSApp.Controllers
                             });
                         }
                     }
+                   
+                        
+                            
+                        
+                    
                     _unitOfWork.Complete();
                     
                     TempData["Alert"] = new AlertModel("The product updated successfully", AlertType.Success);
@@ -2585,8 +2597,10 @@ namespace POSApp.Controllers
                 .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
             RecipeVm.ProductCode = code;
             RecipeVm.StoreId = (int) UserStores.GetStoreCookie(System.Web.HttpContext.Current);
+            RecipeVm.Stock = 0;
             RecipeVm.RecipeList = _unitOfWork.RecipeRepository.GetRecipes(RecipeVm.StoreId, code).ToList();
             ViewBag.edit = "AddRecipe";
+            
             return View(RecipeVm);
            
         }
@@ -2618,7 +2632,19 @@ namespace POSApp.Controllers
                 {
                     var userid = User.Identity.GetUserId();
                     var user = UserManager.FindById(userid);
-
+                    decimal Stock = 0;
+                    Stock = _unitOfWork.TransMasterRepository.ProductStock(RecipeVm.IngredientCode,
+                        UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+                    if (RecipeVm.Quantity > Stock)
+                    {
+                        RecipeVm.ProductDDl = _unitOfWork.ProductRepository.GetAllProducts(RecipeVm.StoreId).Where(a => a.InventoryItem)
+                            .Select(a => new SelectListItem { Value = a.ProductCode, Text = a.Name }).AsEnumerable();
+                        RecipeVm.UnitDdl = _unitOfWork.UnitRepository.GetUnit(RecipeVm.StoreId)
+                            .Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name }).AsEnumerable();
+                        RecipeVm.RecipeList = _unitOfWork.RecipeRepository.GetRecipes(RecipeVm.StoreId, RecipeVm.ProductCode).ToList();
+                        TempData["Alert"] = new AlertModel("Quantity Should be less than Stock", AlertType.Error);
+                        return View("AddRecipePartial", RecipeVm);
+                    }
                     Recipe Recipe = Mapper.Map<Recipe>(RecipeVm);
                     _unitOfWork.RecipeRepository.AddRecipes(Recipe);
 
@@ -2627,8 +2653,9 @@ namespace POSApp.Controllers
 
                     var product = _unitOfWork.ProductRepository.GetProductByCode(Recipe.ProductCode, Recipe.StoreId);
                     
-                    product.CostPrice = Convert.ToDouble(product.Recipes.Select(a=> (Convert.ToDecimal(a.Ingredient.CostPrice) / (a.Ingredient.StoIFactor) * (a.Ingredient.PtoSFactor)) *
+                    product.CostPrice = Convert.ToDouble(product.Recipes.Select(a=> (Convert.ToDecimal(a.Ingredient.CostPrice) / (a.Ingredient.StoIFactor * a.Ingredient.PtoSFactor)) *
                                                                                      a.Quantity).Sum());
+
                     _unitOfWork.Complete();
                     TempData["Alert"] = new AlertModel("The Recipe added successfully", AlertType.Success);
                     RecipeViewModel newRecipeVm = new RecipeViewModel();
@@ -2772,6 +2799,57 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             return View(_unitOfWork.ProductRepository.GetAllProducts((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Where(a => a.InventoryItem).ToList().OrderByDescending(a => a.Id));
         }
+        [View(Config.Products.InventoryItems)]
+        public ActionResult StockList()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GetStockData()
+        {
+            try
+            {
+                var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                var start = Request.Form.GetValues("start").FirstOrDefault();
+                var length = Request.Form.GetValues("length").FirstOrDefault();
+                //Find Order Column
+                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                var searchColumn = Request.Form.GetValues("search[value]").FirstOrDefault();
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                int recordsFiltered = 0;
+                var v = _unitOfWork.ReportsRepository.GenerateProductsStockData((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).AsEnumerable();
+
+                recordsTotal = v.Count();
+                if (!string.IsNullOrWhiteSpace(searchColumn))
+                {
+
+                    v = v.Where(a => a.ProductCode.ToLower().Contains(searchColumn) || a.Name.ToLower().Contains(searchColumn));
+                }
+                //SORT
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                }
+                recordsFiltered = v.Count();
+
+
+                var data = v.Skip(skip).Take(pageSize).ToList();
+                return Json(new { draw = draw, recordsFiltered = recordsFiltered, recordsTotal = recordsTotal, data = data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         [HttpGet]
         [Manage(Config.Products.InventoryItems)]
 
@@ -3014,7 +3092,7 @@ namespace POSApp.Controllers
             return RedirectToAction("InventoryItemsList", "Products");
 
         }
-        public JsonResult GetProductInfo(int id)
+        public JsonResult GetProductInfo(string id)
         {
             try
             {
@@ -3022,8 +3100,26 @@ namespace POSApp.Controllers
                 var user = UserManager.FindById(userid);
                 ProductDdlViewModel product =
                     Mapper.Map<ProductDdlViewModel>(
-                        _unitOfWork.ProductRepository.GetProductById(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
+                        _unitOfWork.ProductRepository.GetProductByCode(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)));
                 return Json(product, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        public JsonResult GetProductStock(string id)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                ProductCreateViewModel psVm = new ProductCreateViewModel();
+                 psVm.Stock =
+                    
+                        _unitOfWork.TransMasterRepository.ProductStock(id, (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+                return Json(psVm, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

@@ -26,7 +26,7 @@ namespace POSApp.Persistence.EntityConfigurations
             Property(x => x.UnitPrice).HasColumnType("float").IsRequired();
             Property(x => x.Attribute).HasColumnType("varchar").HasMaxLength(150).IsOptional();
             Property(x => x.Size).HasColumnType("varchar").HasMaxLength(150).IsOptional();
-            Property(x => x.CostPrice).HasColumnType("float").IsOptional();
+            Property(x => x.CostPrice).HasColumnType("float").IsRequired().HasColumnAnnotation("Default", 0);
             Property(x => x.ReOrderLevel).HasColumnType("int").IsRequired();
             Property(x => x.IsTaxable).HasColumnType("bit").IsRequired();
             Property(x => x.InventoryItem).HasColumnType("bit").IsRequired();

@@ -21,10 +21,53 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetCustomers(int storeId)
+
+        public async Task<IHttpActionResult> GetCustomers(int storeId, bool forceFull, int deviceId)
         {
-            return Ok(Mapper.Map<CustomerModelView[]>(await _unitOfWork.BusinessPartnerRepository.GetBusinessPartnersAsync("C", storeId)));
+            var data = new object();
+            if (forceFull)
+            {
+                data = await _unitOfWork.BusinessPartnerRepository.GetCustomersAsync(storeId);
+
+
+                return Ok(Mapper.Map<CustomerModelView[]>(data));
+
+            }
+            else
+            {
+
+                var lastSync =
+                    await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
+                        deviceId, "Customers");
+                if (lastSync == null)
+                {
+                    data = await _unitOfWork.BusinessPartnerRepository.GetCustomersAsync(storeId);
+                }
+                else
+                {
+                    data = await _unitOfWork.BusinessPartnerRepository.GetAllUsersAsyncIncremental(storeId,
+                        lastSync.LastSynced);
+                }
+                _unitOfWork.IncrementalSyncronizationRepository.AddIncrementalSyncronization(new IncrementalSyncronization()
+                {
+                    StoreId = storeId,
+                    DeviceId = deviceId,
+                    LastSynced = DateTime.Now,
+                    TableName = "Customers"
+
+                });
+                _unitOfWork.Complete();
+                return Ok(Mapper.Map<CustomerModelView[]>(data));
+
+
+            }
+
+
         }
+        //public async Task<IHttpActionResult> GetCustomers(int storeId)
+        //{
+        //    return Ok(Mapper.Map<CustomerModelView[]>(await _unitOfWork.BusinessPartnerRepository.GetBusinessPartnersAsync("C", storeId)));
+        //}
 
         // GET: api/CustomersSync/5
         public async Task<IHttpActionResult> GetCustomer(int id, int storeId)

@@ -21,7 +21,9 @@ namespace POSApp.Persistence.Repositories
 
         public async Task<IEnumerable<AppCounter>> GetAppCounterAsync(int storeId, int deviceId)
         {
-            return await _context.AppCounters.Where(a => a.StoreId == storeId && a.DeviceId == deviceId).ToListAsync();
+               
+            var query = await _context.AppCounters.Where(a => a.StoreId == storeId && a.DeviceId == deviceId).ToListAsync();
+            return query;
         }
 
         public int GetId(string dbSetIs)

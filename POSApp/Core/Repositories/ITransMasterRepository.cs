@@ -12,7 +12,7 @@ namespace POSApp.Core.Repositories
     public interface ITransMasterRepository
     {
 
-        Task<TransMaster> GetLastTransactionINV(string storeId);
+        Task<IEnumerable<TransMasterListViewModel>> GetLastTransactionINV(string storeId, int deviceId);
         TransMaster GetTransMaster(int id, int storeId);
         IEnumerable<TransMaster> GetTransMasters(int storeId);
         IEnumerable<InvoiceViewModel> GetInvoice(int id, int storeId);
@@ -50,5 +50,6 @@ namespace POSApp.Core.Repositories
         void UpdateExpiry(int id, int storeid, TransMaster transMaster);
         decimal GetBeforeWeeklyIncome();
         IEnumerable<TransMaster> GetTransMasterProducts(int id, int storeId);
+        decimal ProductStock(string ingredientCode, int storeId);
     }
 }

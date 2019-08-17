@@ -74,7 +74,9 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             
             po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
-            po.WarehouseDdl = _unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name,Selected = a.Id == a.Id});
+            var warehouse = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+            var clientWarehouses = _unitOfWork.ClientRepository.GetClientWarehouse((int)warehouse.ClientId);
+            po.WarehouseDdl = clientWarehouses.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             if (TakingHelper.temptTransDetail != null)
             {
 
@@ -94,7 +96,9 @@ namespace POSApp.Controllers
             if (!ModelState.IsValid)
             {
                 po.SupplierDdl = _unitOfWork.BusinessPartnerRepository.GetBusinessPartners("S", (int)UserStores.GetStoreCookie(System.Web.HttpContext.Current)).Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
-                po.WarehouseDdl = _unitOfWork.WarehouseRepository.GetWarehouses().Select(a => new SelectListItem { Value = a.Id.ToString(), Text = a.Name });
+                var warehouse = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
+                var clientWarehouses = _unitOfWork.ClientRepository.GetClientWarehouse((int)warehouse.ClientId);
+                po.WarehouseDdl = clientWarehouses.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
                 return View(po);
             }
             else

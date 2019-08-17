@@ -10,6 +10,7 @@ using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using POSApp.Core.Models;
+using POSApp.Models;
 using POSApp.Persistence.EntityConfigurations;
 
 using RedirectToRouteResult = System.Web.Http.Results.RedirectToRouteResult;

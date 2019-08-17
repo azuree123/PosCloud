@@ -183,7 +183,7 @@
                     @if (Config.Store.Store.ManageAccess())
                     {
 
-                    <th>@POSApp.Resources.Resource.Action</th>
+                    @*<th>@POSApp.Resources.Resource.Action</th>*@
                     }
                 </tr>
             </thead>
@@ -200,13 +200,13 @@
                         <td>@store.City</td>
                                 @if (Config.Store.Store.ManageAccess())
                                 {
-                        <td class="center">
+                        @*<td class="center">
                             <div class="btn-group">
 
                                 @Html.ActionLink(" ", "UpdateStore", "Store", new { id = @store.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
                                 @Html.ActionLink(" ", "DeleteStore", "Store", new { id = @store.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
                             </div>
-                        </td>
+                        </td>*@
                                 }
                     </tr>
                 }

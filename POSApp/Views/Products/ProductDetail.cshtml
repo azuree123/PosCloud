@@ -43,11 +43,12 @@
 
 
                         </tr>
-                        <tr>
-                            <th class="text-center">@POSApp.Resources.Resource.Price</th>
-                            <td class="text-center">@Model.UnitPrice</td>
+                    <tr>
+                        <th class="text-center">@POSApp.Resources.Resource.Price</th>
+                        <td class="text-center">@Model.UnitPrice</td>
 
-                        </tr> <tr>
+                    </tr>
+                    <tr>
                                   <th class="text-center">@POSApp.Resources.Resource.size</th>
                         <td class="text-center">@Model.Size</td>
 
@@ -91,8 +92,9 @@
                                 <tr>
                                     <th>@POSApp.Resources.Resource.ID</th>
                                     <th>@POSApp.Resources.Resource.Ingredient</th>
-                                    
+
                                     <th>@POSApp.Resources.Resource.Quantity</th>
+                                    <th>@POSApp.Resources.Resource.IngredientUnit</th>
                                     <th>@POSApp.Resources.Resource.Calories</th>
                                     <th>@POSApp.Resources.Resource.ExpiryDate</th>
 
@@ -104,16 +106,17 @@
                                 @{ int i = 1;}
                                 @foreach (var recipe in Model.Recipes)
                                 {
-                                    <tr>
-                                        <td>@(i++)</td>
-                                        <td>@recipe.Ingredient.Name</td>
-                                        
-                                        <td>@recipe.Quantity</td>
-                                        <td>@recipe.Calories</td>
-                                        <td>@recipe.ExpiryDate.ToShortDateString()</td>
+                                <tr>
+                                    <td>@(i++)</td>
+                                    <td>@recipe.Ingredient.Name</td>
+
+                                    <td>@(recipe.Quantity )</td>
+                                    <td>@recipe.Ingredient.IngredientUnit</td>
+                                    <td>@recipe.Calories</td>
+                                    <td>@recipe.ExpiryDate.ToShortDateString()</td>
 
 
-                                    </tr>
+                                </tr>
                                 }
                             </tbody>
                         </table>

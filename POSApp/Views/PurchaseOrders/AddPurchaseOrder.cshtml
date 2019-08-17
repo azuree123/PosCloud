@@ -52,18 +52,18 @@
                         <div id="transactionitems" class="tab-pane active">
                             @using (Html.BeginForm())
                             {
-                            <button type="submit" class="btn outline-success btn-sm hidden" id="basicSubmit" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> @POSApp.Resources.Resource.Save</button>
+                                <button type="submit" class="btn outline-success btn-sm hidden" id="basicSubmit" style="float:right;font-size:13px;margin-left: 7px;" onclick="return CheckData();"><i class="fa fa-save  pr-md"></i> @POSApp.Resources.Resource.Save</button>
 
-                            <h4 class="mt-none mb-lg text-weight-semibold ">@POSApp.Resources.Resource.BasicData</h4>
+                                <h4 class="mt-none mb-lg text-weight-semibold ">@POSApp.Resources.Resource.BasicData</h4>
 
                                 <div class="row">
                                     <div class="col-md-4 col-lg-offset-2">
                                         <div class="form-group">
                                             <label class="control-label">
-                                                @POSApp.Resources.Resource.Supplier <span class="text-danger">*</span>
+                                                Supplier <span class="text-danger">*</span>
                                             </label>
                                             <div class="input-group">
-                                                @Html.DropDownListFor(a => a.BusinessPartnerId, Model.SupplierDdl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control", @required = "true" })
+                                                @Html.DropDownListFor(a => a.BusinessPartnerId, Model.SupplierDdl, "Select an option", new { @class = "form-control", @required = "true" })
                                                 <span class="input-group-addon" style="">
                                                     <a href="@Url.Action("AddSupplierPartial", "Setup")" class="modalShow1" id="#arrButtonIds"> <i class="fa fa-plus "></i></a>
                                                 </span>
@@ -72,7 +72,22 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="control-label"> @POSApp.Resources.Resource.PurchaseorderDate</label>
+                                            <label class="control-label">
+                                                Warehouse <span class="text-danger">*</span>
+                                            </label>
+
+                                            @Html.DropDownListFor(a => a.WarehouseId, Model.WarehouseDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-offset-2">
+                                        <div class="form-group">
+                                            <label class="control-label"> Purchase Order Date</label>
 
                                             <div class="input-group">
                                                 @*@Html.TextBoxFor(a => a.TransDate, new { @class = "form-control unstyled", @data_plugin_datepicker = "true", @required = "true" })*@
@@ -86,25 +101,23 @@
 
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="row">
                                     <div class="col-md-8 col-lg-offset-2">
                                         <div class="form-group">
                                             <label class="control-label">
-                                                @POSApp.Resources.Resource.Remarks
+                                                Remarks
                                             </label>
-                                            @Html.TextAreaFor(a => a.TransRef, new { @rows = "3", @class = "form-control ", @placeholder = @POSApp.Resources.Resource.EnterRemarks })
+                                            @Html.TextAreaFor(a => a.TransRef, new { @rows = "3", @class = "form-control ", @placeholder = "Enter Remarks" })
                                         </div>
                                     </div>
                                 </div>
 
-
                             }
-                      
+
                             <div class=" mb-lg" id="header-flex">
                                 <h4 class="mt-xs   text-weight-semibold " style="flex-grow: 8">@POSApp.Resources.Resource.TransactionItems</h4>
-                 
+
 
                             </div>
                             @{Html.RenderAction("AddTransactionItem", "PurchaseOrders");}
@@ -303,6 +316,7 @@
         });
         $('#productDdl').on("change",
             function () {
+                debugger;
                 var val = $(this).val();
                 if (val !== '') {
                     $.ajax({

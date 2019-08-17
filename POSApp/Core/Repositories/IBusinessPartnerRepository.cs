@@ -23,5 +23,6 @@ namespace POSApp.Core.Repositories
         Task AddBusinessPartnerAsync(BusinessPartner item);
         bool IsWalkIn(int id, int StoreId);
         Task<IEnumerable<BusinessPartner>> GetAllUsersAsyncIncremental(int storeId, DateTime date);
+        Task<IEnumerable<BusinessPartner>> GetCustomersAsync(int StoreId);
     }
 }

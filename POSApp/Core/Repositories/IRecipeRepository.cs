@@ -21,5 +21,6 @@ namespace POSApp.Core.Repositories
         Task<Recipe> GetRecipeByIdAsync(string ProductCode, string ingredientcode);
         Task AddRecipesAsync(Recipe tep);
         Recipe GetRecipeById(int id, int storeId);
+        Task<IEnumerable<Recipe>> GetAllRecipesAsyncIncremental(int storeId, DateTime date);
     }
 }

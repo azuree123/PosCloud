@@ -28,18 +28,29 @@
             <div class="col-md-3">
                 @Html.LabelFor(model => model.IngredientCode, htmlAttributes: new { @class = "control-label required1" })
                 <div class="">
-                    @Html.DropDownListFor(model => model.IngredientCode, Model.ProductDDl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control", @required = "true" })
+                    @Html.DropDownListFor(model => model.IngredientCode, Model.ProductDDl, @POSApp.Resources.Resource.SelectanOption, new { @class = "form-control", @id = "hello", name = "productId", @required = "true" })
                     @Html.ValidationMessageFor(model => model.IngredientCode, "", new { @class = "text-danger" })
 
                 </div>
 
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-4">
                 @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @placeholder = @POSApp.Resources.Resource.EnterQuantity } })
-                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                <div class="input-group">
+                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @id = "quty2", @placeholder = @POSApp.Resources.Resource.EnterQuantity } })
+                                       
 
+                    @*<input class="form-control" id="quty" type="number" min="1" required="" name="purchaseQuantity" placeholder="Purchase" />*@
+
+                  
+                    <span class="input-group-addon" style="">
+                        @Html.TextBoxFor(a=>a.Stock,new{@readonly= "readonly",@id= "disUnit", @class = "form-control hidden" })
+                        <span id="disUnitText">@(Model.Stock)</span>
+                    </span>
+
+                </div>
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
             </div>
 
             <div class="col-md-2">
@@ -83,7 +94,6 @@
         <thead>
             <tr>
                 <th>@POSApp.Resources.Resource.Ingredient</th>
-
                 <th>@POSApp.Resources.Resource.Quantity</th>
                 <th>@POSApp.Resources.Resource.Calories</th>
                 <th>@POSApp.Resources.Resource.Expiry Date</th>
@@ -93,19 +103,49 @@
         <tbody>
             @foreach (var data in Model.RecipeList)
             {
-                <tr>
-                    <td>@data.IngredientName</td>
+            <tr>
+                <td>@data.IngredientName</td>
+                <td>@data.Quantity</td>
+                <td>@data.Calories</td>
+                <td>@data.ExpiryDate.ToShortDateString()</td>
 
-                    <td>@data.Quantity</td>
-                    <td>@data.Calories</td>
-                    <td>@data.ExpiryDate.ToShortDateString()</td>
+                <td>
+                    @Ajax.ActionLink(" ", "DeleteRecipe", "Products", new { id = data.Id, code = data.ProductCode }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "renderData" }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
+                </td>
 
-                    <td>
-                        @Ajax.ActionLink(" ", "DeleteRecipe", "Products", new { id = data.Id, code = data.ProductCode }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "renderData" }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete , onclick = "return confirm('Are you sure?');" })
-                    </td>
-
-                </tr>
+            </tr>
             }
         </tbody>
     </table>
 </div>
+<script>
+
+    $('#hello').on("change",
+        function () {
+            debugger;
+            var val = $(this).val();
+            if (val !== '') {
+                $.ajax({
+                    url: "@Url.Action("GetProductStock","Products")",
+                    type: "GET",
+                    data: { id: val },
+                    success: function(data) {
+
+                        $('#disUnit').val(data.Stock);
+                        $('#disUnitText').text(data.Stock);
+
+
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+
+                });
+            } else {
+                $('#disUnit').val(0);
+                $('#disUnitText').text('-');
+
+            }
+        });
+
+</script>

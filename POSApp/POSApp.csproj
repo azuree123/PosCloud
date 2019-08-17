@@ -34,15 +34,18 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -54,6 +57,12 @@
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
@@ -163,6 +172,7 @@
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
+    <Reference Include="System.Security" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
     </Reference>
@@ -390,6 +400,7 @@
     <Compile Include="Core\Enums\Available.cs" />
     <Compile Include="Core\Enums\DiscountType.cs" />
     <Compile Include="Core\Enums\Gender.cs" />
+    <Compile Include="Core\Enums\InventoryType.cs" />
     <Compile Include="Core\Enums\ModifierOptionEnum.cs" />
     <Compile Include="Core\Enums\PaymentMethod.cs" />
     <Compile Include="Core\Enums\Security.cs" />
@@ -484,10 +495,12 @@
     <Compile Include="Core\ViewModels\ComboProductsTransDetailViewModel.cs" />
     <Compile Include="Core\ViewModels\ComboReportSaleViewModel.cs" />
     <Compile Include="Core\ViewModels\EmailFormViewModel.cs" />
+    <Compile Include="Core\ViewModels\ExpirationReportViewModel.cs" />
     <Compile Include="Core\ViewModels\ExpiryReportViewModel.cs" />
     <Compile Include="Core\ViewModels\GenerateReportViewModel.cs" />
     <Compile Include="Core\ViewModels\IncrementalSyncronizationViewModel.cs" />
     <Compile Include="Core\ViewModels\InventoryCostReportViewModel.cs" />
+    <Compile Include="Core\ViewModels\InventoryStockViewModel.cs" />
     <Compile Include="Core\ViewModels\OrderDiscountViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductDiscountViewModel.cs" />
     <Compile Include="Core\ViewModels\ProductHelperViewModel.cs" />
@@ -537,11 +550,36 @@
     <Compile Include="Core\ViewModels\TillOperationViewModel.cs" />
     <Compile Include="Core\ViewModels\TransMasterPaymentMethodViewModel.cs" />
     <Compile Include="Core\ViewModels\UserViewModel.cs" />
+    <Compile Include="Core\ViewModels\WarehouseStockReportViewModel.cs" />
     <Compile Include="Core\ViewModels\WarehouseViewModel.cs" />
     <Compile Include="Core\ViewModels\WeeklyTimeSalesViewModel.cs" />
     <Compile Include="Migrations\201906250635532_init1.cs" />
     <Compile Include="Migrations\201906250635532_init1.Designer.cs">
       <DependentUpon>201906250635532_init1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907101038452_cust.cs" />
+    <Compile Include="Migrations\201907101038452_cust.Designer.cs">
+      <DependentUpon>201907101038452_cust.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907101054167_werw.cs" />
+    <Compile Include="Migrations\201907101054167_werw.Designer.cs">
+      <DependentUpon>201907101054167_werw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907221135389_Istrans.cs" />
+    <Compile Include="Migrations\201907221135389_Istrans.Designer.cs">
+      <DependentUpon>201907221135389_Istrans.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907300845566_cost.cs" />
+    <Compile Include="Migrations\201907300845566_cost.Designer.cs">
+      <DependentUpon>201907300845566_cost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907301007055_cost1.cs" />
+    <Compile Include="Migrations\201907301007055_cost1.Designer.cs">
+      <DependentUpon>201907301007055_cost1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907301017479_cost3.cs" />
+    <Compile Include="Migrations\201907301017479_cost3.Designer.cs">
+      <DependentUpon>201907301017479_cost3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\AppCounterEntityConfiguration.cs" />
@@ -711,6 +749,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BatchWiseExpiry.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\WarehouseStockReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WarehouseStockReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\دفعة الحكيم انتهاء.cs">
@@ -3121,6 +3165,8 @@
     <Content Include="Content\ImportFormats\SectionImport.xls" />
     <Content Include="Content\ImportFormats\ShiftImport.xls" />
     <Content Include="Scripts\hijri-date-picker.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.min.js" />
     <Content Include="signup.html" />
     <Content Include="Views\SaleOrders\MIFDataList.cshtml" />
     <Content Include="wp-content\css\login.css" />
@@ -3849,6 +3895,16 @@
     <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Setup\TillOperationDetails.cshtml" />
     <Content Include="Views\Home\AllStores.cshtml" />
+    <Content Include="Views\Home\Stock.cshtml" />
+    <Content Include="Views\Reports\GenerateWarehouseStockReport.cshtml" />
+    <Content Include="Views\Reports\GenerateProductSaleReport.cshtml" />
+    <Content Include="Views\Reports\GenerateSalesReport.cshtml" />
+    <Content Include="Views\Reports\GenerateInventoryItemCostReport.cshtml" />
+    <Content Include="Views\Reports\GenerateRecipeReport.cshtml" />
+    <Content Include="Views\Reports\GeneratePurchaseReport.cshtml" />
+    <Content Include="Views\Reports\GetShiftReportsDataList.cshtml" />
+    <Content Include="Views\Reports\GenerateTableReport.cshtml" />
+    <Content Include="Views\Products\StockList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4052,14 +4108,14 @@
     <EmbeddedResource Include="Migrations\201906250635532_init1.resx">
       <DependentUpon>201906250635532_init1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\BatchWiseExpiry.rpt">
+    <Content Include="Reports\BatchWiseExpiry.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BatchWiseExpiry.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\StockTakingReport.rpt">
+    </Content>
+    <Content Include="Reports\StockTakingReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>StockTakingReport.cs</LastGenOutput>
-    </EmbeddedResource>
+    </Content>
     <Content Include="Reports\مبيعات الطاولات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>مبيعات الطاولات.cs</LastGenOutput>
@@ -4072,105 +4128,127 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>العمليات على المخزون.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Reports\TransferReport.rpt">
+    <Content Include="Reports\TransferReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>TransferReport.cs</LastGenOutput>
-    </EmbeddedResource>
+    </Content>
     <Content Include="Reports\أسباب إلغاء الطلبات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>أسباب إلغاء الطلبات.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Reports\إرجاع المنتجات.rpt">
+    <Content Include="Reports\WarehouseStockReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>WarehouseStockReport.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\إرجاع المنتجات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>إرجاع المنتجات.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\اجمالي المشتريات.rpt">
+    </Content>
+    <Content Include="Reports\اجمالي المشتريات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>اجمالي المشتريات.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\التحويلات الإجمالية.rpt">
+    </Content>
+    <Content Include="Reports\التحويلات الإجمالية.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>التحويلات الإجمالية.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\الضرائب.rpt">
+    </Content>
+    <Content Include="Reports\الضرائب.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>الضرائب.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\المبيعات.rpt">
+    </Content>
+    <Content Include="Reports\المبيعات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>المبيعات.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\المخزون.rpt">
+    </Content>
+    <Content Include="Reports\المخزون.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>المخزون.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\المشتريات لكل مورد.rpt">
+    </Content>
+    <Content Include="Reports\المشتريات لكل مورد.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>المشتريات لكل مورد.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\انتهاء الصلاحية.rpt">
+    </Content>
+    <Content Include="Reports\انتهاء الصلاحية.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>انتهاء الصلاحية.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\تكلفة المنتجات.rpt">
+    </Content>
+    <Content Include="Reports\تكلفة المنتجات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>تكلفة المنتجات.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\جرد المخزون.rpt">
+    </Content>
+    <Content Include="Reports\جرد المخزون.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>جرد المخزون.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\خصومات الطلبات.rpt">
+    </Content>
+    <Content Include="Reports\خصومات الطلبات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>خصومات الطلبات.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\خصومات المنتجات.rpt">
+    </Content>
+    <Content Include="Reports\خصومات المنتجات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>خصومات المنتجات.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\دفعة الحكيم انتهاء.rpt">
+    </Content>
+    <Content Include="Reports\دفعة الحكيم انتهاء.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>دفعة الحكيم انتهاء.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\طرق الدفع بناء على الوقت.rpt">
+    </Content>
+    <Content Include="Reports\طرق الدفع بناء على الوقت.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>طرق الدفع بناء على الوقت.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\طرق الدفع.rpt">
+    </Content>
+    <Content Include="Reports\طرق الدفع.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>طرق الدفع.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\فئات المبيعات.rpt">
+    </Content>
+    <Content Include="Reports\فئات المبيعات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>فئات المبيعات.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\فترة عمل الموظفين.rpt">
+    </Content>
+    <Content Include="Reports\فترة عمل الموظفين.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>فترة عمل الموظفين.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\مبيعات أحجام المنتجات.rpt">
+    </Content>
+    <Content Include="Reports\مبيعات أحجام المنتجات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>مبيعات أحجام المنتجات.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\مبيعات العملاء.rpt">
+    </Content>
+    <Content Include="Reports\مبيعات العملاء.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>مبيعات العملاء.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\مبيعات الفروع بناء على الوقت.rpt">
+    </Content>
+    <Content Include="Reports\مبيعات الفروع بناء على الوقت.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>مبيعات الفروع بناء على الوقت.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\مبيعات الفروع.rpt">
+    </Content>
+    <Content Include="Reports\مبيعات الفروع.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>مبيعات الفروع.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\مبيعات المنتجات بناء على الوقت.rpt">
+    </Content>
+    <Content Include="Reports\مبيعات المنتجات بناء على الوقت.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>مبيعات المنتجات بناء على الوقت.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\مبيعات المنتجات.rpt">
+    </Content>
+    <Content Include="Reports\مبيعات المنتجات.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>مبيعات المنتجات.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Migrations\201907101038452_cust.resx">
+      <DependentUpon>201907101038452_cust.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907101054167_werw.resx">
+      <DependentUpon>201907101054167_werw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907221135389_Istrans.resx">
+      <DependentUpon>201907221135389_Istrans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907300845566_cost.resx">
+      <DependentUpon>201907300845566_cost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907301007055_cost1.resx">
+      <DependentUpon>201907301007055_cost1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907301017479_cost3.resx">
+      <DependentUpon>201907301017479_cost3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resource.Ar.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

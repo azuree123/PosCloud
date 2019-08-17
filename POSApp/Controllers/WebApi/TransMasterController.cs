@@ -16,9 +16,9 @@ namespace POSApp.Controllers.WebApi
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<IHttpActionResult> GetLastTransaction(string storeId)
+        public async Task<IHttpActionResult> GetLastTransaction(string storeId,int deviceId)
         {
-            return Ok(await _unitOfWork.TransMasterRepository.GetLastTransactionINV(storeId));
+            return Ok(await _unitOfWork.TransMasterRepository.GetLastTransactionINV(storeId,deviceId));
         }
 
 

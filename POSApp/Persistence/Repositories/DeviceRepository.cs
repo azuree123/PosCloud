@@ -40,7 +40,7 @@ namespace POSApp.Persistence.Repositories
         }
         public async Task<AppInfoViewModel> GetDeviceByLicenseAsync(string license)
         {
-            return await _context.Devices.Include(a => a.Store).Include(a => a.Store.Client).Where(a => a.License == license).Select(a => new AppInfoViewModel
+            return await _context.Devices.Include(a => a.Store).Include(a => a.Store.Client).Where(a => a.License == license && a.IsDisabled==false).Select(a => new AppInfoViewModel
             {
                 BusinessStartTime = a.Store.BusinessStartTime,
                 BranchName = a.Store.Name,

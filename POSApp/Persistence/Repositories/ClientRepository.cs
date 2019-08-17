@@ -46,6 +46,7 @@ namespace POSApp.Persistence.Repositories
         {
             return _context.Clients.Include(a=>a.Stores).Where(a=>a.Id==id).Select(a=>a.Stores).FirstOrDefault();
         }
+        
         public IEnumerable<UserStoreViewModel> GetUserStore(string id)
         {
             var parameters = new List<SqlParameter> { new SqlParameter("@p1", id) };
@@ -60,7 +61,12 @@ namespace POSApp.Persistence.Repositories
             var data = _context.Database.SqlQuery<UserStoreViewModel>(sql, parameters.ToArray()).ToList();
             return data;
         }
-
+        public IEnumerable<Warehouse> GetClientWarehouse(int id)
+        {
+            var query = _context.Clients.Include(a => a.Name).Include(a => a.WareHouses).Where(a => a.Id == id)
+                .Select(a => a.WareHouses).FirstOrDefault();
+            return query;
+        }
         public void AddClient(Client client)
         {
             var inDb = _context.Clients.FirstOrDefault(a => a.Name == client.Name);

@@ -23,27 +23,27 @@
         <ul class="snip1189">
             <li class="current"><a href="#">@POSApp.Resources.Resource.Products</a></li>
             <li><a class="hidden" href="@Url.Action("ServicesList","Services")">@POSApp.Resources.Resource.Services</a></li>
-           
+
             @if (Config.Products.Modifiers.CheckAccess())
             {
-            <li><a href="@Url.Action("ModifierList","Products")">@POSApp.Resources.Resource.Modifiers</a></li>
+                <li><a href="@Url.Action("ModifierList","Products")">@POSApp.Resources.Resource.Modifiers</a></li>
 
             }
             @if (Config.Products.Combo.CheckAccess())
             {
-            <li><a href="@Url.Action("CombosList","Products")">@POSApp.Resources.Resource.Combos</a></li>
+                <li><a href="@Url.Action("CombosList","Products")">@POSApp.Resources.Resource.Combos</a></li>
 
             }
-        @if (Config.Products.ProductCategory.CheckAccess())
-        {
-            <li><a href="@Url.Action("ProductCategoryList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
+            @if (Config.Products.ProductCategory.CheckAccess())
+            {
+                <li><a href="@Url.Action("ProductCategoryList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIES</a></li>
 
-        }
-        @if (Config.Products.ProductCategoryGroup.CheckAccess())
-        {
-             <li><a href="@Url.Action("ProductCategoryGroupList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
+            }
+            @if (Config.Products.ProductCategoryGroup.CheckAccess())
+            {
+                <li><a href="@Url.Action("ProductCategoryGroupList","Products")">@POSApp.Resources.Resource.PRODUCTCATEGORIESGROUP</a></li>
 
-        }
+            }
 
         </ul>
         <hr />
@@ -56,40 +56,40 @@
             <div class="col-md-12">
                 <div class="" id="header-flex">
                     <h3 class="wb-color" style="flex-grow: 8"><b>@POSApp.Resources.Resource.Products</b></h3>
-                   @if (Config.ExcelImport.ProductExcelImport.ManageAccess())
-                   {
+                    @if (Config.ExcelImport.ProductExcelImport.ManageAccess())
+                    {
 
-                    <a href="@Url.Action("ProductExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.ImportData</button>
+                        <a href="@Url.Action("ProductExcelImport", "ExcelImport")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.ImportData</button>
 
-                    </a>
-                   }
+                        </a>
+                    }
                     @if (Config.Products.Products.ManageAccess())
                     {
 
 
-                    <a href="@Url.Action("AddProduct", "Products")" class="modalShow" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddProduct</button>
+                        <a href="@Url.Action("AddProduct", "Products")" class="modalShow" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-success btn-sm" id="#arrButtonIds"><i class="fa fa-plus pr-sm"></i>@POSApp.Resources.Resource.AddProduct</button>
 
-                    </a>
+                        </a>
                     }
                     @if (Config.Products.ProductCategoryGroup.ViewAccess())
                     {
 
 
-                    <a href="@Url.Action("ProductCategoryGroupList","Products")" style="flex-grow: 0.2">
-                        <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.productcategorygrouplist</button>
+                        <a href="@Url.Action("ProductCategoryGroupList","Products")" style="flex-grow: 0.2">
+                            <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.productcategorygrouplist</button>
 
-                    </a>
+                        </a>
                     }
                     @if (Config.Products.ProductCategory.ViewAccess())
                     {
 
 
-                    <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
-                        <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.categorylist</button>
+                        <a href="@Url.Action("ProductCategoryList","Products")" style="flex-grow: 0">
+                            <button type="button" class="btn outline-danger btn-sm" id="#arrButtonIds"><i class="fa fa-list-ol pr-sm"></i>@POSApp.Resources.Resource.categorylist</button>
 
-                    </a>
+                        </a>
                     }
                 </div>
             </div>
@@ -102,35 +102,31 @@
         <div class="table-responsive">
             <table class="table mb-none" style="width:100%" id="datatable-default">
                 <thead>
-                <tr>
-                    @{
-                        if (Config.Products.Products.ManageAccess() && Config.Products.Products.ViewAccess())
-                        {
-                        <th>@POSApp.Resources.Resource.ID</th>
-                        <th>@POSApp.Resources.Resource.name</th>
+                    <tr>
+                        @{
+                            if (Config.Products.Products.ManageAccess() && Config.Products.Products.ViewAccess())
+                            {
+                                <th>@POSApp.Resources.Resource.ID</th>
+                                <th>@POSApp.Resources.Resource.name</th>
 
-                        <th>@POSApp.Resources.Resource.size</th>
-                        <th>@POSApp.Resources.Resource.UnitPrice</th>
-                            <th>@POSApp.Resources.Resource.Actions</th>
-                        }
-                        else if (Config.Products.Products.ViewAccess())
-                        {
-                            <th>@POSApp.Resources.Resource.ID</th>
-                            <th>@POSApp.Resources.Resource.name</th>
+                                <th>@POSApp.Resources.Resource.size</th>
+                                <th>@POSApp.Resources.Resource.UnitPrice</th>
+                                <th>@POSApp.Resources.Resource.Actions</th>
+                            }
+                            else if (Config.Products.Products.ViewAccess())
+                            {
+                                <th>@POSApp.Resources.Resource.ID</th>
+                                <th>@POSApp.Resources.Resource.name</th>
 
-                            <th>@POSApp.Resources.Resource.size</th>
-                            <th>@POSApp.Resources.Resource.UnitPrice</th>
-                            <th>@POSApp.Resources.Resource.Actions</th>
+                                <th>@POSApp.Resources.Resource.size</th>
+                                <th>@POSApp.Resources.Resource.UnitPrice</th>
+                                <th>@POSApp.Resources.Resource.Actions</th>
+                            }
                         }
-                    }
-                   
-                </tr>
+
+                    </tr>
                 </thead>
-                <tbody>
-                  
-
-
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
@@ -143,7 +139,7 @@
 @section scripts
 {
     <script>
-      
+
         $('a.modalShow').on('click', function () {
             $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
             $.ajax({
@@ -170,18 +166,18 @@
         }
 
 
-        
+
         function InitializeRequestBuchung(sender, args) {
             var arrButtonIds = ["ButtonInsert", "ButtonUpdate"];
 
-            
+
             var prm = Sys.WebForms.PageRequestManager.getInstance();
             if (prm.get_isInAsyncPostBack() & jQuery.inArray(args.get_postBackElement().id, arrButtonIds) > -1) {
                 args.set_cancel(true);
             }
         }
     </script>
-
+   
         <script>
         $('#datatable-default').DataTable({
 
@@ -205,20 +201,20 @@
             "columns": [
                 { "data": "Id", "name": "ID", "autoWidth": true },
                 { "data": "Name", "name": "Name", "autoWidth": true },
-               
+
 
                 { "data": "Size", "name": "Size", "autoWidth": true }
                 , { "data": "UnitPrice", "name": "UnitPrice", "autoWidth": true },
-               
+
 
                 {
                     "data": "ProductCode", "autoWidth": true, render: function (data, type, full, meta) {
-                        
+
                         var str = '';
-                 
+
                         if (full.InventoryItem) {
                             str =
-                                
+
                                 '<div><span data-toggle="tooltip" title=@POSApp.Resources.Resource.EDIT   class=" btn btn-default text-success btn-sm  fa fa-edit "   onclick="UpdateProduct(' +
                                 "'" +
                                 data +
@@ -258,10 +254,10 @@
                                 ')"  ></span></div>';
                         }
                         return str;
-                            
+
                     }
                 }
-           
+
             ]
         });
             function UpdateProduct(a) {
@@ -281,10 +277,10 @@
 
             }
             function DeleteProduct(a) {
-                
+
                     window.location.href = "/Products/DeleteProduct?id=" + a;
-                
-                
+
+
 
             }
 
@@ -303,17 +299,17 @@
             });
 
             return false;
-            
+
         }
         function ProductDetails(a) {
             window.location.href = "/Products/ProductDetail?productId="+a;
 
         }
-      
-      
 
 
-        </script>
-  
+
+
+    </script>
+
 }
 

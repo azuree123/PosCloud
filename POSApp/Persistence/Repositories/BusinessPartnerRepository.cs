@@ -39,6 +39,7 @@ namespace POSApp.Persistence.Repositories
                 .Where(u => u.StoreId == StoreId && u.Type == type && !u.IsDisabled);
 
         }
+       
         public async Task<IEnumerable<BusinessPartner>> GetBusinessPartnersAsync(string type, int StoreId)
         {
             //return _context.Customers;
@@ -47,6 +48,16 @@ namespace POSApp.Persistence.Repositories
                 .Where(u => u.StoreId == StoreId && u.Type == type && !u.IsDisabled).ToListAsync();
 
         }
+
+        public async Task<IEnumerable<BusinessPartner>> GetCustomersAsync(int StoreId)
+        {
+            //return _context.Customers;
+            return await _context.BusinessPartners
+
+                .Where(u => u.StoreId == StoreId && u.Type == "C" &&  !u.IsDisabled).ToListAsync();
+
+        }
+
         public IEnumerable<BusinessPartnerViewModel> GetBusinessPartnersFiltered(string type, string query, int StoreId)
         {
             //return _context.Customers;

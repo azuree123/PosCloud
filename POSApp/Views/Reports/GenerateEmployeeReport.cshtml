@@ -36,7 +36,7 @@
                                             @POSApp.Resources.Resource.Designation
                                         </label>
                                         <select name="designationId" id="" class="form-control" required="">
-                                            <option value="0">@POSApp.Resources.Resource.SelectanOption</option>
+                                            <option value="0">All</option>
                                             @foreach (var opt in ViewBag.designations)
                                             {
                                                 <option value="@opt.Value" selected="@opt.Selected">@opt.Text</option>

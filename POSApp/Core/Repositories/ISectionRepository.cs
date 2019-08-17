@@ -19,5 +19,6 @@ namespace POSApp.Core.Repositories
         Task<IEnumerable<Section>> GetSectionsAsync(int storeid);
         Task<Section> GetSectionByIdAsync(int id, int storeid);
         Task AddSectionAsync(Section Section);
+        Task<IEnumerable<Section>> GetAllSectionsAsyncIncremental(int storeId, DateTime date);
     }
 }

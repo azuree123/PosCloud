@@ -18,6 +18,11 @@ namespace POSApp.Persistence.Repositories
             _context = context;
         }
 
+
+        public async Task<IEnumerable<Unit>> GetAllUnitsAsyncIncremental(int storeId, DateTime date)
+        {
+            return await _context.Units.Where(a => a.StoreId == storeId && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
+        }
         public IEnumerable<Unit> GetUnit(int storeid)
         {
             return _context.Units.Where(a => a.StoreId == storeid && !a.IsDisabled).ToList();

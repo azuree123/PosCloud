@@ -17,7 +17,10 @@ namespace POSApp.Persistence.Repositories
         {
             _context = context;
         }
-
+        public async Task<IEnumerable<DineTable>> GetAllTablesAsyncIncremental(int storeId, DateTime date)
+        {
+            return await _context.DineTables.Where(a => a.StoreId == storeId && !a.IsDisabled && (a.UpdatedOn >= date || a.CreatedOn >= date)).ToListAsync();
+        }
         public IEnumerable<DineTable> GetDineTables(int storeid)
         {
             return _context.DineTables.Where(a => a.StoreId == storeid && !a.IsDisabled).Include(f => f.Floor).ToList();

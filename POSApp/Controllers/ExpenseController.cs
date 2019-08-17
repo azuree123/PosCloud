@@ -326,7 +326,7 @@ namespace POSApp.Controllers
             ExpenseHeadViewModel expenseHead = new ExpenseHeadViewModel();
             var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
-            expenseHead.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+          
             return View();
         }
         [HttpPost]
@@ -338,7 +338,7 @@ namespace POSApp.Controllers
             var user = UserManager.FindById(userid);
             var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
-            expenseheadvm.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
+            
             ViewBag.edit = "AddExpenseHeadPartial";
             try
             {
@@ -433,7 +433,6 @@ namespace POSApp.Controllers
             ExpenseHeadViewModel expenseHead = new ExpenseHeadViewModel();
             var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
-            expenseHead.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             return View();
         }
         [HttpPost]
@@ -447,7 +446,6 @@ namespace POSApp.Controllers
             
             var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
-            expenseHeadVm.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             try
             {
                 if (!ModelState.IsValid)
@@ -527,7 +525,6 @@ namespace POSApp.Controllers
            
             var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
-            expenseHeadVm.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             return View("AddExpenseHead", expenseHeadVm);
         }
         [HttpPost]
@@ -541,7 +538,6 @@ namespace POSApp.Controllers
             
             var store = _unitOfWork.StoreRepository.GetStoreById((int)UserStores.GetStoreCookie(System.Web.HttpContext.Current));
             var clientStores = _unitOfWork.ClientRepository.GetClientStore((int)store.ClientId);
-            expenseHeadVm.StoreDdl = clientStores.Select(a => new SelectListItem { Text = a.Name, Value = a.Id.ToString() }).AsEnumerable();
             try
             {
                 if (!ModelState.IsValid)

@@ -183,7 +183,7 @@
                             
                         @if (Config.Device.Device.ManageAccess())
                         {
-                        <th>@POSApp.Resources.Resource.Action</th>
+                        @*<th>@POSApp.Resources.Resource.Action</th>*@
 
                         }
                     </tr>
@@ -202,14 +202,14 @@
                             <td>@device.Address</td>
                                     @if (Config.Device.Device.ManageAccess())
                                     {
-                            <td class="center">
+                            @*<td class="center">
                                 <div class="btn-group">
                                     
 
                                     @Html.ActionLink(" ", "UpdateDevice", "Device", new { id = @device.Id }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = "Edit !" })
                                     @Html.ActionLink(" ", "DeleteDevice", "Device", new { id = @device.Id }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = "Delete !", onclick = "return confirm('Are you sure?');" })
                                 </div>
-                            </td>
+                            </td>*@
                                     }
                         </tr>
                     }

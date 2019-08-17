@@ -37,7 +37,7 @@ namespace POSApp.Controllers.WebApi
 
                 var lastSync =
                     await _unitOfWork.IncrementalSyncronizationRepository.GetLastIncrementalSyncronization(storeId,
-                        deviceId, "Expense");
+                        deviceId, "Expenses");
                 if (lastSync == null)
                 {
                     data = await _unitOfWork.ExpenseRepository.GetExpensesAsync(storeId);
@@ -52,7 +52,7 @@ namespace POSApp.Controllers.WebApi
                     StoreId = storeId,
                     DeviceId = deviceId,
                     LastSynced = DateTime.Now,
-                    TableName = "Expense"
+                    TableName = "Expenses"
 
                 });
                 _unitOfWork.Complete();

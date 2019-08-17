@@ -24,5 +24,7 @@ namespace POSApp.Core.Repositories
        IEnumerable<Product> GetSaleProducts(int productCategoryId, int storeId);
        IEnumerable<Product> GetSaleProductsQuery(int storeId,string term);
        Task<IEnumerable<Product>> GetAllProductsAsyncIncremental(int storeId, DateTime date);
+       IEnumerable<Product> GetProductsNotInventory(int storeId);
+       IEnumerable<Product> GetInventoryProducts(int storeId);
    }
 }

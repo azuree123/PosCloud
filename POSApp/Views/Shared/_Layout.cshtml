@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic PoS</title>
     <!-- Web Fonts  -->
-
+    
     <link href="~/Content/fontStyle.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
@@ -95,7 +95,7 @@
             
             <link rel="stylesheet"
             href="~/Content/vendor/bootstrap/css/bootstrap.css">
-           
+          
         }
     }
     @Styles.Render("~/Content/css")
@@ -107,50 +107,50 @@
 
 </head>
 
-<body>
+<body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()">
 
     <section class="body">
 
         <!-- start: header -->
-    <header class="header">
-       
-                <div class="logo-container">
-                    <a href="@Url.Action("Index", "Home")" class="logo">
-                        <img src="~/Content/images/cosmic.png" alt="Cosmic Admin" style="max-width: 150px; max-height: 50px;"/>
-                        <h5 style="display: inline-block; display: inline-block; -webkit-background-clip: text !important; font-weight: bold; font-style: italic; background: -webkit-linear-gradient(#5fb1be 0%, #98dfe4 100%); -webkit-text-fill-color: transparent;"></h5>
-                    </a>
-                    <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
-                        <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+        <header class="header">
+
+            <div class="logo-container">
+                <a href="@Url.Action("Index", "Home")" class="logo">
+                    <img src="~/Content/images/cosmic.png" alt="Cosmic Admin" style="max-width: 150px; max-height: 50px;" />
+                    <h5 style="display: inline-block; display: inline-block; -webkit-background-clip: text !important; font-weight: bold; font-style: italic; background: -webkit-linear-gradient(#5fb1be 0%, #98dfe4 100%); -webkit-text-fill-color: transparent;"></h5>
+                </a>
+
+                
+                <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
+                    <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                </div>
+            </div>
+
+
+
+            <!-- start: search & user box -->
+            @{
+
+                if (Request.IsAuthenticated)
+                {
+                    <div class="header-right">
+
+                        <form action="pages-search-results.html" class="search nav-form"></form>
+
+
+
+
+                        <span class="separator"></span>
+
+                        @Html.Partial("_LoginPartial")
                     </div>
-                </div>
-         
-        
-
-        <!-- start: search & user box -->
-        @{
-
-            if (Request.IsAuthenticated)
-            {
-                <div class="header-right">
-
-                    <form action="pages-search-results.html" class="search nav-form">
-                       
-                    </form>
-
-
-
-
-                    <span class="separator"></span>
-
-                    @Html.Partial("_LoginPartial")
-                </div>
+                }
+                else
+                {
+                }
             }
-            else
-            {
-            }
-        }
-        <!-- end: search & user box -->
-    </header>
+            <!-- end: search & user box -->
+        </header>
         <!-- end: header -->
 
         <div class="inner-wrapper">
@@ -173,30 +173,33 @@
                             <div class="nano-content">
                                 <nav id="menu" class="nav-main" role="navigation">
                                     <ul class="nav nav-main ">
+
                                         <li>
-                                            <a href="@Url.Action("Index","Home")">
+                                            <a href="@Url.Action("Index", "Home")">
                                                 <i class="fa fa-home" aria-hidden="true"></i>
                                                 <span> @POSApp.Resources.Resource.Dashboard </span>
                                             </a>
                                         </li>
-                                        @if (Config.PointOfSale.PointOfSale.CheckAccess())
-                                        {
 
-                                            <li>
-                                                <a href="@Url.Action("Index","PointOfSale")">
-                                                    <i class="fa fa-desktop " aria-hidden="true"></i>
 
-                                                    <span>@POSApp.Resources.Resource.PointOfSale</span>
+                                        @*@if (Config.PointOfSale.PointOfSale.CheckAccess())
+                                            {
 
-                                                </a>
+                                                <li>
+                                                    <a href="@Url.Action("Index","PointOfSale")">
+                                                        <i class="fa fa-desktop " aria-hidden="true"></i>
 
-                                            </li>
-                                        }
+                                                        <span>@POSApp.Resources.Resource.PointOfSale</span>
+
+                                                    </a>
+
+                                                </li>
+                                            }*@
 
                                         @if (Config.SaleOrders.DailySales.CheckAccess())
                                         {
                                             <li>
-                                                <a href="@Url.Action("SaleOrderList","SaleOrders")">
+                                                <a href="@Url.Action("SaleOrderList", "SaleOrders")">
                                                     <i class="fa fa-calculator " aria-hidden="true"></i>
 
                                                     <span>@POSApp.Resources.Resource.SalesOrder</span>
@@ -209,7 +212,7 @@
                                         {
 
                                             <li>
-                                                <a href="@Url.Action("PurchaseOrderList","PurchaseOrders")">
+                                                <a href="@Url.Action("PurchaseOrderList", "PurchaseOrders")">
                                                     <i class="fa fa-shopping-cart " aria-hidden="true"></i>
                                                     <span>@POSApp.Resources.Resource.purchaseorders</span>
                                                 </a>
@@ -219,7 +222,7 @@
                                         @if (Config.StockTaking.StockTaking.CheckAccess())
                                         {
                                             <li>
-                                                <a href="@Url.Action("StockTakingList","StockTaking")">
+                                                <a href="@Url.Action("StockTakingList", "StockTaking")">
                                                     <i class="fa fa-tasks " aria-hidden="true"></i>
                                                     <span>@POSApp.Resources.Resource.Transactions</span>
                                                 </a>
@@ -231,7 +234,7 @@
                                         {
 
                                             <li>
-                                                <a href="@Url.Action("ExpenseList","Expense")">
+                                                <a href="@Url.Action("ExpenseList", "Expense")">
                                                     <i class="fa fa-dollar" aria-hidden="true"></i>
                                                     <span>@POSApp.Resources.Resource.Expenses</span>
                                                 </a>
@@ -244,7 +247,7 @@
                                         {
 
                                             <li>
-                                                <a href="@Url.Action("ProductsList","Products")">
+                                                <a href="@Url.Action("ProductsList", "Products")">
                                                     <i class="fa fa-archive" aria-hidden="true"></i>
                                                     <span>@POSApp.Resources.Resource.ProductsandServices</span>
                                                 </a>
@@ -254,7 +257,7 @@
                                         @if (Config.Setup.Customer.CheckAccess())
                                         {
                                             <li>
-                                                <a href="@Url.Action("CustomerList","Setup")">
+                                                <a href="@Url.Action("CustomerList", "Setup")">
                                                     <i class="fa fa-cubes" aria-hidden="true"></i>
                                                     <span>Store Management</span>
                                                 </a>
@@ -264,7 +267,7 @@
                                         @if (Config.Products.InventoryItems.CheckAccess())
                                         {
                                             <li>
-                                                <a href="@Url.Action("InventoryItemsList","Products")">
+                                                <a href="@Url.Action("InventoryItemsList", "Products")">
                                                     <i class="fa fa-database" aria-hidden="true"></i>
                                                     <span>@POSApp.Resources.Resource.Inventory</span>
                                                 </a>
@@ -277,20 +280,23 @@
                                             if (Request.IsAuthenticated)
                                             {
 
+                                                if (Config.User.User.CheckAccess())
+                                                {
+                                                    <li class=" ">
+                                                        <a href="@Url.Action("UserList", "User")">
+                                                            <i class="fa fa-user-secret" aria-hidden="true"></i>
+                                                            <span>@POSApp.Resources.Resource.UserManagement</span>
+                                                        </a>
 
-                                                <li class=" ">
-                                                    <a href="@Url.Action("UserList","User")">
-                                                        <i class="fa fa-user-secret" aria-hidden="true"></i>
-                                                        <span>@POSApp.Resources.Resource.UserManagement</span>
-                                                    </a>
+                                                    </li>
+                                                }
 
-                                                </li>
 
 
                                                 if (Config.Reports.SalesReport.CheckAccess())
                                                 {
                                                     <li>
-                                                        <a href="@Url.Action("SaleReport","Reports")">
+                                                        <a href="@Url.Action("SaleReport", "Reports")">
                                                             <i class="fa fa-indent" aria-hidden="true"></i>
                                                             <span>@POSApp.Resources.Resource.Reports</span>
                                                         </a>
@@ -298,15 +304,15 @@
                                                     </li>
                                                 }
                                                 <li class="hidden">
-                                                    <a href="@Url.Action("BusinessSetting","Setting")">
+                                                    <a href="@Url.Action("BusinessSetting", "Setting")">
                                                         <i class="fa fa-gears" aria-hidden="true"></i>
                                                         <span>Business Setting</span>
                                                     </a>
 
                                                 </li>
-                                        
+
                                                 <li class=" ">
-                                                    <a href="@Url.Action("AllStores","Home")">
+                                                    <a href="@Url.Action("AllStores", "Home")">
                                                         <i class="fa fa-exchange" aria-hidden="true"></i>
                                                         <span>Switch Store</span>
                                                     </a>
@@ -361,6 +367,7 @@
     </section>
     @Scripts.Render("~/bundles/Scripts")
     @Scripts.Render("~/bundles/jquery")
+   
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/vendor")
@@ -390,7 +397,7 @@
     }
 
     <script>
-       
+
         $('html').bind('keypress', function (e) {
             if (e.keyCode === 13) {
                 return false;
@@ -401,24 +408,27 @@
                 e.preventDefault();
             }
         });
-      
+
         var currentPath = window.location.pathname;
         $(".nav li a[href='" + currentPath + "']").parent().addClass("nav-active");
     </script>
-<script>
-    var url = '@Url.Action("ChangeLanguage", "Home")';
-    $('.setculture').click(function (e) {
-        e.preventDefault();
-        $.get(this.href, function(data) {
-            if (data) {
-                location.reload();
-            } else {
-                alert('Change Language Failed');
-            }
-        });
-        
-    });
-</script>
+    <script>
+        var url = '@Url.Action("ChangeLanguage", "Home")';
+        $('.setculture').click(function (e) {
+            e.preventDefault();
+            $.get(this.href, function(data) {
+                if (data) {
+                    location.reload();
+                } else {
+                    alert('Change Language Failed');
+                }
+            });
 
+        });
+    </script>
+
+    
+
+   
 </body>
 </html>
