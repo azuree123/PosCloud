@@ -2192,6 +2192,23 @@ namespace POSApp.Controllers
                 throw;
             }
         }
+        public JsonResult GetTransactionsStockInfo(int id)
+        {
+            try
+            {
+                var userid = User.Identity.GetUserId();
+                var user = UserManager.FindById(userid);
+                var stock =
+                    
+                        _unitOfWork.ReportsRepository.GenerateTransactionsWarehouseStock(id);
+                return Json(stock, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
         public JsonResult GetExpiryInfo(int id)
         {
             try

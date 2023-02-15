@@ -59,5 +59,6 @@ namespace POSApp.Core.Repositories
        List<InventoryCostReportViewModel> GenerateItemsCostData(List<int> storeIds, List<string> productCodes,DateTime dateFrom, DateTime dateTo);
        List<ExpirationReportViewModel> GenerateExpiryData(List<int> storeIds, DateTime dateFrom, DateTime dateTo);
        List<WarehouseStockReportViewModel> GenerateWarehouseStock(List<int> warehouseIds, List<string> productCodes);
+       List<WarehouseStockReportViewModel> GenerateTransactionsWarehouseStock(int warehouseId);
    }
 }

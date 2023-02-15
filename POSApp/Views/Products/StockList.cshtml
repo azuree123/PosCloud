@@ -75,7 +75,7 @@
 
                             <th>OpeningStock</th>
                             <th>StockIn</th>
-                            <th>Consumption</th>
+                            <th>Utilized</th>
                             <th>Transferred</th>
 
                             <th>Refunded</th>
@@ -84,7 +84,7 @@
                             <th>Expired</th>
 
                             <th>Unit</th>
-                            <th>Current Stock</th>
+                            <th>Stock</th>
 
                         }
                     }
@@ -126,7 +126,7 @@
                 "name": "OpeningStock",
                 "autoWidth": true,
                 render: function(data, type, full) {
-                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                    return data.toFixed(2);
                 }
             },
             {
@@ -134,15 +134,15 @@
                 "name": "StockIn",
                 "autoWidth": true,
                 render: function(data, type, full) {
-                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                    return data.toFixed(2);
                 }
             },
             {
                 "data": "Utilized",
-                "name": "Consumption",
+                "name": "Utilized",
                 "autoWidth": true,
                 render: function(data, type, full) {
-                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                    return data.toFixed(2);
                 }
             },
             {
@@ -150,7 +150,7 @@
                 "name": "Transferred",
                 "autoWidth": true,
                 render: function(data, type, full) {
-                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                    return data.toFixed(2);
                 }
             },
             {
@@ -158,7 +158,7 @@
                 "name": "Refunded",
                 "autoWidth": true,
                 render: function(data, type, full) {
-                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                    return data.toFixed(2);
 
 
                 }
@@ -168,7 +168,7 @@
                 "name": "Wasted",
                 "autoWidth": true,
                 render: function(data, type, full) {
-                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                    return data.toFixed(2);
                 }
             },
             {
@@ -176,7 +176,7 @@
                 "name": "Damaged",
                 "autoWidth": true,
                 render: function(data, type, full) {
-                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                    return data.toFixed(2);
                 }
             },
             {
@@ -184,18 +184,20 @@
                 "name": "Expired",
                 "autoWidth": true,
                 render: function(data, type, full) {
-                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+                    return data.toFixed(2);
                 }
             },
             { "data": "Unit", "name": "Unit", "autoWidth": true },
             {
-                "data": "Stock", "name": "Current Stock", "autoWidth": true, render: function (data, row, full) {
+                "data": "Stock", "name": "Stock", "autoWidth": true, render: function (data, type, full) {
                     debugger;
-                    if(full.Stock <= full.ReOrderLevel){
-                        $('td', row).css('background-color', 'blue');
+                    if (full.Stock <= full.ReOrderLevel) {
+                        return '<p class = "text-danger">' + data.toFixed(2) + ' <span class="fa fa-arrow-down text-danger"></span></p>';
+                    } else if (full.Stock <= (full.ReOrderLevel * 2) && full.Stock > full.ReOrderLevel) {
+                        return '<p class = "text-warning">' + data.toFixed(2) + ' <span class="fa fa-arrow-down text-danger"></span></p>';
                     }
-                    
-                    return data.toString().match(/\d+(\.\d{1,3})?/g)[0];
+
+                    return '<p class = "text-success">' + data.toFixed(2) + ' <span class="fa fa-arrow-up text-success"></span></p>';
 
                 }
                 

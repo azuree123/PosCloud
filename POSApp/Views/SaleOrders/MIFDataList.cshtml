@@ -20,6 +20,11 @@
 
             <li><a href="@Url.Action("OpeningStockList","OpeningStock")">@POSApp.Resources.Resource.OpeningStock</a></li>
             }
+            @if (Config.Products.InventoryItems.CheckAccess())
+            {
+
+                <li><a href="@Url.Action("StockList","Products")">@POSApp.Resources.Resource.Stock</a></li>
+            }
             @if (Config.SaleOrders.MIFData.CheckAccess())
             {
              <li class="current"><a href="#">@POSApp.Resources.Resource.MaterialIssuance</a></li>

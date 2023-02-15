@@ -79,7 +79,7 @@
                                                 Warehouse <span class="text-danger">*</span>
                                             </label>
 
-                                            @Html.DropDownListFor(a => a.WarehouseId, Model.WarehouseDdl, "Select an Option", new { @class = "form-control", @required = "true" })
+                                            @Html.DropDownListFor(a => a.WarehouseId, Model.WarehouseDdl, "Select an Option", new { @class = "form-control", @id = "wareHouse", @required = "true" })
 
 
                                         </div>
@@ -377,7 +377,39 @@
             $('.selectddl').select2();
             
         });
-      
+        $('#wareHouse').on("change",
+            function () {
+                debugger;
+                var val = $(this).val();
+                if (val !== '') {
+                    $.ajax({
+                        url: "@Url.Action("GetTransactionsStockInfo","PurchaseOrders")",
+                        type: "GET",
+                        data: { id: val },
+
+                        success: function (data) {
+                            debugger;
+                            var products = "<option value='0'>Select Product</option>";
+                            for (var x = 0; x < data.length; x++) {
+                               
+                                    products += "<option value=" + data[x].Id + ">" + data[x].Name + " (" + data[x].Stock + ")(w)</option>";
+                                
+
+                            }
+                           
+                            $("#productDdl").html(products).show();
+                           
+                        },
+                        error: function (reponse) {
+                            alert("error : " + reponse);
+                        }
+
+                    });
+                } else {
+                    $('#productDdl').text('-');
+                    $('#productDdl').val('');
+                }
+            });
         $('#productDdl').on("change",
             function () {
                 var val = $(this).val();

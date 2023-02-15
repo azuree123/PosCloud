@@ -508,7 +508,7 @@ ISNULL(
 						 PosCloud.TransDetails as d on a.ProductCode = d.ProductCode and a.StoreId=d.StoreId
 						  inner join PosCloud.TransMaster as c
 						 on c.Id=d.TransMasterId AND c.StoreId=d.StoreId
-						  where a.StoreId in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("d")).Select(p => "@" + p.ParameterName)) + @") AND a.ProductCode in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("e")).Select(p => "@" + p.ParameterName)) + @") AND a.InventoryItem=1
+						  where a.StoreId in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("d")).Select(p => "@" + p.ParameterName)) + @") AND a.ProductCode in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("e")).Select(p => "@" + p.ParameterName)) + @") AND a.InventoryItem=1 AND a.IsDisabled = 0
 						 GROUP BY a.ProductCode,a.Name,a.PurchaseUnit
 
 						
@@ -548,7 +548,7 @@ ISNULL(
 						 PosCloud.TransDetails as d on a.ProductCode = d.ProductCode and a.StoreId=d.StoreId
 						  inner join PosCloud.TransMaster as c
 						 on c.Id=d.TransMasterId AND c.StoreId=d.StoreId
-						  where a.InventoryItem=1
+						  where a.InventoryItem=1 and a.IsDisabled = 0
 						 GROUP BY a.ProductCode,a.Name,a.PurchaseUnit,a.ReOrderLevel
 
 						
@@ -594,11 +594,49 @@ ISNULL(
 	  PosCloud.Clients as cl on s.ClientId=cl.Id inner join
 	  PosCloud.Warehouses as ware on cl.Id=ware.ClientId
 	  where ware.Id in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("d")).Select(p => "@" + p.ParameterName)) + @") and
-      a.ProductCode in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("E")).Select(p => "@" + p.ParameterName)) + @") 
+      a.ProductCode in (" + string.Join(",", parameters.Where(a => a.ParameterName.Contains("E")).Select(p => "@" + p.ParameterName)) + @") and a.IsDisabled = 0
           
                 ";
 
             return _context.Database.SqlQuery<WarehouseStockReportViewModel>(sql, parameters.ToArray()).ToList();
+        }
+        public List<WarehouseStockReportViewModel> GenerateTransactionsWarehouseStock(int warehouseId)
+        {
+
+            var parameters = new List<SqlParameter> { new SqlParameter("@p1", warehouseId) };
+            var sql = @" Select a.Id, a.ProductCode,a.Name,a.PurchaseUnit, ISNULL(
+      (select SUM(d.Quantity) from
+      PosCloud.TransMaster as c inner join PosCloud.TransDetails as d
+      on c.Id=d.TransMasterId AND c.StoreId=d.StoreId
+       inner join PosCloud.Warehouses as w on c.WarehouseId = w.Id
+      
+      where d.ProductCode=a.ProductCode AND d.StoreId=a.StoreId AND w.Id = ware.Id AND c.Type in ('STK') ),0) as StockTaking,
+        
+       ISNULL(
+      (select SUM(d.Quantity) from
+      PosCloud.TransMaster as c inner join PosCloud.TransDetails as d
+      on c.Id=d.TransMasterId AND c.StoreId=d.StoreId
+       inner join PosCloud.Warehouses as w on c.WarehouseId = w.Id
+      
+      where d.ProductCode=a.ProductCode AND d.StoreId=a.StoreId AND w.Id = ware.Id AND c.Type in ('PRI') ),0) as Purchased,
+      	
+      		  ISNULL(
+      (select SUM(d.Quantity) from
+      PosCloud.TransMaster as c inner join PosCloud.TransDetails as d
+      on c.Id=d.TransMasterId AND c.StoreId=d.StoreId
+      inner join PosCloud.Warehouses as w on c.WarehouseId = w.Id
+      
+      where d.ProductCode=a.ProductCode AND d.StoreId=a.StoreId AND w.Id = ware.Id AND c.Type in ('STI') ),0) as StockIn
+      
+      from PosCloud.Products as a inner join 
+	  PosCloud.Stores as s on a.StoreId=s.Id inner join
+	  PosCloud.Clients as cl on s.ClientId=cl.Id inner join
+	  PosCloud.Warehouses as ware on cl.Id=ware.ClientId
+	  where a.InventoryItem=1 and ware.Id = @p1 and a.IsDisabled = 0
+          
+                ";
+            var query = _context.Database.SqlQuery<WarehouseStockReportViewModel>(sql, parameters.ToArray()).ToList();
+            return query;
         }
         public List<PurchaseReportViewModel> GeneratePurchaseOrderData(List<int> storeIds, DateTime dateFrom, DateTime dateTo, List<int> supplierId)
         {

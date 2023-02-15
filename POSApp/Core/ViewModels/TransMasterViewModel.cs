@@ -71,6 +71,15 @@ namespace POSApp.Core.ViewModels
 
     }
 
+    public class TransactionsProductStock
+    {
 
+        public string Name { get; set; }
+        public string ProductCode { get; set; }
+        public string PurchaseUnit { get; set; }
+
+
+
+    }
 
 }

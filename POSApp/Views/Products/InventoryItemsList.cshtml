@@ -75,9 +75,10 @@
                         <th>@POSApp.Resources.Resource.ID</th>
                         <th>@POSApp.Resources.Resource.name</th>
                         <th>@POSApp.Resources.Resource.Cost Price</th>
+                        <th>@POSApp.Resources.Resource.Type</th>
                         @if (Config.Products.InventoryItems.ManageAccess())
                         {
-                        <th>@POSApp.Resources.Resource.Action</th>
+                            <th>@POSApp.Resources.Resource.Action</th>
 
                         }
                     </tr>
@@ -90,16 +91,26 @@
                         <td>@(i++)</td>
                         <td>@s.Name</td>
                         <td>@s.CostPrice</td>
-                                @if (Config.Products.InventoryItems.ManageAccess())
-                                {
-                        <td class="center">
-                            <div class="btn-group">
-                                @Html.ActionLink(" ", "UpdateInventoryItems", "Products", new { productId = @s.ProductCode }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
-                                @Html.ActionLink(" ", "DeleteInventoryItems", "Products", new { id = @s.ProductCode }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete , onclick = "return confirm('Are you sure?');" })
+                        <td>@s.Type</td>
+                        @if (Config.Products.InventoryItems.ManageAccess())
+                        {
+                            <td class="center">
+                                <div class="btn-group">
+                                    @if (s.InventoryItem && s.Type == "Raw")
+                                    {
+                                        @Html.ActionLink(" ", "UpdateInventoryItems", "Products", new { productId = @s.ProductCode }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
+                                        @Html.ActionLink(" ", "DeleteInventoryItems", "Products", new { id = @s.ProductCode }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
+                                    }
+                                    else if (s.InventoryItem && s.Type == "SemiFinished")
+                                    {
+                                        @Html.ActionLink(" ", "UpdateInventoryItems", "Products", new { productId = @s.ProductCode }, new { @class = "btn btn-default text-success btn-sm fa fa-edit modalShow ", data_toggle = "tooltip", title = @POSApp.Resources.Resource.EDIT })
+                                        @Html.ActionLink(" ", "DeleteInventoryItems", "Products", new { id = @s.ProductCode }, new { @class = "btn btn-default text-danger  btn-sm fa fa-trash", data_toggle = "tooltip", title = @POSApp.Resources.Resource.Delete, onclick = "return confirm('Are you sure?');" })
+                                        @Html.ActionLink(" ", "AddRecipe", "Products", new { code = @s.ProductCode }, new { @class = "btn btn-default text-success  btn-sm fa fa-plus modalShow", data_toggle = "tooltip", title = @POSApp.Resources.Resource.AddRecipe, onclick = "AddRecipe;" })
+                                    }
 
-                            </div>
-                        </td>
-                                }
+                                </div>
+                            </td>
+                        }
                     </tr>
                 }
                 </tbody>
@@ -156,6 +167,22 @@
                 return;
             }
             location.reload();
+        }
+        function AddRecipe(a) {
+            $.blockUI({ css: { backgroundColor: '#fff', color: '#0aaa5a' } });
+            $.ajax({
+                url: "@Url.Action("AddRecipe","Products")",
+                data: { code:a},
+                type: 'GET',
+                success: function (result) {
+                    $('#ModalData').html(result);
+                    $('#ordine').modal('show');
+                    $.unblockUI();
+                }
+            });
+
+            return false;
+
         }
     </script>
 }

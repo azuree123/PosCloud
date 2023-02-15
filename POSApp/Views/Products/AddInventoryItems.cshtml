@@ -74,10 +74,31 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group">
+                                        <script>
+                                            $(document).ready(function () {
+                                               
+                                                if($("#@Html.IdFor(a=>a.Type)").val()==="SemiFinished") {
+                                                    $("#costDisply").attr('disabled', 'disabled');
+                                                    $("#costDisply").val(0);
+                                                } else {
+                                                    $("#costDisply").removeAttr('disabled');
+                                                }
 
-                                        <div class="col-md-6">
+                                            });
+                                            $("#@Html.IdFor(a=>a.Type)").on("change",
+                                                function () {
+                                                    debugger;
+                                                    if ($(this).val() ==="SemiFinished") {
+                                                        $("#costDisply").attr('disabled', 'disabled');
+                                                        $("#costDisply").val(0);
+                                                    } else {
+                                                        $("#costDisply").removeAttr('disabled');
+                                                    }
+                                                });
+                                        </script>
+                                        <div class="col-md-6" >
                                             @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label required1" })
-                                            @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control", @id = "costDisply" } })
                                             @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-6">
